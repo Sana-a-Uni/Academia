@@ -1,28 +1,41 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2023-12-17 07:56:30.175031",
+ "autoname": "field:academic_speciality_name",
+ "creation": "2024-01-01 21:36:41.834344",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "title"
+  "academic_speciality_name",
+  "description"
  ],
  "fields": [
   {
-   "fieldname": "title",
-   "fieldtype": "Link",
-   "label": "Academic Title",
-   "options": "Academic Title"
+   "fieldname": "academic_speciality_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Academic Specialty",
+   "no_copy": 1,
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Description",
+   "no_copy": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-01 21:26:48.796651",
+ "modified": "2024-01-01 21:40:07.969618",
  "modified_by": "Administrator",
  "module": "Academia",
- "name": "Faculty Member",
+ "name": "Academic Specialty",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
@@ -38,6 +51,7 @@
    "write": 1
   }
  ],
+ "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

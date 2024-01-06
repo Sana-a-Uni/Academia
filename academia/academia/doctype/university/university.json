@@ -8,21 +8,70 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "university_name"
+  "university_name",
+  "abbr",
+  "country",
+  "default_holiday_list",
+  "column_break_hixd",
+  "default_letter_head",
+  "date_of_establishment"
  ],
  "fields": [
+  {
+   "fieldname": "abbr",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Abbr",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Country",
+   "options": "Country",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "default_holiday_list",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Default Holiday List",
+   "unique": 1
+  },
+  {
+   "fieldname": "column_break_hixd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "default_letter_head",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Default Letter Head",
+   "options": "Letter Head",
+   "unique": 1
+  },
+  {
+   "fieldname": "date_of_establishment",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Date of Establishment",
+   "unique": 1
+  },
   {
    "fieldname": "university_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "University Name",
+   "label": "University",
    "reqd": 1,
    "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-12-17 08:11:44.516388",
+ "modified": "2024-01-01 21:31:53.495925",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "University",
@@ -44,5 +93,6 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1
 }
