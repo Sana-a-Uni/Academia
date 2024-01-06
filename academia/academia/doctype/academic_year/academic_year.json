@@ -1,27 +1,69 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:year",
  "creation": "2023-12-17 08:03:17.275371",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "title"
+  "year",
+  "disabled",
+  "year_start_date",
+  "year_end_date",
+  "universities",
+  "auto_created"
  ],
  "fields": [
   {
-   "fieldname": "title",
+   "default": "0",
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled"
+  },
+  {
+   "fieldname": "year_start_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Year Start Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "year_end_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Year End Date",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "auto_created",
+   "fieldtype": "Check",
+   "label": "Auto Created"
+  },
+  {
+   "fieldname": "universities",
+   "fieldtype": "Table",
+   "label": "Universities",
+   "options": "Academic Year University"
+  },
+  {
+   "fieldname": "year",
    "fieldtype": "Data",
-   "label": "Title"
+   "in_list_view": 1,
+   "label": "Year Name",
+   "reqd": 1,
+   "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-12-17 08:03:17.275371",
+ "modified": "2024-01-01 21:29:51.327154",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Year",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
@@ -37,6 +79,7 @@
    "write": 1
   }
  ],
+ "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

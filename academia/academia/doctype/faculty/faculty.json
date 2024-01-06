@@ -7,36 +7,104 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "faculty_name"
+  "faculty_name",
+  "university",
+  "abbr",
+  "is_group",
+  "parent_faculty",
+  "column_break_lysp",
+  "date_of_establishment",
+  "default_holiday_list",
+  "lft",
+  "rgt",
+  "old_parent"
  ],
  "fields": [
   {
    "fieldname": "faculty_name",
    "fieldtype": "Data",
-   "label": "Faculty Name"
+   "in_list_view": 1,
+   "label": "Faculty",
+   "reqd": 1
+  },
+  {
+   "fieldname": "university",
+   "fieldtype": "Link",
+   "label": "University",
+   "options": "University"
+  },
+  {
+   "fieldname": "abbr",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Abbr",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_lysp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "date_of_establishment",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Date of Establishment",
+   "reqd": 1
+  },
+  {
+   "fieldname": "default_holiday_list",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Default Holiday List",
+   "reqd": 1
+  },
+  {
+   "fieldname": "lft",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Left",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "rgt",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Right",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_group",
+   "fieldtype": "Check",
+   "label": "Is Group"
+  },
+  {
+   "fieldname": "old_parent",
+   "fieldtype": "Link",
+   "label": "Old Parent",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "parent_faculty",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "label": "Parent Faculty",
+   "options": "Faculty"
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_tree": 1,
+ "istable": 1,
  "links": [],
- "modified": "2023-12-17 08:13:08.869399",
+ "modified": "2024-01-01 21:41:34.617417",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty",
+ "nsm_parent_field": "parent_faculty",
  "owner": "Administrator",
- "permissions": [
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "System Manager",
-   "share": 1,
-   "write": 1
-  }
- ],
+ "permissions": [],
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []
