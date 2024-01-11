@@ -1,0 +1,82 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-01-11 08:59:31.934081",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "topic",
+  "title",
+  "description",
+  "section_break_kslv",
+  "decision",
+  "actions_tab",
+  "action_type",
+  "forward_to_council",
+  "new_description"
+ ],
+ "fields": [
+  {
+   "fieldname": "topic",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Topic",
+   "options": "Council Topic",
+   "reqd": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description "
+  },
+  {
+   "fieldname": "section_break_kslv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "decision",
+   "fieldtype": "Text Editor",
+   "label": "Decision "
+  },
+  {
+   "fieldname": "actions_tab",
+   "fieldtype": "Tab Break",
+   "label": "Actions"
+  },
+  {
+   "fieldname": "action_type",
+   "fieldtype": "Select",
+   "label": "Action Type ",
+   "options": "Forward"
+  },
+  {
+   "fieldname": "forward_to_council",
+   "fieldtype": "Link",
+   "label": "Forward to Council",
+   "options": "Council"
+  },
+  {
+   "fieldname": "new_description",
+   "fieldtype": "Text Editor",
+   "label": "New Description"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-01-11 08:59:31.934081",
+ "modified_by": "Administrator",
+ "module": "Council",
+ "name": "Session Topic",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
