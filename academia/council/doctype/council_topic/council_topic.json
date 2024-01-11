@@ -1,0 +1,173 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-01-11 08:09:44.621131",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "status",
+  "column_break_cjwy",
+  "topic_main_type",
+  "topic_subtype",
+  "section_break_bkzm",
+  "previous_topic",
+  "related_to",
+  "amended_from",
+  "column_break_izfz",
+  "next_topic",
+  "applied_date",
+  "section_break_hzpb",
+  "description",
+  "applicants_tab",
+  "applicant_type",
+  "applicants",
+  "attachments_tab",
+  "attachment"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Accepted\nApplied\nRejected",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_cjwy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "topic_main_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Topic Main Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "topic_subtype",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Topic Subtype",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Council Topic",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_bkzm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "previous_topic",
+   "fieldtype": "Link",
+   "label": "Previous Topic",
+   "options": "Council Topic"
+  },
+  {
+   "fieldname": "column_break_izfz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "next_topic",
+   "fieldtype": "Link",
+   "label": "Next Topic",
+   "options": "Council Topic"
+  },
+  {
+   "fieldname": "applicants_tab",
+   "fieldtype": "Tab Break",
+   "label": "Applicants"
+  },
+  {
+   "fieldname": "applicant_type",
+   "fieldtype": "Select",
+   "label": "Applicant Type",
+   "options": "Academic\nGraduate\nStudent",
+   "reqd": 1
+  },
+  {
+   "fieldname": "applicants",
+   "fieldtype": "Table",
+   "label": "Applicants",
+   "options": "Topic Applicant",
+   "reqd": 1
+  },
+  {
+   "fieldname": "attachments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment"
+  },
+  {
+   "fieldname": "applied_date",
+   "fieldtype": "Datetime",
+   "label": "Applied Date",
+   "options": "Council Topic",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_hzpb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description",
+   "reqd": 1
+  },
+  {
+   "fieldname": "related_to",
+   "fieldtype": "Link",
+   "label": "Related To",
+   "options": "Council Topic"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-01-11 08:34:22.761984",
+ "modified_by": "Administrator",
+ "module": "Council",
+ "name": "Council Topic",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1
+}
