@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestCouncilTopic(FrappeTestCase):
+class TestSession(FrappeTestCase):
 	pass

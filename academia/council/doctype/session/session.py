@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class CouncilSessionMember(Document):
+class Session(Document):
 	pass
