@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class CouncilTopic(Document):
+class Topic(Document):
 	pass

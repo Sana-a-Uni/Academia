@@ -1,12 +1,13 @@
 {
  "actions": [],
- "allow_rename": 1,
+ "autoname": "Cncl-Sess-.YY.-.{council}.-.###",
  "creation": "2024-01-11 09:07:29.905750",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "council",
   "title",
   "opening",
   "date_and_time_tab",
@@ -63,7 +64,7 @@
    "fieldname": "members",
    "fieldtype": "Table",
    "label": "Members",
-   "options": "Council Session Member",
+   "options": "Session Member",
    "reqd": 1
   },
   {
@@ -83,18 +84,26 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Council Session",
+   "options": "Session",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "fieldname": "council",
+   "fieldtype": "Link",
+   "label": "Council",
+   "options": "Council",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-01-11 09:07:29.905750",
+ "modified": "2024-01-16 01:33:24.204076",
  "modified_by": "Administrator",
  "module": "Council",
- "name": "Council Session",
+ "name": "Session",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

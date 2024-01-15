@@ -22,7 +22,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Topic",
-   "options": "Council Topic",
+   "options": "Topic",
    "reqd": 1
   },
   {
@@ -70,7 +70,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-01-11 08:59:31.934081",
+ "modified": "2024-01-16 00:20:43.310646",
  "modified_by": "Administrator",
  "module": "Council",
  "name": "Session Topic",

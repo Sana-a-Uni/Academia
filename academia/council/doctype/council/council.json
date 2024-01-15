@@ -1,6 +1,6 @@
 {
  "actions": [],
- "allow_rename": 1,
+ "autoname": "field:council_name",
  "creation": "2024-01-11 06:13:30.329642",
  "default_view": "List",
  "doctype": "DocType",
@@ -17,7 +17,8 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Council Name",
-   "reqd": 1
+   "reqd": 1,
+   "unique": 1
   },
   {
    "fieldname": "administrative_body",
@@ -33,10 +34,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-11 06:19:51.062838",
+ "modified": "2024-01-16 01:33:07.745387",
  "modified_by": "Administrator",
  "module": "Council",
  "name": "Council",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
