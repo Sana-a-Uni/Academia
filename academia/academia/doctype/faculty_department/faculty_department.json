@@ -1,21 +1,21 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:faculty_name",
- "creation": "2023-12-17 07:38:55.921627",
+ "autoname": "field:faculty_department_name",
+ "creation": "2024-01-17 04:25:32.001214",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "faculty_name",
-  "university",
+  "faculty_department_name",
   "abbr",
+  "faculty",
+  "university",
   "is_group",
   "parent_faculty",
   "column_break_lysp",
   "date_of_establishment",
-  "default_holiday_list",
   "lft",
   "rgt",
   "old_parent",
@@ -27,18 +27,22 @@
  ],
  "fields": [
   {
-   "fieldname": "faculty_name",
-   "fieldtype": "Data",
+   "fetch_from": "null.",
+   "fieldname": "faculty",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Faculty",
+   "options": "Faculty",
    "reqd": 1,
    "unique": 1
   },
   {
+   "fetch_from": "faculty.university",
    "fieldname": "university",
    "fieldtype": "Link",
    "label": "University",
-   "options": "University"
+   "options": "University",
+   "read_only": 1
   },
   {
    "fieldname": "abbr",
@@ -46,6 +50,19 @@
    "in_list_view": 1,
    "label": "Abbr",
    "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_group",
+   "fieldtype": "Check",
+   "label": "Is Group"
+  },
+  {
+   "fieldname": "parent_faculty",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "label": "Parent Faculty",
+   "options": "Faculty"
   },
   {
    "fieldname": "column_break_lysp",
@@ -56,13 +73,6 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Date of Establishment",
-   "reqd": 1
-  },
-  {
-   "fieldname": "default_holiday_list",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Default Holiday List",
    "reqd": 1
   },
   {
@@ -82,22 +92,9 @@
    "read_only": 1
   },
   {
-   "default": "0",
-   "fieldname": "is_group",
-   "fieldtype": "Check",
-   "label": "Is Group"
-  },
-  {
    "fieldname": "old_parent",
    "fieldtype": "Link",
    "label": "Old Parent",
-   "options": "Faculty"
-  },
-  {
-   "fieldname": "parent_faculty",
-   "fieldtype": "Link",
-   "ignore_user_permissions": 1,
-   "label": "Parent Faculty",
    "options": "Faculty"
   },
   {
@@ -107,12 +104,12 @@
   {
    "fieldname": "faculty_vision",
    "fieldtype": "Text Editor",
-   "label": "Faculty Vision"
+   "label": "Faculty Department Vision"
   },
   {
    "fieldname": "faculty_mission",
    "fieldtype": "Text Editor",
-   "label": " Faculty Mission"
+   "label": "Faculty Department Mission"
   },
   {
    "fieldname": "column_break_mmqb",
@@ -121,15 +118,25 @@
   {
    "fieldname": "faculty_goals",
    "fieldtype": "Text Editor",
-   "label": " Faculty Goals"
+   "label": "Faculty Department Goals"
+  },
+  {
+   "fetch_from": "null.",
+   "fieldname": "faculty_department_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Faculty Department",
+   "reqd": 1,
+   "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_tree": 1,
  "links": [],
- "modified": "2024-01-17 04:17:21.721187",
+ "modified": "2024-01-17 04:30:30.484307",
  "modified_by": "Administrator",
  "module": "Academia",
- "name": "Faculty",
+ "name": "Faculty Department",
  "naming_rule": "By fieldname",
  "nsm_parent_field": "parent_faculty",
  "owner": "Administrator",
