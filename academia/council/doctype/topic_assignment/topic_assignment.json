@@ -1,0 +1,107 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-01-18 00:16:18.311253",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "council",
+  "topic",
+  "date",
+  "main_type",
+  "subtype",
+  "title",
+  "description",
+  "decision",
+  "attachments"
+ ],
+ "fields": [
+  {
+   "fieldname": "council",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Council",
+   "options": "Council",
+   "reqd": 1
+  },
+  {
+   "fieldname": "topic",
+   "fieldtype": "Link",
+   "label": "Topic",
+   "options": "Topic",
+   "reqd": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description",
+   "reqd": 1
+  },
+  {
+   "fieldname": "decision",
+   "fieldtype": "Text Editor",
+   "label": "Decision"
+  },
+  {
+   "fieldname": "attachments",
+   "fieldtype": "Table",
+   "label": "Attachments",
+   "options": "Topic Assignment Attachment"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "topic.topic_main_type",
+   "fieldname": "main_type",
+   "fieldtype": "Data",
+   "is_virtual": 1,
+   "label": "Main Type"
+  },
+  {
+   "fetch_from": "topic.topic_subtype",
+   "fieldname": "subtype",
+   "fieldtype": "Data",
+   "is_virtual": 1,
+   "label": "SubType"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-01-18 01:02:47.578182",
+ "modified_by": "Administrator",
+ "module": "Council",
+ "name": "Topic Assignment",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
