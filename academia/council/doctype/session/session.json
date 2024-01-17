@@ -76,7 +76,7 @@
    "fieldname": "topics",
    "fieldtype": "Table",
    "label": "Topics",
-   "options": "Session Topic",
+   "options": "Session Topic Assignment",
    "reqd": 1
   },
   {
@@ -99,7 +99,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-01-16 01:33:24.204076",
+ "modified": "2024-01-18 00:35:21.529844",
  "modified_by": "Administrator",
  "module": "Council",
  "name": "Session",

@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class SessionTopic(Document):
+class TopicAssignment(Document):
 	pass
