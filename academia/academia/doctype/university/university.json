@@ -14,7 +14,12 @@
   "default_holiday_list",
   "column_break_hixd",
   "default_letter_head",
-  "date_of_establishment"
+  "date_of_establishment",
+  "section_break_mtrm",
+  "university_vision",
+  "university_goals",
+  "column_break_geij",
+  "university_mission"
  ],
  "fields": [
   {
@@ -67,11 +72,34 @@
    "label": "University",
    "reqd": 1,
    "unique": 1
+  },
+  {
+   "fieldname": "section_break_mtrm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "university_vision",
+   "fieldtype": "Text Editor",
+   "label": " University Vision"
+  },
+  {
+   "fieldname": "university_goals",
+   "fieldtype": "Text Editor",
+   "label": "University Goals"
+  },
+  {
+   "fieldname": "column_break_geij",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "university_mission",
+   "fieldtype": "Text Editor",
+   "label": " University Mission"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-01 21:31:53.495925",
+ "modified": "2024-01-17 03:32:56.864589",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "University",
