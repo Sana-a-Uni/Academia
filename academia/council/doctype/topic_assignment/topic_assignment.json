@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2024-01-18 00:16:18.311253",
  "default_view": "List",
  "doctype": "DocType",
@@ -15,7 +16,10 @@
   "title",
   "description",
   "decision",
-  "attachments"
+  "attachments",
+  "status_section",
+  "amended_from",
+  "naming_series"
  ],
  "fields": [
   {
@@ -78,14 +82,36 @@
    "fieldtype": "Data",
    "is_virtual": 1,
    "label": "SubType"
+  },
+  {
+   "fieldname": "status_section",
+   "fieldtype": "Section Break",
+   "label": "Status"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Topic Assignment",
+   "print_hide": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Data",
+   "label": "Series",
+   "options": "CNCL-TA-.{topic}.##"
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2024-01-18 01:02:47.578182",
+ "modified": "2024-01-18 23:36:27.472526",
  "modified_by": "Administrator",
  "module": "Council",
  "name": "Topic Assignment",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
@@ -101,7 +127,10 @@
    "write": 1
   }
  ],
+ "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1,
+ "track_views": 1
 }

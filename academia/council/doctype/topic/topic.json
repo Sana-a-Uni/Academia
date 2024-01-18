@@ -15,19 +15,15 @@
   "topic_main_type",
   "topic_subtype",
   "section_break_bkzm",
-  "previous_topic",
   "related_to",
   "amended_from",
   "column_break_izfz",
-  "next_topic",
   "applied_date",
   "section_break_hzpb",
   "description",
   "applicants_tab",
   "applicant_type",
-  "applicants",
-  "attachments_tab",
-  "attachment"
+  "applicants"
  ],
  "fields": [
   {
@@ -77,20 +73,8 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "previous_topic",
-   "fieldtype": "Link",
-   "label": "Previous Topic",
-   "options": "Topic"
-  },
-  {
    "fieldname": "column_break_izfz",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "next_topic",
-   "fieldtype": "Link",
-   "label": "Next Topic",
-   "options": "Topic"
   },
   {
    "fieldname": "applicants_tab",
@@ -110,16 +94,6 @@
    "label": "Applicants",
    "options": "Topic Applicant",
    "reqd": 1
-  },
-  {
-   "fieldname": "attachments_tab",
-   "fieldtype": "Tab Break",
-   "label": "Attachments"
-  },
-  {
-   "fieldname": "attachment",
-   "fieldtype": "Attach",
-   "label": "Attachment"
   },
   {
    "fieldname": "applied_date",
@@ -155,7 +129,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-01-16 01:38:25.939766",
+ "modified": "2024-01-18 17:33:10.322375",
  "modified_by": "Administrator",
  "module": "Council",
  "name": "Topic",
