@@ -15,12 +15,16 @@
   "last_name",
   "full_name",
   "title",
+  "employment_number",
+  "nationality",
   "column_break_zcxq",
   "gender",
   "date_of_birth",
+  "place_of_birth",
   "date_of_joining_in_service",
   "date_of_joining_in_university",
   "current_status",
+  "languages",
   "image",
   "section_break_bamy",
   "user_id",
@@ -67,7 +71,12 @@
   "place_of_issue",
   "column_break_iqmh",
   "date_of_issue",
-  "valid_upto"
+  "valid_upto",
+  "profile_tab",
+  "scientific_qualification_section",
+  "qualification",
+  "academic_experience_section",
+  "table_yhsf"
  ],
  "fields": [
   {
@@ -397,7 +406,7 @@
    "fieldtype": "Section Break"
   },
   {
-   "description": "System User (login) ID. If set, it will become default for all HR forms.",
+   "description": "System User (login) ID",
    "fieldname": "user_id",
    "fieldtype": "Link",
    "ignore_user_permissions": 1,
@@ -417,12 +426,63 @@
    "fieldname": "create_user_permission",
    "fieldtype": "Check",
    "label": "Create User Permission"
+  },
+  {
+   "fieldname": "profile_tab",
+   "fieldtype": "Tab Break",
+   "label": "Profile"
+  },
+  {
+   "fieldname": "languages",
+   "fieldtype": "Link",
+   "label": "Languages",
+   "options": "Language"
+  },
+  {
+   "fieldname": "scientific_qualification_section",
+   "fieldtype": "Section Break",
+   "label": "Scientific Qualification"
+  },
+  {
+   "fieldname": "qualification",
+   "fieldtype": "Table",
+   "label": "Qualification",
+   "options": "Scientific Qualification"
+  },
+  {
+   "fieldname": "academic_experience_section",
+   "fieldtype": "Section Break",
+   "label": "Academic Experience "
+  },
+  {
+   "fieldname": "table_yhsf",
+   "fieldtype": "Table",
+   "label": "Faculty Member Experience ",
+   "options": "Academic Experience"
+  },
+  {
+   "fieldname": "employment_number",
+   "fieldtype": "Data",
+   "label": "Employment Number",
+   "reqd": 1
+  },
+  {
+   "fieldname": "place_of_birth",
+   "fieldtype": "Data",
+   "label": "Place of Birth",
+   "reqd": 1
+  },
+  {
+   "fieldname": "nationality",
+   "fieldtype": "Link",
+   "label": "Nationality",
+   "options": "Nationality"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-18 22:07:10.327696",
+ "modified": "2024-01-22 21:26:16.488675",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",
