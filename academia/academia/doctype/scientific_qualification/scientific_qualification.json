@@ -1,0 +1,75 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-01-22 15:30:25.276794",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "academic_degree",
+  "granting_authority",
+  "country",
+  "research_paper_title",
+  "start_date",
+  "end_date",
+  "date_of_achievement"
+ ],
+ "fields": [
+  {
+   "fieldname": "academic_degree",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Degree",
+   "options": "Academic Rank"
+  },
+  {
+   "fieldname": "granting_authority",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Granting Authority "
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "research_paper_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Research Paper Title "
+  },
+  {
+   "fieldname": "date_of_achievement",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date of Achievement "
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "End Date"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Start Date"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-01-22 20:07:54.197569",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Scientific Qualification",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
