@@ -7,18 +7,54 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "title"
+  "title",
+  "course_code",
+  "languages",
+  "course_image",
+  "column_break_uvaw",
+  "description"
  ],
  "fields": [
   {
    "fieldname": "title",
    "fieldtype": "Data",
-   "label": "Title"
+   "in_list_view": 1,
+   "label": "Course Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "course_code",
+   "fieldtype": "Data",
+   "label": "Course Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "languages",
+   "fieldtype": "Table MultiSelect",
+   "label": "Languages",
+   "options": "Course Language"
+  },
+  {
+   "fieldname": "course_image",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Course Image"
+  },
+  {
+   "fieldname": "column_break_uvaw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
   }
  ],
+ "image_field": "course_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-12-17 07:58:57.573727",
+ "modified": "2024-01-22 19:52:36.014580",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",
