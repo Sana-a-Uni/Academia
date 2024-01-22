@@ -1,0 +1,109 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-01-23 00:44:34.222874",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "study_plan_name",
+  "academic_program",
+  "column_break_koly",
+  "program",
+  "faculty",
+  "column_break_27ri",
+  "effective_year",
+  "number_of_courses",
+  "column_break_v06r",
+  "start_date",
+  "study_plan_details_tab",
+  "table_bnts"
+ ],
+ "fields": [
+  {
+   "fieldname": "study_plan_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Study Plan Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "academic_program",
+   "fieldtype": "Link",
+   "label": "Academic Program",
+   "options": "Academic Program"
+  },
+  {
+   "fieldname": "program",
+   "fieldtype": "Data",
+   "label": "Program"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "number_of_courses",
+   "fieldtype": "Data",
+   "label": "Number of courses",
+   "read_only": 1
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "effective_year",
+   "fieldtype": "Int",
+   "label": "Effective Year"
+  },
+  {
+   "fieldname": "column_break_koly",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_27ri",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_v06r",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "study_plan_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Study plan Details"
+  },
+  {
+   "fieldname": "table_bnts",
+   "fieldtype": "Table",
+   "options": "Study Plan Course"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-01-23 00:52:35.495639",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Study Plan",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
