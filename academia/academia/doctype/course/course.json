@@ -11,6 +11,8 @@
   "course_code",
   "languages",
   "course_image",
+  "pre_requisites",
+  "co_requisites",
   "column_break_uvaw",
   "description"
  ],
@@ -49,12 +51,24 @@
    "fieldname": "description",
    "fieldtype": "Text Editor",
    "label": "Description"
+  },
+  {
+   "fieldname": "pre_requisites",
+   "fieldtype": "Table MultiSelect",
+   "label": "Pre Requisites",
+   "options": "Pre Requisites"
+  },
+  {
+   "fieldname": "co_requisites",
+   "fieldtype": "Table MultiSelect",
+   "label": "Co Requisites",
+   "options": "Co Requisites"
   }
  ],
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-22 21:30:02.265176",
+ "modified": "2024-01-23 00:30:05.342559",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",
