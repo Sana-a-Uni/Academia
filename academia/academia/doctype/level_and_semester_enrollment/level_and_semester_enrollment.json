@@ -1,0 +1,93 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{level}-{semester}-{student}",
+ "creation": "2024-01-24 22:51:18.091317",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "department",
+  "level",
+  "semester",
+  "column_break_rvko",
+  "student",
+  "student_name",
+  "enrollment_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Department",
+   "options": "Faculty Department",
+   "reqd": 1
+  },
+  {
+   "fieldname": "level",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Level",
+   "reqd": 1
+  },
+  {
+   "fieldname": "semester",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Semester",
+   "options": "\nSemester 1\nSemester 2",
+   "reqd": 1
+  },
+  {
+   "fieldname": "enrollment_date",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Enrollment Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "student",
+   "fieldtype": "Link",
+   "label": "Student",
+   "options": "Student",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "student.first_name",
+   "fieldname": "student_name",
+   "fieldtype": "Data",
+   "label": "Student Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_rvko",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-01-24 23:13:12.739308",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Level And Semester Enrollment",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
