@@ -2,13 +2,12 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "naming_series:",
- "creation": "2023-12-17 07:40:25.911893",
+ "creation": "2024-01-23 02:11:52.370520",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "title",
   "section_break_uirg",
   "first_name",
   "middle_name",
@@ -18,7 +17,6 @@
   "joining_date",
   "user_id",
   "student_applicant",
-  "image",
   "personal_details_section",
   "student_email_address",
   "date_of_birth",
@@ -27,30 +25,25 @@
   "student_mobile_number",
   "gender",
   "nationality",
+  "personal_details_tab",
+  "date_of_birth2",
+  "gender2",
+  "blood_group2",
+  "column_break_jvwx",
+  "student_mobile_number2",
+  "nationality2",
+  "relations_tab",
+  "guardian_details_section",
+  "guardians",
   "address_tab",
   "address_line_1",
   "address_line_2",
   "column_break_hzit",
   "city",
   "state",
-  "country",
-  "relations_tab",
-  "guardian_details_section",
-  "guardians",
-  "exit_tab",
-  "date_of_leaving",
-  "leaving_certificate_number",
-  "column_break_haer",
-  "reason_for_leaving",
-  "student_name"
+  "country"
  ],
  "fields": [
-  {
-   "default": "0",
-   "fieldname": "title",
-   "fieldtype": "Check",
-   "label": "Enabled"
-  },
   {
    "fieldname": "section_break_uirg",
    "fieldtype": "Section Break"
@@ -85,24 +78,20 @@
   {
    "fieldname": "joining_date",
    "fieldtype": "Date",
-   "label": "Joining Date"
+   "label": "Application Date"
   },
   {
    "fieldname": "user_id",
-   "fieldtype": "Link",
-   "label": "User ID",
-   "options": "User"
+   "fieldtype": "Select",
+   "label": "Application Status",
+   "options": "Applied\nApproved\nRejected\nAdmitted"
   },
   {
    "fieldname": "student_applicant",
    "fieldtype": "Link",
-   "label": "Student Applicant",
-   "options": "Student Applicant"
-  },
-  {
-   "fieldname": "image",
-   "fieldtype": "Attach Image",
-   "label": "Image"
+   "label": "Program",
+   "options": "Program",
+   "reqd": 1
   },
   {
    "fieldname": "personal_details_section",
@@ -116,14 +105,15 @@
   },
   {
    "fieldname": "date_of_birth",
-   "fieldtype": "Date",
-   "label": "Date of Birth"
+   "fieldtype": "Link",
+   "label": "Student Admission",
+   "options": "Student Admission"
   },
   {
    "fieldname": "blood_group",
-   "fieldtype": "Select",
-   "label": "Blood Group",
-   "options": "\nA+\nA-\nB+\nB-\nO+\nO-\nAB+\nAB-"
+   "fieldtype": "Link",
+   "label": "Student Category",
+   "options": "Student Category"
   },
   {
    "fieldname": "column_break_twpm",
@@ -131,19 +121,20 @@
   },
   {
    "fieldname": "student_mobile_number",
-   "fieldtype": "Phone",
-   "label": "Student Mobile Number"
+   "fieldtype": "Date",
+   "label": "Academic Year",
+   "reqd": 1
   },
   {
    "fieldname": "gender",
    "fieldtype": "Data",
-   "label": "Gender",
-   "options": "\nMale\nFemale\nMale & Female"
+   "label": "Academic Term"
   },
   {
+   "default": "0",
    "fieldname": "nationality",
-   "fieldtype": "Data",
-   "label": "Nationality"
+   "fieldtype": "Check",
+   "label": "Paid"
   },
   {
    "fieldname": "address_tab",
@@ -192,46 +183,52 @@
   },
   {
    "fieldname": "guardians",
-   "fieldtype": "Table",
-   "label": "Guardians",
-   "options": "Student Guardian"
+   "fieldtype": "Text",
+   "label": "Guardians"
   },
   {
-   "fieldname": "exit_tab",
+   "fieldname": "personal_details_tab",
    "fieldtype": "Tab Break",
-   "label": "Exit"
+   "label": "Personal Details"
   },
   {
-   "fieldname": "date_of_leaving",
+   "fieldname": "date_of_birth2",
    "fieldtype": "Date",
-   "label": "Date of Leaving"
+   "label": "Date of Birth"
   },
   {
-   "fieldname": "leaving_certificate_number",
-   "fieldtype": "Data",
-   "label": "Leaving Certificate Number"
+   "fieldname": "gender2",
+   "fieldtype": "Link",
+   "label": "Gender",
+   "options": "Gender"
   },
   {
-   "fieldname": "column_break_haer",
+   "fieldname": "blood_group2",
+   "fieldtype": "Select",
+   "label": "Blood Group",
+   "options": "\nA+\nA-\nB+\nB-\nO+\nO-\nAB+\nAB-"
+  },
+  {
+   "fieldname": "column_break_jvwx",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "reason_for_leaving",
-   "fieldtype": "Text",
-   "label": "Reason For Leaving"
+   "fieldname": "student_mobile_number2",
+   "fieldtype": "Data",
+   "label": "Student Mobile Number"
   },
   {
-   "fieldname": "student_name",
+   "fieldname": "nationality2",
    "fieldtype": "Data",
-   "label": "Student Name"
+   "label": "Nationality"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-24 18:27:22.870454",
+ "modified": "2024-01-24 17:58:24.329058",
  "modified_by": "Administrator",
  "module": "Academia",
- "name": "Student",
+ "name": "Student Applicant",
  "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
