@@ -1,27 +1,40 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:course",
  "creation": "2023-12-17 07:58:57.573727",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "title"
+  "course_code",
+  "course"
  ],
  "fields": [
   {
-   "fieldname": "title",
+   "fieldname": "course",
    "fieldtype": "Data",
-   "label": "Title"
+   "in_list_view": 1,
+   "label": "Course",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "course_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Course code",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-12-17 07:58:57.573727",
+ "modified": "2024-01-24 21:35:41.678883",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
