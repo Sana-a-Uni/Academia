@@ -1,0 +1,199 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:student_group_name",
+ "creation": "2024-01-24 22:02:19.006266",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "academic_year",
+  "university",
+  "group_based_on",
+  "student_group_name",
+  "gender",
+  "max_strength",
+  "level",
+  "column_break_zbwu",
+  "academic_term",
+  "faculty",
+  "department",
+  "batch",
+  "program",
+  "student_category",
+  "course",
+  "disabled",
+  "students_section",
+  "get_students",
+  "students",
+  "instructors_section",
+  "instructors"
+ ],
+ "fields": [
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Year",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "university",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "University",
+   "options": "University",
+   "reqd": 1
+  },
+  {
+   "fieldname": "group_based_on",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Group Based On",
+   "options": "\nBatch\nCourse\nPlan\nLevel & Semester",
+   "reqd": 1
+  },
+  {
+   "fieldname": "student_group_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Student Group Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "gender",
+   "fieldtype": "Select",
+   "label": "Gender ",
+   "options": "\nMale\nFemale\nMale & Female"
+  },
+  {
+   "description": "Set 0 for no limit ",
+   "fieldname": "max_strength",
+   "fieldtype": "Int",
+   "label": "Max Strength ",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.group_based_on == \"Level & Semester\"",
+   "fieldname": "level",
+   "fieldtype": "Link",
+   "in_global_search": 1,
+   "in_standard_filter": 1,
+   "label": "Level",
+   "options": "Level And Semester Enrollment"
+  },
+  {
+   "fieldname": "column_break_zbwu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Data",
+   "label": "Academic Term"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty",
+   "reqd": 1
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Faculty Department",
+   "reqd": 1
+  },
+  {
+   "fieldname": "batch",
+   "fieldtype": "Link",
+   "in_global_search": 1,
+   "label": "Batch",
+   "options": "Student Batch Name"
+  },
+  {
+   "fieldname": "student_category",
+   "fieldtype": "Link",
+   "label": "Student Category ",
+   "options": "Student Category",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.group_based_on == 'Course'",
+   "fieldname": "course",
+   "fieldtype": "Link",
+   "in_global_search": 1,
+   "in_standard_filter": 1,
+   "label": "Course",
+   "options": "Course"
+  },
+  {
+   "default": "0",
+   "fieldname": "disabled",
+   "fieldtype": "Check",
+   "label": "Disabled "
+  },
+  {
+   "depends_on": "eval:?doc.__islocal",
+   "fieldname": "students_section",
+   "fieldtype": "Section Break",
+   "label": "Students"
+  },
+  {
+   "fieldname": "get_students",
+   "fieldtype": "Button",
+   "label": "Get Students"
+  },
+  {
+   "fieldname": "students",
+   "fieldtype": "Table",
+   "label": "Students",
+   "options": "Student Group Student"
+  },
+  {
+   "fieldname": "program",
+   "fieldtype": "Link",
+   "label": "Program",
+   "options": "Program"
+  },
+  {
+   "fieldname": "instructors_section",
+   "fieldtype": "Section Break",
+   "label": "Instructors"
+  },
+  {
+   "fieldname": "instructors",
+   "fieldtype": "Table",
+   "label": "Instructors",
+   "options": "Student Group Instructor"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-01-24 23:35:41.453913",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Student Group",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
