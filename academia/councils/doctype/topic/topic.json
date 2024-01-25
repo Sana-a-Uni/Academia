@@ -27,6 +27,13 @@
  ],
  "fields": [
   {
+   "fieldname": "council",
+   "fieldtype": "Link",
+   "label": "Council",
+   "options": "Council",
+   "reqd": 1
+  },
+  {
    "fieldname": "title",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -60,6 +67,16 @@
    "reqd": 1
   },
   {
+   "fieldname": "section_break_bkzm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "related_to",
+   "fieldtype": "Link",
+   "label": "Related To",
+   "options": "Topic"
+  },
+  {
    "fieldname": "amended_from",
    "fieldtype": "Link",
    "label": "Amended From",
@@ -69,31 +86,8 @@
    "read_only": 1
   },
   {
-   "fieldname": "section_break_bkzm",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "column_break_izfz",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "applicants_tab",
-   "fieldtype": "Tab Break",
-   "label": "Applicants"
-  },
-  {
-   "fieldname": "applicant_type",
-   "fieldtype": "Select",
-   "label": "Applicant Type",
-   "options": "Academic\nGraduate\nStudent",
-   "reqd": 1
-  },
-  {
-   "fieldname": "applicants",
-   "fieldtype": "Table",
-   "label": "Applicants",
-   "options": "Topic Applicant",
-   "reqd": 1
   },
   {
    "fieldname": "applied_date",
@@ -113,25 +107,31 @@
    "reqd": 1
   },
   {
-   "fieldname": "related_to",
-   "fieldtype": "Link",
-   "label": "Related To",
-   "options": "Topic"
+   "fieldname": "applicants_tab",
+   "fieldtype": "Tab Break",
+   "label": "Applicants"
   },
   {
-   "fieldname": "council",
-   "fieldtype": "Link",
-   "label": "Council",
-   "options": "Council",
+   "fieldname": "applicant_type",
+   "fieldtype": "Select",
+   "label": "Applicant Type",
+   "options": "Academic\nGraduate\nStudent",
+   "reqd": 1
+  },
+  {
+   "fieldname": "applicants",
+   "fieldtype": "Table",
+   "label": "Applicants",
+   "options": "Topic Applicant",
    "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-01-18 17:33:10.322375",
+ "modified": "2024-01-25 08:10:09.990708",
  "modified_by": "Administrator",
- "module": "Council",
+ "module": "Councils",
  "name": "Topic",
  "naming_rule": "Expression (old style)",
  "owner": "Administrator",

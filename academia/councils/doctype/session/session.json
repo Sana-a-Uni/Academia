@@ -22,6 +22,13 @@
  ],
  "fields": [
   {
+   "fieldname": "council",
+   "fieldtype": "Link",
+   "label": "Council",
+   "options": "Council",
+   "reqd": 1
+  },
+  {
    "fieldname": "title",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -87,21 +94,14 @@
    "options": "Session",
    "print_hide": 1,
    "read_only": 1
-  },
-  {
-   "fieldname": "council",
-   "fieldtype": "Link",
-   "label": "Council",
-   "options": "Council",
-   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-01-18 00:35:21.529844",
+ "modified": "2024-01-25 08:06:58.840434",
  "modified_by": "Administrator",
- "module": "Council",
+ "module": "Councils",
  "name": "Session",
  "naming_rule": "Expression",
  "owner": "Administrator",
