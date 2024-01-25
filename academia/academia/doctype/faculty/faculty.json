@@ -23,7 +23,16 @@
   "faculty_vision",
   "faculty_mission",
   "column_break_mmqb",
-  "faculty_goals"
+  "faculty_goals",
+  "add_tab",
+  "faculty_logo",
+  "phone_no",
+  "description",
+  "column_break_phdu",
+  "fax",
+  "website",
+  "email",
+  "html_pseg"
  ],
  "fields": [
   {
@@ -122,11 +131,58 @@
    "fieldname": "faculty_goals",
    "fieldtype": "Text Editor",
    "label": " Faculty Goals"
+  },
+  {
+   "fieldname": "add_tab",
+   "fieldtype": "Tab Break",
+   "label": "Address and Contact"
+  },
+  {
+   "fieldname": "faculty_logo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Faculty Logo"
+  },
+  {
+   "fieldname": "phone_no",
+   "fieldtype": "Phone",
+   "label": "Phone No"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  },
+  {
+   "fieldname": "column_break_phdu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fax",
+   "fieldtype": "Data",
+   "label": "Fax",
+   "options": "Phone"
+  },
+  {
+   "fieldname": "website",
+   "fieldtype": "Data",
+   "label": "Website"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "html_pseg",
+   "fieldtype": "HTML"
   }
  ],
+ "image_field": "faculty_logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-17 04:17:21.721187",
+ "modified": "2024-01-22 18:53:00.566376",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty",
