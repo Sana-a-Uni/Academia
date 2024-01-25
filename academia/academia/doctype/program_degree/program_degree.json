@@ -1,0 +1,53 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:program_degree",
+ "creation": "2024-01-22 21:14:03.974893",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "program_degree",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "program_degree",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Program Degree",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-01-22 21:33:59.414088",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Program Degree",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
