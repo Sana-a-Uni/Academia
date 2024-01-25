@@ -1,19 +1,20 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "Cncl-Tp.YY.MM.-.{council}.-.###",
+ "autoname": "naming_series:",
  "creation": "2024-01-11 08:09:44.621131",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
   "council",
   "title",
-  "status",
   "column_break_cjwy",
   "topic_main_type",
   "topic_subtype",
+  "status",
   "section_break_bkzm",
   "related_to",
   "amended_from",
@@ -124,16 +125,24 @@
    "label": "Applicants",
    "options": "Topic Applicant",
    "reqd": 1
+  },
+  {
+   "default": "CNCL-TP.YY.MM.-.{council}.-.###",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "CNCL-TP.YY.MM.-.{council}.-.###",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-01-25 08:10:09.990708",
+ "modified": "2024-01-25 22:06:19.274842",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic",
- "naming_rule": "Expression (old style)",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
