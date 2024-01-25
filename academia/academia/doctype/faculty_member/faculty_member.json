@@ -19,8 +19,6 @@
   "nationality",
   "column_break_zcxq",
   "gender",
-  "date_of_birth",
-  "place_of_birth",
   "date_of_joining_in_service",
   "date_of_joining_in_university",
   "current_status",
@@ -68,15 +66,21 @@
   "column_break_eonb",
   "passport_number",
   "social_society_number",
-  "place_of_issue",
+  "place_of_birth",
+  "date_of_birth",
   "column_break_iqmh",
+  "issuing_authority",
   "date_of_issue",
   "valid_upto",
   "profile_tab",
   "scientific_qualification_section",
   "qualification",
+  "professional__acativity_section",
+  "table_bxkj",
   "academic_experience_section",
-  "table_yhsf"
+  "table_yhsf",
+  "training_course_section",
+  "table_zjkc"
  ],
  "fields": [
   {
@@ -342,12 +346,6 @@
   },
   {
    "depends_on": "eval:doc.personal_identification_type",
-   "fieldname": "place_of_issue",
-   "fieldtype": "Data",
-   "label": "Place of Issue"
-  },
-  {
-   "depends_on": "eval:doc.personal_identification_type",
    "fieldname": "valid_upto",
    "fieldtype": "Date",
    "label": "Valid Upto"
@@ -390,7 +388,7 @@
    "bold": 1,
    "fieldname": "details_tab",
    "fieldtype": "Tab Break",
-   "label": "Details"
+   "label": "Overview"
   },
   {
    "fieldname": "naming_series",
@@ -434,9 +432,9 @@
   },
   {
    "fieldname": "languages",
-   "fieldtype": "Link",
+   "fieldtype": "Table MultiSelect",
    "label": "Languages",
-   "options": "Language"
+   "options": "Faculty Member Language"
   },
   {
    "fieldname": "scientific_qualification_section",
@@ -446,7 +444,7 @@
   {
    "fieldname": "qualification",
    "fieldtype": "Table",
-   "label": "Qualification",
+   "label": "Academic Member Qualification",
    "options": "Scientific Qualification"
   },
   {
@@ -457,7 +455,7 @@
   {
    "fieldname": "table_yhsf",
    "fieldtype": "Table",
-   "label": "Faculty Member Experience ",
+   "label": "Academic Member Experience ",
    "options": "Academic Experience"
   },
   {
@@ -477,12 +475,40 @@
    "fieldtype": "Link",
    "label": "Nationality",
    "options": "Nationality"
+  },
+  {
+   "fieldname": "professional__acativity_section",
+   "fieldtype": "Section Break",
+   "label": "Professional  Activity"
+  },
+  {
+   "fieldname": "table_bxkj",
+   "fieldtype": "Table",
+   "label": "Academic Member Activity ",
+   "options": "Professional Activity"
+  },
+  {
+   "fieldname": "training_course_section",
+   "fieldtype": "Section Break",
+   "label": "Training Course"
+  },
+  {
+   "fieldname": "table_zjkc",
+   "fieldtype": "Table",
+   "label": "Academic Member Course",
+   "options": "Faculty Member Training Course"
+  },
+  {
+   "depends_on": "eval:doc.personal_identification_type",
+   "fieldname": "issuing_authority",
+   "fieldtype": "Data",
+   "label": "Issuing Authority"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-22 21:26:16.488675",
+ "modified": "2024-01-24 12:26:21.178067",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",

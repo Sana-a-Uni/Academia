@@ -1,32 +1,29 @@
 {
  "actions": [],
- "allow_rename": 1,
+ "autoname": "autoincrement",
  "creation": "2024-01-22 15:30:25.276794",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "academic_degree",
+  "scientific_degree",
   "granting_authority",
   "country",
   "research_paper_title",
+  "date_of_achievement",
+  "column_break_ysdq",
   "start_date",
   "end_date",
-  "date_of_achievement"
+  "general_field",
+  "specialist_field"
  ],
  "fields": [
-  {
-   "fieldname": "academic_degree",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Academic Degree",
-   "options": "Academic Rank"
-  },
   {
    "fieldname": "granting_authority",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Granting Authority "
+   "label": "Granting Authority ",
+   "reqd": 1
   },
   {
    "fieldname": "country",
@@ -58,15 +55,38 @@
    "fieldtype": "Date",
    "in_list_view": 1,
    "label": "Start Date"
+  },
+  {
+   "fieldname": "scientific_degree",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Scientific Degree",
+   "options": "Scientific Degree",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ysdq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "general_field",
+   "fieldtype": "Data",
+   "label": "General Field"
+  },
+  {
+   "fieldname": "specialist_field",
+   "fieldtype": "Data",
+   "label": "Specialist Field"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-01-22 20:07:54.197569",
+ "modified": "2024-01-24 12:20:47.978758",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Scientific Qualification",
+ "naming_rule": "Autoincrement",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",

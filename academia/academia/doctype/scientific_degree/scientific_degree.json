@@ -1,39 +1,29 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:course_code",
- "creation": "2023-12-17 07:58:57.573727",
- "default_view": "List",
+ "autoname": "field:scientific_degree_name",
+ "creation": "2024-01-23 21:26:59.460518",
  "doctype": "DocType",
- "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "course_code",
-  "course_name"
+  "scientific_degree_name"
  ],
  "fields": [
   {
-   "fieldname": "course_name",
+   "fieldname": "scientific_degree_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Course Name",
-   "reqd": 1
-  },
-  {
-   "fieldname": "course_code",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Course Code",
+   "label": "Scientific Degree Name",
    "reqd": 1,
    "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-24 11:17:53.036881",
+ "modified": "2024-01-24 11:45:59.168506",
  "modified_by": "Administrator",
  "module": "Academia",
- "name": "Course",
+ "name": "Scientific Degree",
  "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
