@@ -17,7 +17,9 @@ frappe.ui.form.on("Council", {
                         // Refresh the members field in the form to reflect the changes
                         frm.refresh_field('members');
                         // message indicating that the member name already exists in a specific row
-                        msgprint(__(`${member.member_name} already exists in row ${member.idx}`));
+                        msgprint(__(`${row.member_name} already exists in row ${member.idx}`));
+                        // stop loop
+                        return;
                     }
                 }
             });
