@@ -7,7 +7,6 @@
  "engine": "InnoDB",
  "field_order": [
   "academic_year",
-  "university",
   "group_based_on",
   "student_group_name",
   "gender",
@@ -15,10 +14,11 @@
   "level",
   "column_break_zbwu",
   "academic_term",
+  "university",
   "faculty",
-  "department",
+  "faculty_department",
   "batch",
-  "program",
+  "academic_program",
   "student_category",
   "course",
   "disabled",
@@ -50,7 +50,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Group Based On",
-   "options": "\nBatch\nCourse\nPlan\nLevel & Semester",
+   "options": "\nBatch\nCourse\nLevel & Semester",
    "reqd": 1
   },
   {
@@ -63,9 +63,9 @@
   },
   {
    "fieldname": "gender",
-   "fieldtype": "Select",
+   "fieldtype": "Link",
    "label": "Gender ",
-   "options": "\nMale\nFemale\nMale & Female"
+   "options": "Gender"
   },
   {
    "description": "Set 0 for no limit ",
@@ -82,6 +82,7 @@
    "in_global_search": 1,
    "in_standard_filter": 1,
    "label": "Level",
+   "mandatory_depends_on": "eval:doc.group_based_on == \"Level & Semester\"",
    "options": "Level And Semester Enrollment"
   },
   {
@@ -97,22 +98,15 @@
    "fieldname": "faculty",
    "fieldtype": "Link",
    "label": "Faculty",
-   "options": "Faculty",
-   "reqd": 1
-  },
-  {
-   "fieldname": "department",
-   "fieldtype": "Link",
-   "label": "Department",
-   "options": "Faculty Department",
-   "reqd": 1
+   "options": "Faculty"
   },
   {
    "fieldname": "batch",
    "fieldtype": "Link",
    "in_global_search": 1,
    "label": "Batch",
-   "options": "Student Batch Name"
+   "mandatory_depends_on": "eval:doc.group_based_on == \"Batch\"",
+   "options": "Student Batch"
   },
   {
    "fieldname": "student_category",
@@ -128,6 +122,7 @@
    "in_global_search": 1,
    "in_standard_filter": 1,
    "label": "Course",
+   "mandatory_depends_on": "eval:doc.group_based_on == \"Course\"",
    "options": "Course"
   },
   {
@@ -137,7 +132,7 @@
    "label": "Disabled "
   },
   {
-   "depends_on": "eval:?doc.__islocal",
+   "depends_on": "eval:!doc.__islocal",
    "fieldname": "students_section",
    "fieldtype": "Section Break",
    "label": "Students"
@@ -154,12 +149,6 @@
    "options": "Student Group Student"
   },
   {
-   "fieldname": "program",
-   "fieldtype": "Link",
-   "label": "Program",
-   "options": "Program"
-  },
-  {
    "fieldname": "instructors_section",
    "fieldtype": "Section Break",
    "label": "Instructors"
@@ -169,11 +158,23 @@
    "fieldtype": "Table",
    "label": "Instructors",
    "options": "Student Group Instructor"
+  },
+  {
+   "fieldname": "academic_program",
+   "fieldtype": "Link",
+   "label": "Academic Program",
+   "options": "Academic Program"
+  },
+  {
+   "fieldname": "faculty_department",
+   "fieldtype": "Link",
+   "label": "Faculty Department",
+   "options": "Faculty Department"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-25 12:52:43.726673",
+ "modified": "2024-01-29 01:11:34.107336",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group",
