@@ -8,7 +8,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "title",
+  "course_name",
   "course_code",
   "languages",
   "pre_requisites",
@@ -19,13 +19,11 @@
  ],
  "fields": [
   {
-  
-   "label": "Course",
+   "fieldname":"course_name",
+   "fieldtype": "Data",
    "reqd": 1,
-   "unique": 1
-   "label": "Course Name",
- 
-
+   "unique": 1,
+   "label": "Course Name"
   },
   {
    "fieldname": "course_code",
