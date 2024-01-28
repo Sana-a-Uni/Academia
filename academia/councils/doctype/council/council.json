@@ -1,0 +1,60 @@
+{
+ "actions": [],
+ "autoname": "field:council_name",
+ "creation": "2024-01-11 06:13:30.329642",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "council_name",
+  "administrative_body",
+  "council_members"
+ ],
+ "fields": [
+  {
+   "fieldname": "council_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Council Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "administrative_body",
+   "fieldtype": "Data",
+   "label": "Administrative Body"
+  },
+  {
+   "fieldname": "council_members",
+   "fieldtype": "Table",
+   "label": "Council Members",
+   "options": "Council Member"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-01-25 08:10:40.129389",
+ "modified_by": "Administrator",
+ "module": "Councils",
+ "name": "Council",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
