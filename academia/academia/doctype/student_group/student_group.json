@@ -122,7 +122,7 @@
    "reqd": 1
   },
   {
-   "depends_on": "eval:doc.group_based_on == 'Course'",
+   "depends_on": "eval:doc.group_based_on == \"Course\"",
    "fieldname": "course",
    "fieldtype": "Link",
    "in_global_search": 1,
@@ -173,7 +173,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-24 23:35:41.453913",
+ "modified": "2024-01-25 12:52:43.726673",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group",

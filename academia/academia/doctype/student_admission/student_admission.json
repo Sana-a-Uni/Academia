@@ -14,6 +14,8 @@
   "academic_year",
   "admission_start_date",
   "admission_end_date",
+  "university",
+  "collage",
   "eligibility_and_details_section",
   "eligibility_and_details",
   "introduction"
@@ -77,11 +79,23 @@
    "fieldname": "introduction",
    "fieldtype": "Text Editor",
    "label": "Introduction"
+  },
+  {
+   "fieldname": "university",
+   "fieldtype": "Link",
+   "label": "University ",
+   "options": "University"
+  },
+  {
+   "fieldname": "collage",
+   "fieldtype": "Link",
+   "label": "Facility",
+   "options": "Facility"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-24 18:17:30.544709",
+ "modified": "2024-01-28 20:41:59.371249",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Admission",
