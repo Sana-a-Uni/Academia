@@ -2,7 +2,8 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "format:{level}-{semester}-{student}",
- "creation": "2024-01-24 22:51:18.091317",
+ "creation": "2024-01-29 00:12:04.103215",
+ "default_view": "List",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -10,6 +11,7 @@
   "student",
   "student_name",
   "academic_program",
+  "course",
   "enrollment_date",
   "column_break_nlbw",
   "university",
@@ -21,25 +23,8 @@
  ],
  "fields": [
   {
-   "fieldname": "level",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Level",
-   "options": "Level"
-  },
-  {
-   "fieldname": "semester",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Semester",
-   "options": "Semester"
-  },
-  {
-   "fieldname": "enrollment_date",
-   "fieldtype": "Datetime",
-   "in_list_view": 1,
-   "label": "Enrollment Date",
-   "reqd": 1
+   "fieldname": "column_break_rvko",
+   "fieldtype": "Column Break"
   },
   {
    "fieldname": "student",
@@ -56,14 +41,17 @@
    "read_only": 1
   },
   {
-   "fieldname": "column_break_rvko",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "academic_program",
    "fieldtype": "Link",
    "label": "Academic Program",
    "options": "Academic Program"
+  },
+  {
+   "fieldname": "enrollment_date",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Enrollment Date",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_nlbw",
@@ -93,14 +81,34 @@
    "fieldtype": "Link",
    "label": "Academic Year",
    "options": "Academic Year"
+  },
+  {
+   "fieldname": "level",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Level",
+   "options": "Level"
+  },
+  {
+   "fieldname": "semester",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Semester",
+   "options": "Semester"
+  },
+  {
+   "fieldname": "course",
+   "fieldtype": "Link",
+   "label": "Course",
+   "options": "Course"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-28 23:55:23.071479",
+ "modified": "2024-01-29 00:13:02.879256",
  "modified_by": "Administrator",
- "module": "Academia",
- "name": "Level And Semester Enrollment",
+ "module": "Student Enrollment",
+ "name": "Course Enrollment",
  "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [

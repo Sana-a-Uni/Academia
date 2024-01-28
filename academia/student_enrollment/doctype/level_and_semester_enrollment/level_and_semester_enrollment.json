@@ -17,29 +17,14 @@
   "faculty_department",
   "academic_year",
   "level",
-  "semester"
+  "semester",
+  "level_courses_section",
+  "level_courses"
  ],
  "fields": [
   {
-   "fieldname": "level",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Level",
-   "options": "Level"
-  },
-  {
-   "fieldname": "semester",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Semester",
-   "options": "Semester"
-  },
-  {
-   "fieldname": "enrollment_date",
-   "fieldtype": "Datetime",
-   "in_list_view": 1,
-   "label": "Enrollment Date",
-   "reqd": 1
+   "fieldname": "column_break_rvko",
+   "fieldtype": "Column Break"
   },
   {
    "fieldname": "student",
@@ -56,14 +41,17 @@
    "read_only": 1
   },
   {
-   "fieldname": "column_break_rvko",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "academic_program",
    "fieldtype": "Link",
    "label": "Academic Program",
    "options": "Academic Program"
+  },
+  {
+   "fieldname": "enrollment_date",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Enrollment Date",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_nlbw",
@@ -93,13 +81,38 @@
    "fieldtype": "Link",
    "label": "Academic Year",
    "options": "Academic Year"
+  },
+  {
+   "fieldname": "level",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Level",
+   "options": "Level"
+  },
+  {
+   "fieldname": "semester",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Semester",
+   "options": "Semester"
+  },
+  {
+   "fieldname": "level_courses_section",
+   "fieldtype": "Section Break",
+   "label": "Level Courses"
+  },
+  {
+   "fieldname": "level_courses",
+   "fieldtype": "Table",
+   "label": "Level Courses",
+   "options": "Level and Semester Course"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-28 23:55:23.071479",
+ "modified": "2024-01-29 00:07:30.152099",
  "modified_by": "Administrator",
- "module": "Academia",
+ "module": "Student Enrollment",
  "name": "Level And Semester Enrollment",
  "naming_rule": "Expression",
  "owner": "Administrator",

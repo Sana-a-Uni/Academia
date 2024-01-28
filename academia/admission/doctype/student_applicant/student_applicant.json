@@ -87,6 +87,13 @@
    "options": "Applied\nApproved\nRejected\nAdmitted"
   },
   {
+   "fieldname": "academic_program",
+   "fieldtype": "Link",
+   "label": "Academic Program",
+   "options": "Academic Program",
+   "reqd": 1
+  },
+  {
    "fieldname": "personal_details_section",
    "fieldtype": "Section Break",
    "label": "Personal Details"
@@ -130,56 +137,6 @@
    "label": "Paid"
   },
   {
-   "fieldname": "address_tab",
-   "fieldtype": "Tab Break",
-   "label": "Address"
-  },
-  {
-   "fieldname": "address_line_1",
-   "fieldtype": "Data",
-   "label": "Address Line 1"
-  },
-  {
-   "fieldname": "address_line_2",
-   "fieldtype": "Data",
-   "label": "Address Line 2"
-  },
-  {
-   "fieldname": "column_break_hzit",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "city",
-   "fieldtype": "Data",
-   "label": "City"
-  },
-  {
-   "fieldname": "state",
-   "fieldtype": "Data",
-   "label": "State"
-  },
-  {
-   "fieldname": "country",
-   "fieldtype": "Link",
-   "label": "Country",
-   "options": "Country"
-  },
-  {
-   "fieldname": "relations_tab",
-   "fieldtype": "Tab Break",
-   "label": "Relations"
-  },
-  {
-   "fieldname": "guardian_details_section",
-   "fieldtype": "Section Break",
-   "label": "Guardian Details"
-  },
-  {
-   "fieldname": "guardians",
-   "fieldtype": "Text",
-   "label": "Guardians"
-  },
-  {
    "fieldname": "personal_details_tab",
    "fieldtype": "Tab Break",
    "label": "Personal Details"
@@ -216,18 +173,61 @@
    "label": "Nationality"
   },
   {
-   "fieldname": "academic_program",
+   "fieldname": "relations_tab",
+   "fieldtype": "Tab Break",
+   "label": "Relations"
+  },
+  {
+   "fieldname": "guardian_details_section",
+   "fieldtype": "Section Break",
+   "label": "Guardian Details"
+  },
+  {
+   "fieldname": "guardians",
+   "fieldtype": "Text",
+   "label": "Guardians"
+  },
+  {
+   "fieldname": "address_tab",
+   "fieldtype": "Tab Break",
+   "label": "Address"
+  },
+  {
+   "fieldname": "address_line_1",
+   "fieldtype": "Data",
+   "label": "Address Line 1"
+  },
+  {
+   "fieldname": "address_line_2",
+   "fieldtype": "Data",
+   "label": "Address Line 2"
+  },
+  {
+   "fieldname": "column_break_hzit",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State"
+  },
+  {
+   "fieldname": "country",
    "fieldtype": "Link",
-   "label": "Academic Program",
-   "options": "Academic Program",
-   "reqd": 1
+   "label": "Country",
+   "options": "Country"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-28 23:41:10.942640",
+ "modified": "2024-01-28 23:43:08.306760",
  "modified_by": "Administrator",
- "module": "Academia",
+ "module": "Admission",
  "name": "Student Applicant",
  "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
