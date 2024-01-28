@@ -16,7 +16,7 @@
   "naming_series",
   "joining_date",
   "user_id",
-  "student_applicant",
+  "academic_program",
   "personal_details_section",
   "student_email_address",
   "date_of_birth",
@@ -85,13 +85,6 @@
    "fieldtype": "Select",
    "label": "Application Status",
    "options": "Applied\nApproved\nRejected\nAdmitted"
-  },
-  {
-   "fieldname": "student_applicant",
-   "fieldtype": "Link",
-   "label": "Program",
-   "options": "Program",
-   "reqd": 1
   },
   {
    "fieldname": "personal_details_section",
@@ -221,11 +214,18 @@
    "fieldname": "nationality2",
    "fieldtype": "Data",
    "label": "Nationality"
+  },
+  {
+   "fieldname": "academic_program",
+   "fieldtype": "Link",
+   "label": "Academic Program",
+   "options": "Academic Program",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-24 17:58:24.329058",
+ "modified": "2024-01-28 23:05:12.967833",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Applicant",

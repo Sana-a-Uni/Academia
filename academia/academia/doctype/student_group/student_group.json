@@ -18,7 +18,7 @@
   "faculty",
   "department",
   "batch",
-  "program",
+  "academic_program",
   "student_category",
   "course",
   "disabled",
@@ -154,12 +154,6 @@
    "options": "Student Group Student"
   },
   {
-   "fieldname": "program",
-   "fieldtype": "Link",
-   "label": "Program",
-   "options": "Program"
-  },
-  {
    "fieldname": "instructors_section",
    "fieldtype": "Section Break",
    "label": "Instructors"
@@ -169,11 +163,17 @@
    "fieldtype": "Table",
    "label": "Instructors",
    "options": "Student Group Instructor"
+  },
+  {
+   "fieldname": "academic_program",
+   "fieldtype": "Link",
+   "label": "Academic Program",
+   "options": "Academic Program"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-25 12:52:43.726673",
+ "modified": "2024-01-28 23:08:06.911039",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group",
