@@ -1,0 +1,127 @@
+{
+ "actions": [],
+ "autoname": "Cncl-Sess-.YY.-.{council}.-.###",
+ "creation": "2024-01-11 09:07:29.905750",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "council",
+  "title",
+  "opening",
+  "date_and_time_tab",
+  "date",
+  "begin_time",
+  "end_time",
+  "members_tab",
+  "members",
+  "agenda_tab",
+  "topics",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "council",
+   "fieldtype": "Link",
+   "label": "Council",
+   "options": "Council",
+   "reqd": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "opening",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Opening",
+   "reqd": 1
+  },
+  {
+   "fieldname": "date_and_time_tab",
+   "fieldtype": "Tab Break",
+   "label": "Date and Time"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "begin_time",
+   "fieldtype": "Time",
+   "label": "Begin Time"
+  },
+  {
+   "fieldname": "end_time",
+   "fieldtype": "Time",
+   "label": "End Time"
+  },
+  {
+   "fieldname": "members_tab",
+   "fieldtype": "Tab Break",
+   "label": "Members"
+  },
+  {
+   "fieldname": "members",
+   "fieldtype": "Table",
+   "label": "Members",
+   "options": "Session Member",
+   "reqd": 1
+  },
+  {
+   "fieldname": "agenda_tab",
+   "fieldtype": "Tab Break",
+   "label": "Agenda"
+  },
+  {
+   "fieldname": "topics",
+   "fieldtype": "Table",
+   "label": "Topics",
+   "options": "Session Topic Assignment",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Session",
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-01-25 08:06:58.840434",
+ "modified_by": "Administrator",
+ "module": "Councils",
+ "name": "Session",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1
+}

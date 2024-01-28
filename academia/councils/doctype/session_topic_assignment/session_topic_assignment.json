@@ -1,0 +1,67 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-01-11 08:59:31.934081",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "topic_assignment",
+  "title",
+  "description",
+  "section_break_kslv",
+  "decision",
+  "forward_assignment"
+ ],
+ "fields": [
+  {
+   "fieldname": "topic_assignment",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Topic Assignment",
+   "options": "Topic Assignment",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "topic_assignment.title",
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "is_virtual": 1,
+   "label": "Title"
+  },
+  {
+   "fetch_from": "topic_assignment.description",
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "is_virtual": 1,
+   "label": "Description "
+  },
+  {
+   "fieldname": "section_break_kslv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "decision",
+   "fieldtype": "Text Editor",
+   "label": "Decision "
+  },
+  {
+   "fieldname": "forward_assignment",
+   "fieldtype": "Link",
+   "label": "Forward Assignment",
+   "options": "Topic Assignment"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-01-25 08:09:20.835924",
+ "modified_by": "Administrator",
+ "module": "Councils",
+ "name": "Session Topic Assignment",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

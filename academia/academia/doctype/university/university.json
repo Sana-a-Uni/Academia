@@ -19,7 +19,16 @@
   "university_vision",
   "university_goals",
   "column_break_geij",
-  "university_mission"
+  "university_mission",
+  "address_tab",
+  "university_logo",
+  "phone_no",
+  "description",
+  "column_break_s6be",
+  "fax",
+  "website",
+  "email",
+  "html_aimw"
  ],
  "fields": [
   {
@@ -95,11 +104,58 @@
    "fieldname": "university_mission",
    "fieldtype": "Text Editor",
    "label": " University Mission"
+  },
+  {
+   "fieldname": "address_tab",
+   "fieldtype": "Tab Break",
+   "label": "Address and Contact"
+  },
+  {
+   "fieldname": "university_logo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "University Logo"
+  },
+  {
+   "fieldname": "phone_no",
+   "fieldtype": "Phone",
+   "label": "Phone No"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  },
+  {
+   "fieldname": "column_break_s6be",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fax",
+   "fieldtype": "Data",
+   "label": "Fax",
+   "options": "Phone"
+  },
+  {
+   "fieldname": "website",
+   "fieldtype": "Data",
+   "label": "Website"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
+  },
+  {
+   "fieldname": "html_aimw",
+   "fieldtype": "HTML"
   }
  ],
+ "image_field": "university_logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-17 03:32:56.864589",
+ "modified": "2024-01-22 18:53:51.912321",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "University",
