@@ -6,37 +6,33 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "department",
-  "level",
-  "semester",
   "column_break_rvko",
   "student",
   "student_name",
-  "enrollment_date"
+  "academic_program",
+  "enrollment_date",
+  "column_break_nlbw",
+  "university",
+  "faculty",
+  "faculty_department",
+  "academic_year",
+  "level",
+  "semester"
  ],
  "fields": [
   {
-   "fieldname": "department",
+   "fieldname": "level",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Department",
-   "options": "Faculty Department",
-   "reqd": 1
-  },
-  {
-   "fieldname": "level",
-   "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Level",
-   "reqd": 1
+   "options": "Level"
   },
   {
    "fieldname": "semester",
-   "fieldtype": "Select",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Semester",
-   "options": "\nSemester 1\nSemester 2",
-   "reqd": 1
+   "options": "Semester"
   },
   {
    "fieldname": "enrollment_date",
@@ -62,11 +58,46 @@
   {
    "fieldname": "column_break_rvko",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "academic_program",
+   "fieldtype": "Link",
+   "label": "Academic Program",
+   "options": "Academic Program"
+  },
+  {
+   "fieldname": "column_break_nlbw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "university",
+   "fieldtype": "Link",
+   "label": "University ",
+   "options": "University"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "faculty_department",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Faculty Department",
+   "options": "Faculty Department"
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "label": "Academic Year",
+   "options": "Academic Year"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-24 23:13:12.739308",
+ "modified": "2024-01-28 23:55:23.071479",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Level And Semester Enrollment",
