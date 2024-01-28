@@ -112,7 +112,7 @@
    "fieldtype": "Link",
    "in_global_search": 1,
    "label": "Batch",
-   "options": "Student Batch Name"
+   "options": "Student Batch"
   },
   {
    "fieldname": "student_category",
@@ -173,7 +173,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-28 23:08:06.911039",
+ "modified": "2024-01-29 00:24:04.003130",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group",
