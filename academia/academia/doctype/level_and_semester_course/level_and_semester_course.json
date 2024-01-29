@@ -1,35 +1,26 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2024-01-22 17:33:34.903283",
+ "creation": "2024-01-29 00:02:01.086620",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "language",
-  "course"
+  "section_break_pwce"
  ],
  "fields": [
   {
-   "fieldname": "language",
-   "fieldtype": "Link",
-   "label": "Language",
-   "options": "Language"
-  },
-  {
-   "fieldname": "course",
-   "fieldtype": "Link",
-   "label": "Course",
-   "options": "Course"
+   "fieldname": "section_break_pwce",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-01-28 23:28:27.332696",
+ "modified": "2024-01-29 00:02:01.086620",
  "modified_by": "Administrator",
  "module": "Academia",
- "name": "Course Language",
+ "name": "Level and Semester Course",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",

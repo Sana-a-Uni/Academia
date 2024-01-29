@@ -1,0 +1,121 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:title",
+ "creation": "2024-01-23 01:50:27.492244",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "route",
+  "publish_on_website",
+  "enable_admission_application",
+  "column_break_ffig",
+  "academic_year",
+  "admission_start_date",
+  "admission_end_date",
+  "university",
+  "collage",
+  "eligibility_and_details_section",
+  "eligibility_and_details",
+  "introduction"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "unique": 1
+  },
+  {
+   "fieldname": "route",
+   "fieldtype": "Data",
+   "label": "Route"
+  },
+  {
+   "default": "0",
+   "fieldname": "publish_on_website",
+   "fieldtype": "Check",
+   "label": "Publish on website"
+  },
+  {
+   "default": "0",
+   "fieldname": "enable_admission_application",
+   "fieldtype": "Check",
+   "label": "Enable Admission Application"
+  },
+  {
+   "fieldname": "column_break_ffig",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "label": "Academic Year",
+   "options": "Academic Year"
+  },
+  {
+   "fieldname": "admission_start_date",
+   "fieldtype": "Date",
+   "label": "Admission Start Date"
+  },
+  {
+   "fieldname": "admission_end_date",
+   "fieldtype": "Date",
+   "label": "Admission End Date"
+  },
+  {
+   "fieldname": "eligibility_and_details_section",
+   "fieldtype": "Section Break",
+   "label": "Eligibility and Details"
+  },
+  {
+   "fieldname": "eligibility_and_details",
+   "fieldtype": "Table",
+   "label": "Eligibility and Details",
+   "options": "Student Admission Program"
+  },
+  {
+   "fieldname": "introduction",
+   "fieldtype": "Text Editor",
+   "label": "Introduction"
+  },
+  {
+   "fieldname": "university",
+   "fieldtype": "Link",
+   "label": "University ",
+   "options": "University"
+  },
+  {
+   "fieldname": "collage",
+   "fieldtype": "Link",
+   "label": "Facility",
+   "options": "Facility"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-01-28 20:41:59.371249",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Student Admission",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
