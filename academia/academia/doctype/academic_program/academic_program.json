@@ -7,9 +7,10 @@
  "field_order": [
   "section_break_8b0b",
   "program_name",
+  "faculty",
   "faculty_department",
   "column_break_xbfe",
-  "program_abbreviaation",
+  "program_abbreviation",
   "program_degree",
   "section_break_koic",
   "total_hours_required_to_award_degree",
@@ -43,11 +44,6 @@
   {
    "fieldname": "column_break_xbfe",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "program_abbreviaation",
-   "fieldtype": "Data",
-   "label": "Program Abbreviaation"
   },
   {
    "fieldname": "program_degree",
@@ -103,11 +99,22 @@
    "fieldname": "date_of_programe_development",
    "fieldtype": "Date",
    "label": "Date of Programe Development"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "program_abbreviation",
+   "fieldtype": "Data",
+   "label": "Program Abbreviation"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-22 21:33:33.909331",
+ "modified": "2024-01-28 23:36:52.811416",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Program",
