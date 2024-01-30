@@ -7,18 +7,184 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "title"
+  "published",
+  "section_break_eezf",
+  "student_group",
+  "faculty_member",
+  "lecture_type",
+  "faculty_department",
+  "column_break_hlmi",
+  "status",
+  "university",
+  "faculty",
+  "course",
+  "academic_program",
+  "schedule_tab",
+  "academic_year",
+  "academic_term",
+  "academic_week",
+  "color",
+  "room",
+  "column_break_waqs",
+  "date",
+  "from_time",
+  "to_time",
+  "duration",
+  "content_tab",
+  "lms_tab",
+  "video",
+  "description"
  ],
  "fields": [
   {
-   "fieldname": "title",
+   "fieldname": "student_group",
+   "fieldtype": "Link",
+   "label": "Student Group",
+   "options": "Student Group"
+  },
+  {
+   "fieldname": "faculty_member",
+   "fieldtype": "Link",
+   "label": "Faculty Member ",
+   "options": "Faculty Member"
+  },
+  {
+   "fieldname": "lecture_type",
+   "fieldtype": "Select",
+   "label": "Lecture Type",
+   "options": "\nTheoretical\nPractical"
+  },
+  {
+   "fieldname": "faculty_department",
+   "fieldtype": "Link",
+   "label": "Faculty Department",
+   "options": "Faculty Department"
+  },
+  {
+   "fieldname": "column_break_hlmi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "university",
+   "fieldtype": "Link",
+   "label": "University",
+   "options": "University"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "course",
+   "fieldtype": "Link",
+   "label": "Course",
+   "options": "Course"
+  },
+  {
+   "fieldname": "academic_program",
+   "fieldtype": "Link",
+   "label": "Academic Program",
+   "options": "Academic Program"
+  },
+  {
+   "fieldname": "schedule_tab",
+   "fieldtype": "Tab Break",
+   "label": "Schedule"
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "label": "Academic Year",
+   "options": "Academic Year"
+  },
+  {
+   "fieldname": "academic_term",
    "fieldtype": "Data",
-   "label": "Title"
+   "label": "Academic Term"
+  },
+  {
+   "fieldname": "academic_week",
+   "fieldtype": "Data",
+   "label": "Academic Week"
+  },
+  {
+   "fieldname": "column_break_waqs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "from_time",
+   "fieldtype": "Time",
+   "label": "From Time"
+  },
+  {
+   "fieldname": "to_time",
+   "fieldtype": "Time",
+   "label": "To Time"
+  },
+  {
+   "fieldname": "duration",
+   "fieldtype": "Duration",
+   "hide_days": 1,
+   "label": "Duration"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "\nCompleted\nScheduled\nOverdue\nUnscheduled"
+  },
+  {
+   "fieldname": "color",
+   "fieldtype": "Color",
+   "label": "Color"
+  },
+  {
+   "fieldname": "content_tab",
+   "fieldtype": "Tab Break",
+   "label": "Content"
+  },
+  {
+   "default": "0",
+   "fieldname": "published",
+   "fieldtype": "Check",
+   "label": "Published"
+  },
+  {
+   "fieldname": "section_break_eezf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "room",
+   "fieldtype": "Link",
+   "label": "Room",
+   "options": "Room"
+  },
+  {
+   "fieldname": "lms_tab",
+   "fieldtype": "Tab Break",
+   "label": "LMS"
+  },
+  {
+   "fieldname": "video",
+   "fieldtype": "Attach",
+   "label": "Video"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-12-17 08:00:09.756050",
+ "modified": "2024-01-29 04:59:02.848369",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lecture",
