@@ -9,7 +9,7 @@
  "engine": "InnoDB",
  "field_order": [
   "course_code",
-  "course_name"
+  "course_name",
   "languages",
   "pre_requisites",
   "co_requisites",
