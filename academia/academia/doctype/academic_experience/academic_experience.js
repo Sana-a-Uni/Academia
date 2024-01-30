@@ -1,7 +1,7 @@
 // Copyright (c) 2024, SanU and contributors
 // For license information, please see license.txt
 
-// frappe.ui.form.on("Academic Rank", {
+// frappe.ui.form.on("Academic Experience", {
 // 	refresh(frm) {
 
 // 	},

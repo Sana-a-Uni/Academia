@@ -8,3 +8,4 @@ from frappe.model.document import Document
 class FacultyMember(Document):
 	def autoname(self):
 		self.full_name = self.first_name + " " + self.middle_name + " " + self.last_name
+ 
