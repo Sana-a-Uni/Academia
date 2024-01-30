@@ -1,15 +1,15 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:course_code",
+ "autoname": "field:course",
  "creation": "2023-12-17 07:58:57.573727",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "course_name",
   "course_code",
-  "course_name"
   "languages",
   "pre_requisites",
   "co_requisites",
@@ -28,7 +28,6 @@
   {
    "fieldname": "course_code",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Course Code",
    "reqd": 1,
    "unique": 1
