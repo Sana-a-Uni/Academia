@@ -1,0 +1,139 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-01-22 20:49:49.880733",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_8b0b",
+  "program_name",
+  "faculty",
+  "faculty_department",
+  "column_break_xbfe",
+  "program_abbreviation",
+  "program_degree",
+  "section_break_koic",
+  "total_hours_required_to_award_degree",
+  "study_language",
+  "column_break_zw7h",
+  "starrting_year_of_the_program",
+  "delivery_mode",
+  "section_break_46rv",
+  "study_methods",
+  "column_break_sksq",
+  "date_of_programe_development"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_8b0b",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "program_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Program Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "faculty_department",
+   "fieldtype": "Link",
+   "label": "Faculty Department",
+   "options": "Faculty Department"
+  },
+  {
+   "fieldname": "column_break_xbfe",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "program_degree",
+   "fieldtype": "Link",
+   "label": "Program Degree",
+   "options": "Program Degree"
+  },
+  {
+   "fieldname": "section_break_koic",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_hours_required_to_award_degree",
+   "fieldtype": "Int",
+   "label": "Total Hours Required to Award Degree"
+  },
+  {
+   "fieldname": "study_language",
+   "fieldtype": "Table MultiSelect",
+   "label": "Study Language",
+   "options": "Course Language"
+  },
+  {
+   "fieldname": "column_break_zw7h",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "starrting_year_of_the_program",
+   "fieldtype": "Date",
+   "label": "Starrting Year of the Program"
+  },
+  {
+   "fieldname": "delivery_mode",
+   "fieldtype": "Select",
+   "label": "Delivery Mode",
+   "options": "\nOnline\nOffline"
+  },
+  {
+   "fieldname": "section_break_46rv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "study_methods",
+   "fieldtype": "Link",
+   "label": "Study Methods",
+   "options": "Study Method"
+  },
+  {
+   "fieldname": "column_break_sksq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "date_of_programe_development",
+   "fieldtype": "Date",
+   "label": "Date of Programe Development"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "program_abbreviation",
+   "fieldtype": "Data",
+   "label": "Program Abbreviation"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-01-28 23:36:52.811416",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Academic Program",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

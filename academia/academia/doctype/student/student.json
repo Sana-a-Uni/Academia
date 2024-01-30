@@ -1,27 +1,278 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2023-12-17 07:40:25.911893",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "title"
+  "title",
+  "section_break_uirg",
+  "first_name",
+  "middle_name",
+  "last_name",
+  "column_break_ghlu",
+  "naming_series",
+  "joining_date",
+  "user_id",
+  "student_applicant",
+  "image",
+  "personal_details_section",
+  "student_email_address",
+  "date_of_birth",
+  "blood_group",
+  "column_break_twpm",
+  "student_mobile_number",
+  "gender",
+  "nationality",
+  "address_tab",
+  "address_and_contact_section",
+  "address_html",
+  "column_break_jlhp",
+  "contact_html",
+  "primary_address_and_contact_section",
+  "student_primary_address",
+  "primary_address",
+  "column_break_djiy",
+  "student_primary_contact",
+  "mobile_no",
+  "email_id",
+  "relations_tab",
+  "guardian_details_section",
+  "guardians",
+  "exit_tab",
+  "date_of_leaving",
+  "leaving_certificate_number",
+  "column_break_haer",
+  "reason_for_leaving",
+  "student_name"
  ],
  "fields": [
   {
+   "default": "0",
    "fieldname": "title",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "section_break_uirg",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "first_name",
    "fieldtype": "Data",
-   "label": "Title"
+   "in_list_view": 1,
+   "label": "First Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "middle_name",
+   "fieldtype": "Data",
+   "label": "Middle Name"
+  },
+  {
+   "fieldname": "last_name",
+   "fieldtype": "Data",
+   "label": "Last Name"
+  },
+  {
+   "fieldname": "column_break_ghlu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Naming Series",
+   "options": "EDU-STU-.YYYY.-"
+  },
+  {
+   "fieldname": "joining_date",
+   "fieldtype": "Date",
+   "label": "Joining Date"
+  },
+  {
+   "fieldname": "user_id",
+   "fieldtype": "Link",
+   "label": "User ID",
+   "options": "User"
+  },
+  {
+   "fieldname": "student_applicant",
+   "fieldtype": "Link",
+   "label": "Student Applicant",
+   "options": "Student Applicant"
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "label": "Image"
+  },
+  {
+   "fieldname": "personal_details_section",
+   "fieldtype": "Section Break",
+   "label": "Personal Details"
+  },
+  {
+   "fieldname": "student_email_address",
+   "fieldtype": "Data",
+   "label": "Student Email Address"
+  },
+  {
+   "fieldname": "date_of_birth",
+   "fieldtype": "Date",
+   "label": "Date of Birth"
+  },
+  {
+   "fieldname": "blood_group",
+   "fieldtype": "Select",
+   "label": "Blood Group",
+   "options": "\nA+\nA-\nB+\nB-\nO+\nO-\nAB+\nAB-"
+  },
+  {
+   "fieldname": "column_break_twpm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "student_mobile_number",
+   "fieldtype": "Phone",
+   "label": "Student Mobile Number"
+  },
+  {
+   "fieldname": "gender",
+   "fieldtype": "Select",
+   "label": "Gender",
+   "options": "\nMale\nFemale\nMale & Female"
+  },
+  {
+   "fieldname": "nationality",
+   "fieldtype": "Data",
+   "label": "Nationality"
+  },
+  {
+   "fieldname": "address_tab",
+   "fieldtype": "Tab Break",
+   "label": "Address and Contact"
+  },
+  {
+   "fieldname": "relations_tab",
+   "fieldtype": "Tab Break",
+   "label": "Relations"
+  },
+  {
+   "fieldname": "guardian_details_section",
+   "fieldtype": "Section Break",
+   "label": "Guardian Details"
+  },
+  {
+   "fieldname": "guardians",
+   "fieldtype": "Table",
+   "label": "Guardians",
+   "options": "Student Guardian"
+  },
+  {
+   "fieldname": "exit_tab",
+   "fieldtype": "Tab Break",
+   "label": "Exit"
+  },
+  {
+   "fieldname": "date_of_leaving",
+   "fieldtype": "Date",
+   "label": "Date of Leaving"
+  },
+  {
+   "fieldname": "leaving_certificate_number",
+   "fieldtype": "Data",
+   "label": "Leaving Certificate Number"
+  },
+  {
+   "fieldname": "column_break_haer",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "reason_for_leaving",
+   "fieldtype": "Text",
+   "label": "Reason For Leaving"
+  },
+  {
+   "fieldname": "student_name",
+   "fieldtype": "Data",
+   "label": "Student Name"
+  },
+  {
+   "fieldname": "address_and_contact_section",
+   "fieldtype": "Section Break",
+   "label": "Address and Contact"
+  },
+  {
+   "depends_on": "eval: !doc.__islocal",
+   "fieldname": "address_html",
+   "fieldtype": "HTML",
+   "label": "Address HTML",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_jlhp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval: !doc.__islocal",
+   "fieldname": "contact_html",
+   "fieldtype": "HTML",
+   "label": "Contact HTML",
+   "read_only": 1
+  },
+  {
+   "description": "Select, to make the student searchable with these fields",
+   "fieldname": "primary_address_and_contact_section",
+   "fieldtype": "Section Break",
+   "label": "Primary Address and Contact"
+  },
+  {
+   "description": "Reselect, if the chosen address is edited after save",
+   "fieldname": "student_primary_address",
+   "fieldtype": "Link",
+   "label": "Student Primary Address",
+   "options": "Address"
+  },
+  {
+   "fieldname": "primary_address",
+   "fieldtype": "Text",
+   "label": "Primary Address",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_djiy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Reselect, if the chosen contact is edited after save",
+   "fieldname": "student_primary_contact",
+   "fieldtype": "Link",
+   "label": "Student Primary Contact",
+   "options": "Contact"
+  },
+  {
+   "fetch_from": "student_primary_contact.mobile_no",
+   "fieldname": "mobile_no",
+   "fieldtype": "Read Only",
+   "label": "Mobile No"
+  },
+  {
+   "fetch_from": "student_primary_contact.email_id",
+   "fieldname": "email_id",
+   "fieldtype": "Read Only",
+   "label": "Email Id"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-12-17 07:40:25.911893",
+ "modified": "2024-01-27 23:20:49.968011",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

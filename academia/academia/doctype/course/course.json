@@ -10,14 +10,20 @@
  "field_order": [
   "course_code",
   "course_name"
+  "languages",
+  "pre_requisites",
+  "co_requisites",
+  "course_image",
+  "column_break_uvaw",
+  "description"
  ],
  "fields": [
   {
-   "fieldname": "course_name",
+   "fieldname":"course_name",
    "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Course Name",
-   "reqd": 1
+   "reqd": 1,
+   "unique": 1,
+   "label": "Course Name"
   },
   {
    "fieldname": "course_code",
@@ -26,11 +32,45 @@
    "label": "Course Code",
    "reqd": 1,
    "unique": 1
+  },
+  {
+   "fieldname": "languages",
+   "fieldtype": "Table MultiSelect",
+   "label": "Languages",
+   "options": "Course Language"
+  },
+  {
+   "fieldname": "course_image",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Course Image"
+  },
+  {
+   "fieldname": "column_break_uvaw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  },
+  {
+   "fieldname": "pre_requisites",
+   "fieldtype": "Table MultiSelect",
+   "label": "Pre Requisites",
+   "options": "Pre Requisites"
+  },
+  {
+   "fieldname": "co_requisites",
+   "fieldtype": "Table MultiSelect",
+   "label": "Co Requisites",
+   "options": "Co Requisites"
   }
  ],
+ "image_field": "course_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-24 11:17:53.036881",
+ "modified": "2024-01-23 00:33:52.592851",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",
