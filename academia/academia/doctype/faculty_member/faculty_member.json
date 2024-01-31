@@ -456,7 +456,7 @@
    "fieldname": "table_yhsf",
    "fieldtype": "Table",
    "label": "Academic Member Experience ",
-   "options": "Academic Experience"
+   "options": "Faculty Member Academic Experience"
   },
   {
    "fieldname": "employment_number",
@@ -508,7 +508,7 @@
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-24 12:26:21.178067",
+ "modified": "2024-01-30 18:37:26.184602",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",
