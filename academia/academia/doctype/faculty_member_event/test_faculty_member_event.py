@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestScientificQualification(FrappeTestCase):
+class TestFacultyMemberEvent(FrappeTestCase):
 	pass

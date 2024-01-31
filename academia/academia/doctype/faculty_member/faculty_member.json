@@ -445,7 +445,7 @@
    "fieldname": "qualification",
    "fieldtype": "Table",
    "label": "Academic Member Qualification",
-   "options": "Scientific Qualification"
+   "options": "Faculty Member Scientific Qualification"
   },
   {
    "fieldname": "academic_experience_section",
@@ -508,7 +508,7 @@
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-30 18:37:26.184602",
+ "modified": "2024-01-31 09:15:19.806580",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",
