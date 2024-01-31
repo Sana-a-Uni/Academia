@@ -8,8 +8,10 @@
  "engine": "InnoDB",
  "field_order": [
   "council_name",
+  "column_break_oa9u",
   "administrative_body",
-  "council_members"
+  "section_break_epbx",
+  "members"
  ],
  "fields": [
   {
@@ -22,19 +24,30 @@
   },
   {
    "fieldname": "administrative_body",
-   "fieldtype": "Data",
-   "label": "Administrative Body"
+   "fieldtype": "Link",
+   "label": "Administrative Body",
+   "options": "Department",
+   "reqd": 1
   },
   {
-   "fieldname": "council_members",
+   "fieldname": "column_break_oa9u",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_epbx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "members",
    "fieldtype": "Table",
-   "label": "Council Members",
-   "options": "Council Member"
+   "label": "Members",
+   "options": "Council Member",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-25 08:10:40.129389",
+ "modified": "2024-01-25 23:21:23.893660",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Council",
