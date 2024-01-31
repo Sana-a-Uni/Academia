@@ -8,18 +8,25 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "details_tab",
+  "naming_series",
   "council",
   "topic",
-  "date",
+  "column_break_jaxt",
+  "assignment_date",
   "main_type",
   "subtype",
+  "section_break_eouh",
   "title",
   "description",
   "decision",
-  "attachments",
   "status_section",
   "amended_from",
-  "naming_series"
+  "status_tab",
+  "status",
+  "decision_type",
+  "attachments_tab",
+  "attachments"
  ],
  "fields": [
   {
@@ -38,12 +45,6 @@
    "fieldtype": "Link",
    "label": "Topic",
    "options": "Topic",
-   "reqd": 1
-  },
-  {
-   "fieldname": "date",
-   "fieldtype": "Date",
-   "label": "Date",
    "reqd": 1
   },
   {
@@ -85,8 +86,7 @@
   },
   {
    "fieldname": "status_section",
-   "fieldtype": "Section Break",
-   "label": "Status"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "amended_from",
@@ -99,15 +99,63 @@
   },
   {
    "fieldname": "naming_series",
-   "fieldtype": "Data",
+   "fieldtype": "Select",
    "label": "Series",
-   "options": "CNCL-TA-.{topic}.##"
+   "options": "CNCL-TA-.{topic}.##",
+   "reqd": 1
+  },
+  {
+   "fieldname": "attachments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "column_break_jaxt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "assignment_date",
+   "fieldtype": "Date",
+   "label": "Assignment Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_eouh",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "status_tab",
+   "fieldtype": "Tab Break",
+   "label": "Status"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "\nPending Review\nPending Acceptance\nAccepted\nRejected",
+   "reqd": 1
+  },
+  {
+   "fieldname": "decision_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Decision Type",
+   "options": "\nPostponed\nResolved\nTransferred",
+   "reqd": 1,
+   "sort_options": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-01-25 08:09:50.435794",
+ "modified": "2024-01-31 02:47:34.707307",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic Assignment",
