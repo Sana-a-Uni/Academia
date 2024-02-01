@@ -100,12 +100,14 @@
   {
    "fieldname": "middle_name",
    "fieldtype": "Data",
-   "label": "Middle Name"
+   "label": "Middle Name",
+   "reqd": 1
   },
   {
    "fieldname": "last_name",
    "fieldtype": "Data",
-   "label": "Last Name"
+   "label": "Last Name",
+   "reqd": 1
   },
   {
    "fieldname": "gender",
@@ -506,7 +508,7 @@
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-31 12:35:19.748100",
+ "modified": "2024-02-01 05:44:21.836811",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",
