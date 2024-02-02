@@ -28,9 +28,29 @@ class Session(Document):
 	# end: auto-generated types
 	
 
-		@frappe.whitelist()
-		def get_linked_council(self,docname):
-			# Check if the 'Council' document with the given docname exists in the database
-			if frappe.db.exists('Council', docname):
-				# Retrieve and return the 'Council' document as a Frappe document object
-				return frappe.get_doc('Council', docname)
+	@frappe.whitelist()
+	def get_linked_council(self,docname):
+		# Check if the 'Council' document with the given docname exists in the database
+		if frappe.db.exists('Council', docname):
+			# Retrieve and return the 'Council' document as a Frappe document object
+			return frappe.get_doc('Council', docname)
+
+	@frappe.whitelist()
+	def get_assignments(self,council):
+		"""Retrieves a list of Topic Assignment records that meet specific criteria.
+
+		This function is accessible via a REST API endpoint due to the @frappe.whitelist() decorator.
+
+		Args:
+			council (str): The name of the council for which to retrieve assignments.
+
+		Returns:
+			list: A list of Topic Assignment records matching the filters.
+
+		Filters:
+			- docstatus: 0 (not submitted)
+			- council: The provided council name
+			- status: "Accepted"
+		"""
+		topic_assignments = frappe.get_all("Topic Assignment",fields=["*"],filters={'docstatus': 0,"council":council,"status":"Accepted"})
+		return topic_assignments

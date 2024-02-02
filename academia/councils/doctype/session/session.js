@@ -35,4 +35,29 @@ frappe.ui.form.on("Session", {
             frm.fetch_members_from_council(frm.doc.council);
         }
     }
+    ,
+    // Fetches assignments from the server and populates the 'assignments' child table.
+    fetch_assignments(frm) {
+        // Call the server-side 'get_assignments' method to retrieve assignments:
+        frm.call('get_assignments', { council: frm.doc.council })
+            .then(r => {
+                // If assignments are received successfully:
+                if (r.message) {
+                    const assignments = r.message;
+
+                    // Clear any existing assignments in the child table:
+                    frm.doc.assignments = '';
+
+                    // Create child table rows for each assignment:
+                    assignments.forEach(assignment => {
+                        frm.add_child('assignments', {
+                            topic_assignment: assignment.name,
+                        });
+
+                        // Refresh the child table to display the new rows:
+                        frm.refresh_field('assignments');
+                    });
+                }
+            });
+    }
 });
