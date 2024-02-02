@@ -15,6 +15,7 @@ class SessionTopicAssignment(Document):
 		from frappe.types import DF
 
 		decision: DF.TextEditor | None
+		decision_type: DF.Literal["", "Postponed", "Resolved", "Transferred"]
 		description: DF.TextEditor | None
 		forward_assignment: DF.Link | None
 		parent: DF.Data

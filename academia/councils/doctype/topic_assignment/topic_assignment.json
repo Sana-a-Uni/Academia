@@ -48,14 +48,14 @@
    "reqd": 1
   },
   {
-   "fetch_from": "topic.topic_main_type",
+   "fetch_from": "topic.topic_main_category",
    "fieldname": "main_type",
    "fieldtype": "Data",
    "is_virtual": 1,
    "label": "Main Type"
   },
   {
-   "fetch_from": "topic.topic_subtype",
+   "fetch_from": "topic.topic_sub_category",
    "fieldname": "subtype",
    "fieldtype": "Data",
    "is_virtual": 1,
@@ -148,14 +148,13 @@
    "in_list_view": 1,
    "label": "Decision Type",
    "options": "\nPostponed\nResolved\nTransferred",
-   "reqd": 1,
    "sort_options": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-01-31 02:47:34.707307",
+ "modified": "2024-02-01 15:49:00.199007",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic Assignment",
