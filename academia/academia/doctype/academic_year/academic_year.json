@@ -12,7 +12,6 @@
   "disabled",
   "year_start_date",
   "year_end_date",
-  "universities",
   "auto_created"
  ],
  "fields": [
@@ -41,12 +40,6 @@
    "fieldname": "auto_created",
    "fieldtype": "Check",
    "label": "Auto Created"
-  },
-  {
-   "fieldname": "universities",
-   "fieldtype": "Table",
-   "label": "Universities",
-   "options": "Academic Year University"
   },
   {
    "fieldname": "year",
