@@ -14,7 +14,6 @@
   "level",
   "column_break_zbwu",
   "academic_term",
-  "university",
   "faculty",
   "faculty_department",
   "batch",
@@ -35,14 +34,6 @@
    "in_list_view": 1,
    "label": "Academic Year",
    "options": "Academic Year",
-   "reqd": 1
-  },
-  {
-   "fieldname": "university",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "University",
-   "options": "University",
    "reqd": 1
   },
   {
@@ -174,7 +165,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-29 01:11:34.107336",
+ "modified": "2024-02-02 01:23:28.012008",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group",
