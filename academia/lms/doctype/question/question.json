@@ -1,0 +1,96 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-02-08 01:55:16.471000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "question",
+  "attachment",
+  "quiz_type",
+  "question_grade",
+  "section_break_hexy",
+  "option_column",
+  "answer",
+  "upload_file",
+  "option"
+ ],
+ "fields": [
+  {
+   "fieldname": "question",
+   "fieldtype": "Text Editor",
+   "label": "Question"
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment"
+  },
+  {
+   "fieldname": "quiz_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Quiz Type",
+   "options": "\nMultiple-Choice with single correct answer\nMultiple-Choice with multiple correct answer\nEssay\nFile Upload",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_hexy",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.quiz_type == \"Essay\"",
+   "fieldname": "answer",
+   "fieldtype": "Text Editor",
+   "label": "Answer"
+  },
+  {
+   "depends_on": "eval:doc.quiz_type == \"File Upload\"",
+   "fieldname": "upload_file",
+   "fieldtype": "Attach",
+   "label": "Upload File"
+  },
+  {
+   "fieldname": "option_column",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval: (doc.quiz_type==\"Multiple-Choice with single correct answer\" || doc.quiz_type==\"Multiple-Choice with multiple correct answer\")",
+   "fieldname": "option",
+   "fieldtype": "Table",
+   "label": "Option",
+   "mandatory_depends_on": "eval: (doc.quiz_type==\"Multiple-Choice with single correct answer\" || doc.quiz_type==\"Multiple-Choice with multiple correct answer\")",
+   "options": "Question Options"
+  },
+  {
+   "fieldname": "question_grade",
+   "fieldtype": "Float",
+   "label": "Question Grade"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-02-11 18:01:25.167589",
+ "modified_by": "Administrator",
+ "module": "LMS",
+ "name": "Question",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
