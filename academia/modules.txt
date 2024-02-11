@@ -2,3 +2,4 @@ Academia
 Councils
 Admission
 Student Enrollment
+LMS
