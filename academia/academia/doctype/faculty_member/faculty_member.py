@@ -11,13 +11,13 @@ class FacultyMember(Document):
 
     def validate(self):
 
-        if not re.match("^[a-zA-Z]*$", self.first_name):
+        if not re.match("^[a-zA-Z ]*$", self.first_name):
             frappe.throw("First name should only contain letters")
 
-        if not re.match("^[a-zA-Z]*$", self.middle_name):
+        if not re.match("^[a-zA-Z ]*$", self.middle_name):
             frappe.throw("Middle name should only contain letters")
 
-        if not re.match("^[a-zA-Z]*$", self.last_name):
+        if not re.match("^[a-zA-Z ]*$", self.last_name):
             frappe.throw("Last name should only contain letters")
 
 
