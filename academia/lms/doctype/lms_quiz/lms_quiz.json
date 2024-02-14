@@ -1,0 +1,167 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-02-08 00:53:46.535927",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "details_section",
+  "course",
+  "title",
+  "student_group",
+  "column_break_jsvl",
+  "instruction",
+  "section_break_mpgl",
+  "make_the_quiz_availability",
+  "from_date",
+  "column_break_llnc",
+  "to_date",
+  "section_break_qksq",
+  "is_time_bound",
+  "duration",
+  "grading_basis",
+  "column_break_feab",
+  "max_attempts",
+  "total_grades",
+  "section_break_euqq",
+  "question"
+ ],
+ "fields": [
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "course",
+   "fieldtype": "Link",
+   "label": "Course",
+   "options": "Course"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "student_group",
+   "fieldtype": "Link",
+   "label": "Student Group",
+   "options": "Student Group"
+  },
+  {
+   "fieldname": "column_break_jsvl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "instruction",
+   "fieldtype": "Small Text",
+   "label": "Instruction"
+  },
+  {
+   "fieldname": "section_break_mpgl",
+   "fieldtype": "Section Break",
+   "label": "Availability"
+  },
+  {
+   "default": "0",
+   "fieldname": "make_the_quiz_availability",
+   "fieldtype": "Check",
+   "label": "Make the quiz availability"
+  },
+  {
+   "depends_on": "make_the_quiz_availability",
+   "fieldname": "from_date",
+   "fieldtype": "Datetime",
+   "label": "From Date"
+  },
+  {
+   "fieldname": "column_break_llnc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "make_the_quiz_availability",
+   "fieldname": "to_date",
+   "fieldtype": "Datetime",
+   "label": "To Date"
+  },
+  {
+   "fieldname": "section_break_qksq",
+   "fieldtype": "Section Break",
+   "label": "Quiz Configuration"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_time_bound",
+   "fieldtype": "Check",
+   "label": "is Time-Bound"
+  },
+  {
+   "depends_on": "is_time_bound",
+   "fieldname": "duration",
+   "fieldtype": "Duration",
+   "label": "Duration"
+  },
+  {
+   "fieldname": "grading_basis",
+   "fieldtype": "Select",
+   "label": "Grading Basis",
+   "options": "Latest Highest Score\nLastest Attempt"
+  },
+  {
+   "fieldname": "column_break_feab",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "max_attempts",
+   "fieldtype": "Int",
+   "label": "Max Attempts",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_grades",
+   "fieldtype": "Float",
+   "label": "Total Grades"
+  },
+  {
+   "fieldname": "section_break_euqq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "question",
+   "fieldtype": "Table",
+   "label": "Question",
+   "options": "Quiz Question",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-02-11 18:14:40.940782",
+ "modified_by": "Administrator",
+ "module": "LMS",
+ "name": "LMS Quiz",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
