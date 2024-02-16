@@ -14,14 +14,14 @@
   "middle_name",
   "last_name",
   "full_name",
-  "title",
   "employment_number",
-  "nationality",
+  "title",
   "column_break_zcxq",
   "gender",
   "date_of_joining_in_service",
   "date_of_joining_in_university",
   "current_status",
+  "nationality",
   "languages",
   "image",
   "section_break_bamy",
@@ -100,37 +100,36 @@
   {
    "fieldname": "middle_name",
    "fieldtype": "Data",
-   "label": "Middle Name"
+   "label": "Middle Name",
+   "reqd": 1
   },
   {
    "fieldname": "last_name",
    "fieldtype": "Data",
-   "label": "Last Name"
+   "label": "Last Name",
+   "reqd": 1
   },
   {
    "fieldname": "gender",
    "fieldtype": "Link",
    "label": "Gender",
-   "options": "Gender",
-   "reqd": 1
+   "options": "Gender"
   },
   {
+   "depends_on": "eval:doc.personal_identification_type",
    "fieldname": "date_of_birth",
    "fieldtype": "Date",
-   "label": "Date of Birth",
-   "reqd": 1
+   "label": "Date of Birth"
   },
   {
    "fieldname": "date_of_joining_in_service",
    "fieldtype": "Date",
-   "label": "Date of Joining in Service",
-   "reqd": 1
+   "label": "Date of Joining in Service"
   },
   {
    "fieldname": "date_of_joining_in_university",
    "fieldtype": "Date",
-   "label": "Date of Joining in University",
-   "reqd": 1
+   "label": "Date of Joining in University"
   },
   {
    "fieldname": "image",
@@ -162,15 +161,13 @@
   {
    "fieldname": "mobile",
    "fieldtype": "Phone",
-   "label": "Mobile",
-   "reqd": 1
+   "label": "Mobile"
   },
   {
    "fieldname": "personal_email",
    "fieldtype": "Data",
    "label": "Personal Email",
    "options": "Email",
-   "reqd": 1,
    "unique": 1
   },
   {
@@ -179,7 +176,6 @@
    "fieldtype": "Data",
    "label": "University Email",
    "options": "Email",
-   "reqd": 1,
    "unique": 1
   },
   {
@@ -317,8 +313,9 @@
   },
   {
    "fieldname": "health_insurance_provider",
-   "fieldtype": "Data",
-   "label": "Health Insurance Provider"
+   "fieldtype": "Link",
+   "label": "Health Insurance Provider",
+   "options": "Employee Health Insurance"
   },
   {
    "depends_on": "eval:doc.health_insurance_provider",
@@ -358,8 +355,7 @@
    "fieldname": "personal_identification_type",
    "fieldtype": "Select",
    "label": "Personal Identification Type",
-   "options": "\nPassport\nSSN",
-   "reqd": 1
+   "options": "\nPassport\nSSN"
   },
   {
    "depends_on": "eval:doc.personal_identification_type == \"SSN\"",
@@ -437,6 +433,7 @@
    "options": "Faculty Member Language"
   },
   {
+   "collapsible": 1,
    "fieldname": "scientific_qualification_section",
    "fieldtype": "Section Break",
    "label": "Scientific Qualification"
@@ -444,10 +441,11 @@
   {
    "fieldname": "qualification",
    "fieldtype": "Table",
-   "label": "Academic Member Qualification",
-   "options": "Scientific Qualification"
+   "label": "Faculty Member Qualification",
+   "options": "Faculty Member Scientific Qualification"
   },
   {
+   "collapsible": 1,
    "fieldname": "academic_experience_section",
    "fieldtype": "Section Break",
    "label": "Academic Experience "
@@ -455,8 +453,8 @@
   {
    "fieldname": "table_yhsf",
    "fieldtype": "Table",
-   "label": "Academic Member Experience ",
-   "options": "Academic Experience"
+   "label": "Faculty Member Experience ",
+   "options": "Faculty Member Academic Experience"
   },
   {
    "fieldname": "employment_number",
@@ -465,10 +463,10 @@
    "reqd": 1
   },
   {
+   "depends_on": "eval:doc.personal_identification_type",
    "fieldname": "place_of_birth",
    "fieldtype": "Data",
-   "label": "Place of Birth",
-   "reqd": 1
+   "label": "Place of Birth"
   },
   {
    "fieldname": "nationality",
@@ -477,6 +475,7 @@
    "options": "Nationality"
   },
   {
+   "collapsible": 1,
    "fieldname": "professional__acativity_section",
    "fieldtype": "Section Break",
    "label": "Professional  Activity"
@@ -484,10 +483,11 @@
   {
    "fieldname": "table_bxkj",
    "fieldtype": "Table",
-   "label": "Academic Member Activity ",
-   "options": "Professional Activity"
+   "label": "Faculty Member Activity ",
+   "options": "Faculty Member Professional Activity"
   },
   {
+   "collapsible": 1,
    "fieldname": "training_course_section",
    "fieldtype": "Section Break",
    "label": "Training Course"
@@ -495,7 +495,7 @@
   {
    "fieldname": "table_zjkc",
    "fieldtype": "Table",
-   "label": "Academic Member Course",
+   "label": "Faculty Member Course",
    "options": "Faculty Member Training Course"
   },
   {
@@ -508,7 +508,7 @@
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-24 12:26:21.178067",
+ "modified": "2024-02-01 05:44:21.836811",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",

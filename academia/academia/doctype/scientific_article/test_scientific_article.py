@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestScientificQualification(FrappeTestCase):
+class TestScientificArticle(FrappeTestCase):
 	pass

@@ -1,0 +1,136 @@
+{
+ "actions": [],
+ "autoname": "field:title",
+ "creation": "2024-02-13 02:50:51.757147",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "participation_type_section",
+  "supervisor",
+  "column_break_phqz",
+  "publisher",
+  "section_break_ujsp",
+  "supervisor_name",
+  "publisher_name",
+  "title",
+  "date_of_publish",
+  "newspaper",
+  "column_break_onxn",
+  "university",
+  "type_of_research",
+  "level_of_discussion",
+  "date_of_discussion"
+ ],
+ "fields": [
+  {
+   "fieldname": "participation_type_section",
+   "fieldtype": "Section Break",
+   "label": "Participation Type"
+  },
+  {
+   "default": "0",
+   "fieldname": "supervisor",
+   "fieldtype": "Check",
+   "label": "Supervisor"
+  },
+  {
+   "default": "0",
+   "fieldname": "publisher",
+   "fieldtype": "Check",
+   "label": "Publisher"
+  },
+  {
+   "fieldname": "column_break_phqz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_ujsp",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.supervisor",
+   "fieldname": "publisher_name",
+   "fieldtype": "Data",
+   "label": "Publisher Name"
+  },
+  {
+   "depends_on": "eval:doc.publisher",
+   "fieldname": "supervisor_name",
+   "fieldtype": "Data",
+   "label": "Supervisor Name"
+  },
+  {
+   "depends_on": "eval:doc.supervisor || doc.publisher",
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "unique": 1
+  },
+  {
+   "fieldname": "newspaper",
+   "fieldtype": "Link",
+   "label": "Newspaper ",
+   "options": "Newspaper"
+  },
+  {
+   "depends_on": "eval:doc.supervisor || doc.publisher",
+   "fieldname": "date_of_publish",
+   "fieldtype": "Date",
+   "label": "Date of Publish"
+  },
+  {
+   "depends_on": "eval:doc.supervisor || doc.publisher",
+   "fieldname": "university",
+   "fieldtype": "Link",
+   "label": "University",
+   "options": "University"
+  },
+  {
+   "depends_on": "eval:doc.supervisor || doc.publisher",
+   "fieldname": "type_of_research",
+   "fieldtype": "Data",
+   "label": "Type of Research"
+  },
+  {
+   "depends_on": "eval:doc.supervisor || doc.publisher",
+   "fieldname": "level_of_discussion",
+   "fieldtype": "Data",
+   "label": "Level of Discussion"
+  },
+  {
+   "depends_on": "eval:doc.supervisor || doc.publisher",
+   "fieldname": "date_of_discussion",
+   "fieldtype": "Date",
+   "label": "Date of Discussion"
+  },
+  {
+   "fieldname": "column_break_onxn",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-02-13 03:37:13.096004",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Scientific Article",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
