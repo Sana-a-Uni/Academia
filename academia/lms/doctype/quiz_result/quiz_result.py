@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class AcademicYearUniversity(Document):
+class QuizResult(Document):
 	pass

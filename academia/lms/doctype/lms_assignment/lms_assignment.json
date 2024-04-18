@@ -1,0 +1,152 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-02-07 22:28:04.836582",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "details_section",
+  "course",
+  "title",
+  "student_group",
+  "column_break_bsqh",
+  "instruction",
+  "assignment_type",
+  "section_break_gimj",
+  "make_the_assignment_availability",
+  "from_date",
+  "column_break_tjfh",
+  "to_date",
+  "section_break_epao",
+  "question",
+  "attachment",
+  "column_break_zcpn",
+  "answer",
+  "file_upload"
+ ],
+ "fields": [
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "course",
+   "fieldtype": "Link",
+   "label": "Course",
+   "options": "Course"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "student_group",
+   "fieldtype": "Link",
+   "label": "Student Group",
+   "options": "Student Group"
+  },
+  {
+   "fieldname": "column_break_bsqh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "instruction",
+   "fieldtype": "Small Text",
+   "label": "Instruction"
+  },
+  {
+   "fieldname": "assignment_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Assignment Type",
+   "options": "\nEssay\nFile Upload",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_gimj",
+   "fieldtype": "Section Break",
+   "label": "Availability"
+  },
+  {
+   "default": "0",
+   "fieldname": "make_the_assignment_availability",
+   "fieldtype": "Check",
+   "label": "Make the assignment availability"
+  },
+  {
+   "depends_on": "make_the_assignment_availability",
+   "fieldname": "from_date",
+   "fieldtype": "Datetime",
+   "label": "From Date"
+  },
+  {
+   "fieldname": "column_break_tjfh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "make_the_assignment_availability",
+   "fieldname": "to_date",
+   "fieldtype": "Datetime",
+   "label": "To Date"
+  },
+  {
+   "fieldname": "section_break_epao",
+   "fieldtype": "Section Break",
+   "label": "Assignment"
+  },
+  {
+   "fieldname": "question",
+   "fieldtype": "Text Editor",
+   "label": "Question"
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment"
+  },
+  {
+   "fieldname": "column_break_zcpn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.assignment_type == \"Essay\"",
+   "fieldname": "answer",
+   "fieldtype": "Text Editor",
+   "label": "Answer"
+  },
+  {
+   "depends_on": "eval:doc.assignment_type == \"File Upload\"",
+   "fieldname": "file_upload",
+   "fieldtype": "Attach",
+   "label": "File Upload"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-02-11 00:07:28.633103",
+ "modified_by": "Administrator",
+ "module": "LMS",
+ "name": "LMS Assignment",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
