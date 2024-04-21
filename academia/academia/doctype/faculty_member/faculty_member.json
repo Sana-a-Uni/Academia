@@ -10,68 +10,17 @@
  "field_order": [
   "details_tab",
   "naming_series",
-  "first_name",
-  "middle_name",
-  "last_name",
-  "full_name",
+  "employee",
+  "faculty_member_name_english",
+  "faculty_member_name",
   "title",
-  "employment_number",
-  "nationality",
   "column_break_zcxq",
-  "gender",
+  "company",
   "date_of_joining_in_service",
   "date_of_joining_in_university",
-  "current_status",
+  "nationality",
   "languages",
   "image",
-  "section_break_bamy",
-  "user_id",
-  "create_user",
-  "create_user_permission",
-  "contact_details",
-  "section_break_wuwq",
-  "personal_email",
-  "university_email",
-  "column_break_wvrb",
-  "mobile",
-  "section_break_kyal",
-  "current_address",
-  "current_address_is",
-  "column_break_egcy",
-  "permanent_address",
-  "select_brub",
-  "emergency_contact_section",
-  "emergency_contact_name",
-  "column_break_nipt",
-  "emergency_phone",
-  "column_break_luzl",
-  "relation",
-  "tab_3_tab",
-  "bank_details_section",
-  "bank_name",
-  "bank_ac_no",
-  "iban",
-  "personal_tab",
-  "marital_status",
-  "family_background",
-  "column_break_rekg",
-  "blood_group",
-  "health_details",
-  "section_break_gzng",
-  "health_insurance_provider",
-  "column_break_zsnv",
-  "health_insurance_no",
-  "personal_identification_section",
-  "personal_identification_type",
-  "column_break_eonb",
-  "passport_number",
-  "social_society_number",
-  "place_of_birth",
-  "date_of_birth",
-  "column_break_iqmh",
-  "issuing_authority",
-  "date_of_issue",
-  "valid_upto",
   "profile_tab",
   "scientific_qualification_section",
   "qualification",
@@ -91,297 +40,17 @@
    "options": "Academic Title"
   },
   {
-   "fieldname": "first_name",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "First Name",
-   "reqd": 1
-  },
-  {
-   "fieldname": "middle_name",
-   "fieldtype": "Data",
-   "label": "Middle Name"
-  },
-  {
-   "fieldname": "last_name",
-   "fieldtype": "Data",
-   "label": "Last Name"
-  },
-  {
-   "fieldname": "gender",
-   "fieldtype": "Link",
-   "label": "Gender",
-   "options": "Gender",
-   "reqd": 1
-  },
-  {
-   "fieldname": "date_of_birth",
-   "fieldtype": "Date",
-   "label": "Date of Birth",
-   "reqd": 1
-  },
-  {
    "fieldname": "date_of_joining_in_service",
    "fieldtype": "Date",
-   "label": "Date of Joining in Service",
-   "reqd": 1
+   "label": "Date of Joining in Service"
   },
   {
    "fieldname": "date_of_joining_in_university",
    "fieldtype": "Date",
-   "label": "Date of Joining in University",
-   "reqd": 1
-  },
-  {
-   "fieldname": "image",
-   "fieldtype": "Attach Image",
-   "hidden": 1,
-   "label": "Image",
-   "no_copy": 1
-  },
-  {
-   "fieldname": "full_name",
-   "fieldtype": "Data",
-   "in_global_search": 1,
-   "in_list_view": 1,
-   "label": "Full Name",
-   "read_only": 1
-  },
-  {
-   "fieldname": "current_status",
-   "fieldtype": "Select",
-   "label": "Current Status",
-   "options": "Active\nInactive\nSuspended\nLeft",
-   "reqd": 1
-  },
-  {
-   "fieldname": "section_break_wuwq",
-   "fieldtype": "Section Break",
-   "label": "Contact"
-  },
-  {
-   "fieldname": "mobile",
-   "fieldtype": "Phone",
-   "label": "Mobile",
-   "reqd": 1
-  },
-  {
-   "fieldname": "personal_email",
-   "fieldtype": "Data",
-   "label": "Personal Email",
-   "options": "Email",
-   "reqd": 1,
-   "unique": 1
-  },
-  {
-   "description": "Provide Email Address Registered in University ",
-   "fieldname": "university_email",
-   "fieldtype": "Data",
-   "label": "University Email",
-   "options": "Email",
-   "reqd": 1,
-   "unique": 1
-  },
-  {
-   "bold": 1,
-   "fieldname": "contact_details",
-   "fieldtype": "Tab Break",
-   "label": "Address & Contact"
-  },
-  {
-   "fieldname": "section_break_kyal",
-   "fieldtype": "Section Break",
-   "label": "Address"
-  },
-  {
-   "fieldname": "current_address",
-   "fieldtype": "Small Text",
-   "label": "Current Address"
-  },
-  {
-   "fieldname": "current_address_is",
-   "fieldtype": "Select",
-   "label": "Current Address Is",
-   "options": "\nRented\nOwned"
-  },
-  {
-   "fieldname": "column_break_egcy",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "permanent_address",
-   "fieldtype": "Small Text",
-   "label": "Permanent Address"
-  },
-  {
-   "fieldname": "select_brub",
-   "fieldtype": "Select",
-   "label": "Permanent Address Is",
-   "options": "\nRented\nOwned"
-  },
-  {
-   "fieldname": "emergency_contact_section",
-   "fieldtype": "Section Break",
-   "label": "Emergency Contact"
-  },
-  {
-   "bold": 1,
-   "fieldname": "emergency_contact_name",
-   "fieldtype": "Data",
-   "label": "Emergency Contact Name"
-  },
-  {
-   "fieldname": "column_break_nipt",
-   "fieldtype": "Column Break"
-  },
-  {
-   "bold": 1,
-   "fieldname": "emergency_phone",
-   "fieldtype": "Data",
-   "label": "Emergency Phone"
-  },
-  {
-   "fieldname": "column_break_luzl",
-   "fieldtype": "Column Break"
-  },
-  {
-   "bold": 1,
-   "fieldname": "relation",
-   "fieldtype": "Data",
-   "label": "Relation"
-  },
-  {
-   "bold": 1,
-   "fieldname": "tab_3_tab",
-   "fieldtype": "Tab Break",
-   "label": "Bank"
-  },
-  {
-   "fieldname": "bank_name",
-   "fieldtype": "Data",
-   "label": "Bank Name"
-  },
-  {
-   "fieldname": "bank_ac_no",
-   "fieldtype": "Data",
-   "label": "Bank A/C No."
-  },
-  {
-   "fieldname": "iban",
-   "fieldtype": "Data",
-   "label": "IBAN"
-  },
-  {
-   "fieldname": "bank_details_section",
-   "fieldtype": "Section Break",
-   "label": "Bank Details "
-  },
-  {
-   "bold": 1,
-   "fieldname": "personal_tab",
-   "fieldtype": "Tab Break",
-   "label": "Personal"
-  },
-  {
-   "fieldname": "marital_status",
-   "fieldtype": "Select",
-   "label": "Marital Status",
-   "options": "\nSingle\nMarried\nDivorced\nWidowed"
-  },
-  {
-   "description": "Here you can maintain family details like name and occupation of parent, spouse and children",
-   "fieldname": "family_background",
-   "fieldtype": "Small Text",
-   "label": "Family Background"
-  },
-  {
-   "fieldname": "blood_group",
-   "fieldtype": "Select",
-   "label": "Blood Group",
-   "options": "\nA+\nA-\nB+\nB-\nAB+\nAB-\nO+\nO-"
-  },
-  {
-   "description": "Here you can maintain height, weight, allergies, medical concerns etc",
-   "fieldname": "health_details",
-   "fieldtype": "Small Text",
-   "label": "Health Details"
-  },
-  {
-   "fieldname": "column_break_rekg",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "section_break_gzng",
-   "fieldtype": "Section Break",
-   "label": "Health Insurance "
-  },
-  {
-   "fieldname": "health_insurance_provider",
-   "fieldtype": "Data",
-   "label": "Health Insurance Provider"
-  },
-  {
-   "depends_on": "eval:doc.health_insurance_provider",
-   "fieldname": "health_insurance_no",
-   "fieldtype": "Data",
-   "label": "Health Insurance Number"
-  },
-  {
-   "fieldname": "personal_identification_section",
-   "fieldtype": "Section Break",
-   "label": "Personal Identification "
-  },
-  {
-   "depends_on": "eval:doc.personal_identification_type == \"Passport\"",
-   "fieldname": "passport_number",
-   "fieldtype": "Data",
-   "label": "Passport Number",
-   "mandatory_depends_on": "eval:doc.personal_identification_type == \"Passport\""
-  },
-  {
-   "depends_on": "eval:doc.personal_identification_type",
-   "fieldname": "date_of_issue",
-   "fieldtype": "Date",
-   "label": "Date of Issue"
-  },
-  {
-   "depends_on": "eval:doc.personal_identification_type",
-   "fieldname": "valid_upto",
-   "fieldtype": "Date",
-   "label": "Valid Upto"
-  },
-  {
-   "fieldname": "column_break_iqmh",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "personal_identification_type",
-   "fieldtype": "Select",
-   "label": "Personal Identification Type",
-   "options": "\nPassport\nSSN",
-   "reqd": 1
-  },
-  {
-   "depends_on": "eval:doc.personal_identification_type == \"SSN\"",
-   "fieldname": "social_society_number",
-   "fieldtype": "Data",
-   "label": "Social Society Number (SSN)",
-   "mandatory_depends_on": "eval:doc.personal_identification_type == \"SSN\""
+   "label": "Date of Joining in University"
   },
   {
    "fieldname": "column_break_zcxq",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_wvrb",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_zsnv",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_eonb",
    "fieldtype": "Column Break"
   },
   {
@@ -393,37 +62,12 @@
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Series",
    "no_copy": 1,
    "options": "ACAD-FM-",
    "reqd": 1,
    "set_only_once": 1
-  },
-  {
-   "fieldname": "section_break_bamy",
-   "fieldtype": "Section Break"
-  },
-  {
-   "description": "System User (login) ID",
-   "fieldname": "user_id",
-   "fieldtype": "Link",
-   "ignore_user_permissions": 1,
-   "label": "User ID",
-   "options": "User"
-  },
-  {
-   "depends_on": "eval:(!doc.user_id)",
-   "fieldname": "create_user",
-   "fieldtype": "Button",
-   "label": "Create User"
-  },
-  {
-   "default": "1",
-   "depends_on": "user_id",
-   "description": "This will restrict user access to other employee records",
-   "fieldname": "create_user_permission",
-   "fieldtype": "Check",
-   "label": "Create User Permission"
   },
   {
    "fieldname": "profile_tab",
@@ -437,6 +81,7 @@
    "options": "Faculty Member Language"
   },
   {
+   "collapsible": 1,
    "fieldname": "scientific_qualification_section",
    "fieldtype": "Section Break",
    "label": "Scientific Qualification"
@@ -444,10 +89,11 @@
   {
    "fieldname": "qualification",
    "fieldtype": "Table",
-   "label": "Academic Member Qualification",
-   "options": "Scientific Qualification"
+   "label": "Faculty Member Qualification",
+   "options": "Faculty Member Scientific Qualification"
   },
   {
+   "collapsible": 1,
    "fieldname": "academic_experience_section",
    "fieldtype": "Section Break",
    "label": "Academic Experience "
@@ -455,20 +101,8 @@
   {
    "fieldname": "table_yhsf",
    "fieldtype": "Table",
-   "label": "Academic Member Experience ",
-   "options": "Academic Experience"
-  },
-  {
-   "fieldname": "employment_number",
-   "fieldtype": "Data",
-   "label": "Employment Number",
-   "reqd": 1
-  },
-  {
-   "fieldname": "place_of_birth",
-   "fieldtype": "Data",
-   "label": "Place of Birth",
-   "reqd": 1
+   "label": "Faculty Member Experience ",
+   "options": "Faculty Member Academic Experience"
   },
   {
    "fieldname": "nationality",
@@ -477,6 +111,7 @@
    "options": "Nationality"
   },
   {
+   "collapsible": 1,
    "fieldname": "professional__acativity_section",
    "fieldtype": "Section Break",
    "label": "Professional  Activity"
@@ -484,10 +119,11 @@
   {
    "fieldname": "table_bxkj",
    "fieldtype": "Table",
-   "label": "Academic Member Activity ",
-   "options": "Professional Activity"
+   "label": "Faculty Member Activity ",
+   "options": "Faculty Member Professional Activity"
   },
   {
+   "collapsible": 1,
    "fieldname": "training_course_section",
    "fieldtype": "Section Break",
    "label": "Training Course"
@@ -495,20 +131,47 @@
   {
    "fieldname": "table_zjkc",
    "fieldtype": "Table",
-   "label": "Academic Member Course",
+   "label": "Faculty Member Course",
    "options": "Faculty Member Training Course"
   },
   {
-   "depends_on": "eval:doc.personal_identification_type",
-   "fieldname": "issuing_authority",
+   "fetch_from": "employee.image",
+   "fetch_if_empty": 1,
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Image",
+   "read_only": 1,
+   "read_only_depends_on": "employee",
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "faculty_member_name",
    "fieldtype": "Data",
-   "label": "Issuing Authority"
+   "label": "Faculty Member Name (English)"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "faculty_member_name_english",
+   "fieldtype": "Data",
+   "label": "Faculty Member Name"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-24 12:26:21.178067",
+ "modified": "2024-04-17 10:54:33.567570",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",
@@ -525,6 +188,22 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Faculty Member"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR User",
    "share": 1,
    "write": 1
   }
