@@ -1,18 +1,10 @@
 // // Copyright (c) 2024, SanU and contributors
 // // For license information, please see license.txt
 
-// // frappe.ui.form.on("Topic", {
-// // 	refresh(frm) {
-
-// // 	},
-// // });  
-
-
-
 frappe.ui.form.on("Topic", {
     onload_post_render: function (frm) {
-        frm.doc.applicants.forEach(function (applicant) {
-            retrieve_applicant(frm, applicant.doctype, applicant.name, applicant);
+        frm.doc.applicants.forEach(function (applicant) {// populate applicant name  post render 
+            populate_applicant_full_name(frm, applicant.doctype, applicant.name, applicant);
         });
     },
     topic_main_category(frm) {
@@ -28,78 +20,62 @@ frappe.ui.form.on("Topic", {
 });
 
 
-
-
 frappe.ui.form.on("Topic Applicant", {
-    applicant: async function (frm, cdt, cdn) {
-        // Get the topic applicant document
+    applicant:  function (frm, cdt, cdn) {
+        // Retrieve and update form with the applicant name
         let topic_applicant = frappe.get_doc(cdt, cdn);
-        // Retrieve the applicant document from the server
-        retrieve_applicant(frm, cdt, cdn, topic_applicant);
-
-
-        //get current applicant 
-        let row = locals[cdt][cdn];
-
-        // Call the check_applicant_duplicate function to check for duplicate 
-        await check_applicant_duplicate(row);
-
-
-        /**
-         * Check for duplicate applicants in the child table
-         * @param {Object} row - The child table row to check for duplicates
-         */
-        async function check_applicant_duplicate(row) {
-            // Array to store unique applicant users
-            let unique_applicant_users = [];
-            // Check if there are existing applicants in the parent doctype
-            if (frm.doc.applicants) {
-                // Iterate through each applicant in the parent doctype
-                for (let applicant of frm.doc.applicants) {
-                    // Get the applicant user using the get_applicant_user function
-                    let applicant_user = await get_applicant_user(applicant);
-                    applicant_user = applicant_user.message;
-                    // Check for duplicates
-                    if (unique_applicant_users.includes(applicant_user)) {
-                        // Duplicate found
-                        frappe.msgprint_dialog = frappe.msgprint(__("Duplicate applicant: {0}", [applicant.applicant_name]));
-                        row.applicant = ""; // Clear the applicant field in the current row
-                        row.applicant_name = "";
-                        frm.refresh_field("applicants");
-                    } else {
-                        // Unique value pushed to the array
-                        unique_applicant_users.push(applicant_user);
-                    }
-                }
-            }
+        
+        if (topic_applicant.applicant) {  
+        // Attempt to check for duplicates after ensuring applicant list is updated
+        try {
+            check_for_duplicate_applicant(frm,cdt,cdn);
+        } catch (error) {
+            frappe.msgprint(__("Failed to verify duplicate applicants: " + error.message));
         }
-
-        /**
-            * This function fetch the user value from the user field of the applicant ,then return it 
-        * */
-        function get_applicant_user(applicant) {
-            return frappe.call({
-                method: "academia.councils.doctype.topic.topic.get_applicant_user",
-                args: {
-                    applicant_type: applicant.applicant_type,
-                    applicant: applicant.applicant
-                },
-            });
+        }
+        if (topic_applicant.applicant) {
+        populate_applicant_full_name(frm, cdt, cdn,topic_applicant);
         }
     }
-
 });
 
 /**
- * Retrieves an applicant document and sets the applicant name field on the form with the retrieved value.
+ * Checks for duplicate applicants 
+ * to ensure that there are no duplicate entries with the same applicant and applicant type.
+ * If a duplicate is found, it clears the duplicate applicant fields and displays a message.
  *
- * @param {Object} frm - The form object.
- * @param {string} cdt - The child doctype name.
- * @param {string} cdn - The child document name.
- * @param {Object} applicant - The applicant object containing the applicant type and ID.
- * @returns {void}
+ * @param {object} frm - The current form object.
+ * @param {string} cdt - The child doctype (child table name).
+ * @param {string} cdn - The name of the child doctype record (unique identifier for the row).
  */
-function retrieve_applicant(frm, cdt, cdn, applicant) {
+function check_for_duplicate_applicant(frm, cdt, cdn) {
+    var row = locals[cdt][cdn]; // Access the specific row in the child table using the locals object.
+    // Filter the child table rows to find any other rows with the same applicant and applicant type.
+    var duplicates = frm.doc.applicants.filter(function(d) {
+        return d.applicant === row.applicant && d.applicant_type === row.applicant_type && d.name !== row.name;
+      });
+          // If duplicates are found, display a message and clear the fields to correct the entry.
+    if (duplicates.length > 0) {
+      frappe.msgprint(__('Duplicate entry for Applicant: {0} of Type: {1}', [row.applicant, row.applicant_type]));
+      frappe.model.set_value(cdt, cdn, 'applicant_name', ''); // Additionally, clear the duplicate applicant name field.
+      frappe.model.set_value(cdt, cdn, 'applicant', ''); // Clear the duplicate applicant ID field.
+    }
+}
+  
+  
+
+
+/**
+ * Fetches details for a specified applicant based on their type and ID, then updates a field in a child document with the applicant's full name.
+ * 
+ * This function asynchronously calls the backend to retrieve an applicant's document from the database. Upon successfully fetching the document, it extracts the applicant's full name and updates the 'applicant_name' field in the specified child document of the form. If the document cannot be found, it logs a message indicating the document was not found.
+ * @param {Object} frm - The current form object, providing context for where the update needs to occur.
+ * @param {string} cdt - The name of the child doctype, indicating where within the form the update should be made.
+ * @param {string} cdn - The name of the child document, specifying the exact document to be updated.
+ * @param {Object} applicant - An object containing details about the applicant, specifically their type and unique ID, used to retrieve the correct document.
+ * @returns {void} - This function does not return a value.
+ */
+function populate_applicant_full_name(frm, cdt, cdn, applicant) {
     // Retrieve the document using frappe.call
     frappe.call({
         method: "frappe.client.get",
@@ -110,13 +86,16 @@ function retrieve_applicant(frm, cdt, cdn, applicant) {
         callback: function (response) {
             let applicant_document = response.message; // Extract the applicant document from the response
             if (applicant_document) {
-                let applicant_full_name = applicant_document.full_name;
+                let applicant_full_name = applicant_document.first_name+" "+ applicant_document.last_name;
                 // Set the value of the 'applicant_name' field
                 frappe.model.set_value(cdt, cdn, 'applicant_name', applicant_full_name);
-                frm.refresh_field('applicant_name'); // Refresh the field on the form
+               
             } else {
                 console.log("Document not found");
             }
         }
     });
 }
+
+
+
