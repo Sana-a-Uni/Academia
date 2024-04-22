@@ -11,25 +11,32 @@
   "details_tab",
   "naming_series",
   "employee",
-  "faculty_member_name_english",
   "faculty_member_name",
-  "title",
-  "column_break_zcxq",
+  "faculty_member_name_english",
   "company",
   "date_of_joining_in_service",
   "date_of_joining_in_university",
+  "column_break_zcxq",
+  "title",
   "nationality",
   "languages",
+  "courses",
   "image",
   "profile_tab",
   "scientific_qualification_section",
   "qualification",
-  "professional__acativity_section",
-  "table_bxkj",
   "academic_experience_section",
   "table_yhsf",
   "training_course_section",
-  "table_zjkc"
+  "table_zjkc",
+  "conferences_and_workshops_section",
+  "faculty_member_conference_and_workshop",
+  "university_and_community_services_section",
+  "university_and_community_services",
+  "activities_section",
+  "faculty_member_activity",
+  "awards_and_appreciations_certificates_section",
+  "faculty_member_award_and_appreciation_certificate"
  ],
  "fields": [
   {
@@ -84,7 +91,7 @@
    "collapsible": 1,
    "fieldname": "scientific_qualification_section",
    "fieldtype": "Section Break",
-   "label": "Scientific Qualification"
+   "label": "Scientific Qualifications"
   },
   {
    "fieldname": "qualification",
@@ -96,7 +103,7 @@
    "collapsible": 1,
    "fieldname": "academic_experience_section",
    "fieldtype": "Section Break",
-   "label": "Academic Experience "
+   "label": "Academic Experiences"
   },
   {
    "fieldname": "table_yhsf",
@@ -112,21 +119,9 @@
   },
   {
    "collapsible": 1,
-   "fieldname": "professional__acativity_section",
-   "fieldtype": "Section Break",
-   "label": "Professional  Activity"
-  },
-  {
-   "fieldname": "table_bxkj",
-   "fieldtype": "Table",
-   "label": "Faculty Member Activity ",
-   "options": "Faculty Member Professional Activity"
-  },
-  {
-   "collapsible": 1,
    "fieldname": "training_course_section",
    "fieldtype": "Section Break",
-   "label": "Training Course"
+   "label": "Training Courses"
   },
   {
    "fieldname": "table_zjkc",
@@ -141,19 +136,25 @@
    "fieldtype": "Attach Image",
    "hidden": 1,
    "label": "Image",
-   "no_copy": 1,
-   "read_only": 1
+   "read_only": 1,
+   "read_only_depends_on": "employee",
+   "set_only_once": 1
   },
   {
    "fieldname": "employee",
    "fieldtype": "Link",
-   "label": "Employee",
-   "options": "Employee"
+   "label": "Employee ",
+   "options": "Employee",
+   "reqd": 1,
+   "unique": 1
   },
   {
+   "fetch_from": "employee.employee_name",
    "fieldname": "faculty_member_name",
    "fieldtype": "Data",
-   "label": "Faculty Member Name (English)"
+   "label": "Faculty Member Name",
+   "read_only": 1,
+   "reqd": 1
   },
   {
    "fieldname": "company",
@@ -164,13 +165,67 @@
   {
    "fieldname": "faculty_member_name_english",
    "fieldtype": "Data",
-   "label": "Faculty Member Name"
+   "label": "Faculty Member Name  (English)"
+  },
+  {
+   "fieldname": "courses",
+   "fieldtype": "Table MultiSelect",
+   "label": "Courses",
+   "options": "Faculty Member Course"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "awards_and_appreciations_certificates_section",
+   "fieldtype": "Section Break",
+   "label": "Awards and Appreciation Certificates"
+  },
+  {
+   "fieldname": "faculty_member_award_and_appreciation_certificate",
+   "fieldtype": "Table",
+   "label": "Faculty Member Award and Appreciation Certificate",
+   "options": "Faculty Member Award and Appreciation Certificate"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "conferences_and_workshops_section",
+   "fieldtype": "Section Break",
+   "label": "Conferences and Workshops"
+  },
+  {
+   "fieldname": "faculty_member_conference_and_workshop",
+   "fieldtype": "Table",
+   "label": "Faculty Member Conference and Workshop",
+   "options": "Faculty Member Conference and Workshop"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "activities_section",
+   "fieldtype": "Section Break",
+   "label": "Activities"
+  },
+  {
+   "fieldname": "faculty_member_activity",
+   "fieldtype": "Table",
+   "label": "Faculty Member Activity",
+   "options": "Faculty Member Activity"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "university_and_community_services_section",
+   "fieldtype": "Section Break",
+   "label": "University and Community Services"
+  },
+  {
+   "fieldname": "university_and_community_services",
+   "fieldtype": "Table",
+   "label": "University and Community Services",
+   "options": "Faculty Member University and Community Service"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-20 11:38:42.669115",
+ "modified": "2024-04-22 22:05:33.867381",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",
@@ -207,7 +262,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "faculty_member_name"
 }

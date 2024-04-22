@@ -1,36 +1,25 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:scientific_degree_name",
- "creation": "2024-01-23 21:26:59.460518",
+ "creation": "2024-02-13 03:35:23.155431",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "scientific_degree_name",
-  "description"
+  "newspaper_name"
  ],
  "fields": [
   {
-   "fieldname": "scientific_degree_name",
+   "fieldname": "newspaper_name",
    "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Scientific Degree Name",
-   "reqd": 1,
-   "unique": 1
-  },
-  {
-   "fieldname": "description",
-   "fieldtype": "Text",
-   "label": "Description"
+   "label": "Newspaper Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-22 17:48:24.138304",
+ "modified": "2024-02-13 03:35:54.602419",
  "modified_by": "Administrator",
  "module": "Academia",
- "name": "Scientific Degree",
- "naming_rule": "By fieldname",
+ "name": "Newspaper",
  "owner": "Administrator",
  "permissions": [
   {

@@ -1,30 +1,30 @@
 {
  "actions": [],
  "autoname": "autoincrement",
- "creation": "2024-01-24 11:59:02.108325",
+ "creation": "2024-04-22 14:05:46.270588",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "language"
+  "course"
  ],
  "fields": [
   {
-   "fieldname": "language",
+   "fieldname": "course",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Language",
-   "options": "Language",
+   "label": "Course",
+   "options": "Course",
    "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-04-22 15:17:36.484258",
+ "modified": "2024-04-22 14:23:13.850834",
  "modified_by": "Administrator",
  "module": "Academia",
- "name": "Faculty Member Language",
+ "name": "Faculty Member Course",
  "naming_rule": "Autoincrement",
  "owner": "Administrator",
  "permissions": [],
