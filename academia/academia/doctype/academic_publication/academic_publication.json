@@ -1,0 +1,107 @@
+{
+ "actions": [],
+ "autoname": "field:title",
+ "creation": "2024-02-01 13:58:26.934772",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_jvda",
+  "title",
+  "apa_citation",
+  "published_in",
+  "column_break_cxum",
+  "type",
+  "date_of_publish",
+  "publication_link",
+  "publication_file",
+  "section_break_noga",
+  "academic_publications_authors"
+ ],
+ "fields": [
+  {
+   "fieldname": "date_of_publish",
+   "fieldtype": "Date",
+   "label": "Date of Publish"
+  },
+  {
+   "fieldname": "section_break_jvda",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_cxum",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "apa_citation",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "APA Citation ",
+   "reqd": 1
+  },
+  {
+   "fieldname": "published_in",
+   "fieldtype": "Link",
+   "label": "Published In",
+   "options": "Journal"
+  },
+  {
+   "fieldname": "publication_file",
+   "fieldtype": "Attach",
+   "label": "Publication File"
+  },
+  {
+   "fieldname": "publication_link",
+   "fieldtype": "Data",
+   "label": "Publication Link"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_noga",
+   "fieldtype": "Section Break",
+   "label": "Publication Author"
+  },
+  {
+   "fieldname": "academic_publications_authors",
+   "fieldtype": "Table",
+   "label": "Academic Publication Author",
+   "options": "Academic Publication Author"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "unique": 1
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Link",
+   "label": "Type",
+   "options": "Academic Publication Type"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-04-20 10:58:37.912127",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Academic Publication",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

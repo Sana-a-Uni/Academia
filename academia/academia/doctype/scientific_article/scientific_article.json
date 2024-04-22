@@ -14,9 +14,7 @@
   "publisher_name",
   "title",
   "date_of_publish",
-  "newspaper",
   "column_break_onxn",
-  "university",
   "type_of_research",
   "level_of_discussion",
   "date_of_discussion"
@@ -67,23 +65,10 @@
    "unique": 1
   },
   {
-   "fieldname": "newspaper",
-   "fieldtype": "Link",
-   "label": "Newspaper ",
-   "options": "Newspaper"
-  },
-  {
    "depends_on": "eval:doc.supervisor || doc.publisher",
    "fieldname": "date_of_publish",
    "fieldtype": "Date",
    "label": "Date of Publish"
-  },
-  {
-   "depends_on": "eval:doc.supervisor || doc.publisher",
-   "fieldname": "university",
-   "fieldtype": "Link",
-   "label": "University",
-   "options": "University"
   },
   {
    "depends_on": "eval:doc.supervisor || doc.publisher",
@@ -110,7 +95,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-02-13 03:37:13.096004",
+ "modified": "2024-04-21 21:08:51.781316",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Scientific Article",

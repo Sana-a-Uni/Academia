@@ -1,0 +1,42 @@
+{
+ "actions": [],
+ "autoname": "field:author_name",
+ "creation": "2024-04-19 14:53:16.222369",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "author_name",
+  "research_order"
+ ],
+ "fields": [
+  {
+   "fieldname": "author_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Author Name",
+   "options": "Faculty Member",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "research_order",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Research Order"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-04-20 10:45:06.597268",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Academic Publication Author",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

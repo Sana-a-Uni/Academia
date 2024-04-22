@@ -141,9 +141,8 @@
    "fieldtype": "Attach Image",
    "hidden": 1,
    "label": "Image",
-   "read_only": 1,
-   "read_only_depends_on": "employee",
-   "set_only_once": 1
+   "no_copy": 1,
+   "read_only": 1
   },
   {
    "fieldname": "employee",
@@ -171,7 +170,7 @@
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-17 10:54:33.567570",
+ "modified": "2024-04-20 11:38:42.669115",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",
