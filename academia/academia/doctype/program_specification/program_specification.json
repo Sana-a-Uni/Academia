@@ -12,16 +12,21 @@
   "column_break_xbfe",
   "program_abbreviation",
   "program_degree",
+  "starrting_year_of_the_program",
   "section_break_koic",
   "total_hours_required_to_award_degree",
   "study_language",
   "column_break_zw7h",
-  "starrting_year_of_the_program",
   "delivery_mode",
-  "section_break_46rv",
   "study_methods",
+  "section_break_46rv",
+  "effective_year",
   "column_break_sksq",
-  "date_of_programe_development"
+  "date_of_programe_development",
+  "section_break_mzlt",
+  "approval_date",
+  "column_break_kpxz",
+  "file"
  ],
  "fields": [
   {
@@ -30,26 +35,35 @@
   },
   {
    "fieldname": "program_name",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Program Name",
+   "options": "Academic Program",
    "reqd": 1
   },
   {
+   "fetch_from": "program_name.faculty_department",
    "fieldname": "faculty_department",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Faculty Department",
-   "options": "Faculty Department"
+   "options": "Faculty Department",
+   "read_only": 1,
+   "reqd": 1
   },
   {
    "fieldname": "column_break_xbfe",
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "program_name.program_degree",
    "fieldname": "program_degree",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Program Degree",
-   "options": "Program Degree"
+   "options": "Program Degree",
+   "read_only": 1,
+   "reqd": 1
   },
   {
    "fieldname": "section_break_koic",
@@ -71,9 +85,11 @@
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "program_name.starrting_year_of_program",
    "fieldname": "starrting_year_of_the_program",
    "fieldtype": "Date",
-   "label": "Starrting Year of the Program"
+   "label": "Starrting Year of the Program",
+   "read_only": 1
   },
   {
    "fieldname": "delivery_mode",
@@ -101,20 +117,51 @@
    "label": "Date of Programe Development"
   },
   {
+   "fetch_from": "program_name.faculty",
    "fieldname": "faculty",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Faculty",
-   "options": "Faculty"
+   "options": "Faculty",
+   "read_only": 1,
+   "reqd": 1
   },
   {
+   "fetch_from": "program_name.program_abbreviation",
    "fieldname": "program_abbreviation",
    "fieldtype": "Data",
-   "label": "Program Abbreviation"
+   "label": "Program Abbreviation",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "effective_year",
+   "fieldtype": "Link",
+   "label": "Effective Year",
+   "options": "Academic Year"
+  },
+  {
+   "fieldname": "section_break_mzlt",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "approval_date",
+   "fieldtype": "Date",
+   "label": "Approval Date"
+  },
+  {
+   "fieldname": "column_break_kpxz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "file",
+   "fieldtype": "Attach",
+   "label": "File"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-28 23:36:52.811416",
+ "modified": "2024-04-23 21:28:32.779559",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Specification",
