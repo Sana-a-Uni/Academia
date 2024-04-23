@@ -5,17 +5,35 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_zhlx"
+  "lab_name",
+  "faculty",
+  "description"
  ],
  "fields": [
   {
-   "fieldname": "section_break_zhlx",
-   "fieldtype": "Section Break"
+   "fieldname": "lab_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Lab Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "faculty",
+   "options": "Faculty",
+   "reqd": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 21:47:11.373240",
+ "modified": "2024-04-23 21:50:28.237142",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "lab",
