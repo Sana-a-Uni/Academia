@@ -16,7 +16,8 @@
   "course_image",
   "column_break_uvaw",
   "description",
-  "course_details_tab"
+  "course_details_tab",
+  "table_rgxb"
  ],
  "fields": [
   {
@@ -71,12 +72,17 @@
    "fieldname": "course_details_tab",
    "fieldtype": "Tab Break",
    "label": "Course Details"
+  },
+  {
+   "fieldname": "table_rgxb",
+   "fieldtype": "Table",
+   "options": "Course Hours"
   }
  ],
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 21:42:36.021416",
+ "modified": "2024-04-23 21:59:11.579385",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",
