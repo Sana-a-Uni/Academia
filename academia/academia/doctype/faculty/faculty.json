@@ -186,7 +186,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Current Academic Term",
-   "options": "Academic Year"
+   "options": "Academic Term"
   },
   {
    "fieldname": "dashboard_tab",
@@ -203,11 +203,11 @@
    "link_fieldname": "faculty"
   },
   {
-   "link_doctype": "Academic Program",
+   "link_doctype": "Program Specification",
    "link_fieldname": "faculty"
   }
  ],
- "modified": "2024-02-02 01:19:17.053723",
+ "modified": "2024-04-23 22:37:43.120115",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty",
