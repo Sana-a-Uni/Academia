@@ -98,7 +98,7 @@
    "fieldname": "delivery_mode",
    "fieldtype": "Select",
    "label": "Delivery Mode",
-   "options": "\nOnline\nOffline"
+   "options": "\nOn Campus\nOnline"
   },
   {
    "fieldname": "section_break_46rv",
@@ -140,7 +140,7 @@
   {
    "fieldname": "effective_year",
    "fieldtype": "Link",
-   "label": "Effective Year",
+   "label": "Effective Academic Year",
    "options": "Academic Year"
   },
   {
@@ -174,7 +174,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 22:06:33.897860",
+ "modified": "2024-04-23 22:59:40.155060",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Specification",
