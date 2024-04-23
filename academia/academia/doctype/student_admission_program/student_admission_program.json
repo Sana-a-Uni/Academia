@@ -20,14 +20,14 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Academic Program",
-   "options": "Academic Program",
+   "options": "Program Specification",
    "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-01-28 23:07:21.965192",
+ "modified": "2024-04-23 20:27:57.968398",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Admission Program",

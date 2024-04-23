@@ -90,7 +90,7 @@
    "fieldname": "academic_program",
    "fieldtype": "Link",
    "label": "Academic Program",
-   "options": "Academic Program",
+   "options": "Program Specification",
    "reqd": 1
   },
   {
@@ -225,7 +225,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-28 23:43:08.306760",
+ "modified": "2024-04-23 20:27:59.251224",
  "modified_by": "Administrator",
  "module": "Admission",
  "name": "Student Applicant",

@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "course",
+  "course_name",
   "course_type",
   "study_level",
   "semester",
@@ -24,18 +25,21 @@
   {
    "fieldname": "course_type",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Course Type",
    "options": "\nUniversity Requirement\nFaculty Requirement\nProgram Requirement"
   },
   {
    "fieldname": "study_level",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Study Level",
    "options": "Level"
   },
   {
    "fieldname": "semester",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Semester",
    "options": "Semester"
   },
@@ -43,13 +47,20 @@
    "default": "0",
    "fieldname": "mandatory",
    "fieldtype": "Check",
+   "in_list_view": 1,
    "label": "Mandatory"
+  },
+  {
+   "fieldname": "course_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Course Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-01-23 00:43:18.147528",
+ "modified": "2024-04-23 21:41:53.109557",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Study Plan Course",

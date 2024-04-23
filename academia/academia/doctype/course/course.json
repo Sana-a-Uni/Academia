@@ -15,15 +15,17 @@
   "co_requisites",
   "course_image",
   "column_break_uvaw",
-  "description"
+  "description",
+  "course_details_tab",
+  "table_rgxb"
  ],
  "fields": [
   {
-   "fieldname":"course_name",
+   "fieldname": "course_name",
    "fieldtype": "Data",
+   "label": "Course Name",
    "reqd": 1,
-   "unique": 1,
-   "label": "Course Name"
+   "unique": 1
   },
   {
    "fieldname": "course_code",
@@ -65,12 +67,22 @@
    "fieldtype": "Table MultiSelect",
    "label": "Co Requisites",
    "options": "Co Requisites"
+  },
+  {
+   "fieldname": "course_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Course Details"
+  },
+  {
+   "fieldname": "table_rgxb",
+   "fieldtype": "Table",
+   "options": "Course Hours"
   }
  ],
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-23 00:33:52.592851",
+ "modified": "2024-04-23 21:59:11.579385",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",
