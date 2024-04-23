@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:program_name",
  "creation": "2024-04-23 20:31:36.544621",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -97,10 +98,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 21:05:41.264897",
+ "modified": "2024-04-23 22:03:51.061637",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Program",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {

@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:term_name",
  "creation": "2024-04-23 21:32:12.966215",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -17,7 +18,8 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Term Name",
-   "reqd": 1
+   "reqd": 1,
+   "unique": 1
   },
   {
    "fieldname": "faculty",
@@ -49,10 +51,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 21:35:30.008828",
+ "modified": "2024-04-23 22:07:08.260080",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Term",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {

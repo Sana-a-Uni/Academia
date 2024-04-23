@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:program_abbreviation-date_of_programe_development",
  "creation": "2024-01-22 20:49:49.880733",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -173,10 +174,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 21:38:29.192579",
+ "modified": "2024-04-23 22:06:33.897860",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Specification",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
