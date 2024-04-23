@@ -43,7 +43,7 @@
    "fieldname": "academic_program",
    "fieldtype": "Link",
    "label": "Academic Program",
-   "options": "Academic Specification"
+   "options": "Program Specification"
   },
   {
    "fieldname": "enrollment_date",
@@ -103,7 +103,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 20:23:54.308635",
+ "modified": "2024-04-23 20:28:00.121451",
  "modified_by": "Administrator",
  "module": "Student Enrollment",
  "name": "Level And Semester Enrollment",

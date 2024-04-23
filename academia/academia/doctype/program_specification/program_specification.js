@@ -1,7 +1,7 @@
 // Copyright (c) 2024, SanU and contributors
 // For license information, please see license.txt
 
-// frappe.ui.form.on("Academic Specification", {
+// frappe.ui.form.on("Program Specification", {
 // 	refresh(frm) {
 
 // 	},

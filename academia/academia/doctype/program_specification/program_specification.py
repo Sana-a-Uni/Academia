@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class AcademicSpecification(Document):
+class ProgramSpecification(Document):
 	pass

@@ -44,9 +44,9 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Academic Program",
+   "label": "Program Specification",
    "link_count": 0,
-   "link_to": "Academic Program",
+   "link_to": "Academic Specification",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -350,7 +350,7 @@
    "type": "Link"
   }
  ],
- "modified": "2024-01-31 02:21:25.848543",
+ "modified": "2024-04-23 20:27:24.607564",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academia",
