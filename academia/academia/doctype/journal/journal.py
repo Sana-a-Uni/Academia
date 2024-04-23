@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class FacultyMemberActivitys(Document):
+class Journal(Document):
 	pass

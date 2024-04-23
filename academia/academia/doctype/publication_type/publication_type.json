@@ -1,25 +1,35 @@
 {
  "actions": [],
- "allow_rename": 1,
- "creation": "2024-02-13 03:35:23.155431",
+ "autoname": "field:publication_type",
+ "creation": "2024-04-23 00:56:47.562591",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "newspaper_name"
+  "publication_type",
+  "description"
  ],
  "fields": [
   {
-   "fieldname": "newspaper_name",
+   "fieldname": "publication_type",
    "fieldtype": "Data",
-   "label": "Newspaper Name"
+   "in_list_view": 1,
+   "label": "Publication Type",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "label": "Description "
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-02-13 03:35:54.602419",
+ "modified": "2024-04-23 10:04:29.893584",
  "modified_by": "Administrator",
  "module": "Academia",
- "name": "Newspaper",
+ "name": "Publication Type",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
