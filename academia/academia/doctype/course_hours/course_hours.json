@@ -26,14 +26,15 @@
   },
   {
    "fieldname": "lab_type",
-   "fieldtype": "Data",
-   "label": "Lab Type"
+   "fieldtype": "Link",
+   "label": "Lab Type",
+   "options": "lab"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-04-23 21:45:29.525507",
+ "modified": "2024-04-23 21:52:21.900281",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Hours",
