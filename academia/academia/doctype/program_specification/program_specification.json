@@ -26,7 +26,9 @@
   "section_break_mzlt",
   "approval_date",
   "column_break_kpxz",
-  "file"
+  "file",
+  "study_plan_details_tab",
+  "table_ytno"
  ],
  "fields": [
   {
@@ -157,11 +159,21 @@
    "fieldname": "file",
    "fieldtype": "Attach",
    "label": "File"
+  },
+  {
+   "fieldname": "study_plan_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Study Plan Details"
+  },
+  {
+   "fieldname": "table_ytno",
+   "fieldtype": "Table",
+   "options": "Study Plan Course"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 21:28:32.779559",
+ "modified": "2024-04-23 21:38:29.192579",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Specification",
