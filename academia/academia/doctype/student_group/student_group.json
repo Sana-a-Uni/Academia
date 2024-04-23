@@ -154,7 +154,7 @@
    "fieldname": "academic_program",
    "fieldtype": "Link",
    "label": "Academic Program",
-   "options": "Academic Program"
+   "options": "Academic Specification"
   },
   {
    "fieldname": "faculty_department",
@@ -165,7 +165,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-02-02 01:23:28.012008",
+ "modified": "2024-04-23 20:23:49.627902",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group",
