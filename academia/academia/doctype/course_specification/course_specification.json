@@ -1,0 +1,128 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-04-24 18:45:22.123570",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "course_code",
+  "course_name",
+  "course_type",
+  "faculty",
+  "course_image",
+  "column_break_iypx",
+  "languages",
+  "pre_requisites",
+  "co_requisites",
+  "section_break_sjbv",
+  "description",
+  "course_details_tab",
+  "course_hours"
+ ],
+ "fields": [
+  {
+   "fieldname": "course_code",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Course Code",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "course_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Course Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "course_type",
+   "fieldtype": "Select",
+   "label": "Course Type",
+   "options": "\nUniversity Requirement\nFaculty Requirement\nProgram Requirement",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "faculty",
+   "mandatory_depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "course_image",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Course Image"
+  },
+  {
+   "fieldname": "languages",
+   "fieldtype": "Table MultiSelect",
+   "label": "Languages",
+   "options": "Course Language"
+  },
+  {
+   "fieldname": "column_break_iypx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pre_requisites",
+   "fieldtype": "Table MultiSelect",
+   "label": "Pre Requisites",
+   "options": "Pre Requisites"
+  },
+  {
+   "fieldname": "co_requisites",
+   "fieldtype": "Table MultiSelect",
+   "label": "Co Requisites",
+   "options": "Co Requisites"
+  },
+  {
+   "fieldname": "section_break_sjbv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  },
+  {
+   "fieldname": "course_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Course Details"
+  },
+  {
+   "fieldname": "course_hours",
+   "fieldtype": "Table",
+   "label": "Course Hours",
+   "options": "Course Hours"
+  }
+ ],
+ "image_field": "course_image",
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-04-24 19:00:28.712426",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Course Specification",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

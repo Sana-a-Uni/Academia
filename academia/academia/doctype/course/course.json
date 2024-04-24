@@ -10,14 +10,8 @@
  "field_order": [
   "course_code",
   "course_name",
-  "course_type",
-  "faculty",
   "course_image",
-  "column_break_uvaw",
-  "languages",
-  "pre_requisites",
-  "co_requisites",
-  "section_break_nxbw",
+  "column_break_fqwr",
   "description",
   "course_details_tab",
   "table_rgxb"
@@ -39,37 +33,15 @@
    "unique": 1
   },
   {
-   "fieldname": "languages",
-   "fieldtype": "Table MultiSelect",
-   "label": "Languages",
-   "options": "Course Language"
-  },
-  {
    "fieldname": "course_image",
    "fieldtype": "Attach Image",
    "hidden": 1,
    "label": "Course Image"
   },
   {
-   "fieldname": "column_break_uvaw",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "description",
    "fieldtype": "Text Editor",
    "label": "Description"
-  },
-  {
-   "fieldname": "pre_requisites",
-   "fieldtype": "Table MultiSelect",
-   "label": "Pre Requisites",
-   "options": "Pre Requisites"
-  },
-  {
-   "fieldname": "co_requisites",
-   "fieldtype": "Table MultiSelect",
-   "label": "Co Requisites",
-   "options": "Co Requisites"
   },
   {
    "fieldname": "course_details_tab",
@@ -82,29 +54,14 @@
    "options": "Course Hours"
   },
   {
-   "fieldname": "course_type",
-   "fieldtype": "Select",
-   "label": "Course Type",
-   "options": "\nUniversity Requirement\nFaculty Requirement\nProgram Requirement",
-   "reqd": 1
-  },
-  {
-   "fieldname": "section_break_nxbw",
-   "fieldtype": "Section Break"
-  },
-  {
-   "depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
-   "fieldname": "faculty",
-   "fieldtype": "Link",
-   "label": "Faculty",
-   "mandatory_depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
-   "options": "Faculty"
+   "fieldname": "column_break_fqwr",
+   "fieldtype": "Column Break"
   }
  ],
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 23:18:52.011457",
+ "modified": "2024-04-24 19:01:41.211850",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",
