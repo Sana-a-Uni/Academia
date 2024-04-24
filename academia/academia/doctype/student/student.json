@@ -262,8 +262,9 @@
   },
   {
    "fieldname": "place_of_birth",
-   "fieldtype": "Data",
-   "label": "Place of Birth"
+   "fieldtype": "Table",
+   "label": "Place of Birth",
+   "options": "Place of Birth"
   },
   {
    "fieldname": "identification_number",
@@ -282,8 +283,9 @@
   },
   {
    "fieldname": "state",
-   "fieldtype": "Data",
-   "label": "State"
+   "fieldtype": "Link",
+   "label": "State",
+   "options": "Student State"
   },
   {
    "fieldname": "personal_email",
@@ -348,7 +350,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-24 14:15:51.277803",
+ "modified": "2024-04-24 14:25:16.629797",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student",
