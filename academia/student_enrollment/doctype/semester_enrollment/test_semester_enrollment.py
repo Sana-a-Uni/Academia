@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestLevelAndSemesterEnrollment(FrappeTestCase):
+class TestSemesterEnrollment(FrappeTestCase):
 	pass
