@@ -9,7 +9,10 @@
   "room_name",
   "room_number",
   "seating_capacity",
-  "acceptable_increase"
+  "acceptable_increase",
+  "column_break_bbif",
+  "faculty",
+  "building"
  ],
  "fields": [
   {
@@ -35,11 +38,27 @@
    "fieldname": "acceptable_increase",
    "fieldtype": "Data",
    "label": "Acceptable increase"
+  },
+  {
+   "fieldname": "column_break_bbif",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "building",
+   "fieldtype": "Link",
+   "label": "Building",
+   "options": "Building"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-25 17:21:49.270756",
+ "modified": "2024-04-25 18:04:22.861898",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Room",
