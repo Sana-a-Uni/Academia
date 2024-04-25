@@ -13,10 +13,10 @@
   "enrollment_date",
   "column_break_nlbw",
   "faculty",
-  "faculty_department",
   "academic_year",
   "level",
   "semester",
+  "batch",
   "level_courses_section",
   "level_courses"
  ],
@@ -63,13 +63,6 @@
    "options": "Faculty"
   },
   {
-   "fieldname": "faculty_department",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Faculty Department",
-   "options": "Faculty Department"
-  },
-  {
    "fieldname": "academic_year",
    "fieldtype": "Link",
    "label": "Academic Year",
@@ -99,14 +92,20 @@
    "fieldtype": "Table",
    "label": "Level Courses",
    "options": "Level and Semester Course"
+  },
+  {
+   "fieldname": "batch",
+   "fieldtype": "Link",
+   "label": "Batch",
+   "options": "Student Batch"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 20:28:00.121451",
+ "modified": "2024-04-24 17:11:04.809444",
  "modified_by": "Administrator",
  "module": "Student Enrollment",
- "name": "Level And Semester Enrollment",
+ "name": "Semester Enrollment",
  "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [

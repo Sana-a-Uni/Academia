@@ -14,31 +14,46 @@
   "middle_name",
   "last_name",
   "column_break_ghlu",
+  "first_name_en",
+  "middle_name_en",
+  "last_name_en",
+  "section_break_yukf",
   "naming_series",
   "joining_date",
   "user_id",
+  "column_break_iipt",
   "student_applicant",
   "image",
+  "academic_status",
+  "academic_level",
+  "educational_system",
   "personal_details_section",
-  "student_email_address",
   "date_of_birth",
   "blood_group",
+  "place_of_birth",
   "column_break_twpm",
   "student_mobile_number",
   "gender",
   "nationality",
+  "identification_number",
   "address_tab",
   "address_and_contact_section",
-  "address_html",
+  "city",
+  "county",
+  "state",
   "column_break_jlhp",
-  "contact_html",
-  "primary_address_and_contact_section",
-  "student_primary_address",
-  "primary_address",
-  "column_break_djiy",
-  "student_primary_contact",
-  "mobile_no",
-  "email_id",
+  "personal_email",
+  "university_email",
+  "mobile_number",
+  "secondary_data_tab",
+  "secondary_type",
+  "secondary_directorate",
+  "secondary_governorate",
+  "column_break_hrar",
+  "secondary_rate",
+  "secondary_degree",
+  "sitting_number",
+  "high_school_year",
   "relations_tab",
   "guardian_details_section",
   "guardians",
@@ -113,11 +128,6 @@
    "fieldname": "personal_details_section",
    "fieldtype": "Section Break",
    "label": "Personal Details"
-  },
-  {
-   "fieldname": "student_email_address",
-   "fieldtype": "Data",
-   "label": "Student Email Address"
   },
   {
    "fieldname": "date_of_birth",
@@ -206,69 +216,141 @@
    "label": "Address and Contact"
   },
   {
-   "depends_on": "eval: !doc.__islocal",
-   "fieldname": "address_html",
-   "fieldtype": "HTML",
-   "label": "Address HTML",
-   "read_only": 1
-  },
-  {
    "fieldname": "column_break_jlhp",
    "fieldtype": "Column Break"
   },
   {
-   "depends_on": "eval: !doc.__islocal",
-   "fieldname": "contact_html",
-   "fieldtype": "HTML",
-   "label": "Contact HTML",
-   "read_only": 1
+   "fieldname": "first_name_en",
+   "fieldtype": "Data",
+   "label": "First Name (EN)"
   },
   {
-   "description": "Select, to make the student searchable with these fields",
-   "fieldname": "primary_address_and_contact_section",
-   "fieldtype": "Section Break",
-   "label": "Primary Address and Contact"
+   "fieldname": "middle_name_en",
+   "fieldtype": "Data",
+   "label": "Middle Name (EN)"
   },
   {
-   "description": "Reselect, if the chosen address is edited after save",
-   "fieldname": "student_primary_address",
-   "fieldtype": "Link",
-   "label": "Student Primary Address",
-   "options": "Address"
+   "fieldname": "last_name_en",
+   "fieldtype": "Data",
+   "label": "Last Name (EN)"
   },
   {
-   "fieldname": "primary_address",
-   "fieldtype": "Text",
-   "label": "Primary Address",
-   "read_only": 1
+   "fieldname": "section_break_yukf",
+   "fieldtype": "Section Break"
   },
   {
-   "fieldname": "column_break_djiy",
+   "fieldname": "column_break_iipt",
    "fieldtype": "Column Break"
   },
   {
-   "description": "Reselect, if the chosen contact is edited after save",
-   "fieldname": "student_primary_contact",
+   "fieldname": "academic_status",
    "fieldtype": "Link",
-   "label": "Student Primary Contact",
-   "options": "Contact"
+   "label": "Academic Status",
+   "options": "Academic Status"
   },
   {
-   "fetch_from": "student_primary_contact.mobile_no",
-   "fieldname": "mobile_no",
-   "fieldtype": "Read Only",
-   "label": "Mobile No"
+   "fieldname": "academic_level",
+   "fieldtype": "Link",
+   "label": "Academic Level",
+   "options": "Level"
   },
   {
-   "fetch_from": "student_primary_contact.email_id",
-   "fieldname": "email_id",
-   "fieldtype": "Read Only",
-   "label": "Email Id"
+   "fieldname": "educational_system",
+   "fieldtype": "Select",
+   "label": "Educational System",
+   "options": "\n\u0627\u0644\u0646\u0638\u0627\u0645 \u0627\u0644\u0639\u0627\u0645\n\u0627\u0644\u0646\u0638\u0627\u0645 \u0627\u0644\u0645\u0648\u0627\u0632\u064a\n\u0646\u0641\u0642\u0629 \u062e\u0627\u0635\u0629"
+  },
+  {
+   "fieldname": "place_of_birth",
+   "fieldtype": "Table",
+   "label": "Place of Birth",
+   "options": "Place of Birth"
+  },
+  {
+   "fieldname": "identification_number",
+   "fieldtype": "Data",
+   "label": "Identification Number"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "fieldname": "county",
+   "fieldtype": "Data",
+   "label": "County"
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Link",
+   "label": "State",
+   "options": "Student State"
+  },
+  {
+   "fieldname": "personal_email",
+   "fieldtype": "Data",
+   "label": "Personal Email"
+  },
+  {
+   "fieldname": "university_email",
+   "fieldtype": "Data",
+   "label": "University Email"
+  },
+  {
+   "fieldname": "mobile_number",
+   "fieldtype": "Phone",
+   "label": "Mobile Number"
+  },
+  {
+   "fieldname": "secondary_data_tab",
+   "fieldtype": "Tab Break",
+   "label": "Secondary data"
+  },
+  {
+   "fieldname": "secondary_type",
+   "fieldtype": "Select",
+   "label": "Secondary type",
+   "options": "\n\u0639\u0644\u0645\u064a\n\u0627\u062f\u0628\u064a"
+  },
+  {
+   "fieldname": "secondary_directorate",
+   "fieldtype": "Data",
+   "label": "Secondary Directorate"
+  },
+  {
+   "fieldname": "secondary_governorate",
+   "fieldtype": "Data",
+   "label": "Secondary Governorate"
+  },
+  {
+   "fieldname": "column_break_hrar",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "secondary_rate",
+   "fieldtype": "Data",
+   "label": "Secondary rate"
+  },
+  {
+   "fieldname": "secondary_degree",
+   "fieldtype": "Data",
+   "label": "Secondary degree"
+  },
+  {
+   "fieldname": "sitting_number",
+   "fieldtype": "Data",
+   "label": "Sitting number"
+  },
+  {
+   "fieldname": "high_school_year",
+   "fieldtype": "Data",
+   "label": "High school year"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-27 23:20:49.968011",
+ "modified": "2024-04-24 14:25:16.629797",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student",
