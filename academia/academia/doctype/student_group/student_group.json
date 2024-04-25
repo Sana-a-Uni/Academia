@@ -74,7 +74,7 @@
    "in_standard_filter": 1,
    "label": "Level",
    "mandatory_depends_on": "eval:doc.group_based_on == \"Level & Semester\"",
-   "options": "Level And Semester Enrollment"
+   "options": "Semester Enrollment"
   },
   {
    "fieldname": "column_break_zbwu",
@@ -165,7 +165,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 20:27:55.355544",
+ "modified": "2024-04-24 17:11:22.959787",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group",

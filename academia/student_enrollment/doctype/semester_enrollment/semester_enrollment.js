@@ -1,7 +1,7 @@
 // Copyright (c) 2024, SanU and contributors
 // For license information, please see license.txt
 
-// frappe.ui.form.on("Level And Semester Enrollment", {
+// frappe.ui.form.on("Semester Enrollment", {
 // 	refresh(frm) {
 
 // 	},
