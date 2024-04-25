@@ -8,7 +8,7 @@
  "engine": "InnoDB",
  "field_order": [
   "hour_type",
-  "course_needed",
+  "suitable_env",
   "lab_type"
  ],
  "fields": [
@@ -22,13 +22,6 @@
    "unique": 1
   },
   {
-   "fieldname": "course_needed",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Course Needed",
-   "options": "\nClass\nLab"
-  },
-  {
    "depends_on": "eval:doc.course_needed == \"Lab\";",
    "fieldname": "lab_type",
    "fieldtype": "Link",
@@ -36,12 +29,20 @@
    "mandatory_depends_on": "eval:doc.course_needed == \"Lab\";",
    "options": "lab",
    "read_only_depends_on": "eval:doc.course_needed == \"Class\";"
+  },
+  {
+   "fieldname": "suitable_env",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Suitable Environment",
+   "options": "\nRoom\nLab",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-04-23 22:04:41.518934",
+ "modified": "2024-04-25 18:24:06.888527",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Hours",

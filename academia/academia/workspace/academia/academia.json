@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"GbvsKSyRQ9\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Academia</span>\",\"col\":12}},{\"id\":\"tJ4ya2R4Kd\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"wm6Tr_Anej\",\"type\":\"card\",\"data\":{\"card_name\":\"Faculty Staff\",\"col\":4}},{\"id\":\"U3iXJbZ8gM\",\"type\":\"card\",\"data\":{\"card_name\":\"Faculty Students\",\"col\":4}},{\"id\":\"4vjKsxOUy-\",\"type\":\"card\",\"data\":{\"card_name\":\"Study Planning\",\"col\":4}},{\"id\":\"rlVneFbaEm\",\"type\":\"card\",\"data\":{\"card_name\":\"Admission and Enrollment\",\"col\":4}},{\"id\":\"HBTiILhO0q\",\"type\":\"card\",\"data\":{\"card_name\":\"Councils\",\"col\":4}},{\"id\":\"aqrJWFiaNx\",\"type\":\"card\",\"data\":{\"card_name\":\"LMS\",\"col\":4}}]",
+ "content": "[{\"id\":\"GbvsKSyRQ9\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Academia</span>\",\"col\":12}},{\"id\":\"tJ4ya2R4Kd\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"U3iXJbZ8gM\",\"type\":\"card\",\"data\":{\"card_name\":\"Faculty Students\",\"col\":4}},{\"id\":\"4vjKsxOUy-\",\"type\":\"card\",\"data\":{\"card_name\":\"Study Planning\",\"col\":4}},{\"id\":\"rlVneFbaEm\",\"type\":\"card\",\"data\":{\"card_name\":\"Admission and Enrollment\",\"col\":4}},{\"id\":\"HBTiILhO0q\",\"type\":\"card\",\"data\":{\"card_name\":\"Councils\",\"col\":4}},{\"id\":\"aqrJWFiaNx\",\"type\":\"card\",\"data\":{\"card_name\":\"LMS\",\"col\":4}}]",
  "creation": "2024-01-31 01:50:55.982047",
  "custom_blocks": [],
  "docstatus": 0,
@@ -238,6 +238,16 @@
   {
    "hidden": 0,
    "is_query_report": 0,
+   "label": "Course Specification",
+   "link_count": 0,
+   "link_to": "Course Specification",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
    "label": "Course",
    "link_count": 0,
    "link_to": "Course",
@@ -272,6 +282,16 @@
    "link_count": 2,
    "onboard": 0,
    "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Course Specification",
+   "link_count": 0,
+   "link_to": "Course Specification",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   },
   {
    "hidden": 0,
@@ -352,7 +372,7 @@
    "type": "Link"
   }
  ],
- "modified": "2024-04-23 21:09:02.927434",
+ "modified": "2024-04-25 17:12:04.073024",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academia",

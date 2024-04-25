@@ -7,6 +7,7 @@
  "field_order": [
   "course_code",
   "course_name",
+  "course_name_english",
   "course_type",
   "faculty",
   "course_image",
@@ -17,22 +18,25 @@
   "section_break_sjbv",
   "description",
   "course_details_tab",
-  "course_hours"
+  "credit_hours"
  ],
  "fields": [
   {
    "fieldname": "course_code",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Course Code",
+   "options": "Course",
    "reqd": 1,
    "unique": 1
   },
   {
+   "fetch_from": "course_code.course_name",
    "fieldname": "course_name",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Course Name",
+   "read_only": 1,
    "reqd": 1,
    "unique": 1
   },
@@ -94,16 +98,24 @@
    "label": "Course Details"
   },
   {
-   "fieldname": "course_hours",
+   "fetch_from": "course_code.course_name_english",
+   "fieldname": "course_name_english",
+   "fieldtype": "Data",
+   "label": "Course Name in English ",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "credit_hours",
    "fieldtype": "Table",
-   "label": "Course Hours",
+   "label": "Credit Hours",
    "options": "Course Hours"
   }
  ],
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-24 19:00:28.712426",
+ "modified": "2024-04-25 18:26:19.900965",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Specification",
