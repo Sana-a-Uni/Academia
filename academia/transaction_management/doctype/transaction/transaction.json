@@ -1,0 +1,196 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-04-25 22:30:46.203673",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "document_details_section",
+  "document_id",
+  "column_break_veth",
+  "category",
+  "transaction_information_section",
+  "outgoing",
+  "incoming",
+  "from_party",
+  "to_party",
+  "from_department",
+  "to_department",
+  "column_break_jffj",
+  "sub_department_link",
+  "sub_department",
+  "status",
+  "prority",
+  "additional_details_section",
+  "title",
+  "description",
+  "column_break_ktxa",
+  "start_date",
+  "reference_number",
+  "receivesent_date",
+  "client",
+  "company"
+ ],
+ "fields": [
+  {
+   "fieldname": "document_details_section",
+   "fieldtype": "Section Break",
+   "label": "Document Details"
+  },
+  {
+   "fieldname": "document_id",
+   "fieldtype": "Data",
+   "label": "Document ID"
+  },
+  {
+   "fieldname": "column_break_veth",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Link",
+   "label": "Category",
+   "options": "Transaction Category"
+  },
+  {
+   "fieldname": "transaction_information_section",
+   "fieldtype": "Section Break",
+   "label": "Transaction Information"
+  },
+  {
+   "default": "0",
+   "fieldname": "outgoing",
+   "fieldtype": "Check",
+   "label": "Outgoing"
+  },
+  {
+   "default": "0",
+   "fieldname": "incoming",
+   "fieldtype": "Check",
+   "label": "Incoming"
+  },
+  {
+   "fieldname": "from_party",
+   "fieldtype": "Link",
+   "label": "Party",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "to_party",
+   "fieldtype": "Link",
+   "label": "Party",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "column_break_jffj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sub_department_link",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Sub Department Link",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "\nStatus 1\nStatus 2\nStatus 3"
+  },
+  {
+   "fieldname": "prority",
+   "fieldtype": "Select",
+   "label": "Prority",
+   "options": "\nLow\nMedium\nHigh\nUrgent"
+  },
+  {
+   "fieldname": "additional_details_section",
+   "fieldtype": "Section Break",
+   "label": "Additional Details"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  },
+  {
+   "fieldname": "column_break_ktxa",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "reference_number",
+   "fieldtype": "Data",
+   "label": "Reference Number"
+  },
+  {
+   "fieldname": "receivesent_date",
+   "fieldtype": "Date",
+   "label": "Receive/Sent date"
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "label": "Client",
+   "options": "Contact"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "from_department",
+   "fieldtype": "Dynamic Link",
+   "label": "From Department",
+   "options": "from_party"
+  },
+  {
+   "fieldname": "to_department",
+   "fieldtype": "Dynamic Link",
+   "label": "To Department",
+   "options": "to_party"
+  },
+  {
+   "fieldname": "sub_department",
+   "fieldtype": "Dynamic Link",
+   "label": "Sub Department",
+   "options": "sub_department_link"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-04-25 22:48:51.604118",
+ "modified_by": "Administrator",
+ "module": "Transaction Management",
+ "name": "Transaction",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
