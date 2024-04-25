@@ -8,7 +8,8 @@
  "field_order": [
   "room_name",
   "room_number",
-  "seating_capacity"
+  "seating_capacity",
+  "acceptable_increase"
  ],
  "fields": [
   {
@@ -28,11 +29,17 @@
    "fieldname": "seating_capacity",
    "fieldtype": "Data",
    "label": "Seating Capacity"
+  },
+  {
+   "description": "Acceptable number of seats addition to the class capacity ",
+   "fieldname": "acceptable_increase",
+   "fieldtype": "Data",
+   "label": "Acceptable increase"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-29 04:56:33.272336",
+ "modified": "2024-04-25 17:21:49.270756",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Room",
