@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:course_code-date_of_course_development",
  "creation": "2024-04-24 18:45:22.123570",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -15,6 +16,12 @@
   "languages",
   "pre_requisites",
   "co_requisites",
+  "section_break_vkwq",
+  "effective_academic_year",
+  "approval_date",
+  "column_break_xtso",
+  "date_of_course_development",
+  "file",
   "section_break_sjbv",
   "description",
   "course_details_tab",
@@ -110,15 +117,45 @@
    "fieldtype": "Table",
    "label": "Credit Hours",
    "options": "Course Hours"
+  },
+  {
+   "fieldname": "section_break_vkwq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "effective_academic_year",
+   "fieldtype": "Link",
+   "label": "Effective Academic Year",
+   "options": "Academic Year"
+  },
+  {
+   "fieldname": "approval_date",
+   "fieldtype": "Data",
+   "label": "Approval Date"
+  },
+  {
+   "fieldname": "column_break_xtso",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "date_of_course_development",
+   "fieldtype": "Data",
+   "label": "Date of Course Development"
+  },
+  {
+   "fieldname": "file",
+   "fieldtype": "Attach",
+   "label": "File"
   }
  ],
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-25 18:26:19.900965",
+ "modified": "2024-04-26 02:43:11.696282",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Specification",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
