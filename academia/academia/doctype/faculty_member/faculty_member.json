@@ -222,7 +222,11 @@
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
+<<<<<<< HEAD
  "modified": "2024-04-25 17:01:39.137554",
+=======
+ "modified": "2024-04-26 21:20:53.871454",
+>>>>>>> cd013e8 (feat: Making Changes and Validation to Some DocTypes)
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",
