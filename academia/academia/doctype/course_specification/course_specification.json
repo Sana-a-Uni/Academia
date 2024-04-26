@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:course_code-date_of_course_development",
+ "autoname": "format:{course_code}-{date_of_course_development}",
  "creation": "2024-04-24 18:45:22.123570",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -151,7 +151,7 @@
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-26 02:52:30.527896",
+ "modified": "2024-04-26 03:23:12.477352",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Specification",
