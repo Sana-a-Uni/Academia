@@ -8,8 +8,8 @@
   "title",
   "published_in",
   "date_of_publish",
-  "article_author_section",
-  "academic_article_author"
+  "article_authors_section",
+  "scientific_article_author"
  ],
  "fields": [
   {
@@ -32,20 +32,21 @@
    "label": "Date of Publish"
   },
   {
-   "fieldname": "article_author_section",
+   "fieldname": "article_authors_section",
    "fieldtype": "Section Break",
    "label": "Article Authors"
   },
   {
-   "fieldname": "academic_article_author",
+   "fieldname": "scientific_article_author",
    "fieldtype": "Table",
-   "label": "Academic Article Author",
-   "options": "Academic Publication Author"
+   "label": "Scientific Article Author",
+   "options": "Academic Publication Author",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 10:01:08.194523",
+ "modified": "2024-04-26 14:04:35.073897",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Scientific Article",
