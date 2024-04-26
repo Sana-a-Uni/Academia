@@ -14,3 +14,8 @@ class ScientificArticle(Document):
         if not re.match("^[a-zA-Z ]*$", str(self.publisher_name)):
             frappe.throw("Publisher name should only contain letters and spaces")
 
+            
+        if self.date_of_publish:
+            if self.date_of_publish > frappe.utils.today():
+                frappe.throw(_("date of publish cannot be in the future"))
+

@@ -3,7 +3,12 @@
 
 # import frappe
 from frappe.model.document import Document
-
+import frappe
+from frappe import _
 
 class FacultyMemberConferenceandWorkshop(Document):
-	pass
+    def validate(self):
+        if self.starts_on and self.ends_on:
+            if self.ends_on <= self.starts_on:
+                frappe.throw(_("Date of End must be after Date of Start"))
+
