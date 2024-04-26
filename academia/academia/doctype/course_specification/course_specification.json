@@ -130,7 +130,7 @@
   },
   {
    "fieldname": "approval_date",
-   "fieldtype": "Data",
+   "fieldtype": "Date",
    "label": "Approval Date"
   },
   {
@@ -139,7 +139,7 @@
   },
   {
    "fieldname": "date_of_course_development",
-   "fieldtype": "Data",
+   "fieldtype": "Date",
    "label": "Date of Course Development"
   },
   {
@@ -151,7 +151,7 @@
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-26 02:43:11.696282",
+ "modified": "2024-04-26 02:52:30.527896",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Specification",
