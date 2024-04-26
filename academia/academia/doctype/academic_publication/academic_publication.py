@@ -1,9 +1,6 @@
-# Copyright (c) 2024, SanU and contributors
-# For license information, please see license.txt
 
-import frappe
+
 from frappe.model.document import Document
-<<<<<<< HEAD
 import frappe
 from frappe import _
 
@@ -15,31 +12,7 @@ class AcademicPublication(Document):
 
 
 
-    # def is_valid_date(self, selected_date_str, date_of_publish):
-    #     selected_date = date.fromisoformat(selected_date_str)
-    #     today_date = date.today()
-    #     if selected_date > today_date:
-    #         return False, f"{date_of_publish} must be less than or equal to today's date"
-    #     else:
-    #         return True, None
 
-	        
-	
-	 
-			
-			
-           
-				
-                
-                
-				
-                     
-       
-          
-
-
-=======
-import re
 
 
 class AcademicPublication(Document):
@@ -88,6 +61,4 @@ class AcademicPublication(Document):
             if not url_pattern.match(self.publication_link):
                 frappe.throw("Publication Link in not valid. Please enter a valid URL starting with http, https, or ftp")
     # End of the function
-
->>>>>>> origin/refact
 

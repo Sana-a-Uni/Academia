@@ -5,7 +5,6 @@ from frappe.model.document import Document
 import frappe
 
 class ScientificArticle(Document):
-<<<<<<< HEAD
     def validate(self):
         
         if not re.match("^[a-zA-Z ]*$", str(self.supervisor_name)):
@@ -19,6 +18,3 @@ class ScientificArticle(Document):
             if self.date_of_publish > frappe.utils.today():
                 frappe.throw(_("date of publish cannot be in the future"))
 
-=======
-    pass
->>>>>>> origin/refact
