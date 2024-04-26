@@ -1,8 +1,8 @@
-# Copyright (c) 2023, SanU and contributors
-# For license information, please see license.txt
+
 from frappe.model.document import Document
 import frappe
 from frappe import _
+
 
 class FacultyMember(Document):
     def validate(self):
