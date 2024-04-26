@@ -8,12 +8,14 @@
  "field_order": [
   "title",
   "apa_citation",
-  "published_in",
-  "column_break_xfuu",
   "type",
+  "published_in",
   "date_of_publish",
+  "column_break_xfuu",
+  "from_page",
+  "to_page",
+  "page_numbers",
   "publication_link",
-  "pages",
   "publication_file",
   "publication_author_section",
   "academic_publication_author"
@@ -57,19 +59,7 @@
   {
    "fieldname": "publication_link",
    "fieldtype": "Data",
-   "label": "Publication Link",
-   "options": "URL"
-  },
-  {
-   "fieldname": "publication_file",
-   "fieldtype": "Attach",
-   "label": "Publication File"
-  },
-  {
-   "description": "First Page - Last Page",
-   "fieldname": "pages",
-   "fieldtype": "Data",
-   "label": "Pages "
+   "label": "Publication Link"
   },
   {
    "fieldname": "publication_author_section",
@@ -80,12 +70,35 @@
    "fieldname": "academic_publication_author",
    "fieldtype": "Table",
    "label": "Academic Publication Author",
-   "options": "Academic Publication Author"
+   "options": "Academic Publication Author",
+   "reqd": 1
+  },
+  {
+   "fieldname": "from_page",
+   "fieldtype": "Data",
+   "label": "From Page"
+  },
+  {
+   "fieldname": "to_page",
+   "fieldtype": "Data",
+   "label": "To Page"
+  },
+  {
+   "fetch_from": ".journal_name",
+   "fieldname": "page_numbers",
+   "fieldtype": "Data",
+   "label": "Page Numbers",
+   "read_only": 1
+  },
+  {
+   "fieldname": "publication_file",
+   "fieldtype": "Attach",
+   "label": "Publication File"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 12:00:34.123407",
+ "modified": "2024-04-25 21:08:50.412245",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Publication",

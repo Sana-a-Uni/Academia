@@ -23,19 +23,19 @@
   "courses",
   "image",
   "profile_tab",
-  "scientific_qualification_section",
-  "qualification",
-  "academic_experience_section",
-  "table_yhsf",
-  "training_course_section",
-  "table_zjkc",
+  "scientific_qualifications_section",
+  "faculty_member_scientific_qualification",
+  "academic_experiences_section",
+  "faculty_member_academic_experience",
+  "training_courses_section",
+  "faculty_member_training_course",
   "conferences_and_workshops_section",
   "faculty_member_conference_and_workshop",
   "university_and_community_services_section",
-  "university_and_community_services",
+  "faculty_member_university_and_community_service",
   "activities_section",
   "faculty_member_activity",
-  "awards_and_appreciations_certificates_section",
+  "awards_and_appreciation_certificates_section",
   "faculty_member_award_and_appreciation_certificate"
  ],
  "fields": [
@@ -88,46 +88,10 @@
    "options": "Faculty Member Language"
   },
   {
-   "collapsible": 1,
-   "fieldname": "scientific_qualification_section",
-   "fieldtype": "Section Break",
-   "label": "Scientific Qualifications"
-  },
-  {
-   "fieldname": "qualification",
-   "fieldtype": "Table",
-   "label": "Faculty Member Qualification",
-   "options": "Faculty Member Scientific Qualification"
-  },
-  {
-   "collapsible": 1,
-   "fieldname": "academic_experience_section",
-   "fieldtype": "Section Break",
-   "label": "Academic Experiences"
-  },
-  {
-   "fieldname": "table_yhsf",
-   "fieldtype": "Table",
-   "label": "Faculty Member Experience ",
-   "options": "Faculty Member Academic Experience"
-  },
-  {
    "fieldname": "nationality",
    "fieldtype": "Link",
    "label": "Nationality",
    "options": "Nationality"
-  },
-  {
-   "collapsible": 1,
-   "fieldname": "training_course_section",
-   "fieldtype": "Section Break",
-   "label": "Training Courses"
-  },
-  {
-   "fieldname": "table_zjkc",
-   "fieldtype": "Table",
-   "label": "Faculty Member Course",
-   "options": "Faculty Member Training Course"
   },
   {
    "fetch_from": "employee.image",
@@ -174,12 +138,6 @@
    "options": "Faculty Member Course"
   },
   {
-   "collapsible": 1,
-   "fieldname": "awards_and_appreciations_certificates_section",
-   "fieldtype": "Section Break",
-   "label": "Awards and Appreciation Certificates"
-  },
-  {
    "fieldname": "faculty_member_award_and_appreciation_certificate",
    "fieldtype": "Table",
    "label": "Faculty Member Award and Appreciation Certificate",
@@ -216,16 +174,55 @@
    "label": "University and Community Services"
   },
   {
-   "fieldname": "university_and_community_services",
+   "fieldname": "faculty_member_scientific_qualification",
    "fieldtype": "Table",
-   "label": "University and Community Services",
+   "label": "Faculty Member Qualification",
+   "options": "Faculty Member Scientific Qualification"
+  },
+  {
+   "fieldname": "faculty_member_academic_experience",
+   "fieldtype": "Table",
+   "label": "Faculty Member Experience ",
+   "options": "Faculty Member Academic Experience"
+  },
+  {
+   "fieldname": "faculty_member_training_course",
+   "fieldtype": "Table",
+   "label": "Faculty Member Training Course",
+   "options": "Faculty Member Training Course"
+  },
+  {
+   "fieldname": "scientific_qualifications_section",
+   "fieldtype": "Section Break",
+   "label": "Scientific Qualifications"
+  },
+  {
+   "fieldname": "academic_experiences_section",
+   "fieldtype": "Section Break",
+   "label": "Academic Experiences"
+  },
+  {
+   "fieldname": "training_courses_section",
+   "fieldtype": "Section Break",
+   "label": "Training Courses"
+  },
+  {
+   "fieldname": "faculty_member_university_and_community_service",
+   "fieldtype": "Table",
+   "label": "Faculty Member University and Community Service",
    "options": "Faculty Member University and Community Service"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "awards_and_appreciation_certificates_section",
+   "fieldtype": "Section Break",
+   "label": "Awards and Appreciation Certificates"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-22 22:05:33.867381",
+ "modified": "2024-04-25 17:01:39.137554",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",

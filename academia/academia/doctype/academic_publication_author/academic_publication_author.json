@@ -13,12 +13,11 @@
   {
    "fieldname": "author_name",
    "fieldtype": "Link",
-   "in_global_search": 1,
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Author Name",
    "options": "Faculty Member",
-   "reqd": 1,
-   "unique": 1
+   "reqd": 1
   },
   {
    "fieldname": "author_order",
@@ -31,7 +30,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-04-23 11:43:36.261073",
+ "modified": "2024-04-26 14:16:17.342083",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Publication Author",
