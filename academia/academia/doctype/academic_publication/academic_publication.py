@@ -3,16 +3,7 @@
 from frappe.model.document import Document
 import frappe
 from frappe import _
-
-class AcademicPublication(Document):
-    def validate(self):
-        if self.date_of_publish:
-            if self.date_of_publish > frappe.utils.today():
-                frappe.throw(_("Date of publish must be less than or equal to today's date"))
-
-
-
-
+import re
 
 
 class AcademicPublication(Document):
@@ -20,6 +11,7 @@ class AcademicPublication(Document):
         # Calling functions
         self.validate_page_numbers()
         self.validate_url()
+        self.validate_date()
 
 
     # FN: Verifying 'from_page', 'to_page' and 'page_numbers' fields
@@ -59,6 +51,11 @@ class AcademicPublication(Document):
         # Verifying that publication_link matches the URL pattern
         if self.publication_link:
             if not url_pattern.match(self.publication_link):
-                frappe.throw("Publication Link in not valid. Please enter a valid URL starting with http, https, or ftp")
+                frappe.throw("Publication Link is not valid. Please enter a valid URL starting with http, https, or ftp")
     # End of the function
 
+
+    def validate_date(self):
+            if self.date_of_publish:
+                if self.date_of_publish > frappe.utils.today():
+                    frappe.throw(_("Date of publish must be less than or equal to today's date"))

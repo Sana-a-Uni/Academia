@@ -14,14 +14,23 @@
   "faculty_member_name",
   "faculty_member_name_english",
   "company",
+  "contract_status",
+  "academic_rank",
+  "column_break_zcxq",
   "date_of_joining_in_service",
   "date_of_joining_in_university",
-  "column_break_zcxq",
-  "title",
   "nationality",
-  "languages",
-  "courses",
   "image",
+  "google_scholar_profile_link",
+  "personal_skills_section",
+  "languages",
+  "column_break_fxmn",
+  "courses",
+  "appointment_data_section",
+  "decision_number",
+  "date",
+  "column_break_pkgt",
+  "decision_attachment",
   "profile_tab",
   "scientific_qualifications_section",
   "faculty_member_scientific_qualification",
@@ -39,13 +48,6 @@
   "faculty_member_award_and_appreciation_certificate"
  ],
  "fields": [
-  {
-   "description": "An academic title refers to a person\u2019s position or rank within a university",
-   "fieldname": "title",
-   "fieldtype": "Link",
-   "label": "Academic Title",
-   "options": "Academic Title"
-  },
   {
    "fieldname": "date_of_joining_in_service",
    "fieldtype": "Date",
@@ -217,16 +219,63 @@
    "fieldname": "awards_and_appreciation_certificates_section",
    "fieldtype": "Section Break",
    "label": "Awards and Appreciation Certificates"
+  },
+  {
+   "fieldname": "academic_rank",
+   "fieldtype": "Link",
+   "label": "Academic Rank",
+   "options": "Academic Rank"
+  },
+  {
+   "description": "\u062d\u0627\u0644\u0629 \u0627\u0644\u062a\u0639\u0627\u0642\u062f \u060c fetch from hr later",
+   "fieldname": "contract_status",
+   "fieldtype": "Data",
+   "label": "Contract Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "google_scholar_profile_link",
+   "fieldtype": "Data",
+   "label": "Google Scholar Profile Link"
+  },
+  {
+   "fieldname": "appointment_data_section",
+   "fieldtype": "Section Break",
+   "label": "Appointment Data"
+  },
+  {
+   "fieldname": "decision_number",
+   "fieldtype": "Int",
+   "label": "Decision Number"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "decision_attachment",
+   "fieldtype": "Attach",
+   "label": "Decision Attachment"
+  },
+  {
+   "fieldname": "column_break_pkgt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "personal_skills_section",
+   "fieldtype": "Section Break",
+   "label": "Personal Skills"
+  },
+  {
+   "fieldname": "column_break_fxmn",
+   "fieldtype": "Column Break"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
-<<<<<<< HEAD
- "modified": "2024-04-25 17:01:39.137554",
-=======
- "modified": "2024-04-26 21:20:53.871454",
->>>>>>> cd013e8 (feat: Making Changes and Validation to Some DocTypes)
+ "modified": "2024-04-27 00:03:10.389582",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",

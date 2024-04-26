@@ -19,5 +19,5 @@ class Journal(Document):
         # Verifying that website_link matches the URL pattern
         if self.website_link:
             if not url_pattern.match(self.website_link):
-                frappe.throw("Website Link in not valid. Please enter a valid URL starting with http, https, or ftp")
+                frappe.throw("Website Link is not valid. Please enter a valid URL starting with http, https, or ftp")
     # End of the function

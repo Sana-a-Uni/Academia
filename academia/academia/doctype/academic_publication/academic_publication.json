@@ -70,7 +70,7 @@
    "fieldname": "academic_publication_author",
    "fieldtype": "Table",
    "label": "Academic Publication Author",
-   "options": "Academic Publication Author",
+   "options": "Academic Author",
    "reqd": 1
   },
   {
@@ -98,7 +98,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-25 21:08:50.412245",
+ "modified": "2024-04-27 00:05:05.671058",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Publication",

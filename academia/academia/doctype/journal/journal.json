@@ -33,13 +33,12 @@
   {
    "fieldname": "website_link",
    "fieldtype": "Data",
-   "label": "Website Link",
-   "options": "URL"
+   "label": "Website Link"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 09:54:04.955354",
+ "modified": "2024-04-26 23:35:57.613258",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Journal",
