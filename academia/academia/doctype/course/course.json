@@ -8,13 +8,14 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "elective_template",
+  "section_break_khvb",
   "course_code",
   "course_name",
+  "course_name_english",
   "course_image",
   "column_break_fqwr",
-  "description",
-  "course_details_tab",
-  "table_rgxb"
+  "description"
  ],
  "fields": [
   {
@@ -44,24 +45,35 @@
    "label": "Description"
   },
   {
-   "fieldname": "course_details_tab",
-   "fieldtype": "Tab Break",
-   "label": "Course Details"
-  },
-  {
-   "fieldname": "table_rgxb",
-   "fieldtype": "Table",
-   "options": "Course Hours"
-  },
-  {
    "fieldname": "column_break_fqwr",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "course_name_english",
+   "fieldtype": "Data",
+   "label": "Course Name in English",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "elective_template",
+   "fieldtype": "Check",
+   "label": "Elective Template "
+  },
+  {
+   "fieldname": "section_break_khvb",
+   "fieldtype": "Section Break"
   }
  ],
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2024-04-24 19:01:41.211850",
+ "links": [
+  {
+   "link_doctype": "Course Specification",
+   "link_fieldname": "course_code"
+  }
+ ],
+ "modified": "2024-04-25 19:28:09.952362",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",

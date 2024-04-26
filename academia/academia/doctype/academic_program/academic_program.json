@@ -38,8 +38,7 @@
    "in_list_view": 1,
    "label": "Faculty",
    "options": "Faculty",
-   "reqd": 1,
-   "unique": 1
+   "reqd": 1
   },
   {
    "fieldname": "faculty_department",
@@ -128,7 +127,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-24 19:39:10.869477",
+ "modified": "2024-04-26 03:17:50.514090",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Program",
