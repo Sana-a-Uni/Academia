@@ -17,7 +17,7 @@
   "date_of_joining_in_service",
   "date_of_joining_in_university",
   "column_break_zcxq",
-  "title",
+  "academic_rank",
   "nationality",
   "languages",
   "courses",
@@ -39,13 +39,6 @@
   "faculty_member_award_and_appreciation_certificate"
  ],
  "fields": [
-  {
-   "description": "An academic title refers to a person\u2019s position or rank within a university",
-   "fieldname": "title",
-   "fieldtype": "Link",
-   "label": "Academic Title",
-   "options": "Academic Title"
-  },
   {
    "fieldname": "date_of_joining_in_service",
    "fieldtype": "Date",
@@ -220,12 +213,19 @@
    "fieldtype": "Table",
    "label": "University and Community Services",
    "options": "Faculty Member University and Community Service"
+  },
+  {
+   "description": "An academic title refers to a person\u2019s position or rank within a university",
+   "fieldname": "academic_rank",
+   "fieldtype": "Link",
+   "label": "Academic Rank",
+   "options": "Academic Rank"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-22 22:05:33.867381",
+ "modified": "2024-04-24 15:05:00.045540",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",

@@ -5,7 +5,7 @@ import frappe
 from frappe.model.document import Document
 import re
 
-class FacultyMemberConferenceandWorkshop(Document):
+class AcademicRank(Document):
     def validate(self):
-        if not re.match("^[a-zA-Z ]*$", self.name1):
-            frappe.throw("Name should only contain letters")
+        if not re.match("^[a-zA-Z ]*$", self.academic_rank_name):
+            frappe.throw("Academic rank name should only contain letters")

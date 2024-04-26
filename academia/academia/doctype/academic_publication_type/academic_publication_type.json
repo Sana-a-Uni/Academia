@@ -1,7 +1,8 @@
 {
  "actions": [],
+ "allow_rename": 1,
  "autoname": "field:publication_type",
- "creation": "2024-04-23 00:56:47.562591",
+ "creation": "2024-04-24 15:49:41.766089",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -25,10 +26,10 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 10:04:29.893584",
+ "modified": "2024-04-24 15:50:57.602572",
  "modified_by": "Administrator",
  "module": "Academia",
- "name": "Publication Type",
+ "name": "Academic Publication Type",
  "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
@@ -45,7 +46,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "publication_type"
 }

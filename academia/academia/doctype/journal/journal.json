@@ -21,7 +21,7 @@
   },
   {
    "fieldname": "hindex",
-   "fieldtype": "Int",
+   "fieldtype": "Data",
    "label": "H-Index"
   },
   {
@@ -39,7 +39,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 09:54:04.955354",
+ "modified": "2024-04-25 21:58:24.481514",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Journal",

@@ -1,9 +1,26 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
-# import frappe
+import frappe
 from frappe.model.document import Document
-
-
+import re
+    
 class Journal(Document):
-	pass
+    def validate(self):
+        if not re.match("^[A-Za-z\s]+$", self.journal_name):
+            frappe.throw("Journal name should only contain letters")
+
+        if self.hindex and not re.match("^[0-9]+$", str(self.hindex)):
+            frappe.throw("H-Index should only contain numbers")
+
+        if self.issn:
+            issn_str = str(self.issn).strip()  # Remove leading/trailing whitespaces
+            if not issn_str or not re.match(r"^\d{4}[-\s]?\d{4}$", issn_str):
+                # Only allow digits and hyphen
+                frappe.throw("ISSN should be in the format XXXX-XXXX or XXXX XXXX, where X represents a digit")
+
+            else:
+                # Format the ISSN as XXXX-XXXX
+                formatted_issn = re.sub(r"(\d{4})(\d{4})", r"\1-\2", issn_str)
+                self.issn = formatted_issn
+
