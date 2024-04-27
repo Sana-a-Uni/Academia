@@ -8,6 +8,8 @@
   "title",
   "published_in",
   "date_of_publish",
+  "column_break_rpol",
+  "article_link",
   "article_authors_section",
   "scientific_article_author"
  ],
@@ -40,13 +42,22 @@
    "fieldname": "scientific_article_author",
    "fieldtype": "Table",
    "label": "Scientific Article Author",
-   "options": "Academic Publication Author",
+   "options": "Academic Author",
    "reqd": 1
+  },
+  {
+   "fieldname": "column_break_rpol",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "article_link",
+   "fieldtype": "Data",
+   "label": "Article Link"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-26 14:04:35.073897",
+ "modified": "2024-04-27 00:28:10.986219",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Scientific Article",

@@ -22,7 +22,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Academic Title",
-   "options": "Academic Title",
+   "options": "Academic Rank",
    "reqd": 1
   },
   {
@@ -36,7 +36,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-04-25 23:41:33.596479",
+ "modified": "2024-04-26 22:56:13.085389",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member Academic Experience",
