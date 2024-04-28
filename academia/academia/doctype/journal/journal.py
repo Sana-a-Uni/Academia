@@ -36,8 +36,4 @@ class Journal(Document):
         if self.website_link:
             if not url_pattern.match(self.website_link):
                 frappe.throw("Website Link is not valid. Please enter a valid URL starting with http, https, or ftp")
-<<<<<<< Updated upstream
     # End of the function
-=======
-    # End of the function
->>>>>>> Stashed changes
