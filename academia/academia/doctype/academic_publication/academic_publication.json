@@ -49,7 +49,7 @@
    "fieldname": "type",
    "fieldtype": "Link",
    "label": "Type",
-   "options": "Publication Type"
+   "options": "Academic Publication Type"
   },
   {
    "fieldname": "date_of_publish",
@@ -98,7 +98,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-27 00:05:05.671058",
+ "modified": "2024-04-24 19:30:31.419931",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Publication",

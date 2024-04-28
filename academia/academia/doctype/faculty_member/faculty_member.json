@@ -19,6 +19,11 @@
   "column_break_zcxq",
   "date_of_joining_in_service",
   "date_of_joining_in_university",
+<<<<<<< HEAD
+=======
+  "column_break_zcxq",
+  "academic_rank",
+>>>>>>> 0f58b64
   "nationality",
   "image",
   "google_scholar_profile_link",
@@ -215,16 +220,21 @@
    "options": "Faculty Member University and Community Service"
   },
   {
+<<<<<<< HEAD
    "collapsible": 1,
    "fieldname": "awards_and_appreciation_certificates_section",
    "fieldtype": "Section Break",
    "label": "Awards and Appreciation Certificates"
   },
   {
+=======
+   "description": "An academic title refers to a person\u2019s position or rank within a university",
+>>>>>>> 0f58b64
    "fieldname": "academic_rank",
    "fieldtype": "Link",
    "label": "Academic Rank",
    "options": "Academic Rank"
+<<<<<<< HEAD
   },
   {
    "description": "\u062d\u0627\u0644\u0629 \u0627\u0644\u062a\u0639\u0627\u0642\u062f \u060c fetch from hr later",
@@ -270,12 +280,18 @@
   {
    "fieldname": "column_break_fxmn",
    "fieldtype": "Column Break"
+=======
+>>>>>>> 0f58b64
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
+<<<<<<< HEAD
  "modified": "2024-04-27 00:03:10.389582",
+=======
+ "modified": "2024-04-24 15:05:00.045540",
+>>>>>>> 0f58b64
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",

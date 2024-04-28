@@ -4,8 +4,7 @@
 import frappe
 from frappe.model.document import Document
 import re
-
-
+ 
 class Journal(Document):
     def validate(self):
         # Calling functions
@@ -27,6 +26,7 @@ class Journal(Document):
                 # Format the ISSN as XXXX-XXXX
                 formatted_issn = re.sub(r"(\d{4})(\d{4})", r"\1-\2", issn_str)
                 self.issn = formatted_issn
+
 
     # FN: Verifying 'website_link' field
     def validate_url(self):
