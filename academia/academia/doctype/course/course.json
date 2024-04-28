@@ -73,7 +73,7 @@
    "link_fieldname": "course_code"
   }
  ],
- "modified": "2024-04-25 19:28:09.952362",
+ "modified": "2024-04-28 20:16:29.876008",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",
@@ -93,6 +93,9 @@
    "write": 1
   }
  ],
+ "search_fields": "course_code",
+ "show_name_in_global_search": 1,
+ "show_preview_popup": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

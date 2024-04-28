@@ -22,13 +22,13 @@
    "unique": 1
   },
   {
-   "depends_on": "eval:doc.course_needed == \"Lab\";",
+   "depends_on": "eval:doc.suitable_env == \"Lab\";",
    "fieldname": "lab_type",
    "fieldtype": "Link",
    "label": "Lab Type",
-   "mandatory_depends_on": "eval:doc.course_needed == \"Lab\";",
-   "options": "lab",
-   "read_only_depends_on": "eval:doc.course_needed == \"Class\";"
+   "mandatory_depends_on": "eval:doc.suitable_env == \"Lab\";",
+   "options": "Lab Type",
+   "read_only_depends_on": "eval:doc.suitable_env == \"Room\";"
   },
   {
    "fieldname": "suitable_env",
@@ -42,7 +42,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-04-25 18:24:06.888527",
+ "modified": "2024-04-28 20:12:01.714381",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Hours",
