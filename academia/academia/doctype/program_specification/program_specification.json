@@ -173,7 +173,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-26 03:21:40.406218",
+ "modified": "2024-04-29 19:13:27.008527",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Specification",
@@ -193,7 +193,10 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "program_name",
+ "translated_doctype": 1
 }

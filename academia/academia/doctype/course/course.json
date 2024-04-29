@@ -8,11 +8,15 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "section_break_hhlw",
   "elective_template",
   "section_break_khvb",
   "course_code",
   "course_name",
   "course_name_english",
+  "course_type",
+  "faculty",
+  "program",
   "course_image",
   "column_break_fqwr",
   "description"
@@ -63,6 +67,33 @@
   {
    "fieldname": "section_break_khvb",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "course_type",
+   "fieldtype": "Select",
+   "label": "Course Type",
+   "options": "\nUniversity Requirement\nFaculty Requirement\nProgram Requirement",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "mandatory_depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "section_break_hhlw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.course_type == \"Program Requirement\";",
+   "fieldname": "program",
+   "fieldtype": "Link",
+   "label": "Program",
+   "mandatory_depends_on": "eval:doc.course_type == \"Program Requirement\";",
+   "options": "Program Specification"
   }
  ],
  "image_field": "course_image",
@@ -73,7 +104,7 @@
    "link_fieldname": "course_code"
   }
  ],
- "modified": "2024-04-28 20:16:29.876008",
+ "modified": "2024-04-29 19:11:52.714338",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",
@@ -96,7 +127,10 @@
  "search_fields": "course_code",
  "show_name_in_global_search": 1,
  "show_preview_popup": 1,
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "course_name",
+ "translated_doctype": 1
 }
