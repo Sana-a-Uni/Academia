@@ -7,6 +7,9 @@
  "engine": "InnoDB",
  "field_order": [
   "batch_name",
+  "status",
+  "column_break_apun",
+  "program",
   "program_specification"
  ],
  "fields": [
@@ -24,11 +27,29 @@
    "label": "Program Specification",
    "options": "Program Specification",
    "reqd": 1
+  },
+  {
+   "fieldname": "column_break_apun",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "program",
+   "fieldtype": "Link",
+   "label": "Program",
+   "options": "Academic Program",
+   "reqd": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "\nContinue\nFinished",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-30 18:52:02.365192",
+ "modified": "2024-04-30 19:37:20.665655",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Batch",
