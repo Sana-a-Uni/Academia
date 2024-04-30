@@ -13,10 +13,10 @@
   "column_break_cjwy",
   "topic_main_category",
   "topic_sub_category",
+  "application_date",
   "section_break_hzpb",
   "description",
   "section_break_bkzm",
-  "application_date",
   "amended_from",
   "column_break_izfz",
   "related_to",
@@ -48,16 +48,14 @@
    "reqd": 1
   },
   {
-   "allow_in_quick_entry": 1,
+   "default": "Open",
    "fieldname": "status",
    "fieldtype": "Select",
-   "in_filter": 1,
-   "in_list_view": 1,
-   "in_preview": 1,
    "in_standard_filter": 1,
    "label": "Status",
+   "no_copy": 1,
    "options": "Open\nComplete\nin Progress\nHold\nClosed",
-   "reqd": 1
+   "read_only": 1
   },
   {
    "fieldname": "column_break_cjwy",
@@ -147,7 +145,6 @@
    "reqd": 1
   }
  ],
- "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [
   {
@@ -156,7 +153,7 @@
    "link_fieldname": "topic"
   }
  ],
- "modified": "2024-01-29 09:31:11.278677",
+ "modified": "2024-04-30 18:41:35.072554",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic",
@@ -176,9 +173,12 @@
    "write": 1
   }
  ],
+ "search_fields": "title",
+ "show_preview_popup": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
+ "title_field": "title",
  "track_changes": 1,
  "track_seen": 1
 }

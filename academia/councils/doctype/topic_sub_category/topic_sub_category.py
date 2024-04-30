@@ -15,6 +15,6 @@ class TopicSubCategory(Document):
 		from frappe.types import DF
 
 		title: DF.Data
-		topic_main_category: DF.Link
+		main_category: DF.Link
 	# end: auto-generated types
 	pass

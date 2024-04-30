@@ -27,7 +27,12 @@ class Topic(Document):
 		topic_main_category: DF.Link
 		topic_sub_category: DF.Link
 	# end: auto-generated types
- 
+	def onload(self):
+		if self.has_topic_assignment():
+			self.set_onload('has_topic_assignment', True)
+		else:
+			self.set_onload('has_topic_assignment', False)
+		
 	def validate(self):
 		self.validate_main_sub_category_relationship()
 		self.check_for_duplicate_applicants()
@@ -37,7 +42,7 @@ class Topic(Document):
 		Validate the relationship between main category and sub-category, and check that the selected sub category is one of the  selected main category's sub categories
 		"""
 		if(self.topic_main_category and self.topic_sub_category):
-			main_category_of_selected_sub=frappe.get_value("Topic Sub Category",self.topic_sub_category,"topic_main_category")
+			main_category_of_selected_sub=frappe.get_value("Topic Sub Category",self.topic_sub_category,"main_category")
 			# Check if the main category of the sub-category does not  match the selected main category
 			if main_category_of_selected_sub!=self.topic_main_category:
 				frappe.throw(
@@ -59,6 +64,15 @@ class Topic(Document):
 							title='Duplicate Applicant Error')
 			seen_applicants.add(applicant_id)		
 			
+	def has_topic_assignment(self):
+		"""
+		Check if the topic has been assigned to a council
+		"""
+		assignments = frappe.get_all('Topic Assignment', 
+                                 filters={'topic': self.name}, 
+                                 fields=['name'])
+		if assignments:
+			return True
 
 
 
