@@ -30,7 +30,7 @@ class Session(Document):
 
     def detect_assignments_changes(self):
         """
-        This function compares the current session's assignments with the previous session's assignments,
+        This function compares the current session's assignments with the old session's assignments(before save),
         and returns a list of edited assignments, a list of added assignments, and a list of deleted assignments.
 
         Returns:
@@ -39,7 +39,7 @@ class Session(Document):
         """
         # Check if this is a new session (no previous session to compare with)
         if self.is_new():
-            return None, None, None
+            return [], [], []
 
         # Get the previous session's assignments
         old_session = self.get_doc_before_save()
@@ -75,7 +75,8 @@ class Session(Document):
         return edited_assignments, added_assignments, deleted_assignments
 
     def before_save(self):
-        self.update_forward_assignments_status()
+        if not self.is_new():
+            self.update_forward_assignments_status()
         
     def update_forward_assignments_status(self):
         """
