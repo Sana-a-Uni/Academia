@@ -169,6 +169,7 @@
    "label": "File"
   },
   {
+   "depends_on": "eval:doc.courses == 1;",
    "fieldname": "study_plan_details_tab",
    "fieldtype": "Tab Break",
    "label": "Study Plan Details"
@@ -241,7 +242,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-30 16:44:19.259345",
+ "modified": "2024-04-30 17:03:15.167933",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Specification",

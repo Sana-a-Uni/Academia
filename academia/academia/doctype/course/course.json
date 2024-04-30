@@ -11,14 +11,15 @@
   "section_break_hhlw",
   "elective_template",
   "section_break_khvb",
-  "course_code",
   "course_name",
-  "course_name_english",
   "course_type",
   "faculty",
   "program",
-  "course_image",
   "column_break_fqwr",
+  "course_name_english",
+  "course_code",
+  "course_image",
+  "section_break_fiet",
   "description"
  ],
  "fields": [
@@ -94,6 +95,10 @@
    "label": "Program",
    "mandatory_depends_on": "eval:doc.course_type == \"Program Requirement\";",
    "options": "Program Specification"
+  },
+  {
+   "fieldname": "section_break_fiet",
+   "fieldtype": "Section Break"
   }
  ],
  "image_field": "course_image",
@@ -104,7 +109,7 @@
    "link_fieldname": "course_code"
   }
  ],
- "modified": "2024-04-29 19:11:52.714338",
+ "modified": "2024-04-30 17:07:32.680593",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",
