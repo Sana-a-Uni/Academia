@@ -1,0 +1,57 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:lab_type",
+ "creation": "2024-04-25 17:51:07.386252",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "lab_type",
+  "faculty",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "lab_type",
+   "fieldtype": "Data",
+   "label": "Lab Type",
+   "unique": 1
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-04-25 17:53:15.654583",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Lab Type",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

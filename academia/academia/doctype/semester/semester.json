@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:name1",
  "creation": "2024-01-23 00:42:10.801260",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -11,15 +12,19 @@
   {
    "fieldname": "name1",
    "fieldtype": "Data",
-   "label": "Name"
+   "in_list_view": 1,
+   "label": "Name",
+   "reqd": 1,
+   "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-23 00:42:22.307084",
+ "modified": "2024-04-23 22:08:33.915473",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Semester",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {

@@ -8,13 +8,13 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "elective_template",
+  "section_break_khvb",
   "course_code",
   "course_name",
-  "languages",
-  "pre_requisites",
-  "co_requisites",
+  "course_name_english",
   "course_image",
-  "column_break_uvaw",
+  "column_break_fqwr",
   "description"
  ],
  "fields": [
@@ -34,20 +34,10 @@
    "unique": 1
   },
   {
-   "fieldname": "languages",
-   "fieldtype": "Table MultiSelect",
-   "label": "Languages",
-   "options": "Course Language"
-  },
-  {
    "fieldname": "course_image",
    "fieldtype": "Attach Image",
    "hidden": 1,
    "label": "Course Image"
-  },
-  {
-   "fieldname": "column_break_uvaw",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "description",
@@ -55,22 +45,37 @@
    "label": "Description"
   },
   {
-   "fieldname": "pre_requisites",
-   "fieldtype": "Table MultiSelect",
-   "label": "Pre Requisites",
-   "options": "Pre Requisites"
+   "fieldname": "column_break_fqwr",
+   "fieldtype": "Column Break"
   },
   {
-   "fieldname": "co_requisites",
-   "fieldtype": "Table MultiSelect",
-   "label": "Co Requisites",
-   "options": "Co Requisites"
+   "fieldname": "course_name_english",
+   "fieldtype": "Data",
+   "label": "Course Name in English",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "elective_template",
+   "fieldtype": "Check",
+   "label": "Elective Template "
+  },
+  {
+   "fieldname": "section_break_khvb",
+   "fieldtype": "Section Break"
   }
  ],
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2024-04-22 14:22:00.714319",
+
+ "links": [
+  {
+   "link_doctype": "Course Specification",
+   "link_fieldname": "course_code"
+  }
+ ],
+ "modified": "2024-04-25 19:28:09.952362",
+
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",

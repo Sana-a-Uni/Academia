@@ -1,0 +1,177 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{course_code}-{date_of_course_development}",
+ "creation": "2024-04-24 18:45:22.123570",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "course_code",
+  "course_name",
+  "course_name_english",
+  "course_type",
+  "faculty",
+  "course_image",
+  "column_break_iypx",
+  "languages",
+  "pre_requisites",
+  "co_requisites",
+  "section_break_vkwq",
+  "effective_academic_year",
+  "approval_date",
+  "column_break_xtso",
+  "date_of_course_development",
+  "file",
+  "section_break_sjbv",
+  "description",
+  "course_details_tab",
+  "credit_hours"
+ ],
+ "fields": [
+  {
+   "fieldname": "course_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Course Code",
+   "options": "Course",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fetch_from": "course_code.course_name",
+   "fieldname": "course_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Course Name",
+   "read_only": 1,
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "course_type",
+   "fieldtype": "Select",
+   "label": "Course Type",
+   "options": "\nUniversity Requirement\nFaculty Requirement\nProgram Requirement",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "faculty",
+   "mandatory_depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "course_image",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "Course Image"
+  },
+  {
+   "fieldname": "languages",
+   "fieldtype": "Table MultiSelect",
+   "label": "Languages",
+   "options": "Course Language"
+  },
+  {
+   "fieldname": "column_break_iypx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "pre_requisites",
+   "fieldtype": "Table MultiSelect",
+   "label": "Pre Requisites",
+   "options": "Pre Requisites"
+  },
+  {
+   "fieldname": "co_requisites",
+   "fieldtype": "Table MultiSelect",
+   "label": "Co Requisites",
+   "options": "Co Requisites"
+  },
+  {
+   "fieldname": "section_break_sjbv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  },
+  {
+   "fieldname": "course_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Course Details"
+  },
+  {
+   "fetch_from": "course_code.course_name_english",
+   "fieldname": "course_name_english",
+   "fieldtype": "Data",
+   "label": "Course Name in English ",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "credit_hours",
+   "fieldtype": "Table",
+   "label": "Credit Hours",
+   "options": "Course Hours"
+  },
+  {
+   "fieldname": "section_break_vkwq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "effective_academic_year",
+   "fieldtype": "Link",
+   "label": "Effective Academic Year",
+   "options": "Academic Year"
+  },
+  {
+   "fieldname": "approval_date",
+   "fieldtype": "Date",
+   "label": "Approval Date"
+  },
+  {
+   "fieldname": "column_break_xtso",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "date_of_course_development",
+   "fieldtype": "Date",
+   "label": "Date of Course Development"
+  },
+  {
+   "fieldname": "file",
+   "fieldtype": "Attach",
+   "label": "File"
+  }
+ ],
+ "image_field": "course_image",
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-04-26 03:23:12.477352",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Course Specification",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

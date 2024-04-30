@@ -1,0 +1,91 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:lab_name",
+ "creation": "2024-04-23 21:47:11.373240",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "lab_name",
+  "faculty",
+  "building",
+  "column_break_cmvv",
+  "seating_capacity",
+  "acceptable_increase",
+  "section_break_dpff",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "lab_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Lab Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Faculty",
+   "options": "Faculty",
+   "reqd": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  },
+  {
+   "fieldname": "building",
+   "fieldtype": "Link",
+   "label": "Building",
+   "options": "Building"
+  },
+  {
+   "fieldname": "column_break_cmvv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "seating_capacity",
+   "fieldtype": "Data",
+   "label": "Seating Capacity"
+  },
+  {
+   "description": "Acceptable number of seats addition to the class capacity ",
+   "fieldname": "acceptable_increase",
+   "fieldtype": "Data",
+   "label": "Acceptable increase"
+  },
+  {
+   "fieldname": "section_break_dpff",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-04-25 17:58:23.124894",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "lab",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
