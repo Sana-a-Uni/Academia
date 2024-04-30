@@ -6,7 +6,8 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "batch_name"
+  "batch_name",
+  "program_specification"
  ],
  "fields": [
   {
@@ -16,11 +17,18 @@
    "label": "Batch Name",
    "reqd": 1,
    "unique": 1
+  },
+  {
+   "fieldname": "program_specification",
+   "fieldtype": "Link",
+   "label": "Program Specification",
+   "options": "Program Specification",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-24 22:44:37.419593",
+ "modified": "2024-04-30 18:52:02.365192",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Batch",

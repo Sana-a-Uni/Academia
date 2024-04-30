@@ -103,12 +103,14 @@
  ],
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
+
  "links": [
   {
    "link_doctype": "Course Specification",
    "link_fieldname": "course_code"
   }
  ],
+
  "modified": "2024-04-30 17:07:32.680593",
  "modified_by": "Administrator",
  "module": "Academia",
