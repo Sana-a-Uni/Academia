@@ -104,12 +104,14 @@
    "label": "Research"
   },
   {
+   "description": "In Years",
    "fieldname": "minimum_research_period",
    "fieldtype": "Int",
    "label": "Minimum Research Period",
    "mandatory_depends_on": "eval:doc.research_or_thesis === 1 && doc.courses === 1 ;"
   },
   {
+   "description": "In Years",
    "fieldname": "maximum_research_period",
    "fieldtype": "Int",
    "label": "Maximum Research Period",
@@ -117,6 +119,7 @@
   },
   {
    "depends_on": "eval:doc.research_or_thesis === 1 && doc.courses === 1 ;",
+   "description": "Ex: 70%",
    "fieldname": "minimum_course_average_to_start_research",
    "fieldtype": "Data",
    "label": "Minimum Course Average to Start Research ",
@@ -125,7 +128,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-29 18:38:16.908899",
+ "modified": "2024-04-30 17:59:57.904449",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Program",

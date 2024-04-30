@@ -224,6 +224,7 @@
    "read_only": 1
   },
   {
+   "description": "In Years",
    "fetch_from": "program_name.minimum_research_period",
    "fieldname": "minimum_research_period",
    "fieldtype": "Int",
@@ -232,6 +233,7 @@
    "read_only": 1
   },
   {
+   "description": "In Years",
    "fetch_from": "program_name.maximum_research_period",
    "fieldname": "maximum_research_period",
    "fieldtype": "Int",
@@ -242,7 +244,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-30 17:03:15.167933",
+ "modified": "2024-04-30 18:00:14.030282",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Specification",

@@ -53,6 +53,7 @@
    "fieldname": "course_type",
    "fieldtype": "Data",
    "label": "Course Type",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -62,7 +63,8 @@
    "fieldtype": "Link",
    "label": "faculty",
    "mandatory_depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
-   "options": "Faculty"
+   "options": "Faculty",
+   "read_only": 1
   },
   {
    "fieldname": "course_image",
@@ -155,13 +157,14 @@
    "fieldname": "program",
    "fieldtype": "Link",
    "label": "Program",
-   "options": "Program Specification"
+   "options": "Program Specification",
+   "read_only": 1
   }
  ],
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-29 19:14:41.790996",
+ "modified": "2024-04-30 20:00:37.908033",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Specification",
