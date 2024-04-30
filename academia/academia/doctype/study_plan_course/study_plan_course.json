@@ -19,7 +19,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Course",
-   "options": "Course Specification",
+   "options": "Course",
    "reqd": 1
   },
   {
@@ -63,7 +63,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-04-26 02:50:54.858370",
+ "modified": "2024-04-29 18:52:39.206672",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Study Plan Course",

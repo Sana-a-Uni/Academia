@@ -426,9 +426,9 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Academic Year",
+   "label": "Academic Program",
    "link_count": 0,
-   "link_to": "Academic Year",
+   "link_to": "Academic Program",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -436,15 +436,16 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Academic Program",
+   "label": "Academic Year",
    "link_count": 0,
-   "link_to": "Academic Program",
+   "link_to": "Academic Year",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
   }
  ],
- "modified": "2024-04-27 00:45:25.210138",
+
+ "modified": "2024-04-30 17:16:47.195394",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academia",

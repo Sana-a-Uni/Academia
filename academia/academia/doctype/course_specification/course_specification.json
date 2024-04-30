@@ -11,6 +11,7 @@
   "course_name_english",
   "course_type",
   "faculty",
+  "program",
   "course_image",
   "column_break_iypx",
   "languages",
@@ -48,19 +49,22 @@
    "unique": 1
   },
   {
+   "fetch_from": "course_code.course_type",
    "fieldname": "course_type",
-   "fieldtype": "Select",
+   "fieldtype": "Data",
    "label": "Course Type",
-   "options": "\nUniversity Requirement\nFaculty Requirement\nProgram Requirement",
+   "read_only": 1,
    "reqd": 1
   },
   {
    "depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
+   "fetch_from": "course_code.faculty",
    "fieldname": "faculty",
    "fieldtype": "Link",
    "label": "faculty",
    "mandatory_depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
-   "options": "Faculty"
+   "options": "Faculty",
+   "read_only": 1
   },
   {
    "fieldname": "course_image",
@@ -146,12 +150,21 @@
    "fieldname": "file",
    "fieldtype": "Attach",
    "label": "File"
+  },
+  {
+   "depends_on": "eval:doc.course_type == \"Program Requirement\";",
+   "fetch_from": "course_code.program",
+   "fieldname": "program",
+   "fieldtype": "Link",
+   "label": "Program",
+   "options": "Program Specification",
+   "read_only": 1
   }
  ],
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-26 03:23:12.477352",
+ "modified": "2024-04-30 20:00:37.908033",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Specification",
