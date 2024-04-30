@@ -1,12 +1,12 @@
 {
  "actions": [],
- "allow_rename": 1,
+ "autoname": "autoincrement",
  "creation": "2024-01-22 18:27:17.187286",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "academic_title",
+  "academic_rank",
   "hiring_date",
   "duration"
  ],
@@ -19,25 +19,28 @@
   },
   {
    "fieldname": "duration",
-   "fieldtype": "Duration",
+   "fieldtype": "Int",
    "in_list_view": 1,
-   "label": "Duration"
+   "label": "Duration (Months)",
+   "reqd": 1
   },
   {
-   "fieldname": "academic_title",
+   "fieldname": "academic_rank",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Academic Title",
-   "options": "Academic Title"
+   "label": "Academic Rank",
+   "options": "Academic Rank",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-01-24 12:24:13.530166",
+ "modified": "2024-04-24 15:08:25.052591",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member Academic Experience",
+ "naming_rule": "Autoincrement",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",

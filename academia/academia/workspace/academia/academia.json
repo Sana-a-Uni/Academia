@@ -17,46 +17,6 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Faculty Member",
-   "link_count": 0,
-   "link_to": "Faculty Member",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Academic Title",
-   "link_count": 0,
-   "link_to": "Academic Title",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Scientific Degree",
-   "link_count": 0,
-   "link_to": "Scientific Degree",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Nationality",
-   "link_count": 0,
-   "link_to": "Nationality",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Faculty Students",
    "link_count": 4,
    "onboard": 0,
    "type": "Card Break"
@@ -238,16 +198,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Course Specification",
-   "link_count": 0,
-   "link_to": "Course Specification",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Course",
    "link_count": 0,
    "link_to": "Course",
@@ -286,6 +236,128 @@
   {
    "hidden": 0,
    "is_query_report": 0,
+   "label": "Course",
+   "link_count": 0,
+   "link_to": "Course",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Lecture",
+   "link_count": 0,
+   "link_to": "Lecture",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Masters",
+   "link_count": 4,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Faculty",
+   "link_count": 0,
+   "link_to": "Faculty",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Faculty Department",
+   "link_count": 0,
+   "link_to": "Faculty Department",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Academic Program",
+   "link_count": 0,
+   "link_to": "Academic Program",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Academic Year",
+   "link_count": 0,
+   "link_to": "Academic Year",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Faculty Staff",
+   "link_count": 5,
+   "label": "Course Specification",
+   "link_count": 0,
+   "link_to": "Course Specification",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Course",
+   "link_count": 0,
+   "link_to": "Course",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Faculty Member",
+   "link_count": 0,
+   "link_to": "Faculty Member",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Academic Publication",
+   "link_count": 0,
+   "link_to": "Academic Publication",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Scientific Article",
+   "link_count": 0,
+   "link_to": "Scientific Article",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Academic Rank",
    "label": "Course Specification",
    "link_count": 0,
    "link_to": "Course Specification",
@@ -306,9 +378,9 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Lecture",
+   "label": "Scientific Degree",
    "link_count": 0,
-   "link_to": "Lecture",
+   "link_to": "Scientific Degree",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -372,7 +444,7 @@
    "type": "Link"
   }
  ],
- "modified": "2024-04-25 17:12:04.073024",
+ "modified": "2024-04-27 00:45:25.210138",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academia",

@@ -67,6 +67,7 @@
  ],
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
+
  "links": [
   {
    "link_doctype": "Course Specification",
@@ -74,6 +75,7 @@
   }
  ],
  "modified": "2024-04-25 19:28:09.952362",
+
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",
