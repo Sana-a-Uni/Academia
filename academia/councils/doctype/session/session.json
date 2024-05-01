@@ -1,6 +1,4 @@
 {
- "_comments": "[]",
- "_liked_by": "[]",
  "actions": [],
  "autoname": "naming_series:",
  "creation": "2024-01-11 09:07:29.905750",
@@ -105,12 +103,17 @@
    "read_only": 1
   },
   {
+   "bold": 1,
    "default": "CNCL-SESS-.YY.-.{council}.-.###",
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Series",
+   "no_copy": 1,
    "options": "CNCL-SESS-.YY.-.{council}.-.###",
-   "reqd": 1
+   "print_hide": 1,
+   "report_hide": 1,
+   "reqd": 1,
+   "set_only_once": 1
   },
   {
    "fieldname": "assignments",
@@ -128,7 +131,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-01-29 21:40:56.883401",
+ "modified": "2024-05-01 03:43:41.820826",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Session",

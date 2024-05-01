@@ -4,6 +4,8 @@
 import frappe
 from frappe.model.document import Document
 from frappe.utils import nowdate
+from frappe import _
+
 
 class Session(Document):
     # begin: auto-generated types
@@ -17,16 +19,20 @@ class Session(Document):
         from frappe.types import DF
 
         amended_from: DF.Link | None
+        assignments: DF.Table[SessionTopicAssignment]
         begin_time: DF.Time | None
         council: DF.Link
         date: DF.Date | None
         end_time: DF.Time | None
         members: DF.Table[SessionMember]
         naming_series: DF.Literal["CNCL-SESS-.YY.-.{council}.-.###"]
-        opening: DF.Text
+        opening: DF.Text | None
         title: DF.Data
-        topics: DF.Table[SessionTopicAssignment]
     # end: auto-generated types
+
+    def validate(self):
+        self.validate_assignment_duplicate()
+        self.validate_time()
 
     def detect_assignments_changes(self):
         """
@@ -77,7 +83,7 @@ class Session(Document):
     def before_save(self):
         if not self.is_new():
             self.update_forward_assignments_status()
-        
+
     def update_forward_assignments_status(self):
         """
         This function updates the status of the forward assignments of a session.
@@ -110,7 +116,7 @@ class Session(Document):
 
     def create_postponed_assignment(self, session_assignment):
         """Creates a new Topic Assignment with postponed status the specified details.
-        
+
         Args:
                 session_assignment (Session.assignments): The session assignment details.
         Returns:
@@ -148,7 +154,8 @@ class Session(Document):
             if session_assignment.decision_type == "Postponed":
                 # Create a new assignment for postponed topics
                 if session_assignment_doc:
-                    doc_assignment = self.create_postponed_assignment(session_assignment)
+                    doc_assignment = self.create_postponed_assignment(
+                        session_assignment)
                     session_assignment.forward_assignment = doc_assignment.name  # Link the new assignment
 
             # Update the Topic Assignment with the decision details
@@ -156,3 +163,14 @@ class Session(Document):
             session_assignment_doc.decision_type = session_assignment.decision_type
             session_assignment_doc.save()
             session_assignment_doc.submit()
+
+    def validate_time(self):
+        if self.begin_time and self.end_time:
+            if self.begin_time > self.end_time:
+                frappe.throw(_(f"End time must be after begin time"))
+
+    def validate_assignment_duplicate(self):
+        assignments = [row.topic_assignment for row in self.assignments]
+        assignments_set = set(assignments)
+        if len(assignments) != len(assignments_set):
+            frappe.throw(_(f"Assignments can't be duplicated"))

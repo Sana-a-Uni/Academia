@@ -2,6 +2,9 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Session", {
+    validate(frm) {
+        frm.events.validate_time(frm);
+    },
     /**
      * Fetches the members of the selected council and adds them to the session form.
      * @param {object} frm - The current form object.
@@ -33,6 +36,20 @@ frappe.ui.form.on("Session", {
         }
     }
     ,
+    begin_time(frm) {
+        frm.trigger('validate_time');
+    },
+    end_time(frm) {
+        frm.trigger('validate_time');
+    },
+    validate_time(frm) {
+        if (frm.doc.begin_time && frm.doc.end_time) {
+            if (frm.doc.begin_time > frm.doc.end_time) {
+                frappe.throw(__("End time must be after begin time"));
+            }
+        }
+    }
+    ,
     /**
      * Fetches the assignments for the current session.
      * @param {Object} frm - The current form object.
@@ -58,3 +75,33 @@ frappe.ui.form.on("Session", {
         });
     }
 });
+frappe.ui.form.on("Session Topic Assignment", {
+    topic_assignment: function (frm, cdt, cdn) {
+        // Get the current row
+        let row = locals[cdt][cdn];
+        // Call the check_assignment_duplicate function to check for duplicate assignments
+        check_assignment_duplicate(frm, row);
+    },
+});
+// Function to check for duplicate assignments
+check_assignment_duplicate = function (frm, row) {
+    // Iterate through each member in the form's assignments field
+    frm.doc.assignments.forEach((assignment) => {
+        // Check if the current row's topic_assignment is not empty or the same as the current assignment being iterated
+        if (!(row.topic_assignment == "" || row.idx == assignment.idx)) {
+            // Check if the current row's topic_assignment is the same as the assignment's topic_assignment
+            if (row.topic_assignment == assignment.topic_assignment) {
+                // Clear the topic_assignment value in the current row
+                row.topic_assignment = "";
+                // Refresh the assignments field in the form to reflect the changes
+                frm.refresh_field("assignments");
+                // message indicating that the topic_assignment already exists in a specific row
+                msgprint(
+                    __(`${row.topic_assignment} already exists in row ${assignment.idx}`)
+                );
+                // stop loop
+                return;
+            }
+        }
+    });
+};
