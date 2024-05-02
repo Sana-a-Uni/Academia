@@ -14,7 +14,6 @@
   "course",
   "enrollment_date",
   "column_break_nlbw",
-  "university",
   "faculty",
   "faculty_department",
   "academic_year",
@@ -44,7 +43,7 @@
    "fieldname": "academic_program",
    "fieldtype": "Link",
    "label": "Academic Program",
-   "options": "Academic Program"
+   "options": "Program Specification"
   },
   {
    "fieldname": "enrollment_date",
@@ -56,12 +55,6 @@
   {
    "fieldname": "column_break_nlbw",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "university",
-   "fieldtype": "Link",
-   "label": "University ",
-   "options": "University"
   },
   {
    "fieldname": "faculty",
@@ -105,7 +98,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-29 00:13:02.879256",
+ "modified": "2024-04-23 20:27:58.467732",
  "modified_by": "Administrator",
  "module": "Student Enrollment",
  "name": "Course Enrollment",

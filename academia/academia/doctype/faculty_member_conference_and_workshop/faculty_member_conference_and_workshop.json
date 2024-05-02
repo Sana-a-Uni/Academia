@@ -1,0 +1,64 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2024-04-22 15:37:58.573895",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "name1",
+  "location",
+  "participation_type",
+  "starts_on",
+  "ends_on"
+ ],
+ "fields": [
+  {
+   "fieldname": "name1",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "location",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Location"
+  },
+  {
+   "fieldname": "participation_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Participation Type",
+   "options": "\nResearcher\nPresenter\nSupervisor\nChairperson\nParticipant\nAttendee (Guest)"
+  },
+  {
+   "fieldname": "starts_on",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Starts on"
+  },
+  {
+   "fieldname": "ends_on",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Ends on"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-04-24 19:16:51.912870",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Faculty Member Conference and Workshop",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

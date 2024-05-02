@@ -1,0 +1,64 @@
+{
+ "actions": [],
+ "autoname": "field:journal_name",
+ "creation": "2024-04-23 00:51:19.008523",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "journal_name",
+  "hindex",
+  "issn",
+  "website_link"
+ ],
+ "fields": [
+  {
+   "fieldname": "journal_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Journal Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "hindex",
+   "fieldtype": "Data",
+   "label": "H-Index"
+  },
+  {
+   "description": "International Standard Serial Number",
+   "fieldname": "issn",
+   "fieldtype": "Data",
+   "label": "ISSN "
+  },
+  {
+   "fieldname": "website_link",
+   "fieldtype": "Data",
+   "label": "Website Link"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-04-25 21:58:24.481514",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Journal",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

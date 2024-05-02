@@ -11,7 +11,6 @@
   "publish_on_website",
   "enable_admission_application",
   "column_break_ffig",
-  "university",
   "collage",
   "academic_year",
   "admission_start_date",
@@ -65,12 +64,6 @@
    "label": "Admission End Date"
   },
   {
-   "fieldname": "university",
-   "fieldtype": "Link",
-   "label": "University ",
-   "options": "University"
-  },
-  {
    "fieldname": "collage",
    "fieldtype": "Link",
    "label": "Facility",
@@ -95,7 +88,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-28 23:43:53.195953",
+ "modified": "2024-02-02 01:26:05.333356",
  "modified_by": "Administrator",
  "module": "Admission",
  "name": "Student Admission",
