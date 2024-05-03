@@ -219,3 +219,4 @@ app_license = "mit"
 # auth_hooks = [
 #	"academia.auth.validate"
 # ]
+export_python_type_annotations = True

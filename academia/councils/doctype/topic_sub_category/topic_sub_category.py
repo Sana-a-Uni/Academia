@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class TopicTemplate(Document):
+class TopicSubCategory(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -14,6 +14,7 @@ class TopicTemplate(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		description: DF.TextEditor
+		title: DF.Data
+		main_category: DF.Link
 	# end: auto-generated types
 	pass
