@@ -9,20 +9,21 @@
   "scientific_degree",
   "granting_authority",
   "country",
-  "research_paper_title",
-  "date_of_achievement",
-  "column_break_ysdq",
-  "start_date",
-  "end_date",
   "general_field",
-  "specialist_field"
+  "specialist_field",
+  "column_break_ysdq",
+  "research_paper_title",
+  "starts_on",
+  "ends_on",
+  "date_of_achievement"
  ],
  "fields": [
   {
    "fieldname": "granting_authority",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Granting Authority ",
+   "options": "Authority",
    "reqd": 1
   },
   {
@@ -45,18 +46,6 @@
    "label": "Date of Achievement "
   },
   {
-   "fieldname": "end_date",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "label": "End Date"
-  },
-  {
-   "fieldname": "start_date",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "label": "Start Date"
-  },
-  {
    "fieldname": "scientific_degree",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -77,12 +66,24 @@
    "fieldname": "specialist_field",
    "fieldtype": "Data",
    "label": "Specialist Field"
+  },
+  {
+   "fieldname": "starts_on",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Starts on"
+  },
+  {
+   "fieldname": "ends_on",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Ends on"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-01-24 12:20:47.978758",
+ "modified": "2024-04-22 20:26:37.486437",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member Scientific Qualification",

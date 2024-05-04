@@ -6,7 +6,8 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "scientific_degree_name"
+  "scientific_degree_name",
+  "description"
  ],
  "fields": [
   {
@@ -16,11 +17,16 @@
    "label": "Scientific Degree Name",
    "reqd": 1,
    "unique": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "label": "Description"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-24 11:45:59.168506",
+ "modified": "2024-04-22 17:48:24.138304",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Scientific Degree",

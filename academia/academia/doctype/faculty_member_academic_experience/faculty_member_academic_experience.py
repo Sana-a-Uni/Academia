@@ -3,8 +3,14 @@
 
 # import frappe
 from frappe.model.document import Document
+import frappe
+from frappe import _
 
 
 class FacultyMemberAcademicExperience(Document):
-	pass
+    def validate(self):
+        if self.hiring_date:
+            if self.hiring_date > frappe.utils.today():
+                frappe.throw(_("Hiring date cannot be in the future"))
+
 
