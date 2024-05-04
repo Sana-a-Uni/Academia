@@ -1,7 +1,7 @@
 // Copyright (c) 2024, SanU and contributors
 // For license information, please see license.txt
 
-// frappe.ui.form.on("Transaction2", {
+// frappe.ui.form.on("Asset Access Request", {
 // 	refresh(frm) {
 
 // 	},

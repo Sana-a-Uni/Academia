@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestTransaction2(FrappeTestCase):
+class TestAssetAccessRequest(FrappeTestCase):
 	pass
