@@ -244,3 +244,51 @@ function setSubDepartmentQuery(frm, party, department) {
     }
     
 }
+
+
+/////////////////////////////////////////////////////
+
+// add custom button into incoming Transaction
+
+
+frappe.ui.form.on('Transaction', {
+    refresh: function(frm) {
+        if (frm.doc.islocal || !frm.doc.incoming) {
+            // Hide the button for new unsaved transactions and non-incoming transactions
+            frm.page.set_inner_btn_group_as_primary(('Issue Outgoing'), false);
+        } else {
+            // Check if there is an existing outgoing transaction linked to the current incoming transaction
+            frappe.db.get_value('Transaction', { associated_transaction: frm.doc.name, outgoing: 1 }, 'name', function(response) {
+                if (response && response.name) {
+                    // An outgoing transaction is already linked, so hide the button
+                    frm.page.set_inner_btn_group_as_primary(('Issue Outgoing'), false);
+                } else {
+                    // Show the button for saved incoming transactions without an outgoing transaction
+                    frm.add_custom_button('Issue Outgoing', function() {
+                        // Create a new transaction
+                        frappe.new_doc('Transaction', {
+                            outgoing: 1, // Check the Outgoing checkbox
+                            associated_transaction: frm.doc.name, // Set the Transaction Parent field with the ID of the incoming transaction
+                            to_party: frm.doc.from_party, // Set the Party link field with the same value as in transaction1
+                            to_department: frm.doc.from_department,
+                            sub_department_link: frm.doc.sub_department_link,
+                            sub_department: frm.doc.sub_department,
+                        }, function(doc) {
+                            // Save the new transaction
+                            doc.outgoing = 1; // Manually set the Outgoing field value to ensure the checkbox is checked
+                            doc.insert().then(function() {
+                                // Navigate to the newly created transaction
+                                frappe.set_route('Form', 'Transaction', doc.name);
+                            });
+                        });
+                    }).addClass('btn-primary'); // Add a CSS class to the button to set its color to black
+                }
+            });
+        }
+    }
+});
+
+
+/////////////////////////////////////////////////////
+
+
