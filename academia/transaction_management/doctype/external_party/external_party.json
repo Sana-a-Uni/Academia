@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:external_party",
  "creation": "2024-04-17 18:14:44.549087",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -59,7 +60,8 @@
    "fieldname": "external_party",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "External Party"
+   "label": "External Party",
+   "unique": 1
   },
   {
    "fieldname": "company",
@@ -75,10 +77,11 @@
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2024-04-25 21:58:02.681069",
+ "modified": "2024-05-05 07:04:41.267456",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "External Party",
+ "naming_rule": "By fieldname",
  "nsm_parent_field": "parent_external_party",
  "owner": "Administrator",
  "permissions": [

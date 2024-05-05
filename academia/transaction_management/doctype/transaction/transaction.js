@@ -249,8 +249,6 @@ function setSubDepartmentQuery(frm, party, department) {
 /////////////////////////////////////////////////////
 
 // add custom button into incoming Transaction
-
-
 frappe.ui.form.on('Transaction', {
     refresh: function(frm) {
         if (frm.doc.islocal || !frm.doc.incoming) {
@@ -287,8 +285,6 @@ frappe.ui.form.on('Transaction', {
         }
     }
 });
-
-
 /////////////////////////////////////////////////////
 
 
