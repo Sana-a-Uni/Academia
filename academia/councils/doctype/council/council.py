@@ -7,6 +7,20 @@ from frappe.model.document import Document
 
 
 class Council(Document):
+    # begin: auto-generated types
+    # This code is auto-generated. Do not modify anything in this block.
+
+    from typing import TYPE_CHECKING
+
+    if TYPE_CHECKING:
+        from academia.councils.doctype.council_member.council_member import CouncilMember
+        from frappe.types import DF
+
+        administrative_body: DF.Link
+        company: DF.Link
+        council_name: DF.Data
+        members: DF.Table[CouncilMember]
+    # end: auto-generated types
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
     from typing import TYPE_CHECKING

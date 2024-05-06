@@ -9,6 +9,7 @@
  "field_order": [
   "council_name",
   "column_break_oa9u",
+  "company",
   "administrative_body",
   "section_break_epbx",
   "members"
@@ -23,6 +24,7 @@
    "unique": 1
   },
   {
+   "depends_on": "company",
    "fieldname": "administrative_body",
    "fieldtype": "Link",
    "label": "Administrative Body",
@@ -43,11 +45,22 @@
    "label": "Members",
    "options": "Council Member",
    "reqd": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Company",
+   "mandatory_depends_on": "  ",
+   "options": "Company",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-25 23:21:23.893660",
+ "modified": "2024-05-06 15:47:37.578830",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Council",
