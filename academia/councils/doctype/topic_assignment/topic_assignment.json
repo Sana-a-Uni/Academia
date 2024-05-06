@@ -74,7 +74,7 @@
    "fieldname": "attachments",
    "fieldtype": "Table",
    "label": "Attachments",
-   "options": "Topic Assignment Attachment"
+   "options": "Topic Attachment"
   },
   {
    "fieldname": "status_section",
@@ -188,7 +188,7 @@
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-30 07:42:24.849069",
+ "modified": "2024-05-06 16:08:28.429678",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic Assignment",
