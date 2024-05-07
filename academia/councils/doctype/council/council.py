@@ -33,38 +33,37 @@ class Council(Document):
         council_members: DF.Table[CouncilMember]
         council_name: DF.Data
 	# end: auto-generated types
- 
- 
+
     def validate(self):
-        roles, members = zip(*[(member.member_role, member.member_name) for member in self.members])
-        # Check for member duplicates
-        if self.check_member_duplicate(members):
+        validate_members(self.members)
+
+
+def validate_members(members):
+    roles, employees = zip(*[(member.member_role, member.employee)
+                         for member in members])
+    check_employee_duplicate(employees)
+    check_council_head_and_reporter_duplication(roles)
+    # check if at least one member is a coucil head
+    if roles.count(_('Council Head')) < 1:
+        frappe.throw(_(f"This Council doesn't have a Council Head"))
+
+
+# Function to check for member duplicates
+def check_employee_duplicate(employees):
+    # Iterate through each member
+    for employee in employees:
+        # Check if the member count is greater than 1, indicating a duplicate
+        if employees.count(employee) > 1:
             # Throw an error if duplicates are found
             frappe.throw(_(f"Council members can't be duplicated"))
-
-        # check if head and reporater roles are duplicated
-        resultOfRoleDuplication = self.check_council_head_and_reporter_duplication(roles)
-        if resultOfRoleDuplication == _('Council Head') or resultOfRoleDuplication == _('Council Reporter'):
-            frappe.throw(_(f"This Council already has a {resultOfRoleDuplication}"))
             
-        # check if at least one member is a coucil head
-        if roles.count(_('Council Head')) < 1:
-            frappe.throw(_(f"This Council doesn't have a Council Head"))
-
-    # Function to check for member duplicates
-    def check_member_duplicate(self, members):
-        # Iterate through each member
-        for member in members:
-            # Check if the member count is greater than 1, indicating a duplicate
-            if members.count(member) > 1:
-                return True
+def check_council_head_and_reporter_duplication(roles):
+    # Check if the Council Head count is greater than 1, indicating a duplicate
+    if roles.count(_('Council Head')) > 1:
+        frappe.throw(
+            _(f"This Council already has a {_('Council Head')}"))
+    elif roles.count(_('Council Reporter')) > 1:
+        frappe.throw(
+            _(f"This Council already has a {_('Council Reporter')}"))
             
-    def check_council_head_and_reporter_duplication(self, roles):
-        # Iterate through each member
-        for role in roles:
-            # Check if the member count is greater than 1, indicating a duplicate
-            if roles.count(_('Council Head')) > 1:
-                return _('Council Head')
-            elif roles.count(_('Council Reporter')) > 1:
-                return _('Council Reporter')
         
