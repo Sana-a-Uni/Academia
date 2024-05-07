@@ -1,6 +1,7 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
+from academia.councils.doctype.council.council import validate_members
 import frappe
 from frappe.model.document import Document
 from frappe.utils import nowdate
@@ -33,6 +34,7 @@ class Session(Document):
     def validate(self):
         self.validate_assignment_duplicate()
         self.validate_time()
+        validate_members(self.members)
 
     def detect_assignments_changes(self):
         """
