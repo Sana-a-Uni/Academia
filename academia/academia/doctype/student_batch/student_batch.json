@@ -10,7 +10,8 @@
   "status",
   "column_break_apun",
   "program",
-  "program_specification"
+  "program_specification",
+  "current_level"
  ],
  "fields": [
   {
@@ -45,11 +46,17 @@
    "label": "Status",
    "options": "\nContinue\nFinished",
    "reqd": 1
+  },
+  {
+   "fieldname": "current_level",
+   "fieldtype": "Link",
+   "label": "Current Level",
+   "options": "Level"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-30 19:37:20.665655",
+ "modified": "2024-05-05 20:51:35.196272",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Batch",
