@@ -15,15 +15,15 @@ class SessionMember(Document):
         from frappe.types import DF
 
         attendance: DF.Literal["Attend", "\u0650Absent"]
-        member: DF.Link
-        name1: DF.Data | None
+        employee: DF.Link
+        member_name: DF.Data | None
+        member_role: DF.Literal["", "Council Head", "Council Member", "Council Reporter"]
         parent: DF.Data
         parentfield: DF.Data
         parenttype: DF.Data
-        role: DF.Literal["Head", "Rapporteur", "Member"]
     # end: auto-generated types
     pass
 
     @property
     def member_name(self):
-    	return frappe.get_value('Faculty Member', self.faculty_member, 'full_name')
+        return frappe.get_value('Employee', self.employee, 'employee_name')
