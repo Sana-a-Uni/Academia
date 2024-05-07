@@ -14,8 +14,8 @@ class CourseHours(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		hour_type: DF.Link
-
+		hour_type: DF.Data
+		hours: DF.Int
 		lab_type: DF.Link | None
 		parent: DF.Data
 		parentfield: DF.Data
