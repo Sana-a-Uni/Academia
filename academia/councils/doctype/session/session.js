@@ -36,12 +36,6 @@ frappe.ui.form.on("Session", {
         }
     }
     ,
-    begin_time(frm) {
-        frm.trigger('validate_time');
-    },
-    end_time(frm) {
-        frm.trigger('validate_time');
-    },
     validate_time(frm) {
         if (frm.doc.begin_time && frm.doc.end_time) {
             if (frm.doc.begin_time > frm.doc.end_time) {
