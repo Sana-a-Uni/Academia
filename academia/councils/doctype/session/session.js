@@ -81,6 +81,30 @@ frappe.ui.form.on("Session Topic Assignment", {
         let row = locals[cdt][cdn];
         // Call the check_assignment_duplicate function to check for duplicate assignments
         check_assignment_duplicate(frm, row);
+        frappe.db.get_value("Topic Assignment", row.topic_assignment, ["title", "description"], (assignment) => {
+            if (assignment) {
+                let title = assignment.title
+                let description = assignment.description
+                frappe.model.set_value(cdt, cdn, 'title', title);
+                frappe.model.set_value(cdt, cdn, 'description', description);
+
+            }
+        });
+        frm.refresh_field('assignments');
+    },
+});
+frappe.ui.form.on("Session Member", {
+    employee: function (frm, cdt, cdn) {
+        // Get the current row
+        let row = locals[cdt][cdn];
+        frappe.db.get_value("Employee", row.employee, "employee_name", (employee) => {
+            if (employee) {
+                let member_name = employee.employee_name
+                frappe.model.set_value(cdt, cdn, 'member_name', member_name);
+
+            }
+        });
+        frm.refresh_field('members');
     },
 });
 // Function to check for duplicate assignments

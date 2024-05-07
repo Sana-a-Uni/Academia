@@ -28,7 +28,6 @@
    "reqd": 1
   },
   {
-   "fetch_from": "topic_assignment.title",
    "fieldname": "title",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -37,7 +36,6 @@
    "label": "Title"
   },
   {
-   "fetch_from": "topic_assignment.description",
    "fieldname": "description",
    "fieldtype": "Text Editor",
    "in_preview": 1,
@@ -88,7 +86,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-01 03:37:17.031690",
+ "modified": "2024-05-07 17:11:35.807927",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Session Topic Assignment",
