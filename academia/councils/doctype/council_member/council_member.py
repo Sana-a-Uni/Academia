@@ -25,4 +25,4 @@ class CouncilMember(Document):
 
     @property
     def member_name(self):
-    	return frappe.get_value('Employee', self.faculty_member, 'employee_name')
+    	return frappe.get_value('Employee', self.employee, 'employee_name')
