@@ -14,14 +14,15 @@ class CouncilMember(Document):
     if TYPE_CHECKING:
         from frappe.types import DF
 
+        employee: DF.Link
         member_name: DF.Data | None
+        member_role: DF.Literal["", "Council Head", "Council Member", "Council Reporter"]
         parent: DF.Data
         parentfield: DF.Data
         parenttype: DF.Data
-        user: DF.Link
     # end: auto-generated types
     pass
 
     @property
     def member_name(self):
-    	return frappe.get_value('Faculty Member', self.faculty_member, 'full_name')
+    	return frappe.get_value('Employee', self.faculty_member, 'employee_name')
