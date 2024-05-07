@@ -48,7 +48,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 21:56:01.285585",
+ "modified": "2024-05-05 21:18:29.475717",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Hour Type",
@@ -67,7 +67,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "name1"
 }
