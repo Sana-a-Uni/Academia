@@ -109,7 +109,7 @@
    "link_fieldname": "course_code"
   }
  ],
- "modified": "2024-05-06 18:46:09.807630",
+ "modified": "2024-05-08 01:07:23.969037",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",
@@ -136,6 +136,6 @@
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "course_name",
+ "title_field": "course_code",
  "translated_doctype": 1
 }
