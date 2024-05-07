@@ -15,6 +15,7 @@ class CourseHours(Document):
 		from frappe.types import DF
 
 		hour_type: DF.Link
+
 		lab_type: DF.Link | None
 		parent: DF.Data
 		parentfield: DF.Data
