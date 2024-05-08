@@ -17,8 +17,7 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Name",
-   "reqd": 1,
-   "unique": 1
+   "reqd": 1
   },
   {
    "fieldname": "abbreviation",
@@ -42,7 +41,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-08 00:38:55.064184",
+ "modified": "2024-05-08 02:40:45.594061",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Hour Type",
