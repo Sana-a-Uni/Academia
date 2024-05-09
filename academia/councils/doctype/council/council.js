@@ -19,12 +19,12 @@ frappe.ui.form.on("Council", {
       frm.check_member_duplicate = function (frm, row) {
         // Iterate through each member in the form's members field
         frm.doc.members.forEach((member) => {
-          // Check if the current row's academic_member is not empty or the same as the current member being iterated
-          if (!(row.academic_member == "" || row.idx == member.idx)) {
-            // Check if the current row's academic_member is the same as the member's academic_member
-            if (row.academic_member == member.academic_member) {
-              // Clear the academic_member value in the current row
-              row.academic_member = "";
+          // Check if the current row's employee is not empty or the same as the current member being iterated
+          if (!(row.employee == "" || row.idx == member.idx)) {
+            // Check if the current row's employee is the same as the member's employee
+            if (row.employee == member.employee) {
+              // Clear the employee value in the current row
+              row.employee = "";
               // Refresh the members field in the form to reflect the changes
               frm.refresh_field("members");
               // message indicating that the member name already exists in a specific row
@@ -90,7 +90,7 @@ frappe.ui.form.on("Council", {
       frm.set_query("administrative_body", function() {
         return {"filters": [["Department", "company", "=",frm.doc.company ]]};
       });
-      frm.set_query("academic_member", "members", function() {
+      frm.set_query("employee", "members", function() {
             if (frm.doc.get_members_from_other_companies == 0) {
                 return { filters: { "company": frm.doc.company } };
             } else {
@@ -156,7 +156,7 @@ frappe.ui.form.on("Council", {
             frappe.db.get_value("Employee", member, "employee_name", (employee) => {
               if (employee) {
                 frm.add_child("members",{
-                  academic_member:member,
+                  employee:member,
                   member_name:employee.employee_name,
                   member_role:"Council Member"
                 })
@@ -183,8 +183,8 @@ frappe.ui.form.on("Council", {
    * cdn is the row name for e.g bbfcb8da6a
    */
   frappe.ui.form.on("Council Member", {
-    // Event triggered when the academic_member field changes in the Council Member form
-    academic_member: function (frm, cdt, cdn) {
+    // Event triggered when the employee field changes in the Council Member form
+    employee: function (frm, cdt, cdn) {
       // Get the current row
       let row = locals[cdt][cdn];
       // Call the check_member_duplicate function to check for duplicate members
