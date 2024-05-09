@@ -20,7 +20,7 @@ class CourseStudy(Document):
 		course_name: DF.Data | None
 		course_type: DF.ReadOnly | None
 		instructor: DF.Link | None
-		program: DF.Link
+		program: DF.ReadOnly
 		student_batch: DF.Link
 	# end: auto-generated types
 	pass

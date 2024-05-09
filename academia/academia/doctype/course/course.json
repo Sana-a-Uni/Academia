@@ -27,8 +27,7 @@
    "fieldname": "course_name",
    "fieldtype": "Data",
    "label": "Course Name",
-   "reqd": 1,
-   "unique": 1
+   "reqd": 1
   },
   {
    "fieldname": "course_code",
@@ -109,7 +108,7 @@
    "link_fieldname": "course_code"
   }
  ],
- "modified": "2024-05-06 18:46:09.807630",
+ "modified": "2024-05-08 02:43:01.267994",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",
