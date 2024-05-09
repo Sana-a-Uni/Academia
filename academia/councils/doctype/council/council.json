@@ -11,6 +11,10 @@
   "column_break_oa9u",
   "company",
   "administrative_body",
+  "council_member_settings_section",
+  "get_members",
+  "column_break_vdif",
+  "get_members_from_other_companies",
   "section_break_epbx",
   "members"
  ],
@@ -56,11 +60,31 @@
    "mandatory_depends_on": "  ",
    "options": "Company",
    "reqd": 1
+  },
+  {
+   "fieldname": "get_members",
+   "fieldtype": "Button",
+   "label": "Get Members"
+  },
+  {
+   "fieldname": "council_member_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Council Member Settings"
+  },
+  {
+   "fieldname": "column_break_vdif",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "get_members_from_other_companies",
+   "fieldtype": "Check",
+   "label": "get members from other companies"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-06 15:47:37.578830",
+ "modified": "2024-05-07 21:23:48.007621",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Council",

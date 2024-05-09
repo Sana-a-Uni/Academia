@@ -19,21 +19,10 @@ class Council(Document):
         administrative_body: DF.Link
         company: DF.Link
         council_name: DF.Data
+        get_members_from_other_companies: DF.Check
         members: DF.Table[CouncilMember]
     # end: auto-generated types
-	# begin: auto-generated types
-	# This code is auto-generated. Do not modify anything in this block.
-    from typing import TYPE_CHECKING
-
-    if TYPE_CHECKING:
-        from academia.councils.doctype.council_member.council_member import CouncilMember
-        from frappe.types import DF
-
-        administrative_body: DF.Data | None
-        council_members: DF.Table[CouncilMember]
-        council_name: DF.Data
-	# end: auto-generated types
-
+ 
     def validate(self):
         validate_members(self.members)
 

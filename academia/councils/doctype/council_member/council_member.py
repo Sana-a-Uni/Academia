@@ -17,6 +17,7 @@ class CouncilMember(Document):
         employee: DF.Link
         member_name: DF.Data | None
         member_role: DF.Literal["", "Council Head", "Council Member", "Council Reporter"]
+        member_role: DF.Literal["", "Council Head", "Council Member", "Council Reporter"]
         parent: DF.Data
         parentfield: DF.Data
         parenttype: DF.Data

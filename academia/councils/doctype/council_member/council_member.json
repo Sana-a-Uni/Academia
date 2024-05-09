@@ -25,6 +25,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "Council Member",
    "fieldname": "member_role",
    "fieldtype": "Select",
    "in_list_view": 1,
