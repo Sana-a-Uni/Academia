@@ -20,6 +20,7 @@ frappe.ui.form.on("Session", {
                 council.members.forEach(council_member => {
                     frm.add_child('members', {
                         employee: council_member.employee,
+                        member_name: council_member.member_name,
                         attendance: 'Attend',
                         member_role: council_member.member_role
                     });
@@ -51,6 +52,7 @@ frappe.ui.form.on("Session", {
      */
     fetch_assignments(frm) {
         frappe.db.get_list("Topic Assignment", {
+            fields: ["name", "title", "description"],
             filters: {
                 docstatus: 0,
                 council: cur_frm.doc.council,
@@ -63,6 +65,8 @@ frappe.ui.form.on("Session", {
             assignments.forEach(assignment => {
                 frm.add_child('assignments', {
                     topic_assignment: assignment.name,
+                    title: assignment.title,
+                    description: assignment.description
                 });
             });
             // Refresh the child table to display assignments:
