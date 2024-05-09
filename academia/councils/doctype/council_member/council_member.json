@@ -13,7 +13,6 @@
  ],
  "fields": [
   {
-   "fetch_from": ".employee_name",
    "fieldname": "member_name",
    "fieldtype": "Data",
    "in_list_view": 1,
