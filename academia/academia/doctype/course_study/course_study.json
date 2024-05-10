@@ -6,12 +6,14 @@
  "engine": "InnoDB",
  "field_order": [
   "course_code",
+  "student_batch",
   "column_break_ooda",
   "course_name",
+  "course_type",
   "section_break_star",
   "instructor",
   "column_break_nceb",
-  "student_batch",
+  "program",
   "section_break_wxyn",
   "academic_year",
   "column_break_fclw",
@@ -45,8 +47,7 @@
    "fieldname": "instructor",
    "fieldtype": "Link",
    "label": "Instructor",
-   "options": "Faculty Member",
-   "reqd": 1
+   "options": "Faculty Member"
   },
   {
    "fieldname": "column_break_nceb",
@@ -80,11 +81,24 @@
    "label": "Academic Term",
    "options": "Academic Term",
    "reqd": 1
+  },
+  {
+   "fetch_from": "student_batch.program_specification",
+   "fieldname": "program",
+   "fieldtype": "Read Only",
+   "label": "Program",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "course_code.course_type",
+   "fieldname": "course_type",
+   "fieldtype": "Read Only",
+   "label": "Course Type"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-03 20:24:54.989809",
+ "modified": "2024-05-07 21:54:55.241879",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Study",

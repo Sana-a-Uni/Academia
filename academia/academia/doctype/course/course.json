@@ -27,8 +27,7 @@
    "fieldname": "course_name",
    "fieldtype": "Data",
    "label": "Course Name",
-   "reqd": 1,
-   "unique": 1
+   "reqd": 1
   },
   {
    "fieldname": "course_code",
@@ -103,15 +102,13 @@
  ],
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
-
  "links": [
   {
    "link_doctype": "Course Specification",
    "link_fieldname": "course_code"
   }
  ],
-
- "modified": "2024-04-30 17:07:32.680593",
+ "modified": "2024-05-08 02:43:01.267994",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",
