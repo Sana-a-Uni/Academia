@@ -1,9 +1,9 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
-# import frappe
+import frappe
 from frappe.model.document import Document
-
+from frappe.utils import today
 
 class CouncilMemo(Document):
 	# begin: auto-generated types
@@ -16,11 +16,22 @@ class CouncilMemo(Document):
 
 		amended_from: DF.Link | None
 		council: DF.Link
-		current_assignment: DF.Link
 		description: DF.TextEditor | None
-		memo_date: DF.Date
-		naming_series: DF.Literal["CNCL-CM-.{assignmet}.##"]
-		next_assignment: DF.Link | None
-		title: DF.Data
+		originating_assignment: DF.Link
+		resultant_assignment: DF.Link | None
+		sent_date: DF.Date | None
+		status: DF.Literal["Draft", "Verified", "Accepted", "Rejected"]
+		title: DF.Data | None
 	# end: auto-generated types
-	pass
+	def autoname(self):
+        # Check if the originating assignment field is set
+		if self.originating_assignment:
+            # Fetch the 'council' field value from the linked 'OriginatingAssignment'
+			council = frappe.get_value('Topic Assignment', self.originating_assignment, 'council')
+            
+            # Use the current date and the fetched council name for naming, if council is available
+			if council:
+				self.name = f'{today()}-{council}-Memo'
+			else:
+                # Fallback naming convention if council is not available
+				self.name = f'{today()}-Memo'
