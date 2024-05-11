@@ -7,39 +7,23 @@ from frappe.model.document import Document
 
 
 class Transaction(Document):
+    # pass
     def before_save(self):
-        if self.outgoing:
-            self.from_party = "Department"
-            department = frappe.get_doc("Department", "Accounts")
-            if department:
-                self.from_department = department.name	
-        if self.incoming:
-            self.to_party = "Department"
-            department = frappe.get_doc("Department", "Accounts")
-            if department:
-                self.to_department = department.name
+        created_by = frappe.get_doc('User', frappe.session.user)
+        self.created_by = created_by.name
     
-        for row in self.attachments:
-            if not row.attachment_name:
-                row.attachment_name = row.attachment_label.replace(" ", "_").lower() + "_file"
-		   
+
+
+@frappe.whitelist()
+def get_transaction_category_requirement(transaction_category):
+    requirements = frappe.get_all("Transaction Category  Requirement",
+                                   filters={"parent": transaction_category},
+                                    )
+    return requirements
            
 @frappe.whitelist()
-def get_associated_transactions(associated_transaction):
-    linked_transactions = []
-    get_linked_transactions(associated_transaction, linked_transactions)
-    linked_transactions.reverse()  # Reverse the list to get the oldest transactions first
-    return linked_transactions
-
-def get_linked_transactions(associated_transaction, linked_transactions):
-    transactions = frappe.get_all('Transaction',
-                                  filters={'name': associated_transaction},
+def get_transaction_actions(transaction):
+    transaction_actions = frappe.get_all('Transaction Action',
+                                  filters={'main_transaction': transaction},
                                   fields=['*'],)
-
-    if transactions:
-        transaction = transactions[0]
-        linked_transactions.append(transaction)
-        associ_trans = transaction.get('associated_transaction')
-
-        if associ_trans:
-            get_linked_transactions(associ_trans, linked_transactions)
+    return transaction_actions
