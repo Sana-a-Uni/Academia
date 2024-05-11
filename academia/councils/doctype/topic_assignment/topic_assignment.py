@@ -14,12 +14,12 @@ class TopicAssignment(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.councils.doctype.topic_assignment_attachment.topic_assignment_attachment import TopicAssignmentAttachment
+		from academia.councils.doctype.topic_attachment.topic_attachment import TopicAttachment
 		from frappe.types import DF
 
 		amended_from: DF.Link | None
 		assignment_date: DF.Date
-		attachments: DF.Table[TopicAssignmentAttachment]
+		attachments: DF.Table[TopicAttachment]
 		council: DF.Link
 		decision: DF.TextEditor | None
 		decision_type: DF.Literal["", "Postponed", "Resolved", "Transferred"]

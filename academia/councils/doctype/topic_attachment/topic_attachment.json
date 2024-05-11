@@ -31,6 +31,7 @@
   {
    "fieldname": "attachment",
    "fieldtype": "Attach",
+   "in_list_view": 1,
    "label": "Attachment",
    "reqd": 1
   },
@@ -43,7 +44,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-06 18:45:27.020238",
+ "modified": "2024-05-07 00:02:17.816783",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic Attachment",
