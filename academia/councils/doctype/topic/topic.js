@@ -18,6 +18,13 @@ frappe.ui.form.on("Topic", {
         });
       });
     }
+    frm.add_custom_button(
+      __("Select Applicants"),
+      function () {
+        show_applicant_selector(frm);
+      },
+      __("Get Applicants")
+    );
   },
   topic_main_category(frm) {
     // Update the options for the sub-category field based on the selected main category
@@ -102,4 +109,127 @@ function populate_applicant_full_name(cdt, cdn, applicant) {
         frappe.model.set_value(cdt, cdn, "applicant_name", applicant_full_name);
       }
     });
+}
+
+function show_applicant_selector(frm) {
+  let applicant_type_dialog = new frappe.ui.Dialog({
+    title: __("Select Applicant Type"),
+    fields: [
+      {
+        fieldname: "applicant_type",
+        label: __("Applicant Type"),
+        fieldtype: "Select",
+        options: ["Student", "Academic", "Other"],
+        reqd: 1,
+      },
+    ],
+    primary_action_label: __("Continue"),
+    primary_action(values) {
+      console.log(" applicant type:", values.applicant_type);
+      applicant_type_dialog.hide();
+      open_multiselect_dialog(frm, values.applicant_type);
+    },
+  });
+
+  applicant_type_dialog.show();
+}
+
+function open_multiselect_dialog(frm, applicant_type) {
+  let opts = get_applicant_type_info(frm, applicant_type);
+
+  const d = new frappe.ui.form.MultiSelectDialog({
+    doctype: opts.source_doctype,
+    target: opts.target,
+    date_field: opts.date_field || undefined,
+    setters: opts.setters,
+    data_fields: opts.data_fields,
+    get_query: opts.get_query,
+    add_filters_group: 1,
+    allow_child_item_selection: opts.allow_child_item_selection,
+    child_fieldname: opts.child_fieldname,
+    child_columns: opts.child_columns,
+    size: opts.size,
+    action: function (selections) {
+      let values = selections;
+      if (values.length === 0) {
+        frappe.msgprint(__("Please select {0}", [opts.source_doctype]));
+        return;
+      }
+      console.log("Selections:", values);
+      d.dialog.hide();
+      add_applicants_to_topic(frm, values, opts.source_doctype);
+    },
+  });
+}
+
+function add_applicants_to_topic(frm, selections, applicant_type) {
+  selections.forEach(function (applicant) {
+    const row = frm.add_child("applicants", {
+      applicant_type: applicant_type,
+    });
+    frappe.model.set_value(row.doctype, row.name, "applicant", applicant);
+  });
+  frm.refresh_field("applicants");
+}
+
+function get_applicant_type_info(frm, applicant_type) {
+  let academic_opts = {
+    source_doctype: "Faculty Member",
+    target: frm,
+    // date_field: "",
+    setters: {
+      company: "",
+      faculty_member_name: "",
+      academic_rank: "",
+    },
+
+    get_query: function () {
+      return {
+        filters: {},
+      };
+    },
+    add_filters_group: 1,
+    allow_child_item_selection: false, // assuming no child table selection is needed
+    child_fieldname: "",
+    child_columns: [],
+    size: "large",
+  };
+  let student_opts = {
+    source_doctype: "Student",
+    target: frm,
+    // date_field: "",
+    setters: {
+      academic_level: "",
+      academic_status: "",
+      gender: "",
+      joining_date: "",
+    },
+    // data_fields: [
+    //   {
+    //     label: "Course",
+    //     fieldname: "course",
+    //     fieldtype: "Link",
+    //     options: "Course",
+    //   },
+    // ],
+    get_query: function () {
+      return {
+        filters: {},
+      };
+    },
+    add_filters_group: 1,
+    allow_child_item_selection: false, // assuming no child table selection is needed
+    child_fieldname: "",
+    child_columns: [],
+    size: "large",
+  };
+
+  switch (applicant_type) {
+    case "Student":
+      return student_opts;
+    case "Academic":
+      return academic_opts;
+    default:
+      return "Employee"; // Assuming 'Other' maps to 'Employee'
+  }
 }
