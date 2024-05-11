@@ -15,18 +15,20 @@ class TopicApplicant(Document):
         from frappe.types import DF
 
         applicant: DF.DynamicLink
-        applicant_name: DF.Data | None
         applicant_type: DF.Literal["", "Student", "Academic", "User", "Other"]
         parent: DF.Data
         parentfield: DF.Data
         parenttype: DF.Data
     # end: auto-generated types
-    def validate(self):
-        applicant_doc = frappe.get_doc(self.applicant_type, self.applicant)
-        frappe.throw("Document found555")
-        if applicant_doc:
-            self.applicant_name = applicant_doc.attribute_name
-            frappe.throw("Document found")
+    @property
+    def applicant_name(self):
+        
+        # Fetch both 'first_name' and 'last_name' in one database call
+        fields = frappe.get_value(self.applicant_type, self.applicant, ["first_name", "last_name"],as_dict=1)
+
+        if fields:
+            # Combine first and last name to form full name
+            return f"{fields.get('first_name', '')} {fields.get('last_name', '')}".strip()
         else:
-            self.applicant_name = ""
-            frappe.throw("Document not found")
+            # Handle cases where no data is found
+            return "Name Not Set"

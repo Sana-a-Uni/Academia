@@ -40,16 +40,14 @@
    "fieldname": "applicant_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "in_preview": 1,
    "is_virtual": 1,
-   "label": "Applicant Name",
-   "read_only": 1
+   "label": "Applicant Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-01-29 09:19:54.957158",
+ "modified": "2024-05-01 07:46:48.482887",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic Applicant",
