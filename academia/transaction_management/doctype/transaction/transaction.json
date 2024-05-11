@@ -6,53 +6,23 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "document_details_section",
-  "document_id",
-  "associated_transaction",
-  "column_break_veth",
-  "category",
-  "transaction_information_section",
-  "outgoing",
-  "incoming",
-  "from_party",
-  "to_party",
-  "from_department",
-  "to_department",
-  "column_break_jffj",
-  "sub_department_link",
-  "sub_department",
-  "status",
-  "prority",
   "additional_details_section",
+  "reference_number",
   "title",
   "description",
   "column_break_ktxa",
-  "start_date",
-  "reference_number",
-  "receivesent_date",
   "client",
-  "company",
-  "section_break_niff",
+  "start_date",
+  "category",
+  "created_by",
+  "attachments_section",
   "attachments",
-  "associated_transactions_section",
-  "associated_transactions",
-  "amended_from"
+
+  "summary_section",
+  "summary"
+
  ],
  "fields": [
-  {
-   "fieldname": "document_details_section",
-   "fieldtype": "Section Break",
-   "label": "Document Details"
-  },
-  {
-   "fieldname": "document_id",
-   "fieldtype": "Data",
-   "label": "Document ID"
-  },
-  {
-   "fieldname": "column_break_veth",
-   "fieldtype": "Column Break"
-  },
   {
    "fieldname": "category",
    "fieldtype": "Link",
@@ -60,61 +30,9 @@
    "options": "Transaction Category"
   },
   {
-   "fieldname": "transaction_information_section",
-   "fieldtype": "Section Break",
-   "label": "Transaction Information"
-  },
-  {
-   "default": "0",
-   "fieldname": "outgoing",
-   "fieldtype": "Check",
-   "label": "Outgoing"
-  },
-  {
-   "default": "0",
-   "fieldname": "incoming",
-   "fieldtype": "Check",
-   "label": "Incoming"
-  },
-  {
-   "fieldname": "from_party",
-   "fieldtype": "Link",
-   "label": "Party",
-   "options": "DocType"
-  },
-  {
-   "fieldname": "to_party",
-   "fieldtype": "Link",
-   "label": "Party",
-   "options": "DocType"
-  },
-  {
-   "fieldname": "column_break_jffj",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "sub_department_link",
-   "fieldtype": "Link",
-   "hidden": 1,
-   "label": "Sub Department Link",
-   "options": "DocType"
-  },
-  {
-   "fieldname": "status",
-   "fieldtype": "Select",
-   "label": "Status",
-   "options": "\nStatus 1\nStatus 2\nStatus 3"
-  },
-  {
-   "fieldname": "prority",
-   "fieldtype": "Select",
-   "label": "Prority",
-   "options": "\nLow\nMedium\nHigh\nUrgent"
-  },
-  {
    "fieldname": "additional_details_section",
    "fieldtype": "Section Break",
-   "label": "Additional Details"
+   "label": "Document Details"
   },
   {
    "fieldname": "title",
@@ -141,42 +59,31 @@
    "label": "Reference Number"
   },
   {
-   "fieldname": "receivesent_date",
-   "fieldtype": "Date",
-   "label": "Receive/Sent date"
-  },
-  {
    "fieldname": "client",
    "fieldtype": "Link",
-   "label": "Client",
+   "label": "Applicant",
    "options": "Contact"
   },
   {
-   "fieldname": "company",
+   "fieldname": "created_by",
    "fieldtype": "Link",
-   "label": "Company",
-   "options": "Company"
+   "label": "Created By",
+   "options": "User",
+   "read_only": 1,
+   "set_only_once": 1
   },
   {
-   "fieldname": "from_department",
-   "fieldtype": "Dynamic Link",
-   "label": "From Department",
-   "options": "from_party"
+   "fieldname": "summary_section",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "Summary"
   },
   {
-   "fieldname": "to_department",
-   "fieldtype": "Dynamic Link",
-   "label": "To Department",
-   "options": "to_party"
+   "fieldname": "summary",
+   "fieldtype": "HTML"
   },
   {
-   "fieldname": "sub_department",
-   "fieldtype": "Dynamic Link",
-   "label": "Sub Department",
-   "options": "sub_department_link"
-  },
-  {
-   "fieldname": "section_break_niff",
+   "fieldname": "attachments_section",
    "fieldtype": "Section Break",
    "label": "Attachments"
   },
@@ -184,38 +91,15 @@
    "fieldname": "attachments",
    "fieldtype": "Table",
    "options": "Transaction Attachments"
-  },
-  {
-   "fieldname": "associated_transaction",
-   "fieldtype": "Link",
-   "label": "Associated Transaction",
-   "options": "Transaction"
-  },
-  {
-   "fieldname": "associated_transactions_section",
-   "fieldtype": "Section Break",
-   "hidden": 1,
-   "label": "Associated Transactions"
-  },
-  {
-   "fieldname": "associated_transactions",
-   "fieldtype": "HTML"
-  },
-  {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Transaction",
-   "print_hide": 1,
-   "read_only": 1,
-   "search_index": 1
+
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-10 10:48:08.595939",
+
+ "modified": "2024-05-11 21:53:59.026431",
+
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

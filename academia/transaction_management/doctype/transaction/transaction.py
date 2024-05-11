@@ -7,7 +7,16 @@ from frappe.model.document import Document # type: ignore
 
 
 class Transaction(Document):
+    # pass
     def before_save(self):
+
+        created_by = frappe.get_doc('User', frappe.session.user)
+        self.created_by = created_by.name
+    
+
+
+
+
         # Get the list of roles for the current user
         user_roles = frappe.get_roles(frappe.session.user)
         
@@ -58,23 +67,18 @@ class Transaction(Document):
 #             if not row.attachment_name:
 #                 row.attachment_name = row.attachment_label.replace(" ", "_").lower() + "_file"
 		   
+
            
 @frappe.whitelist()
-def get_associated_transactions(associated_transaction):
-    linked_transactions = []
-    get_linked_transactions(associated_transaction, linked_transactions)
-    linked_transactions.reverse()  # Reverse the list to get the oldest transactions first
-    return linked_transactions
-
-def get_linked_transactions(associated_transaction, linked_transactions):
-    transactions = frappe.get_all('Transaction',
-                                  filters={'name': associated_transaction},
+def get_transaction_actions(transaction):
+    transaction_actions = frappe.get_all('Transaction Action',
+                                  filters={'main_transaction': transaction},
                                   fields=['*'],)
-
-    if transactions:
-        transaction = transactions[0]
-        linked_transactions.append(transaction)
-        associ_trans = transaction.get('associated_transaction')
-
-        if associ_trans:
-            get_linked_transactions(associ_trans, linked_transactions)
+    return transaction_actions
+  
+@frappe.whitelist()
+def get_transaction_category_requirement(transaction_category):
+    requirements = frappe.get_all("Transaction Category  Requirement",
+                                   filters={"parent": transaction_category},
+                                    )
+    return requirements
