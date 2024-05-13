@@ -2,7 +2,7 @@ app_name = "academia"
 app_title = "Academia"
 app_publisher = "SanU"
 app_description = "Academic institution management system"
-app_email = "eng.bakraldubai@gmail.com"
+app_email = "a.alshalabi@su.edu.ye"
 app_license = "mit"
 # required_apps = []
 
