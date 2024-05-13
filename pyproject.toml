@@ -1,7 +1,7 @@
 [project]
 name = "academia"
 authors = [
-    { name = "SanU", email = "eng.bakraldubai@gmail.com"}
+    { name = "SanU", email = "a.alshalabi@su.edu.ye"}
 ]
 description = "Academic institution management system"
 requires-python = ">=3.10"
