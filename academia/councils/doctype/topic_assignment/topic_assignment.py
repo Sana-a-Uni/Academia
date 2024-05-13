@@ -14,6 +14,7 @@ class TopicAssignment(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.councils.doctype.topic_assignment_copy.topic_assignment_copy import TopicAssignmentCopy
 		from academia.councils.doctype.topic_attachment.topic_attachment import TopicAttachment
 		from frappe.types import DF
 
@@ -24,8 +25,11 @@ class TopicAssignment(Document):
 		decision: DF.TextEditor | None
 		decision_type: DF.Literal["", "Postponed", "Resolved", "Transferred"]
 		description: DF.TextEditor
+		grouped_assignments: DF.Table[TopicAssignmentCopy]
+		is_group: DF.Check
 		main_category: DF.Link | None
 		naming_series: DF.Literal["CNCL-TA-.{topic}.##"]
+		parent_assignment: DF.Link | None
 		status: DF.Literal["", "Pending Review", "Pending Acceptance", "Accepted", "Rejected"]
 		sub_category: DF.Link | None
 		title: DF.Data
