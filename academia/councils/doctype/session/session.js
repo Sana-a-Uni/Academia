@@ -2,6 +2,27 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Session", {
+    setup: function (frm) {
+        // Changing Button Style
+        $(`<style>
+      .btn[data-fieldname="get_members"] {
+        background-color: #171717; /* Custom dark gray */
+        color: white;
+      }
+      .btn[data-fieldname="get_members"]:hover {
+        background-color: #171710 !important;/* Slightly darker gray for interaction states */
+        color: white !important;
+      }
+      .btn[data-fieldname="get_assignments"] {
+        background-color: #171717; /* Custom dark gray */
+        color: white;
+      }
+      .btn[data-fieldname="get_assignments"]:hover {
+        background-color: #171710 !important;/* Slightly darker gray for interaction states */
+        color: white !important;
+      }
+        </style>`).appendTo("head");
+    },
     validate(frm) {
         frm.events.validate_time(frm);
         academia.councils.utils.validate_head_exist(frm.doc.members);
@@ -46,31 +67,88 @@ frappe.ui.form.on("Session", {
         }
     }
     ,
-    /**
-     * Fetches the assignments for the current session.
-     * @param {Object} frm - The current form object.
-     */
-    fetch_assignments(frm) {
-        frappe.db.get_list("Topic Assignment", {
-            fields: ["name", "title", "description"],
-            filters: {
-                docstatus: 0,
-                council: cur_frm.doc.council,
-                status: "Accepted"
-            }
-        }).then((assignments) => {
-            // Clear any existing assignments in the child table:
-            frm.doc.assignments = '';
-            // Loop through the assignments and add them to the child table:
-            assignments.forEach(assignment => {
-                frm.add_child('assignments', {
-                    topic_assignment: assignment.name,
-                    title: assignment.title,
-                    description: assignment.description
+    get_members: function (frm) {
+        new frappe.ui.form.MultiSelectDialog({
+            doctype: "Employee",
+            target: frm,
+            setters: {
+                employee_name: null,
+                company: frappe.defaults.get_default('company')
+                ,
+                department: null,
+                designation: null
+            },
+            // add_filters_group: 1,
+            get_query() {
+                return {
+                    filters: { docstatus: ['!=', 2], company: this.setters.company }
+                }
+            },
+            primary_action_label: "Get Members",
+            action(selections) {
+                // console.log(d.dialog.get_value("company"));
+                // emptying Council members
+                frm.set_value('members', []);
+                // Hold employee names 
+                selections.forEach((member, index, array) => {
+                    frappe.db.get_value("Employee", member, "employee_name", (employee) => {
+                        if (employee) {
+                            frm.add_child("members", {
+                                employee: member,
+                                member_name: employee.employee_name,
+                                member_role: "Council Member"
+                            })
+                            // Refreshing the Council Members in the last itration
+                            console.log(`array => ${array}`)
+                            if (index === array.length - 1) {
+                                frm.refresh_field("members");
+                            }
+                        }
+                    });
                 });
-            });
-            // Refresh the child table to display assignments:
-            frm.refresh_field('assignments');
+                this.dialog.hide();
+            }
+        });
+
+    },
+    get_assignments(frm) {
+        new frappe.ui.form.MultiSelectDialog({
+            doctype: "Topic Assignment",
+            target: frm,
+            setters: {
+                title: null,
+                main_category: null,
+                sub_category: null
+            },
+            // add_filters_group: 1,
+            get_query() {
+                return {
+                    filters: { docstatus: ['=', 0], council: frm.doc.council, status: "Accepted" }
+                }
+            },
+            primary_action_label: "Get Assignment",
+            action(assignments) {
+                // Clear any existing assignments in the child table:
+                frm.doc.assignments = '';
+                // Loop through the assignments and add them to the child table:
+                assignments.forEach(assignment => {
+                    console.log(assignment);
+                    frappe.db.get_value('Topic Assignment', assignment, ['name', 'title', 'description'], (assignment_doc) => {
+                        frm.add_child('assignments', {
+                            topic_assignment: assignment_doc.name,
+                            title: assignment_doc.title,
+                            description: assignment_doc.description
+                        });
+                        frm.refresh_field('assignments');
+
+
+                    })
+
+                });
+                // Refresh the child table to display assignments:
+                frm.refresh_field('assignments');
+                this.dialog.hide();
+            }
         });
     }
 });
