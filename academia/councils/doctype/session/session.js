@@ -23,6 +23,17 @@ frappe.ui.form.on("Session", {
       }
         </style>`).appendTo("head");
     },
+    onload(frm) {
+        frm.set_query("topic_assignment", "assignments", function () {
+            return {
+                filters: { 
+                    docstatus: ['=', 0],
+                    council: frm.doc.council,
+                    status: "Accepted",
+                    parent_assignment: '' },
+            };
+        });
+    },
     validate(frm) {
         frm.events.validate_time(frm);
         academia.councils.utils.validate_head_exist(frm.doc.members);
@@ -73,8 +84,7 @@ frappe.ui.form.on("Session", {
             target: frm,
             setters: {
                 employee_name: null,
-                company: frappe.defaults.get_default('company')
-                ,
+                company: frappe.defaults.get_default('company'),
                 department: null,
                 designation: null
             },
@@ -123,7 +133,7 @@ frappe.ui.form.on("Session", {
             // add_filters_group: 1,
             get_query() {
                 return {
-                    filters: { docstatus: ['=', 0], council: frm.doc.council, status: "Accepted" }
+                    filters: { docstatus: ['=', 0], council: frm.doc.council, status: "Accepted", parent_assignment: '' }
                 }
             },
             primary_action_label: "Get Assignment",
