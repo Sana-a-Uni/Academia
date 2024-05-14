@@ -30,6 +30,43 @@ frappe.ui.form.on("Topic Assignment", {
     });
   },
 
+  onload: function(frm) {
+      // Hide the grouped_assignments field initially
+      frm.toggle_display('grouped_assignments', false);
+  },
+  is_group: function(frm) {
+      // Check the value of the checkbox field
+      if (frm.doc.is_group) {
+          // If checkbox is checked, display the grouped_assignments field
+          frm.toggle_display('grouped_assignments', true);
+      } else {
+          // If checkbox is unchecked, hide the grouped_assignments field
+          frm.toggle_display('grouped_assignments', false);
+      }
+  },
+
+    refresh: function(frm) {
+      frm.set_query("parent_assignment", function(doc) {
+        return {
+          filters: [
+            ["is_group", "=",1]
+          ]
+        };
+      });
+      
+      frm.set_query("topic_assignment_","grouped_assignments", function(doc) {
+        return {
+          filters: [
+            ["is_group", "=", 0]
+          ]
+        };
+      });
+    },
+    
+
+
+
+
   council: function (frm) {
     frm.events.clear_topic(frm);
   },
@@ -64,4 +101,50 @@ frappe.ui.form.on("Topic Assignment", {
     frm.set_value("topic", "");
     frm.refresh_field("topic");
   },
+
+  get_assignments_to_group: function (frm) {
+
+    new frappe.ui.form.MultiSelectDialog({
+      doctype: "Topic Assignment",
+      target: frm,
+      setters: {
+      title:null,
+      main_category:null,
+      sub_category:null,
+      assignment_date:null,
+      },
+      add_filters_group: 1,
+      date_field: "transaction_date",
+      // columns: ["title","main_category"],
+      get_query() {
+          return{ 
+            filters: { is_group: ['=', 0] }
+          }
+      },
+      action(selections) {
+          console.log(selections);
+      },
+    
+      primary_action_label: "Get Assignments To Group",
+      action(selections) {
+        frm.set_value('grouped_assignments', []);
+        selections.forEach((assignment, index, array) => {
+          frappe.db.get_value("Topic Assignment", assignment, "title", (obj) => {
+            if (obj) {
+              frm.add_child("grouped_assignments", {
+                obj: assignment,
+                title: obj.title,
+              })
+              console.log(`array => ${array}`)
+              if (index === array.length - 1) {
+                frm.refresh_field("grouped_assignments");
+              }
+            }
+          });
+        });
+        this.dialog.hide();
+      },
+    });
+    }
 });
+
