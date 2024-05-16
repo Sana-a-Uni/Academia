@@ -82,40 +82,6 @@ class Session(Document):
         # Return the lists of edited, added, and deleted assignments
         return edited_assignments, added_assignments, deleted_assignments
 
-    def before_save(self):
-        if not self.is_new():
-            self.update_forward_assignments_status()
-
-    def update_forward_assignments_status(self):
-        """
-        This function updates the status of the forward assignments of a session.
-
-        Args:
-            self (Session): The current session document.
-
-        Returns:
-            None
-
-        """
-        # Detect changes in assignments (edited or added)
-        edited_assignments, added_assignments, _ = self.detect_assignments_changes()
-
-        # Combine edited and added assignments into a single list
-        changed_assignments = edited_assignments + added_assignments
-
-        # Iterate through the changed assignments
-        for assignment in changed_assignments:
-            # Check if the decision type of the assignment is "Transferred"
-            if assignment.decision_type == "Transferred":
-                # Get the old status of the forward assignment
-                old_status = frappe.get_value(
-                    "Topic Assignment", assignment.forward_assignment, "status")
-
-                # If the old status is not "Pending Review", update the status to "Pending Review"
-                if old_status != "Pending Review":
-                    frappe.db.set_value(
-                        "Topic Assignment", assignment.forward_assignment, "status", "Pending Review")
-
     def create_postponed_assignment(self, session_assignment):
         """Creates a new Topic Assignment with postponed status the specified details.
 
@@ -158,7 +124,6 @@ class Session(Document):
                 if session_assignment_doc:
                     doc_assignment = self.create_postponed_assignment(
                         session_assignment)
-                    session_assignment.forward_assignment = doc_assignment.name  # Link the new assignment
 
             # Update the Topic Assignment with the decision details
             session_assignment_doc.decision = session_assignment.decision

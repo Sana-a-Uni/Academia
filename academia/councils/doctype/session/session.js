@@ -26,14 +26,16 @@ frappe.ui.form.on("Session", {
     onload(frm) {
         frm.set_query("topic_assignment", "assignments", function () {
             return {
-                filters: { 
+                filters: {
                     docstatus: ['=', 0],
                     council: frm.doc.council,
                     status: "Accepted",
-                    parent_assignment: '' },
+                    parent_assignment: ''
+                },
             };
         });
     },
+
     validate(frm) {
         frm.events.validate_time(frm);
         academia.councils.utils.validate_head_exist(frm.doc.members);
@@ -179,6 +181,46 @@ frappe.ui.form.on("Session Topic Assignment", {
         });
         frm.refresh_field('assignments');
     },
+    create_memo(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+        let dialog = new frappe.ui.Dialog({
+            title: __("New Council Memo"),
+            fields: [
+                {
+                    label: __("Council"),
+                    fieldtype: "Link",
+                    options: "Council",
+                    fieldname: "council",
+                    reqd: 1,
+                },
+                {
+                    "fieldname": "title",
+                    "fieldtype": "Data",
+                    "label": "Title"
+                },
+                {
+
+                    "fieldname": "description",
+                    "fieldtype": "Text Editor",
+                    "label": "Description"
+                },
+
+            ],
+            primary_action_label: __("Save"),
+            primary_action: (values) => {
+                values.doctype = "Council Memo";
+                values.originating_assignment = row.topic_assignment;
+                frappe.db.insert(values).then((doc) => {
+                    frappe.model.set_value(cdt, cdn, 'council_memo', doc.name);
+                    dialog.hide();
+                });
+            },
+        });
+
+        dialog.show();
+    }
+    ,
+
 });
 frappe.ui.form.on("Session Member", {
     employee: function (frm, cdt, cdn) {

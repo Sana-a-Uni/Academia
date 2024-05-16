@@ -14,10 +14,10 @@ class SessionTopicAssignment(Document):
     if TYPE_CHECKING:
         from frappe.types import DF
 
+        council_memo: DF.Link | None
         decision: DF.TextEditor | None
         decision_type: DF.Literal["", "Postponed", "Resolved", "Transferred"]
         description: DF.TextEditor | None
-        forward_assignment: DF.Link | None
         parent: DF.Data
         parentfield: DF.Data
         parenttype: DF.Data
