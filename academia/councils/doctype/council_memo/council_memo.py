@@ -31,7 +31,10 @@ class CouncilMemo(Document):
             
             # Use the current date and the fetched council name for naming, if council is available
 			if council:
-				self.name = f'{today()}-{council}-Memo'
+				# self.name = f'{today()}-{council}-to-{self.council}-Memo-##'
+				naming_series_format = f'.YY.MM.-{council}-Memo-.###'
+							# Apply the naming series
+				self.name = frappe.model.naming.make_autoname(naming_series_format)
 			else:
                 # Fallback naming convention if council is not available
-				self.name = f'{today()}-Memo'
+				self.name = frappe.model.naming.make_autoname(f'{today()}-Memo-.#####')

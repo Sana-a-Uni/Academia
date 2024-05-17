@@ -58,7 +58,7 @@
   },
   {
    "allow_on_submit": 1,
-   "depends_on": "eval:!doc.is_new();",
+   "depends_on": "eval:!doc.__islocal;",
    "fieldname": "status",
    "fieldtype": "Select",
    "in_standard_filter": 1,
@@ -105,7 +105,7 @@
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-11 00:47:08.418409",
+ "modified": "2024-05-17 03:14:15.558436",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Council Memo",
