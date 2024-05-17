@@ -11,16 +11,17 @@
   "title",
   "description",
   "column_break_ktxa",
+  "full_electronic",
   "client",
   "start_date",
   "category",
   "created_by",
+  "status",
   "attachments_section",
   "attachments",
-
   "summary_section",
-  "summary"
-
+  "summary",
+  "amended_from"
  ],
  "fields": [
   {
@@ -51,7 +52,9 @@
   {
    "fieldname": "start_date",
    "fieldtype": "Date",
-   "label": "Start Date"
+   "label": "Start Date",
+   "read_only": 1,
+   "set_only_once": 1
   },
   {
    "fieldname": "reference_number",
@@ -91,15 +94,36 @@
    "fieldname": "attachments",
    "fieldtype": "Table",
    "options": "Transaction Attachments"
-
+  },
+  {
+   "default": "0",
+   "fieldname": "full_electronic",
+   "fieldtype": "Check",
+   "label": "Full Electronic"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Transaction",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Pending\nApproved\nRejected",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
-
- "modified": "2024-05-11 21:53:59.026431",
-
+ "modified": "2024-05-17 12:14:06.769256",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
@@ -121,5 +145,18 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [
+  {
+   "color": "Blue",
+   "title": "Pending"
+  },
+  {
+   "color": "Green",
+   "title": "Approved"
+  },
+  {
+   "color": "Red",
+   "title": "Rejected"
+  }
+ ]
 }
