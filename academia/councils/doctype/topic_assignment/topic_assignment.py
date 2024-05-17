@@ -8,21 +8,6 @@ from frappe.model.document import Document
 
 
 class TopicAssignment(Document):
-	def before_save(self):
-		if self.is_group:
-			# Iterate over grouped assignments and set the Parent field
-			for assignment in self.grouped_assignments:
-				frappe.db.set_value('Topic Assignment', assignment.topic_assignment, 'parent_assignment', self.name)
-		else:
-				if (self.parent_assignment):
-					parent_doc = frappe.get_doc('Topic Assignment', self.parent_assignment)
-					parent_doc.append('grouped_assignments', {
-						'topic_assignment': self.name,
-						'title': self.title,
-						'assignment_date': self.assignment_date
-					})
-					parent_doc.save(ignore_permissions=True)
-
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -53,6 +38,23 @@ class TopicAssignment(Document):
 	def validate(self):
 		self.validate_main_sub_category_relationship()
   
+	def before_save(self):
+		if self.is_group:
+			# Iterate over grouped assignments and set the Parent field
+			for assignment in self.grouped_assignments:
+				frappe.db.set_value('Topic Assignment', assignment.topic_assignment, 'parent_assignment', self.name)
+		else:
+				if (self.parent_assignment):
+					parent_doc = frappe.get_doc('Topic Assignment', self.parent_assignment)
+					parent_doc.append('grouped_assignments', {
+						'topic_assignment': self.name,
+						'title': self.title,
+						'assignment_date': self.assignment_date
+					})
+					parent_doc.save(ignore_permissions=True)
+
+
+  
 	def validate_main_sub_category_relationship(self):
 		"""
 		Validate the relationship between main category and sub-category, and check that the selected sub category is one of the  selected main category's sub categories
@@ -79,7 +81,9 @@ def get_available_topics(doctype, txt, searchfield, start, page_len, filters):
 
     return frappe.db.sql(
         """SELECT name FROM `tabTopic`
-        WHERE council = %(council)s AND
+        WHERE docstatus= %(docstatus)s  AND 
+        council = %(council)s AND 
+        status IN %(status)s AND
         name NOT IN (
             SELECT topic
             FROM `tabTopic Assignment`
@@ -88,7 +92,10 @@ def get_available_topics(doctype, txt, searchfield, start, page_len, filters):
         ORDER BY name
        """,
         {
-            "council": filters.get("council")
+            "council": filters.get("council"),
+            "docstatus":filters.get("docstatus"),
+            "status":filters.get("status")
+            
         },
         as_list=True
     )

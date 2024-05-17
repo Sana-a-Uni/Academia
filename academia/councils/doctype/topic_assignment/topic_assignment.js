@@ -25,49 +25,45 @@ frappe.ui.form.on("Topic Assignment", {
       return {
         query:
           "academia.councils.doctype.topic_assignment.topic_assignment.get_available_topics",
-        filters: { council: frm.doc.council },
+        filters: {
+          council: frm.doc.council,
+          docstatus: 1,
+          status: ["Complete", "In Progress"],
+        },
       };
     });
   },
 
-  onload: function(frm) {
+  onload: function (frm) {
     frm.refresh_field("grouped_assignments");
 
-      // Hide the grouped_assignments field initially
-      frm.toggle_display('grouped_assignments', false);
+    // Hide the grouped_assignments field initially
+    frm.toggle_display("grouped_assignments", false);
   },
-  is_group: function(frm) {
-      // Check the value of the checkbox field
-      if (frm.doc.is_group) {
-          // If checkbox is checked, display the grouped_assignments field
-          frm.toggle_display('grouped_assignments', true);
-      } else {
-          // If checkbox is unchecked, hide the grouped_assignments field
-          frm.toggle_display('grouped_assignments', false);
-      }
+  is_group: function (frm) {
+    // Check the value of the checkbox field
+    if (frm.doc.is_group) {
+      // If checkbox is checked, display the grouped_assignments field
+      frm.toggle_display("grouped_assignments", true);
+    } else {
+      // If checkbox is unchecked, hide the grouped_assignments field
+      frm.toggle_display("grouped_assignments", false);
+    }
   },
 
-    refresh: function(frm) {
-      frm.set_query("parent_assignment", function(doc) {
-        return {
-          filters: [
-            ["is_group", "=",1]
-          ]
-        };
-      });
-      
-      frm.set_query("topic_assignment","grouped_assignments", function(doc) {
-        return {
-          filters: [
-            ["is_group", "=", 0]
-          ]
-        };
-      });
-    },
-    
+  refresh: function (frm) {
+    frm.set_query("parent_assignment", function (doc) {
+      return {
+        filters: [["is_group", "=", 1]],
+      };
+    });
 
-
-
+    frm.set_query("topic_assignment", "grouped_assignments", function (doc) {
+      return {
+        filters: [["is_group", "=", 0]],
+      };
+    });
+  },
 
   council: function (frm) {
     frm.events.clear_topic(frm);
@@ -105,54 +101,57 @@ frappe.ui.form.on("Topic Assignment", {
   },
 
   get_assignments_to_group: function (frm) {
-
     new frappe.ui.form.MultiSelectDialog({
       doctype: "Topic Assignment",
       target: frm,
       setters: {
-      title:null,
-      main_category:null,
-      sub_category:null,
-      assignment_date:null,
+        title: null,
+        main_category: null,
+        sub_category: null,
+        assignment_date: null,
       },
       add_filters_group: 1,
       date_field: "transaction_date",
       // columns: ["title","main_category"],
       get_query() {
-          return{ 
-            filters: { is_group: ['=', 0] }
-          }
+        return {
+          filters: { is_group: ["=", 0] },
+        };
       },
       action(selections) {
-          console.log(selections);
+        console.log(selections);
       },
-    
+
       primary_action_label: "Get Assignments To Group",
       action(selections) {
-        frm.set_value('grouped_assignments', []);
+        frm.set_value("grouped_assignments", []);
         selections.forEach((assignment, index, array) => {
-          frappe.db.get_value("Topic Assignment", assignment, ["name", "title", "assignment_date"], (obj) => {
-            if (obj) {
-              frm.add_child("grouped_assignments", {
-                obj: assignment,
-                topic_assignment: obj.name,
-                title: obj.title,
-                assignment_date: obj.assignment_date,
-              })
-              if (index === array.length - 1) {
-                frm.refresh_field("grouped_assignments");
+          frappe.db.get_value(
+            "Topic Assignment",
+            assignment,
+            ["name", "title", "assignment_date"],
+            (obj) => {
+              if (obj) {
+                frm.add_child("grouped_assignments", {
+                  obj: assignment,
+                  topic_assignment: obj.name,
+                  title: obj.title,
+                  assignment_date: obj.assignment_date,
+                });
+                if (index === array.length - 1) {
+                  frm.refresh_field("grouped_assignments");
+                }
               }
             }
-          });
+          );
         });
         this.dialog.hide();
       },
     });
-    },
-    // after_save: function(frm) {
-    //   frm.doc.grouped_assignments.forEach(function(assignment) {
-    //   frappe.db.set_value("Topic Assignment", assignment.topic_assignment, 'parent_assignment', frm.doc.name);
-    // });
-// }
+  },
+  // after_save: function(frm) {
+  //   frm.doc.grouped_assignments.forEach(function(assignment) {
+  //   frappe.db.set_value("Topic Assignment", assignment.topic_assignment, 'parent_assignment', frm.doc.name);
+  // });
+  // }
 });
-
