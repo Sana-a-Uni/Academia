@@ -254,23 +254,9 @@ function show_related_assignments(frm) {
 }
 
 function fetch_data(frm, callback) {
-  frappe.call({
-    method: "frappe.client.get_list",
-    args: {
-      doctype: "Topic Assignment",
-      fields: [
-        "name",
-        "title",
-        "status",
-        "council",
-        "assignment_date",
-        "decision_type",
-        "parent_assignment",
-      ],
-      filters: {
-        topic: frm.doc.name,
-      },
-    },
+  frm.call({
+    method: "get_all_related_assignments",
+    args: { topic_name: frm.doc.name },
     callback: function (r) {
       if (r.message) {
         const data = r.message.map((d) => [
