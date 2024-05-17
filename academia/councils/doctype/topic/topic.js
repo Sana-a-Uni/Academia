@@ -18,6 +18,12 @@ frappe.ui.form.on("Topic", {
         });
       });
     }
+
+    if (!frm.is_new()) {
+      // Render the list view
+      show_related_assignments(frm);
+    }
+
     frm.add_custom_button(
       __("Select Applicants"),
       function () {
@@ -232,4 +238,76 @@ function get_applicant_type_info(frm, applicant_type) {
     default:
       return "Employee"; // Assuming 'Other' maps to 'Employee'
   }
+}
+
+function show_related_assignments(frm) {
+  const container = $(frm.fields_dict.related_assignments.wrapper);
+  container.empty(); // Clear previous data
+
+  fetch_data(frm, function (data) {
+    if (data.length > 0) {
+      create_datatable(container, data);
+    } else {
+      $(container).html("No related assignments found.");
+    }
+  });
+}
+
+function fetch_data(frm, callback) {
+  frappe.call({
+    method: "frappe.client.get_list",
+    args: {
+      doctype: "Topic Assignment",
+      fields: [
+        "name",
+        "title",
+        "status",
+        "council",
+        "assignment_date",
+        "decision_type",
+        "parent_assignment",
+      ],
+      filters: {
+        topic: frm.doc.name,
+      },
+    },
+    callback: function (r) {
+      if (r.message) {
+        const data = r.message.map((d) => [
+          `<a href='/app/topic-assignment/${d.name}'>${d.name}</a>`,
+          d.title,
+          d.status,
+          d.council,
+          frappe.datetime.str_to_user(d.assignment_date),
+          d.decision_type,
+          d.parent_assignment,
+        ]);
+        callback(data);
+      } else {
+        callback([]);
+      }
+    },
+  });
+}
+
+function create_datatable(container, data) {
+  const datatable = new DataTable(container[0], {
+    columns: [
+      { name: "Assignment", width: 180, editable: false },
+      { name: "Title", width: 220, editable: false },
+      { name: "Status", width: 120, editable: false },
+      { name: "Council", width: 150, editable: false },
+      { name: "Assignment Date", width: 150, editable: false },
+      { name: "Decision Type", width: 120, editable: false },
+      { name: "Parent Assignment", width: 150, editable: false },
+    ],
+    data: data,
+    dynamicRowHeight: true,
+    checkboxColumn: false,
+    inlineFilters: true,
+  });
+
+  datatable.style.setStyle(".dt-cell__content", {
+    textAlign: "left",
+  });
 }
