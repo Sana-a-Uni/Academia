@@ -19,6 +19,6 @@ class TopicAssignmentCopy(Document):
 		parentfield: DF.Data
 		parenttype: DF.Data
 		title: DF.Data | None
-		topic_assignment_: DF.Link | None
+		topic_assignment: DF.Link | None
 	# end: auto-generated types
 	pass

@@ -8,6 +8,21 @@ from frappe.model.document import Document
 
 
 class TopicAssignment(Document):
+	def before_save(self):
+		if self.is_group:
+			# Iterate over grouped assignments and set the Parent field
+			for assignment in self.grouped_assignments:
+				frappe.db.set_value('Topic Assignment', assignment.topic_assignment, 'parent_assignment', self.name)
+		else:
+				if (self.parent_assignment):
+					parent_doc = frappe.get_doc('Topic Assignment', self.parent_assignment)
+					parent_doc.append('grouped_assignments', {
+						'topic_assignment': self.name,
+						'title': self.title,
+						'assignment_date': self.assignment_date
+					})
+					parent_doc.save(ignore_permissions=True)
+
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 

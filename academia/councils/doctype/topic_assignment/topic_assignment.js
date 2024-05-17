@@ -31,6 +31,8 @@ frappe.ui.form.on("Topic Assignment", {
   },
 
   onload: function(frm) {
+    frm.refresh_field("grouped_assignments");
+
       // Hide the grouped_assignments field initially
       frm.toggle_display('grouped_assignments', false);
   },
@@ -54,7 +56,7 @@ frappe.ui.form.on("Topic Assignment", {
         };
       });
       
-      frm.set_query("topic_assignment_","grouped_assignments", function(doc) {
+      frm.set_query("topic_assignment","grouped_assignments", function(doc) {
         return {
           filters: [
             ["is_group", "=", 0]
@@ -129,13 +131,14 @@ frappe.ui.form.on("Topic Assignment", {
       action(selections) {
         frm.set_value('grouped_assignments', []);
         selections.forEach((assignment, index, array) => {
-          frappe.db.get_value("Topic Assignment", assignment, "title", (obj) => {
+          frappe.db.get_value("Topic Assignment", assignment, ["name", "title", "assignment_date"], (obj) => {
             if (obj) {
               frm.add_child("grouped_assignments", {
                 obj: assignment,
+                topic_assignment: obj.name,
                 title: obj.title,
+                assignment_date: obj.assignment_date,
               })
-              console.log(`array => ${array}`)
               if (index === array.length - 1) {
                 frm.refresh_field("grouped_assignments");
               }
@@ -145,6 +148,11 @@ frappe.ui.form.on("Topic Assignment", {
         this.dialog.hide();
       },
     });
-    }
+    },
+    // after_save: function(frm) {
+    //   frm.doc.grouped_assignments.forEach(function(assignment) {
+    //   frappe.db.set_value("Topic Assignment", assignment.topic_assignment, 'parent_assignment', frm.doc.name);
+    // });
+// }
 });
 
