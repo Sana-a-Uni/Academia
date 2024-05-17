@@ -10,18 +10,46 @@ frappe.ui.form.on('Transaction', {
         }
     },
     refresh: function(frm) {
+
+        frappe.call({
+            method: 'academia.transaction_management.doctype.transaction.transaction.get_last_transaction_action_status',
+            args: { 
+                transaction: frm.doc.name,
+            },
+            callback: function(response) {
+                if (response.message) {
+                    if(response.message == "Approved")
+                        // frm.set_value('status', "Approved");
+                        frappe.db.set_value('Transaction', frm.docname, 'status', 'Approved');
+                    else if(response.message == "Rejected")
+                        // frm.set_value('status', "Rejected");
+                        frappe.db.set_value('Transaction', frm.docname, 'status', 'Rejected');
+                    else
+                        // frm.set_value('status', "Pending");
+                        frappe.db.set_value('Transaction', frm.docname, 'status', 'Pending');
+                    // frm.save();
+                    frappe.ui.form.save('Update', null, frm.docname);
+                }
+            }
+        });
+
         // display the custom button after save the document
-        if (!frm.doc.__islocal)
+        if (frm.doc.docstatus === 1)
         {
             frm.add_custom_button('Transaction Action', function() {
                 frappe.new_doc('Transaction Action', {
                     'main_transaction': frm.doc.name
                 });
+                // back to Transaction after save the transaction action
+                frappe.ui.form.on("Transaction Action", {
+                    after_save: function(frm) {
+                        frappe.set_route('Form', 'Transaction', frm.doc.main_transaction);
+                    },
+                })
             }).addClass('btn-primary');    
         }
 
         // to display the Transaction Action
-
         frm.trigger('showTransactionActions');
 
     },

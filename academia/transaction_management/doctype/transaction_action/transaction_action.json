@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:STR-{MM}-{YY}- {####}",
+ "autoname": "format:TACT-{MM}-{YY}- {####}",
  "creation": "2024-05-11 09:35:50.825877",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -10,25 +10,23 @@
   "main_transaction_information",
   "section_break_wyzz",
   "main_transaction",
+  "receive_date",
   "status",
-  "receive",
   "column_break_mkjj",
   "priority",
   "sent_date",
   "section_break_vdld",
-  "full_electronic",
-  "outgoing",
-  "incoming",
-  "from_party",
-  "to_party",
+  "party",
   "company",
   "column_break_oaad",
-  "from_department",
   "to_department",
   "deliver_to",
   "redirected_to",
   "attachments_section",
-  "attachments"
+  "attachments",
+  "section_break_tzgo",
+  "amended_from",
+  "redirected_transaction_action"
  ],
  "fields": [
   {
@@ -42,34 +40,10 @@
    "fieldtype": "Section Break"
   },
   {
-   "default": "0",
-   "fieldname": "outgoing",
-   "fieldtype": "Check",
-   "label": "Outgoing"
-  },
-  {
-   "default": "0",
-   "fieldname": "incoming",
-   "fieldtype": "Check",
-   "label": "Incoming"
-  },
-  {
    "fieldname": "company",
    "fieldtype": "Link",
    "label": "Company",
    "options": "Company"
-  },
-  {
-   "fieldname": "from_party",
-   "fieldtype": "Link",
-   "label": "Party",
-   "options": "DocType"
-  },
-  {
-   "fieldname": "to_party",
-   "fieldtype": "Link",
-   "label": "Party",
-   "options": "DocType"
   },
   {
    "fieldname": "attachments_section",
@@ -77,23 +51,10 @@
    "label": "Attachments"
   },
   {
-   "fieldname": "from_department",
-   "fieldtype": "Dynamic Link",
-   "label": "From Department",
-   "options": "from_party"
-  },
-  {
    "fieldname": "to_department",
    "fieldtype": "Dynamic Link",
    "label": "To Department",
-   "options": "to_party"
-  },
-  {
-   "fieldname": "status",
-   "fieldtype": "Select",
-   "label": "Status",
-   "options": "\nOpen\nAssigned\nReceived\nCompleted",
-   "read_only": 1
+   "options": "party"
   },
   {
    "fieldname": "priority",
@@ -129,37 +90,71 @@
    "options": "Transaction Attachments"
   },
   {
-   "default": "0",
-   "fieldname": "full_electronic",
-   "fieldtype": "Check",
-   "label": "Full Electronic"
-  },
-  {
    "fieldname": "deliver_to",
    "fieldtype": "Link",
    "label": "Redirected From",
-   "options": "User"
-  },
-  {
-   "fieldname": "receive",
-   "fieldtype": "Datetime",
-   "label": "Receive"
+   "options": "User",
+   "read_only": 1
   },
   {
    "fieldname": "sent_date",
    "fieldtype": "Datetime",
-   "label": "Sent Date "
+   "label": "Sent Date ",
+   "read_only": 1
   },
   {
    "fieldname": "redirected_to",
    "fieldtype": "Link",
    "label": "Redirected To",
    "options": "User"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Transaction Action",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Open\nReceived\nRedirected\nApproved\nRejected",
+   "read_only": 1
+  },
+  {
+   "fieldname": "receive_date",
+   "fieldtype": "Datetime",
+   "label": "Receive Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_tzgo",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "redirected_transaction_action",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Redirected Transaction Action",
+   "options": "Transaction Action",
+   "read_only": 1
+  },
+  {
+   "fieldname": "party",
+   "fieldtype": "Link",
+   "label": "Party",
+   "options": "DocType"
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2024-05-11 22:31:49.940154",
+ "modified": "2024-05-17 13:28:44.388328",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Action",
@@ -181,5 +176,26 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [
+  {
+   "color": "Gray",
+   "custom": 1,
+   "title": "Open"
+  },
+  {
+   "color": "Blue",
+   "custom": 1,
+   "title": "Received"
+  },
+  {
+   "color": "Orange",
+   "custom": 1,
+   "title": "Redirected"
+  },
+  {
+   "color": "Green",
+   "custom": 1,
+   "title": "Approved"
+  }
+ ]
 }
