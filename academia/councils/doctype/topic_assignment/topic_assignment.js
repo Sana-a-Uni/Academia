@@ -55,15 +55,23 @@ frappe.ui.form.on("Topic Assignment", {
   },
 
   refresh: function (frm) {
-    frm.set_query("parent_assignment", function (doc) {
+    frm.set_query("parent_assignment", function () {
       return {
-        filters: [["is_group", "=", 1]],
+        filters: {
+          council: frm.doc.council,
+          is_group: 1,
+          decision_type: "", //empty ,not set , means assignment not scheduled for session
+        },
       };
     });
 
     frm.set_query("topic_assignment", "grouped_assignments", function (doc) {
       return {
-        filters: [["is_group", "=", 0]],
+        filters: {
+          council: frm.doc.council,
+          is_group: 1,
+          decision_type: "", //empty ,not set , means assignment not scheduled for session
+        },
       };
     });
   },
@@ -114,11 +122,16 @@ frappe.ui.form.on("Topic Assignment", {
         assignment_date: null,
       },
       add_filters_group: 1,
-      date_field: "transaction_date",
+      // date_field: "transaction_date",
       // columns: ["title","main_category"],
       get_query() {
         return {
-          filters: { is_group: ["=", 0] },
+          filters: {
+            is_group: 0,
+            council: frm.doc.council,
+            decision_type: "", //empty ,not set , means assignment not scheduled for session
+            // status:"Accepted"
+          },
         };
       },
       action(selections) {
