@@ -1,0 +1,45 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-04-26 20:30:33.015045",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "attachment_name",
+  "attachment_label",
+  "file"
+ ],
+ "fields": [
+  {
+   "fieldname": "file",
+   "fieldtype": "Attach Image",
+   "label": "File"
+  },
+  {
+   "fieldname": "attachment_label",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Attachment Label"
+  },
+  {
+   "fieldname": "attachment_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "Attachment Name",
+   "set_only_once": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-04-26 23:15:07.295003",
+ "modified_by": "Administrator",
+ "module": "Transaction Management",
+ "name": "Transaction Attachments",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
