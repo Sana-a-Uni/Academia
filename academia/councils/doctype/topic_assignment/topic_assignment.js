@@ -13,6 +13,9 @@ frappe.ui.form.on("Topic Assignment", {
         color: white !important;
       }
     </style>`).appendTo("head");
+
+    frm.add_fetch("topic", "topic_main_category", "main_category");
+    frm.add_fetch("topic", "topic_sub_category", "sub_category");
   },
 
   onload: function (frm) {
