@@ -14,18 +14,22 @@ class TopicAssignment(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.councils.doctype.topic_assignment_attachment.topic_assignment_attachment import TopicAssignmentAttachment
+		from academia.councils.doctype.topic_assignment_copy.topic_assignment_copy import TopicAssignmentCopy
+		from academia.councils.doctype.topic_attachment.topic_attachment import TopicAttachment
 		from frappe.types import DF
 
 		amended_from: DF.Link | None
 		assignment_date: DF.Date
-		attachments: DF.Table[TopicAssignmentAttachment]
+		attachments: DF.Table[TopicAttachment]
 		council: DF.Link
 		decision: DF.TextEditor | None
 		decision_type: DF.Literal["", "Postponed", "Resolved", "Transferred"]
 		description: DF.TextEditor
+		grouped_assignments: DF.Table[TopicAssignmentCopy]
+		is_group: DF.Check
 		main_category: DF.Link | None
 		naming_series: DF.Literal["CNCL-TA-.{topic}.##"]
+		parent_assignment: DF.Link | None
 		status: DF.Literal["", "Pending Review", "Pending Acceptance", "Accepted", "Rejected"]
 		sub_category: DF.Link | None
 		title: DF.Data
@@ -33,6 +37,30 @@ class TopicAssignment(Document):
 	# end: auto-generated types
 	def validate(self):
 		self.validate_main_sub_category_relationship()
+	def autoname(self):
+		if (self.topic and  not self.is_group):
+			# When there is a specific topic linked, include it in the name
+			self.name = frappe.model.naming.make_autoname(f'CNCL-TA-.{self.topic}.-.###')
+		else:	
+			# For grouped assignments without a specific topic
+			self.name = frappe.model.naming.make_autoname('CNCL-TA-GRP-.YY.-.MM.-.####')
+
+	def before_save(self):
+		if self.is_group:
+			# Iterate over grouped assignments and set the Parent field
+			for assignment in self.grouped_assignments:
+				frappe.db.set_value('Topic Assignment', assignment.topic_assignment, 'parent_assignment', self.name)
+		else:
+				if (self.parent_assignment):
+					parent_doc = frappe.get_doc('Topic Assignment', self.parent_assignment)
+					parent_doc.append('grouped_assignments', {
+						'topic_assignment': self.name,
+						'title': self.title,
+						'assignment_date': self.assignment_date
+					})
+					parent_doc.save(ignore_permissions=True)
+
+
   
 	def validate_main_sub_category_relationship(self):
 		"""
@@ -60,7 +88,9 @@ def get_available_topics(doctype, txt, searchfield, start, page_len, filters):
 
     return frappe.db.sql(
         """SELECT name FROM `tabTopic`
-        WHERE council = %(council)s AND
+        WHERE docstatus= %(docstatus)s  AND 
+        council = %(council)s AND 
+        status IN %(status)s AND
         name NOT IN (
             SELECT topic
             FROM `tabTopic Assignment`
@@ -69,7 +99,10 @@ def get_available_topics(doctype, txt, searchfield, start, page_len, filters):
         ORDER BY name
        """,
         {
-            "council": filters.get("council")
+            "council": filters.get("council"),
+            "docstatus":filters.get("docstatus"),
+            "status":filters.get("status")
+            
         },
         as_list=True
     )

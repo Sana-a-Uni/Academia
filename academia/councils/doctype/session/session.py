@@ -1,6 +1,7 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
+from academia.councils.doctype.council.council import validate_members
 import frappe
 from frappe.model.document import Document
 from frappe.utils import nowdate
@@ -31,8 +32,10 @@ class Session(Document):
     # end: auto-generated types
 
     def validate(self):
-        self.validate_assignment_duplicate()
         self.validate_time()
+        validate_members(self.members)
+        self.validate_assignments()
+        self.validate_assignment_duplicate()
 
     def detect_assignments_changes(self):
         """
@@ -80,40 +83,6 @@ class Session(Document):
         # Return the lists of edited, added, and deleted assignments
         return edited_assignments, added_assignments, deleted_assignments
 
-    def before_save(self):
-        if not self.is_new():
-            self.update_forward_assignments_status()
-
-    def update_forward_assignments_status(self):
-        """
-        This function updates the status of the forward assignments of a session.
-
-        Args:
-            self (Session): The current session document.
-
-        Returns:
-            None
-
-        """
-        # Detect changes in assignments (edited or added)
-        edited_assignments, added_assignments, _ = self.detect_assignments_changes()
-
-        # Combine edited and added assignments into a single list
-        changed_assignments = edited_assignments + added_assignments
-
-        # Iterate through the changed assignments
-        for assignment in changed_assignments:
-            # Check if the decision type of the assignment is "Transferred"
-            if assignment.decision_type == "Transferred":
-                # Get the old status of the forward assignment
-                old_status = frappe.get_value(
-                    "Topic Assignment", assignment.forward_assignment, "status")
-
-                # If the old status is not "Pending Review", update the status to "Pending Review"
-                if old_status != "Pending Review":
-                    frappe.db.set_value(
-                        "Topic Assignment", assignment.forward_assignment, "status", "Pending Review")
-
     def create_postponed_assignment(self, session_assignment):
         """Creates a new Topic Assignment with postponed status the specified details.
 
@@ -132,10 +101,9 @@ class Session(Document):
         doc_assignment.insert()
         return doc_assignment
 
-    
     def on_submit(self):
         self.process_session_assignments()
-        
+
     def process_session_assignments(self):
         """
         Process each session assignment, create new assignments for postponed topics,
@@ -156,13 +124,26 @@ class Session(Document):
                 if session_assignment_doc:
                     doc_assignment = self.create_postponed_assignment(
                         session_assignment)
-                    session_assignment.forward_assignment = doc_assignment.name  # Link the new assignment
+
+            self.process_council_memo(session_assignment)
 
             # Update the Topic Assignment with the decision details
             session_assignment_doc.decision = session_assignment.decision
             session_assignment_doc.decision_type = session_assignment.decision_type
             session_assignment_doc.save()
             session_assignment_doc.submit()
+
+    def process_council_memo(self, session_assignment):
+        if session_assignment.council_memo:
+            if session_assignment.decision_type == "Transferred":
+                doc = frappe.get_doc(
+                    "Council Memo", session_assignment.council_memo)
+                doc.submit()
+            else:
+                frappe.db.set_value('Session Topic Assignment',
+                                    session_assignment.name, 'council_memo', '')
+                frappe.db.delete('Council Memo', {
+                                 'name': session_assignment.council_memo})
 
     def validate_time(self):
         if self.begin_time and self.end_time:
@@ -174,3 +155,11 @@ class Session(Document):
         assignments_set = set(assignments)
         if len(assignments) != len(assignments_set):
             frappe.throw(_(f"Assignments can't be duplicated"))
+
+    def validate_assignments(self):
+        for row in self.assignments:
+            assignment = frappe.get_value(
+                "Topic Assignment", row.topic_assignment, ["*"], as_dict=1)
+            if not (assignment.docstatus == 0 and assignment.council == self.council and assignment.status == "Accepted" and not assignment.parent_assignment):
+               frappe.throw(_("There are assignment outside the valid list, please check again."))
+               

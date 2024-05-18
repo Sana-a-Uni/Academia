@@ -16,9 +16,10 @@
   "begin_time",
   "end_time",
   "members_tab",
+  "get_members",
   "members",
   "agenda_tab",
-  "fetch_assignments",
+  "get_assignments",
   "assignments",
   "amended_from"
  ],
@@ -123,15 +124,20 @@
    "reqd": 1
   },
   {
-   "fieldname": "fetch_assignments",
+   "fieldname": "get_members",
    "fieldtype": "Button",
-   "label": "Fetch Assignments"
+   "label": "Get Members"
+  },
+  {
+   "fieldname": "get_assignments",
+   "fieldtype": "Button",
+   "label": "Get Assignments"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-01 03:43:41.820826",
+ "modified": "2024-05-14 18:07:14.679752",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Session",

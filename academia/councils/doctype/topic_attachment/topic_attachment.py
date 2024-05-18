@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class TopicAssignmentAttachment(Document):
+class TopicAttachment(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -19,6 +19,7 @@ class TopicAssignmentAttachment(Document):
 		parentfield: DF.Data
 		parenttype: DF.Data
 		title: DF.Data
-		type: DF.Literal
+		type: DF.Literal["", "Supporting Document", "Minutes", "Document", "Image", "Report"]
+		upload_date: DF.Date | None
 	# end: auto-generated types
 	pass

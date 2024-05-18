@@ -2,35 +2,11 @@
 // // For license information, please see license.txt
 
 frappe.ui.form.on("Topic", {
-  onload_post_render: function (frm) {
-    if (frm.doc.__islocal) {
-      return; // Do not execute if the document is fresh or it is the first time created
-    }
-    frm.doc.applicants.forEach(function (applicant) {
-      // populate applicant name post render
-      populate_applicant_full_name(
-        frm,
-        applicant.doctype,
-        applicant.name,
-        applicant
-      );
-    });
-  },
-  topic_main_category(frm) {
-    // Update the options for the sub-category field based on the selected main category
-    frm.set_query("topic_sub_category", function () {
-      return {
-        filters: {
-          topic_main_category: frm.doc.topic_main_category,
-        },
-      };
-    });
-  },
   refresh(frm) {
     // Add a custom button to assign the topic to a council
     if (
-      doc.__onload &&
-      doc.__onload.has_topic_assignment != false &&
+      frm.doc.__onload &&
+      frm.doc.__onload.has_topic_assignment != false &&
       frm.doc.docstatus === 1
     ) {
       frm.add_custom_button(__("Assign to Council"), function () {
@@ -42,6 +18,29 @@ frappe.ui.form.on("Topic", {
         });
       });
     }
+
+    if (!frm.is_new()) {
+      // Render the list view
+      show_related_assignments(frm);
+    }
+
+    frm.add_custom_button(
+      __("Select Applicants"),
+      function () {
+        show_applicant_selector(frm);
+      },
+      __("Get Applicants")
+    );
+  },
+  topic_main_category(frm) {
+    // Update the options for the sub-category field based on the selected main category
+    frm.set_query("topic_sub_category", function () {
+      return {
+        filters: {
+          main_category: frm.doc.topic_main_category,
+        },
+      };
+    });
   },
 });
 
@@ -61,8 +60,12 @@ frappe.ui.form.on("Topic Applicant", {
       }
     }
     if (topic_applicant.applicant) {
-      populate_applicant_full_name(frm, cdt, cdn, topic_applicant);
+      populate_applicant_full_name(cdt, cdn, topic_applicant);
     }
+  },
+  applicant_type: function (frm, cdt, cdn) {
+    frappe.model.set_value(cdt, cdn, "applicant", "");
+    frappe.model.set_value(cdt, cdn, "applicant_name", "");
   },
 });
 
@@ -98,34 +101,199 @@ function check_for_duplicate_applicant(frm, cdt, cdn) {
   }
 }
 
-/**
- * Fetches details for a specified applicant based on their type and ID, then updates a field in a child document with the applicant's full name.
- *
- * This function asynchronously calls the backend to retrieve an applicant's document from the database. Upon successfully fetching the document, it extracts the applicant's full name and updates the 'applicant_name' field in the specified child document of the form. If the document cannot be found, it logs a message indicating the document was not found.
- * @param {Object} frm - The current form object, providing context for where the update needs to occur.
- * @param {string} cdt - The name of the child doctype, indicating where within the form the update should be made.
- * @param {string} cdn - The name of the child document, specifying the exact document to be updated.
- * @param {Object} applicant - An object containing details about the applicant, specifically their type and unique ID, used to retrieve the correct document.
- * @returns {void} - This function does not return a value.
- */
-function populate_applicant_full_name(frm, cdt, cdn, applicant) {
-  // Retrieve the document using frappe.call
-  frappe.call({
-    method: "frappe.client.get",
-    args: {
-      doctype: applicant.applicant_type,
-      name: applicant.applicant,
-    },
-    callback: function (response) {
-      let applicant_document = response.message; // Extract the applicant document from the response
-      if (applicant_document) {
+function populate_applicant_full_name(cdt, cdn, applicant) {
+  frappe.db
+    .get_value(applicant.applicant_type, { name: applicant.applicant }, [
+      "first_name",
+      "last_name",
+    ])
+    .then(function (values) {
+      if (values) {
         let applicant_full_name =
-          applicant_document.first_name + " " + applicant_document.last_name;
+          values.message.first_name + " " + values.message.last_name;
         // Set the value of the 'applicant_name' field
         frappe.model.set_value(cdt, cdn, "applicant_name", applicant_full_name);
+      }
+    });
+}
+
+function show_applicant_selector(frm) {
+  let applicant_type_dialog = new frappe.ui.Dialog({
+    title: __("Select Applicant Type"),
+    fields: [
+      {
+        fieldname: "applicant_type",
+        label: __("Applicant Type"),
+        fieldtype: "Select",
+        options: ["Student", "Academic", "Other"],
+        reqd: 1,
+      },
+    ],
+    primary_action_label: __("Continue"),
+    primary_action(values) {
+      console.log(" applicant type:", values.applicant_type);
+      applicant_type_dialog.hide();
+      open_multiselect_dialog(frm, values.applicant_type);
+    },
+  });
+
+  applicant_type_dialog.show();
+}
+
+function open_multiselect_dialog(frm, applicant_type) {
+  let opts = get_applicant_type_info(frm, applicant_type);
+
+  const d = new frappe.ui.form.MultiSelectDialog({
+    doctype: opts.source_doctype,
+    target: opts.target,
+    date_field: opts.date_field || undefined,
+    setters: opts.setters,
+    data_fields: opts.data_fields,
+    get_query: opts.get_query,
+    add_filters_group: 1,
+    allow_child_item_selection: opts.allow_child_item_selection,
+    child_fieldname: opts.child_fieldname,
+    child_columns: opts.child_columns,
+    size: opts.size,
+    action: function (selections) {
+      let values = selections;
+      if (values.length === 0) {
+        frappe.msgprint(__("Please select {0}", [opts.source_doctype]));
+        return;
+      }
+      console.log("Selections:", values);
+      d.dialog.hide();
+      add_applicants_to_topic(frm, values, opts.source_doctype);
+    },
+  });
+}
+
+function add_applicants_to_topic(frm, selections, applicant_type) {
+  selections.forEach(function (applicant) {
+    const row = frm.add_child("applicants", {
+      applicant_type: applicant_type,
+    });
+    frappe.model.set_value(row.doctype, row.name, "applicant", applicant);
+  });
+  frm.refresh_field("applicants");
+}
+
+function get_applicant_type_info(frm, applicant_type) {
+  let academic_opts = {
+    source_doctype: "Faculty Member",
+    target: frm,
+    // date_field: "",
+    setters: {
+      company: "",
+      faculty_member_name: "",
+      academic_rank: "",
+    },
+
+    get_query: function () {
+      return {
+        filters: {},
+      };
+    },
+    add_filters_group: 1,
+    allow_child_item_selection: false, // assuming no child table selection is needed
+    child_fieldname: "",
+    child_columns: [],
+    size: "large",
+  };
+  let student_opts = {
+    source_doctype: "Student",
+    target: frm,
+    // date_field: "",
+    setters: {
+      academic_level: "",
+      academic_status: "",
+      gender: "",
+      joining_date: "",
+    },
+    // data_fields: [
+    //   {
+    //     label: "Course",
+    //     fieldname: "course",
+    //     fieldtype: "Link",
+    //     options: "Course",
+    //   },
+    // ],
+    get_query: function () {
+      return {
+        filters: {},
+      };
+    },
+    add_filters_group: 1,
+    allow_child_item_selection: false, // assuming no child table selection is needed
+    child_fieldname: "",
+    child_columns: [],
+    size: "large",
+  };
+
+  switch (applicant_type) {
+    case "Student":
+      return student_opts;
+    case "Academic":
+      return academic_opts;
+    default:
+      return "Employee"; // Assuming 'Other' maps to 'Employee'
+  }
+}
+
+function show_related_assignments(frm) {
+  const container = $(frm.fields_dict.related_assignments.wrapper);
+  container.empty(); // Clear previous data
+
+  fetch_data(frm, function (data) {
+    if (data.length > 0) {
+      create_datatable(container, data);
+    } else {
+      $(container).html("No related assignments found.");
+    }
+  });
+}
+
+function fetch_data(frm, callback) {
+  frm.call({
+    method: "get_all_related_assignments",
+    args: { topic_name: frm.doc.name },
+    callback: function (r) {
+      if (r.message) {
+        const data = r.message.map((d) => [
+          `<a href='/app/topic-assignment/${d.name}'>${d.name}</a>`,
+          d.title,
+          d.status,
+          d.council,
+          frappe.datetime.str_to_user(d.assignment_date),
+          d.decision_type,
+          d.parent_assignment,
+        ]);
+        callback(data);
       } else {
-        console.log("Document not found");
+        callback([]);
       }
     },
+  });
+}
+
+function create_datatable(container, data) {
+  const datatable = new DataTable(container[0], {
+    columns: [
+      { name: "Assignment", width: 180, editable: false },
+      { name: "Title", width: 220, editable: false },
+      { name: "Status", width: 120, editable: false },
+      { name: "Council", width: 150, editable: false },
+      { name: "Assignment Date", width: 150, editable: false },
+      { name: "Decision Type", width: 120, editable: false },
+      { name: "Parent Assignment", width: 150, editable: false },
+    ],
+    data: data,
+    dynamicRowHeight: true,
+    checkboxColumn: false,
+    inlineFilters: true,
+  });
+
+  datatable.style.setStyle(".dt-cell__content", {
+    textAlign: "left",
   });
 }

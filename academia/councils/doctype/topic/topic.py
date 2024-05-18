@@ -23,7 +23,7 @@ class Topic(Document):
 		description: DF.TextEditor
 		related_to: DF.Link | None
 		status: DF.Literal["Open", "Complete", "in Progress", "Hold", "Closed"]
-		title: DF.Data
+		title: DF.Data 
 		topic_main_category: DF.Link
 		topic_sub_category: DF.Link
 	# end: auto-generated types
@@ -76,6 +76,46 @@ class Topic(Document):
 
 
 
+@frappe.whitelist()
+def get_all_related_assignments(topic_name):
+	query = """
+		-- Fetch direct assignments linked to the topic
+		SELECT
+			ta.name ,
+			ta.title ,
+			ta.status ,
+			ta.council ,
+			ta.assignment_date ,
+			ta.decision_type ,
+			ta.parent_assignment 
+		FROM
+			`tabTopic Assignment` ta
+		WHERE
+			ta.topic = %s
+
+		UNION
+
+		-- Fetch parent assignments where any child assignment is linked to the topic
+		SELECT
+			parent_ta.name,
+			parent_ta.title,
+			parent_ta.status,
+			parent_ta.council,
+			parent_ta.assignment_date,
+			parent_ta.decision_type,
+			parent_ta.parent_assignment
+		FROM
+			`tabTopic Assignment` AS child_ta
+		INNER JOIN
+			`tabTopic Assignment` AS parent_ta ON child_ta.parent_assignment = parent_ta.name
+		WHERE
+			child_ta.topic = %s AND
+			child_ta.parent_assignment IS NOT NULL
+
+		ORDER BY assignment_date
+	"""
+	data = frappe.db.sql(query, (topic_name, topic_name), as_dict=True)
+	return data
 
 """	def check_duplicate_applicant(self):
 		if(self.applicants):
@@ -120,4 +160,3 @@ class Topic(Document):
 #         frappe.log_error(f"Error in get_applicant_users_batch: {e}", "Get Applicant Users Batch Error")
 #         # Return a list of Nones to match the expected output format in case of error
 #         return [None] * len(applicants_list)
-

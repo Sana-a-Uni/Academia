@@ -10,10 +10,11 @@
   "title",
   "column_break_gnxz",
   "description",
-  "section_break_yvcy",
+  "section_break_xiu8",
   "decision_type",
   "column_break_rpgc",
-  "forward_assignment",
+  "council_memo",
+  "create_memo",
   "section_break_z2jo",
   "decision"
  ],
@@ -28,7 +29,6 @@
    "reqd": 1
   },
   {
-   "fetch_from": "topic_assignment.title",
    "fieldname": "title",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -37,7 +37,6 @@
    "label": "Title"
   },
   {
-   "fetch_from": "topic_assignment.description",
    "fieldname": "description",
    "fieldtype": "Text Editor",
    "in_preview": 1,
@@ -50,15 +49,6 @@
    "in_preview": 1,
    "label": "Decision ",
    "mandatory_depends_on": "decision_type"
-  },
-  {
-   "depends_on": "eval:doc.decision_type == \"Transferred\";",
-   "fieldname": "forward_assignment",
-   "fieldtype": "Link",
-   "in_preview": 1,
-   "label": "Forward Assignment",
-   "mandatory_depends_on": "eval:doc.decision_type == \"Transferred\";",
-   "options": "Topic Assignment"
   },
   {
    "fieldname": "column_break_gnxz",
@@ -77,18 +67,33 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "section_break_yvcy",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "column_break_rpgc",
    "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.decision_type == \"Transferred\" && doc.council_memo && doc.council_memo != \"\";",
+   "fieldname": "council_memo",
+   "fieldtype": "Link",
+   "in_preview": 1,
+   "label": "Council Memo",
+   "options": "Council Memo",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.decision_type == \"Transferred\" && !doc.council_memo;",
+   "fieldname": "create_memo",
+   "fieldtype": "Button",
+   "label": "Create Memo"
+  },
+  {
+   "fieldname": "section_break_xiu8",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-01 03:37:17.031690",
+ "modified": "2024-05-19 01:12:04.245709",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Session Topic Assignment",
