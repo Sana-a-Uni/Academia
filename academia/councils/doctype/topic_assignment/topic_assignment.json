@@ -10,16 +10,16 @@
     "details_tab",
     "naming_series",
     "council",
-    "topic",
-    "column_break_lycm",
     "assignment_date",
+    "column_break_lycm",
+    "topic",
     "main_category",
     "sub_category",
     "section_break_jmgf",
     "is_group",
+    "parent_assignment",
     "get_assignments_to_group",
     "grouped_assignments",
-    "parent_assignment",
     "section_break_eouh",
     "get_data_from_topic",
     "title",
@@ -50,11 +50,14 @@
     },
     {
       "allow_in_quick_entry": 1,
+      "depends_on": "eval:!doc.is_group;",
       "fieldname": "topic",
       "fieldtype": "Link",
       "in_filter": 1,
       "label": "Topic",
-      "options": "Topic"
+      "mandatory_depends_on": "eval:!doc.is_group;",
+      "options": "Topic",
+      "search_index": 1
     },
     {
       "fieldname": "title",
@@ -156,23 +159,24 @@
       "sort_options": 1
     },
     {
+      "depends_on": "eval:(!doc.is_group && doc.topic) || doc.is_group;",
       "fieldname": "main_category",
       "fieldtype": "Link",
       "in_filter": 1,
       "in_standard_filter": 1,
       "label": "Main Category",
       "options": "Topic Main Category",
-      "read_only": 1
+      "read_only_depends_on": "eval:(!doc.is_group && doc.topic);"
     },
     {
+      "depends_on": "main_category",
       "fieldname": "sub_category",
       "fieldtype": "Link",
       "in_filter": 1,
       "in_standard_filter": 1,
       "label": "Sub Category",
       "options": "Topic Sub Category",
-      "read_only": 1,
-      "read_only_depends_on": "eval:!doc.main_category;"
+      "read_only_depends_on": "eval:(doc.topic && !doc.is_group);"
     },
     {
       "allow_in_quick_entry": 1,
@@ -190,7 +194,8 @@
       "fieldtype": "Check",
       "in_list_view": 1,
       "in_standard_filter": 1,
-      "label": "Is Group"
+      "label": "Is Group",
+      "set_only_once": 1
     },
     {
       "depends_on": "eval:!doc.is_group;",
@@ -199,7 +204,8 @@
       "fieldtype": "Link",
       "in_standard_filter": 1,
       "label": "Parent Assignment",
-      "options": "Topic Assignment"
+      "options": "Topic Assignment",
+      "search_index": 1
     },
     {
       "fieldname": "column_break_lycm",
@@ -237,7 +243,7 @@
       "link_fieldname": "resultant_assignment"
     }
   ],
-  "modified": "2024-05-14 01:59:13.944222",
+  "modified": "2024-05-18 04:17:19.554327",
   "modified_by": "Administrator",
   "module": "Councils",
   "name": "Topic Assignment",

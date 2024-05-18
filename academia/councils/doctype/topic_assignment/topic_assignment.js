@@ -43,9 +43,12 @@ frappe.ui.form.on("Topic Assignment", {
   is_group: function (frm) {
     // Check the value of the checkbox field
     if (frm.doc.is_group) {
+      frm.events.clear_topic(frm); // clear topic field which will also clear the main and sub category fields if user enable is_group checkbox
       // If checkbox is checked, display the grouped_assignments field
       frm.toggle_display("grouped_assignments", true);
     } else {
+      frm.set_value("main_category", ""); //clear catetories if user disable is_group checkbox
+      frm.set_value("sub_category", "");
       // If checkbox is unchecked, hide the grouped_assignments field
       frm.toggle_display("grouped_assignments", false);
     }
