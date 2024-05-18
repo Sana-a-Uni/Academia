@@ -168,18 +168,21 @@ frappe.ui.form.on("Session Topic Assignment", {
     topic_assignment: function (frm, cdt, cdn) {
         // Get the current row
         let row = locals[cdt][cdn];
-        // Call the check_assignment_duplicate function to check for duplicate assignments
-        check_assignment_duplicate(frm, row);
-        frappe.db.get_value("Topic Assignment", row.topic_assignment, ["title", "description"], (assignment) => {
-            if (assignment) {
-                let title = assignment.title
-                let description = assignment.description
-                frappe.model.set_value(cdt, cdn, 'title', title);
-                frappe.model.set_value(cdt, cdn, 'description', description);
+        validate_assignment(frm, row);
+        if (row.topic_assignment) {
+            // Call the check_assignment_duplicate function to check for duplicate assignments
+            check_assignment_duplicate(frm, row);
+            frappe.db.get_value("Topic Assignment", row.topic_assignment, ["title", "description"], (assignment) => {
+                if (assignment) {
+                    let title = assignment.title
+                    let description = assignment.description
+                    frappe.model.set_value(cdt, cdn, 'title', title);
+                    frappe.model.set_value(cdt, cdn, 'description', description);
 
-            }
-        });
-        frm.refresh_field('assignments');
+                }
+            });
+            frm.refresh_field('assignments');
+        }
     },
     create_memo(frm, cdt, cdn) {
         let row = locals[cdt][cdn];
@@ -264,4 +267,26 @@ check_assignment_duplicate = function (frm, row) {
             }
         }
     });
+};
+validate_assignment = function (frm, row) {
+    if (row.topic_assignment)
+        frappe.db.get_value("Topic Assignment", row.topic_assignment, ["*"], (assignment) => {
+            if (
+                !(assignment.docstatus == 0 &&
+                    assignment.council == frm.doc.council &&
+                    assignment.status == "Accepted" &&
+                    assignment.parent_assignment == '')
+            ) {
+                // Clear the topic_assignment value in the current row
+                row.topic_assignment = "";
+                // Refresh the assignments field in the form to reflect the changes
+                frm.refresh_field("assignments");
+                msgprint(
+                    __(`You cannot use ${assignment.name}, please select from the list`)
+                );
+            }
+
+        }
+        );
+
 };

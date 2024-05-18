@@ -32,9 +32,10 @@ class Session(Document):
     # end: auto-generated types
 
     def validate(self):
-        self.validate_assignment_duplicate()
         self.validate_time()
         validate_members(self.members)
+        self.validate_assignments()
+        self.validate_assignment_duplicate()
 
     def detect_assignments_changes(self):
         """
@@ -100,10 +101,9 @@ class Session(Document):
         doc_assignment.insert()
         return doc_assignment
 
-    
     def on_submit(self):
         self.process_session_assignments()
-        
+
     def process_session_assignments(self):
         """
         Process each session assignment, create new assignments for postponed topics,
@@ -124,7 +124,7 @@ class Session(Document):
                 if session_assignment_doc:
                     doc_assignment = self.create_postponed_assignment(
                         session_assignment)
-                    
+
             self.process_council_memo(session_assignment)
 
             # Update the Topic Assignment with the decision details
@@ -140,7 +140,8 @@ class Session(Document):
                     "Council Memo", session_assignment.council_memo)
                 doc.submit()
             else:
-                frappe.db.set_value('Session Topic Assignment', session_assignment.name, 'council_memo', '')
+                frappe.db.set_value('Session Topic Assignment',
+                                    session_assignment.name, 'council_memo', '')
                 frappe.db.delete('Council Memo', {
                                  'name': session_assignment.council_memo})
 
@@ -154,3 +155,11 @@ class Session(Document):
         assignments_set = set(assignments)
         if len(assignments) != len(assignments_set):
             frappe.throw(_(f"Assignments can't be duplicated"))
+
+    def validate_assignments(self):
+        for row in self.assignments:
+            assignment = frappe.get_value(
+                "Topic Assignment", row.topic_assignment, ["*"], as_dict=1)
+            if not (assignment.docstatus == 0 and assignment.council == self.council and assignment.status == "Accepted" and not assignment.parent_assignment):
+               frappe.throw(_("There are assignment outside the valid list, please check again."))
+               
