@@ -38,7 +38,7 @@
    "fieldtype": "Link",
    "in_preview": 1,
    "in_standard_filter": 1,
-   "label": "Council",
+   "label": "Target Council",
    "options": "Council",
    "reqd": 1
   },
@@ -58,7 +58,7 @@
   },
   {
    "allow_on_submit": 1,
-   "depends_on": "eval:!doc.__islocal;",
+   "depends_on": "eval:!doc.__islocal",
    "fieldname": "status",
    "fieldtype": "Select",
    "in_standard_filter": 1,
@@ -79,7 +79,7 @@
   },
   {
    "allow_on_submit": 1,
-   "depends_on": "eval:doc.docstatus==1;",
+   "depends_on": "eval:doc.docstatus==1",
    "fieldname": "resultant_assignment",
    "fieldtype": "Link",
    "label": "Resultant Assignment",
@@ -95,7 +95,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "depends_on": "eval:doc.docstatus==1;",
+   "depends_on": "eval:doc.docstatus==1",
    "fieldname": "sent_date",
    "fieldtype": "Date",
    "label": "Sent Date",
@@ -105,7 +105,7 @@
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-17 03:14:15.558436",
+ "modified": "2024-05-18 23:40:50.960982",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Council Memo",
