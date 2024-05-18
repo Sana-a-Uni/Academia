@@ -37,7 +37,7 @@ frappe.ui.form.on("Topic", {
     frm.set_query("topic_sub_category", function () {
       return {
         filters: {
-          topic_main_category: frm.doc.topic_main_category,
+          main_category: frm.doc.topic_main_category,
         },
       };
     });
