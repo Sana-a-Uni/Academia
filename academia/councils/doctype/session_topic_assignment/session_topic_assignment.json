@@ -10,6 +10,7 @@
   "title",
   "column_break_gnxz",
   "description",
+  "section_break_xiu8",
   "decision_type",
   "column_break_rpgc",
   "council_memo",
@@ -83,12 +84,16 @@
    "fieldname": "create_memo",
    "fieldtype": "Button",
    "label": "Create Memo"
+  },
+  {
+   "fieldname": "section_break_xiu8",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-17 00:50:55.471487",
+ "modified": "2024-05-19 01:12:04.245709",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Session Topic Assignment",
