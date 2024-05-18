@@ -18,6 +18,9 @@ frappe.ui.form.on("Topic Assignment", {
   onload: function (frm) {
     frm.events.topic_filters(frm);
     // frm.set_df_property("topic", "placeholder", "Council must be filled");
+    frm.refresh_field("grouped_assignments");
+    // Hide the grouped_assignments field initially
+    frm.toggle_display("grouped_assignments", false);
   },
 
   topic_filters: function (frm) {
@@ -34,12 +37,6 @@ frappe.ui.form.on("Topic Assignment", {
     });
   },
 
-  onload: function (frm) {
-    frm.refresh_field("grouped_assignments");
-
-    // Hide the grouped_assignments field initially
-    frm.toggle_display("grouped_assignments", false);
-  },
   is_group: function (frm) {
     // Check the value of the checkbox field
     if (frm.doc.is_group) {
