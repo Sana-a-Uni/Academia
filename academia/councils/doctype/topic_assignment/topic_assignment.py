@@ -37,7 +37,14 @@ class TopicAssignment(Document):
 	# end: auto-generated types
 	def validate(self):
 		self.validate_main_sub_category_relationship()
-  
+	def autoname(self):
+		if (self.topic and  not self.is_group):
+			# When there is a specific topic linked, include it in the name
+			self.name = frappe.model.naming.make_autoname(f'CNCL-TA-.{self.topic}.-.###')
+		else:	
+			# For grouped assignments without a specific topic
+			self.name = frappe.model.naming.make_autoname('CNCL-TA-GRP-.YY.-.MM.-.####')
+
 	def before_save(self):
 		if self.is_group:
 			# Iterate over grouped assignments and set the Parent field
