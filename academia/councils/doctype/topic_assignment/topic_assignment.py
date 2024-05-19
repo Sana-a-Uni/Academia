@@ -50,14 +50,54 @@ class TopicAssignment(Document):
 			# Iterate over grouped assignments and set the Parent field
 			for assignment in self.grouped_assignments:
 				frappe.db.set_value('Topic Assignment', assignment.topic_assignment, 'parent_assignment', self.name)
+
+			# Get the list of current grouped assignments from the database
+			current_grouped_assignments = frappe.get_all(
+				'Topic Assignment Copy',
+				filters={'parent': self.name, 'parentfield': 'grouped_assignments', 'parenttype': 'Topic Assignment'},
+				fields=['topic_assignment']
+			)
+
+			# Create sets of current and new grouped assignments for comparison
+			current_grouped_assignments_set = {a.topic_assignment for a in current_grouped_assignments}
+			new_grouped_assignments_set = {a.topic_assignment for a in self.grouped_assignments}
+
+			# For assignments that are in the current set but not in the new set, remove the parent_assignment
+			for assignment_name in current_grouped_assignments_set - new_grouped_assignments_set:
+				frappe.db.set_value('Topic Assignment', assignment_name, 'parent_assignment', None)
 		else:
-				if (self.parent_assignment):
-					parent_doc = frappe.get_doc('Topic Assignment', self.parent_assignment)
+			# If this is not a group assignment
+			if (self.parent_assignment):
+				# Get the parent assignment document
+				parent_doc = frappe.get_doc('Topic Assignment', self.parent_assignment)
+				
+				# Check if the current assignment is already in the grouped assignments of the parent
+				if not any(a.topic_assignment == self.name for a in parent_doc.grouped_assignments):
+					# If not, append the current assignment to the parent's grouped assignments
 					parent_doc.append('grouped_assignments', {
 						'topic_assignment': self.name,
 						'title': self.title,
 						'assignment_date': self.assignment_date
 					})
+				# Save the parent document with updated grouped assignments
+				parent_doc.save(ignore_permissions=True)
+			else:
+				# If there is no parent_assignment, remove from previous parent assignment if it exists
+				previous_parents = frappe.get_all(
+					'Topic Assignment Copy',
+					filters={'topic_assignment': self.name},
+					fields=['parent']
+				)
+				
+				# Iterate over each previous parent assignment
+				for parent in previous_parents:
+					# Get the parent document
+					parent_doc = frappe.get_doc('Topic Assignment', parent.parent)
+					
+					# Remove the current assignment from the parent's grouped assignments
+					parent_doc.grouped_assignments = [a for a in parent_doc.grouped_assignments if a.topic_assignment != self.name]
+					
+					# Save the parent document with updated grouped assignments
 					parent_doc.save(ignore_permissions=True)
 
 
