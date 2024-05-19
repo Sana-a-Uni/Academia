@@ -23,7 +23,7 @@ frappe.ui.form.on("Topic Assignment", {
     // frm.set_df_property("topic", "placeholder", "Council must be filled");
     frm.refresh_field("grouped_assignments");
     // Hide the grouped_assignments field initially
-    frm.toggle_display("grouped_assignments", false);
+    // frm.toggle_display("grouped_assignments", false);
   },
 
   topic_filters: function (frm) {
@@ -69,7 +69,7 @@ frappe.ui.form.on("Topic Assignment", {
       return {
         filters: {
           council: frm.doc.council,
-          is_group: 1,
+          is_group: 0,
           decision_type: "", //empty ,not set , means assignment not scheduled for session
         },
       };
@@ -129,19 +129,17 @@ frappe.ui.form.on("Topic Assignment", {
           filters: {
             is_group: 0,
             council: frm.doc.council,
+            parent_assignment: "",
             decision_type: "", //empty ,not set , means assignment not scheduled for session
             // status:"Accepted"
           },
         };
       },
-      action(selections) {
-        console.log(selections);
-      },
-
       primary_action_label: "Get Assignments To Group",
       action(selections) {
-        frm.set_value("grouped_assignments", []);
+        //frm.set_value("grouped_assignments", []);
         selections.forEach((assignment, index, array) => {
+        if (!existingAssignments.includes(assignment)) {
           frappe.db.get_value(
             "Topic Assignment",
             assignment,
@@ -160,6 +158,7 @@ frappe.ui.form.on("Topic Assignment", {
               }
             }
           );
+          }
         });
         this.dialog.hide();
       },
