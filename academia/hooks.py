@@ -4,7 +4,7 @@ app_publisher = "SanU"
 app_description = "Academic institution management system"
 app_email = "a.alshalabi@su.edu.ye"
 app_license = "mit"
-# required_apps = []
+required_apps = ["frappe/erpnext","frappe/hrms"]
 
 # Includes in <head>
 # ------------------
