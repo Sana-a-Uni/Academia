@@ -48,23 +48,23 @@ class TopicAssignment(Document):
 	def before_save(self):
 		if self.is_group:
 			# Iterate over grouped assignments and set the Parent field
-			for assignment in self.grouped_assignments:
-				frappe.db.set_value('Topic Assignment', assignment.topic_assignment, 'parent_assignment', self.name)
 
 			# Get the list of current grouped assignments from the database
 			current_grouped_assignments = frappe.get_all(
-				'Topic Assignment Copy',
-				filters={'parent': self.name, 'parentfield': 'grouped_assignments', 'parenttype': 'Topic Assignment'},
-				fields=['topic_assignment']
-			)
+				'Topic Assignment',
+				filters={'parent_assignment': self.name},
+				fields=['name']
+			)   
 
 			# Create sets of current and new grouped assignments for comparison
-			current_grouped_assignments_set = {a.topic_assignment for a in current_grouped_assignments}
-			new_grouped_assignments_set = {a.topic_assignment for a in self.grouped_assignments}
+			current_grouped_assignments_set = {a.name for a in current_grouped_assignments}
+			new_grouped_assignments_set = {a.name for a in self.grouped_assignments}
 
 			# For assignments that are in the current set but not in the new set, remove the parent_assignment
 			for assignment_name in current_grouped_assignments_set - new_grouped_assignments_set:
 				frappe.db.set_value('Topic Assignment', assignment_name, 'parent_assignment', None)
+			for assignment in self.grouped_assignments:
+				frappe.db.set_value('Topic Assignment', assignment.topic_assignment, 'parent_assignment', self.name)
 		else:
 			# If this is not a group assignment
 			if (self.parent_assignment):
