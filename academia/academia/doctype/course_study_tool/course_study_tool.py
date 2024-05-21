@@ -18,16 +18,18 @@ class CourseStudyTool(Document):
 		from academia.academia.doctype.course_study_course.course_study_course import CourseStudyCourse
 		from frappe.types import DF
 
-		academic_program: DF.Literal["", "All Program", "Specific Program"]
+		academic_program: DF.Literal["", "All Programs", "Specific Program"]
 		academic_term: DF.Link
 		academic_year: DF.Link
+		based_on: DF.Literal["", "Program", "Batch"]
 		courses: DF.Table[CourseStudyCourse]
 		current_level: DF.ReadOnly
-		level: DF.Literal["", "All Level", "Specific Level"]
+		faculty: DF.Link
+		level: DF.Literal["", "All Levels", "Specific Level"]
 		program_specification: DF.ReadOnly | None
 		specific_level: DF.Link | None
 		specific_program: DF.Link | None
-		student_batch: DF.Link
+		student_batch: DF.Link | None
 	# end: auto-generated types
 	
 	child_table_data1 = []
