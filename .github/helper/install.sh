@@ -3,15 +3,16 @@
 # Exit on first error
 set -e
 
+
 cd ~ || exit
 # Update and install required packages
 sudo apt update
 sudo apt remove mysql-server mysql-client
-sudo apt install -y mariadb-client redis-server
+sudo apt install libcups2-dev redis-server mariadb-client-10.6
 
 # Install Frappe and setup the bench
 pip install frappe-bench
-git clone https://github.com/frappe/frappe  --depth 1
+git clone https://github.com/frappe/frappe      --depth 1
 bench init --skip-assets --frappe-path ~/frappe --python "$(which python)" frappe-bench
 
 mkdir ~/frappe-bench/sites/test_site
@@ -26,6 +27,14 @@ mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "GRANT ALL PRIVILEGES ON 
 
 mariadb --host 127.0.0.1 --port 3306 -u root -proot -e "FLUSH PRIVILEGES"
 
+install_whktml() {
+    wget -O /tmp/wkhtmltox.tar.xz https://github.com/frappe/wkhtmltopdf/raw/master/wkhtmltox-0.12.3_linux-generic-amd64.tar.xz
+    tar -xf /tmp/wkhtmltox.tar.xz -C /tmp
+    sudo mv /tmp/wkhtmltox/bin/wkhtmltopdf /usr/local/bin/wkhtmltopdf
+    sudo chmod o+x /usr/local/bin/wkhtmltopdf
+}
+install_whktml &
+
 cd ~/frappe-bench || exit
 
 sed -i 's/watch:/# watch:/g' Procfile
@@ -34,15 +43,17 @@ sed -i 's/socketio:/# socketio:/g' Procfile
 sed -i 's/redis_socketio:/# redis_socketio:/g' Procfile
 
 bench get-app payments https://github.com/frappe/payments --branch develop
-bench get-app erpnext https://github.com/frappe/erpnext --branch develop  
+bench get-app erpnext https://github.com/frappe/erpnext --branch develop --resolve-deps
 bench get-app lending  https://github.com/frappe/lending --branch develop
 bench get-app hrms  https://github.com/frappe/hrms --branch develop
 bench get-app academia "${GITHUB_WORKSPACE}"
 bench setup requirements --dev
+
 bench start &>> ~/frappe-bench/bench_start.log &
 CI=Yes bench build --app frappe &
 bench --site test_site reinstall --yes
 
+bench --verbose --site test_site install-app academia
+ 
 
-# Prepare for running tests
 echo "Setup completed successfully."
