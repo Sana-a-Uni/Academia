@@ -16,11 +16,15 @@ class CourseStudy(Document):
 
 		academic_term: DF.Link
 		academic_year: DF.Link
+		course_categorie: DF.ReadOnly | None
 		course_code: DF.Link
 		course_name: DF.Data | None
-		course_type: DF.ReadOnly | None
+		course_type: DF.Link
+		hours: DF.Int
 		instructor: DF.Link | None
+		lab_type: DF.Link | None
 		program: DF.ReadOnly
 		student_batch: DF.Link
+		suitable_env: DF.Literal["", "Room", "Lab"]
 	# end: auto-generated types
 	pass

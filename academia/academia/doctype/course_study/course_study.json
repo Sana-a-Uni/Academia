@@ -9,11 +9,17 @@
   "student_batch",
   "column_break_ooda",
   "course_name",
-  "course_type",
+  "course_categorie",
   "section_break_star",
   "instructor",
   "column_break_nceb",
   "program",
+  "section_break_jaga",
+  "course_type",
+  "suitable_env",
+  "column_break_wbcx",
+  "hours",
+  "lab_type",
   "section_break_wxyn",
   "academic_year",
   "column_break_fclw",
@@ -91,14 +97,51 @@
   },
   {
    "fetch_from": "course_code.course_type",
-   "fieldname": "course_type",
+   "fieldname": "course_categorie",
    "fieldtype": "Read Only",
-   "label": "Course Type"
+   "label": "Course Categorie"
+  },
+  {
+   "fieldname": "section_break_jaga",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_wbcx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hours",
+   "fieldtype": "Int",
+   "label": "Hours",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "suitable_env",
+   "fieldtype": "Select",
+   "label": "Suitable Environment",
+   "options": "\nRoom\nLab"
+  },
+  {
+   "depends_on": "eval:doc.suitable_env == \"Lab\";",
+   "fieldname": "lab_type",
+   "fieldtype": "Link",
+   "label": "Lab Type",
+   "mandatory_depends_on": "eval:doc.suitable_env == \"Lab\";",
+   "options": "Lab Type",
+   "read_only_depends_on": "eval:doc.suitable_env == \"Room\";"
+  },
+  {
+   "fieldname": "course_type",
+   "fieldtype": "Link",
+   "label": "Course Type",
+   "options": "Hours Type",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-07 21:54:55.241879",
+ "modified": "2024-05-21 22:17:16.969303",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Study",
