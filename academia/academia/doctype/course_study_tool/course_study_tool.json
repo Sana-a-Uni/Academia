@@ -1,0 +1,87 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-08 02:58:07.581087",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "student_batch",
+  "current_level",
+  "column_break_pvou",
+  "program_specification",
+  "section_break_anao",
+  "get_courses",
+  "courses",
+  "generate_courses"
+ ],
+ "fields": [
+  {
+   "fieldname": "get_courses",
+   "fieldtype": "Button",
+   "label": "get courses"
+  },
+  {
+   "fieldname": "student_batch",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Student Batch",
+   "options": "Student Batch",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "student_batch.current_level",
+   "fieldname": "current_level",
+   "fieldtype": "Read Only",
+   "in_list_view": 1,
+   "label": "Current Level",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_pvou",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "student_batch.program_specification",
+   "fieldname": "program_specification",
+   "fieldtype": "Read Only",
+   "label": "Program Specification"
+  },
+  {
+   "fieldname": "section_break_anao",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "courses",
+   "fieldtype": "Table",
+   "options": "Course Study Course"
+  },
+  {
+   "fieldname": "generate_courses",
+   "fieldtype": "Button",
+   "label": "Generate"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-05-12 03:54:42.918407",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Course Study Tool",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
