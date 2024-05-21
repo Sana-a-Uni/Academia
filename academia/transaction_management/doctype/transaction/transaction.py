@@ -1,23 +1,23 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
-
-import frappe # type: ignore
-from frappe.model.document import Document # type: ignore
-
+import frappe
+from frappe.model.document import Document
 
 class Transaction(Document):
     def before_save(self):
-
         created_by = frappe.get_doc('User', frappe.session.user)
         self.created_by = created_by.name
     
        
 @frappe.whitelist()
 def get_transaction_actions(transaction):
-    transaction_actions = frappe.get_all('Transaction Action',
-                                  filters={'main_transaction': transaction},
-                                  fields=['*'],)
+    transaction_actions =  frappe.get_all(
+            'Transaction Action',
+            filters={'main_transaction': transaction},
+            fields=['*'],
+            order_by='creation'
+        )
     return transaction_actions
   
 @frappe.whitelist()
@@ -37,12 +37,50 @@ def get_last_transaction_action_status(transaction):
     last_transaction_action = frappe.get_list(
         'Transaction Action',
         filters={'main_transaction': transaction},
-        fields=['status'],
-        order_by='creation DESC',
+        fields=['type'],
+        order_by='creation desc',
         limit=1
     )
 
     if last_transaction_action:
-        return last_transaction_action[0].status
+        return last_transaction_action[0].type
     else:
         return ''
+    
+# @frappe.whitelist()
+# def render_vertical_path(transaction):
+#         # Assuming your template file is named "vertical_path.html"
+#         # Get the directory path of the Pytho   n file
+       
+#         # template_path="/home/xair/frappe-bench/apps/academia/academia/templates/vertical_path.html"
+#         # # Load the template file
+#         # with open(template_path, "r") as file:
+#         #     template_content = file.read()
+
+#         # # Create a Jinja template object
+#         # template = Template(template_content)
+
+#         # # Fetch data from the "Transaction Action" doctype??
+#         # transaction_actions = frappe.get_all("Transaction Action", filters={}, fields=["redirected_to"])
+        
+
+#         # # Define the context variables with the fetched data
+#         # context = {
+#         #     "steps": transaction_actions
+#         # }
+        
+#         # # Render the template
+#         # rendered_html = template.render(context)
+#         document = frappe.get_doc("Transaction", transaction)
+#         #frappe.msgprint(document)
+#         # Assign the rendered HTML to the HTML field in the document
+#         #document.summary.options = rendered_html
+    
+#     # Update the options of the HTML field
+#         document.set("summary", "hello")
+#         document.set("summary_section", 0)
+#         # document.summary_section.hidden = 0
+
+#     # Save the changes
+#         document.save()
+#         return document

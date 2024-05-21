@@ -17,10 +17,12 @@
   "category",
   "created_by",
   "status",
+  "priority",
   "attachments_section",
   "attachments",
   "summary_section",
   "summary",
+  "section_break_pgsu",
   "amended_from"
  ],
  "fields": [
@@ -51,7 +53,7 @@
   },
   {
    "fieldname": "start_date",
-   "fieldtype": "Date",
+   "fieldtype": "Datetime",
    "label": "Start Date",
    "read_only": 1,
    "set_only_once": 1
@@ -78,10 +80,10 @@
   {
    "fieldname": "summary_section",
    "fieldtype": "Section Break",
-   "hidden": 1,
    "label": "Summary"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "summary",
    "fieldtype": "HTML"
   },
@@ -118,30 +120,28 @@
    "label": "Status",
    "options": "Pending\nApproved\nRejected",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_break_pgsu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "label": "Priority",
+   "options": "\nLow\nMedium\nHigh\nUrgent"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-17 12:14:06.769256",
+ "modified": "2024-05-21 13:33:25.939096",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
  "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "System Manager",
-   "share": 1,
-   "write": 1
-  }
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
