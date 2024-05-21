@@ -155,7 +155,7 @@ app_include_js = "academia.bundle.js"
 # Testing
 # -------
 
-# before_tests = "academia.install.before_tests"
+before_tests = "academia.tests.test_utils.before_tests"
 
 # Overriding Methods
 # ------------------------------
