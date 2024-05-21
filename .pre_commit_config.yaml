@@ -37,6 +37,16 @@ repos:
               academia/templates/pages/.*|
               academia/templates/includes/.*
           )$
+  #a Python linter
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.2.0
+    hooks:
+      - id: ruff
+        name: "Run ruff linter and apply fixes"
+        args: ["--fix"]
+      - id: ruff-format
+        name: "Format Python code"
+
 # CI configuration
 ci:
   autoupdate_schedule: weekly # Auto-update the hooks weekly
