@@ -12,8 +12,12 @@ class StudentGroupTool(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.academia.doctype.student_group_student.student_group_student import StudentGroupStudent
 		from frappe.types import DF
 
-
+		based_on: DF.Literal["", "By Sex", "All"]
+		max_strength: DF.Int
+		student_batch: DF.Link
+		table_yldo: DF.Table[StudentGroupStudent]
 	# end: auto-generated types
 	pass
