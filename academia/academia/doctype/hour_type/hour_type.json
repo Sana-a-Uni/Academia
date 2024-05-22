@@ -1,15 +1,15 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2024-04-23 21:52:50.700379",
+ "autoname": "field:name_in_english",
+ "creation": "2024-05-07 22:45:07.014356",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "name1",
-  "number_of_hours",
-  "column_break_wsgk",
-  "\u0627\u0644\u0627\u0633\u0645",
-  "abbreviation"
+  "abbreviation",
+  "column_break_sgeq",
+  "name_in_english"
  ],
  "fields": [
   {
@@ -27,31 +27,25 @@
    "reqd": 1
   },
   {
-   "description": "Note: The approved clock for practical and exercises are equal to two hours, Actually during teaching",
-   "fieldname": "number_of_hours",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Number of Hours",
-   "reqd": 1
-  },
-  {
-   "fieldname": "column_break_wsgk",
+   "fieldname": "column_break_sgeq",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "\u0627\u0644\u0627\u0633\u0645",
+   "fieldname": "name_in_english",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "\u0627\u0644\u0627\u0633\u0645",
-   "reqd": 1
+   "label": "Name in English",
+   "reqd": 1,
+   "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 21:56:01.285585",
+ "modified": "2024-05-08 02:40:45.594061",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Hour Type",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
@@ -67,6 +61,7 @@
    "write": 1
   }
  ],
+ "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "prompt",
  "creation": "2024-04-27 05:29:51.231754",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -10,12 +11,13 @@
   "enrollment_date",
   "image",
   "column_break_hxtm",
+  "faculty",
   "program",
   "status",
-  "academic_year",
-  "academic_term",
   "section_break_pkqr",
-  "student_batch"
+  "student_batch",
+  "academic_year",
+  "academic_term"
  ],
  "fields": [
   {
@@ -27,9 +29,11 @@
    "reqd": 1
   },
   {
+   "fetch_from": "student.student_name",
    "fieldname": "student_name",
    "fieldtype": "Data",
-   "label": "Student Name"
+   "label": "Student Name",
+   "read_only": 1
   },
   {
    "fieldname": "enrollment_date",
@@ -63,13 +67,14 @@
   {
    "fieldname": "academic_year",
    "fieldtype": "Link",
-   "label": "Academic Year",
-   "options": "Academic Year"
+   "label": "Current Academic Year",
+   "options": "Academic Year",
+   "reqd": 1
   },
   {
    "fieldname": "academic_term",
    "fieldtype": "Link",
-   "label": "Academic Term",
+   "label": "Current Academic Term",
    "options": "Academic Term"
   },
   {
@@ -81,14 +86,22 @@
    "fieldtype": "Link",
    "label": "Student Batch",
    "options": "Student Batch"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-27 05:40:22.993327",
+ "modified": "2024-05-21 22:32:50.114754",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Enrollment",
+ "naming_rule": "Set by user",
  "owner": "Administrator",
  "permissions": [
   {

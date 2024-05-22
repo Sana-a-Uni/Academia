@@ -6,31 +6,48 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "name1",
-  "user"
+  "applicant_type",
+  "applicant",
+  "applicant_name"
  ],
  "fields": [
   {
    "allow_in_quick_entry": 1,
-   "fieldname": "name1",
-   "fieldtype": "Data",
+   "fieldname": "applicant_type",
+   "fieldtype": "Select",
+   "in_filter": 1,
    "in_list_view": 1,
    "in_preview": 1,
-   "label": "Name"
+   "in_standard_filter": 1,
+   "label": "Applicant Type",
+   "options": "\nStudent\nAcademic\nUser\nOther",
+   "reqd": 1
   },
   {
    "allow_in_quick_entry": 1,
-   "fieldname": "user",
-   "fieldtype": "Link",
-   "label": "User",
-   "options": "User",
+   "fieldname": "applicant",
+   "fieldtype": "Dynamic Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Applicant",
+   "options": "applicant_type",
    "reqd": 1
+  },
+  {
+   "fetch_from": ".",
+   "fieldname": "applicant_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "is_virtual": 1,
+   "label": "Applicant Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-01-25 08:11:08.043877",
+ "modified": "2024-05-01 07:46:48.482887",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic Applicant",

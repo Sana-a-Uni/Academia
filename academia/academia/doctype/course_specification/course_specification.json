@@ -45,25 +45,22 @@
    "in_list_view": 1,
    "label": "Course Name",
    "read_only": 1,
-   "reqd": 1,
    "unique": 1
   },
   {
    "fetch_from": "course_code.course_type",
    "fieldname": "course_type",
-   "fieldtype": "Data",
+   "fieldtype": "Read Only",
    "label": "Course Type",
-   "read_only": 1,
-   "reqd": 1
+   "read_only": 1
   },
   {
    "depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
    "fetch_from": "course_code.faculty",
    "fieldname": "faculty",
-   "fieldtype": "Link",
+   "fieldtype": "Read Only",
    "label": "faculty",
    "mandatory_depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
-   "options": "Faculty",
    "read_only": 1
   },
   {
@@ -113,8 +110,7 @@
    "fieldname": "course_name_english",
    "fieldtype": "Data",
    "label": "Course Name in English ",
-   "read_only": 1,
-   "reqd": 1
+   "read_only": 1
   },
   {
    "fieldname": "credit_hours",
@@ -155,16 +151,15 @@
    "depends_on": "eval:doc.course_type == \"Program Requirement\";",
    "fetch_from": "course_code.program",
    "fieldname": "program",
-   "fieldtype": "Link",
+   "fieldtype": "Read Only",
    "label": "Program",
-   "options": "Program Specification",
    "read_only": 1
   }
  ],
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-30 20:00:37.908033",
+ "modified": "2024-05-08 01:03:55.313925",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Specification",

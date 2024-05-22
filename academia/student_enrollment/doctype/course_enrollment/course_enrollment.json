@@ -16,8 +16,8 @@
   "column_break_nlbw",
   "faculty",
   "faculty_department",
+  "student_batch",
   "academic_year",
-  "level",
   "semester"
  ],
  "fields": [
@@ -43,11 +43,12 @@
    "fieldname": "academic_program",
    "fieldtype": "Link",
    "label": "Academic Program",
-   "options": "Program Specification"
+   "options": "Program Specification",
+   "reqd": 1
   },
   {
    "fieldname": "enrollment_date",
-   "fieldtype": "Datetime",
+   "fieldtype": "Date",
    "in_list_view": 1,
    "label": "Enrollment Date",
    "reqd": 1
@@ -60,27 +61,23 @@
    "fieldname": "faculty",
    "fieldtype": "Link",
    "label": "Faculty",
-   "options": "Faculty"
+   "options": "Faculty",
+   "reqd": 1
   },
   {
    "fieldname": "faculty_department",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Faculty Department",
-   "options": "Faculty Department"
+   "options": "Faculty Department",
+   "reqd": 1
   },
   {
    "fieldname": "academic_year",
    "fieldtype": "Link",
    "label": "Academic Year",
-   "options": "Academic Year"
-  },
-  {
-   "fieldname": "level",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Level",
-   "options": "Level"
+   "options": "Academic Year",
+   "reqd": 1
   },
   {
    "fieldname": "semester",
@@ -93,12 +90,20 @@
    "fieldname": "course",
    "fieldtype": "Link",
    "label": "Course",
-   "options": "Course"
+   "options": "Course Study"
+  },
+  {
+   "fieldname": "student_batch",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Student Batch",
+   "options": "Student Batch",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 20:27:58.467732",
+ "modified": "2024-05-05 20:21:12.530423",
  "modified_by": "Administrator",
  "module": "Student Enrollment",
  "name": "Course Enrollment",

@@ -1,0 +1,166 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-03 20:04:24.958531",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "course_code",
+  "student_batch",
+  "column_break_ooda",
+  "course_name",
+  "course_categorie",
+  "section_break_star",
+  "instructor",
+  "column_break_nceb",
+  "program",
+  "section_break_jaga",
+  "course_type",
+  "suitable_env",
+  "column_break_wbcx",
+  "hours",
+  "lab_type",
+  "section_break_wxyn",
+  "academic_year",
+  "column_break_fclw",
+  "academic_term"
+ ],
+ "fields": [
+  {
+   "fieldname": "course_code",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Course Code",
+   "options": "Course Specification",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ooda",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "course_code.course_name",
+   "fieldname": "course_name",
+   "fieldtype": "Data",
+   "label": "Course Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_star",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "instructor",
+   "fieldtype": "Link",
+   "label": "Instructor",
+   "options": "Faculty Member"
+  },
+  {
+   "fieldname": "column_break_nceb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "student_batch",
+   "fieldtype": "Link",
+   "label": "Student Batch",
+   "options": "Student Batch",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_wxyn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "label": "Academic Year",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_fclw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "label": "Academic Term",
+   "options": "Academic Term",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "student_batch.program_specification",
+   "fieldname": "program",
+   "fieldtype": "Read Only",
+   "label": "Program",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "course_code.course_type",
+   "fieldname": "course_categorie",
+   "fieldtype": "Read Only",
+   "label": "Course Categorie"
+  },
+  {
+   "fieldname": "section_break_jaga",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_wbcx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hours",
+   "fieldtype": "Int",
+   "label": "Hours",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "suitable_env",
+   "fieldtype": "Select",
+   "label": "Suitable Environment",
+   "options": "\nRoom\nLab"
+  },
+  {
+   "depends_on": "eval:doc.suitable_env == \"Lab\";",
+   "fieldname": "lab_type",
+   "fieldtype": "Link",
+   "label": "Lab Type",
+   "mandatory_depends_on": "eval:doc.suitable_env == \"Lab\";",
+   "options": "Lab Type",
+   "read_only_depends_on": "eval:doc.suitable_env == \"Room\";"
+  },
+  {
+   "fieldname": "course_type",
+   "fieldtype": "Link",
+   "label": "Course Type",
+   "options": "Hours Type",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-05-21 22:17:16.969303",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Course Study",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

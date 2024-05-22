@@ -1,12 +1,13 @@
 {
  "actions": [],
- "autoname": "Cncl-Sess-.YY.-.{council}.-.###",
+ "autoname": "naming_series:",
  "creation": "2024-01-11 09:07:29.905750",
  "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
   "council",
   "title",
   "opening",
@@ -15,15 +16,22 @@
   "begin_time",
   "end_time",
   "members_tab",
+  "get_members",
   "members",
   "agenda_tab",
-  "topics",
+  "get_assignments",
+  "assignments",
   "amended_from"
  ],
  "fields": [
   {
    "fieldname": "council",
    "fieldtype": "Link",
+   "in_filter": 1,
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Council",
    "options": "Council",
    "reqd": 1
@@ -31,7 +39,11 @@
   {
    "fieldname": "title",
    "fieldtype": "Data",
+   "in_filter": 1,
+   "in_global_search": 1,
    "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Title",
    "reqd": 1
   },
@@ -39,8 +51,7 @@
    "fieldname": "opening",
    "fieldtype": "Text",
    "in_list_view": 1,
-   "label": "Opening",
-   "reqd": 1
+   "label": "Opening"
   },
   {
    "fieldname": "date_and_time_tab",
@@ -50,6 +61,10 @@
   {
    "fieldname": "date",
    "fieldtype": "Date",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Date"
   },
   {
@@ -80,13 +95,6 @@
    "label": "Agenda"
   },
   {
-   "fieldname": "topics",
-   "fieldtype": "Table",
-   "label": "Topics",
-   "options": "Session Topic Assignment",
-   "reqd": 1
-  },
-  {
    "fieldname": "amended_from",
    "fieldtype": "Link",
    "label": "Amended From",
@@ -94,16 +102,46 @@
    "options": "Session",
    "print_hide": 1,
    "read_only": 1
+  },
+  {
+   "bold": 1,
+   "default": "CNCL-SESS-.YY.-.{council}.-.###",
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "no_copy": 1,
+   "options": "CNCL-SESS-.YY.-.{council}.-.###",
+   "print_hide": 1,
+   "report_hide": 1,
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "assignments",
+   "fieldtype": "Table",
+   "label": "Assignments",
+   "options": "Session Topic Assignment",
+   "reqd": 1
+  },
+  {
+   "fieldname": "get_members",
+   "fieldtype": "Button",
+   "label": "Get Members"
+  },
+  {
+   "fieldname": "get_assignments",
+   "fieldtype": "Button",
+   "label": "Get Assignments"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-01-25 08:06:58.840434",
+ "modified": "2024-05-14 18:07:14.679752",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Session",
- "naming_rule": "Expression",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

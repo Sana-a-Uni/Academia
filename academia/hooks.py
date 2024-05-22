@@ -2,7 +2,7 @@ app_name = "academia"
 app_title = "Academia"
 app_publisher = "SanU"
 app_description = "Academic institution management system"
-app_email = "eng.bakraldubai@gmail.com"
+app_email = "a.alshalabi@su.edu.ye"
 app_license = "mit"
 # required_apps = []
 
@@ -10,6 +10,7 @@ app_license = "mit"
 # ------------------
 
 # include js, css files in header of desk.html
+app_include_js = "academia.bundle.js"
 # app_include_css = "/assets/academia/css/academia.css"
 # app_include_js = "/assets/academia/js/academia.js"
 
@@ -219,3 +220,4 @@ app_license = "mit"
 # auth_hooks = [
 #	"academia.auth.validate"
 # ]
+export_python_type_annotations = True

@@ -8,8 +8,15 @@
  "engine": "InnoDB",
  "field_order": [
   "council_name",
+  "column_break_oa9u",
+  "company",
   "administrative_body",
-  "council_members"
+  "council_member_settings_section",
+  "get_members",
+  "column_break_vdif",
+  "get_members_from_other_companies",
+  "section_break_epbx",
+  "members"
  ],
  "fields": [
   {
@@ -21,20 +28,63 @@
    "unique": 1
   },
   {
+   "depends_on": "company",
    "fieldname": "administrative_body",
-   "fieldtype": "Data",
-   "label": "Administrative Body"
+   "fieldtype": "Link",
+   "label": "Administrative Body",
+   "options": "Department",
+   "reqd": 1
   },
   {
-   "fieldname": "council_members",
+   "fieldname": "column_break_oa9u",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_epbx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "members",
    "fieldtype": "Table",
-   "label": "Council Members",
-   "options": "Council Member"
+   "label": "Members",
+   "options": "Council Member",
+   "reqd": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Company",
+   "mandatory_depends_on": "  ",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "get_members",
+   "fieldtype": "Button",
+   "label": "Get Members"
+  },
+  {
+   "fieldname": "council_member_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Council Member Settings"
+  },
+  {
+   "fieldname": "column_break_vdif",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "get_members_from_other_companies",
+   "fieldtype": "Check",
+   "label": "get members from other companies"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-25 08:10:40.129389",
+ "modified": "2024-05-07 21:23:48.007621",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Council",
