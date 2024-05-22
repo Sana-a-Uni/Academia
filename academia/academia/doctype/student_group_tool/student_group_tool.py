@@ -5,20 +5,19 @@
 from frappe.model.document import Document
 
 
-class StudentGroupStudent(Document):
+class StudentGroupTool(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.academia.doctype.student_group_student.student_group_student import StudentGroupStudent
 		from frappe.types import DF
 
-		gender: DF.Data | None
-		parent: DF.Data
-		parentfield: DF.Data
-		parenttype: DF.Data
-		program: DF.Data | None
-		student_name: DF.Data | None
+		based_on: DF.Literal["", "By Sex", "All"]
+		max_strength: DF.Int
+		student_batch: DF.Link
+		table_yldo: DF.Table[StudentGroupStudent]
 	# end: auto-generated types
 	pass
