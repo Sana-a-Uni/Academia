@@ -24,13 +24,13 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Author Order",
-   "options": "\nFirst\nSecond\nThird\nForth\nFifth\nSixth\nSeventh"
+   "options": "First\nSecond\nThird\nForth\nFifth\nSixth\nSeventh"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-04-26 14:16:17.342083",
+ "modified": "2024-05-01 23:28:51.980677",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Author",
