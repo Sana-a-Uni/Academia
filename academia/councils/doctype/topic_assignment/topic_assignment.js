@@ -129,7 +129,7 @@ frappe.ui.form.on("Topic Assignment", {
           filters: {
             is_group: 0,
             council: frm.doc.council,
-            parent_assignment: "",
+            parent_assignment: ["in", ["", frm.doc.name]],
             decision_type: "", //empty ,not set , means assignment not scheduled for session
             // status:"Accepted"
           },
@@ -138,7 +138,8 @@ frappe.ui.form.on("Topic Assignment", {
       primary_action_label: "Get Assignments To Group",
       action(selections) {
         const existingAssignments = frm.doc.grouped_assignments.map(item => item.topic_assignment);
-        //frm.set_value("grouped_assignments", []);
+        frm.clear_table('grouped_assignments');
+
         selections.forEach((assignment, index, array) => {
         if (!existingAssignments.includes(assignment)) {
           frappe.db.get_value(
