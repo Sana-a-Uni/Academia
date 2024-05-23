@@ -1,0 +1,102 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-08 01:59:10.293998",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "course",
+  "program",
+  "column_break_wwew",
+  "course_name",
+  "course_type",
+  "section_break_cxcb",
+  "instructor",
+  "column_break_ibjg",
+  "section_break_xzam",
+  "academic_year",
+  "column_break_pwks",
+  "academic_term"
+ ],
+ "fields": [
+  {
+   "fetch_from": "course_code.program",
+   "fieldname": "program",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Program"
+  },
+  {
+   "fieldname": "column_break_wwew",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "course_code.course_name",
+   "fieldname": "course_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Course Name"
+  },
+  {
+   "fetch_from": "course_code.course_type",
+   "fieldname": "course_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Course Type"
+  },
+  {
+   "fieldname": "section_break_cxcb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "instructor",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Instructor"
+  },
+  {
+   "fieldname": "column_break_ibjg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_xzam",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Academic Year"
+  },
+  {
+   "fieldname": "column_break_pwks",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Academic Term"
+  },
+  {
+   "fieldname": "course",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Course Code",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-05-11 03:21:31.817234",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Course Study Course",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
