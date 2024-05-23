@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class StudentGroupStudent(Document):
+class CourseStudyCourse(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -14,11 +14,15 @@ class StudentGroupStudent(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		gender: DF.Data | None
+		academic_term: DF.Data | None
+		academic_year: DF.Data | None
+		course: DF.Data
+		course_name: DF.Data | None
+		course_type: DF.Data | None
+		instructor: DF.Data | None
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
 		program: DF.Data | None
-		student_name: DF.Data | None
 	# end: auto-generated types
 	pass

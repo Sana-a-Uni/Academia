@@ -91,13 +91,13 @@
    "fieldname": "faculty",
    "fieldtype": "Link",
    "label": "Faculty",
-   "options": "Facility",
+   "options": "Faculty",
    "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-05 20:50:30.103878",
+ "modified": "2024-05-21 22:32:50.114754",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Enrollment",
