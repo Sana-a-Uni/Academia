@@ -136,32 +136,30 @@ frappe.ui.form.on("Topic Assignment", {
         };
       },
       primary_action_label: "Get Assignments To Group",
-      action(selections) {
+      action: async function (selections) {
         const existingAssignments = frm.doc.grouped_assignments.map(item => item.topic_assignment);
         frm.clear_table('grouped_assignments');
+        for (let assignment of selections) {
+          if (!existingAssignments.includes(assignment)) {
+            try {
+              let { message: obj } = await frappe.db.get_value(
+                "Topic Assignment",
+                assignment,
+                ["name", "title", "assignment_date"]);
 
-        selections.forEach((assignment, index, array) => {
-        if (!existingAssignments.includes(assignment)) {
-          frappe.db.get_value(
-            "Topic Assignment",
-            assignment,
-            ["name", "title", "assignment_date"],
-            (obj) => {
               if (obj) {
                 frm.add_child("grouped_assignments", {
-                  obj: assignment,
                   topic_assignment: obj.name,
                   title: obj.title,
                   assignment_date: obj.assignment_date,
                 });
-                if (index === array.length - 1) {
-                  frm.refresh_field("grouped_assignments");
-                }
               }
+            } catch (error) {
+              console.error(`Error fetching assignment ${assignment}:`, error);
             }
-          );
           }
-        });
+        }
+        frm.refresh_field("grouped_assignments");
         this.dialog.hide();
       },
     });
