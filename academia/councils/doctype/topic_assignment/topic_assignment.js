@@ -137,6 +137,7 @@ frappe.ui.form.on("Topic Assignment", {
       },
       primary_action_label: "Get Assignments To Group",
       action: async function (selections) {
+        frm.dirty();
         const existingAssignments = frm.doc.grouped_assignments.map(item => item.topic_assignment);
         frm.clear_table('grouped_assignments');
         for (let assignment of selections) {
