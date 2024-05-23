@@ -83,29 +83,54 @@ frappe.ui.form.on("Council", {
         }
       },
       primary_action_label: "Get Members",
-      action(selections) {
-        // console.log(d.dialog.get_value("company"));
-        // emptying Council members
+
+      action: async function (selections) {
+        // Emptying Council members
         frm.set_value('members', []);
-        // Hold employee names 
-        selections.forEach((member, index, array) => {
-          frappe.db.get_value("Employee", member, "employee_name", (employee) => {
-            if (employee) {
-              frm.add_child("members", {
-                employee: member,
-                member_name: employee.employee_name,
-                member_role: "Council Member"
-              })
-              // Refreshing the Council Members in the last itration
-              console.log(`array => ${array}`)
-              if (index === array.length - 1) {
-                frm.refresh_field("members");
-              }
+        
+        // Hold employee names
+        for (const member of selections) {
+            try {
+                let { message: employee } = await frappe.db.get_value("Employee", member, "employee_name");
+                if (employee) {
+                    frm.add_child("members", {
+                        employee: member,
+                        member_name: employee.employee_name,
+                        member_role: "Council Member"
+                    });
+                }
+            } catch (error) {
+                console.error(`Error fetching employee ${member}:`, error);
             }
-          });
-        });
+        }
+        // Refreshing the Council Members after all iterations
+        frm.refresh_field("members");
         this.dialog.hide();
-      }
+    }
+    
+      // action(selections) {
+      //   // console.log(d.dialog.get_value("company"));
+      //   // emptying Council members
+      //   frm.set_value('members', []);
+      //   // Hold employee names 
+      //   selections.forEach((member, index, array) => {
+      //     frappe.db.get_value("Employee", member, "employee_name", (employee) => {
+      //       if (employee) {
+      //         frm.add_child("members", {
+      //           employee: member,
+      //           member_name: employee.employee_name,
+      //           member_role: "Council Member"
+      //         })
+      //         // Refreshing the Council Members in the last itration
+      //         console.log(`array => ${array}`)
+      //         if (index === array.length - 1) {
+      //           frm.refresh_field("members");
+      //         }
+      //       }
+      //     });
+      //   });
+      //   this.dialog.hide();
+      // }
     });
 
   }
