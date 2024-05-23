@@ -26,10 +26,11 @@ frappe.listview_settings["Topic Assignment"] = {
             ]
           );
           if (obj) {
+            const assignment_link = `<a href="/app/topic-assignment/${assignment}" target="_blank">${assignment}</a>`;
             if (obj.is_group) {
-              errors.push(`Assignment ${assignment} is a group and can't be added to another group.`);
+              errors.push(`Assignment ${assignment_link} is a group and can't be added to another group.`);
             } else if (obj.parent_assignment) {
-              errors.push(`Assignment ${assignment} is already part of another group.`);
+              errors.push(`Assignment ${assignment_link} is already part of another group.`);
             } else {
               let new_child = frappe.model.add_child(
                 doc,
@@ -42,8 +43,8 @@ frappe.listview_settings["Topic Assignment"] = {
             }
           }
         } catch (error) {
-          console.error(`Error fetching assignment ${assignment}:`, error);
-          errors.push(`Error fetching assignment ${assignment}`);
+          console.error(`Error fetching assignment ${assignment_link}:`, error);
+          errors.push(`Error fetching assignment ${assignment_link}`);
         }
       }
       if (errors.length > 0) {
