@@ -102,17 +102,47 @@ function check_for_duplicate_applicant(frm, cdt, cdn) {
 }
 
 function populate_applicant_full_name(cdt, cdn, applicant) {
+  //use mapping because it is dynamic link with different name fields names
+  const name_fields_mapping = {
+    Student: ["first_name", "last_name"],
+    "Faculty Member": ["faculty_member_name"],
+    Employee: ["employee_name"],
+  };
+  // Get the name fields for the current applicant type
+  const name_fields = name_fields_mapping[applicant.applicant_type];
+  if (!name_fields) {
+    frappe.model.set_value(cdt, cdn, "applicant_name", "Name Not Set");
+    return;
+  }
   frappe.db
-    .get_value(applicant.applicant_type, { name: applicant.applicant }, [
-      "first_name",
-      "last_name",
-    ])
+    .get_value(
+      applicant.applicant_type,
+      { name: applicant.applicant },
+      name_fields
+    )
     .then(function (values) {
       if (values) {
-        let applicant_full_name =
-          values.message.first_name + " " + values.message.last_name;
+        let applicant_full_name = "Name Not Set";
+        if (applicant.applicant_type === "Student") {
+          applicant_full_name =
+            (values.message.first_name || "") +
+            " " +
+            (values.message.last_name || "");
+        } else {
+          for (const field of name_fields) {
+            if (values.message[field]) {
+              applicant_full_name = values.message[field];
+              break;
+            }
+          }
+        }
         // Set the value of the 'applicant_name' field
-        frappe.model.set_value(cdt, cdn, "applicant_name", applicant_full_name);
+        frappe.model.set_value(
+          cdt,
+          cdn,
+          "applicant_name",
+          applicant_full_name.trim()
+        );
       }
     });
 }
