@@ -13,7 +13,7 @@ frappe.listview_settings["Topic Assignment"] = {
       var doc = frappe.model.get_new_doc('Topic Assignment');
       doc.is_group = 1;
       let errors = [];
-
+      let ta_council = null;
       for (let assignment of selected_assignments) {
         try {
           let { message: obj } = await frappe.db.get_value(
@@ -22,11 +22,20 @@ frappe.listview_settings["Topic Assignment"] = {
             ["title",
               "assignment_date",
               "is_group",
-              "parent_assignment"
+              "parent_assignment",
+              "council"
             ]
           );
           if (obj) {
             const assignment_link = `<a href="/app/topic-assignment/${assignment}" target="_blank">${assignment}</a>`;
+
+            if (ta_council === null) {
+              doc.council = ta_council = obj.council;
+            } else if (obj.council !== ta_council) {
+              errors.push(`Assignment ${assignment_link} belongs to a different council.`);
+              continue;
+            }
+
             if (obj.is_group) {
               errors.push(`Assignment ${assignment_link} is a group and can't be added to another group.`);
             } else if (obj.parent_assignment) {
