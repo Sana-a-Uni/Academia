@@ -10,15 +10,15 @@ class Transaction(Document):
         self.created_by = created_by.name
     
        
-@frappe.whitelist()
-def get_transaction_actions(transaction):
-    transaction_actions =  frappe.get_all(
-            'Transaction Action',
-            filters={'main_transaction': transaction},
-            fields=['*'],
-            order_by='creation'
-        )
-    return transaction_actions
+# @frappe.whitelist()
+# def get_transaction_actions(transaction):
+#     transaction_actions =  frappe.get_all(
+#             'Transaction Action',
+#             filters={'main_transaction': transaction},
+#             fields=['*'],
+#             order_by='creation'
+#         )
+#     return transaction_actions
   
 @frappe.whitelist()
 def get_transaction_category_requirement(transaction_category):
@@ -26,26 +26,26 @@ def get_transaction_category_requirement(transaction_category):
                                    filters={"parent": transaction_category},)
     return requirements
 
-@frappe.whitelist()
-def get_last_transaction_action_status(transaction):
-    # Last_transaction_action = frappe.get_last_doc('Transaction Action',
-    #                               filters={'main_transaction': transaction})
-    # if Last_transaction_action:
-    #     return Last_transaction_action.status
-    # else:
-    #     return ''
-    last_transaction_action = frappe.get_list(
-        'Transaction Action',
-        filters={'main_transaction': transaction},
-        fields=['type'],
-        order_by='creation desc',
-        limit=1
-    )
+# @frappe.whitelist()
+# def get_last_transaction_action_type(transaction):
+#     # Last_transaction_action = frappe.get_last_doc('Transaction Action',
+#     #                               filters={'main_transaction': transaction})
+#     # if Last_transaction_action:
+#     #     return Last_transaction_action.status
+#     # else:
+#     #     return ''
+#     last_transaction_action = frappe.get_list(
+#         'Transaction Action',
+#         filters={'main_transaction': transaction},
+#         fields=['type'],
+#         order_by='creation desc',
+#         limit=1
+#     )
 
-    if last_transaction_action:
-        return last_transaction_action[0].type
-    else:
-        return ''
+#     if last_transaction_action:
+#         return last_transaction_action[0].type
+#     else:
+#         return ''
     
 # @frappe.whitelist()
 # def render_vertical_path(transaction):

@@ -7,26 +7,18 @@
  "engine": "InnoDB",
  "field_order": [
   "section_break_wyzz",
-  "main_transaction",
   "type",
   "column_break_mkjj",
-  "sent_date",
-  "receive_date",
+  "action_date",
+  "created_by",
   "section_break_vdld",
   "company",
   "party",
   "column_break_oaad",
   "to_department",
-  "deliver_to",
   "redirected_to"
  ],
  "fields": [
-  {
-   "fieldname": "main_transaction",
-   "fieldtype": "Link",
-   "label": "Main Transaction",
-   "options": "Transaction"
-  },
   {
    "fieldname": "section_break_vdld",
    "fieldtype": "Section Break"
@@ -56,29 +48,11 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "deliver_to",
-   "fieldtype": "Link",
-   "label": "Redirected From",
-   "options": "User",
-   "read_only": 1
-  },
-  {
-   "fieldname": "sent_date",
-   "fieldtype": "Datetime",
-   "label": "Sent Date ",
-   "read_only": 1
-  },
-  {
    "fieldname": "redirected_to",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Redirected To",
    "options": "User"
-  },
-  {
-   "fieldname": "receive_date",
-   "fieldtype": "Datetime",
-   "label": "Receive Date",
-   "read_only": 1
   },
   {
    "fieldname": "party",
@@ -90,33 +64,36 @@
    "allow_on_submit": 1,
    "fieldname": "type",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Type",
    "options": "Received\nRedirected\nApproved\nRejected\nCanceled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "created_by",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Created By",
+   "options": "User"
+  },
+  {
+   "fieldname": "action_date",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Action Date",
    "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
+ "istable": 1,
  "links": [],
- "modified": "2024-05-21 14:17:21.072286",
+ "modified": "2024-05-23 21:37:38.351872",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Action",
  "naming_rule": "Expression",
  "owner": "Administrator",
- "permissions": [
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "System Manager",
-   "share": 1,
-   "write": 1
-  }
- ],
+ "permissions": [],
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [
