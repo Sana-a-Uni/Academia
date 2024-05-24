@@ -78,11 +78,13 @@
    "set_only_once": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "attachments_section",
    "fieldtype": "Section Break",
    "label": "Attachments"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "attachments",
    "fieldtype": "Table",
    "options": "Transaction Attachments"
@@ -139,7 +141,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-23 20:39:18.098199",
+ "modified": "2024-05-24 18:05:11.738822",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
