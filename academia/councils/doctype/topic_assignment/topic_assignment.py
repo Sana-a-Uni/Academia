@@ -30,7 +30,7 @@ class TopicAssignment(Document):
 		main_category: DF.Link | None
 		naming_series: DF.Literal["CNCL-TA-.{topic}.##"]
 		parent_assignment: DF.Link | None
-		status: DF.Literal["", "Pending Review", "Pending Acceptance", "Accepted", "Rejected"]
+		status: DF.Literal["Accepted", "Pending Review", "Pending Acceptance", "Rejected"]
 		sub_category: DF.Link | None
 		title: DF.Data
 		topic: DF.Link | None
@@ -41,7 +41,7 @@ class TopicAssignment(Document):
 		if (self.topic and  not self.is_group):
 			# When there is a specific topic linked, include it in the name
 			self.name = frappe.model.naming.make_autoname(f'CNCL-TA-.{self.topic}.-.###')
-		else:	
+		else:
 			# For grouped assignments without a specific topic
 			self.name = frappe.model.naming.make_autoname('CNCL-TA-GRP-.YY.-.MM.-.####')
 
@@ -54,7 +54,7 @@ class TopicAssignment(Document):
 				'Topic Assignment',
 				filters={'parent_assignment': self.name},
 				fields=['name']
-			)   
+			)
 
 			# Create sets of current and new grouped assignments for comparison
 			current_grouped_assignments_set = {a.name for a in current_grouped_assignments}
@@ -70,7 +70,7 @@ class TopicAssignment(Document):
 			if (self.parent_assignment):
 				# Get the parent assignment document
 				parent_doc = frappe.get_doc('Topic Assignment', self.parent_assignment)
-				
+
 				# Check if the current assignment is already in the grouped assignments of the parent
 				if not any(a.topic_assignment == self.name for a in parent_doc.grouped_assignments):
 					# If not, append the current assignment to the parent's grouped assignments
@@ -88,20 +88,20 @@ class TopicAssignment(Document):
 					filters={'topic_assignment': self.name},
 					fields=['parent']
 				)
-				
+
 				# Iterate over each previous parent assignment
 				for parent in previous_parents:
 					# Get the parent document
 					parent_doc = frappe.get_doc('Topic Assignment', parent.parent)
-					
+
 					# Remove the current assignment from the parent's grouped assignments
 					parent_doc.grouped_assignments = [a for a in parent_doc.grouped_assignments if a.topic_assignment != self.name]
-					
+
 					# Save the parent document with updated grouped assignments
 					parent_doc.save(ignore_permissions=True)
 
 
-  
+
 	def validate_main_sub_category_relationship(self):
 		"""
 		Validate the relationship between main category and sub-category, and check that the selected sub category is one of the  selected main category's sub categories
@@ -113,8 +113,8 @@ class TopicAssignment(Document):
 				frappe.throw(
 					_("{0} is not sub category of {1}").format(self.sub_category,self.main_category)
 				)
-		
-		
+
+
 # Assuming your app structure supports this placement
 
 
@@ -128,8 +128,7 @@ def get_available_topics(doctype, txt, searchfield, start, page_len, filters):
 
     return frappe.db.sql(
         """SELECT name FROM `tabTopic`
-        WHERE docstatus= %(docstatus)s  AND 
-        council = %(council)s AND 
+        WHERE docstatus= %(docstatus)s  AND
         status IN %(status)s AND
         name NOT IN (
             SELECT topic
@@ -142,7 +141,7 @@ def get_available_topics(doctype, txt, searchfield, start, page_len, filters):
             "council": filters.get("council"),
             "docstatus":filters.get("docstatus"),
             "status":filters.get("status")
-            
+
         },
         as_list=True
     )
