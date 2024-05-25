@@ -37,6 +37,8 @@ class TopicAssignment(Document):
 		topic: DF.Link | None
 	# end: auto-generated types
 	def validate(self):
+		self.validate_topic_council()
+		self.validate_grouped_assignments()
 		self.validate_main_sub_category_relationship()
 	def autoname(self):
 		if (self.topic and  not self.is_group):
@@ -102,6 +104,26 @@ class TopicAssignment(Document):
 					parent_doc.save(ignore_permissions=True)
 
 
+	def validate_grouped_assignments(self):
+		
+		if not self.is_group:
+			self.grouped_assignments = []
+			return
+		self.parent_assignment = None
+		# Check if grouped assignments are required but not provided
+		if not self.grouped_assignments:
+			frappe.throw("Grouped Assignments are required if 'Is Group' is checked.")
+		unique_assignments = []
+		topic_assignment_set = set()
+		for assignment in self.grouped_assignments:
+			# Fetch the related Topic Assignment document
+			if assignment.topic_assignment not in topic_assignment_set:
+				topic_assignment_set.add(assignment.topic_assignment)
+				unique_assignments.append(assignment)
+			topic_assignment = frappe.get_doc("Topic Assignment", assignment.topic_assignment)
+			if topic_assignment.council != self.council:
+				frappe.throw(f"Assignment {topic_assignment.title} does not belong to the {self.council} council.")
+		self.grouped_assignments = unique_assignments
 
 	def validate_main_sub_category_relationship(self):
 		"""
@@ -114,8 +136,14 @@ class TopicAssignment(Document):
 				frappe.throw(
 					_("{0} is not sub category of {1}").format(self.sub_category,self.main_category)
 				)
+		
+	def	validate_topic_council(self):
+		if (not self.is_group):
+			topic = frappe.get_doc("Topic", self.topic)
+			if(self.council != topic.council):
+				frappe.throw(f"the topic {topic.title} does not belong to the {self.council} council.")
 
-
+	 
 # Assuming your app structure supports this placement
 
 
