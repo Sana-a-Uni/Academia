@@ -21,6 +21,7 @@ frappe.ui.form.on("Council Memo", {
             });    
           });
           }else{
+            frm.remove_custom_button(__("Create Assignment from Memo"));
             frappe.throw(__("This Council Memo already has an Assignment"));
           }
         });
