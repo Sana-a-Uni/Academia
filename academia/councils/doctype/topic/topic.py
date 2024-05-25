@@ -14,16 +14,18 @@ class Topic(Document):
 
 	if TYPE_CHECKING:
 		from academia.councils.doctype.topic_applicant.topic_applicant import TopicApplicant
+		from academia.councils.doctype.topic_attachment.topic_attachment import TopicAttachment
 		from frappe.types import DF
 
 		amended_from: DF.Link | None
 		applicants: DF.Table[TopicApplicant]
 		application_date: DF.Datetime
+		attachments: DF.Table[TopicAttachment]
 		council: DF.Link
 		description: DF.TextEditor
 		related_to: DF.Link | None
 		status: DF.Literal["Open", "Complete", "in Progress", "Hold", "Closed"]
-		title: DF.Data 
+		title: DF.Data
 		topic_main_category: DF.Link
 		topic_sub_category: DF.Link
 	# end: auto-generated types

@@ -155,13 +155,12 @@ function show_applicant_selector(frm) {
         fieldname: "applicant_type",
         label: __("Applicant Type"),
         fieldtype: "Select",
-        options: ["Student", "Academic", "Other"],
+        options: ["Student", "Faculty Member", "Other"],
         reqd: 1,
       },
     ],
     primary_action_label: __("Continue"),
     primary_action(values) {
-      console.log(" applicant type:", values.applicant_type);
       applicant_type_dialog.hide();
       open_multiselect_dialog(frm, values.applicant_type);
     },
@@ -191,7 +190,7 @@ function open_multiselect_dialog(frm, applicant_type) {
         frappe.msgprint(__("Please select {0}", [opts.source_doctype]));
         return;
       }
-      console.log("Selections:", values);
+      // console.log("Selections:", values);
       d.dialog.hide();
       add_applicants_to_topic(frm, values, opts.source_doctype);
     },
@@ -203,7 +202,7 @@ function add_applicants_to_topic(frm, selections, applicant_type) {
     const row = frm.add_child("applicants", {
       applicant_type: applicant_type,
     });
-    frappe.model.set_value(row.doctype, row.name, "applicant", applicant);
+    frappe.model.set_value(row.doctype, row.name, "applicant", applicant); //do it with set_value , so the applicant name is populated but if we do it inside the add child it will not
   });
   frm.refresh_field("applicants");
 }
@@ -225,9 +224,6 @@ function get_applicant_type_info(frm, applicant_type) {
       };
     },
     add_filters_group: 1,
-    allow_child_item_selection: false, // assuming no child table selection is needed
-    child_fieldname: "",
-    child_columns: [],
     size: "large",
   };
   let student_opts = {
@@ -240,30 +236,19 @@ function get_applicant_type_info(frm, applicant_type) {
       gender: "",
       joining_date: "",
     },
-    // data_fields: [
-    //   {
-    //     label: "Course",
-    //     fieldname: "course",
-    //     fieldtype: "Link",
-    //     options: "Course",
-    //   },
-    // ],
     get_query: function () {
       return {
         filters: {},
       };
     },
     add_filters_group: 1,
-    allow_child_item_selection: false, // assuming no child table selection is needed
-    child_fieldname: "",
-    child_columns: [],
     size: "large",
   };
 
   switch (applicant_type) {
     case "Student":
       return student_opts;
-    case "Academic":
+    case "Faculty Member":
       return academic_opts;
     default:
       return "Employee"; // Assuming 'Other' maps to 'Employee'
