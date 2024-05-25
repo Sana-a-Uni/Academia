@@ -24,9 +24,13 @@
   "get_data_from_topic",
   "title",
   "description",
-  "status_section",
+  "section_break_hbhv",
   "amended_from",
+  "section_break_bbji",
+  "is_created_by_memo",
+  "initiating_council_memo",
   "status_tab",
+  "section_break_zbkq",
   "status",
   "decision_type",
   "decision",
@@ -49,11 +53,13 @@
    "search_index": 1
   },
   {
+   "allow_in_quick_entry": 1,
    "depends_on": "eval:!doc.is_group;",
    "fieldname": "topic",
    "fieldtype": "Link",
    "in_filter": 1,
    "label": "Topic",
+   "mandatory_depends_on": "eval:!doc.is_group;",
    "options": "Topic",
    "search_index": 1
   },
@@ -81,10 +87,6 @@
    "fieldtype": "Table",
    "label": "Attachments",
    "options": "Topic Attachment"
-  },
-  {
-   "fieldname": "status_section",
-   "fieldtype": "Section Break"
   },
   {
    "fieldname": "amended_from",
@@ -137,12 +139,14 @@
    "label": "Review & Decision"
   },
   {
+   "default": "Pending Review",
    "fieldname": "status",
    "fieldtype": "Select",
    "in_standard_filter": 1,
    "label": "Status",
    "no_copy": 1,
-   "options": "Accepted\nPending Review\nPending Acceptance\nRejected"
+   "options": "\nPending Review\nPending Acceptance\nAccepted\nRejected",
+   "read_only": 1
   },
   {
    "fieldname": "decision_type",
@@ -155,6 +159,7 @@
    "sort_options": 1
   },
   {
+   "depends_on": "eval:(!doc.is_group && doc.topic) || doc.is_group;",
    "fieldname": "main_category",
    "fieldtype": "Link",
    "in_filter": 1,
@@ -174,6 +179,7 @@
    "read_only_depends_on": "eval:(doc.topic && !doc.is_group);"
   },
   {
+   "allow_in_quick_entry": 1,
    "depends_on": "eval:doc.topic;",
    "fieldname": "get_data_from_topic",
    "fieldtype": "Button",
@@ -196,7 +202,6 @@
    "fetch_from": ".is_group",
    "fieldname": "parent_assignment",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Parent Assignment",
    "options": "Topic Assignment",
@@ -223,6 +228,31 @@
    "fieldname": "get_assignments_to_group",
    "fieldtype": "Button",
    "label": "Get Assignments To Group"
+  },
+  {
+   "fieldname": "section_break_hbhv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_zbkq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_bbji",
+   "fieldtype": "Section Break"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "default": "0",
+   "fieldname": "is_created_by_memo",
+   "fieldtype": "Check",
+   "label": "Is Created By Memo"
+  },
+  {
+   "fieldname": "initiating_council_memo",
+   "fieldtype": "Link",
+   "label": "Initiating Council Memo",
+   "options": "Council Memo"
   }
  ],
  "is_submittable": 1,
@@ -238,7 +268,7 @@
    "link_fieldname": "resultant_assignment"
   }
  ],
- "modified": "2024-05-25 06:45:14.790180",
+ "modified": "2024-05-25 15:56:50.493709",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic Assignment",
@@ -258,6 +288,7 @@
    "write": 1
   }
  ],
+ "quick_entry": 1,
  "search_fields": "title,main_category,sub_category",
  "show_preview_popup": 1,
  "sort_field": "modified",

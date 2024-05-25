@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "autoname": "format:Cncl-M-{title}-{###}",
  "creation": "2024-05-09 18:02:55.061320",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -99,17 +100,16 @@
    "fieldname": "sent_date",
    "fieldtype": "Date",
    "label": "Sent Date",
-   "read_only": 1,
-   "set_only_once": 1
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-18 23:40:50.960982",
+ "modified": "2024-05-25 00:23:19.193990",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Council Memo",
- "naming_rule": "Expression (old style)",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
