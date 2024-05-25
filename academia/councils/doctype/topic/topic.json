@@ -59,8 +59,7 @@
    "in_standard_filter": 1,
    "label": "Status",
    "no_copy": 1,
-   "options": "Open\nComplete\nin Progress\nHold\nClosed",
-   "read_only": 1
+   "options": "Open\nComplete\nin Progress\nHold\nClosed"
   },
   {
    "fieldname": "column_break_cjwy",
@@ -186,7 +185,7 @@
    "link_fieldname": "topic"
   }
  ],
- "modified": "2024-05-15 07:00:42.859416",
+ "modified": "2024-05-25 05:29:15.623379",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic",
