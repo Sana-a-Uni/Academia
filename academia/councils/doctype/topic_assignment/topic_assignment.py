@@ -26,11 +26,12 @@ class TopicAssignment(Document):
 		decision_type: DF.Literal["", "Postponed", "Resolved", "Transferred"]
 		description: DF.TextEditor
 		grouped_assignments: DF.Table[TopicAssignmentCopy]
+		initiating_council_memo: DF.Link | None
 		is_group: DF.Check
 		main_category: DF.Link | None
 		naming_series: DF.Literal["CNCL-TA-.{topic}.##"]
 		parent_assignment: DF.Link | None
-		status: DF.Literal["Accepted", "Pending Review", "Pending Acceptance", "Rejected"]
+		status: DF.Literal["", "Pending Review", "Pending Acceptance", "Accepted", "Rejected"]
 		sub_category: DF.Link | None
 		title: DF.Data
 		topic: DF.Link | None

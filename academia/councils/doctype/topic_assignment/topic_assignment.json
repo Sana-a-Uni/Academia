@@ -27,7 +27,6 @@
   "section_break_hbhv",
   "amended_from",
   "section_break_bbji",
-  "is_created_by_memo",
   "initiating_council_memo",
   "status_tab",
   "section_break_zbkq",
@@ -59,7 +58,7 @@
    "fieldtype": "Link",
    "in_filter": 1,
    "label": "Topic",
-   "mandatory_depends_on": "eval:!doc.is_group;",
+   "mandatory_depends_on": "// eval:!doc.is_group;",
    "options": "Topic",
    "search_index": 1
   },
@@ -242,17 +241,13 @@
    "fieldtype": "Section Break"
   },
   {
-   "allow_in_quick_entry": 1,
-   "default": "0",
-   "fieldname": "is_created_by_memo",
-   "fieldtype": "Check",
-   "label": "Is Created By Memo"
-  },
-  {
    "fieldname": "initiating_council_memo",
    "fieldtype": "Link",
    "label": "Initiating Council Memo",
-   "options": "Council Memo"
+   "options": "Council Memo",
+   "read_only": 1,
+   "set_only_once": 1,
+   "unique": 1
   }
  ],
  "is_submittable": 1,
@@ -268,7 +263,7 @@
    "link_fieldname": "resultant_assignment"
   }
  ],
- "modified": "2024-05-25 15:56:50.493709",
+ "modified": "2024-05-25 21:10:42.174032",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic Assignment",

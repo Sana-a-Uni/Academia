@@ -5,6 +5,8 @@ from academia.councils.doctype.council.council import validate_members
 import frappe
 from frappe.model.document import Document
 from frappe.utils import nowdate
+from frappe.utils import getdate
+
 from frappe import _
 
 
@@ -138,6 +140,11 @@ class Session(Document):
             if session_assignment.decision_type == "Transferred":
                 doc = frappe.get_doc(
                     "Council Memo", session_assignment.council_memo)
+                # Updating the Status and Getting Sent Date
+                doc.status = 'Verified'
+                doc.sent_date = getdate()
+                doc.save()
+                # ----------------------------------------
                 doc.submit()
             else:
                 frappe.db.set_value('Session Topic Assignment',
