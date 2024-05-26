@@ -29,24 +29,22 @@ class TopicAssignment(Document):
 		initiating_council_memo: DF.Link | None
 		is_group: DF.Check
 		main_category: DF.Link | None
-		naming_series: DF.Literal["CNCL-TA-.{topic}.##"]
 		parent_assignment: DF.Link | None
-		status: DF.Literal["", "Pending Review", "Pending Acceptance", "Accepted", "Rejected"]
+		status: DF.Literal["Accepted", "Pending Review", "Pending Acceptance", "Rejected"]
 		sub_category: DF.Link | None
 		title: DF.Data
 		topic: DF.Link | None
 	# end: auto-generated types
 	def validate(self):
-		self.validate_topic_council()
 		self.validate_grouped_assignments()
 		self.validate_main_sub_category_relationship()
 	def autoname(self):
-		if (self.topic and  not self.is_group):
+		if (not self.is_group):
 			# When there is a specific topic linked, include it in the name
-			self.name = frappe.model.naming.make_autoname(f'CNCL-TA-.{self.topic}.-.###')
+			self.name = frappe.model.naming.make_autoname(f'CNCL-TA-.YY.-.MM.-.{self.council}.-.###')
 		else:
 			# For grouped assignments without a specific topic
-			self.name = frappe.model.naming.make_autoname('CNCL-TA-GRP-.YY.-.MM.-.####')
+			self.name = frappe.model.naming.make_autoname(f'CNCL-TA-GRP-.YY.-.MM.-.{self.council}.-.###')
 
 	def before_save(self):
 		if self.is_group:
@@ -105,7 +103,7 @@ class TopicAssignment(Document):
 
 
 	def validate_grouped_assignments(self):
-		
+
 		if not self.is_group:
 			self.grouped_assignments = []
 			return
@@ -136,25 +134,12 @@ class TopicAssignment(Document):
 				frappe.throw(
 					_("{0} is not sub category of {1}").format(self.sub_category,self.main_category)
 				)
-		
-	def	validate_topic_council(self):
-		if (not self.is_group):
-			topic = frappe.get_doc("Topic", self.topic)
-			if(self.council != topic.council):
-				frappe.throw(f"the topic {topic.title} does not belong to the {self.council} council.")
-
-	 
-# Assuming your app structure supports this placement
 
 
 
 
 @frappe.whitelist()
 def get_available_topics(doctype, txt, searchfield, start, page_len, filters):
-    # Ensure that 'council' is provided in filters
-    # if not filters or 'council' not in filters:
-    #     frappe.throw(_("Filters must contain 'council'."))
-
     return frappe.db.sql(
         """SELECT name FROM `tabTopic`
         WHERE docstatus= %(docstatus)s  AND
