@@ -16,6 +16,7 @@ class ProgramEnrollment(Document):
 
 		academic_term: DF.Link | None
 		academic_year: DF.Link
+		enabled: DF.Check
 		enrollment_date: DF.Date | None
 		faculty: DF.Link
 		image: DF.AttachImage | None
