@@ -90,11 +90,12 @@
   },
   {
    "depends_on": "eval:doc.academic_program == \"Specific Program\";",
+   "fetch_from": ".",
    "fieldname": "specific_program",
    "fieldtype": "Link",
    "label": "Specific Program",
    "mandatory_depends_on": "eval:doc.academic_program == \"Specific Program\";",
-   "options": "Academic Program"
+   "options": "Program Specification"
   },
   {
    "fieldname": "column_break_hrki",
@@ -153,7 +154,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-22 00:18:50.323299",
+ "modified": "2024-05-22 03:15:50.450909",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Study Tool",
