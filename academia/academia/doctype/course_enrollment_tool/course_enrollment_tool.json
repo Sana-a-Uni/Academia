@@ -1,0 +1,149 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-22 01:01:12.032674",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "academic_year",
+  "academic_program",
+  "specific_program",
+  "column_break_inmo",
+  "academic_term",
+  "level",
+  "specific_level",
+  "section_break_apny",
+  "student_batch",
+  "current_level",
+  "column_break_arfk",
+  "program_specification",
+  "section_break_jdiw",
+  "get_courses",
+  "table_yztw",
+  "generate"
+ ],
+ "fields": [
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Year",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "academic_program",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Academic Program",
+   "options": "\nAll Program\nSpecific Program",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.academic_program == \"Specific Program\";",
+   "fieldname": "specific_program",
+   "fieldtype": "Link",
+   "label": "Specific Program",
+   "mandatory_depends_on": "eval:doc.academic_program == \"Specific Program\";",
+   "options": "Academic Program"
+  },
+  {
+   "fieldname": "column_break_inmo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Term",
+   "options": "Academic Term",
+   "reqd": 1
+  },
+  {
+   "fieldname": "level",
+   "fieldtype": "Select",
+   "label": "Level",
+   "options": "\nAll Level\nSpecific Level",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.level == \"Specific Level\";",
+   "fieldname": "specific_level",
+   "fieldtype": "Link",
+   "label": "Specific Level",
+   "mandatory_depends_on": "eval:doc.level == \"Specific Level\";",
+   "options": "Level"
+  },
+  {
+   "fieldname": "section_break_apny",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "student_batch",
+   "fieldtype": "Link",
+   "label": "Student Batch",
+   "options": "Student Batch",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "student_batch.current_level",
+   "fieldname": "current_level",
+   "fieldtype": "Read Only",
+   "in_list_view": 1,
+   "label": "Current Level",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_arfk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "student_batch.program_specification",
+   "fieldname": "program_specification",
+   "fieldtype": "Read Only",
+   "label": "Program Specification"
+  },
+  {
+   "fieldname": "section_break_jdiw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "get_courses",
+   "fieldtype": "Button",
+   "label": "get courses"
+  },
+  {
+   "fieldname": "table_yztw",
+   "fieldtype": "Table",
+   "options": "Course Enrollment Course"
+  },
+  {
+   "fieldname": "generate",
+   "fieldtype": "Button",
+   "label": "Generate"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-05-22 01:43:35.980454",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Course Enrollment Tool",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

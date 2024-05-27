@@ -38,8 +38,7 @@
    "in_list_view": 1,
    "label": "Faculty",
    "options": "Faculty",
-   "reqd": 1,
-   "unique": 1
+   "reqd": 1
   },
   {
    "fieldname": "faculty_department",
@@ -47,8 +46,7 @@
    "in_list_view": 1,
    "label": "Faculty Department",
    "options": "Faculty Department",
-   "reqd": 1,
-   "unique": 1
+   "reqd": 1
   },
   {
    "fieldname": "column_break_fnia",
@@ -100,19 +98,20 @@
    "mandatory_depends_on": "eval:doc.program_degree == \"Master Degree\" || doc.program_degree == \"PHD Degree\";"
   },
   {
-   "depends_on": "eval:doc.research_or_thesis === 1;",
+   "depends_on": "eval:doc.research_or_thesis == 1;",
    "fieldname": "research_tab",
    "fieldtype": "Tab Break",
-   "label": "Research",
-   "mandatory_depends_on": "eval:doc.research_or_thesis === 1;"
+   "label": "Research"
   },
   {
+   "description": "In Years",
    "fieldname": "minimum_research_period",
    "fieldtype": "Int",
    "label": "Minimum Research Period",
    "mandatory_depends_on": "eval:doc.research_or_thesis === 1 && doc.courses === 1 ;"
   },
   {
+   "description": "In Years",
    "fieldname": "maximum_research_period",
    "fieldtype": "Int",
    "label": "Maximum Research Period",
@@ -120,6 +119,7 @@
   },
   {
    "depends_on": "eval:doc.research_or_thesis === 1 && doc.courses === 1 ;",
+   "description": "Ex: 70%",
    "fieldname": "minimum_course_average_to_start_research",
    "fieldtype": "Data",
    "label": "Minimum Course Average to Start Research ",
@@ -128,7 +128,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-24 19:39:10.869477",
+ "modified": "2024-04-30 17:59:57.904449",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Program",

@@ -2,14 +2,15 @@ app_name = "academia"
 app_title = "Academia"
 app_publisher = "SanU"
 app_description = "Academic institution management system"
-app_email = "eng.bakraldubai@gmail.com"
+app_email = "a.alshalabi@su.edu.ye"
 app_license = "mit"
-# required_apps = []
+required_apps = ["frappe/erpnext","frappe/hrms"]
 
 # Includes in <head>
 # ------------------
 
 # include js, css files in header of desk.html
+app_include_js = "academia.bundle.js"
 # app_include_css = "/assets/academia/css/academia.css"
 # app_include_js = "/assets/academia/js/academia.js"
 
@@ -154,7 +155,7 @@ app_license = "mit"
 # Testing
 # -------
 
-# before_tests = "academia.install.before_tests"
+before_tests = "academia.tests.test_utils.before_tests"
 
 # Overriding Methods
 # ------------------------------
@@ -219,3 +220,4 @@ app_license = "mit"
 # auth_hooks = [
 #	"academia.auth.validate"
 # ]
+export_python_type_annotations = True

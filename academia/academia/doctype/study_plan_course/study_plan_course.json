@@ -11,7 +11,7 @@
   "course_type",
   "study_level",
   "semester",
-  "mandatory"
+  "elective"
  ],
  "fields": [
   {
@@ -19,15 +19,16 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Course",
-   "options": "Course",
+   "options": "Course Specification",
    "reqd": 1
   },
   {
+   "fetch_from": "course.course_type",
    "fieldname": "course_type",
-   "fieldtype": "Select",
+   "fieldtype": "Read Only",
    "in_list_view": 1,
    "label": "Course Type",
-   "options": "\nUniversity Requirement\nFaculty Requirement\nProgram Requirement"
+   "read_only": 1
   },
   {
    "fieldname": "study_level",
@@ -44,23 +45,25 @@
    "options": "Semester"
   },
   {
-   "default": "0",
-   "fieldname": "mandatory",
-   "fieldtype": "Check",
+   "fetch_from": "course.course_name_english",
+   "fieldname": "course_name",
+   "fieldtype": "Read Only",
    "in_list_view": 1,
-   "label": "Mandatory"
+   "label": "Course Name",
+   "read_only": 1
   },
   {
-   "fieldname": "course_name",
-   "fieldtype": "Data",
+   "default": "0",
+   "fieldname": "elective",
+   "fieldtype": "Check",
    "in_list_view": 1,
-   "label": "Course Name"
+   "label": "Elective"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-04-23 21:41:53.109557",
+ "modified": "2024-05-08 00:49:42.989275",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Study Plan Course",

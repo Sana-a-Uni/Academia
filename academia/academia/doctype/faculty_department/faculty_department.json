@@ -33,8 +33,7 @@
    "in_list_view": 1,
    "label": "Faculty",
    "options": "Faculty",
-   "reqd": 1,
-   "unique": 1
+   "reqd": 1
   },
   {
    "fieldname": "abbr",
@@ -131,7 +130,7 @@
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2024-02-02 01:21:05.626176",
+ "modified": "2024-04-29 18:24:36.553627",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Department",

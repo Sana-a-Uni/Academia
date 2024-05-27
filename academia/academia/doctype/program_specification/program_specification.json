@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:program_abbreviation-date_of_programe_development",
+ "autoname": "format:{program_abbreviation}-{date_of_programe_development}",
  "creation": "2024-01-22 20:49:49.880733",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -14,6 +14,10 @@
   "program_abbreviation",
   "program_degree",
   "starrting_year_of_the_program",
+  "section_break_soto",
+  "courses",
+  "column_break_uxus",
+  "research_or_thesis",
   "section_break_koic",
   "total_hours_required_to_award_degree",
   "study_language",
@@ -29,7 +33,11 @@
   "column_break_kpxz",
   "file",
   "study_plan_details_tab",
-  "table_ytno"
+  "table_ytno",
+  "research_tab",
+  "minimum_course_average_to_start_research",
+  "minimum_research_period",
+  "maximum_research_period"
  ],
  "fields": [
   {
@@ -61,10 +69,9 @@
   {
    "fetch_from": "program_name.program_degree",
    "fieldname": "program_degree",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Program Degree",
-   "options": "Program Degree",
    "read_only": 1,
    "reqd": 1
   },
@@ -169,12 +176,75 @@
   {
    "fieldname": "table_ytno",
    "fieldtype": "Table",
-   "options": "Study Plan Course"
+   "options": "Study Plan Course",
+   "read_only_depends_on": "eval:doc.research_or_thesis == 1 && doc.courses == 0;"
+  },
+  {
+   "fieldname": "section_break_soto",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.program_degree == \"Master Degree\" || doc.program_degree == \"PHD Degree\";",
+   "fetch_from": "program_name.courses",
+   "fieldname": "courses",
+   "fieldtype": "Check",
+   "label": "Courses",
+   "mandatory_depends_on": "eval:doc.program_degree == \"Master Degree\" || doc.program_degree == \"PHD Degree\";",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_uxus",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.program_degree == \"Master Degree\" || doc.program_degree == \"PHD Degree\";",
+   "fetch_from": "program_name.research_or_thesis",
+   "fieldname": "research_or_thesis",
+   "fieldtype": "Check",
+   "label": "Research or Thesis",
+   "mandatory_depends_on": "eval:doc.program_degree == \"Master Degree\" || doc.program_degree == \"PHD Degree\";",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.research_or_thesis == 1;",
+   "fieldname": "research_tab",
+   "fieldtype": "Tab Break",
+   "label": "Research",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.research_or_thesis === 1 && doc.courses === 1 ;",
+   "description": "Ex: 70%",
+   "fetch_from": "program_name.minimum_course_average_to_start_research",
+   "fieldname": "minimum_course_average_to_start_research",
+   "fieldtype": "Data",
+   "label": "Minimum Course Average to Start Research ",
+   "read_only": 1
+  },
+  {
+   "description": "In Years",
+   "fetch_from": "program_name.minimum_research_period",
+   "fieldname": "minimum_research_period",
+   "fieldtype": "Int",
+   "label": "Minimum Research Period",
+   "mandatory_depends_on": "eval:doc.research_or_thesis === 1 && doc.courses === 1 ;",
+   "read_only": 1
+  },
+  {
+   "description": "In Years",
+   "fetch_from": "program_name.maximum_research_period",
+   "fieldname": "maximum_research_period",
+   "fieldtype": "Int",
+   "label": "Maximum Research Period",
+   "mandatory_depends_on": "eval:doc.research_or_thesis === 1 && doc.courses === 1 ;",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 22:59:40.155060",
+ "modified": "2024-05-03 02:24:44.603330",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Specification",
@@ -194,7 +264,10 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "program_name",
+ "translated_doctype": 1
 }

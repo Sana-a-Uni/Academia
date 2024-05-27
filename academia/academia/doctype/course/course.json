@@ -8,21 +8,26 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "course_code",
+  "section_break_hhlw",
+  "elective_template",
+  "section_break_khvb",
   "course_name",
-  "course_image",
+  "course_type",
+  "faculty",
+  "program",
   "column_break_fqwr",
-  "description",
-  "course_details_tab",
-  "table_rgxb"
+  "course_name_english",
+  "course_code",
+  "course_image",
+  "section_break_fiet",
+  "description"
  ],
  "fields": [
   {
    "fieldname": "course_name",
    "fieldtype": "Data",
    "label": "Course Name",
-   "reqd": 1,
-   "unique": 1
+   "reqd": 1
   },
   {
    "fieldname": "course_code",
@@ -44,24 +49,66 @@
    "label": "Description"
   },
   {
-   "fieldname": "course_details_tab",
-   "fieldtype": "Tab Break",
-   "label": "Course Details"
-  },
-  {
-   "fieldname": "table_rgxb",
-   "fieldtype": "Table",
-   "options": "Course Hours"
-  },
-  {
    "fieldname": "column_break_fqwr",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "course_name_english",
+   "fieldtype": "Data",
+   "label": "Course Name in English",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "elective_template",
+   "fieldtype": "Check",
+   "label": "Elective Template "
+  },
+  {
+   "fieldname": "section_break_khvb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "course_type",
+   "fieldtype": "Select",
+   "label": "Course Type",
+   "options": "\nUniversity Requirement\nFaculty Requirement\nProgram Requirement",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "mandatory_depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "section_break_hhlw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.course_type == \"Program Requirement\";",
+   "fieldname": "program",
+   "fieldtype": "Link",
+   "label": "Program",
+   "mandatory_depends_on": "eval:doc.course_type == \"Program Requirement\";",
+   "options": "Program Specification"
+  },
+  {
+   "fieldname": "section_break_fiet",
+   "fieldtype": "Section Break"
   }
  ],
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2024-04-24 19:01:41.211850",
+ "links": [
+  {
+   "link_doctype": "Course Specification",
+   "link_fieldname": "course_code"
+  }
+ ],
+ "modified": "2024-05-08 02:43:01.267994",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",
@@ -81,7 +128,13 @@
    "write": 1
   }
  ],
+ "search_fields": "course_code",
+ "show_name_in_global_search": 1,
+ "show_preview_popup": 1,
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "course_name",
+ "translated_doctype": 1
 }

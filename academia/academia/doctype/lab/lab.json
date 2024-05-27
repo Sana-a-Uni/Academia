@@ -7,7 +7,13 @@
  "engine": "InnoDB",
  "field_order": [
   "lab_name",
+  "lab_type",
   "faculty",
+  "building",
+  "column_break_cmvv",
+  "seating_capacity",
+  "acceptable_increase",
+  "section_break_dpff",
   "description"
  ],
  "fields": [
@@ -23,7 +29,7 @@
    "fieldname": "faculty",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "faculty",
+   "label": "Faculty",
    "options": "Faculty",
    "reqd": 1
   },
@@ -31,11 +37,45 @@
    "fieldname": "description",
    "fieldtype": "Text Editor",
    "label": "Description"
+  },
+  {
+   "fieldname": "building",
+   "fieldtype": "Link",
+   "label": "Building",
+   "options": "Building"
+  },
+  {
+   "fieldname": "column_break_cmvv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "seating_capacity",
+   "fieldtype": "Data",
+   "label": "Seating Capacity"
+  },
+  {
+   "description": "Acceptable number of seats addition to the class capacity ",
+   "fieldname": "acceptable_increase",
+   "fieldtype": "Data",
+   "label": "Acceptable increase"
+  },
+  {
+   "fieldname": "section_break_dpff",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "lab_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Lab Type",
+   "options": "Lab Type",
+   "reqd": 1,
+   "unique": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 22:05:02.412896",
+ "modified": "2024-04-29 18:09:07.040478",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "lab",

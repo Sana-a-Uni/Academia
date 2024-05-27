@@ -1,55 +1,67 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:{course_code}-{date_of_course_development}",
  "creation": "2024-04-24 18:45:22.123570",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "course_code",
   "course_name",
+  "course_name_english",
   "course_type",
   "faculty",
+  "program",
   "course_image",
   "column_break_iypx",
   "languages",
   "pre_requisites",
   "co_requisites",
+  "section_break_vkwq",
+  "effective_academic_year",
+  "approval_date",
+  "column_break_xtso",
+  "date_of_course_development",
+  "file",
   "section_break_sjbv",
   "description",
   "course_details_tab",
-  "course_hours"
+  "credit_hours"
  ],
  "fields": [
   {
    "fieldname": "course_code",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Course Code",
+   "options": "Course",
    "reqd": 1,
    "unique": 1
   },
   {
+   "fetch_from": "course_code.course_name",
    "fieldname": "course_name",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Course Name",
-   "reqd": 1,
+   "read_only": 1,
    "unique": 1
   },
   {
+   "fetch_from": "course_code.course_type",
    "fieldname": "course_type",
-   "fieldtype": "Select",
+   "fieldtype": "Read Only",
    "label": "Course Type",
-   "options": "\nUniversity Requirement\nFaculty Requirement\nProgram Requirement",
-   "reqd": 1
+   "read_only": 1
   },
   {
    "depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
+   "fetch_from": "course_code.faculty",
    "fieldname": "faculty",
-   "fieldtype": "Link",
+   "fieldtype": "Read Only",
    "label": "faculty",
    "mandatory_depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
-   "options": "Faculty"
+   "read_only": 1
   },
   {
    "fieldname": "course_image",
@@ -94,19 +106,64 @@
    "label": "Course Details"
   },
   {
-   "fieldname": "course_hours",
+   "fetch_from": "course_code.course_name_english",
+   "fieldname": "course_name_english",
+   "fieldtype": "Data",
+   "label": "Course Name in English ",
+   "read_only": 1
+  },
+  {
+   "fieldname": "credit_hours",
    "fieldtype": "Table",
-   "label": "Course Hours",
+   "label": "Credit Hours",
    "options": "Course Hours"
+  },
+  {
+   "fieldname": "section_break_vkwq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "effective_academic_year",
+   "fieldtype": "Link",
+   "label": "Effective Academic Year",
+   "options": "Academic Year"
+  },
+  {
+   "fieldname": "approval_date",
+   "fieldtype": "Date",
+   "label": "Approval Date"
+  },
+  {
+   "fieldname": "column_break_xtso",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "date_of_course_development",
+   "fieldtype": "Date",
+   "label": "Date of Course Development"
+  },
+  {
+   "fieldname": "file",
+   "fieldtype": "Attach",
+   "label": "File"
+  },
+  {
+   "depends_on": "eval:doc.course_type == \"Program Requirement\";",
+   "fetch_from": "course_code.program",
+   "fieldname": "program",
+   "fieldtype": "Read Only",
+   "label": "Program",
+   "read_only": 1
   }
  ],
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-24 19:00:28.712426",
+ "modified": "2024-05-08 01:03:55.313925",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Specification",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

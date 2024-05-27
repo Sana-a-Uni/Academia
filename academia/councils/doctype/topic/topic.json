@@ -1,6 +1,5 @@
 {
  "actions": [],
- "allow_rename": 1,
  "autoname": "Cncl-Tp.YY.MM.-.{council}.-.###",
  "creation": "2024-01-11 08:09:44.621131",
  "default_view": "List",
@@ -12,65 +11,67 @@
   "title",
   "status",
   "column_break_cjwy",
-  "topic_main_type",
-  "topic_subtype",
-  "section_break_bkzm",
-  "related_to",
-  "amended_from",
-  "column_break_izfz",
-  "applied_date",
+  "application_date",
+  "topic_main_category",
+  "topic_sub_category",
   "section_break_hzpb",
   "description",
+  "section_break_bkzm",
+  "amended_from",
+  "column_break_izfz",
+  "related_to",
   "applicants_tab",
-  "applicant_type",
-  "applicants"
+  "applicants",
+  "attachments_tab",
+  "attachments",
+  "tracking_tab",
+  "related_assignments_section",
+  "related_assignments"
  ],
  "fields": [
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "council",
    "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Council",
    "options": "Council",
    "reqd": 1
   },
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "title",
    "fieldtype": "Data",
+   "in_filter": 1,
    "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Title",
    "reqd": 1
   },
   {
+   "default": "Open",
    "fieldname": "status",
    "fieldtype": "Select",
-   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Status",
-   "options": "Accepted\nApplied\nRejected",
-   "reqd": 1
+   "no_copy": 1,
+   "options": "Open\nComplete\nin Progress\nHold\nClosed",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_cjwy",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "topic_main_type",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Topic Main Type",
-   "reqd": 1
-  },
-  {
-   "fieldname": "topic_subtype",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Topic Subtype",
-   "reqd": 1
-  },
-  {
    "fieldname": "section_break_bkzm",
    "fieldtype": "Section Break"
   },
   {
+   "description": "'Related To' maintains a clear reference to the original topic that led to the creation of the current topic",
    "fieldname": "related_to",
    "fieldtype": "Link",
    "label": "Related To",
@@ -90,17 +91,22 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "applied_date",
+   "fieldname": "application_date",
    "fieldtype": "Datetime",
-   "label": "Applied Date",
-   "options": "Council Topic",
-   "read_only": 1
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Application Date",
+   "options": "today()",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_hzpb",
    "fieldtype": "Section Break"
   },
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "description",
    "fieldtype": "Text Editor",
    "label": "Description",
@@ -112,24 +118,75 @@
    "label": "Applicants"
   },
   {
-   "fieldname": "applicant_type",
-   "fieldtype": "Select",
-   "label": "Applicant Type",
-   "options": "Academic\nGraduate\nStudent",
-   "reqd": 1
-  },
-  {
    "fieldname": "applicants",
    "fieldtype": "Table",
    "label": "Applicants",
    "options": "Topic Applicant",
    "reqd": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "topic_main_category",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Main Category",
+   "options": "Topic Main Category",
+   "reqd": 1
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "topic_sub_category",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Sub Category",
+   "options": "Topic Sub Category",
+   "read_only_depends_on": "eval:!doc.topic_main_category;",
+   "reqd": 1
+  },
+  {
+   "fieldname": "attachments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "attachments",
+   "fieldtype": "Table",
+   "label": "Attachments",
+   "options": "Topic Attachment",
+   "print_hide": 1,
+   "report_hide": 1
+  },
+  {
+   "fieldname": "tracking_tab",
+   "fieldtype": "Tab Break",
+   "label": "Tracking Assignments"
+  },
+  {
+   "fieldname": "related_assignments_section",
+   "fieldtype": "Section Break",
+   "label": "Related Assignments "
+  },
+  {
+   "fieldname": "related_assignments",
+   "fieldtype": "HTML",
+   "label": "Related Assignments"
   }
  ],
- "index_web_pages_for_search": 1,
  "is_submittable": 1,
- "links": [],
- "modified": "2024-01-25 08:10:09.990708",
+ "links": [
+  {
+   "group": "Assignment",
+   "link_doctype": "Topic Assignment",
+   "link_fieldname": "topic"
+  }
+ ],
+ "modified": "2024-05-15 07:00:42.859416",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic",
@@ -149,9 +206,12 @@
    "write": 1
   }
  ],
+ "search_fields": "title",
+ "show_preview_popup": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
+ "title_field": "title",
  "track_changes": 1,
  "track_seen": 1
 }

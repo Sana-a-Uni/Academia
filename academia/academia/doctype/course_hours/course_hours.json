@@ -4,11 +4,11 @@
  "autoname": "field:hour_type",
  "creation": "2024-04-23 21:43:23.728299",
  "doctype": "DocType",
- "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
   "hour_type",
-  "course_needed",
+  "hours",
+  "suitable_env",
   "lab_type"
  ],
  "fields": [
@@ -22,26 +22,34 @@
    "unique": 1
   },
   {
-   "fieldname": "course_needed",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Course Needed",
-   "options": "\nClass\nLab"
-  },
-  {
-   "depends_on": "eval:doc.course_needed == \"Lab\";",
+   "depends_on": "eval:doc.suitable_env == \"Lab\";",
    "fieldname": "lab_type",
    "fieldtype": "Link",
    "label": "Lab Type",
-   "mandatory_depends_on": "eval:doc.course_needed == \"Lab\";",
-   "options": "lab",
-   "read_only_depends_on": "eval:doc.course_needed == \"Class\";"
+   "mandatory_depends_on": "eval:doc.suitable_env == \"Lab\";",
+   "options": "Lab Type",
+   "read_only_depends_on": "eval:doc.suitable_env == \"Room\";"
+  },
+  {
+   "fieldname": "suitable_env",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Suitable Environment",
+   "options": "\nRoom\nLab",
+   "reqd": 1
+  },
+  {
+   "fieldname": "hours",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Hours",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-04-23 22:04:41.518934",
+ "modified": "2024-05-07 22:47:02.415841",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Hours",

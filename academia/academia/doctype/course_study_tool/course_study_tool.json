@@ -1,0 +1,147 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-08 02:58:07.581087",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "academic_year",
+  "academic_program",
+  "specific_program",
+  "column_break_hrki",
+  "academic_term",
+  "level",
+  "specific_level",
+  "section_break_hwzx",
+  "student_batch",
+  "current_level",
+  "column_break_pvou",
+  "program_specification",
+  "section_break_anao",
+  "get_courses",
+  "courses",
+  "generate_courses"
+ ],
+ "fields": [
+  {
+   "fieldname": "get_courses",
+   "fieldtype": "Button",
+   "label": "get courses"
+  },
+  {
+   "fieldname": "student_batch",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Student Batch",
+   "options": "Student Batch",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "student_batch.current_level",
+   "fieldname": "current_level",
+   "fieldtype": "Read Only",
+   "in_list_view": 1,
+   "label": "Current Level",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_pvou",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "student_batch.program_specification",
+   "fieldname": "program_specification",
+   "fieldtype": "Read Only",
+   "label": "Program Specification"
+  },
+  {
+   "fieldname": "section_break_anao",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "courses",
+   "fieldtype": "Table",
+   "options": "Course Study Course"
+  },
+  {
+   "fieldname": "generate_courses",
+   "fieldtype": "Button",
+   "label": "Generate"
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "label": "Academic Year",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "academic_program",
+   "fieldtype": "Select",
+   "label": "Academic Program",
+   "options": "\nAll Program\nSpecific Program",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.academic_program == \"Specific Program\";",
+   "fieldname": "specific_program",
+   "fieldtype": "Link",
+   "label": "Specific Program",
+   "mandatory_depends_on": "eval:doc.academic_program == \"Specific Program\";",
+   "options": "Academic Program"
+  },
+  {
+   "fieldname": "column_break_hrki",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "label": "Academic Term",
+   "options": "Academic Term",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_hwzx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "level",
+   "fieldtype": "Select",
+   "label": "Level",
+   "options": "\nAll Level\nSpecific Level",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.level == \"Specific Level\";",
+   "fieldname": "specific_level",
+   "fieldtype": "Link",
+   "label": "Specific Level",
+   "mandatory_depends_on": "eval:doc.level == \"Specific Level\";",
+   "options": "Level"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-05-21 21:55:31.074844",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Course Study Tool",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

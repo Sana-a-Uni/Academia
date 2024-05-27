@@ -12,7 +12,6 @@
   "academic_program",
   "enrollment_date",
   "column_break_nlbw",
-  "university",
   "faculty",
   "faculty_department",
   "academic_year",
@@ -70,12 +69,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "university",
-   "fieldtype": "Link",
-   "label": "University ",
-   "options": "University"
-  },
-  {
    "fieldname": "faculty",
    "fieldtype": "Link",
    "label": "Faculty",
@@ -97,7 +90,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-28 23:55:23.071479",
+ "modified": "2024-05-09 17:18:31.253130",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Level And Semester Enrollment",

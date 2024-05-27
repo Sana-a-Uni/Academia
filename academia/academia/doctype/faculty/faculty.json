@@ -207,7 +207,7 @@
    "link_fieldname": "faculty"
   }
  ],
- "modified": "2024-04-23 22:37:43.120115",
+ "modified": "2024-05-03 01:50:35.851004",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty",
@@ -228,7 +228,9 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "abbr"
 }

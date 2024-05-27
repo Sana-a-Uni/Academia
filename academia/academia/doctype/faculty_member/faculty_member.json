@@ -11,34 +11,44 @@
   "details_tab",
   "naming_series",
   "employee",
-  "faculty_member_name_english",
   "faculty_member_name",
-  "title",
-  "column_break_zcxq",
+  "faculty_member_name_english",
   "company",
+  "column_break_hagf",
+  "contract_status",
   "date_of_joining_in_service",
   "date_of_joining_in_university",
+  "column_break_zcxq",
+  "academic_rank",
   "nationality",
-  "languages",
+  "google_scholar_profile_link",
   "image",
+  "personal_skills_section",
+  "languages",
+  "column_break_fxmn",
+  "courses",
+  "appointment_data_section",
+  "decision_number",
+  "date",
+  "column_break_pkgt",
+  "decision_attachment",
   "profile_tab",
-  "scientific_qualification_section",
-  "qualification",
-  "professional__acativity_section",
-  "table_bxkj",
-  "academic_experience_section",
-  "table_yhsf",
-  "training_course_section",
-  "table_zjkc"
+  "scientific_qualifications_section",
+  "faculty_member_scientific_qualification",
+  "academic_experiences_section",
+  "faculty_member_academic_experience",
+  "training_courses_section",
+  "faculty_member_training_course",
+  "conferences_and_workshops_section",
+  "faculty_member_conference_and_workshop",
+  "university_and_community_services_section",
+  "faculty_member_university_and_community_service",
+  "activities_section",
+  "faculty_member_activity",
+  "awards_and_appreciation_certificates_section",
+  "faculty_member_award_and_appreciation_certificate"
  ],
  "fields": [
-  {
-   "description": "An academic title refers to a person\u2019s position or rank within a university",
-   "fieldname": "title",
-   "fieldtype": "Link",
-   "label": "Academic Title",
-   "options": "Academic Title"
-  },
   {
    "fieldname": "date_of_joining_in_service",
    "fieldtype": "Date",
@@ -81,97 +91,196 @@
    "options": "Faculty Member Language"
   },
   {
-   "collapsible": 1,
-   "fieldname": "scientific_qualification_section",
-   "fieldtype": "Section Break",
-   "label": "Scientific Qualification"
-  },
-  {
-   "fieldname": "qualification",
-   "fieldtype": "Table",
-   "label": "Faculty Member Qualification",
-   "options": "Faculty Member Scientific Qualification"
-  },
-  {
-   "collapsible": 1,
-   "fieldname": "academic_experience_section",
-   "fieldtype": "Section Break",
-   "label": "Academic Experience "
-  },
-  {
-   "fieldname": "table_yhsf",
-   "fieldtype": "Table",
-   "label": "Faculty Member Experience ",
-   "options": "Faculty Member Academic Experience"
-  },
-  {
    "fieldname": "nationality",
    "fieldtype": "Link",
    "label": "Nationality",
    "options": "Nationality"
   },
   {
-   "collapsible": 1,
-   "fieldname": "professional__acativity_section",
-   "fieldtype": "Section Break",
-   "label": "Professional  Activity"
-  },
-  {
-   "fieldname": "table_bxkj",
-   "fieldtype": "Table",
-   "label": "Faculty Member Activity ",
-   "options": "Faculty Member Professional Activity"
-  },
-  {
-   "collapsible": 1,
-   "fieldname": "training_course_section",
-   "fieldtype": "Section Break",
-   "label": "Training Course"
-  },
-  {
-   "fieldname": "table_zjkc",
-   "fieldtype": "Table",
-   "label": "Faculty Member Course",
-   "options": "Faculty Member Training Course"
-  },
-  {
    "fetch_from": "employee.image",
-   "fetch_if_empty": 1,
    "fieldname": "image",
    "fieldtype": "Attach Image",
    "hidden": 1,
    "label": "Image",
    "read_only": 1,
-   "read_only_depends_on": "employee",
-   "set_only_once": 1
+   "read_only_depends_on": "employee"
   },
   {
    "fieldname": "employee",
    "fieldtype": "Link",
-   "label": "Employee",
-   "options": "Employee"
+   "label": "Employee ",
+   "options": "Employee",
+   "reqd": 1
   },
   {
+   "fetch_from": "employee.employee_name",
    "fieldname": "faculty_member_name",
    "fieldtype": "Data",
-   "label": "Faculty Member Name (English)"
+   "label": "Faculty Member Name",
+   "read_only": 1,
+   "reqd": 1
   },
   {
+   "fetch_from": "employee.company",
    "fieldname": "company",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "Company",
-   "options": "Company"
+   "read_only": 1
   },
   {
    "fieldname": "faculty_member_name_english",
    "fieldtype": "Data",
-   "label": "Faculty Member Name"
+   "label": "Faculty Member Name  (English)"
+  },
+  {
+   "fieldname": "courses",
+   "fieldtype": "Table MultiSelect",
+   "label": "Courses",
+   "options": "Faculty Member Course"
+  },
+  {
+   "fieldname": "faculty_member_award_and_appreciation_certificate",
+   "fieldtype": "Table",
+   "label": "Faculty Member Award and Appreciation Certificate",
+   "options": "Faculty Member Award and Appreciation Certificate"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "conferences_and_workshops_section",
+   "fieldtype": "Section Break",
+   "label": "Conferences and Workshops"
+  },
+  {
+   "fieldname": "faculty_member_conference_and_workshop",
+   "fieldtype": "Table",
+   "label": "Faculty Member Conference and Workshop",
+   "options": "Faculty Member Conference and Workshop"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "activities_section",
+   "fieldtype": "Section Break",
+   "label": "Activities"
+  },
+  {
+   "fieldname": "faculty_member_activity",
+   "fieldtype": "Table",
+   "label": "Faculty Member Activity",
+   "options": "Faculty Member Activity"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "university_and_community_services_section",
+   "fieldtype": "Section Break",
+   "label": "University and Community Services"
+  },
+  {
+   "fieldname": "faculty_member_scientific_qualification",
+   "fieldtype": "Table",
+   "label": "Faculty Member Qualification",
+   "options": "Faculty Member Scientific Qualification"
+  },
+  {
+   "fieldname": "faculty_member_academic_experience",
+   "fieldtype": "Table",
+   "label": "Faculty Member Experience ",
+   "options": "Faculty Member Academic Experience"
+  },
+  {
+   "fieldname": "faculty_member_training_course",
+   "fieldtype": "Table",
+   "label": "Faculty Member Training Course",
+   "options": "Faculty Member Training Course"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "scientific_qualifications_section",
+   "fieldtype": "Section Break",
+   "label": "Scientific Qualifications"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "academic_experiences_section",
+   "fieldtype": "Section Break",
+   "label": "Academic Experiences"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "training_courses_section",
+   "fieldtype": "Section Break",
+   "label": "Training Courses"
+  },
+  {
+   "fieldname": "faculty_member_university_and_community_service",
+   "fieldtype": "Table",
+   "label": "Faculty Member University and Community Service",
+   "options": "Faculty Member University and Community Service"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "awards_and_appreciation_certificates_section",
+   "fieldtype": "Section Break",
+   "label": "Awards and Appreciation Certificates"
+  },
+  {
+   "fieldname": "academic_rank",
+   "fieldtype": "Link",
+   "label": "Academic Rank",
+   "options": "Academic Rank"
+  },
+  {
+   "description": "\u062d\u0627\u0644\u0629 \u0627\u0644\u062a\u0639\u0627\u0642\u062f \u060c fetch from hr later",
+   "fieldname": "contract_status",
+   "fieldtype": "Data",
+   "label": "Contract Status"
+  },
+  {
+   "fieldname": "google_scholar_profile_link",
+   "fieldtype": "Data",
+   "label": "Google Scholar Profile Link"
+  },
+  {
+   "fieldname": "appointment_data_section",
+   "fieldtype": "Section Break",
+   "label": "Granting tenure Data"
+  },
+  {
+   "fieldname": "decision_number",
+   "fieldtype": "Int",
+   "label": "Decision Number"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "decision_attachment",
+   "fieldtype": "Attach",
+   "label": "Decision Attachment"
+  },
+  {
+   "fieldname": "column_break_pkgt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "personal_skills_section",
+   "fieldtype": "Section Break",
+   "label": "Personal Skills"
+  },
+  {
+   "fieldname": "column_break_fxmn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_hagf",
+   "fieldtype": "Column Break"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-17 10:54:33.567570",
+ "modified": "2024-05-05 19:08:54.183874",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",
@@ -208,7 +317,10 @@
    "write": 1
   }
  ],
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "faculty_member_name"
 }
+
