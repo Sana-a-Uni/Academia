@@ -42,28 +42,8 @@ class TopicAssignment(Document):
 		else:
 			# For grouped assignments without a specific topic
 			self.name = frappe.model.naming.make_autoname(f'CNCL-TA-GRP-.YY.-.MM.-.{self.council}.-.###')
+		
 
-
-	def validate_grouped_assignments(self):
-
-		if not self.is_group:
-			self.grouped_assignments = []
-			return
-		self.parent_assignment = None
-		# Check if grouped assignments are required but not provided
-		if not self.grouped_assignments:
-			frappe.throw("Grouped Assignments are required if 'Is Group' is checked.")
-		unique_assignments = []
-		topic_assignment_set = set()
-		for assignment in self.grouped_assignments:
-			# Fetch the related Topic Assignment document
-			if assignment.topic_assignment not in topic_assignment_set:
-				topic_assignment_set.add(assignment.topic_assignment)
-				unique_assignments.append(assignment)
-			topic_assignment = frappe.get_doc("Topic Assignment", assignment.topic_assignment)
-			if topic_assignment.council != self.council:
-				frappe.throw(f"Assignment {topic_assignment.title} does not belong to the {self.council} council.")
-		self.grouped_assignments = unique_assignments
 
 	def validate_main_sub_category_relationship(self):
 		"""
