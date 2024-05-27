@@ -14,7 +14,6 @@ class TopicAssignment(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.councils.doctype.topic_assignment_copy.topic_assignment_copy import TopicAssignmentCopy
 		from academia.councils.doctype.topic_attachment.topic_attachment import TopicAttachment
 		from frappe.types import DF
 
@@ -25,8 +24,6 @@ class TopicAssignment(Document):
 		decision: DF.TextEditor | None
 		decision_type: DF.Literal["", "Postponed", "Resolved", "Transferred"]
 		description: DF.TextEditor
-		grouped_assignments: DF.Table[TopicAssignmentCopy]
-		initiating_council_memo: DF.Link | None
 		is_group: DF.Check
 		main_category: DF.Link | None
 		parent_assignment: DF.Link | None
@@ -36,7 +33,7 @@ class TopicAssignment(Document):
 		topic: DF.Link | None
 	# end: auto-generated types
 	def validate(self):
-		self.validate_grouped_assignments()
+		# self.validate_grouped_assignments()
 		self.validate_main_sub_category_relationship()
 	def autoname(self):
 		if (not self.is_group):
@@ -45,61 +42,6 @@ class TopicAssignment(Document):
 		else:
 			# For grouped assignments without a specific topic
 			self.name = frappe.model.naming.make_autoname(f'CNCL-TA-GRP-.YY.-.MM.-.{self.council}.-.###')
-
-	def before_save(self):
-		if self.is_group:
-			# Iterate over grouped assignments and set the Parent field
-
-			# Get the list of current grouped assignments from the database
-			current_grouped_assignments = frappe.get_all(
-				'Topic Assignment',
-				filters={'parent_assignment': self.name},
-				fields=['name']
-			)
-
-			# Create sets of current and new grouped assignments for comparison
-			current_grouped_assignments_set = {a.name for a in current_grouped_assignments}
-			new_grouped_assignments_set = {a.name for a in self.grouped_assignments}
-
-			# For assignments that are in the current set but not in the new set, remove the parent_assignment
-			for assignment_name in current_grouped_assignments_set - new_grouped_assignments_set:
-				frappe.db.set_value('Topic Assignment', assignment_name, 'parent_assignment', None)
-			for assignment in self.grouped_assignments:
-				frappe.db.set_value('Topic Assignment', assignment.topic_assignment, 'parent_assignment', self.name)
-		else:
-			# If this is not a group assignment
-			if (self.parent_assignment):
-				# Get the parent assignment document
-				parent_doc = frappe.get_doc('Topic Assignment', self.parent_assignment)
-
-				# Check if the current assignment is already in the grouped assignments of the parent
-				if not any(a.topic_assignment == self.name for a in parent_doc.grouped_assignments):
-					# If not, append the current assignment to the parent's grouped assignments
-					parent_doc.append('grouped_assignments', {
-						'topic_assignment': self.name,
-						'title': self.title,
-						'assignment_date': self.assignment_date
-					})
-				# Save the parent document with updated grouped assignments
-				parent_doc.save(ignore_permissions=True)
-			else:
-				# If there is no parent_assignment, remove from previous parent assignment if it exists
-				previous_parents = frappe.get_all(
-					'Topic Assignment Copy',
-					filters={'topic_assignment': self.name},
-					fields=['parent']
-				)
-
-				# Iterate over each previous parent assignment
-				for parent in previous_parents:
-					# Get the parent document
-					parent_doc = frappe.get_doc('Topic Assignment', parent.parent)
-
-					# Remove the current assignment from the parent's grouped assignments
-					parent_doc.grouped_assignments = [a for a in parent_doc.grouped_assignments if a.topic_assignment != self.name]
-
-					# Save the parent document with updated grouped assignments
-					parent_doc.save(ignore_permissions=True)
 
 
 	def validate_grouped_assignments(self):
@@ -160,3 +102,41 @@ def get_available_topics(doctype, txt, searchfield, start, page_len, filters):
         as_list=True
     )
 
+
+@frappe.whitelist()
+def get_grouped_assignments(parent_name):
+	query = """
+		-- Fetch direct assignments linked to the topic
+		SELECT
+			ta.name ,
+			ta.title ,
+			ta.assignment_date ,
+			ta.decision_type
+		FROM
+			`tabTopic Assignment` ta
+		WHERE
+			ta.parent_assignment = %s
+		ORDER BY assignment_date
+	"""
+	data = frappe.db.sql(query, (parent_name), as_dict=True)
+	return data
+
+
+@frappe.whitelist()
+def add_assignment_to_group(parent_name, assignment_name):
+	try:
+		frappe.db.set_value('Topic Assignment', assignment_name, 'parent_assignment', parent_name)
+		return "ok"
+	except Exception as e:
+		frappe.log_error(message=str(e))
+		return str(e)
+
+
+@frappe.whitelist()
+def delete_assignment_from_group(assignment_name):
+	try:
+		frappe.db.set_value('Topic Assignment', assignment_name, 'parent_assignment', None)
+		return "ok"
+	except Exception as e:
+		frappe.log_error(message=str(e))
+		return str(e)

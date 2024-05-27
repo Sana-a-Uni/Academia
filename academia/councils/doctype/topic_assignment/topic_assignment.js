@@ -21,9 +21,6 @@ frappe.ui.form.on("Topic Assignment", {
 	onload: function (frm) {
 		frm.events.topic_filters(frm);
 		// frm.set_df_property("topic", "placeholder", "Council must be filled");
-		frm.refresh_field("grouped_assignments");
-		// Hide the grouped_assignments field initially
-		// frm.toggle_display("grouped_assignments", false);
 	},
 
 	topic_filters: function (frm) {
@@ -38,37 +35,30 @@ frappe.ui.form.on("Topic Assignment", {
 			};
 		});
 	},
-
 	is_group: function (frm) {
-		// Check the value of the checkbox field
 		if (frm.doc.is_group) {
 			frm.events.clear_topic(frm); // clear topic field which will also clear the main and sub category fields if user enable is_group checkbox
-			// If checkbox is checked, display the grouped_assignments field
-			frm.toggle_display("grouped_assignments", true);
 		} else {
 			frm.set_value("main_category", ""); //clear catetories if user disable is_group checkbox
 			frm.set_value("sub_category", "");
-			// If checkbox is unchecked, hide the grouped_assignments field
-			frm.toggle_display("grouped_assignments", false);
 		}
 	},
 
 	refresh: function (frm) {
+		if (frm.is_new()) {
+			frm.toggle_display("get_assignments_to_group", false);
+		}
+		else {
+			frm.toggle_display("get_assignments_to_group", true);
+		}
+
+		show_grouped_assignments(frm);
+
 		frm.set_query("parent_assignment", function () {
 			return {
 				filters: {
 					council: frm.doc.council,
 					is_group: 1,
-					decision_type: "", //empty ,not set , means assignment not scheduled for session
-				},
-			};
-		});
-
-		frm.set_query("topic_assignment", "grouped_assignments", function (doc) {
-			return {
-				filters: {
-					council: frm.doc.council,
-					is_group: 0,
 					decision_type: "", //empty ,not set , means assignment not scheduled for session
 				},
 			};
@@ -126,46 +116,170 @@ frappe.ui.form.on("Topic Assignment", {
 					filters: {
 						is_group: 0,
 						council: frm.doc.council,
-						parent_assignment: ["in", ["", frm.doc.name]],
+						parent_assignment: "",
 						decision_type: "", //empty ,not set , means assignment not scheduled for session
 						// status:"Accepted"
 					},
 				};
 			},
 			primary_action_label: "Get Assignments To Group",
-			action: async function (selections) {
-				frm.dirty();
-				const existingAssignments = frm.doc.grouped_assignments.map((item) => item.topic_assignment);
-				frm.clear_table("grouped_assignments");
-				for (let assignment of selections) {
-					if (!existingAssignments.includes(assignment)) {
-						try {
-							let { message: obj } = await frappe.db.get_value("Topic Assignment", assignment, [
-								"name",
-								"title",
-								"assignment_date",
-							]);
-
-							if (obj) {
-								frm.add_child("grouped_assignments", {
-									topic_assignment: obj.name,
-									title: obj.title,
-									assignment_date: obj.assignment_date,
+			action: function (selections) {
+				selections.forEach((assignment, index) => {
+					frappe.call({
+						method: "academia.councils.doctype.topic_assignment.topic_assignment.add_assignment_to_group",
+						args: {
+							parent_name: frm.doc.name,
+							assignment_name: assignment
+						},
+						callback: function (response) {
+							if (response.message === "ok") {
+								if (index === selections.length - 1) {
+									show_grouped_assignments(frm);
+									frappe.show_alert({
+										message: __('Assignment/s added successfully.'),
+										indicator: 'green'
+									});
+								}
+							} else {
+								frappe.show_alert({
+									message: __(`Error adding assignment${assignment}!`),
+									indicator: 'red'
 								});
+								console.error(`Error adding assignment ${assignment} to group:`, response.exc);
 							}
-						} catch (error) {
-							console.error(`Error fetching assignment ${assignment}:`, error);
+						},
+						error: function (error) {
+							callback(error);
 						}
-					}
-				}
-				frm.refresh_field("grouped_assignments");
+					});
+				})
 				this.dialog.hide();
-			},
+			}
 		});
 	},
-	// after_save: function(frm) {
-	//   frm.doc.grouped_assignments.forEach(function(assignment) {
-	//   frappe.db.set_value("Topic Assignment", assignment.topic_assignment, 'parent_assignment', frm.doc.name);
-	// });
-	// }
 });
+
+
+function show_grouped_assignments(frm) {
+	const container = $(frm.fields_dict.grouped_assignments.wrapper);
+	container.empty(); // Clear previous data
+
+	if (frm.is_new()) {
+		$(container).html("<h3>You should save this document before adding grouped assignments!</h3>");
+		return;
+	}
+
+	fetch_assignments_data(frm, function (data) {
+		if (data.length > 0) {
+			create_datatable(frm, container, data);
+		} else {
+			$(container).html("<h3>No grouped assignments found.</h3>");
+		}
+	});
+}
+
+
+function fetch_assignments_data(frm, callback) {
+	frm.call({
+		method: "get_grouped_assignments",
+		args: { parent_name: frm.doc.name },
+		callback: function (r) {
+			const data = r.message ? format_assignment_data(r.message) : [];
+			callback(data);
+		},
+	});
+}
+
+function format_assignment_data(assignments) {
+	return assignments.map((d) => [
+		`<a href='/app/topic-assignment/${d.name}'>${d.name}</a>`,
+		d.title,
+		frappe.datetime.str_to_user(d.assignment_date),
+		d.decision_type,
+		`<button class="btn btn-danger btn-xs" data-assignment="${d.name}">Delete</button>`
+	]);
+}
+
+function create_datatable(frm, container, data) {
+	const datatable = new DataTable(container[0], {
+		columns: get_datatable_columns(),
+		data: data,
+		dynamicRowHeight: true,
+		checkboxColumn: false,
+		// inlineFilters: true,
+	});
+
+	datatable.style.setStyle(
+		".dt-cell__content", {
+		textAlign: "left",
+	}
+	);
+
+	bind_delete_button_event(frm, container);
+}
+
+function get_datatable_columns() {
+	return [
+		{ name: "Assignment", width: 300, editable: false },
+		{ name: "Title", width: 300, editable: false },
+		{ name: "Assignment Date", width: 150, editable: false },
+		{ name: "Decision Type", width: 143, editable: false },
+		{ name: "Actions", width: 75, editable: false },
+	];
+}
+
+
+function bind_delete_button_event(frm, container) {
+	// Unbind any previous click event handlers to avoid multiple bindings
+	container.off('click', 'button[data-assignment]');
+	// Add event listener for the delete buttons
+	container.on('click', 'button[data-assignment]', function () {
+		const assignmentName = $(this).data('assignment');
+
+		frappe.confirm(
+			__('Are you sure you want to remove this assignment from group?'),
+			function () {
+				delete_assignment_from_group(frm, assignmentName, handle_delete_response(frm));
+			}
+		);
+	});
+}
+
+function handle_delete_response(frm) {
+
+	return function (error) {
+		if (error) {
+			frappe.show_alert({
+				message: __('Error removing assignment from group.'),
+				indicator: 'red'
+			});
+			console.error('Error:', error);
+		} else {
+			show_grouped_assignments(frm); // Refresh the datatable
+			frappe.show_alert({
+				message: __('Assignment removed successfully.'),
+				indicator: 'green'
+			});
+		}
+	};
+}
+
+function delete_assignment_from_group(frm, assignment_name, callback) {
+	frappe.call({
+		method: "academia.councils.doctype.topic_assignment.topic_assignment.delete_assignment_from_group",
+		args: {
+			assignment_name: assignment_name
+		},
+		callback: function (response) {
+
+			if (response.message === "ok") {
+				callback(null);
+			} else {
+				callback(new Error('Could not delete the assignment.'));
+			}
+		},
+		error: function (error) {
+			callback(error);
+		}
+	});
+}
