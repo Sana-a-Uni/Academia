@@ -1,0 +1,83 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-22 01:24:44.059633",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "based_on",
+  "max_strength",
+  "column_break_gtdl",
+  "student_batch",
+  "students_section",
+  "get_students",
+  "table_yldo"
+ ],
+ "fields": [
+  {
+   "fieldname": "based_on",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Based On",
+   "options": "\nBy Sex\nAll",
+   "reqd": 1
+  },
+  {
+   "fieldname": "max_strength",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Max Strength",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_gtdl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "student_batch",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Student Batch",
+   "options": "Student Batch",
+   "reqd": 1
+  },
+  {
+   "fieldname": "students_section",
+   "fieldtype": "Section Break",
+   "label": "Students"
+  },
+  {
+   "fieldname": "get_students",
+   "fieldtype": "Button",
+   "label": "Get Students "
+  },
+  {
+   "fieldname": "table_yldo",
+   "fieldtype": "Table",
+   "options": "Student Group Student"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-05-22 01:50:22.397979",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Student Group Tool",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
