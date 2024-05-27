@@ -14,7 +14,7 @@ class StudyPlanCourse(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		course: DF.Link
+		course_code: DF.Link
 		course_name: DF.ReadOnly | None
 		course_type: DF.ReadOnly | None
 		elective: DF.Check
