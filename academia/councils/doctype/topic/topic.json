@@ -9,6 +9,7 @@
  "field_order": [
   "council",
   "title",
+  "transaction",
   "status",
   "column_break_cjwy",
   "application_date",
@@ -175,6 +176,17 @@
    "fieldname": "related_assignments",
    "fieldtype": "HTML",
    "label": "Related Assignments"
+  },
+  {
+   "bold": 1,
+   "fieldname": "transaction",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Transaction",
+   "no_copy": 1,
+   "options": "Transaction",
+   "print_hide": 1,
+   "search_index": 1
   }
  ],
  "is_submittable": 1,
@@ -185,7 +197,7 @@
    "link_fieldname": "topic"
   }
  ],
- "modified": "2024-05-25 05:29:15.623379",
+ "modified": "2024-05-27 19:19:23.849598",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic",
