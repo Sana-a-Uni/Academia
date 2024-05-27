@@ -8,6 +8,7 @@
  "field_order": [
   "section_break_wyzz",
   "type",
+  "details",
   "column_break_mkjj",
   "action_date",
   "created_by",
@@ -82,12 +83,18 @@
    "in_list_view": 1,
    "label": "Action Date",
    "read_only": 1
+  },
+  {
+   "fieldname": "details",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Details"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-23 21:37:38.351872",
+ "modified": "2024-05-27 18:17:58.603052",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Action",

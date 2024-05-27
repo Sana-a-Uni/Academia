@@ -1,6 +1,34 @@
 // Copyright (c) 2024, SanU and contributors
 // For license information, please see license.txt
 
+// frappe.listview_settings["Transaction"] = {
+//     onload: function(listview) {
+
+//         // Add filter for transactions created by the current user
+//         listview.filter_list.add_filter("Transaction", "created_by", "=", frappe.session.user);
+
+//         // Add filter for transactions redirected to the current user
+//         listview.filter_list.add_filter("Transaction", "name", "in", frappe.db.get_all(
+//             "Transaction Action",
+//             filters={
+//                 "redirected_to": frappe.session.user
+//             },
+//             pluck="main_transaction"
+//         ));
+
+//         // Refresh the listview to apply the filters
+//         listview.refresh();
+//     }
+// };
+
+frappe.listview_settings["Transaction"] = {
+    get_list_context: function(context) {
+        let user = frappe.session.user;
+        let permitted_docs = frappe.get_permitted_documents(user, "Transaction", true);
+        context.filters = {"name": ["in", permitted_docs]};
+        return context;
+    }
+};
 
 frappe.ui.form.on('Transaction', {
     
@@ -8,7 +36,6 @@ frappe.ui.form.on('Transaction', {
         if (!frm.doc.start_date) {
             frm.set_value('start_date', frappe.datetime.get_datetime_as_string());
         }
-
 
     },
     refresh: function(frm) {
@@ -152,6 +179,12 @@ function add_redirect_action(frm) {
                 fieldtype: 'Link',
                 options: 'User',
                 reqd: 1,
+            },
+            {
+                fieldname: 'details',
+                label: __('Details'),
+                fieldtype: 'Text',
+                reqd: 1,
             }
         ], function(values) {
             var childTable = cur_frm.add_child('actions');
@@ -161,6 +194,7 @@ function add_redirect_action(frm) {
             childTable.action_date = frappe.datetime.now_datetime();
             childTable.created_by = frappe.session.user;
             childTable.type = "Redirected";
+            childTable.details = values.details;
 
             frappe.model.with_doc('User', values.redirected_to, function() {
                 var user = frappe.model.get_doc('User', values.redirected_to);
@@ -169,6 +203,20 @@ function add_redirect_action(frm) {
                     frappe.msgprint(user.name);
                     childTable.redirected_to = user.name;
 
+                    // frappe.call({
+                    //     method: "academia.transaction_management.doctype.transaction_action.transaction_action.create_user_permission",
+                                                    
+                    //     args: {
+                    //         user: user.name, 
+                    //         for_value: frm.doc.name
+                    //     },
+                    //     callback: function(response) {
+                    //         if (response && response.message) {
+                    //             console.log("Ok");
+                    //         }
+                    //     }
+                    // });
+                    
                     frappe.call({
                         method: "frappe.client.save",
                         args: {
@@ -218,61 +266,90 @@ function add_recieve_action(frm) {
 
 function add_approve_action(frm) {
     cur_frm.page.add_action_item(__('Approve'), function() {
-        frappe.msgprint("Approve")
-       
-        var childTable = cur_frm.add_child('actions');
+        // frappe.msgprint("Approve");
 
-        childTable.action_date = frappe.datetime.now_datetime();
-        frappe.msgprint("field are filled")     
-        childTable.created_by = frappe.session.user;
-        childTable.type = "Approved";
-        frappe.msgprint("field are filled")
-        frappe.call({
-            method: "frappe.client.save",
-            args: {
-                doc: frm.doc
-            },
-            callback: function(response) {
-                if (response && response.message) {
-                    frappe.db.set_value('Transaction', frm.docname, 'status', 'Approved');
-                   
-                    location.reload();
-                }
-                frappe.msgprint(response.message);
+        frappe.prompt([
+            {
+                label: 'Details',
+                fieldname: 'details',
+                fieldtype: 'Text',
+                reqd: 1
             }
-        });
-        
-     });
+        ], function(values) {
+            var childTable = cur_frm.add_child('actions');
+            childTable.action_date = frappe.datetime.now_datetime();
+            childTable.created_by = frappe.session.user;
+            childTable.type = "Approved";
+            childTable.details = values.details;
+
+            frappe.call({
+                method: "frappe.client.save",
+                args: {
+                    doc: frm.doc
+                },
+                callback: function(response) {
+                    if (response && response.message) {
+                        frappe.db.set_value('Transaction', frm.docname, 'status', 'Approved');
+                        location.reload();
+                    }
+                    frappe.msgprint(response.message);
+                }
+            });
+        }, __('Enter Approval Details'), __('Submit'));
+    });
 }
 
 function add_reject_action(frm) {
     cur_frm.page.add_action_item(__('Reject'), function() {
-        frappe.msgprint("Reject")
-       
-        var childTable = cur_frm.add_child('actions');
+        // frappe.msgprint("Reject");
 
-        childTable.action_date = frappe.datetime.now_datetime();
-        frappe.msgprint("field are filled")     
-        childTable.created_by = frappe.session.user;
-        childTable.type = "Rejected";
-        frappe.msgprint("field are filled")
-        frappe.call({
-            method: "frappe.client.save",
-            args: {
-                doc: frm.doc
-            },
-            callback: function(response) {
-                if (response && response.message) {
-                    frappe.db.set_value('Transaction', frm.docname, 'status', 'Rejected');
-                   
-                    location.reload();
-                }
-                frappe.msgprint(response.message);
+        frappe.prompt([
+            {
+                label: 'Details',
+                fieldname: 'details',
+                fieldtype: 'Text',
+                reqd: 1
             }
-        });
-        
-     });
+        ], function(values) {
+            var childTable = cur_frm.add_child('actions');
+            childTable.action_date = frappe.datetime.now_datetime();
+            childTable.created_by = frappe.session.user;
+            childTable.type = "Rejected";
+            childTable.details = values.details;
+
+            frappe.call({
+                method: "frappe.client.save",
+                args: {
+                    doc: frm.doc
+                },
+                callback: function(response) {
+                    if (response && response.message) {
+                        frappe.db.set_value('Transaction', frm.docname, 'status', 'Rejected');
+                        location.reload();
+                    }
+                    frappe.msgprint(response.message);
+                }
+            });
+        }, __('Enter Rejection Details'), __('Submit'));
+    });
 }
+
+
+frappe.ui.form.on("Transaction", {
+    onload: function(frm) {
+        frm.set_query("name", function() {
+            return {
+                query: "academia.transaction_management.doctype.transaction.transaction.get_permission_query",
+                filters: {
+                    "doctype": "Transaction",
+                    "for_list_view": false
+                }
+            };
+        });
+    }
+});
+
+
 
 
 
