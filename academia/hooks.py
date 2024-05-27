@@ -4,7 +4,7 @@ app_publisher = "SanU"
 app_description = "Academic institution management system"
 app_email = "a.alshalabi@su.edu.ye"
 app_license = "mit"
-# required_apps = []
+required_apps = ["frappe/erpnext","frappe/hrms"]
 
 # Includes in <head>
 # ------------------
@@ -155,7 +155,7 @@ app_include_js = "academia.bundle.js"
 # Testing
 # -------
 
-# before_tests = "academia.install.before_tests"
+before_tests = "academia.tests.test_utils.before_tests"
 
 # Overriding Methods
 # ------------------------------
