@@ -6,6 +6,8 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "enabled",
+  "section_break_gnoe",
   "student",
   "student_name",
   "enrollment_date",
@@ -93,11 +95,21 @@
    "label": "Faculty",
    "options": "Faculty",
    "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "section_break_gnoe",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-21 22:32:50.114754",
+ "modified": "2024-05-27 22:28:03.314732",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Enrollment",
