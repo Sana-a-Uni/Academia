@@ -2,6 +2,7 @@
 # For license information, please see license.txt
 
 import json
+
 import frappe
 from frappe import _
 from frappe.model.document import Document
@@ -14,8 +15,9 @@ class TopicAssignment(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.councils.doctype.topic_attachment.topic_attachment import TopicAttachment
 		from frappe.types import DF
+
+		from academia.councils.doctype.topic_attachment.topic_attachment import TopicAttachment
 
 		amended_from: DF.Link | None
 		assignment_date: DF.Date
@@ -42,7 +44,9 @@ class TopicAssignment(Document):
 		else:
 			# For grouped assignments without a specific topic
 			self.name = frappe.model.naming.make_autoname(f'CNCL-TA-GRP-.YY.-.MM.-.{self.council}.-.###')
-		
+	def on_submit(self):
+		if self.is_group:
+			self.submit_grouped_assignments()
 
 
 	def validate_main_sub_category_relationship(self):
@@ -56,8 +60,17 @@ class TopicAssignment(Document):
 				frappe.throw(
 					_("{0} is not sub category of {1}").format(self.sub_category,self.main_category)
 				)
-
-
+	def submit_grouped_assignments(self):
+		if self.decision_type in ["Resolved", "Transferred"]:
+			grouped_assignments = frappe.get_all("Topic Assignment",filters={"parent_assignment": self.name,"is_group":0}, fields=["name"])
+			if len(grouped_assignments)>0:
+				for assignment_data in grouped_assignments:
+					assignment = frappe.get_doc("Topic Assignment", assignment_data["name"])
+					assignment.decision_type = self.decision_type
+					assignment.decision = self.decision
+					assignment.flags.ignore_validate = True
+					assignment.save(ignore_permissions=True)
+					assignment.submit()
 
 
 @frappe.whitelist()
