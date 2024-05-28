@@ -36,6 +36,8 @@ class TopicAssignment(Document):
 	# end: auto-generated types
 	def validate(self):
 		# self.validate_grouped_assignments()
+		if not self.get("__islocal") and self.is_group:
+			self.validate_grouped_assignments()
 		self.ckeck_main_and_sub_categories()
 		self.validate_main_sub_category_relationship()
 	def autoname(self):
@@ -83,6 +85,26 @@ class TopicAssignment(Document):
 		elif not self.sub_category:
 			frappe.throw(_("Sub category must be set."))
 
+	def validate_grouped_assignments(self):
+		"""
+        Validates that all grouped Topic Assignments have the same council
+        as the current group Topic Assignment and are not group assignments.
+        """
+		grouped_assignments = frappe.get_all(
+            "Topic Assignment",
+            filters={"parent_assignment": self.name},
+            fields=["name", "council","is_group"]
+        )
+
+		for assignment in grouped_assignments:
+			if assignment.council != self.council:
+				frappe.throw(
+                    _("Grouped topic assignment {0} does not have the same council as the group assignment.").format(assignment.name)
+                )
+			if assignment.is_group:
+				frappe.throw(
+					_("Grouped topic assignment {0} can not be of type group.").format(assignment.name)
+				)
 
 @frappe.whitelist()
 def get_available_topics(doctype, txt, searchfield, start, page_len, filters):
