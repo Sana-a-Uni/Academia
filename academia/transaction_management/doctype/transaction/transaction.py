@@ -84,3 +84,28 @@ def get_transaction_category_requirement(transaction_category):
 #     # Save the changes
 #         document.save()
 #         return document
+
+
+def get_permission_query(doctype, meta, role_permissions, for_list_view=False):
+    if frappe.session.user != "Administrator":
+        # Get the transaction IDs that the current user has access to
+        transaction_ids = frappe.db.get_all(
+            "Transaction Action",
+            filters={
+                "redirected_to": frappe.session.user
+            },
+            pluck="main_transaction"
+        )
+
+        # Construct the query based on whether it's for the list view or not
+        if for_list_view:
+            return """(`tabTransaction`.`created_by` = '{0}' OR `tabTransaction`.`name` IN ({1}))""".format(
+                frappe.session.user,
+                ", ".join([f"'{tid}'" for tid in transaction_ids])
+            )
+        else:
+            return """(`tabTransaction`.`name` IN ({0}))""".format(
+                ", ".join([f"'{tid}'" for tid in transaction_ids])
+            )
+    else:
+        return None

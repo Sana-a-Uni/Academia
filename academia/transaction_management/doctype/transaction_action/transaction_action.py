@@ -23,6 +23,22 @@ def redirect_transaction(main_transaction, party, to_department, redirect_to):
 	return f'Transaction redirected successfully to <b> <strong> {redirected_to.username} </strong> </b>'
 
 
+# @frappe.whitelist()
+# def create_user_permission(user, for_value):
+
+# 	user = frappe.get_doc("User", user)
+# 	for_value = frappe.get_doc("Transaction", for_value)
+	
+# 	#TODO: check if the user permission exist 
+# 	new_user_permission = frappe.get_doc({
+# 		"doctype": "User Permission",
+# 		"allow": "Transaction",
+# 		"user": user,
+# 		"for_value": for_value,
+# 		"apply_to_all_doctypes": 1
+# 	})
+# 	new_user_permission.insert()
+
 # # TODO: create one function for all actions 
 # def create_redirect_action(main_transaction, party, to_department, redirect_to):
 
