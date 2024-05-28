@@ -175,7 +175,7 @@ function show_grouped_assignments(frm) {
 		if (data.length > 0) {
 			create_datatable(frm, container, data);
 		} else {
-			$(container).html("<h3>No grouped assignments found.</h3>");
+			$(container).html("<h3>No grouped assignments added yet!</h3>");
 		}
 	});
 }
@@ -194,14 +194,11 @@ function fetch_assignments_data(frm, callback) {
 
 function format_assignment_data(assignments) {
 	return assignments.map((d) => [
+		`<input type="checkbox" data-assignment="${d.name}">`,
 		`<a href='/app/topic-assignment/${d.name}'>${d.name}</a>`,
 		d.title,
 		frappe.datetime.str_to_user(d.assignment_date),
 		d.decision_type,
-		(frm.doc.docstatus === 0 ?
-			__(`<button class="btn btn-danger btn-xs" data-assignment="${d.name}">Delete</button>`) :
-			__(`<button disabled class="btn btn-danger btn-xs" data-assignment="${d.name}">Delete</button>`)
-		)
 	]);
 }
 
@@ -214,44 +211,60 @@ function create_datatable(frm, container, data) {
 		// inlineFilters: true,
 	});
 
-	datatable.style.setStyle(
-		".dt-cell__content", {
-		textAlign: "left",
-	}
-	);
+	datatable.style.setStyle(".dt-cell__content", { textAlign: "left" });
 
-	bind_delete_button_event(frm, container);
+	const deleteButton = $('<button>')
+		.text('Delete')
+		.addClass('btn btn-danger')
+		.css({ marginBottom: '10px', visibility: 'hidden' })
+		.on('click', function () {
+			const selectedRows = get_selected_rows();
+			if (selectedRows.length > 0) {
+				frappe.confirm('Are you sure you want to delete the selected topic assignments?', function () {
+					handleDeletion(frm, selectedRows);
+				});
+			}
+		});
+
+	container.append(deleteButton);
+
+	container.on('change', 'input[data-assignment]', function () {
+		const selectedRows = get_selected_rows();
+		if (selectedRows.length > 0) {
+			deleteButton.css('visibility', 'visible'); // Correct property setting
+		} else {
+			deleteButton.css('visibility', 'hidden'); // Correct property setting
+		}
+	});
+
+	// Add event listener for the "Select All" checkbox
+	container.on('change', 'input[data-assignment1="All"]', function () {
+		const isChecked = $(this).prop('checked');
+		$('input[data-assignment]').not('[data-assignment1="All"]').prop('checked', isChecked).trigger('change');
+	});
+
+}
+
+function get_selected_rows() {
+	const selectedRows = [];
+	$('input[data-assignment]:checked').each(function () {
+		selectedRows.push($(this).data('assignment'));
+	});
+	return selectedRows;
 }
 
 function get_datatable_columns() {
 	return [
+		{ name: `<input type="checkbox" data-assignment1="All">`, width: 50, editable: false, sortable:false },
 		{ name: "Assignment", width: 300, editable: false },
 		{ name: "Title", width: 300, editable: false },
 		{ name: "Assignment Date", width: 150, editable: false },
 		{ name: "Decision Type", width: 143, editable: false },
-		{ name: "Actions", width: 75, editable: false },
 	];
 }
 
 
-function bind_delete_button_event(frm, container) {
-	// Unbind any previous click event handlers to avoid multiple bindings
-	container.off('click', 'button[data-assignment]');
-	// Add event listener for the delete buttons
-	container.on('click', 'button[data-assignment]', function () {
-		const assignmentName = $(this).data('assignment');
-
-		frappe.confirm(
-			__('Are you sure you want to remove this assignment from group?'),
-			function () {
-				delete_assignment_from_group(frm, assignmentName, handle_delete_response(frm));
-			}
-		);
-	});
-}
-
-function handle_delete_response(frm) {
-
+function handle_delete_response(frm, rows_count, index) {
 	return function (error) {
 		if (error) {
 			frappe.show_alert({
@@ -260,11 +273,13 @@ function handle_delete_response(frm) {
 			});
 			console.error(error);
 		} else {
-			show_grouped_assignments(frm); // Refresh the datatable
-			frappe.show_alert({
-				message: __('Assignment removed successfully.'),
-				indicator: 'green'
-			});
+			if (index === rows_count-1){
+				show_grouped_assignments(frm); // Refresh the datatable
+				frappe.show_alert({
+					message: __('Assignment/s removed successfully.'),
+					indicator: 'green'
+				});
+			}
 		}
 	};
 }
@@ -276,7 +291,6 @@ function delete_assignment_from_group(frm, assignment_name, callback) {
 			assignment_name: assignment_name
 		},
 		callback: function (response) {
-
 			if (response.message === "ok") {
 				callback(null);
 			} else {
@@ -286,5 +300,11 @@ function delete_assignment_from_group(frm, assignment_name, callback) {
 		error: function (error) {
 			callback(error);
 		}
+	});
+}
+
+function handleDeletion(frm, selectedRows) {
+	selectedRows.forEach(function (assignmentName, index) {
+		delete_assignment_from_group(frm, assignmentName, handle_delete_response(frm, selectedRows.length, index));
 	});
 }
