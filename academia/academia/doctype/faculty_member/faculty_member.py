@@ -11,7 +11,7 @@ from datetime import datetime
 class FacultyMember(Document):
     # Start of validate controller hook
     def validate(self):
-        today = datetime.now().date()
+
         # Calling functions
         self.validate_duplicate_employee()
         self.validate_date()
@@ -28,6 +28,7 @@ class FacultyMember(Document):
 
     # FN: validate 'date_of_joining_in_university' and 'date_of_joining_in_service' fields
     def validate_date(self):
+        today = datetime.now().date()
         if self.date_of_joining_in_university and self.date_of_joining_in_service:
             # "Converting the date of appointment in service to a date "
             date_of_joining_in_service = datetime.strptime(self.date_of_joining_in_service, "%Y-%m-%d").date()
