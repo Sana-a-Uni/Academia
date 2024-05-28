@@ -151,18 +151,28 @@ def get_grouped_assignments(parent_name):
 @frappe.whitelist()
 def add_assignment_to_group(parent_name, assignment_name):
 	try:
-		frappe.db.set_value('Topic Assignment', assignment_name, 'parent_assignment', parent_name)
+		assignment = frappe.get_doc("Topic Assignment", assignment_name)
+
+		assignment.parent_assignment = parent_name
+		
+		assignment.save()
+		
 		return "ok"
 	except Exception as e:
-		frappe.log_error(message=str(e))
-		return str(e)
+		frappe.log_error(frappe.get_traceback(), "Error adding assignment")
+		return  str(e)
 
 
 @frappe.whitelist()
 def delete_assignment_from_group(assignment_name):
 	try:
-		frappe.db.set_value('Topic Assignment', assignment_name, 'parent_assignment', None)
+		assignment = frappe.get_doc("Topic Assignment", assignment_name)
+
+		assignment.parent_assignment = None
+		
+		assignment.save()
+		
 		return "ok"
 	except Exception as e:
-		frappe.log_error(message=str(e))
-		return str(e)
+		frappe.log_error(frappe.get_traceback(), "Error removing assignment")
+		return  str(e)

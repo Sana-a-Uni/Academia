@@ -145,7 +145,7 @@ frappe.ui.form.on("Topic Assignment", {
 									message: __(`Error adding assignment${assignment}!`),
 									indicator: 'red'
 								});
-								console.error(`Error adding assignment ${assignment} to group:`, response.exc);
+								console.error(response.message);
 							}
 						},
 						error: function (error) {
@@ -253,7 +253,7 @@ function handle_delete_response(frm) {
 				message: __('Error removing assignment from group.'),
 				indicator: 'red'
 			});
-			console.error('Error:', error);
+			console.error(error);
 		} else {
 			show_grouped_assignments(frm); // Refresh the datatable
 			frappe.show_alert({
@@ -275,7 +275,7 @@ function delete_assignment_from_group(frm, assignment_name, callback) {
 			if (response.message === "ok") {
 				callback(null);
 			} else {
-				callback(new Error('Could not delete the assignment.'));
+				callback(new Error(response.message));
 			}
 		},
 		error: function (error) {
