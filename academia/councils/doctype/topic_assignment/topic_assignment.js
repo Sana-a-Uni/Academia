@@ -45,7 +45,7 @@ frappe.ui.form.on("Topic Assignment", {
 	},
 
 	refresh: function (frm) {
-		if (frm.is_new()) {
+		if (frm.is_new() || frm.doc.docstatus !== 0) {
 			frm.toggle_display("get_assignments_to_group", false);
 		}
 		else {
@@ -60,6 +60,7 @@ frappe.ui.form.on("Topic Assignment", {
 					council: frm.doc.council,
 					is_group: 1,
 					decision_type: "", //empty ,not set , means assignment not scheduled for session
+					docstatus: 0, // draft
 				},
 			};
 		});
@@ -118,6 +119,7 @@ frappe.ui.form.on("Topic Assignment", {
 						council: frm.doc.council,
 						parent_assignment: "",
 						decision_type: "", //empty ,not set , means assignment not scheduled for session
+						docstatus: 0, // draft
 						// status:"Accepted"
 					},
 				};
@@ -196,7 +198,10 @@ function format_assignment_data(assignments) {
 		d.title,
 		frappe.datetime.str_to_user(d.assignment_date),
 		d.decision_type,
-		`<button class="btn btn-danger btn-xs" data-assignment="${d.name}">Delete</button>`
+		(frm.doc.docstatus === 0 ?
+			__(`<button class="btn btn-danger btn-xs" data-assignment="${d.name}">Delete</button>`) :
+			__(`<button disabled class="btn btn-danger btn-xs" data-assignment="${d.name}">Delete</button>`)
+		)
 	]);
 }
 
