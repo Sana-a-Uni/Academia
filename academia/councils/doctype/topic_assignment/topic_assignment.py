@@ -39,6 +39,7 @@ class TopicAssignment(Document):
 		if not self.get("__islocal") and self.is_group:
 			self.validate_grouped_assignments()
 		self.ckeck_main_and_sub_categories()
+		self.validate_parent_assignment_docstatus()
 		self.validate_main_sub_category_relationship()
 	def autoname(self):
 		if (not self.is_group):
@@ -74,6 +75,18 @@ class TopicAssignment(Document):
 					assignment.flags.ignore_validate = True
 					assignment.save(ignore_permissions=True)
 					assignment.submit()
+     
+     
+	def validate_parent_assignment_docstatus(self):
+		if (self.parent_assignment):
+			parent_assignment = frappe.get_doc("Topic Assignment", self.parent_assignment)
+			if(parent_assignment.docstatus):
+				frappe.throw(_(f"""the chosen Parent Assignment {parent_assignment.name} is
+					{("submitted" if parent_assignment.docstatus == 1 else "Canceled" )}"""
+				))
+
+			
+            
 
 	def ckeck_main_and_sub_categories(self):
 		"""
