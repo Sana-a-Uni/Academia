@@ -16,7 +16,6 @@ class TopicAssignment(Document):
 
 	if TYPE_CHECKING:
 		from frappe.types import DF
-
 		from academia.councils.doctype.topic_attachment.topic_attachment import TopicAttachment
 
 		amended_from: DF.Link | None
@@ -35,7 +34,7 @@ class TopicAssignment(Document):
 		topic: DF.Link | None
 	# end: auto-generated types
 	def validate(self):
-		# self.validate_grouped_assignments()
+		self.validate_topic_assignments()
 		if not self.get("__islocal") and self.is_group:
 			self.validate_grouped_assignments()
 		self.ckeck_main_and_sub_categories()
@@ -144,21 +143,20 @@ def get_available_topics(doctype, txt, searchfield, start, page_len, filters):
 
 @frappe.whitelist()
 def get_grouped_assignments(parent_name):
-	query = """
-		-- Fetch direct assignments linked to the topic
-		SELECT
-			ta.name ,
-			ta.title ,
-			ta.assignment_date ,
-			ta.decision_type
-		FROM
-			`tabTopic Assignment` ta
-		WHERE
-			ta.parent_assignment = %s
-		ORDER BY assignment_date
-	"""
-	data = frappe.db.sql(query, (parent_name), as_dict=True)
-	return data
+	grouped_assignments = frappe.get_all(
+		"Topic Assignment",
+  		filters={
+        	"parent_assignment": parent_name,
+			"is_group":0
+		},
+  		fields=[
+			"name",
+			"title",
+			"assignment_date",
+			"decision_type"
+        ]
+    )
+	return grouped_assignments
 
 
 @frappe.whitelist()
