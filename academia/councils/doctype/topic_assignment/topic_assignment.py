@@ -36,6 +36,7 @@ class TopicAssignment(Document):
 	# end: auto-generated types
 	def validate(self):
 		# self.validate_grouped_assignments()
+		self.ckeck_main_and_sub_categories()
 		self.validate_main_sub_category_relationship()
 	def autoname(self):
 		if (not self.is_group):
@@ -71,6 +72,16 @@ class TopicAssignment(Document):
 					assignment.flags.ignore_validate = True
 					assignment.save(ignore_permissions=True)
 					assignment.submit()
+
+	def ckeck_main_and_sub_categories(self):
+		"""
+    	Validates that both main_category and sub_category fields are set.
+    	Throws an error if any of these fields are missing.
+    	"""
+		if not self.main_category:
+			frappe.throw(_("Main category must be set."))
+		elif not self.sub_category:
+			frappe.throw(_("Sub category must be set."))
 
 
 @frappe.whitelist()
