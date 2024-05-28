@@ -135,13 +135,13 @@
    "fieldname": "course_type",
    "fieldtype": "Link",
    "label": "Course Type",
-   "options": "Hours Type",
+   "options": "Hour Type",
    "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-21 22:17:16.969303",
+ "modified": "2024-05-21 23:19:32.094423",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Study",
