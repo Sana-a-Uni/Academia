@@ -9,6 +9,7 @@
   "file_type_section",
   "requirement_name",
   "file_type",
+  "required",
   "column_break_suor"
  ],
  "fields": [
@@ -36,12 +37,19 @@
   {
    "fieldname": "column_break_suor",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "required",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Required"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-04-25 22:03:42.069864",
+ "modified": "2024-05-28 19:50:13.771232",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Category  Requirement",

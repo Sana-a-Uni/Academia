@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "requirements_tab",
+  "category_parent",
   "category_name",
   "requirements",
   "column_break_nqbz",
@@ -40,11 +41,17 @@
   {
    "fieldname": "column_break_nqbz",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "category_parent",
+   "fieldtype": "Link",
+   "label": "Category Parent",
+   "options": "Transaction Category"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-28 12:58:45.684594",
+ "modified": "2024-05-28 22:34:45.814847",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Category",
