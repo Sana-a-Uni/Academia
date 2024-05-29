@@ -94,10 +94,23 @@ frappe.ui.form.on('Transaction', {
         });
       }
     },
-
+    async before_submit(frm) {
+      if (frm.doc.category) {
+          const category = await frappe.db.get_doc("Transaction Category", frm.doc.category);
+  
+          for (let i = 0; i < frm.doc.attachments.length; i++) {
+            const attachment = frm.doc.attachments[i];
+  
+            if (attachment.attachment_label === category.requirements[i].requirement_name) {
+                if (category.requirements[i].required === 1 && !attachment.file) {
+                    frappe.throw("The file is required for the attachment");
+                    return false;
+                }
+            }
+        }
+      }
+    }
 });
-
-
 function add_redirect_action(frm) {
     cur_frm.page.add_action_item(__('Redirect'), function() {
         frappe.prompt([
@@ -147,7 +160,7 @@ function add_redirect_action(frm) {
                 fieldname: 'details',
                 label: __('Details'),
                 fieldtype: 'Text',
-                reqd: 1,
+                // reqd: 1,
             }
         ], function(values) {
             var childTable = cur_frm.add_child('actions');
