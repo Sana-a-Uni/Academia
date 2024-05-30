@@ -8,8 +8,10 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "company",
   "faculty_name",
   "abbr",
+  "is_research_center",
   "is_group",
   "parent_faculty",
   "column_break_lysp",
@@ -193,6 +195,21 @@
    "fieldtype": "Tab Break",
    "label": "Dashboard",
    "show_dashboard": 1
+  },
+  {
+   "description": "Select the company that is created for this faculty.",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "description": "Check it if it is a research center.",
+   "fieldname": "is_research_center",
+   "fieldtype": "Check",
+   "label": "Is Research Center"
   }
  ],
  "image_field": "faculty_logo",
@@ -207,7 +224,7 @@
    "link_fieldname": "faculty"
   }
  ],
- "modified": "2024-05-03 01:50:35.851004",
+ "modified": "2024-05-31 00:33:17.795561",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty",
