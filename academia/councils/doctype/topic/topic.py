@@ -32,6 +32,7 @@ class Topic(Document):
 		topic_main_category: DF.Link
 		topic_sub_category: DF.Link
 		transaction: DF.Link | None
+
 	# end: auto-generated types
 	def onload(self):
 		if self.has_topic_assignment():
@@ -86,44 +87,83 @@ class Topic(Document):
 
 @frappe.whitelist()
 def get_all_related_assignments(topic_name):
-	query = """
-		-- Fetch direct assignments linked to the topic
-		SELECT
-			ta.name ,
-			ta.title ,
-			ta.status ,
-			ta.council ,
-			ta.assignment_date ,
-			ta.decision_type ,
-			ta.parent_assignment
-		FROM
-			`tabTopic Assignment` ta
-		WHERE
-			ta.topic = %s
-
-		UNION
-
-		-- Fetch parent assignments where any child assignment is linked to the topic
-		SELECT
-			parent_ta.name,
-			parent_ta.title,
-			parent_ta.status,
-			parent_ta.council,
-			parent_ta.assignment_date,
-			parent_ta.decision_type,
-			parent_ta.parent_assignment
-		FROM
-			`tabTopic Assignment` AS child_ta
-		INNER JOIN
-			`tabTopic Assignment` AS parent_ta ON child_ta.parent_assignment = parent_ta.name
-		WHERE
-			child_ta.topic = %s AND
-			child_ta.parent_assignment IS NOT NULL
-
-		ORDER BY assignment_date
 	"""
-	data = frappe.db.sql(query, (topic_name, topic_name), as_dict=True)
-	return data
+	Fetches all related topic assignments for a given topic. It starts with
+	assignments related to the given topic and then follows tracking the chain of
+	related topic assignments by parent assignments and council memos until the chain ends or a
+	resolved decision type is encountered.
+
+	Args:
+	topic_name (str): The name of the topic for which related assignments are to be fetched.
+
+	Returns:
+	list: A list of dictionaries, where each dictionary represents a topic assignment.
+	"""
+
+	# Define the fields to be retrieved for each assignment
+	fields_names = [
+		"name",
+		"title",
+		"status",
+		"council",
+		"assignment_date",
+		"decision_type",
+		"parent_assignment",
+		"is_group",
+	]
+
+	# Get all assignments related to the given topic, ordered by assignment date
+	assignments = frappe.db.get_all(
+		"Topic Assignment", filters={"topic": topic_name}, fields=fields_names, order_by="assignment_date"
+	)
+
+	if assignments:
+		# Start with the last assignment in the list
+		assignment = assignments[-1]
+
+		while True:
+			# Check if the assignment has a parent assignment
+			if assignment["parent_assignment"]:
+				# Fetch parent assignment details
+				parent_assignment = frappe.db.get_value(
+					"Topic Assignment", assignment["parent_assignment"], fields_names, as_dict=1
+				)
+
+				if parent_assignment:
+					# Add parent assignment to the list and update assignment
+					assignments.append(parent_assignment)
+					assignment = parent_assignment
+				else:
+					break
+
+			# Break if the decision type is "Resolved"
+			if assignment["decision_type"] == "Resolved":
+				break
+
+			# Fetch council memo related of the current assignment
+			memo = frappe.db.get_value(
+				"Council Memo", {"originating_assignment": assignment["name"]}, "name", as_dict=1
+			)
+
+			if memo:
+				# Fetch the assignment initiated by the council memo
+				related_assignment = frappe.db.get_value(
+					"Topic Assignment",
+					{"initiating_council_memo": memo["name"]},
+					fields_names,
+					as_dict=1,
+				)
+				if related_assignment:
+					# Add related assignment to the list and update assignment
+					assignments.append(related_assignment)
+					assignment = related_assignment
+				else:
+					break
+			else:
+				# Break if assignment has no memo
+				break
+
+	return assignments
 
 
 """	def check_duplicate_applicant(self):
