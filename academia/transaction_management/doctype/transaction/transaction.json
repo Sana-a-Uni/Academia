@@ -17,10 +17,12 @@
   "category",
   "created_by",
   "status",
+  "priority",
   "attachments_section",
   "attachments",
-  "summary_section",
-  "summary",
+  "actions_section",
+  "actions",
+  "section_break_pgsu",
   "amended_from"
  ],
  "fields": [
@@ -51,7 +53,7 @@
   },
   {
    "fieldname": "start_date",
-   "fieldtype": "Date",
+   "fieldtype": "Datetime",
    "label": "Start Date",
    "read_only": 1,
    "set_only_once": 1
@@ -76,21 +78,13 @@
    "set_only_once": 1
   },
   {
-   "fieldname": "summary_section",
-   "fieldtype": "Section Break",
-   "hidden": 1,
-   "label": "Summary"
-  },
-  {
-   "fieldname": "summary",
-   "fieldtype": "HTML"
-  },
-  {
+   "allow_on_submit": 1,
    "fieldname": "attachments_section",
    "fieldtype": "Section Break",
    "label": "Attachments"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "attachments",
    "fieldtype": "Table",
    "options": "Transaction Attachments"
@@ -118,12 +112,36 @@
    "label": "Status",
    "options": "Pending\nApproved\nRejected",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_break_pgsu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "label": "Priority",
+   "options": "\nLow\nMedium\nHigh\nUrgent"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "actions",
+   "fieldtype": "Table",
+   "options": "Transaction Action",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "actions_section",
+   "fieldtype": "Section Break",
+   "label": "Actions Summary",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-17 12:14:06.769256",
+ "modified": "2024-05-28 20:11:12.997702",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
