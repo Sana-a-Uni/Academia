@@ -16,8 +16,11 @@ class StudentGroupTool(Document):
 		from frappe.types import DF
 
 		based_on: DF.Literal["", "By Sex", "All"]
-		max_strength: DF.Int
+		capacity: DF.Int
+		faculity: DF.Link
+		program: DF.Link
 		student_batch: DF.Link
 		table_yldo: DF.Table[StudentGroupStudent]
+		tolerance: DF.Int
 	# end: auto-generated types
 	pass
