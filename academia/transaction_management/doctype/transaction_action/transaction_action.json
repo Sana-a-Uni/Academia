@@ -102,5 +102,31 @@
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",
- "sort_order": "DESC"
+ "sort_order": "DESC",
+ "states": [
+  {
+   "color": "Gray",
+   "custom": 1,
+   "title": "Pending"
+  },
+  {
+   "color": "Blue",
+   "custom": 1,
+   "title": "Received"
+  },
+  {
+   "color": "Orange",
+   "custom": 1,
+   "title": "Redirected"
+  },
+  {
+   "color": "Green",
+   "custom": 1,
+   "title": "Approved"
+  },
+  {
+   "color": "Red",
+   "title": "Canceled"
+  }
+ ]
 }
