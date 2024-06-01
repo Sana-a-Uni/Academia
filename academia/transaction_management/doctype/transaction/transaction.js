@@ -61,17 +61,19 @@ frappe.ui.form.on('Transaction', {
             // Do something with the retrieved value
             frappe.msgprint(last_action_type);
 
+          
+
             
 
              if(last_action_type == "Redirected")
                 {
-                    
+                    if(lastRow.redirected_to== frappe.session.user){
         
                     add_approve_action(frm);
                     add_redirect_action(frm);
                     add_council_action(frm)
                     add_reject_action(frm)
-                   
+                    }
                 }
                 
             else if(response.message == "Canceld")//???spelling?

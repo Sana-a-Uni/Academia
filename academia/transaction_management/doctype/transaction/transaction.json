@@ -71,9 +71,9 @@
   },
   {
    "fieldname": "created_by",
-   "fieldtype": "Data",
-   "is_virtual": 1,
-   "label": "Created By"
+   "fieldtype": "Link",
+   "label": "Created By",
+   "options": "User"
   },
   {
    "allow_on_submit": 1,
@@ -175,10 +175,11 @@
    "options": "Topic Applicant"
   }
  ],
+ "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-01 20:30:43.606707",
+ "modified": "2024-06-01 21:37:48.078154",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
