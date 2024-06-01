@@ -61,18 +61,15 @@ frappe.ui.form.on('Transaction', {
             // Do something with the retrieved value
             frappe.msgprint(last_action_type);
 
-            if(last_action_type == "Redirected")
-                {
-                    
-                    add_recieve_action(frm)
-                }
+            
 
-            else if(last_action_type == "Received")
+             if(last_action_type == "Redirected")
                 {
                     
         
                     add_approve_action(frm);
                     add_redirect_action(frm);
+                    add_council_action(frm)
                     add_reject_action(frm)
                    
                 }
@@ -92,7 +89,8 @@ frappe.ui.form.on('Transaction', {
         //if there are not actions- only direct action available
             else{
                 frappe.msgprint("No rows in actions")
-                add_redirect_action(frm);           
+                add_redirect_action(frm);   
+                add_council_action(frm)        
             }
          
         }
@@ -144,21 +142,24 @@ frappe.ui.form.on('Transaction', {
       }
     },
 
-    // Validate function
-    before_save: function(frm) {
-        // Check if any required attachment is missing
-        let missing_attachments = [];
+   // Validate function
+   before_save: function(frm) {
+    // Check if any required attachment is missing
+    let missing_attachments = [];
+    if (frm.doc.attachments && frm.doc.attachments.length > 0) {
         frm.doc.attachments.forEach(attachment => {
             if (attachment.required && !attachment.file) {
                 missing_attachments.push(attachment.attachment_label);
             }
         });
-
-        if (missing_attachments.length > 0) {
-            let message = `Please attach the following required files before saving:\n\n${missing_attachments.join('\n')}`;
-            frappe.throw(message);
-        }
     }
+
+    if (missing_attachments.length > 0) {
+        let message =` Please attach the following required files before saving:\n\n${missing_attachments.join('\n')}`;
+        frappe.throw(message);
+    }}
+
+
 
 });
 
@@ -201,6 +202,13 @@ function add_redirect_action(frm) {
                 options: 'Designation',
                 reqd: 1,
             },
+            {
+                fieldname: 'redirected_to',
+                label: __('Redirected To'),
+                fieldtype: 'Link',
+                options: 'User',
+                reqd: 1,
+            },
             // {
             //     fieldname: 'user',
             //     label: __('User'),
@@ -228,8 +236,8 @@ function add_redirect_action(frm) {
 
             childTable.party = values.party;
             childTable.to_department = values.to_department;
-            childTable.action_date = frappe.datetime.now_datetime();
-            childTable.created_by = frappe.session.user;
+           childTable.action_date = frappe.datetime.now_datetime();
+           childTable.created_by = frappe.session.user;
             childTable.type = "Redirected";
             childTable.details = values.details;
 
@@ -330,6 +338,12 @@ function add_redirect_action(frm) {
     });
 }
 
+function add_council_action(frm) {
+    cur_frm.page.add_action_item(__('Council'), function() {
+       
+    });
+}
+
 
 function add_recieve_action(frm) {
     cur_frm.page.add_action_item(__('Received'), function() {
@@ -338,9 +352,9 @@ function add_recieve_action(frm) {
         var childTable = cur_frm.add_child('actions');
        // childTable.party = values.party;
        // childTable.to_department = values.to_department;
-        childTable.action_date = frappe.datetime.now_datetime();
-        // frappe.msgprint("field are filled")     
-        childTable.created_by = frappe.session.user;
+       // childTable.action_date = frappe.datetime.now_datetime();
+        frappe.msgprint("field are filled")     
+       childTable.created_by = frappe.session.user;
         childTable.type = "Received";
         // frappe.msgprint("field are filled")
         frappe.call({
@@ -372,8 +386,8 @@ function add_approve_action(frm) {
             }
         ], function(values) {
             var childTable = cur_frm.add_child('actions');
-            childTable.action_date = frappe.datetime.now_datetime();
-            childTable.created_by = frappe.session.user;
+           childTable.action_date = frappe.datetime.now_datetime();
+           childTable.created_by = frappe.session.user;
             childTable.type = "Approved";
             childTable.details = values.details;
 
@@ -407,8 +421,8 @@ function add_reject_action(frm) {
             }
         ], function(values) {
             var childTable = cur_frm.add_child('actions');
-            childTable.action_date = frappe.datetime.now_datetime();
-            childTable.created_by = frappe.session.user;
+           childTable.action_date = frappe.datetime.now_datetime();
+           childTable.created_by = frappe.session.user;
             childTable.type = "Rejected";
             childTable.details = values.details;
 

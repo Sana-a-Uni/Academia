@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "additional_details_section",
+  "transaction_scope",
   "reference_number",
   "title",
   "description",
@@ -21,6 +22,8 @@
   "created_by",
   "status",
   "priority",
+  "related_to_section",
+  "related_to_table",
   "attachments_section",
   "attachments",
   "actions_section",
@@ -68,11 +71,9 @@
   },
   {
    "fieldname": "created_by",
-   "fieldtype": "Link",
-   "label": "Created By",
-   "options": "User",
-   "read_only": 1,
-   "set_only_once": 1
+   "fieldtype": "Data",
+   "is_virtual": 1,
+   "label": "Created By"
   },
   {
    "allow_on_submit": 1,
@@ -124,8 +125,7 @@
    "allow_on_submit": 1,
    "fieldname": "actions",
    "fieldtype": "Table",
-   "options": "Transaction Action",
-   "read_only": 1
+   "options": "Transaction Action"
   },
   {
    "allow_on_submit": 1,
@@ -157,12 +157,28 @@
    "fieldtype": "Link",
    "label": "Company",
    "options": "Company"
+  },
+  {
+   "fieldname": "transaction_scope",
+   "fieldtype": "Select",
+   "label": "Transaction Scope",
+   "options": "In Company\nAmong Companies\nWith External Entity"
+  },
+  {
+   "fieldname": "related_to_section",
+   "fieldtype": "Section Break",
+   "label": "Related To"
+  },
+  {
+   "fieldname": "related_to_table",
+   "fieldtype": "Table",
+   "options": "Topic Applicant"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-01 15:46:05.788205",
+ "modified": "2024-06-01 20:30:43.606707",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

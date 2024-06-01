@@ -5,11 +5,12 @@ import frappe
 from frappe.model.document import Document
 
 class Transaction(Document):        
-        
-    def before_save(self):
-        created_by = frappe.get_doc('User', frappe.session.user)
-        self.created_by = created_by.name
-    
+    # begin: auto-generated types
+    # This code is auto-generated. Do not modify anything in this block.
+
+  @property
+  def created_by(self):
+       return frappe.get_value("Transaction", self.name, "owner")
 
 # @frappe.whitelist()
 # def get_transaction_category_requirement(transaction_category):

@@ -6,7 +6,35 @@ from frappe.model.document import Document
 from datetime import datetime
 
 class TransactionAction(Document):
+	# begin: auto-generated types
+	# This code is auto-generated. Do not modify anything in this block.
+
+	from typing import TYPE_CHECKING
+
+	if TYPE_CHECKING:
+		from frappe.types import DF
+
+		action_date: DF.Datetime | None
+		created_by: DF.Link | None
+		details: DF.Text | None
+		parent: DF.Data
+		parentfield: DF.Data
+		parenttype: DF.Data
+		party: DF.Link | None
+		redirected_to: DF.Link | None
+		to_department: DF.DynamicLink | None
+		type: DF.Literal["Received", "Redirected", "Approved", "Rejected", "Canceled"]
+	# end: auto-generated types
 	pass
+
+#   @property
+#   def created_by(self):
+#        return frappe.get_value("Transaction Action", self.name, "owner")
+#   @property
+#   def action_date(self):
+#        return frappe.get_value("Transaction Action", self.name, "creation")
+
+	
 
 @frappe.whitelist()
 def redirect_transaction(main_transaction, party, to_department, redirect_to):

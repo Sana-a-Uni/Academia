@@ -13,7 +13,6 @@
   "action_date",
   "created_by",
   "section_break_vdld",
-  "company",
   "party",
   "column_break_oaad",
   "to_department",
@@ -23,12 +22,6 @@
   {
    "fieldname": "section_break_vdld",
    "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "company",
-   "fieldtype": "Link",
-   "label": "Company",
-   "options": "Company"
   },
   {
    "fieldname": "to_department",
@@ -81,8 +74,7 @@
    "fieldname": "action_date",
    "fieldtype": "Datetime",
    "in_list_view": 1,
-   "label": "Action Date",
-   "read_only": 1
+   "label": "Action Date"
   },
   {
    "fieldname": "details",
@@ -94,7 +86,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-27 18:17:58.603052",
+ "modified": "2024-06-01 20:39:58.609535",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Action",
