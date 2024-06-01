@@ -1,6 +1,12 @@
 // Copyright (c) 2024, SanU Development Team and contributors
 // For license information, please see license.txt
 
+// frappe.ui.form.on("Transaction Category", {
+// 	refresh(frm) {
+
+// 	},
+// });
+
 frappe.ui.form.on('Transaction Category', {
     refresh: function(frm) {
         // Filter the "Parent Transaction Category" field choices
@@ -13,26 +19,37 @@ frappe.ui.form.on('Transaction Category', {
             };
         };
     },
-    category_parent: function (frm) {
-        if (frm.doc.category_parent) {
-            frappe.call({
-              method: "academia.transaction_management.doctype.transaction.transaction.get_transaction_category_requirement",
-              args: {
-                transaction_category: frm.doc.category_parent
-              },
-              callback: function(response) {
-                // Add attach image fields for each Transaction Type Requirement
-                const requirements = response.message || [];
-                console.log(requirements[0]);
-                requirements.forEach(function(requirement) {
-                  frm.add_child("requirements", {
-                    requirement_name: requirement.name,
-                    file_type: requirement.file_type,
-                    required: requirement.required
-                  });
-                });
-              }
-            });
-          }
-    }
+
+
+    // error: there is a problem because of uniqe name
+    // category_parent: function(frm) {
+
+    //     if (frm.doc.category_parent) {
+    //       frappe.call({
+    //         method: "academia.transaction_management.doctype.transaction.transaction.get_transaction_category_requirement",
+    //         args: {
+    //           transaction_category: frm.doc.category_parent
+    //         },
+    //         callback: function(response) {
+    //           // Add attach image fields for each Transaction Type Requirement
+    //           const requirements = response.message || [];
+  
+    //           requirements.forEach(function(requirement) {
+    //             console.log(requirement)
+    //             frm.add_child("requirements", {
+    //               requirement_name: requirement.name,
+    //               fieldtype: "Attach Image",
+    //               file_type: requirement.file_type,
+    //               required: requirement.required,
+    //             });
+    //           });
+  
+    //         // Refresh the form to display the newly added fields
+    //            frm.refresh_fields("requirements");
+    //         }
+    //       });
+    //     }
+    //   },
+  
+
 });

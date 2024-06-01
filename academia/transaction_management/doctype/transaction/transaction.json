@@ -10,11 +10,14 @@
   "reference_number",
   "title",
   "description",
+  "company",
   "column_break_ktxa",
   "full_electronic",
+  "client_doctype",
   "client",
   "start_date",
   "category",
+  "sub_category",
   "created_by",
   "status",
   "priority",
@@ -62,12 +65,6 @@
    "fieldname": "reference_number",
    "fieldtype": "Data",
    "label": "Reference Number"
-  },
-  {
-   "fieldname": "client",
-   "fieldtype": "Link",
-   "label": "Applicant",
-   "options": "Contact"
   },
   {
    "fieldname": "created_by",
@@ -136,12 +133,36 @@
    "fieldtype": "Section Break",
    "label": "Actions Summary",
    "read_only": 1
+  },
+  {
+   "fieldname": "client_doctype",
+   "fieldtype": "Link",
+   "label": "Applicant Doctype",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Dynamic Link",
+   "label": "Applicant",
+   "options": "client_doctype"
+  },
+  {
+   "fieldname": "sub_category",
+   "fieldtype": "Link",
+   "label": "Sub Category",
+   "options": "Transaction Category"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-28 20:11:12.997702",
+ "modified": "2024-06-01 15:46:05.788205",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
