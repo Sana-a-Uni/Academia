@@ -170,10 +170,11 @@ class CourseStudyTool(Document):
 							frappe.msgprint(_("This course {0} already generated...").format(cour.course_name +' '+ hour_table['hour_type']))
 						else:
 							course_study = frappe.new_doc("Course Study")
-							course_study.course_code = cour.course_code +' ' + hour_table['hour_type']
+							course_study.course_code = cour.course_code
 							course_study.student_batch = "batch1"
 							course_study.academic_year = self.academic_year
 							course_study.academic_term = self.academic_term
+							course_study.level = cour.study_level
 							course_study.course_type = hour_table['hour_type']
 							course_study.hours = hour_table['hours']
 							course_study.suitable_env = hour_table['suitable_env']
