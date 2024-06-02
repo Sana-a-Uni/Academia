@@ -18,7 +18,7 @@
   "faculty_department",
   "student_batch",
   "academic_year",
-  "semester"
+  "academic_term"
  ],
  "fields": [
   {
@@ -80,13 +80,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "semester",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Semester",
-   "options": "Semester"
-  },
-  {
    "fieldname": "course",
    "fieldtype": "Link",
    "label": "Course",
@@ -99,11 +92,18 @@
    "label": "Student Batch",
    "options": "Student Batch",
    "reqd": 1
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Term",
+   "options": "Academic Term"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-05 20:21:12.530423",
+ "modified": "2024-06-03 01:11:43.825826",
  "modified_by": "Administrator",
  "module": "Student Enrollment",
  "name": "Course Enrollment",
