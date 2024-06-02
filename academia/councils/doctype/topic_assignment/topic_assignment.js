@@ -126,37 +126,72 @@ frappe.ui.form.on("Topic Assignment", {
 			},
 			primary_action_label: "Get Assignments To Group",
 			action: function (selections) {
-				selections.forEach((assignment, index) => {
-					frappe.call({
-						method: "academia.councils.doctype.topic_assignment.topic_assignment.add_assignment_to_group",
-						args: {
-							parent_name: frm.doc.name,
-							assignment_name: assignment
-						},
-						callback: function (response) {
-							if (response.message === "ok") {
-								if (index === selections.length - 1) {
-									show_grouped_assignments(frm);
-									frappe.show_alert({
-										message: __('Assignment/s added successfully.'),
-										indicator: 'green'
-									});
-								}
-							} else {
-								frappe.show_alert({
-									message: __(`Error adding assignment${assignment}!`),
-									indicator: 'red'
-								});
-								console.error(response.message);
-							}
-						},
-						error: function (error) {
-							callback(error);
+				frappe.call({
+					method: "academia.councils.doctype.topic_assignment.topic_assignment.add_assignments_to_group",
+					args: {
+						parent_name: frm.doc.name,
+						assignments: selections
+					},
+					callback: function (response) {
+						if (response.message === "ok") {
+							show_grouped_assignments(frm);
+							frappe.show_alert({
+								message: __('Assignments added successfully.'),
+								indicator: 'green'
+							});
+						} else {
+							frappe.show_alert({
+								message: __('Error adding assignments!'),
+								indicator: 'red'
+							});
+							console.error(response.message);
 						}
-					});
-				})
+					},
+					error: function (error) {
+						frappe.show_alert({
+							message: __('Server error!'),
+							indicator: 'red'
+						});
+						console.error(error);
+					}
+				});
 				this.dialog.hide();
 			}
+
+
+
+			// action: function (selections) {
+			// 	selections.forEach((assignment, index) => {
+			// 		frappe.call({
+			// 			method: "academia.councils.doctype.topic_assignment.topic_assignment.add_assignment_to_group",
+			// 			args: {
+			// 				parent_name: frm.doc.name,
+			// 				assignment_name: assignment
+			// 			},
+			// 			callback: function (response) {
+			// 				if (response.message === "ok") {
+			// 					if (index === selections.length - 1) {
+			// 						show_grouped_assignments(frm);
+			// 						frappe.show_alert({
+			// 							message: __('Assignment/s added successfully.'),
+			// 							indicator: 'green'
+			// 						});
+			// 					}
+			// 				} else {
+			// 					frappe.show_alert({
+			// 						message: __(`Error adding assignment${assignment}!`),
+			// 						indicator: 'red'
+			// 					});
+			// 					console.error(response.message);
+			// 				}
+			// 			},
+			// 			error: function (error) {
+			// 				callback(error);
+			// 			}
+			// 		});
+			// 	})
+			// 	this.dialog.hide();
+			// }
 		});
 	},
 });

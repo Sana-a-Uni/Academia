@@ -176,18 +176,33 @@ def get_grouped_assignments(parent_name):
 
 
 @frappe.whitelist()
-def add_assignment_to_group(parent_name, assignment_name):
-	try:
-		assignment = frappe.get_doc("Topic Assignment", assignment_name)
+def add_assignments_to_group(parent_name, assignments):
+    try:
+        for assignment_name in assignments:
+            assignment = frappe.get_doc("Topic Assignment", assignment_name)
+            assignment.parent_assignment = parent_name
+            assignment.save()
 
-		assignment.parent_assignment = parent_name
+        return "ok"
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), "Error adding assignments")
+        return str(e)
 
-		assignment.save()
 
-		return "ok"
-	except Exception as e:
-		frappe.log_error(frappe.get_traceback(), "Error adding assignment")
-		return str(e)
+
+# @frappe.whitelist()
+# def add_assignment_to_group(parent_name, assignment_name):
+# 	try:
+# 		assignment = frappe.get_doc("Topic Assignment", assignment_name)
+
+# 		assignment.parent_assignment = parent_name
+
+# 		assignment.save()
+
+# 		return "ok"
+# 	except Exception as e:
+# 		frappe.log_error(frappe.get_traceback(), "Error adding assignment")
+# 		return str(e)
 
 
 @frappe.whitelist()
