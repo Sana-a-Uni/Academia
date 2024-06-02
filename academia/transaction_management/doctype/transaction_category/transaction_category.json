@@ -6,15 +6,16 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "requirements_tab",
-  "category_parent",
+  "details_tab",
   "category_name",
-  "is_group",
-  "requirements",
-  "category_template",
   "company",
+  "is_group",
+  "text_editor_uzrj",
   "column_break_nqbz",
-  "text_editor_uzrj"
+  "parent_category",
+  "category_template",
+  "requirements_tab",
+  "requirements"
  ],
  "fields": [
   {
@@ -31,7 +32,7 @@
   {
    "fieldname": "requirements_tab",
    "fieldtype": "Tab Break",
-   "label": "Requirements "
+   "label": "Requirements"
   },
   {
    "fieldname": "category_name",
@@ -44,13 +45,6 @@
   {
    "fieldname": "column_break_nqbz",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "category_parent",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Category Parent",
-   "options": "Transaction Category"
   },
   {
    "default": "0",
@@ -68,11 +62,24 @@
    "fieldtype": "Link",
    "label": "Company",
    "options": "Company"
+  },
+  {
+   "fieldname": "details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Details"
+  },
+  {
+   "depends_on": "eval:!doc.is_group;",
+   "fieldname": "parent_category",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": " Parent Category",
+   "options": "Transaction Category"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-01 15:21:37.925367",
+ "modified": "2024-06-02 22:27:06.511313",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Category",

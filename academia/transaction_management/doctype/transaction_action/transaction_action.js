@@ -59,7 +59,7 @@ frappe.ui.form.on("Transaction Action", {
 //                             get_query: function() {
 //                                 return {
 //                                     filters: [
-//                                         ['DocType', 'name', 'in', ['Department', 'External Party']]
+//                                         ['DocType', 'name', 'in', ['Department', 'External Entity']]
 //                                     ]
 //                                 };
 //                             }
@@ -157,7 +157,7 @@ frappe.ui.form.on("Transaction Action", {
 //         frm.fields_dict.party.get_query = function(doc, cdt, cdn) {
 //             return {
 //                 filters: [
-//                     ['DocType', 'name', 'in', ['Department', 'External Party']]
+//                     ['DocType', 'name', 'in', ['Department', 'External Entity']]
 //                 ]
 //             };
 //         };

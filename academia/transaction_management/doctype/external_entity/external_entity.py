@@ -5,5 +5,5 @@
 from frappe.model.document import Document
 
 
-class ExternalParty(Document):
+class ExternalEntity(Document):
 	pass
