@@ -130,68 +130,33 @@ frappe.ui.form.on("Topic Assignment", {
 					method: "academia.councils.doctype.topic_assignment.topic_assignment.add_assignments_to_group",
 					args: {
 						parent_name: frm.doc.name,
-						assignments: selections
+						assignments: JSON.stringify(selections)  // Convert the selections array to a JSON string
 					},
 					callback: function (response) {
 						if (response.message === "ok") {
 							show_grouped_assignments(frm);
 							frappe.show_alert({
-								message: __('Assignments added successfully.'),
+								message: __('Assignment/s added successfully.'),
 								indicator: 'green'
 							});
 						} else {
 							frappe.show_alert({
-								message: __('Error adding assignments!'),
+								message: __(`Error adding assignments!`),
 								indicator: 'red'
 							});
 							console.error(response.message);
 						}
 					},
 					error: function (error) {
+						console.error(error);
 						frappe.show_alert({
-							message: __('Server error!'),
+							message: __('Error adding assignments!'),
 							indicator: 'red'
 						});
-						console.error(error);
 					}
 				});
 				this.dialog.hide();
 			}
-
-
-
-			// action: function (selections) {
-			// 	selections.forEach((assignment, index) => {
-			// 		frappe.call({
-			// 			method: "academia.councils.doctype.topic_assignment.topic_assignment.add_assignment_to_group",
-			// 			args: {
-			// 				parent_name: frm.doc.name,
-			// 				assignment_name: assignment
-			// 			},
-			// 			callback: function (response) {
-			// 				if (response.message === "ok") {
-			// 					if (index === selections.length - 1) {
-			// 						show_grouped_assignments(frm);
-			// 						frappe.show_alert({
-			// 							message: __('Assignment/s added successfully.'),
-			// 							indicator: 'green'
-			// 						});
-			// 					}
-			// 				} else {
-			// 					frappe.show_alert({
-			// 						message: __(`Error adding assignment${assignment}!`),
-			// 						indicator: 'red'
-			// 					});
-			// 					console.error(response.message);
-			// 				}
-			// 			},
-			// 			error: function (error) {
-			// 				callback(error);
-			// 			}
-			// 		});
-			// 	})
-			// 	this.dialog.hide();
-			// }
 		});
 	},
 });
@@ -290,7 +255,7 @@ function get_selected_rows() {
 
 function get_datatable_columns() {
 	return [
-		{ name: `<input type="checkbox" data-assignment1="All">`, width: 50, editable: false, sortable:false },
+		{ name: `<input type="checkbox" data-assignment1="All">`, width: 50, editable: false, sortable: false },
 		{ name: "Assignment", width: 300, editable: false },
 		{ name: "Title", width: 300, editable: false },
 		{ name: "Assignment Date", width: 150, editable: false },
@@ -299,31 +264,11 @@ function get_datatable_columns() {
 }
 
 
-function handle_delete_response(frm, rows_count, index) {
-	return function (error) {
-		if (error) {
-			frappe.show_alert({
-				message: __('Error removing assignment from group.'),
-				indicator: 'red'
-			});
-			console.error(error);
-		} else {
-			if (index === rows_count-1){
-				show_grouped_assignments(frm); // Refresh the datatable
-				frappe.show_alert({
-					message: __('Assignment/s removed successfully.'),
-					indicator: 'green'
-				});
-			}
-		}
-	};
-}
-
-function delete_assignment_from_group(frm, assignment_name, callback) {
+function delete_assignments_from_group(frm, assignment_names, callback) {
 	frappe.call({
-		method: "academia.councils.doctype.topic_assignment.topic_assignment.delete_assignment_from_group",
+		method: "academia.councils.doctype.topic_assignment.topic_assignment.delete_assignments_from_group",
 		args: {
-			assignment_name: assignment_name
+			assignment_names: JSON.stringify(assignment_names)  // Convert the array to a JSON string
 		},
 		callback: function (response) {
 			if (response.message === "ok") {
@@ -339,7 +284,19 @@ function delete_assignment_from_group(frm, assignment_name, callback) {
 }
 
 function handleDeletion(frm, selectedRows) {
-	selectedRows.forEach(function (assignmentName, index) {
-		delete_assignment_from_group(frm, assignmentName, handle_delete_response(frm, selectedRows.length, index));
+	delete_assignments_from_group(frm, selectedRows, function (error) {
+		if (error) {
+			frappe.show_alert({
+				message: __('Error removing assignments!'),
+				indicator: 'red'
+			});
+			console.error(error);
+		} else {
+			frappe.show_alert({
+				message: __('Assignments removed successfully.'),
+				indicator: 'green'
+			});
+			show_grouped_assignments(frm);
+		}
 	});
 }

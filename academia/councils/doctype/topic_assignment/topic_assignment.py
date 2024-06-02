@@ -178,7 +178,8 @@ def get_grouped_assignments(parent_name):
 @frappe.whitelist()
 def add_assignments_to_group(parent_name, assignments):
     try:
-        for assignment_name in assignments:
+        assignments_list = json.loads(assignments)  # Parse the JSON string into a list
+        for assignment_name in assignments_list:
             assignment = frappe.get_doc("Topic Assignment", assignment_name)
             assignment.parent_assignment = parent_name
             assignment.save()
@@ -189,32 +190,17 @@ def add_assignments_to_group(parent_name, assignments):
         return str(e)
 
 
-
-# @frappe.whitelist()
-# def add_assignment_to_group(parent_name, assignment_name):
-# 	try:
-# 		assignment = frappe.get_doc("Topic Assignment", assignment_name)
-
-# 		assignment.parent_assignment = parent_name
-
-# 		assignment.save()
-
-# 		return "ok"
-# 	except Exception as e:
-# 		frappe.log_error(frappe.get_traceback(), "Error adding assignment")
-# 		return str(e)
-
-
 @frappe.whitelist()
-def delete_assignment_from_group(assignment_name):
+@frappe.whitelist()
+def delete_assignments_from_group(assignment_names):
 	try:
-		assignment = frappe.get_doc("Topic Assignment", assignment_name)
-
-		assignment.parent_assignment = None
-
-		assignment.save()
+		assignments_list = json.loads(assignment_names)  # Parse the JSON string into a list
+		for assignment_name in assignments_list:
+			assignment = frappe.get_doc("Topic Assignment", assignment_name)
+			assignment.parent_assignment = None
+			assignment.save()
 
 		return "ok"
 	except Exception as e:
-		frappe.log_error(frappe.get_traceback(), "Error removing assignment")
+		frappe.log_error(frappe.get_traceback(), "Error removing assignments")
 		return str(e)
