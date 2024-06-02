@@ -10,11 +10,12 @@
 frappe.ui.form.on('Transaction Category', {
     refresh: function(frm) {
         // Filter the "Parent Transaction Category" field choices
-        frm.fields_dict['category_parent'].get_query = function(doc, cdt, cdn) {
+        frm.fields_dict['parent_category'].get_query = function(doc, cdt, cdn) {
             return {
                 filters: [
-                    ['Transaction Category', 'category_parent', '=', ''],  // Only show parties without a parent
-                    ['Transaction Category', 'name', '!=', doc.name]  // Exclude the current item
+                    ["Transaction Category", "is_group", "=", 1],
+                    ['Transaction Category', 'parent_category', '=', ''],  // Only show parties without a parent
+                    // ['Transaction Category', 'name', '!=', doc.name]  // Exclude the current item
                 ]
             };
         };
@@ -22,13 +23,13 @@ frappe.ui.form.on('Transaction Category', {
 
 
     // error: there is a problem because of uniqe name
-    // category_parent: function(frm) {
+    // parent_category_: function(frm) {
 
-    //     if (frm.doc.category_parent) {
+    //     if (frm.doc.parent_category) {
     //       frappe.call({
     //         method: "academia.transaction_management.doctype.transaction.transaction.get_transaction_category_requirement",
     //         args: {
-    //           transaction_category: frm.doc.category_parent
+    //           transaction_category: frm.doc.parent_category
     //         },
     //         callback: function(response) {
     //           // Add attach image fields for each Transaction Type Requirement

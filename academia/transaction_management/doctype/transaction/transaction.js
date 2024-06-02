@@ -2,29 +2,15 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Transaction', {
-    
-    onload: function(frm) {
-        if (!frm.doc.start_date) {
-            frm.set_value('start_date', frappe.datetime.get_datetime_as_string());
-        }
-
-    },
 
     refresh: function(frm) {
         //hide the actions table before submit
-        if(frm.doc.docstatus != 1)       
-            frm.set_df_property("actions_section", "hidden", 1);
-
-        frm.set_query("client_doctype", function() {
-            return {
-              filters: [
-                  ['DocType', 'name', 'in', ['User', 'Contact']]
-              ]
-            };
-        });
-
-        // Initially disable sub_category
-        frm.set_df_property('sub_category', 'read_only', 1);
+        // if(frm.doc.docstatus != 1)       
+        // {
+        //     // frm.set_df_property("actions_section", "hidden", 1);
+        //     frm.set_df_property("tracking_actions_tab","hidden",true);
+        //     frm.refresh_fields();   
+        // }
 
         // Set query for category field
         frm.set_query('category', function() {
@@ -39,58 +25,35 @@ frappe.ui.form.on('Transaction', {
         frm.fields_dict['sub_category'].get_query = function(doc) {
             return {
                 filters: {
-                    'category_parent': doc.category
+                    'parent_category': doc.category
                 }
             };
         };
 
         if(frm.doc.docstatus === 1 && !frm.doc.__islocal )
         {
-            //frappe.msgprint("here")
-            //frm.set_df_property("actions_section", "hidden", 0);
-            
             // if there are actions
             if(frm.doc.actions.length !=0){
 
-            // Get the last row of the actions child table
-            var lastRow = frm.doc.actions.slice(-1)[0];
+                // Get the last row of the actions child table
+                var lastRow = frm.doc.actions.slice(-1)[0];
 
-            // Retrieve the action type in the last row
-            var last_action_type = lastRow.type;
+                // Retrieve the action type in the last row
+                var last_action_type = lastRow.type;
 
-            // Do something with the retrieved value
-            frappe.msgprint(last_action_type);
-
-          
-
-            
-
-             if(last_action_type == "Redirected")
+                if(last_action_type == "Redirected")
                 {
-                    if(lastRow.redirected_to== frappe.session.user){
-        
-                    add_approve_action(frm);
-                    add_redirect_action(frm);
-                    add_council_action(frm)
-                    add_reject_action(frm)
+                    if(lastRow.redirected_to == frappe.session.user){
+                        add_approve_action(frm);
+                        add_redirect_action(frm);
+                        add_council_action(frm)
+                        add_reject_action(frm)
                     }
                 }
-                
-            else if(response.message == "Canceld")//???spelling?
-                    frappe.db.set_value('Transaction', frm.docname, 'status', 'Canceld');
-            
-
-            
-            
-                
-            
-           
         
-        
-        }
-        //if there are not actions- only direct action available
+            }
+            //if there are not actions- only direct action available
             else{
-                frappe.msgprint("No rows in actions")
                 add_redirect_action(frm);   
                 add_council_action(frm)        
             }
@@ -101,7 +64,7 @@ frappe.ui.form.on('Transaction', {
 
     category: function(frm) {
         // Enable sub_category when a category is chosen
-        frm.set_df_property('sub_category', 'read_only', !frm.doc.category);
+        frm.set_df_property('sub_category', 'hidden', !frm.doc.category);
     },
 
     sub_category: function(frm) {
@@ -185,7 +148,7 @@ function add_redirect_action(frm) {
                 get_query: function() {
                     return {
                         filters: [
-                            ['DocType', 'name', 'in', ['Department', 'External Party']]
+                            ['DocType', 'name', 'in', ['Department', 'External Entity']]
                         ]
                     };
                 }

@@ -6,30 +6,29 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "document_details_tab",
   "additional_details_section",
   "transaction_scope",
   "reference_number",
   "title",
   "description",
-  "company",
   "column_break_ktxa",
-  "full_electronic",
-  "client_doctype",
-  "client",
-  "start_date",
+  "company",
   "category",
   "sub_category",
+  "priority",
+  "full_electronic",
+  "start_date",
   "created_by",
   "status",
-  "priority",
-  "related_to_section",
-  "related_to_table",
-  "attachments_section",
-  "attachments",
-  "actions_section",
-  "actions",
   "section_break_pgsu",
-  "amended_from"
+  "amended_from",
+  "applicants_tab",
+  "applicants_table",
+  "attachments_tab",
+  "attachments",
+  "tracking_actions_tab",
+  "related_to_table"
  ],
  "fields": [
   {
@@ -40,8 +39,7 @@
   },
   {
    "fieldname": "additional_details_section",
-   "fieldtype": "Section Break",
-   "label": "Document Details"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "title",
@@ -59,10 +57,10 @@
   },
   {
    "fieldname": "start_date",
-   "fieldtype": "Datetime",
+   "fieldtype": "Data",
+   "is_virtual": 1,
    "label": "Start Date",
-   "read_only": 1,
-   "set_only_once": 1
+   "options": "frappe.utils.format_datetime(doc.creation, format_string='dd MMM yyyy, HH:mm:ss')"
   },
   {
    "fieldname": "reference_number",
@@ -71,15 +69,10 @@
   },
   {
    "fieldname": "created_by",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
+   "is_virtual": 1,
    "label": "Created By",
-   "options": "User"
-  },
-  {
-   "allow_on_submit": 1,
-   "fieldname": "attachments_section",
-   "fieldtype": "Section Break",
-   "label": "Attachments"
+   "options": "doc.owner"
   },
   {
    "allow_on_submit": 1,
@@ -107,6 +100,7 @@
    "allow_on_submit": 1,
    "fieldname": "status",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Status",
    "options": "Pending\nApproved\nRejected",
    "read_only": 1
@@ -122,33 +116,9 @@
    "options": "\nLow\nMedium\nHigh\nUrgent"
   },
   {
-   "allow_on_submit": 1,
-   "fieldname": "actions",
-   "fieldtype": "Table",
-   "options": "Transaction Action"
-  },
-  {
-   "allow_on_submit": 1,
-   "fieldname": "actions_section",
-   "fieldtype": "Section Break",
-   "label": "Actions Summary",
-   "read_only": 1
-  },
-  {
-   "fieldname": "client_doctype",
-   "fieldtype": "Link",
-   "label": "Applicant Doctype",
-   "options": "DocType"
-  },
-  {
-   "fieldname": "client",
-   "fieldtype": "Dynamic Link",
-   "label": "Applicant",
-   "options": "client_doctype"
-  },
-  {
    "fieldname": "sub_category",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Sub Category",
    "options": "Transaction Category"
   },
@@ -165,13 +135,37 @@
    "options": "In Company\nAmong Companies\nWith External Entity"
   },
   {
-   "fieldname": "related_to_section",
-   "fieldtype": "Section Break",
-   "label": "Related To"
-  },
-  {
+   "allow_on_submit": 1,
    "fieldname": "related_to_table",
    "fieldtype": "Table",
+   "options": "Transaction Action"
+  },
+  {
+   "fieldname": "applicants_tab",
+   "fieldtype": "Tab Break",
+   "label": "Applicants"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "attachments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "tracking_actions_tab",
+   "fieldtype": "Tab Break",
+   "label": "Tracking Actions"
+  },
+  {
+   "fieldname": "document_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Document Details"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "applicants_table",
+   "fieldtype": "Table",
+   "label": "Applicants Table",
    "options": "Topic Applicant"
   }
  ],
@@ -179,7 +173,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-01 21:37:48.078154",
+ "modified": "2024-06-02 21:11:03.519642",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
