@@ -1,7 +1,6 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:hour_type",
  "creation": "2024-04-23 21:43:23.728299",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -18,8 +17,7 @@
    "in_list_view": 1,
    "label": "Hour Type",
    "options": "Hour Type",
-   "reqd": 1,
-   "unique": 1
+   "reqd": 1
   },
   {
    "depends_on": "eval:doc.suitable_env == \"Lab\";",
@@ -49,11 +47,10 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-07 22:47:02.415841",
+ "modified": "2024-06-03 01:30:58.503512",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Hours",
- "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",

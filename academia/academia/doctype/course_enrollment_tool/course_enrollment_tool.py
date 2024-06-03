@@ -18,12 +18,10 @@ class CourseEnrollmentTool(Document):
 		academic_program: DF.Literal["", "All Program", "Specific Program"]
 		academic_term: DF.Link
 		academic_year: DF.Link
-		current_level: DF.ReadOnly
+		faculty: DF.Link
 		level: DF.Literal["", "All Level", "Specific Level"]
-		program_specification: DF.ReadOnly | None
 		specific_level: DF.Link | None
 		specific_program: DF.Link | None
-		student_batch: DF.Link
 		table_yztw: DF.Table[CourseEnrollmentCourse]
 	# end: auto-generated types
 	pass

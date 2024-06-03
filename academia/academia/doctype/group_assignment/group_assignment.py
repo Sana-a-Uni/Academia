@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class CourseEnrollment(Document):
+class GroupAssignment(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -14,15 +14,13 @@ class CourseEnrollment(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		academic_program: DF.Link
-		academic_term: DF.Link | None
+		academic_term: DF.Link
 		academic_year: DF.Link
-		course: DF.Link | None
-		enrollment_date: DF.Date
+		course: DF.Link
 		faculty: DF.Link
-		faculty_department: DF.Link
-		student: DF.Link
+		group: DF.Data | None
+		instructor: DF.Link
+		program: DF.Link
 		student_batch: DF.Link
-		student_name: DF.Data | None
 	# end: auto-generated types
 	pass

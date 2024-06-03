@@ -23,6 +23,7 @@ class CourseStudy(Document):
 		hours: DF.Int
 		instructor: DF.Link | None
 		lab_type: DF.Link | None
+		level: DF.Link
 		program: DF.ReadOnly
 		student_batch: DF.Link
 		suitable_env: DF.Literal["", "Room", "Lab"]

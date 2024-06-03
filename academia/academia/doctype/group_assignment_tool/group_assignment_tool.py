@@ -5,24 +5,22 @@
 from frappe.model.document import Document
 
 
-class CourseEnrollment(Document):
+class GroupAssignmentTool(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.academia.doctype.group_assignment_group.group_assignment_group import GroupAssignmentGroup
 		from frappe.types import DF
 
-		academic_program: DF.Link
-		academic_term: DF.Link | None
+		academic_term: DF.Link
 		academic_year: DF.Link
-		course: DF.Link | None
-		enrollment_date: DF.Date
 		faculty: DF.Link
-		faculty_department: DF.Link
-		student: DF.Link
+		group: DF.Data
+		program: DF.Link
 		student_batch: DF.Link
-		student_name: DF.Data | None
+		table_acya: DF.Table[GroupAssignmentGroup]
 	# end: auto-generated types
 	pass
