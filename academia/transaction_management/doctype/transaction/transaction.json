@@ -20,7 +20,9 @@
   "full_electronic",
   "start_date",
   "created_by",
+  "recipient_designation",
   "status",
+  "recipient_multi_select_table",
   "section_break_pgsu",
   "amended_from",
   "applicants_tab",
@@ -28,7 +30,7 @@
   "attachments_tab",
   "attachments",
   "tracking_actions_tab",
-  "related_to_table"
+  "actions"
  ],
  "fields": [
   {
@@ -116,9 +118,9 @@
    "options": "\nLow\nMedium\nHigh\nUrgent"
   },
   {
+   "depends_on": "eval:doc.category;",
    "fieldname": "sub_category",
    "fieldtype": "Link",
-   "hidden": 1,
    "label": "Sub Category",
    "options": "Transaction Category"
   },
@@ -133,12 +135,6 @@
    "fieldtype": "Select",
    "label": "Transaction Scope",
    "options": "In Company\nAmong Companies\nWith External Entity"
-  },
-  {
-   "allow_on_submit": 1,
-   "fieldname": "related_to_table",
-   "fieldtype": "Table",
-   "options": "Transaction Action"
   },
   {
    "fieldname": "applicants_tab",
@@ -167,13 +163,31 @@
    "fieldtype": "Table",
    "label": "Applicants Table",
    "options": "Topic Applicant"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "actions",
+   "fieldtype": "Table",
+   "options": "Transaction Action",
+   "read_only": 1
+  },
+  {
+   "fieldname": "recipient_designation",
+   "fieldtype": "Link",
+   "label": "Recipient Designation",
+   "options": "Designation"
+  },
+  {
+   "fieldname": "recipient_multi_select_table",
+   "fieldtype": "Table MultiSelect",
+   "label": "Recipient",
+   "options": "Transaction Recipient"
   }
  ],
- "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-02 21:11:03.519642",
+ "modified": "2024-06-03 13:21:00.192977",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

@@ -11,7 +11,9 @@
   "company",
   "is_group",
   "column_break_dzaw",
-  "parent_external_entity"
+  "parent_external_entity",
+  "section_break_hnzu",
+  "designation"
  ],
  "fields": [
   {
@@ -62,11 +64,21 @@
    "ignore_user_permissions": 1,
    "label": "Parent External Entity",
    "options": "External Entity"
+  },
+  {
+   "fieldname": "section_break_hnzu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Table",
+   "label": "Designation",
+   "options": "External Entity Designation"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-02 22:32:10.453778",
+ "modified": "2024-06-03 09:42:12.900555",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "External Entity",

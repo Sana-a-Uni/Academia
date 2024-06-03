@@ -4,13 +4,43 @@
 frappe.ui.form.on('Transaction', {
 
     refresh: function(frm) {
-        //hide the actions table before submit
-        // if(frm.doc.docstatus != 1)       
-        // {
-        //     // frm.set_df_property("actions_section", "hidden", 1);
-        //     frm.set_df_property("tracking_actions_tab","hidden",true);
-        //     frm.refresh_fields();   
-        // }
+        
+        if(frm.doc.docstatus === 1)       
+        {
+            // unhide the actions table after submit
+            frm.set_df_property("related_to_table","hidden",0);
+            frm.refresh_fields();  
+
+            if(!frm.doc.__islocal )
+            {
+                // if there are actions
+                if(frm.doc.actions && frm.doc.actions.length != 0){
+                    // Get the last row of the actions child table
+                    var lastRow = frm.doc.actions.slice(-1)[0];
+
+                    // Retrieve the action type in the last row
+                    var last_action_type = lastRow.type;
+
+                    if(last_action_type == "Redirected" && lastRow.redirected_to == frappe.session.user)
+                    {
+                            add_approve_action(frm);
+                            add_redirect_action(frm);
+                            add_reject_action(frm)
+                            add_council_action(frm)
+                        
+                    }
+                    
+                }
+                if(frm.doc.recipient_multi_select_table.some(row => row.recipient === frappe.session.user))
+                {   
+                        add_approve_action(frm);
+                        add_redirect_action(frm);
+                        add_reject_action(frm)
+                        add_council_action(frm)
+                }     
+            }
+         
+        }
 
         // Set query for category field
         frm.set_query('category', function() {
@@ -30,41 +60,38 @@ frappe.ui.form.on('Transaction', {
             };
         };
 
-        if(frm.doc.docstatus === 1 && !frm.doc.__islocal )
-        {
-            // if there are actions
-            if(frm.doc.actions.length !=0){
-
-                // Get the last row of the actions child table
-                var lastRow = frm.doc.actions.slice(-1)[0];
-
-                // Retrieve the action type in the last row
-                var last_action_type = lastRow.type;
-
-                if(last_action_type == "Redirected")
-                {
-                    if(lastRow.redirected_to == frappe.session.user){
-                        add_approve_action(frm);
-                        add_redirect_action(frm);
-                        add_council_action(frm)
-                        add_reject_action(frm)
-                    }
-                }
-        
-            }
-            //if there are not actions- only direct action available
-            else{
-                add_redirect_action(frm);   
-                add_council_action(frm)        
-            }
-         
-        }
-
     },
 
-    category: function(frm) {
-        // Enable sub_category when a category is chosen
-        frm.set_df_property('sub_category', 'hidden', !frm.doc.category);
+    recipient_designation: function (frm) {
+        // Clear the values of the multiselect table field
+        frm.set_value('recipient_multi_select_table', []);
+
+        
+        // Make AJAX request to fetch employee users with matching designation
+        frappe.call({
+            method: 'frappe.client.get_list',
+            args: {
+                doctype: 'Employee',
+                filters: {
+                    designation: frm.doc.recipient_designation,
+                    company: frm.doc.company,
+                },
+                fields: ['user_id']
+            },
+            callback: function(response) {
+                recipients = response.message
+
+                recipients.forEach(function(recipient) {
+                    // Create a new row in the multiselect table field
+                    var row = frm.add_child('recipient_multi_select_table');
+                    row.recipient = recipient.user_id;
+                });
+                // Refresh the table to display the new rows
+                frm.refresh_field('recipient_multi_select_table');
+
+            }
+        });
+    
     },
 
     sub_category: function(frm) {
@@ -93,14 +120,14 @@ frappe.ui.form.on('Transaction', {
               });
             });
 
-          // Hide 'add row' button
-          frm.get_field("attachments").grid.cannot_add_rows = true;
-           // Stop 'add below' & 'add above' options
-          frm.get_field("attachments").grid.only_sortable();
-          //make the lables uneditable
-          frm.fields_dict.attachments.grid.docfields[1].read_only = 1;
+            // Hide 'add row' button
+            frm.get_field("attachments").grid.cannot_add_rows = true;
+            // Stop 'add below' & 'add above' options
+            frm.get_field("attachments").grid.only_sortable();
+            //make the lables uneditable
+            frm.fields_dict.attachments.grid.docfields[1].read_only = 1;
 
-          // Refresh the form to display the newly added fields
+            // Refresh the form to display the newly added fields
              frm.refresh_fields("attachments");
           }
         });
@@ -123,34 +150,42 @@ frappe.ui.form.on('Transaction', {
         let message =` Please attach the following required files before saving:\n\n${missing_attachments.join('\n')}`;
         frappe.throw(message);
     }}
-
-
-
 });
 
 
 function add_redirect_action(frm) {
     cur_frm.page.add_action_item(__('Redirect'), function() {
+        var prompt_company;
+        var prompt_designation;
+        var prompt_department;
+
         frappe.prompt([
             {
                 fieldname: 'company',
                 label: __('Company'),
                 fieldtype: 'Link',
                 options: 'Company',
-                reqd: 1,
+                hidden: function () {
+                    return frm.doc.transaction_scope === "In Company";
+                },
+                reqd: function () {
+                    return frm.doc.transaction_scope === "In Company";
+                },
+                onchange: function () {
+                    prompt_company = this.value
+                }
             },
             {
                 fieldname: 'party',
                 label: __('Party'),
-                fieldtype: 'Link',
-                options: 'DocType',
-                reqd: 1,
-                get_query: function() {
-                    return {
-                        filters: [
-                            ['DocType', 'name', 'in', ['Department', 'External Entity']]
-                        ]
-                    };
+                fieldtype: 'Select',
+                options: ['Department', 'External Entity'],
+                hidden: true,
+                default: function () {
+                    if(frm.doc.transaction_scope === "With External Entity")
+                        return 'External Entity'
+                    else
+                        return 'Department'
                 }
             },
             {
@@ -158,21 +193,35 @@ function add_redirect_action(frm) {
                 label: __('To Department'),
                 fieldtype: 'Dynamic Link',
                 options: 'party',
-                reqd: 1
+                // reqd: 1
+                get_query: function() {
+                    return {
+                        filters: {
+                            company: prompt_company
+                        }
+                    };
+                },
+                onchange: function () {
+                    prompt_department = this.value
+                }
             },
             {
                 fieldname: 'designation',
                 label: __('Designation'),
                 fieldtype: 'Link',
                 options: 'Designation',
-                reqd: 1,
+                // reqd: 1,
+                onchange: function () {
+                    prompt_designation = this.value
+                }
             },
             {
                 fieldname: 'redirected_to',
                 label: __('Redirected To'),
                 fieldtype: 'Link',
                 options: 'User',
-                reqd: 1,
+                // reqd: 1,
+                
             },
             // {
             //     fieldname: 'user',
@@ -188,7 +237,7 @@ function add_redirect_action(frm) {
             //             }
             //         };
             //     },
-            //     reqd: 1
+            //     // reqd: 1
             // },
             {
                 fieldname: 'details',
@@ -201,8 +250,8 @@ function add_redirect_action(frm) {
 
             childTable.party = values.party;
             childTable.to_department = values.to_department;
-           childTable.action_date = frappe.datetime.now_datetime();
-           childTable.created_by = frappe.session.user;
+            childTable.action_date = frappe.datetime.now_datetime();
+            childTable.created_by = frappe.session.user;
             childTable.type = "Redirected";
             childTable.details = values.details;
 
@@ -309,45 +358,15 @@ function add_council_action(frm) {
     });
 }
 
-
-function add_recieve_action(frm) {
-    cur_frm.page.add_action_item(__('Received'), function() {
-        // frappe.msgprint("Received")
-       
-        var childTable = cur_frm.add_child('actions');
-       // childTable.party = values.party;
-       // childTable.to_department = values.to_department;
-       // childTable.action_date = frappe.datetime.now_datetime();
-        frappe.msgprint("field are filled")     
-       childTable.created_by = frappe.session.user;
-        childTable.type = "Received";
-        // frappe.msgprint("field are filled")
-        frappe.call({
-            method: "frappe.client.save",
-            args: {
-                doc: frm.doc
-            },
-            callback: function(response) {
-                if (response && response.message) {
-                    frappe.db.set_value('Transaction', frm.docname, 'status', 'Pending');
-                    location.reload();
-                    // frappe.msgprint(response.message);
-                }
-            }
-        });
-    });
-}
-
 function add_approve_action(frm) {
     cur_frm.page.add_action_item(__('Approve'), function() {
-        // frappe.msgprint("Approve");
 
         frappe.prompt([
             {
                 label: 'Details',
                 fieldname: 'details',
                 fieldtype: 'Text',
-                reqd: 1
+                // reqd: 1
             }
         ], function(values) {
             var childTable = cur_frm.add_child('actions');
@@ -382,7 +401,7 @@ function add_reject_action(frm) {
                 label: 'Details',
                 fieldname: 'details',
                 fieldtype: 'Text',
-                reqd: 1
+                // reqd: 1
             }
         ], function(values) {
             var childTable = cur_frm.add_child('actions');
@@ -407,23 +426,3 @@ function add_reject_action(frm) {
         }, __('Enter Rejection Details'), __('Submit'));
     });
 }
-
-
-frappe.ui.form.on("Transaction", {
-    onload: function(frm) {
-        frm.set_query("name", function() {
-            return {
-                query: "academia.transaction_management.doctype.transaction.transaction.get_permission_query",
-                filters: {
-                    "doctype": "Transaction",
-                    "for_list_view": false
-                }
-            };
-        });
-    }
-});
-
-
-
-
-
