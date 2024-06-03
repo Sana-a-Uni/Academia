@@ -6,10 +6,13 @@ from frappe.model.document import Document # type: ignore
 import json
 
 class Transaction(Document):
-    pass
-#   @property
-#   def created_by(self):
-#        return frappe.get_value("Transaction", self.name, "owner")
+    def on_submit(self):
+        for row in self.recipient_multi_select_table:
+            user = frappe.get_doc("User", row.recipient)
+            create_share(self.name, user.email, 1, 1, 1)
+            
+
+
 
 # @frappe.whitelist()
 # def get_transaction_category_requirement(transaction_category):
@@ -57,3 +60,16 @@ def update_share_permissions(docname, user, permissions):
         frappe.db.commit()
 
     return share
+
+def create_share(docname, user,  read=1, write=0, share=0):
+    # Create a share for the document
+    share_doc = frappe.share.add(
+        doctype="Transaction",
+        name=docname,
+        user=user,
+        read=read,
+        write=write,
+        share=share
+    )
+
+    return share_doc
