@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "autoname": "format:Cncl-M-{title}-{###}",
  "creation": "2024-05-09 18:02:55.061320",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -10,7 +11,6 @@
   "description",
   "section_break_uhxr",
   "originating_assignment",
-  "resultant_assignment",
   "column_break_wyuo",
   "status",
   "sent_date",
@@ -74,17 +74,8 @@
    "label": "Originating Assignment",
    "options": "Topic Assignment",
    "reqd": 1,
-   "search_index": 1,
-   "set_only_once": 1
-  },
-  {
-   "allow_on_submit": 1,
-   "depends_on": "eval:doc.docstatus==1",
-   "fieldname": "resultant_assignment",
-   "fieldtype": "Link",
-   "label": "Resultant Assignment",
-   "options": "Topic Assignment",
-   "search_index": 1
+   "set_only_once": 1,
+   "unique": 1
   },
   {
    "fieldname": "section_break_uhxr",
@@ -99,17 +90,22 @@
    "fieldname": "sent_date",
    "fieldtype": "Date",
    "label": "Sent Date",
-   "read_only": 1,
-   "set_only_once": 1
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
- "links": [],
- "modified": "2024-05-18 23:40:50.960982",
+ "links": [
+  {
+   "group": "Resultant Assignment",
+   "link_doctype": "Topic Assignment",
+   "link_fieldname": "initiating_council_memo"
+  }
+ ],
+ "modified": "2024-05-25 21:09:08.871208",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Council Memo",
- "naming_rule": "Expression (old style)",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

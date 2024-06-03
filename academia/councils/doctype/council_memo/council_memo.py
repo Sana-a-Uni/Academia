@@ -18,7 +18,6 @@ class CouncilMemo(Document):
 		council: DF.Link
 		description: DF.TextEditor | None
 		originating_assignment: DF.Link
-		resultant_assignment: DF.Link | None
 		sent_date: DF.Date | None
 		status: DF.Literal["Draft", "Verified", "Accepted", "Rejected"]
 		title: DF.Data | None

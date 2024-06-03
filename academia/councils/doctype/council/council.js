@@ -83,6 +83,7 @@ frappe.ui.form.on("Council", {
         }
       },
       primary_action_label: "Get Members",
+
       action(selections) {
         // console.log(d.dialog.get_value("company"));
         // emptying Council members
