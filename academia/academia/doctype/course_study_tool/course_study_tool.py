@@ -72,6 +72,11 @@ class CourseStudyTool(Document):
 			
 								course_exists_in_course_study = frappe.db.exists('Course Study', {'course_name': child_data['course_name']})
 								if not course_exists_in_course_study:
+									student_batch = frappe.get_list("Student Batch", fields='*')
+									for batch in student_batch:
+										if batch.program_specification == child_data['parent']:
+											child_data['batch'] = batch.name
+
 									child_table_data.append(child_data)
 						filterd_data_by_specific_level = [d for d in child_table_data if d.get("study_level") == self.specific_level]
 						child_table_data  = filterd_data_by_specific_level
@@ -92,6 +97,11 @@ class CourseStudyTool(Document):
 			
 							course_exists_in_course_study = frappe.db.exists('Course Study', {'course_name': child_data['course_name']})
 							if not course_exists_in_course_study:
+								student_batch = frappe.get_list("Student Batch", fields='*')
+								for batch in student_batch:
+									if batch.program_specification == child_data['parent']:
+										child_data['batch'] = batch.name
+
 								child_table_data.append(child_data)
 
 					elif self.level == "Specific Level":
@@ -103,6 +113,11 @@ class CourseStudyTool(Document):
 			
 								course_exists_in_course_study = frappe.db.exists('Course Study', {'course_name': child_data['course_name']})
 								if not course_exists_in_course_study:
+									student_batch = frappe.get_list("Student Batch", fields='*')
+									for batch in student_batch:
+										if batch.program_specification == child_data['parent']:
+											child_data['batch'] = batch.name
+
 									child_table_data.append(child_data)
 							
 							filterd_data_by_specific_level = [d for d in child_table_data if d.get("study_level") == self.specific_level]
@@ -130,6 +145,7 @@ class CourseStudyTool(Document):
 			
 						course_exists_in_course_study = frappe.db.exists('Course Study', {'course_name': child_data['course_name']})
 						if not course_exists_in_course_study:
+							child_data['batch'] = self.student_batch
 							child_table_data.append(child_data)
 
 			else:
