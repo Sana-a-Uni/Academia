@@ -3,4 +3,3 @@ Councils
 Admission
 Student Enrollment
 LMS
-Academic Attendance
