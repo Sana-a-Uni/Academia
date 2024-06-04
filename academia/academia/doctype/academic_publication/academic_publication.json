@@ -1,0 +1,124 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:title",
+ "creation": "2024-04-23 00:54:15.442321",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "apa_citation",
+  "type",
+  "published_in",
+  "date_of_publish",
+  "column_break_xfuu",
+  "from_page",
+  "to_page",
+  "page_numbers",
+  "publication_link",
+  "publication_file",
+  "publication_author_section",
+  "academic_publication_author"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "apa_citation",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "APA Citation",
+   "reqd": 1
+  },
+  {
+   "fieldname": "published_in",
+   "fieldtype": "Link",
+   "label": "Published in",
+   "options": "Journal"
+  },
+  {
+   "fieldname": "column_break_xfuu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Link",
+   "label": "Type",
+   "options": "Academic Publication Type"
+  },
+  {
+   "fieldname": "date_of_publish",
+   "fieldtype": "Date",
+   "label": "Date of Publish "
+  },
+  {
+   "fieldname": "publication_link",
+   "fieldtype": "Data",
+   "label": "Publication Link"
+  },
+  {
+   "fieldname": "publication_author_section",
+   "fieldtype": "Section Break",
+   "label": "Publication Authors"
+  },
+  {
+   "fieldname": "academic_publication_author",
+   "fieldtype": "Table",
+   "label": "Academic Publication Author",
+   "options": "Academic Author",
+   "reqd": 1
+  },
+  {
+   "fieldname": "from_page",
+   "fieldtype": "Data",
+   "label": "From Page"
+  },
+  {
+   "fieldname": "to_page",
+   "fieldtype": "Data",
+   "label": "To Page"
+  },
+  {
+   "fetch_from": ".journal_name",
+   "fieldname": "page_numbers",
+   "fieldtype": "Data",
+   "label": "Page Numbers",
+   "read_only": 1
+  },
+  {
+   "fieldname": "publication_file",
+   "fieldtype": "Attach",
+   "label": "Publication File"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-04-24 19:30:31.419931",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Academic Publication",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

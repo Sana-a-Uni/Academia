@@ -79,7 +79,7 @@
    "fieldname": "academic_program",
    "fieldtype": "Link",
    "label": "Academic Program",
-   "options": "Academic Program"
+   "options": "Program Specification"
   },
   {
    "fieldname": "schedule_tab",
@@ -177,7 +177,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-02-02 01:28:06.079658",
+ "modified": "2024-04-23 20:27:56.374258",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lecture",

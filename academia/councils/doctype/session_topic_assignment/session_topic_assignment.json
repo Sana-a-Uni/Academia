@@ -8,54 +8,92 @@
  "field_order": [
   "topic_assignment",
   "title",
+  "column_break_gnxz",
   "description",
-  "section_break_kslv",
-  "decision",
-  "forward_assignment"
+  "section_break_xiu8",
+  "decision_type",
+  "column_break_rpgc",
+  "council_memo",
+  "create_memo",
+  "section_break_z2jo",
+  "decision"
  ],
  "fields": [
   {
    "fieldname": "topic_assignment",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_preview": 1,
    "label": "Topic Assignment",
    "options": "Topic Assignment",
    "reqd": 1
   },
   {
-   "fetch_from": "topic_assignment.title",
    "fieldname": "title",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
    "is_virtual": 1,
    "label": "Title"
   },
   {
-   "fetch_from": "topic_assignment.description",
    "fieldname": "description",
    "fieldtype": "Text Editor",
+   "in_preview": 1,
    "is_virtual": 1,
    "label": "Description "
   },
   {
-   "fieldname": "section_break_kslv",
+   "fieldname": "decision",
+   "fieldtype": "Text Editor",
+   "in_preview": 1,
+   "label": "Decision ",
+   "mandatory_depends_on": "decision_type"
+  },
+  {
+   "fieldname": "column_break_gnxz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "decision_type",
+   "fieldtype": "Select",
+   "in_preview": 1,
+   "label": "Decision Type",
+   "options": "\nPostponed\nResolved\nTransferred"
+  },
+  {
+   "depends_on": "decision_type",
+   "fieldname": "section_break_z2jo",
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "decision",
-   "fieldtype": "Text Editor",
-   "label": "Decision "
+   "fieldname": "column_break_rpgc",
+   "fieldtype": "Column Break"
   },
   {
-   "fieldname": "forward_assignment",
+   "depends_on": "eval:doc.decision_type == \"Transferred\" && doc.council_memo && doc.council_memo != \"\";",
+   "fieldname": "council_memo",
    "fieldtype": "Link",
-   "label": "Forward Assignment",
-   "options": "Topic Assignment"
+   "in_preview": 1,
+   "label": "Council Memo",
+   "options": "Council Memo",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.decision_type == \"Transferred\" && !doc.council_memo;",
+   "fieldname": "create_memo",
+   "fieldtype": "Button",
+   "label": "Create Memo"
+  },
+  {
+   "fieldname": "section_break_xiu8",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-01-25 08:09:20.835924",
+ "modified": "2024-05-19 01:12:04.245709",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Session Topic Assignment",

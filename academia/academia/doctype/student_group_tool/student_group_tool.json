@@ -1,0 +1,113 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-22 01:24:44.059633",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "based_on",
+  "program",
+  "capacity",
+  "column_break_gtdl",
+  "faculity",
+  "student_batch",
+  "tolerance",
+  "students_section",
+  "get_students",
+  "table_yldo",
+  "generate_groups"
+ ],
+ "fields": [
+  {
+   "fieldname": "based_on",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Based On",
+   "options": "\nBy Sex\nAll",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_gtdl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "student_batch",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Student Batch",
+   "options": "Student Batch",
+   "reqd": 1
+  },
+  {
+   "fieldname": "students_section",
+   "fieldtype": "Section Break",
+   "label": "Students"
+  },
+  {
+   "fieldname": "get_students",
+   "fieldtype": "Button",
+   "label": "Get Students "
+  },
+  {
+   "fieldname": "table_yldo",
+   "fieldtype": "Table",
+   "options": "Student Group Student"
+  },
+  {
+   "fieldname": "program",
+   "fieldtype": "Link",
+   "label": "Program",
+   "options": "Program Specification",
+   "reqd": 1
+  },
+  {
+   "fieldname": "capacity",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Capacity",
+   "reqd": 1
+  },
+  {
+   "fieldname": "faculity",
+   "fieldtype": "Link",
+   "label": "Faculity",
+   "options": "Faculty",
+   "reqd": 1
+  },
+  {
+   "fieldname": "tolerance",
+   "fieldtype": "Int",
+   "label": "Tolerance",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "generate_groups",
+   "fieldtype": "Button",
+   "label": "Generate groups"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-06-01 01:45:12.411693",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Student Group Tool",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

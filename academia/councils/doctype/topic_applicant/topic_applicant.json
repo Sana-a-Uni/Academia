@@ -1,39 +1,49 @@
 {
  "actions": [],
- "allow_rename": 1,
+ "autoname": "hash",
  "creation": "2024-01-11 07:04:44.730294",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "name1",
-  "user"
+  "applicant_type",
+  "applicant",
+  "applicant_name"
  ],
  "fields": [
   {
-   "allow_in_quick_entry": 1,
-   "fieldname": "name1",
-   "fieldtype": "Data",
+   "fieldname": "applicant_type",
+   "fieldtype": "Select",
    "in_list_view": 1,
-   "in_preview": 1,
-   "label": "Name"
+   "label": "Applicant Type",
+   "options": "\nStudent\nFaculty Member\nEmployee\nOther",
+   "reqd": 1
   },
   {
-   "allow_in_quick_entry": 1,
-   "fieldname": "user",
-   "fieldtype": "Link",
-   "label": "User",
-   "options": "User",
+   "fieldname": "applicant",
+   "fieldtype": "Dynamic Link",
+   "in_list_view": 1,
+   "label": "Applicant",
+   "options": "applicant_type",
    "reqd": 1
+  },
+  {
+   "fetch_from": ".",
+   "fieldname": "applicant_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "is_virtual": 1,
+   "label": "Applicant Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-01-25 08:11:08.043877",
+ "modified": "2024-05-23 07:22:37.101833",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic Applicant",
+ "naming_rule": "Random",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",

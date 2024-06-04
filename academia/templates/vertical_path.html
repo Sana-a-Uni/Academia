@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vertical Path Template</title>
+  <style>
+    .path {
+      width: 300px;
+      margin: 0 auto;
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .line {
+      position: absolute;
+      
+      left: 18px;
+      top: 0;
+      height: 100%;
+      width: 2px;
+      background-color: #ccc;
+      z-index: -1;
+    }
+
+    .step {
+      position: relative;
+      margin-bottom: 30px;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      background-color: #f2f2f2;
+      border-radius: 50%;
+      position: absolute;
+      left: -5px;
+      top: -5px;
+    }
+
+    .text {
+      margin-left: 20px;
+      font-size: 14px;
+    }
+
+    .line-between {
+      height: calc(100% - 20px); /* Adjusted height to fit between the dots */
+      margin-top: 20px; /* Adjusted margin to align with the dots */
+    }
+  </style>
+</head>
+<body>
+  <div class="path">
+    <div class="line-between">
+      <div class="line"></div>
+    </div>
+    {% for step in context %}
+      <div class="step">
+        <div class="dot"></div>
+        <div class="text">{{ step.redirected_to }}</div>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

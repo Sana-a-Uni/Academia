@@ -6,28 +6,45 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "employee",
   "member_name",
-  "user"
+  "column_break_gxsy",
+  "member_role"
  ],
  "fields": [
   {
    "fieldname": "member_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
+   "is_virtual": 1,
    "label": "Member Name"
   },
   {
-   "fieldname": "user",
+   "fieldname": "column_break_gxsy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Council Member",
+   "fieldname": "member_role",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Member Role",
+   "options": "\nCouncil Head\nCouncil Member\nCouncil Reporter",
+   "reqd": 1
+  },
+  {
+   "fieldname": "employee",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "User",
-   "options": "User",
+   "label": "Academic member",
+   "options": "Employee",
    "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-01-25 08:11:24.825303",
+ "modified": "2024-05-09 06:02:29.057638",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Council Member",

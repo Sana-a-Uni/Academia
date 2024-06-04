@@ -1,0 +1,180 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:TRA-{MM}-{YY}-{####}",
+ "creation": "2024-04-25 22:30:46.203673",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "additional_details_section",
+  "reference_number",
+  "title",
+  "description",
+  "column_break_ktxa",
+  "full_electronic",
+  "client",
+  "start_date",
+  "category",
+  "created_by",
+  "status",
+  "priority",
+  "attachments_section",
+  "attachments",
+  "actions_section",
+  "actions",
+  "section_break_pgsu",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "category",
+   "fieldtype": "Link",
+   "label": "Category",
+   "options": "Transaction Category"
+  },
+  {
+   "fieldname": "additional_details_section",
+   "fieldtype": "Section Break",
+   "label": "Document Details"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  },
+  {
+   "fieldname": "column_break_ktxa",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Datetime",
+   "label": "Start Date",
+   "read_only": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "reference_number",
+   "fieldtype": "Data",
+   "label": "Reference Number"
+  },
+  {
+   "fieldname": "client",
+   "fieldtype": "Link",
+   "label": "Applicant",
+   "options": "Contact"
+  },
+  {
+   "fieldname": "created_by",
+   "fieldtype": "Link",
+   "label": "Created By",
+   "options": "User",
+   "read_only": 1,
+   "set_only_once": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "attachments_section",
+   "fieldtype": "Section Break",
+   "label": "Attachments"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "attachments",
+   "fieldtype": "Table",
+   "options": "Transaction Attachments"
+  },
+  {
+   "default": "0",
+   "fieldname": "full_electronic",
+   "fieldtype": "Check",
+   "label": "Full Electronic"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Transaction",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Pending\nApproved\nRejected",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_pgsu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "label": "Priority",
+   "options": "\nLow\nMedium\nHigh\nUrgent"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "actions",
+   "fieldtype": "Table",
+   "options": "Transaction Action",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "actions_section",
+   "fieldtype": "Section Break",
+   "label": "Actions Summary",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-05-28 20:11:12.997702",
+ "modified_by": "Administrator",
+ "module": "Transaction Management",
+ "name": "Transaction",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [
+  {
+   "color": "Blue",
+   "title": "Pending"
+  },
+  {
+   "color": "Green",
+   "title": "Approved"
+  },
+  {
+   "color": "Red",
+   "title": "Rejected"
+  }
+ ]
+}

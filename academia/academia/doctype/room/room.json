@@ -8,7 +8,11 @@
  "field_order": [
   "room_name",
   "room_number",
-  "seating_capacity"
+  "seating_capacity",
+  "acceptable_increase",
+  "column_break_bbif",
+  "faculty",
+  "building"
  ],
  "fields": [
   {
@@ -28,11 +32,33 @@
    "fieldname": "seating_capacity",
    "fieldtype": "Data",
    "label": "Seating Capacity"
+  },
+  {
+   "description": "Acceptable number of seats addition to the class capacity ",
+   "fieldname": "acceptable_increase",
+   "fieldtype": "Data",
+   "label": "Acceptable increase"
+  },
+  {
+   "fieldname": "column_break_bbif",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "building",
+   "fieldtype": "Link",
+   "label": "Building",
+   "options": "Building"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-01-29 04:56:33.272336",
+ "modified": "2024-04-25 18:04:22.861898",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Room",

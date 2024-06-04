@@ -1,0 +1,83 @@
+{
+ "actions": [],
+ "autoname": "field:title",
+ "creation": "2024-04-23 01:19:06.105080",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "published_in",
+  "date_of_publish",
+  "column_break_rpol",
+  "article_link",
+  "article_authors_section",
+  "scientific_article_author"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "published_in",
+   "fieldtype": "Link",
+   "label": "Published in ",
+   "options": "Journal"
+  },
+  {
+   "fieldname": "date_of_publish",
+   "fieldtype": "Date",
+   "label": "Date of Publish"
+  },
+  {
+   "fieldname": "article_authors_section",
+   "fieldtype": "Section Break",
+   "label": "Article Authors"
+  },
+  {
+   "fieldname": "scientific_article_author",
+   "fieldtype": "Table",
+   "label": "Scientific Article Author",
+   "options": "Academic Author",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_rpol",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "article_link",
+   "fieldtype": "Data",
+   "label": "Article Link"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-04-27 00:28:10.986219",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Scientific Article",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
