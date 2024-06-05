@@ -39,8 +39,8 @@ frappe.ui.form.on("Topic Assignment", {
 		if (frm.doc.is_group) {
 			// frm.events.clear_topic(frm); // clear topic field which will also clear the main and sub category fields if user enable is_group checkbox
 		} else {
-			frm.set_value("main_category", ""); //clear catetories if user disable is_group checkbox
-			frm.set_value("sub_category", "");
+			// frm.set_value("main_category", ""); //clear catetories if user disable is_group checkbox
+			// frm.set_value("sub_category", "");
 		}
 	},
 
@@ -69,16 +69,16 @@ frappe.ui.form.on("Topic Assignment", {
 		// frm.events.clear_topic(frm);
 	},
 
-	main_category(frm) {
-		// Update the options for the sub-category field based on the selected main category
-		frm.set_query("sub_category", function () {
-			return {
-				filters: {
-					main_category: frm.doc.main_category,
-				},
-			};
-		});
-	},
+	// main_category(frm) {
+	// 	// Update the options for the sub-category field based on the selected main category
+	// 	frm.set_query("sub_category", function () {
+	// 		return {
+	// 			filters: {
+	// 				main_category: frm.doc.main_category,
+	// 			},
+	// 		};
+	// 	});
+	// },
 
 	// get_data_from_topic: function (frm) {
 	// 	if (frm.doc.topic) {
@@ -106,8 +106,7 @@ frappe.ui.form.on("Topic Assignment", {
 			target: frm,
 			setters: {
 				title: null,
-				main_category: null,
-				sub_category: null,
+				category: null,
 				assignment_date: null,
 			},
 			add_filters_group: 1,

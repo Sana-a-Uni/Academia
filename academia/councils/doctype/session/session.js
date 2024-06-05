@@ -126,8 +126,7 @@ frappe.ui.form.on("Session", {
 			target: frm,
 			setters: {
 				title: null,
-				main_category: null,
-				sub_category: null,
+				category: null,
 			},
 			// add_filters_group: 1,
 			get_query() {

@@ -21,23 +21,23 @@ class TopicAssignment(Document):
 		amended_from: DF.Link | None
 		assignment_date: DF.Date
 		attachments: DF.Table[TopicAttachment]
+		category: DF.Link
 		council: DF.Link
 		decision: DF.TextEditor | None
 		decision_type: DF.Literal["", "Postponed", "Resolved", "Transferred"]
 		description: DF.TextEditor
 		is_group: DF.Check
-		main_category: DF.Link | None
 		parent_assignment: DF.Link | None
 		status: DF.Literal["Accepted", "Pending Review", "Pending Acceptance", "Rejected"]
-		sub_category: DF.Link | None
 		title: DF.Data
+
 	# end: auto-generated types
 	def validate(self):
 		if not self.get("__islocal") and self.is_group:
 			self.validate_grouped_assignments()
 		self.validate_parent_assignment()
-		self.ckeck_main_and_sub_categories()
-		self.validate_main_sub_category_relationship()
+		# self.ckeck_main_and_sub_categories()
+		# self.validate_main_sub_category_relationship()
 
 	def autoname(self):
 		if not self.is_group:
@@ -51,19 +51,19 @@ class TopicAssignment(Document):
 		if self.is_group:
 			self.submit_grouped_assignments()
 
-	def validate_main_sub_category_relationship(self):
-		"""
-		Validate the relationship between main category and sub-category, and check that the selected sub category is one of the  selected main category's sub categories
-		"""
-		if self.main_category and self.sub_category:
-			main_category_of_selected_sub = frappe.get_value(
-				"Topic Sub Category", self.sub_category, "main_category"
-			)
-			# Check if the main category of the sub-category does not  match the selected main category
-			if main_category_of_selected_sub != self.main_category:
-				frappe.throw(
-					_("{0} is not sub category of {1}").format(self.sub_category, self.main_category)
-				)
+	# def validate_main_sub_category_relationship(self):
+	# 	"""
+	# 	Validate the relationship between main category and sub-category, and check that the selected sub category is one of the  selected main category's sub categories
+	# 	"""
+	# 	if self.main_category and self.sub_category:
+	# 		main_category_of_selected_sub = frappe.get_value(
+	# 			"Topic Sub Category", self.sub_category, "main_category"
+	# 		)
+	# 		# Check if the main category of the sub-category does not  match the selected main category
+	# 		if main_category_of_selected_sub != self.main_category:
+	# 			frappe.throw(
+	# 				_("{0} is not sub category of {1}").format(self.sub_category, self.main_category)
+	# 			)
 
 	def submit_grouped_assignments(self):
 		if self.decision_type in ["Resolved", "Transferred"]:
@@ -107,15 +107,15 @@ class TopicAssignment(Document):
 			else:
 				frappe.throw(_("The chosen parent assignment is not a group assignment."))
 
-	def ckeck_main_and_sub_categories(self):
-		"""
-		Validates that both main_category and sub_category fields are set.
-		Throws an error if any of these fields are missing.
-		"""
-		if not self.main_category:
-			frappe.throw(_("Main category must be set."))
-		elif not self.sub_category:
-			frappe.throw(_("Sub category must be set."))
+	# def ckeck_main_and_sub_categories(self):
+	# 	"""
+	# 	Validates that both main_category and sub_category fields are set.
+	# 	Throws an error if any of these fields are missing.
+	# 	"""
+	# 	if not self.main_category:
+	# 		frappe.throw(_("Main category must be set."))
+	# 	elif not self.sub_category:
+	# 		frappe.throw(_("Sub category must be set."))
 
 	def validate_grouped_assignments(self):
 		"""
@@ -175,17 +175,17 @@ def get_grouped_assignments(parent_name):
 
 @frappe.whitelist()
 def add_assignments_to_group(parent_name, assignments):
-    try:
-        assignments_list = json.loads(assignments)  # Parse the JSON string into a list
-        for assignment_name in assignments_list:
-            assignment = frappe.get_doc("Topic Assignment", assignment_name)
-            assignment.parent_assignment = parent_name
-            assignment.save()
+	try:
+		assignments_list = json.loads(assignments)  # Parse the JSON string into a list
+		for assignment_name in assignments_list:
+			assignment = frappe.get_doc("Topic Assignment", assignment_name)
+			assignment.parent_assignment = parent_name
+			assignment.save()
 
-        return "ok"
-    except Exception as e:
-        frappe.log_error(frappe.get_traceback(), "Error adding assignments")
-        return str(e)
+		return "ok"
+	except Exception as e:
+		frappe.log_error(frappe.get_traceback(), "Error adding assignments")
+		return str(e)
 
 
 @frappe.whitelist()
