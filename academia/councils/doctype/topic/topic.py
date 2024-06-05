@@ -8,7 +8,7 @@ from frappe import _
 from frappe.model.document import Document
 
 
-class TopicAssignment(Document):
+class Topic(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 

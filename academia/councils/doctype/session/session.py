@@ -93,7 +93,7 @@ class Session(Document):
 		Returns:
 		        Document: The newly created Topic Assignment document.
 		"""
-		doc_assignment = frappe.new_doc("Topic Assignment")
+		doc_assignment = frappe.new_doc("Topic")
 		doc_assignment.title = session_assignment.title
 		doc_assignment.description = session_assignment.description
 		doc_assignment.assignment_date = (nowdate(),)
@@ -117,7 +117,7 @@ class Session(Document):
 		# Process each session assignment
 		for session_assignment in session_assignments:
 			# Retrieve details of the corresponding Topic Assignment
-			session_assignment_doc = frappe.get_doc("Topic Assignment", session_assignment.topic_assignment)
+			session_assignment_doc = frappe.get_doc("Topic", session_assignment.topic_assignment)
 
 			# If the decision type is "Postponed":
 			if session_assignment.decision_type == "Postponed":
@@ -160,7 +160,7 @@ class Session(Document):
 
 	def validate_assignments(self):
 		for row in self.assignments:
-			assignment = frappe.get_value("Topic Assignment", row.topic_assignment, ["*"], as_dict=1)
+			assignment = frappe.get_value("Topic", row.topic_assignment, ["*"], as_dict=1)
 			if not (
 				assignment.docstatus == 0
 				and assignment.council == self.council

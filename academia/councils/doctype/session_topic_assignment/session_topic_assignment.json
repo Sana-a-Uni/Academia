@@ -22,7 +22,7 @@
    "in_list_view": 1,
    "in_preview": 1,
    "label": "Topic Assignment",
-   "options": "Topic Assignment",
+   "options": "Topic",
    "reqd": 1
   },
   {
@@ -71,7 +71,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-06-05 05:52:40.990957",
+ "modified": "2024-06-06 01:38:39.807288",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Session Topic Assignment",

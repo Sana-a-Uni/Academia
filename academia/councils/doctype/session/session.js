@@ -122,7 +122,7 @@ frappe.ui.form.on("Session", {
 	},
 	get_assignments(frm) {
 		new frappe.ui.form.MultiSelectDialog({
-			doctype: "Topic Assignment",
+			doctype: "Topic",
 			target: frm,
 			setters: {
 				title: null,
@@ -147,7 +147,7 @@ frappe.ui.form.on("Session", {
 				assignments.forEach((assignment) => {
 					console.log(assignment);
 					frappe.db.get_value(
-						"Topic Assignment",
+						"Topic",
 						assignment,
 						["name", "title", "description"],
 						(assignment_doc) => {
@@ -176,7 +176,7 @@ frappe.ui.form.on("Session Topic Assignment", {
 			// Call the check_assignment_duplicate function to check for duplicate assignments
 			check_assignment_duplicate(frm, row);
 			frappe.db.get_value(
-				"Topic Assignment",
+				"Topic",
 				row.topic_assignment,
 				["title", "description"],
 				(assignment) => {
@@ -274,7 +274,7 @@ check_assignment_duplicate = function (frm, row) {
 };
 validate_assignment = function (frm, row) {
 	if (row.topic_assignment)
-		frappe.db.get_value("Topic Assignment", row.topic_assignment, ["*"], (assignment) => {
+		frappe.db.get_value("Topic", row.topic_assignment, ["*"], (assignment) => {
 			if (
 				!(
 					assignment.docstatus == 0 &&

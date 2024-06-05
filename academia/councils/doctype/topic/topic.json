@@ -191,7 +191,7 @@
  "modified": "2024-06-05 06:26:27.209712",
  "modified_by": "Administrator",
  "module": "Councils",
- "name": "Topic Assignment",
+ "name": "Topic",
  "naming_rule": "By script",
  "owner": "Administrator",
  "permissions": [

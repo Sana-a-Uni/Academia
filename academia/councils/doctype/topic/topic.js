@@ -1,7 +1,7 @@
 // Copyright (c) 2024, SanU and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on("Topic Assignment", {
+frappe.ui.form.on("Topic", {
 	setup: function (frm) {
 		$(`<style>
       .btn[data-fieldname="get_data_from_topic"] {
@@ -102,7 +102,7 @@ frappe.ui.form.on("Topic Assignment", {
 
 	get_assignments_to_group: function (frm) {
 		new frappe.ui.form.MultiSelectDialog({
-			doctype: "Topic Assignment",
+			doctype: "Topic",
 			target: frm,
 			setters: {
 				title: null,
