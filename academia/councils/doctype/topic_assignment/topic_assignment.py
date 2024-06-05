@@ -15,8 +15,8 @@ class TopicAssignment(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from frappe.types import DF
 		from academia.councils.doctype.topic_attachment.topic_attachment import TopicAttachment
+		from frappe.types import DF
 
 		amended_from: DF.Link | None
 		assignment_date: DF.Date
@@ -25,14 +25,13 @@ class TopicAssignment(Document):
 		decision: DF.TextEditor | None
 		decision_type: DF.Literal["", "Postponed", "Resolved", "Transferred"]
 		description: DF.TextEditor
+		initiating_council_memo: DF.Link | None
 		is_group: DF.Check
 		main_category: DF.Link | None
 		parent_assignment: DF.Link | None
 		status: DF.Literal["Accepted", "Pending Review", "Pending Acceptance", "Rejected"]
 		sub_category: DF.Link | None
 		title: DF.Data
-		topic: DF.Link | None
-
 	# end: auto-generated types
 	def validate(self):
 		if not self.get("__islocal") and self.is_group:
