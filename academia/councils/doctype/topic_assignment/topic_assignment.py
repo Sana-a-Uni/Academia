@@ -25,7 +25,6 @@ class TopicAssignment(Document):
 		decision: DF.TextEditor | None
 		decision_type: DF.Literal["", "Postponed", "Resolved", "Transferred"]
 		description: DF.TextEditor
-		initiating_council_memo: DF.Link | None
 		is_group: DF.Check
 		main_category: DF.Link | None
 		parent_assignment: DF.Link | None

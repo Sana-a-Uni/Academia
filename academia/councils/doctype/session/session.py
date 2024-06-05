@@ -125,7 +125,7 @@ class Session(Document):
 				if session_assignment_doc:
 					doc_assignment = self.create_postponed_assignment(session_assignment)
 
-			self.process_council_memo(session_assignment)
+			# self.process_council_memo(session_assignment)
 
 			# Update the Topic Assignment with the decision details
 			session_assignment_doc.decision = session_assignment.decision
@@ -133,19 +133,19 @@ class Session(Document):
 			session_assignment_doc.save()
 			session_assignment_doc.submit()
 
-	def process_council_memo(self, session_assignment):
-		if session_assignment.council_memo:
-			if session_assignment.decision_type == "Transferred":
-				doc = frappe.get_doc("Council Memo", session_assignment.council_memo)
-				# Updating the Status and Getting Sent Date
-				doc.status = "Verified"
-				doc.sent_date = getdate()
-				doc.save()
-				# ----------------------------------------
-				doc.submit()
-			else:
-				frappe.db.set_value("Session Topic Assignment", session_assignment.name, "council_memo", "")
-				frappe.db.delete("Council Memo", {"name": session_assignment.council_memo})
+	# def process_council_memo(self, session_assignment):
+	# 	if session_assignment.council_memo:
+	# 		if session_assignment.decision_type == "Transferred":
+	# 			doc = frappe.get_doc("Council Memo", session_assignment.council_memo)
+	# 			# Updating the Status and Getting Sent Date
+	# 			doc.status = "Verified"
+	# 			doc.sent_date = getdate()
+	# 			doc.save()
+	# 			# ----------------------------------------
+	# 			doc.submit()
+	# 		else:
+	# 			frappe.db.set_value("Session Topic Assignment", session_assignment.name, "council_memo", "")
+	# 			frappe.db.delete("Council Memo", {"name": session_assignment.council_memo})
 
 	def validate_time(self):
 		if self.begin_time and self.end_time:

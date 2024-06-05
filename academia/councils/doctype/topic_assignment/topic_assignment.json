@@ -27,9 +27,7 @@
     "tab_4_tab",
     "parent_assignment",
     "get_assignments_to_group",
-    "grouped_assignments",
-    "section_break_bbji",
-    "initiating_council_memo"
+    "grouped_assignments"
   ],
   "fields": [
     {
@@ -190,19 +188,6 @@
       "label": "Grouping"
     },
     {
-      "fieldname": "section_break_bbji",
-      "fieldtype": "Section Break"
-    },
-    {
-      "fieldname": "initiating_council_memo",
-      "fieldtype": "Link",
-      "label": "Initiating Council Memo",
-      "options": "Council Memo",
-      "read_only": 1,
-      "set_only_once": 1,
-      "unique": 1
-    },
-    {
       "fieldname": "get_data_from_transaction",
       "fieldtype": "Button",
       "is_virtual": 1,
@@ -212,19 +197,8 @@
     }
   ],
   "is_submittable": 1,
-  "links": [
-    {
-      "group": "Memo Resulting from This Assignment",
-      "link_doctype": "Council Memo",
-      "link_fieldname": "originating_assignment"
-    },
-    {
-      "group": "Memo Initiating This Assignment",
-      "link_doctype": "Council Memo",
-      "link_fieldname": "resultant_assignment"
-    }
-  ],
-  "modified": "2024-06-05 05:16:17.693875",
+  "links": [],
+  "modified": "2024-06-05 06:02:08.254173",
   "modified_by": "Administrator",
   "module": "Councils",
   "name": "Topic Assignment",
