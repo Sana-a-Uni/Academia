@@ -1,7 +1,7 @@
 // // Copyright (c) 2024, SanU and contributors
 // // For license information, please see license.txt
 
-frappe.ui.form.on("Topic", {
+frappe.ui.form.on("trashTopic", {
 	refresh(frm) {
 		// Add a custom button to assign the topic to a council
 		if (
@@ -10,7 +10,7 @@ frappe.ui.form.on("Topic", {
 			frm.doc.docstatus === 1
 		) {
 			frm.add_custom_button(__("Assign to Council"), function () {
-				frappe.new_doc("Topic Assignment", {
+				frappe.new_doc("trashTopic Assignment", {
 					topic: frm.doc.name,
 					title: frm.doc.title,
 					descripition: frm.doc.descripition,
@@ -44,7 +44,7 @@ frappe.ui.form.on("Topic", {
 	},
 });
 
-frappe.ui.form.on("Topic Applicant", {
+frappe.ui.form.on("trashTopic Applicant", {
 	applicant: function (frm, cdt, cdn) {
 		// Retrieve and update form with the applicant name
 		let topic_applicant = frappe.get_doc(cdt, cdn);

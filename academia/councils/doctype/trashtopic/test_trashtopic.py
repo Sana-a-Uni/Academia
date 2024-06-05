@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestTopic(FrappeTestCase):
+class TesttrashTopic(FrappeTestCase):
 	pass

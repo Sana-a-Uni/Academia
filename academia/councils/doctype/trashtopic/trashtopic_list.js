@@ -1,4 +1,4 @@
-frappe.listview_settings["Topic"] = {
+frappe.listview_settings["trashTopic"] = {
   has_indicator_for_draft: 1,
   get_indicator: function (doc) {
     const status_colors = {

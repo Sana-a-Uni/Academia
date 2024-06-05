@@ -8,17 +8,16 @@ from frappe import _
 from frappe.model.document import Document
 
 
-class Topic(Document):
+class trashTopic(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from frappe.types import DF
-
 		from academia.councils.doctype.topic_applicant.topic_applicant import TopicApplicant
 		from academia.councils.doctype.topic_attachment.topic_attachment import TopicAttachment
+		from frappe.types import DF
 
 		amended_from: DF.Link | None
 		applicants: DF.Table[TopicApplicant]
@@ -32,13 +31,12 @@ class Topic(Document):
 		topic_main_category: DF.Link
 		topic_sub_category: DF.Link
 		transaction: DF.Link | None
-
 	# end: auto-generated types
 	def onload(self):
-		if self.has_topic_assignment():
-			self.set_onload("has_topic_assignment", True)
+		if self.has_trashtopic_assignment():
+			self.set_onload("has_trashtopic_assignment", True)
 		else:
-			self.set_onload("has_topic_assignment", False)
+			self.set_onload("has_trashtopic_assignment", False)
 
 	def validate(self):
 		self.validate_main_sub_category_relationship()
@@ -48,15 +46,15 @@ class Topic(Document):
 		"""
 		Validate the relationship between main category and sub-category, and check that the selected sub category is one of the  selected main category's sub categories
 		"""
-		if self.topic_main_category and self.topic_sub_category:
+		if self.trashtopic_main_category and self.trashtopic_sub_category:
 			main_category_of_selected_sub = frappe.get_value(
-				"Topic Sub Category", self.topic_sub_category, "main_category"
+				"trashTopic Sub Category", self.trashtopic_sub_category, "main_category"
 			)
 			# Check if the main category of the sub-category does not  match the selected main category
-			if main_category_of_selected_sub != self.topic_main_category:
+			if main_category_of_selected_sub != self.trashtopic_main_category:
 				frappe.throw(
 					_("{0} is not sub category of {1}").format(
-						self.topic_sub_category, self.topic_main_category
+						self.trashtopic_sub_category, self.trashtopic_main_category
 					)
 				)
 
@@ -76,28 +74,28 @@ class Topic(Document):
 				)
 			seen_applicants.add(applicant_id)
 
-	def has_topic_assignment(self):
+	def has_trashtopic_assignment(self):
 		"""
-		Check if the topic has been assigned to a council
+		Check if the trashtopic has been assigned to a council
 		"""
-		assignments = frappe.get_all("Topic Assignment", filters={"topic": self.name}, fields=["name"])
+		assignments = frappe.get_all("trashTopic Assignment", filters={"trashtopic": self.name}, fields=["name"])
 		if assignments:
 			return True
 
 
 @frappe.whitelist()
-def get_all_related_assignments(topic_name):
+def get_all_related_assignments(trashtopic_name):
 	"""
-	Fetches all related topic assignments for a given topic. It starts with
-	assignments related to the given topic and then follows tracking the chain of
-	related topic assignments by parent assignments and council memos until the chain ends or a
+	Fetches all related trashtopic assignments for a given trashtopic. It starts with
+	assignments related to the given trashtopic and then follows tracking the chain of
+	related trashtopic assignments by parent assignments and council memos until the chain ends or a
 	resolved decision type is encountered.
 
 	Args:
-	topic_name (str): The name of the topic for which related assignments are to be fetched.
+	trashtopic_name (str): The name of the trashtopic for which related assignments are to be fetched.
 
 	Returns:
-	list: A list of dictionaries, where each dictionary represents a topic assignment.
+	list: A list of dictionaries, where each dictionary represents a trashtopic assignment.
 	"""
 
 	# Define the fields to be retrieved for each assignment
@@ -112,9 +110,9 @@ def get_all_related_assignments(topic_name):
 		"is_group",
 	]
 
-	# Get all assignments related to the given topic, ordered by assignment date
+	# Get all assignments related to the given trashtopic, ordered by assignment date
 	assignments = frappe.db.get_all(
-		"Topic Assignment", filters={"topic": topic_name}, fields=fields_names, order_by="assignment_date"
+		"trashTopic Assignment", filters={"trashtopic": trashtopic_name}, fields=fields_names, order_by="assignment_date"
 	)
 
 	if assignments:
@@ -126,7 +124,7 @@ def get_all_related_assignments(topic_name):
 			if assignment["parent_assignment"]:
 				# Fetch parent assignment details
 				parent_assignment = frappe.db.get_value(
-					"Topic Assignment", assignment["parent_assignment"], fields_names, as_dict=1
+					"trashTopic Assignment", assignment["parent_assignment"], fields_names, as_dict=1
 				)
 
 				if parent_assignment:
@@ -148,7 +146,7 @@ def get_all_related_assignments(topic_name):
 			if memo:
 				# Fetch the assignment initiated by the council memo
 				related_assignment = frappe.db.get_value(
-					"Topic Assignment",
+					"trashTopic Assignment",
 					{"initiating_council_memo": memo["name"]},
 					fields_names,
 					as_dict=1,

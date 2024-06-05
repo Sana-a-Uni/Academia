@@ -75,14 +75,14 @@
    "fieldname": "related_to",
    "fieldtype": "Link",
    "label": "Related To",
-   "options": "Topic"
+   "options": "trashTopic"
   },
   {
    "fieldname": "amended_from",
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Topic",
+   "options": "trashTopic",
    "print_hide": 1,
    "read_only": 1
   },
@@ -197,10 +197,10 @@
    "link_fieldname": "topic"
   }
  ],
- "modified": "2024-05-30 05:58:52.355386",
+ "modified": "2024-06-05 06:58:02.118560",
  "modified_by": "Administrator",
  "module": "Councils",
- "name": "Topic",
+ "name": "trashTopic",
  "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
