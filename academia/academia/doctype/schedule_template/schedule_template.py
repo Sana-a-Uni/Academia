@@ -1,11 +1,11 @@
-# Copyright (c) 2023, SanU and contributors
+# Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
 # import frappe
 from frappe.model.document import Document
 
 
-class Facility(Document):
+class ScheduleTemplate(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -14,6 +14,8 @@ class Facility(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		title: DF.TextEditor | None
+		academic_term: DF.Link
+		academic_year: DF.Link
+		faculty: DF.Link
 	# end: auto-generated types
 	pass

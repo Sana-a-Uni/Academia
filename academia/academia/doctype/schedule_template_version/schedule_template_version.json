@@ -1,0 +1,107 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "prompt",
+ "creation": "2024-06-06 02:11:48.258383",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "is_active",
+  "section_break_fqab",
+  "schedule_template",
+  "faculty",
+  "column_break_jwsc",
+  "academic_year",
+  "academic_term",
+  "apply_details_section",
+  "start_date",
+  "column_break_ucvx",
+  "end_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "schedule_template",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Schedule Template",
+   "options": "Schedule Template",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_jwsc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "schedule_template.academic_year",
+   "fieldname": "academic_year",
+   "fieldtype": "Read Only",
+   "label": "Academic Year"
+  },
+  {
+   "fetch_from": "schedule_template.faculty",
+   "fieldname": "faculty",
+   "fieldtype": "Read Only",
+   "label": "Faculty"
+  },
+  {
+   "fetch_from": "schedule_template.academic_term",
+   "fieldname": "academic_term",
+   "fieldtype": "Read Only",
+   "label": "Academic Term"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_active",
+   "fieldtype": "Check",
+   "label": "Is Active"
+  },
+  {
+   "fieldname": "section_break_fqab",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "apply_details_section",
+   "fieldtype": "Section Break",
+   "label": "Apply Details"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "column_break_ucvx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-06-06 02:18:51.901480",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Schedule Template Version",
+ "naming_rule": "Set by user",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

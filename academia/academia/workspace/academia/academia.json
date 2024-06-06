@@ -303,16 +303,14 @@
    "type": "Link"
   },
   {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Faculty Staff",
-   "link_count": 5,
-   "label": "Course Specification",
-   "link_count": 0,
-   "link_to": "Course Specification",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
+    "hidden": 0,
+    "is_query_report": 0,
+    "label": "Faculty Staff",
+    "link_count": 5,
+    "link_to": "Faculty Staff",
+    "link_type": "DocType",
+    "onboard": 0,
+    "type": "Link"
   },
   {
    "hidden": 0,
@@ -355,15 +353,14 @@
    "type": "Link"
   },
   {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Academic Rank",
-   "label": "Course Specification",
-   "link_count": 0,
-   "link_to": "Course Specification",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
+    "hidden": 0,
+    "is_query_report": 0,
+    "label": "Academic Rank",
+    "link_count": 0,
+    "link_to": "Academic Rank",
+    "link_type": "DocType",
+    "onboard": 0,
+    "type": "Link"
   },
   {
    "hidden": 0,
