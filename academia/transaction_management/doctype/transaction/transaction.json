@@ -33,7 +33,6 @@
   "actions",
   "recipients_tab",
   "recipient_settings_section",
-  "recipient_designation",
   "get_recipients",
   "include_other_companies",
   "recipients"
@@ -68,7 +67,8 @@
    "fieldtype": "Data",
    "is_virtual": 1,
    "label": "Start Date",
-   "options": "frappe.utils.format_datetime(doc.creation, format_string='dd MMM yyyy, HH:mm:ss')"
+   "options": "frappe.utils.format_datetime(doc.creation, format_string='dd MMM yyyy, HH:mm:ss')",
+   "read_only": 1
   },
   {
    "fieldname": "reference_number",
@@ -80,7 +80,8 @@
    "fieldtype": "Data",
    "is_virtual": 1,
    "label": "Created By",
-   "options": "doc.owner"
+   "options": "doc.owner",
+   "read_only": 1
   },
   {
    "allow_on_submit": 1,
@@ -177,13 +178,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "recipient_designation",
-   "fieldtype": "Link",
-   "ignore_user_permissions": 1,
-   "label": "Recipient Designation",
-   "options": "Designation"
-  },
-  {
    "fieldname": "recipient_settings_section",
    "fieldtype": "Section Break",
    "label": "Recipient Settings"
@@ -228,7 +222,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-07 18:18:37.962948",
+ "modified": "2024-06-07 21:33:58.377188",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

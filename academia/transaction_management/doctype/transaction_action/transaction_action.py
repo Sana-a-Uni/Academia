@@ -42,7 +42,7 @@ def get_transaction_actions(transaction_name):
     Returns:
         List[dict]: List of dictionaries representing the Transaction Action documents.
     """
-    transaction_actions = frappe.db.get_all(
+    transaction_actions = frappe.get_all(
         "Transaction Action",
         filters={
             "transaction": transaction_name

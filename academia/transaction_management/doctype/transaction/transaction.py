@@ -28,7 +28,6 @@ class Transaction(Document):
         include_other_companies: DF.Check
         main_external_entity: DF.Link | None
         priority: DF.Literal["", "Low", "Medium", "High", "Urgent"]
-        recipient_designation: DF.Link | None
         recipients: DF.Table[TransactionRecipients]
         reference_number: DF.Data | None
         start_date: DF.Data | None
@@ -38,11 +37,6 @@ class Transaction(Document):
         title: DF.Data | None
         transaction_scope: DF.Literal["In Company", "Among Companies", "With External Entity"]
     # end: auto-generated types
-    # begin: auto-generated types
-    # This code is auto-generated. Do not modify anything in this block.
-
-
-   
     def on_submit(self):
 
         # make a read permission for applicants
@@ -52,8 +46,12 @@ class Transaction(Document):
                 appicant_user_id = applicant.email
             else:
                 appicant_user_id = applicant.user_id
-
             create_share(self.name, appicant_user_id, 1)
+        
+        # make a read, write, share permissions for reciepents
+        for row in self.recipients:
+            user = frappe.get_doc("User", row.recipient_email)
+            create_share(self.name, user.email, 1, 1, 1)
             
 
 
@@ -160,6 +158,7 @@ def create_new_transaction_action(user_id, transaction_name, type, details,):
         if type == "Approved" or type == "Rejected":
             new_doc.submit()
         new_doc.save()
-        frappe.msgprint(f" {type}. ")
+        
+        return "Action Success"
     else:
-        frappe.msgprint("No employee found for the given user ID.")
+        return "No employee found for the given user ID."
