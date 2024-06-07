@@ -20,6 +20,7 @@ class TransactionRecipients(Document):
 		recipient_company: DF.Link | None
 		recipient_department: DF.Link | None
 		recipient_designation: DF.Link | None
+		recipient_email: DF.Link | None
 		recipient_name: DF.Data | None
 	# end: auto-generated types
 	pass

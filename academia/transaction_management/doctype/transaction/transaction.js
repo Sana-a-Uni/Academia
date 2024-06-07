@@ -5,38 +5,38 @@ frappe.ui.form.on('Transaction', {
 
     refresh: function(frm) {
 
-        frappe.call({
-            method: 'frappe.client.get_list',
-            args: {
-                doctype: 'Employee',
-                filters: {
-                    designation: frm.doc.recipient_designation,
-                    company: frm.doc.company,
-                },
-                fields: ['user_id']
-            },
-            callback: function(response) {
+        // frappe.call({
+        //     method: 'frappe.client.get_list',
+        //     args: {
+        //         doctype: 'Employee',
+        //         filters: {
+        //             designation: frm.doc.recipient_designation,
+        //             company: frm.doc.company,
+        //         },
+        //         fields: ['user_id']
+        //     },
+        //     callback: function(response) {
                 
-                recipients = response.message
-                console.log(recipients.length)
+        //         recipients = response.message
+        //         console.log(recipients.length)
 
-                recipients.forEach(function(recipient) {
-                    console.log(recipient)
-                    // Create a new row in the multiselect table field
-                    // var row = frm.add_child('recipient_multi_select_table');
-                    // row.recipient = recipient.user_id;
-                });
-                // Refresh the table to display the new rows
-                // frm.refresh_field('recipient_multi_select_table');
+        //         recipients.forEach(function(recipient) {
+        //             console.log(recipient)
+        //             // Create a new row in the multiselect table field
+        //             // var row = frm.add_child('recipient_multi_select_table');
+        //             // row.recipient = recipient.user_id;
+        //         });
+        //         // Refresh the table to display the new rows
+        //         // frm.refresh_field('recipient_multi_select_table');
 
-            }
-        });
+        //     }
+        // });
         
         if(frm.doc.docstatus === 1)       
         {
-            // unhide the actions table after submit
-            frm.set_df_property("related_to_table","hidden",0);
-            frm.refresh_fields();  
+            // // unhide the actions table after submit
+            // frm.set_df_property("related_to_table","hidden",0);
+            // frm.refresh_fields();  
 
             if(!frm.doc.__islocal )
             {
@@ -46,27 +46,27 @@ frappe.ui.form.on('Transaction', {
                         transaction_name: frm.doc.name
                     },
                     callback: function(r) {
-                        if(!r.exc) {
-                            var last_action = r.message[0];
-
-                            console.log("Actions:", r.message);
-                            console.log("Last Action:", last_action);
+                        if(r.message[0]) {
                             
+                            var last_action = r.message[0];
+                            
+                            console.log(last_action);
+                            // show actions if the user is the last redirected
                             if(last_action && last_action.type === "Redirected" && last_action.redirected_to === frappe.session.user) {
                                 add_approve_action(frm);
                                 add_redirect_action(frm);
                                 add_reject_action(frm);
                                 add_council_action(frm);
-                            }
-
-                            if(frm.doc.recipient_multi_select_table.some(row => row.recipient === frappe.session.user))
-                            {   
-                                add_approve_action(frm);
-                                add_redirect_action(frm);
-                                add_reject_action(frm);
-                                add_council_action(frm);
-                            }   
+                            }  
                         }
+                        // show actions if the user is one of the recipients
+                        else if(frm.doc.recipients.some(row => row.recipient_email === frappe.session.user))
+                        {   
+                            add_approve_action(frm);
+                            add_redirect_action(frm);
+                            add_reject_action(frm);
+                            add_council_action(frm);
+                        } 
                     }
                 });  
             }
@@ -111,18 +111,6 @@ frappe.ui.form.on('Transaction', {
 
     },
 
-   
-       
-
-
-       
-      
-
-    
-
-
-    
-
     // Advance Get members Dialog
     get_recipients: function (frm) {
         
@@ -152,7 +140,7 @@ frappe.ui.form.on('Transaction', {
         args: {
           doctype: "Employee",
           filters: { name: ["in", selections] },
-          fields: ["name","employee", "designation", "department", "company"]
+          fields: ["name","employee", "designation", "department", "company", "user_id"]
         },
         callback: (response) => {
           var selectedEmployees = response.message;
@@ -169,6 +157,7 @@ frappe.ui.form.on('Transaction', {
                 recipient_company:employee.company,
                 recipient_department:employee.department,
                 recipient_designation:employee.designation,
+                recipient_email:employee.user_id,
                 // member_name: employee.employee_name,
                 // member_role: "Council Member"
               })
@@ -179,44 +168,10 @@ frappe.ui.form.on('Transaction', {
           frm.refresh_field("recipients");
         }
       });
-        
-        
       }
     });
 
   },
-
-    recipient_designation: function (frm) {
-        // Clear the values of the multiselect table field
-        frm.set_value('recipient_multi_select_table', []);
-
-        
-        // Make AJAX request to fetch employee users with matching designation
-        frappe.call({
-            method: 'frappe.client.get_list',
-            args: {
-                doctype: 'Employee',
-                filters: {
-                    designation: frm.doc.recipient_designation,
-                    company: frm.doc.company,
-                },
-                fields: ['user_id']
-            },
-            callback: function(response) {
-                recipients = response.message
-
-                recipients.forEach(function(recipient) {
-                    // Create a new row in the multiselect table field
-                    var row = frm.add_child('recipient_multi_select_table');
-                    row.recipient = recipient.user_id;
-                });
-                // Refresh the table to display the new rows
-                frm.refresh_field('recipient_multi_select_table');
-
-            }
-        });
-    
-    },
 
     sub_category: function(frm) {
 
@@ -483,14 +438,11 @@ function add_approve_action(frm) {
                     details: values.details || "",
                 },
                 callback: function(r) {
-                    if(!r.exc) {
-                        frappe.msgprint(__("New document created in Transaction Action"));
-                        
-                        frm.set_value("status", "Approved");
-                        frm.save(function() {
-                            frm.refresh();
-                        });
-                        
+                    console.log(r.exc);
+                    if(r.message) {
+                        console.log(r.message);
+                        frm.set_value('status', 'Approved');
+                        // location.reload();   
                     }
                 }
             });
