@@ -6,6 +6,42 @@ from frappe.model.document import Document # type: ignore
 import json
 
 class Transaction(Document):
+    # begin: auto-generated types
+    # This code is auto-generated. Do not modify anything in this block.
+
+    from typing import TYPE_CHECKING
+
+    if TYPE_CHECKING:
+        from academia.councils.doctype.topic_applicant.topic_applicant import TopicApplicant
+        from academia.transaction_management.doctype.transaction_action.transaction_action import TransactionAction
+        from academia.transaction_management.doctype.transaction_attachments.transaction_attachments import TransactionAttachments
+        from academia.transaction_management.doctype.transaction_recipient.transaction_recipient import TransactionRecipient
+        from academia.transaction_management.doctype.transaction_recipients.transaction_recipients import TransactionRecipients
+        from frappe.types import DF
+
+        actions: DF.Table[TransactionAction]
+        amended_from: DF.Link | None
+        applicants_table: DF.Table[TopicApplicant]
+        attachments: DF.Table[TransactionAttachments]
+        category: DF.Link | None
+        company: DF.Link | None
+        created_by: DF.Data | None
+        description: DF.TextEditor | None
+        full_electronic: DF.Check
+        include_other_companies: DF.Check
+        main_external_entity: DF.Link | None
+        priority: DF.Literal["", "Low", "Medium", "High", "Urgent"]
+        recipient_designation: DF.Link | None
+        recipient_multi_select_table: DF.TableMultiSelect[TransactionRecipient]
+        recipients: DF.Table[TransactionRecipients]
+        reference_number: DF.Data | None
+        start_date: DF.Data | None
+        status: DF.Literal["Pending", "Approved", "Rejected"]
+        sub_category: DF.Link | None
+        sub_external_entity: DF.Link | None
+        title: DF.Data | None
+        transaction_scope: DF.Literal["In Company", "Among Companies", "With External Entity"]
+    # end: auto-generated types
     def on_submit(self):
         for row in self.recipient_multi_select_table:
             user = frappe.get_doc("User", row.recipient)

@@ -4,6 +4,33 @@
 frappe.ui.form.on('Transaction', {
 
     refresh: function(frm) {
+
+        frappe.call({
+            method: 'frappe.client.get_list',
+            args: {
+                doctype: 'Employee',
+                filters: {
+                    designation: frm.doc.recipient_designation,
+                    company: frm.doc.company,
+                },
+                fields: ['user_id']
+            },
+            callback: function(response) {
+                
+                recipients = response.message
+                console.log(recipients.length)
+
+                recipients.forEach(function(recipient) {
+                    console.log(recipient)
+                    // Create a new row in the multiselect table field
+                    // var row = frm.add_child('recipient_multi_select_table');
+                    // row.recipient = recipient.user_id;
+                });
+                // Refresh the table to display the new rows
+                // frm.refresh_field('recipient_multi_select_table');
+
+            }
+        });
         
         if(frm.doc.docstatus === 1)       
         {
@@ -50,6 +77,15 @@ frappe.ui.form.on('Transaction', {
                 }
             };
         });
+        // Filter the External Entity options based on is_group field
+        frm.set_query('main_external_entity', function() {
+            return {
+              filters: {
+                is_group: 1
+              }
+            };
+          });
+
 
         // Set query for sub_category field based on selected category
         frm.fields_dict['sub_category'].get_query = function(doc) {
@@ -60,7 +96,91 @@ frappe.ui.form.on('Transaction', {
             };
         };
 
+        // frm.fields_dict['sub_external_entity'].get_query = function(doc) {
+        //     return {
+        //         filters: {
+        //             'parent_external_entity':doc.externalEntity
+        //         }
+        //     };
+        // };
+       
+
     },
+
+   
+       
+
+
+       
+      
+
+    
+
+
+    
+
+    // Advance Get members Dialog
+    get_recipients: function (frm) {
+        
+    let d=new frappe.ui.form.MultiSelectDialog({
+      doctype: "Employee",
+      target: frm,
+      setters: {
+        employee_name: null,
+        company: frm.doc.company,
+        department: frm.doc.administrative_body,
+        designation: null
+      },
+      // add_filters_group: 1,
+      date_field: "transaction_date",
+      get_query() {
+        return {
+          filters: { docstatus: ['!=', 2], company: this.setters.company }
+        }
+      },
+      primary_action_label: "Get Recipients",
+      action(selections) {
+         console.log(selections)
+
+         // Fetch the selected employees with specific fields
+    frappe.call({
+        method: "frappe.client.get_list",
+        args: {
+          doctype: "Employee",
+          filters: { name: ["in", selections] },
+          fields: ["name","employee", "designation", "department", "company"]
+        },
+        callback: (response) => {
+          var selectedEmployees = response.message;
+          console.log(selectedEmployees);
+           // emptying 
+
+          frm.set_value('recipients', []);
+
+          selectedEmployees.forEach((employee) => {
+
+                frm.add_child("recipients", {
+                // employee: recipient,
+                recipient_name:employee.employee,
+                recipient_company:employee.company,
+                recipient_department:employee.department,
+                recipient_designation:employee.designation,
+                // member_name: employee.employee_name,
+                // member_role: "Council Member"
+              })
+
+          })
+            this.dialog.hide();
+
+          frm.refresh_field("recipients");
+        }
+      });
+        
+        
+      }
+    });
+
+  },
 
     recipient_designation: function (frm) {
         // Clear the values of the multiselect table field
