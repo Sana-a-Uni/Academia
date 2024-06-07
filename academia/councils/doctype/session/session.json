@@ -20,7 +20,7 @@
   "members",
   "agenda_tab",
   "get_topics",
-  "assignments",
+  "topics",
   "amended_from"
  ],
  "fields": [
@@ -122,22 +122,22 @@
    "label": "Get Members"
   },
   {
-   "fieldname": "assignments",
-   "fieldtype": "Table",
-   "label": "Assignment",
-   "options": "Session Topic Assignment",
-   "reqd": 1
-  },
-  {
    "fieldname": "get_topics",
    "fieldtype": "Button",
    "label": "Get Topic"
+  },
+  {
+   "fieldname": "topics",
+   "fieldtype": "Table",
+   "label": "Topics",
+   "options": "Session Topic",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-08 02:21:25.925029",
+ "modified": "2024-06-08 02:33:13.885554",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Session",

@@ -167,7 +167,7 @@ frappe.ui.form.on("Session", {
 		});
 	},
 });
-frappe.ui.form.on("Session Topic Assignment", {
+frappe.ui.form.on("Session Topic", {
 	topic: function (frm, cdt, cdn) {
 		// Get the current row
 		let row = locals[cdt][cdn];

@@ -18,11 +18,10 @@ class Session(Document):
 
 	if TYPE_CHECKING:
 		from academia.councils.doctype.session_member.session_member import SessionMember
-		from academia.councils.doctype.session_topic_assignment.session_topic_assignment import SessionTopicAssignment
+		from academia.councils.doctype.session_topic.session_topic import SessionTopic
 		from frappe.types import DF
 
 		amended_from: DF.Link | None
-		assignments: DF.Table[SessionTopicAssignment]
 		begin_time: DF.Time | None
 		council: DF.Link
 		date: DF.Date | None
@@ -31,6 +30,7 @@ class Session(Document):
 		naming_series: DF.Literal["CNCL-SESS-.YY.-.{council}.-.###"]
 		opening: DF.Text | None
 		title: DF.Data
+		topics: DF.Table[SessionTopic]
 	# end: auto-generated types
 
 	def validate(self):
