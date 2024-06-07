@@ -8,7 +8,7 @@
  "field_order": [
   "details_tab",
   "council",
-  "assignment_date",
+  "topic_date",
   "column_break_lycm",
   "is_group",
   "category",
@@ -24,9 +24,9 @@
   "attachments_tab",
   "attachments",
   "tab_4_tab",
-  "parent_assignment",
-  "get_assignments_to_group",
-  "grouped_assignments"
+  "parent_topic",
+  "get_topics_to_group",
+  "grouped_topics"
  ],
  "fields": [
   {
@@ -73,7 +73,7 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Topic Assignment",
+   "options": "Topic",
    "print_hide": 1,
    "read_only": 1
   },
@@ -89,10 +89,10 @@
   },
   {
    "default": "Today",
-   "fieldname": "assignment_date",
+   "fieldname": "topic_date",
    "fieldtype": "Date",
    "in_filter": 1,
-   "label": "Assignment Date",
+   "label": "Topic Date",
    "no_copy": 1,
    "read_only": 1,
    "reqd": 1
@@ -138,12 +138,12 @@
   {
    "depends_on": "eval:!doc.is_group;",
    "fetch_from": ".is_group",
-   "fieldname": "parent_assignment",
+   "fieldname": "parent_topic",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Parent Assignment",
-   "options": "Topic Assignment",
+   "label": "Parent Topic",
+   "options": "Topic",
    "search_index": 1
   },
   {
@@ -152,16 +152,16 @@
   },
   {
    "depends_on": "is_group",
-   "fieldname": "grouped_assignments",
+   "fieldname": "grouped_topics",
    "fieldtype": "HTML",
-   "label": "Grouped Assignments"
+   "label": "Grouped Topics"
   },
   {
-   "depends_on": "is_group",
-   "fieldname": "get_assignments_to_group",
-   "fieldtype": "Button",
-   "label": "Get Assignments To Group"
-  },
+    "depends_on": "is_group",
+    "fieldname": "get_topics_to_group",
+    "fieldtype": "Button",
+    "label": "Get Topics To Group"
+   },
   {
    "fieldname": "tab_4_tab",
    "fieldtype": "Tab Break",
@@ -188,7 +188,7 @@
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-05 06:26:27.209712",
+ "modified": "2024-06-07 03:27:08.282902",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic",
