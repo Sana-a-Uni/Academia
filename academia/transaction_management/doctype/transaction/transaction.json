@@ -167,7 +167,7 @@
   {
    "allow_on_submit": 1,
    "fieldname": "actions",
-   "fieldtype": "Table",
+   "fieldtype": "HTML",
    "options": "Transaction Action",
    "read_only": 1
   },
@@ -187,7 +187,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-03 13:21:00.192977",
+ "modified": "2024-06-07 07:39:38.188608",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
