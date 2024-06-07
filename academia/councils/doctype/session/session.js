@@ -13,24 +13,24 @@ frappe.ui.form.on("Session", {
         background-color: #171710 !important;/* Slightly darker gray for interaction states */
         color: white !important;
       }
-      .btn[data-fieldname="get_assignments"] {
+      .btn[data-fieldname="get_topics"] {
         background-color: #171717; /* Custom dark gray */
         color: white;
       }
-      .btn[data-fieldname="get_assignments"]:hover {
+      .btn[data-fieldname="get_topics"]:hover {
         background-color: #171710 !important;/* Slightly darker gray for interaction states */
         color: white !important;
       }
         </style>`).appendTo("head");
 	},
 	onload(frm) {
-		frm.set_query("topic_assignment", "assignments", function () {
+		frm.set_query("topic", "topics", function () {
 			return {
 				filters: {
 					docstatus: ["=", 0],
 					council: frm.doc.council,
 					status: "Accepted",
-					parent_assignment: "",
+					parent_topic: "",
 				},
 			};
 		});
@@ -120,7 +120,7 @@ frappe.ui.form.on("Session", {
 			},
 		});
 	},
-	get_assignments(frm) {
+	get_topics(frm) {
 		new frappe.ui.form.MultiSelectDialog({
 			doctype: "Topic",
 			target: frm,
@@ -135,60 +135,55 @@ frappe.ui.form.on("Session", {
 						docstatus: ["=", 0],
 						council: frm.doc.council,
 						status: "Accepted",
-						parent_assignment: "",
+						parent_topic: "",
 					},
 				};
 			},
-			primary_action_label: "Get Assignment",
-			action(assignments) {
-				// Clear any existing assignments in the child table:
-				frm.doc.assignments = "";
-				// Loop through the assignments and add them to the child table:
-				assignments.forEach((assignment) => {
-					console.log(assignment);
+			primary_action_label: "Get Topic",
+			action(topics) {
+				// Clear any existing topics in the child table:
+				frm.doc.topics = "";
+				// Loop through the topics and add them to the child table:
+				topics.forEach((topic) => {
+					console.log(topic);
 					frappe.db.get_value(
 						"Topic",
-						assignment,
+						topic,
 						["name", "title", "description"],
-						(assignment_doc) => {
-							frm.add_child("assignments", {
-								topic_assignment: assignment_doc.name,
-								title: assignment_doc.title,
-								description: assignment_doc.description,
+						(topic_doc) => {
+							frm.add_child("topics", {
+								topic: topic_doc.name,
+								title: topic_doc.title,
+								description: topic_doc.description,
 							});
-							frm.refresh_field("assignments");
+							frm.refresh_field("topics");
 						}
 					);
 				});
-				// Refresh the child table to display assignments:
-				frm.refresh_field("assignments");
+				// Refresh the child table to display topics:
+				frm.refresh_field("topics");
 				this.dialog.hide();
 			},
 		});
 	},
 });
 frappe.ui.form.on("Session Topic Assignment", {
-	topic_assignment: function (frm, cdt, cdn) {
+	topic: function (frm, cdt, cdn) {
 		// Get the current row
 		let row = locals[cdt][cdn];
-		validate_assignment(frm, row);
-		if (row.topic_assignment) {
-			// Call the check_assignment_duplicate function to check for duplicate assignments
-			check_assignment_duplicate(frm, row);
-			frappe.db.get_value(
-				"Topic",
-				row.topic_assignment,
-				["title", "description"],
-				(assignment) => {
-					if (assignment) {
-						let title = assignment.title;
-						let description = assignment.description;
-						frappe.model.set_value(cdt, cdn, "title", title);
-						frappe.model.set_value(cdt, cdn, "description", description);
-					}
+		validate_topic(frm, row);
+		if (row.topic) {
+			// Call the check_topic_duplicate function to check for duplicate topics
+			check_topic_duplicate(frm, row);
+			frappe.db.get_value("Topic", row.topic, ["title", "description"], (topic) => {
+				if (topic) {
+					let title = topic.title;
+					let description = topic.description;
+					frappe.model.set_value(cdt, cdn, "title", title);
+					frappe.model.set_value(cdt, cdn, "description", description);
 				}
-			);
-			frm.refresh_field("assignments");
+			});
+			frm.refresh_field("topics");
 		}
 	},
 	// create_memo(frm, cdt, cdn) {
@@ -252,42 +247,42 @@ frappe.ui.form.on("Session Member", {
 		academia.councils.utils.check_council_head_and_reporter_duplication(frm, row);
 	},
 });
-// Function to check for duplicate assignments
-check_assignment_duplicate = function (frm, row) {
-	// Iterate through each member in the form's assignments field
-	frm.doc.assignments.forEach((assignment) => {
-		// Check if the current row's topic_assignment is not empty or the same as the current assignment being iterated
-		if (!(row.topic_assignment == "" || row.idx == assignment.idx)) {
-			// Check if the current row's topic_assignment is the same as the assignment's topic_assignment
-			if (row.topic_assignment == assignment.topic_assignment) {
-				// Clear the topic_assignment value in the current row
-				row.topic_assignment = "";
-				// Refresh the assignments field in the form to reflect the changes
-				frm.refresh_field("assignments");
-				// message indicating that the topic_assignment already exists in a specific row
-				msgprint(__(`${row.topic_assignment} already exists in row ${assignment.idx}`));
+// Function to check for duplicate topics
+check_topic_duplicate = function (frm, row) {
+	// Iterate through each member in the form's topics field
+	frm.doc.topics.forEach((topic_doc) => {
+		// Check if the current row's topic is not empty or the same as the current topic being iterated
+		if (!(row.topic == "" || row.idx == topic_doc.idx)) {
+			// Check if the current row's topic is the same as the topic_doc's topic
+			if (row.topic == topic_doc.topic) {
+				// Clear the topic value in the current row
+				row.topic = "";
+				// Refresh the topics field in the form to reflect the changes
+				frm.refresh_field("topics");
+				// message indicating that the topic already exists in a specific row
+				msgprint(__(`${row.topic} already exists in row ${topic_doc.idx}`));
 				// stop loop
 				return;
 			}
 		}
 	});
 };
-validate_assignment = function (frm, row) {
-	if (row.topic_assignment)
-		frappe.db.get_value("Topic", row.topic_assignment, ["*"], (assignment) => {
+validate_topic = function (frm, row) {
+	if (row.topic)
+		frappe.db.get_value("Topic", row.topic, ["*"], (topic_doc) => {
 			if (
 				!(
-					assignment.docstatus == 0 &&
-					assignment.council == frm.doc.council &&
-					assignment.status == "Accepted" &&
-					assignment.parent_assignment == ""
+					topic_doc.docstatus == 0 &&
+					topic_doc.council == frm.doc.council &&
+					topic_doc.status == "Accepted" &&
+					topic_doc.parent_topic == ""
 				)
 			) {
-				// Clear the topic_assignment value in the current row
-				row.topic_assignment = "";
-				// Refresh the assignments field in the form to reflect the changes
-				frm.refresh_field("assignments");
-				msgprint(__(`You cannot use ${assignment.name}, please select from the list`));
+				// Clear the topic value in the current row
+				row.topic = "";
+				// Refresh the topics field in the form to reflect the changes
+				frm.refresh_field("topics");
+				msgprint(__(`You cannot use ${topic_doc.name}, please select from the list`));
 			}
 		});
 };

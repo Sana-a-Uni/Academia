@@ -19,7 +19,7 @@
   "get_members",
   "members",
   "agenda_tab",
-  "get_assignments",
+  "get_topics",
   "assignments",
   "amended_from"
  ],
@@ -117,27 +117,27 @@
    "set_only_once": 1
   },
   {
-   "fieldname": "assignments",
-   "fieldtype": "Table",
-   "label": "Assignments",
-   "options": "Session Topic Assignment",
-   "reqd": 1
-  },
-  {
    "fieldname": "get_members",
    "fieldtype": "Button",
    "label": "Get Members"
   },
   {
-   "fieldname": "get_assignments",
+   "fieldname": "assignments",
+   "fieldtype": "Table",
+   "label": "Assignment",
+   "options": "Session Topic Assignment",
+   "reqd": 1
+  },
+  {
+   "fieldname": "get_topics",
    "fieldtype": "Button",
-   "label": "Get Assignments"
+   "label": "Get Topic"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-14 18:07:14.679752",
+ "modified": "2024-06-08 02:21:25.925029",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Session",
