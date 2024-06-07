@@ -1,5 +1,16 @@
 {
- "actions": [],
+ "actions": [
+  {
+   "action": "Approved",
+   "action_type": "Server Action",
+   "label": "Approve"
+  },
+  {
+   "action": "Rejected",
+   "action_type": "Server Action",
+   "label": "Reject"
+  }
+ ],
  "allow_rename": 1,
  "autoname": "format:TACT-{MM}-{YY}- {####}",
  "creation": "2024-05-11 09:35:50.825877",
@@ -7,27 +18,29 @@
  "engine": "InnoDB",
  "field_order": [
   "section_break_wyzz",
+  "transaction",
   "type",
   "details",
   "column_break_mkjj",
   "action_date",
   "created_by",
-  "section_break_vdld",
-  "party",
+  "from_company",
+  "from_department",
+  "from_designation",
+  "to_section",
+  "to_party",
+  "to_company",
   "column_break_oaad",
   "to_department",
-  "redirected_to"
+  "redirected_to",
+  "amended_from"
  ],
  "fields": [
-  {
-   "fieldname": "section_break_vdld",
-   "fieldtype": "Section Break"
-  },
   {
    "fieldname": "to_department",
    "fieldtype": "Dynamic Link",
    "label": "To Department",
-   "options": "party"
+   "options": "to_party"
   },
   {
    "fieldname": "column_break_mkjj",
@@ -49,18 +62,12 @@
    "options": "User"
   },
   {
-   "fieldname": "party",
-   "fieldtype": "Link",
-   "label": "Party",
-   "options": "DocType"
-  },
-  {
    "allow_on_submit": 1,
    "fieldname": "type",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Type",
-   "options": "Received\nRedirected\nApproved\nRejected\nCanceled",
+   "options": "Received\nRedirected\nApproved\nRejected\nCanceled\nCouncil",
    "read_only": 1
   },
   {
@@ -68,7 +75,8 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Created By",
-   "options": "User"
+   "options": "User",
+   "read_only": 1
   },
   {
    "fieldname": "action_date",
@@ -81,18 +89,81 @@
    "fieldtype": "Text",
    "in_list_view": 1,
    "label": "Details"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Transaction Action",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "from_designation",
+   "fieldtype": "Data",
+   "label": "From Designation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "from_department",
+   "fieldtype": "Data",
+   "label": "From Department",
+   "read_only": 1
+  },
+  {
+   "fieldname": "from_company",
+   "fieldtype": "Data",
+   "label": "From Company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "to_party",
+   "fieldtype": "Link",
+   "label": "To Party",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "to_company",
+   "fieldtype": "Link",
+   "label": "To Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "transaction",
+   "fieldtype": "Link",
+   "label": "Transaction",
+   "options": "Transaction"
+  },
+  {
+   "fieldname": "to_section",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
- "istable": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2024-06-01 20:39:58.609535",
+ "modified": "2024-06-07 10:43:48.345504",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Action",
  "naming_rule": "Expression",
  "owner": "Administrator",
- "permissions": [],
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [
@@ -120,5 +191,8 @@
    "color": "Red",
    "title": "Canceled"
   }
- ]
+ ],
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
 }
