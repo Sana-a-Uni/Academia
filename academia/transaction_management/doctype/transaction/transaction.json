@@ -9,6 +9,8 @@
   "document_details_tab",
   "additional_details_section",
   "transaction_scope",
+  "main_external_entity",
+  "sub_external_entity",
   "reference_number",
   "title",
   "description",
@@ -21,8 +23,12 @@
   "start_date",
   "created_by",
   "recipient_designation",
-  "status",
   "recipient_multi_select_table",
+  "status",
+  "recipient_settings_section",
+  "get_recipients",
+  "include_other_companies",
+  "recipients",
   "section_break_pgsu",
   "amended_from",
   "applicants_tab",
@@ -174,20 +180,60 @@
   {
    "fieldname": "recipient_designation",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Recipient Designation",
    "options": "Designation"
   },
   {
    "fieldname": "recipient_multi_select_table",
    "fieldtype": "Table MultiSelect",
+   "ignore_user_permissions": 1,
    "label": "Recipient",
    "options": "Transaction Recipient"
+  },
+  {
+   "fieldname": "recipient_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Recipient Settings"
+  },
+  {
+   "fieldname": "get_recipients",
+   "fieldtype": "Button",
+   "label": "Get Recipients"
+  },
+  {
+   "default": "0",
+   "fieldname": "include_other_companies",
+   "fieldtype": "Check",
+   "label": "Include other companies"
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "Recipients",
+   "options": "Transaction Recipients"
+  },
+  {
+   "depends_on": "eval:doc.transaction_scope==\"With External Entity\";",
+   "fieldname": "main_external_entity",
+   "fieldtype": "Link",
+   "label": "Main External Entity",
+   "options": "External Entity"
+  },
+  {
+   "depends_on": "eval:doc.main_external_entity;",
+   "fieldname": "sub_external_entity",
+   "fieldtype": "Link",
+   "label": "Sub External Entity",
+   "options": "External Entity"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-07 07:39:38.188608",
+
+ "modified": "2024-06-04 19:56:26.729923",
+
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
