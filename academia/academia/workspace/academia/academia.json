@@ -130,26 +130,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Topic Template",
-   "link_count": 0,
-   "link_to": "Topic Template",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Topic Assignment",
-   "link_count": 0,
-   "link_to": "Topic Assignment",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Council",
    "link_count": 0,
    "link_to": "Council",
