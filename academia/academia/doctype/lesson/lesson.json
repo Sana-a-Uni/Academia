@@ -5,17 +5,29 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "schedule_version_section",
+  "schedule_template_version",
+  "column_break_vmss",
+  "schedule_template",
+  "section_break_wyzm",
   "academic_year",
+  "faculty",
   "level",
   "column_break_jdfp",
   "academic_term",
   "program",
+  "lesson_type",
   "section_break_stfq",
   "instructor",
   "room",
   "column_break_yvwh",
   "course",
-  "group"
+  "group",
+  "section_break_wdte",
+  "date",
+  "column_break_fyil",
+  "from_time",
+  "to_time"
  ],
  "fields": [
   {
@@ -87,14 +99,79 @@
    "fieldname": "group",
    "fieldtype": "Data",
    "label": "Group"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_wdte",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_fyil",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "from_time",
+   "fieldtype": "Time",
+   "label": "From Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "to_time",
+   "fieldtype": "Time",
+   "label": "To Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "lesson_type",
+   "fieldtype": "Select",
+   "label": "Lesson Type",
+   "options": "\nOrdinary Lesson\nCompensatory Lesson"
+  },
+  {
+   "fieldname": "schedule_template_version",
+   "fieldtype": "Link",
+   "label": "Schedule Template Version",
+   "options": "Schedule Template Version",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_vmss",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "schedule_template_version.schedule_template",
+   "fieldname": "schedule_template",
+   "fieldtype": "Read Only",
+   "label": "Schedule Template"
+  },
+  {
+   "fieldname": "section_break_wyzm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "schedule_version_section",
+   "fieldtype": "Section Break",
+   "label": "Schedule Version"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-03 07:45:45.155507",
+ "modified": "2024-06-06 02:40:36.452866",
  "modified_by": "Administrator",
  "module": "Academia",
- "name": "Course Schedule",
+ "name": "Lesson",
  "owner": "Administrator",
  "permissions": [
   {
