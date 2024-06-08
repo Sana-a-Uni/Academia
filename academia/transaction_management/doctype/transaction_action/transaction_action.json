@@ -1,16 +1,5 @@
 {
- "actions": [
-  {
-   "action": "Approved",
-   "action_type": "Server Action",
-   "label": "Approve"
-  },
-  {
-   "action": "Rejected",
-   "action_type": "Server Action",
-   "label": "Reject"
-  }
- ],
+ "actions": [],
  "allow_rename": 1,
  "autoname": "format:TACT-{MM}-{YY}- {####}",
  "creation": "2024-05-11 09:35:50.825877",
@@ -33,7 +22,12 @@
   "column_break_oaad",
   "to_department",
   "redirected_to",
-  "amended_from"
+  "amended_from",
+  "recipients_tab",
+  "recipient_settings_section",
+  "get_recipients",
+  "include_other_companies",
+  "recipients"
  ],
  "fields": [
   {
@@ -67,22 +61,15 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Type",
-   "options": "Received\nRedirected\nApproved\nRejected\nCanceled\nCouncil",
-   "read_only": 1
+   "options": "\nRedirected\nApproved\nRejected\nCanceled\nCouncil"
   },
   {
    "fieldname": "created_by",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Created By",
-   "options": "User",
-   "read_only": 1
-  },
-  {
-   "fieldname": "action_date",
-   "fieldtype": "Datetime",
-   "in_list_view": 1,
-   "label": "Action Date"
+   "read_only": 1,
+   "set_only_once": 1
   },
   {
    "fieldname": "details",
@@ -139,59 +126,56 @@
   {
    "fieldname": "to_section",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "recipient_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Recipient Settings"
+  },
+  {
+   "fieldname": "get_recipients",
+   "fieldtype": "Button",
+   "label": "Get Recipients"
+  },
+  {
+   "fieldname": "recipients_tab",
+   "fieldtype": "Tab Break",
+   "label": "Recipients"
+  },
+  {
+   "default": "0",
+   "fieldname": "include_other_companies",
+   "fieldtype": "Check",
+   "label": "Include other companies"
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "Recipients",
+   "options": "Transaction Recipients"
+  },
+  {
+   "fieldname": "action_date",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Action Date",
+   "read_only": 1,
+   "set_only_once": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-07 10:43:48.345504",
+ "modified": "2024-06-08 11:29:07.755259",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Action",
  "naming_rule": "Expression",
  "owner": "Administrator",
- "permissions": [
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "System Manager",
-   "share": 1,
-   "write": 1
-  }
- ],
+ "permissions": [],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": [
-  {
-   "color": "Gray",
-   "custom": 1,
-   "title": "Pending"
-  },
-  {
-   "color": "Blue",
-   "custom": 1,
-   "title": "Received"
-  },
-  {
-   "color": "Orange",
-   "custom": 1,
-   "title": "Redirected"
-  },
-  {
-   "color": "Green",
-   "custom": 1,
-   "title": "Approved"
-  },
-  {
-   "color": "Red",
-   "title": "Canceled"
-  }
- ],
+ "states": [],
  "track_changes": 1,
  "track_seen": 1,
  "track_views": 1

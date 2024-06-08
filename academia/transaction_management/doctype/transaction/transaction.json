@@ -16,6 +16,8 @@
   "description",
   "column_break_ktxa",
   "company",
+  "department",
+  "designation",
   "category",
   "sub_category",
   "priority",
@@ -67,7 +69,6 @@
    "fieldtype": "Data",
    "is_virtual": 1,
    "label": "Start Date",
-   "options": "frappe.utils.format_datetime(doc.creation, format_string='dd MMM yyyy, HH:mm:ss')",
    "read_only": 1
   },
   {
@@ -80,7 +81,6 @@
    "fieldtype": "Data",
    "is_virtual": 1,
    "label": "Created By",
-   "options": "doc.owner",
    "read_only": 1
   },
   {
@@ -217,12 +217,24 @@
    "fieldname": "recipients_tab",
    "fieldtype": "Tab Break",
    "label": "Recipients"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department"
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Link",
+   "label": "Designation",
+   "options": "Designation"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-07 21:33:58.377188",
+ "modified": "2024-06-08 08:35:04.053143",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
