@@ -19,11 +19,12 @@
   "column_break_ktxa",
   "company",
   "department",
+  "private",
+  "full_electronic",
   "designation",
   "category",
   "sub_category",
   "priority",
-  "full_electronic",
   "start_date",
   "created_by",
   "status",
@@ -39,7 +40,6 @@
   "recipients_tab",
   "recipient_settings_section",
   "get_recipients",
-  "include_other_companies",
   "recipients"
  ],
  "fields": [
@@ -194,12 +194,6 @@
    "label": "Get Recipients"
   },
   {
-   "default": "0",
-   "fieldname": "include_other_companies",
-   "fieldtype": "Check",
-   "label": "Include other companies"
-  },
-  {
    "fieldname": "recipients",
    "fieldtype": "Table",
    "label": "Recipients",
@@ -213,7 +207,7 @@
    "options": "External Entity"
   },
   {
-   "depends_on": "eval:doc.main_external_entity;",
+   "depends_on": "eval:doc.main_external_entity && doc.transaction_scope==\"With External Entity\";",
    "fieldname": "sub_external_entity",
    "fieldtype": "Link",
    "label": "Sub External Entity",
@@ -239,7 +233,7 @@
    "read_only": 1
   },
   {
-   "depends_on": "eval:doc.main_external_entity;",
+   "depends_on": "eval:doc.main_external_entity && doc.transaction_scope==\"With External Entity\";",
    "fieldname": "external_entity_designation",
    "fieldtype": "Link",
    "label": "External Entity Designation",
@@ -256,12 +250,18 @@
    "fieldname": "transaction_scan",
    "fieldtype": "Attach",
    "label": "Transaction Scan"
+  },
+  {
+   "default": "0",
+   "fieldname": "private",
+   "fieldtype": "Check",
+   "label": "Private"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-09 00:40:58.812622",
+ "modified": "2024-06-09 19:00:50.886452",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

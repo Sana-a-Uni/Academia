@@ -2,6 +2,19 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Transaction', {
+  setup: function (frm) {
+    // Changing Button Style
+    $(`<style>
+      .btn[data-fieldname="get_recipients"] {
+        background-color: #171717; /* Custom dark gray */
+        color: white;
+      }
+      .btn[data-fieldname="get_recipients"]:hover {
+        background-color: #171710 !important;/* Slightly darker gray for interaction states */
+        color: white !important;
+      }
+        </style>`).appendTo("head");
+  },
 
 
   
@@ -161,46 +174,26 @@ frappe.ui.form.on('Transaction', {
       });
       
   
-
-    // frappe.call({
-    //   method: 'frappe.client.get_list',
-    //   args: {
-    //     doctype: 'External Entity Designation',
-    //     filters: { parent: parentValue },
-    //     fields: ['designation_name']
-    //   },
-    //   callback: function(response) {
-    //     if (response.message) {
-    //       var designations = response.message.map(function(designation) {
-    //         return designation.designation_name;
-    //       });
-    //       console.log()
-    //       // Set the positions in the positions field
-    //       frm.set_value('external_entity_designation', designations.join('\n'));
-    //     }
-    //   }
-    // });
-
-
-
-    // frappe.call({
-    //   method: 'frappe.client.get_list',
-    //   args: {
-    //     doctype: 'External Entity Designation',
-    //     filters: { parent: main_entity },
-    //     fields: ['designation_name']
-    //   },
-    //   callback: function(response) {
-    //     if (response.message) {
-    //       var designations = response.message.map(function(designation) {
-    //         return designation.designation_name;
-    //       });
-    //       // Set the positions in the positions field
-    //       frm.set_value('external_entity_designation', designations.join('\n'));
-    //     }
-    //   }
-    // });
   },
+  sub_external_entity:function(frm){
+
+    var sub_entity=frm.doc.sub_external_entity
+    // frappe.msgprint("here")
+   // Filter the External Entity options based on is_group field
+    
+    
+    frm.set_query("external_entity_designation", function (doc, cdt, cdn) {
+      return {
+        "filters": {
+          "parent": sub_entity
+        },
+      };
+    });
+    
+
+
+
+},
     // Advance Get members Dialog
     get_recipients: function (frm) {
         

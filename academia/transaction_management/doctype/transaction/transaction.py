@@ -31,9 +31,9 @@ class Transaction(Document):
         designation: DF.Link | None
         external_entity_designation: DF.Link | None
         full_electronic: DF.Check
-        include_other_companies: DF.Check
         main_external_entity: DF.Link | None
         priority: DF.Literal["", "Low", "Medium", "High", "Urgent"]
+        private: DF.Check
         recipients: DF.Table[TransactionRecipients]
         reference_number: DF.Data | None
         start_date: DF.Data | None
