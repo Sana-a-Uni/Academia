@@ -15,7 +15,7 @@ class SessionTopic(Document):
 		from frappe.types import DF
 
 		decision: DF.TextEditor | None
-		decision_type: DF.Literal["", "Postponed", "Resolved", "Transferred"]
+		decision_type: DF.Literal["", "Postponed", "Resolved"]
 		description: DF.TextEditor | None
 		parent: DF.Data
 		parentfield: DF.Data

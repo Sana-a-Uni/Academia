@@ -124,7 +124,7 @@
    "fieldtype": "Select",
    "label": "Decision Type",
    "no_copy": 1,
-   "options": "\nPostponed\nResolved\nTransferred",
+   "options": "\nPostponed\nResolved",
    "print_hide": 1,
    "read_only": 1,
    "sort_options": 1
@@ -161,11 +161,11 @@
    "label": "Grouped Topics"
   },
   {
-    "depends_on": "is_group",
-    "fieldname": "get_topics_to_group",
-    "fieldtype": "Button",
-    "label": "Get Topics To Group"
-   },
+   "depends_on": "is_group",
+   "fieldname": "get_topics_to_group",
+   "fieldtype": "Button",
+   "label": "Get Topics To Group"
+  },
   {
    "fieldname": "tab_4_tab",
    "fieldtype": "Tab Break",
@@ -223,7 +223,7 @@
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-09 08:14:21.351371",
+ "modified": "2024-06-09 23:31:56.626315",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic",

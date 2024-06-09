@@ -55,7 +55,7 @@
    "fieldtype": "Select",
    "in_preview": 1,
    "label": "Decision Type",
-   "options": "\nPostponed\nResolved\nTransferred"
+   "options": "\nPostponed\nResolved"
   },
   {
    "depends_on": "decision_type",

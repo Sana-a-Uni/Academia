@@ -24,7 +24,7 @@ class Topic(Document):
 		category: DF.Link
 		council: DF.Link
 		decision: DF.TextEditor | None
-		decision_type: DF.Literal["", "Postponed", "Resolved", "Transferred"]
+		decision_type: DF.Literal["", "Postponed", "Resolved"]
 		description: DF.TextEditor
 		is_group: DF.Check
 		parent_topic: DF.Link | None
