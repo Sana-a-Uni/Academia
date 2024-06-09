@@ -9,8 +9,10 @@
   "document_details_tab",
   "additional_details_section",
   "transaction_scope",
+  "type",
   "main_external_entity",
   "sub_external_entity",
+  "external_entity_designation",
   "reference_number",
   "title",
   "description",
@@ -25,6 +27,7 @@
   "start_date",
   "created_by",
   "status",
+  "transaction_scan",
   "section_break_pgsu",
   "amended_from",
   "applicants_tab",
@@ -43,6 +46,7 @@
   {
    "fieldname": "category",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Category",
    "options": "Transaction Category"
   },
@@ -128,6 +132,7 @@
    "depends_on": "eval:doc.category;",
    "fieldname": "sub_category",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Sub Category",
    "options": "Transaction Category"
   },
@@ -135,7 +140,8 @@
    "fieldname": "company",
    "fieldtype": "Link",
    "label": "Company",
-   "options": "Company"
+   "options": "Company",
+   "read_only": 1
   },
   {
    "fieldname": "transaction_scope",
@@ -222,19 +228,40 @@
    "fieldname": "department",
    "fieldtype": "Link",
    "label": "Department",
-   "options": "Department"
+   "options": "Department",
+   "read_only": 1
   },
   {
    "fieldname": "designation",
    "fieldtype": "Link",
    "label": "Designation",
-   "options": "Designation"
+   "options": "Designation",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.main_external_entity;",
+   "fieldname": "external_entity_designation",
+   "fieldtype": "Link",
+   "label": "External Entity Designation",
+   "options": "External Entity Designation"
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Select",
+   "label": "Type",
+   "options": "Outgoing\nIncoming"
+  },
+  {
+   "depends_on": "eval:doc.transaction_scope==\"With External Entity\";",
+   "fieldname": "transaction_scan",
+   "fieldtype": "Attach",
+   "label": "Transaction Scan"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-08 08:35:04.053143",
+ "modified": "2024-06-09 00:40:58.812622",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

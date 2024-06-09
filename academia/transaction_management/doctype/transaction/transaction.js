@@ -3,6 +3,47 @@
 
 frappe.ui.form.on('Transaction', {
 
+
+  
+    onload: function(frm) {
+      // Fetch the current employee's document
+      frappe.call({
+        method: 'frappe.client.get_value',
+        args: {
+          doctype: 'User',
+          filters: { name: frappe.session.user },
+          fieldname: 'email'
+        },
+        callback: function(response) {
+          if (response.message && response.message.email) {
+            var userEmail = response.message.email;
+            // Use the email address as needed
+            console.log(userEmail);
+
+            frappe.call({
+              method: 'frappe.client.get',
+              args: {
+                doctype: 'Employee',
+                filters: { user_id: userEmail }
+              },
+              callback: function(response) {
+                if (response.message) {
+                  var employee = response.message;
+                  // Set the default value of the department field to the current employee's department
+                  frm.set_value('department', employee.department);
+                  frm.set_value('designation', employee.designation);
+                  // You can access other fields of the employee document as well
+                  // Example: frm.set_value('employee_name', employee.employee_name);
+                }
+                
+              }
+            });
+          }  
+        }
+      });
+    },
+  
+
     refresh: function(frm) {
 
         if(frm.doc.docstatus === 1)       
@@ -73,17 +114,81 @@ frappe.ui.form.on('Transaction', {
             };
         };
 
-        frm.fields_dict['sub_external_entity'].get_query = function(doc) {
-            return {
-                filters: {
-                    'parent_external_entity':doc.externalEntity
-                }
-            };
-        };
+        // frm.fields_dict['sub_external_entity'].get_query = function(doc) {
+        //     return {
+        //         filters: {
+        //             'parent_external_entity':doc.externalEntity
+        //         }
+        //     };
+        // };
        
 
     },
 
+    main_external_entity:function(frm){
+
+      var main_entity=frm.doc.main_external_entity
+      // frappe.msgprint("here")
+     // Filter the External Entity options based on is_group field
+     frm.set_query('sub_external_entity', function() {
+      return {
+        filters: {
+          parent_external_entity: main_entity
+        }
+      };
+    });
+
+   
+      
+      frm.set_query("external_entity_designation", function (doc, cdt, cdn) {
+        return {
+          "filters": {
+            "parent": main_entity
+          },
+        };
+      });
+      
+  
+
+    // frappe.call({
+    //   method: 'frappe.client.get_list',
+    //   args: {
+    //     doctype: 'External Entity Designation',
+    //     filters: { parent: parentValue },
+    //     fields: ['designation_name']
+    //   },
+    //   callback: function(response) {
+    //     if (response.message) {
+    //       var designations = response.message.map(function(designation) {
+    //         return designation.designation_name;
+    //       });
+    //       console.log()
+    //       // Set the positions in the positions field
+    //       frm.set_value('external_entity_designation', designations.join('\n'));
+    //     }
+    //   }
+    // });
+
+
+
+    // frappe.call({
+    //   method: 'frappe.client.get_list',
+    //   args: {
+    //     doctype: 'External Entity Designation',
+    //     filters: { parent: main_entity },
+    //     fields: ['designation_name']
+    //   },
+    //   callback: function(response) {
+    //     if (response.message) {
+    //       var designations = response.message.map(function(designation) {
+    //         return designation.designation_name;
+    //       });
+    //       // Set the positions in the positions field
+    //       frm.set_value('external_entity_designation', designations.join('\n'));
+    //     }
+    //   }
+    // });
+  },
     // Advance Get members Dialog
     get_recipients: function (frm) {
         
