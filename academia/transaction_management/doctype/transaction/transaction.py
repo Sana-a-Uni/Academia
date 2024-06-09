@@ -1,6 +1,9 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
+
+from jinja2 import Template # type: ignore
+import os
 import frappe # type: ignore
 from frappe.model.document import Document # type: ignore
 import json
@@ -168,3 +171,36 @@ def create_new_transaction_action(user_id, transaction_name, type, details,):
         return "Action Success"
     else:
         return "No employee found for the given user ID."
+    
+
+
+# to get html template 
+@frappe.whitelist()
+def get_actions_html(transaction_name):
+
+        # TODO: refact this, i know it isn't the best way but it works :3
+        current_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
+        template_path = os.path.join(current_dir, "templates/vertical_path.html")
+
+        # Load the template file
+        with open(template_path, "r") as file:
+            template_content = file.read()
+        template = Template(template_content)
+
+        actions = frappe.get_all("Transaction Action",
+                            filters={
+                                "transaction": transaction_name,
+                                },
+                            fields=[
+                                "type", 
+                                "owner",
+                                ],
+                    		order_by="creation",
+                            )
+        context = {
+            "context": actions
+        }
+        # Render the template
+        rendered_html = template.render(context)
+
+        return rendered_html

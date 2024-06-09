@@ -106,6 +106,7 @@ def get_transaction_actions(transaction_name):
     LEFT JOIN `tabTransaction Recipients` AS tr ON ta.name = tr.parent
     WHERE ta.transaction = %(transaction_name)s
     GROUP BY ta.name
+	ORDER BY ta.creation DESC
 	"""
 
 	result = frappe.db.sql(query, {"transaction_name": transaction_name}, as_dict=True)
