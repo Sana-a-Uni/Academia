@@ -29,7 +29,7 @@ frappe.ui.form.on("Session", {
 				filters: {
 					docstatus: ["=", 0],
 					council: frm.doc.council,
-					status: "Accepted",
+					status: "Pending",
 					parent_topic: "",
 				},
 			};
@@ -134,7 +134,7 @@ frappe.ui.form.on("Session", {
 					filters: {
 						docstatus: ["=", 0],
 						council: frm.doc.council,
-						status: "Accepted",
+						status: "Pending",
 						parent_topic: "",
 					},
 				};
@@ -274,7 +274,7 @@ validate_topic = function (frm, row) {
 				!(
 					topic_doc.docstatus == 0 &&
 					topic_doc.council == frm.doc.council &&
-					topic_doc.status == "Accepted" &&
+					topic_doc.status == "Pending" &&
 					topic_doc.parent_topic == ""
 				)
 			) {

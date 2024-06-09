@@ -83,23 +83,23 @@ class Session(Document):
 		# Return the lists of edited, added, and deleted topics
 		return edited_topics, added_topics, deleted_topics
 
-	def create_postponed_topic(self, session_topic):
-		"""Creates a new Topic topic with postponed status the specified details.
+	# def create_postponed_topic(self, session_topic):
+	# 	"""Creates a new Topic topic with postponed status the specified details.
 
-		Args:
-		        session_topic (Session.topics): The session topic details.
-		Returns:
-		        Document: The newly created Topic document.
-		"""
-		doc_topic = frappe.new_doc("Topic")
-		doc_topic.title = session_topic.title
-		doc_topic.description = session_topic.description
-		doc_topic.topic_date = (nowdate(),)
-		doc_topic.council = session_topic.council
-		# doc_assignment.topic = session_assignment.topic
-		doc_topic.status = "Accepted"
-		doc_topic.insert()
-		return doc_topic
+	# 	Args:
+	# 	        session_topic (Session.topics): The session topic details.
+	# 	Returns:
+	# 	        Document: The newly created Topic document.
+	# 	"""
+	# 	doc_topic = frappe.new_doc("Topic")
+	# 	doc_topic.title = session_topic.title
+	# 	doc_topic.description = session_topic.description
+	# 	doc_topic.topic_date = (nowdate(),)
+	# 	doc_topic.council = session_topic.council
+	# 	# doc_assignment.topic = session_assignment.topic
+	# 	doc_topic.status = "Accepted"
+	# 	doc_topic.insert()
+	# 	return doc_topic
 
 	def on_submit(self):
 		self.process_session_topics()
@@ -117,16 +117,17 @@ class Session(Document):
 			# Retrieve details of the corresponding Topic
 			session_topic_doc = frappe.get_doc("Topic", session_topic.topic)
 
-			# If the decision type is "Postponed":
-			if session_topic.decision_type == "Postponed":
-				# Create a new topic for postponed topics
-				if session_topic_doc:
-					self.create_postponed_topic(session_topic)
+			# # If the decision type is "Postponed":
+			# if session_topic.decision_type == "Postponed":
+			# 	# Create a new topic for postponed topics
+			# 	if session_topic_doc:
+			# 		self.create_postponed_topic(session_topic)
 
 			# self.process_council_memo(session_topic)
 
 			# Update the Topic with the decision details
 			session_topic_doc.decision = session_topic.decision
+			session_topic_doc.status = session_topic.status
 			session_topic_doc.decision_type = session_topic.decision_type
 			session_topic_doc.save()
 			session_topic_doc.submit()
@@ -162,7 +163,7 @@ class Session(Document):
 			if not (
 				topic.docstatus == 0
 				and topic.council == self.council
-				and topic.status == "Accepted"
+				and topic.status == "Pending"
 				and not topic.parent_topic
 			):
 				frappe.throw(_("There are topic outside the valid list, please check again."))
