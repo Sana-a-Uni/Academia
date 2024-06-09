@@ -29,6 +29,8 @@ class Topic(Document):
 		status: DF.Literal["Accepted", "Pending Review", "Pending Acceptance", "Rejected"]
 		title: DF.Data
 		topic_date: DF.Date
+		transaction: DF.Link
+		transaction_action: DF.Link
 	# end: auto-generated types
 	def validate(self):
 		if not self.get("__islocal") and self.is_group:

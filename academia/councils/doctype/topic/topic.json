@@ -8,9 +8,11 @@
  "field_order": [
   "details_tab",
   "council",
-  "topic_date",
+  "transaction",
+  "transaction_action",
   "column_break_lycm",
   "is_group",
+  "topic_date",
   "category",
   "section_break_eouh",
   "get_data_from_transaction",
@@ -184,11 +186,31 @@
    "options": "Transaction Category",
    "read_only_depends_on": "eval:(!doc.is_group);",
    "reqd": 1
+  },
+  {
+   "fieldname": "transaction",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Transaction",
+   "options": "Transaction",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "bold": 1,
+   "depends_on": "transaction;",
+   "fieldname": "transaction_action",
+   "fieldtype": "Link",
+   "in_standard_filter": 1,
+   "label": "Transaction Action",
+   "options": "Transaction Action",
+   "reqd": 1
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-07 03:27:08.282902",
+ "modified": "2024-06-08 17:57:15.452749",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic",
