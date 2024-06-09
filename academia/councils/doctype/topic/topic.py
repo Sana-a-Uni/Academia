@@ -14,10 +14,12 @@ class Topic(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.councils.doctype.topic_applicant.topic_applicant import TopicApplicant
 		from academia.councils.doctype.topic_attachment.topic_attachment import TopicAttachment
 		from frappe.types import DF
 
 		amended_from: DF.Link | None
+		applicants: DF.Table[TopicApplicant]
 		attachments: DF.Table[TopicAttachment]
 		category: DF.Link
 		council: DF.Link

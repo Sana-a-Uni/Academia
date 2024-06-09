@@ -14,8 +14,7 @@ frappe.ui.form.on("Topic", {
       }
     </style>`).appendTo("head");
 
-		// frm.add_fetch("topic", "topic_main_category", "main_category");
-		// frm.add_fetch("topic", "topic_sub_category", "sub_category");
+		frm.add_fetch("transaction", "category", "category");
 	},
 
 	onload: function (frm) {
@@ -43,7 +42,6 @@ frappe.ui.form.on("Topic", {
 			// frm.set_value("sub_category", "");
 		}
 	},
-
 	refresh: function (frm) {
 		if (frm.is_new() || frm.doc.docstatus !== 0) {
 			frm.toggle_display("get_topics_to_group", false);
