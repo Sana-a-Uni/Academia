@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +13,6 @@
 
     .line {
       position: absolute;
-      
       left: 18px;
       top: 0;
       height: 100%;
@@ -24,26 +24,51 @@
     .step {
       position: relative;
       margin-bottom: 30px;
+      display: flex; /* Added */
+      align-items: center; /* Added */
     }
 
     .dot {
       width: 10px;
       height: 10px;
-      background-color: #f2f2f2;
       border-radius: 50%;
       position: absolute;
       left: -5px;
-      top: -5px;
+      top: calc(50% - 5px); /* Updated */
+    }
+    /* Custom dot styles based on step.type */
+    .dot.approved {
+      background-color: rgb(130, 191, 130);
     }
 
-    .text {
+    .dot.redirect {
+      background-color: rgb(89, 130, 253);
+    }
+
+    .dot.reject {
+      background-color: rgb(222, 143, 143);
+    }
+
+    .step-type {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .step-owner {
+      font-style: italic;
+      color: #777;
+    }
+
+
+
+.text {
       margin-left: 20px;
       font-size: 14px;
     }
 
     .line-between {
-      height: calc(100% - 20px); /* Adjusted height to fit between the dots */
-      margin-top: 20px; /* Adjusted margin to align with the dots */
+      height: calc(100% - 20px);
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -53,11 +78,15 @@
       <div class="line"></div>
     </div>
     {% for step in context %}
-      <div class="step">
-        <div class="dot"></div>
-        <div class="text">{{ step.redirected_to }}</div>
+    <div class="step">
+      <div class="dot {% if step.type == 'Approved' %}approved{% elif step.type == 'Redirected' %}redirect{% elif step.type == 'Rejected' %}reject{% endif %}"></div>
+      <div class="text">
+        <span class="step-type">{{ step.type }}</span>....<span class="step-owner">{{ step.owner }}</span>
       </div>
+    </div>
     {% endfor %}
   </div>
 </body>
 </html>
+
+
