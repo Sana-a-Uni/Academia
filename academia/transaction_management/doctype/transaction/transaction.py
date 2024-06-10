@@ -187,20 +187,62 @@ def get_actions_html(transaction_name):
             template_content = file.read()
         template = Template(template_content)
 
-        actions = frappe.get_all("Transaction Action",
-                            filters={
-                                "transaction": transaction_name,
-                                },
-                            fields=[
-                                "type", 
-                                "owner",
-                                ],
-                    		order_by="creation",
-                            )
+        recipient_actions = get_recipient_actions(transaction_name)
+        # return recipient_actions
         context = {
-            "context": actions
+            "recipient_actions": recipient_actions
         }
+        
         # Render the template
         rendered_html = template.render(context)
 
         return rendered_html
+
+
+def get_recipient_actions(transaction_name, action_name=''):
+    if action_name != '':
+        recipients = frappe.get_all("Transaction Recipients",
+                                    filters={"parent": action_name},
+                                    fields=["recipient_email"],
+                                    order_by="creation"
+                                    )
+    else:
+        recipients = frappe.get_all("Transaction Recipients",
+                                    filters={"parent": transaction_name},
+                                    fields=["recipient_email"],
+                                    order_by="creation"
+                                    )
+
+    actions = frappe.get_all("Transaction Action",
+                             filters={"transaction": transaction_name},
+                             fields=["name", "type", "owner"],
+                             order_by="creation"
+                             )
+
+    recipient_actions = []
+    index = 1
+
+    for recipient in recipients:
+        recipient_dict = {
+            "recipients": recipient.recipient_email,
+            "actions": [],
+            "redirected": {
+                "recipients": [],
+                "actions": []
+            }
+        }
+
+        for action in actions:
+            if action.owner == recipient.recipient_email:
+                recipient_dict["actions"].append(action)
+                if action.type == "Redirected":
+                    sub_actions = get_recipient_actions(transaction_name, action.name)
+                    recipient_dict["redirected"]["recipients"].extend([sub_action["recipients"] for sub_action in sub_actions])
+                    recipient_dict["redirected"]["actions"].extend([sub_action["actions"] for sub_action in sub_actions])
+
+        recipient_actions.append(recipient_dict)
+        index += 1
+
+    return recipient_actions
+    
+    
