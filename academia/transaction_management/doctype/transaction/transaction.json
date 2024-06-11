@@ -36,6 +36,7 @@
   "attachments_tab",
   "attachments",
   "tracking_actions_tab",
+  "refresh_button",
   "actions",
   "recipients_tab",
   "recipient_settings_section",
@@ -73,6 +74,7 @@
    "fieldtype": "Data",
    "is_virtual": 1,
    "label": "Start Date",
+   "options": "frappe.utils.format_datetime(doc.creation, \n                format_string='dd MMM yyyy, HH:mm:ss'\n            )",
    "read_only": 1
   },
   {
@@ -86,6 +88,7 @@
    "fieldtype": "Data",
    "is_virtual": 1,
    "label": "Created By",
+   "options": "doc.owner",
    "read_only": 1
   },
   {
@@ -258,12 +261,18 @@
    "fieldname": "private",
    "fieldtype": "Check",
    "label": "Private"
+  },
+  {
+   "fieldname": "refresh_button",
+   "fieldtype": "Button",
+   "label": "Refresh"
   }
  ],
+ "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-11 10:44:01.786917",
+ "modified": "2024-06-11 14:40:27.334888",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

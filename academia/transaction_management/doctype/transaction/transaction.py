@@ -243,18 +243,3 @@ def get_recipient_actions(transaction_name, action_name=''):
         index += 1
 
     return recipient_actions
-    
-    
-@frappe.whitelist()
-def get_transaction_details(name):
-    """
-    Returns the creation datetime and owner of the current transaction.
-    """
-    doc = frappe.get_doc("Transaction", name)
-    return {
-        "created_by": doc.owner,
-        "start_date": frappe.utils.format_datetime(
-                doc.creation, 
-                format_string='dd MMM yyyy, HH:mm:ss'
-            ),
-    }
