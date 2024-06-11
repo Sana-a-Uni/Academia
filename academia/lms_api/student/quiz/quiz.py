@@ -10,7 +10,7 @@ def get_quizzes_by_course(course_name: str , student_id: str ) -> Dict[str, Any]
         # Fetch quizzes for the given course that are available to the student
         quizzes: List[Dict[str, Any]] = frappe.get_all(
             "LMS Quiz",
-            fields=['name', 'title', 'to_date', 'is_time_bound', 'duration', 'number_of_attempts', 'total_grades'],
+            fields=['name', 'title', 'to_date',  'duration', 'number_of_attempts', 'total_grades'],
             filters={
                 'course': course_name,
                 'make_the_quiz_availability': 1,
@@ -59,3 +59,36 @@ def get_quizzes_by_course(course_name: str , student_id: str ) -> Dict[str, Any]
         })
         
         return frappe.response
+
+
+@frappe.whitelist(allow_guest=True)
+def get_quiz_instruction(quiz_name = "2874210861"):
+    try:
+        quiz_doc = frappe.get_doc("LMS Quiz", quiz_name)
+
+        quiz_details = {
+            "title": quiz_doc.title,
+            "course": quiz_doc.course,
+            "instruction": quiz_doc.instruction,
+            "to_date": quiz_doc.to_date.strftime('%Y-%m-%d %H:%M:%S') if quiz_doc.make_the_quiz_availability else None,
+            "duration": quiz_doc.duration if quiz_doc.is_time_bound else None,
+            "max_attempts": quiz_doc.number_of_attempts,
+            "grading_basis": quiz_doc.grading_basis,
+            "total_grades": quiz_doc.total_grades
+        }
+
+        frappe.response.update({
+            "status_code": 200,
+            "message": "Quiz details fetched successfully",
+            "data": quiz_details
+        })
+        return frappe.response["message"]
+
+    except Exception as e:
+        frappe.response.update({
+            "status_code": 500,
+            "message": "An error occurred while fetching quiz details."
+        })
+        return frappe.response["message"]
+
+       
