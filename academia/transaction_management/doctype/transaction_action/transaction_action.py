@@ -22,12 +22,7 @@ class TransactionAction(Document):
 		from_company: DF.Data | None
 		from_department: DF.Data | None
 		from_designation: DF.Data | None
-		include_other_companies: DF.Check
 		recipients: DF.Table[TransactionRecipients]
-		redirected_to: DF.Link | None
-		to_company: DF.Link | None
-		to_department: DF.DynamicLink | None
-		to_party: DF.Link | None
 		transaction: DF.Link | None
 		type: DF.Literal["", "Redirected", "Approved", "Rejected", "Canceled", "Council"]
 	# end: auto-generated types

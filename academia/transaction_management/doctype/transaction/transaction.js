@@ -13,8 +13,63 @@ frappe.ui.form.on('Transaction', {
         background-color: #171710 !important;/* Slightly darker gray for interaction states */
         color: white !important;
       }
+      
+      .btn[data-fieldname="refresh_button"] {
+        background-color: #171717; /* Custom dark gray */
+        color: white;
+      }
+      .btn[data-fieldname="refresh_button"]:hover {
+        background-color: #171710 !important;/* Slightly darker gray for interaction states */
+        color: white !important;
+      }
         </style>`).appendTo("head");
   },
+
+
+  // onload:
+  // function(frm) {
+  //  if(frm.doc.docstatus === 0)
+  //    {
+
+  //      // if user is admin ignore bcoz he cant be employee
+  //      if(frappe.session.user !== "Administrator")
+  //      {
+  //        // Fetch the current employee's document only if the docstatus is draft
+  //        frappe.call({
+  //          method: 'frappe.client.get_value',
+  //          args: {
+  //            doctype: 'User',
+  //            filters: { name: frappe.session.user },
+  //            fieldname: 'email'
+  //          },
+  //          callback: function(response) {
+  //            if (response.message && response.message.email) {
+  //              var userEmail = response.message.email;
+
+  //              frappe.call({
+  //                method: 'frappe.client.get',
+  //                args: {
+  //                  doctype: 'Employee',
+  //                  filters: { user_id: userEmail }
+  //                },
+  //                callback: function(response) {
+  //                  if (response.message) {
+  //                    var employee = response.message;
+  //                    // Set the default value of the department field to the current employee's department
+  //                    frm.set_value('department', employee.department);
+  //                    frm.set_value('designation', employee.designation);
+  //                    // You can access other fields of the employee document as well
+  //                    // Example: frm.set_value('employee_name', employee.employee_name);
+  //                  }
+                   
+  //                }
+  //              });
+  //            }  
+  //          }
+  //        }); 
+  //      }
+  //    }
+  //  },
 
     refresh: function(frm) {
 
@@ -22,20 +77,6 @@ frappe.ui.form.on('Transaction', {
         {
             if(!frm.doc.__islocal )
             {
-              // set (created_by and start_date) virtual fields
-              frappe.call({
-                method: "academia.transaction_management.doctype.transaction.transaction.get_transaction_details",
-                args: {
-                    name: frm.doc.name
-                },
-                callback: function(r) {
-                    if(r.message) {
-                      frm.set_value("created_by", r.message.created_by);
-                      frm.set_value("start_date", r.message.start_date);
-                    }
-                }
-              });
-
                 frappe.call({
                     method: "academia.transaction_management.doctype.transaction_action.transaction_action.get_transaction_actions",
                     args: {
@@ -48,10 +89,10 @@ frappe.ui.form.on('Transaction', {
                             console.log(last_action);
                             if(
                                 last_action
-                                && last_action.type === "Redirected" 
-                                && last_action.recipients.split(',')
-                                                         .map(recipient => recipient.trim())
-                                                         .includes(String(frappe.session.user))
+                                // && last_action.type === "Redirected" 
+                                // && last_action.recipients.split(',')
+                                //                          .map(recipient => recipient.trim())
+                                //                          .includes(String(frappe.session.user))
                             ) {
                                 add_approve_action(frm);
                                 add_redirect_action(frm);
@@ -100,13 +141,13 @@ frappe.ui.form.on('Transaction', {
             };
         };
 
-        // frm.fields_dict['sub_external_entity'].get_query = function(doc) {
-        //     return {
-        //         filters: {
-        //             'parent_external_entity':doc.externalEntity
-        //         }
-        //     };
-        // };
+        frm.fields_dict['sub_external_entity'].get_query = function(doc) {
+            return {
+                filters: {
+                    'parent_external_entity':doc.externalEntity
+                }
+            };
+        };
        
 
     },
@@ -123,7 +164,7 @@ frappe.ui.form.on('Transaction', {
         callback: function(r) {
             if(r.message) {
                 frm.set_df_property("actions", "options", r.message);
-                console.log(r.message);
+                // console.log(r.message);
             }
         }
         });
@@ -197,12 +238,12 @@ frappe.ui.form.on('Transaction', {
   
         get_query() {
           if (all_companies) {
-            frappe.msgprint("all")
+            // frappe.msgprint("all")
             return {
               filters: { docstatus: ['!=', 2] }
             };
           } else {
-            frappe.msgprint("not all")
+            // frappe.msgprint("not all")
             return {
               filters: { docstatus: ['!=', 2], company: frm.doc.company }
           }}
