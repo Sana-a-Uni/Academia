@@ -36,7 +36,6 @@
   "attachments_tab",
   "attachments",
   "tracking_actions_tab",
-  "refresh_button",
   "actions",
   "recipients_tab",
   "recipient_settings_section",
@@ -47,7 +46,6 @@
   {
    "fieldname": "category",
    "fieldtype": "Link",
-   "hidden": 1,
    "label": "Category",
    "options": "Transaction Category"
   },
@@ -70,6 +68,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "start_date",
    "fieldtype": "Data",
    "is_virtual": 1,
@@ -82,6 +81,7 @@
    "label": "Reference Number"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "created_by",
    "fieldtype": "Data",
    "is_virtual": 1,
@@ -133,7 +133,6 @@
    "depends_on": "eval:doc.category;",
    "fieldname": "sub_category",
    "fieldtype": "Link",
-   "hidden": 1,
    "label": "Sub Category",
    "options": "Transaction Category"
   },
@@ -264,7 +263,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-09 19:00:50.886452",
+ "modified": "2024-06-11 10:44:01.786917",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

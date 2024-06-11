@@ -16,53 +16,26 @@ frappe.ui.form.on('Transaction', {
         </style>`).appendTo("head");
   },
 
-
-  
-    onload: function(frm) {
-      // Fetch the current employee's document
-      frappe.call({
-        method: 'frappe.client.get_value',
-        args: {
-          doctype: 'User',
-          filters: { name: frappe.session.user },
-          fieldname: 'email'
-        },
-        callback: function(response) {
-          if (response.message && response.message.email) {
-            var userEmail = response.message.email;
-            // Use the email address as needed
-            console.log(userEmail);
-
-            frappe.call({
-              method: 'frappe.client.get',
-              args: {
-                doctype: 'Employee',
-                filters: { user_id: userEmail }
-              },
-              callback: function(response) {
-                if (response.message) {
-                  var employee = response.message;
-                  // Set the default value of the department field to the current employee's department
-                  frm.set_value('department', employee.department);
-                  frm.set_value('designation', employee.designation);
-                  // You can access other fields of the employee document as well
-                  // Example: frm.set_value('employee_name', employee.employee_name);
-                }
-                
-              }
-            });
-          }  
-        }
-      });
-    },
-  
-
     refresh: function(frm) {
 
         if(frm.doc.docstatus === 1)       
         {
             if(!frm.doc.__islocal )
             {
+              // set (created_by and start_date) virtual fields
+              frappe.call({
+                method: "academia.transaction_management.doctype.transaction.transaction.get_transaction_details",
+                args: {
+                    name: frm.doc.name
+                },
+                callback: function(r) {
+                    if(r.message) {
+                      frm.set_value("created_by", r.message.created_by);
+                      frm.set_value("start_date", r.message.start_date);
+                    }
+                }
+              });
+
                 frappe.call({
                     method: "academia.transaction_management.doctype.transaction_action.transaction_action.get_transaction_actions",
                     args: {
@@ -202,45 +175,61 @@ frappe.ui.form.on('Transaction', {
 },
     // Advance Get members Dialog
     get_recipients: function (frm) {
-        
-    let d=new frappe.ui.form.MultiSelectDialog({
-      doctype: "Employee",
-      target: frm,
-      setters: {
+
+      var all_companies = frm.doc.transaction_scope === "Among Companies";
+      var setters = {
         employee_name: null,
-        company: frm.doc.company,
-        department: frm.doc.administrative_body,
+        department: null,
         designation: null
-      },
-      // add_filters_group: 1,
-      date_field: "transaction_date",
-      get_query() {
-        return {
-          filters: { docstatus: ['!=', 2], company: this.setters.company }
-        }
-      },
-      primary_action_label: "Get Recipients",
-      action(selections) {
-         console.log(selections)
-
-         // Fetch the selected employees with specific fields
-    frappe.call({
-        method: "frappe.client.get_list",
-        args: {
-          doctype: "Employee",
-          filters: { name: ["in", selections] },
-          fields: ["name","employee", "designation", "department", "company", "user_id"]
+      };
+  
+      if (all_companies) {
+        setters.company = null;
+      }
+  
+      let d=new frappe.ui.form.MultiSelectDialog({
+        doctype: "Employee",
+        target: frm,
+        setters: setters,
+  
+        // add_filters_group: 1,
+        date_field: "transaction_date",
+  
+        get_query() {
+          if (all_companies) {
+            frappe.msgprint("all")
+            return {
+              filters: { docstatus: ['!=', 2] }
+            };
+          } else {
+            frappe.msgprint("not all")
+            return {
+              filters: { docstatus: ['!=', 2], company: frm.doc.company }
+          }}
         },
-        callback: (response) => {
-          var selectedEmployees = response.message;
-          console.log(selectedEmployees);
-           // emptying 
-
-          frm.set_value('recipients', []);
-
-          selectedEmployees.forEach((employee) => {
-
-                frm.add_child("recipients", {
+  
+        primary_action_label: "Get Recipients",
+        action(selections) {
+        console.log(selections)
+  
+        // Fetch the selected employees with specific fields
+        frappe.call({
+            method: "frappe.client.get_list",
+            args: {
+            doctype: "Employee",
+            filters: { name: ["in", selections] },
+            fields: ["name","employee", "designation", "department", "company", "user_id"]
+          },
+          callback: (response) => {
+            var selectedEmployees = response.message;
+            console.log(selectedEmployees);
+            // emptying 
+  
+            frm.set_value('recipients', []);
+  
+            selectedEmployees.forEach((employee) => {
+  
+              frm.add_child("recipients", {
                 // employee: recipient,
                 recipient_name:employee.employee,
                 recipient_company:employee.company,
@@ -250,17 +239,16 @@ frappe.ui.form.on('Transaction', {
                 // member_name: employee.employee_name,
                 // member_role: "Council Member"
               })
-
-          })
+            })
+  
             this.dialog.hide();
-
-          frm.refresh_field("recipients");
+  
+            frm.refresh_field("recipients");
+          }
+        });
         }
       });
-      }
-    });
-
-  },
+    },
 
     sub_category: function(frm) {
 

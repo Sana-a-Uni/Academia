@@ -47,12 +47,6 @@ class Transaction(Document):
     # end: auto-generated types
     def on_submit(self):
 
-        self.start_date = frappe.utils.format_datetime(
-                            self.creation, 
-                            format_string='dd MMM yyyy, HH:mm:ss'
-                        )
-        self.created_by = self.owner
-
         # make a read permission for applicants
         for row in self.applicants_table:
             applicant = frappe.get_doc(row.applicant_type, row.applicant)
@@ -76,15 +70,20 @@ class Transaction(Document):
                     read = 1,
                     write = 1,
                     share = 1
-                )            
+                )  
+
+    def before_save(self):
+        if frappe.session.user != "Administrator":
+            self.set_employee_details()
+
+    def set_employee_details(self):
+        # Fetch the current employee's document
+        employee = frappe.db.get_value("Employee", {"user_id": frappe.session.user}, ["department", "designation"], as_dict=True)
+        if employee:
+            self.department = employee.department
+            self.designation = employee.designation  
 
 
-
-# @frappe.whitelist()
-# def get_transaction_category_requirement(transaction_category):
-#     requirements = frappe.get_all("Transaction Category Requirement",
-#                                    filters={"parent": transaction_category},)
-#     return requirements
 
 @frappe.whitelist()
 def get_transaction_category_requirement(transaction_category):
@@ -246,3 +245,16 @@ def get_recipient_actions(transaction_name, action_name=''):
     return recipient_actions
     
     
+@frappe.whitelist()
+def get_transaction_details(name):
+    """
+    Returns the creation datetime and owner of the current transaction.
+    """
+    doc = frappe.get_doc("Transaction", name)
+    return {
+        "created_by": doc.owner,
+        "start_date": frappe.utils.format_datetime(
+                doc.creation, 
+                format_string='dd MMM yyyy, HH:mm:ss'
+            ),
+    }

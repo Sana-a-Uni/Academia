@@ -21,36 +21,18 @@ frappe.ui.form.on('Transaction Category', {
         };
     },
 
-
-    // error: there is a problem because of uniqe name
-    // parent_category_: function(frm) {
-
-    //     if (frm.doc.parent_category) {
-    //       frappe.call({
-    //         method: "academia.transaction_management.doctype.transaction.transaction.get_transaction_category_requirement",
-    //         args: {
-    //           transaction_category: frm.doc.parent_category
-    //         },
-    //         callback: function(response) {
-    //           // Add attach image fields for each Transaction Type Requirement
-    //           const requirements = response.message || [];
-  
-    //           requirements.forEach(function(requirement) {
-    //             console.log(requirement)
-    //             frm.add_child("requirements", {
-    //               requirement_name: requirement.name,
-    //               fieldtype: "Attach Image",
-    //               file_type: requirement.file_type,
-    //               required: requirement.required,
-    //             });
-    //           });
-  
-    //         // Refresh the form to display the newly added fields
-    //            frm.refresh_fields("requirements");
-    //         }
-    //       });
-    //     }
-    //   },
-  
+    validate: function(frm) {
+        // Validation for is_group checkbox
+        if (frm.doc.is_group) {
+            // If is_group is checked, clear the parent_category field
+            frm.set_value('parent_category', null);
+            frm.refresh_field('parent_category');
+        } else {
+            // If is_group is not checked, ensure parent_category is not empty
+            if (!frm.doc.parent_category) {
+                frappe.throw(__("Parent Category is mandatory if 'Is Group' is not checked."));
+            }
+        }
+    }  
 
 });
