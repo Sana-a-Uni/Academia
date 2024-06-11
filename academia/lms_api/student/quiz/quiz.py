@@ -74,6 +74,19 @@ def get_quiz_instruction(quiz_name: str = "2874210861", student_id: str ="EDU-ST
             })
             return frappe.response["message"]
         
+       # Check the number of attempts left for the student
+        quiz_results = frappe.get_all('Quiz Result', filters={'student': student_id, 'quiz': quiz_name}, fields=['attempts_taken'])
+        current_attempts = quiz_results[0]['attempts_taken'] if quiz_results else 0
+        attempts_left = quiz_doc.number_of_attempts - current_attempts
+
+        # Check if the student has reached the maximum number of attempts
+        if current_attempts >= quiz_doc.number_of_attempts:
+            frappe.response.update({
+                "status_code": 403,
+                "message": "You have reached the maximum number of attempts for this quiz."
+            })
+            return frappe.response["message"]
+
         # Prepare quiz details
         quiz_details = {
             "title": quiz_doc.title,
@@ -82,6 +95,7 @@ def get_quiz_instruction(quiz_name: str = "2874210861", student_id: str ="EDU-ST
             "to_date": quiz_doc.to_date.strftime('%Y-%m-%d %H:%M:%S') if quiz_doc.make_the_quiz_availability else None,
             "duration": quiz_doc.duration if quiz_doc.is_time_bound else None,
             "max_attempts": quiz_doc.number_of_attempts,
+            "attempts_left": attempts_left,  
             "grading_basis": quiz_doc.grading_basis,
             "total_grades": quiz_doc.total_grades
         }
