@@ -36,6 +36,7 @@
   "attachments_tab",
   "attachments",
   "tracking_actions_tab",
+  "refresh_button",
   "actions",
   "recipients_tab",
   "recipient_settings_section",
@@ -159,6 +160,7 @@
    "label": "Attachments"
   },
   {
+   "depends_on": "eval:doc.docstatus === 1;",
    "fieldname": "tracking_actions_tab",
    "fieldtype": "Tab Break",
    "label": "Tracking Actions"
@@ -187,6 +189,7 @@
    "label": "Recipient Settings"
   },
   {
+   "depends_on": "eval: doc.docstatus === 0;",
    "fieldname": "get_recipients",
    "fieldtype": "Button",
    "label": "Get Recipients"
