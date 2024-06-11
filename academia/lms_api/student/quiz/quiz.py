@@ -62,10 +62,19 @@ def get_quizzes_by_course(course_name: str , student_id: str ) -> Dict[str, Any]
 
 
 @frappe.whitelist(allow_guest=True)
-def get_quiz_instruction(quiz_name = "2874210861"):
+def get_quiz_instruction(quiz_name: str = "2874210861", student_id: str ="EDU-STU-2024-00001") -> Dict[str, Any]:
     try:
         quiz_doc = frappe.get_doc("LMS Quiz", quiz_name)
 
+        # Check if the quiz is no longer available
+        if not quiz_doc.make_the_quiz_availability or (quiz_doc.to_date < datetime.now()):
+            frappe.response.update({
+                "status_code": 403,
+                "message": "This quiz is no longer available."
+            })
+            return frappe.response["message"]
+        
+        # Prepare quiz details
         quiz_details = {
             "title": quiz_doc.title,
             "course": quiz_doc.course,
@@ -77,6 +86,7 @@ def get_quiz_instruction(quiz_name = "2874210861"):
             "total_grades": quiz_doc.total_grades
         }
 
+        # Construct the response
         frappe.response.update({
             "status_code": 200,
             "message": "Quiz details fetched successfully",
@@ -84,11 +94,10 @@ def get_quiz_instruction(quiz_name = "2874210861"):
         })
         return frappe.response["message"]
 
+    # Construct the error response
     except Exception as e:
         frappe.response.update({
             "status_code": 500,
             "message": "An error occurred while fetching quiz details."
         })
         return frappe.response["message"]
-
-       
