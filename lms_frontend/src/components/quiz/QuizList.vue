@@ -99,5 +99,132 @@ function formatTime(dateString) {
 }
 </script>
 <style scoped>
-@import "@/assets/style/QuizList.css";
+.quiz-list {
+	width: 100%;
+	margin: 0px 10px;
+	border-collapse: collapse;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+	padding: 0 20px;
+	position: relative;
+}
+
+.filters {
+	flex: 1;
+	display: flex;
+	justify-content: flex-start;
+}
+
+.filters select {
+	padding: 8px;
+	padding-right: 32px; /* Add space for arrow */
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	font-size: 16px;
+	appearance: none; /* Remove default arrow */
+	background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>')
+		no-repeat right 8px center;
+	background-size: 16px 16px;
+}
+
+h2 {
+	margin: 0;
+	font-size: 24px;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+table {
+	width: calc(100% - 40px); /* Adjust the width to leave space on both sides */
+	margin: 0 20px; /* Add margins to the left and right */
+	border: 1px solid #ddd;
+}
+
+th,
+td {
+	padding: 12px;
+	border: 1px solid #ddd;
+	vertical-align: middle; /* Center align vertically for both th and td */
+}
+
+th {
+	background-color: #f4f4f4;
+	text-align: center; /* Center align header cells horizontally */
+}
+
+a {
+	color: #2a73cc;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+.due-column {
+	width: 10%;
+}
+
+.due-column div {
+	line-height: 1.5;
+}
+
+.quiz-column {
+	width: 55%;
+}
+
+.time-limit-column,
+.attempts-column,
+.grade-column {
+	width: 10%;
+	text-align: center; /* Center align content horizontally */
+}
+
+@media (max-width: 768px) {
+	h2 {
+		font-size: 18px; /* Reduce font size for smaller screens */
+		position: static;
+		transform: none;
+		order: 1;
+	}
+
+	.filters {
+		order: 2;
+		flex: 1;
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	.filters select {
+		font-size: 14px; /* Reduce font size for smaller screens */
+	}
+
+	table {
+		width: 100%; /* Make table full width on smaller screens */
+		margin: 0; /* Remove side margins on smaller screens */
+	}
+
+	th,
+	td {
+		font-size: 12px; /* Reduce font size on smaller screens */
+		padding: 8px; /* Reduce padding on smaller screens */
+	}
+
+	.due-column,
+	.time-limit-column,
+	.attempts-column,
+	.grade-column {
+		width: auto; /* Auto width for columns on smaller screens */
+	}
+
+	.quiz-column {
+		width: auto; /* Auto width for quiz column on smaller screens */
+	}
+}
 </style>
