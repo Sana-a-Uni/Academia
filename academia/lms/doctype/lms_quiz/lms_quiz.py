@@ -23,8 +23,8 @@ class LMSQuiz(Document):
 		instruction: DF.SmallText | None
 		is_time_bound: DF.Check
 		make_the_quiz_availability: DF.Check
-		max_attempts: DF.Int
 		multiple_attempts: DF.Check
+		number_of_attempts: DF.Int
 		quiz_question: DF.Table[QuizQuestion]
 		student_group: DF.Link | None
 		title: DF.Data

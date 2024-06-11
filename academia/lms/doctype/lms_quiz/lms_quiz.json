@@ -23,7 +23,7 @@
   "total_grades",
   "column_break_feab",
   "multiple_attempts",
-  "max_attempts",
+  "number_of_attempts",
   "grading_basis",
   "section_break_euqq",
   "quiz_question"
@@ -118,12 +118,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "depends_on": "multiple_attempts",
-   "fieldname": "max_attempts",
-   "fieldtype": "Int",
-   "label": "Number of attempts"
-  },
-  {
    "fieldname": "total_grades",
    "fieldtype": "Float",
    "label": "Total Grades"
@@ -149,11 +143,18 @@
    "fieldtype": "Table",
    "label": "Quiz Question",
    "options": "Quiz Question"
+  },
+  {
+   "default": "1",
+   "depends_on": "multiple_attempts",
+   "fieldname": "number_of_attempts",
+   "fieldtype": "Int",
+   "label": "Number of attempts"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-28 19:11:15.166106",
+ "modified": "2024-06-11 01:12:39.465416",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "LMS Quiz",
