@@ -63,18 +63,6 @@ frappe.ui.form.on('Transaction', {
         {
             if(!frm.doc.__islocal )
             {
-
-              frappe.call({
-                method: "academia.transaction_management.doctype.transaction.transaction.get_actions_html",
-                args: {
-                    transaction_name: frm.doc.name
-                },
-                callback: function(r) {
-                    if(r.message) {
-                        frm.set_df_property("actions", "options", r.message);
-                    }
-                }
-                });
                 frappe.call({
                     method: "academia.transaction_management.doctype.transaction_action.transaction_action.get_transaction_actions",
                     args: {
@@ -148,6 +136,24 @@ frappe.ui.form.on('Transaction', {
         // };
        
 
+    },
+
+
+    // refresh action html template only when press this button
+    refresh_button:function (frm) {
+
+      frappe.call({
+        method: "academia.transaction_management.doctype.transaction.transaction.get_actions_html",
+        args: {
+            transaction_name: frm.doc.name
+            },
+        callback: function(r) {
+            if(r.message) {
+                frm.set_df_property("actions", "options", r.message);
+                console.log(r.message);
+            }
+        }
+        });
     },
 
     main_external_entity:function(frm){
