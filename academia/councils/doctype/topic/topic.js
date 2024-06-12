@@ -118,7 +118,7 @@ frappe.ui.form.on("Topic", {
 						parent_topic: "",
 						decision_type: "", //empty, not set, means topic not scheduled for session
 						docstatus: 0, // draft
-						// status:"Accepted"
+						// status:"Pending"
 					},
 				};
 			},

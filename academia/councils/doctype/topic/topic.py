@@ -24,11 +24,11 @@ class Topic(Document):
 		category: DF.Link
 		council: DF.Link
 		decision: DF.TextEditor | None
-		decision_type: DF.Literal["", "Postponed", "Resolved"]
+		decision_type: DF.Literal["", "Other", "Accepted", "Rejected"]
 		description: DF.TextEditor
 		is_group: DF.Check
 		parent_topic: DF.Link | None
-		status: DF.Literal["Accepted", "Pending Review", "Pending Acceptance", "Rejected"]
+		status: DF.Literal["Pending", "Scheduled", "Postponed", "Resolved"]
 		title: DF.Data
 		topic_date: DF.Date
 		transaction: DF.Link
@@ -69,13 +69,14 @@ class Topic(Document):
 	#             )
 
 	def submit_grouped_topics(self):
-		if self.decision_type in ["Resolved", "Transferred"]:
+		if self.status == "Resolved":
 			grouped_topics = frappe.get_all(
 				"Topic", filters={"parent_topic": self.name, "is_group": 0}, fields=["name"]
 			)
 			if len(grouped_topics) > 0:
 				for topic_data in grouped_topics:
 					topic = frappe.get_doc("Topic", topic_data["name"])
+					topic.status = self.status
 					topic.decision_type = self.decision_type
 					topic.decision = self.decision
 					topic.flags.ignore_validate = True
@@ -165,7 +166,7 @@ def get_grouped_topics(parent_name):
 	grouped_topics = frappe.get_all(
 		"Topic",
 		filters={"parent_topic": parent_name, "is_group": 0},
-		fields=["name", "title", "topic_date", "decision_type"],
+		fields=["name", "title", "topic_date", "status"],
 	)
 	return grouped_topics
 
