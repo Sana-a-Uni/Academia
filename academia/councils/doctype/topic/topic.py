@@ -33,6 +33,7 @@ class Topic(Document):
 		topic_date: DF.Date
 		transaction: DF.Link
 		transaction_action: DF.Link
+
 	# end: auto-generated types
 	def validate(self):
 		if not self.get("__islocal") and self.is_group:
@@ -197,3 +198,76 @@ def delete_topics_from_group(topic_names):
 	except Exception as e:
 		frappe.log_error(frappe.get_traceback(), "Error removing topics")
 		return str(e)
+
+
+from frappe.model.mapper import get_mapped_doc
+from frappe.utils import today
+
+
+@frappe.whitelist()
+def create_topic_from_transaction(transaction_name, transaction_action, target_doc=None):
+	def set_additional_values(source_doc, target_doc, source_parent_doc):
+		target_doc.topic_date = today()
+		target_doc.transaction = transaction_name
+		target_doc.transaction_action = transaction_action
+		target_doc.council = get_council_for_topic()
+
+	def get_council_for_topic():
+		user = frappe.session.user  # Get the current logged in user
+		employee = frappe.db.get_value("Employee", {"user_id": user}, "name")  # Fetch the linked employee
+
+		if not employee:
+			frappe.throw(_("No linked employee found for the current user."))
+
+		# Find if the employee is a head in any council
+		council = frappe.db.sql(
+			"""
+			SELECT * FROM `tabCouncil Member`
+			WHERE employee=%s AND member_role='Council Head'
+			LIMIT 1
+		""",
+			(employee,),
+			as_dict=1,
+		)
+		if not council:
+			frappe.throw(_("You are not listed as head of any council"))
+
+		return council[0].parent if council else None
+
+	# Define the mapping specifications
+	mappings = {
+		"Transaction": {
+			"doctype": "Topic",
+			"field_map": {"category": "category", "title": "title", "description": "description"},
+			"postprocess": set_additional_values,
+		},
+		"Topic Attachment": {
+			"doctype": "Topic Attachment",
+			"field_map": {
+				"title": "title",
+				"type": "type",
+				"attachment": "attachment",
+				"upload_date": "upload_date",
+			},
+		},
+		"Topic Applicant": {
+			"doctype": "Topic Applicant",
+			"field_map": {
+				"applicant_type": "applicant_type",
+				"applicant": "applicant",
+				"applicant_name": "applicant_name",
+			},
+		},
+	}
+
+	# Create the Topic document based on the mappings from the Transaction
+	topic_doc = get_mapped_doc("Transaction", transaction_name, mappings, target_doc)
+
+	try:
+		# topic_doc.flags.ignore_permissions = True     #get_mapped_doc does check create permission so we can ignore them in insert to reduce checking time
+		topic_doc.insert()  # No longer ignoring permissions, ensuring enforcement
+		frappe.db.commit()
+	except frappe.PermissionError:
+		frappe.throw(_("Not permitted"), frappe.PermissionError)
+
+		return topic_doc.name
