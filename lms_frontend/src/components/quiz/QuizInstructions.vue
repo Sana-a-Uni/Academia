@@ -14,8 +14,8 @@
 					quiz.
 				</li>
 				<li v-if="quizInstructions.duration !== null">
-					Time limit: You have <strong> {{ quizInstructions.duration }} </strong> to complete the
-					quiz from the moment you start your attempt.
+					Time limit: You have <strong> {{ formatDuration(quizInstructions.duration) }} </strong> to
+					complete the quiz from the moment you start your attempt.
 				</li>
 				<li>
 					Total score: The maximum possible score is
@@ -48,6 +48,25 @@ const props = defineProps({
 		required: true,
 	},
 });
+
+function formatDuration(seconds) {
+	if (typeof seconds !== "number") {
+		return "";
+	}
+
+	const days = Math.floor(seconds / (24 * 3600));
+	const remainingSecondsAfterDays = seconds % (24 * 3600);
+	const hours = Math.floor(remainingSecondsAfterDays / 3600);
+	const remainingSecondsAfterHours = remainingSecondsAfterDays % 3600;
+	const minutes = Math.floor(remainingSecondsAfterHours / 60);
+
+	const parts = [];
+	if (days > 0) parts.push(`${days} days`);
+	if (hours > 0) parts.push(`${hours} hours`);
+	if (minutes > 0) parts.push(`${minutes} minutes`);
+
+	return parts.join(" ");
+}
 </script>
 
 <style scoped>
