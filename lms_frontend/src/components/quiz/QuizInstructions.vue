@@ -3,26 +3,33 @@
 		<h1>Quiz Instructions</h1>
 		<div class="instructions">
 			<p>
-				Welcome to <strong>{{ instructions[6] }}</strong> in <strong>{{ instructions[7] }}</strong> !
-				Please read the following instructions carefully before you begin:
+				Welcome to <strong> {{ quizInstructions.title }} </strong> in
+				<strong> {{ quizInstructions.course }} </strong>! Please read the following instructions
+				carefully before you begin:
 			</p>
 			<ul>
 				<li>
-					Attempts allowed: <strong>{{ instructions[0] }}</strong>
+					Attempts allowed: You have
+					<strong> {{ quizInstructions.number_of_attempts }} </strong> attempts to complete the
+					quiz.
+				</li>
+				<li v-if="quizInstructions.duration !== null">
+					Time limit: You have <strong> {{ quizInstructions.duration }} </strong> to complete the
+					quiz from the moment you start your attempt.
 				</li>
 				<li>
-					Time limit: <strong>{{ instructions[1] }} minutes</strong>
+					Total score: The maximum possible score is
+					<strong> {{ quizInstructions.total_grades }} </strong> points.
 				</li>
 				<li>
-					Number of questions: <strong>{{ instructions[2] }}</strong>
+					Grading basis: Your grade will be determined based on
+					<strong> {{ quizInstructions.grading_basis }} </strong>.
 				</li>
 				<li>
-					Total score: <strong>{{ instructions[3] }} points</strong>
+					End time: All attempts must be completed before
+					<strong> {{ quizInstructions.to_date }} </strong>.
 				</li>
-				<li>
-					End time: <strong>{{ instructions[4] }}</strong>
-				</li>
-				<li>Instructor's notes: {{ instructions[5] }}</li>
+				<li v-if="quizInstructions.instruction">Notes: {{ quizInstructions.instruction }}</li>
 			</ul>
 		</div>
 		<div class="btn-container">
@@ -36,8 +43,9 @@
 import { defineProps } from "vue";
 
 const props = defineProps({
-	instructions: {
-		type: Array,
+	quizInstructions: {
+		type: Object,
+		required: true,
 	},
 });
 </script>
@@ -66,12 +74,12 @@ body {
 
 .instructions {
 	overflow-y: auto;
-	max-height: calc(100vh - 210px); /* Adjusted for fixed header, footer and padding */
+	max-height: calc(100vh - 210px);
 }
 
 h1 {
 	color: #0584ae;
-	margin-bottom: 10px; /* Reduced margin */
+	margin-bottom: 10px;
 }
 
 p {
@@ -89,21 +97,30 @@ ul {
 ul li {
 	margin-bottom: 10px;
 	display: flex;
-	align-items: flex-start; /* Align items to the start to handle multiline */
+	align-items: flex-start;
 }
 
 ul li::before {
 	content: "✔";
 	color: #0584ae;
 	margin-right: 10px;
-	flex-shrink: 0; /* Prevent the checkmark from shrinking */
+	flex-shrink: 0;
+}
+
+ul li strong {
+	white-space: pre;
+}
+
+ul li strong::before,
+ul li strong::after {
+	content: "\00a0";
 }
 
 .btn-container {
 	display: flex;
 	justify-content: center;
 	gap: 10px;
-	margin-top: 10px; /* Reduced margin */
+	margin-top: 10px;
 }
 
 .btn {
@@ -129,25 +146,25 @@ ul li::before {
 
 @media (max-width: 768px) {
 	h1 {
-		font-size: 18px; /* Smaller font size for small screens */
+		font-size: 18px;
 	}
 
 	.btn-container {
-		gap: 5px; /* Reduce gap between buttons */
+		gap: 5px;
 	}
 
 	.btn {
-		padding: 8px 16px; /* Smaller padding for buttons */
-		font-size: 14px; /* Smaller font size for buttons */
+		padding: 8px 16px;
+		font-size: 14px;
 	}
 
 	.instructions {
-		max-height: calc(100vh - 160px); /* Reduce max height to account for smaller screens */
+		max-height: calc(100vh - 160px);
 	}
 
 	.container {
-		padding: 10px; /* Reduce padding for the container */
-		margin: 0px; /* Reduce margin-top for the container */
+		padding: 10px;
+		margin: 0px;
 	}
 }
 </style>
