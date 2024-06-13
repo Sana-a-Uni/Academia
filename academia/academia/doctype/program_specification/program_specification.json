@@ -176,6 +176,7 @@
   {
    "fieldname": "table_ytno",
    "fieldtype": "Table",
+   "label": "Courses",
    "options": "Study Plan Course",
    "read_only_depends_on": "eval:doc.research_or_thesis == 1 && doc.courses == 0;"
   },
@@ -244,7 +245,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-22 03:13:25.250887",
+ "modified": "2024-06-13 04:01:10.750584",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Specification",
