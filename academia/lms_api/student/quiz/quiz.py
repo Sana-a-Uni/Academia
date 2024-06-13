@@ -58,11 +58,11 @@ def get_quizzes_by_course(course_name: str , student_id: str ) -> Dict[str, Any]
             "message": f"An error occurred while fetching quizzes: {str(e)}"
         })
         
-        return frappe.response
+    return frappe.response["message"]
 
 
 @frappe.whitelist(allow_guest=True)
-def get_quiz_instruction(quiz_name: str = "2874210861", student_id: str ="EDU-STU-2024-00001") -> Dict[str, Any]:
+def get_quiz_instruction(quiz_name: str, student_id: str ) -> Dict[str, Any]:
     try:
         quiz_doc = frappe.get_doc("LMS Quiz", quiz_name)
 
@@ -94,7 +94,7 @@ def get_quiz_instruction(quiz_name: str = "2874210861", student_id: str ="EDU-ST
             "instruction": quiz_doc.instruction,
             "to_date": quiz_doc.to_date.strftime('%Y-%m-%d %H:%M:%S') if quiz_doc.make_the_quiz_availability else None,
             "duration": quiz_doc.duration if quiz_doc.is_time_bound else None,
-            "max_attempts": quiz_doc.number_of_attempts,
+            "number_of_attempts": quiz_doc.number_of_attempts,
             "attempts_left": attempts_left,  
             "grading_basis": quiz_doc.grading_basis,
             "total_grades": quiz_doc.total_grades
@@ -115,3 +115,52 @@ def get_quiz_instruction(quiz_name: str = "2874210861", student_id: str ="EDU-ST
             "message": "An error occurred while fetching quiz details."
         })
         return frappe.response["message"]
+
+
+@frappe.whitelist(allow_guest=True)
+def get_quiz(quiz_name="2874210861"):
+    try:
+        # Fetch the quiz document
+        quiz_doc = frappe.get_doc("LMS Quiz", quiz_name)
+
+        # Prepare the quiz details
+        quiz = {
+            "title": quiz_doc.title,
+            "course": quiz_doc.course,
+            "duration": quiz_doc.duration if quiz_doc.is_time_bound else None,
+            "quiz_question": []
+        }
+
+        # Fetch each question linked to the quiz
+        for question_row in quiz_doc.quiz_question:
+            question_doc = frappe.get_doc("Question", question_row.question_link)
+            question_details = {
+                "name": question_doc.name,
+                "question": question_doc.question,
+                "question_type": question_doc.question_type,
+                "question_options": [
+                    {"option": option.option}
+                    for option in question_doc.question_options
+                ],
+                "question_grade": question_row.question_grade,
+            }
+            quiz["quiz_question"].append(question_details)
+
+        # Add the total number of questions
+        quiz["questions_number"] = len(quiz["quiz_question"])
+
+        # Construct the success response
+        frappe.response.update({
+            "status_code": 200,
+            "message": "Quiz questions fetched successfully",
+            "data": quiz
+        })
+        return frappe.response["message"]
+
+    except Exception as e:
+        # General error handling
+        frappe.response.update({
+            "status_code": 500,
+            "message": f"An error occurred while fetching quiz details: {str(e)}"
+        })
+    return frappe.response["message"]
