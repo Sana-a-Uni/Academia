@@ -19,6 +19,7 @@ class ProgramSpecification(Document):
         from frappe.types import DF
 
         approval_date: DF.Date | None
+        course_language: DF.TableMultiSelect[CourseLanguage]
         courses: DF.Check
         date_of_programe_development: DF.Date | None
         delivery_mode: DF.Literal["", "On Campus", "Online"]
@@ -34,7 +35,6 @@ class ProgramSpecification(Document):
         program_name: DF.Link
         research_or_thesis: DF.Check
         starrting_year_of_the_program: DF.Date | None
-        study_language: DF.TableMultiSelect[CourseLanguage]
         study_methods: DF.Link | None
         table_ytno: DF.Table[StudyPlanCourse]
         total_hours_required_to_award_degree: DF.Int
