@@ -1,11 +1,17 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
-# import frappe
+import frappe
 from frappe.model.document import Document
 
 
 class ProgramSpecification(Document):
+    def get_course_list(self):
+        return [frappe.get_doc("Course Specification", study_plan_course.course_code) for study_plan_course in self.table_ytno]
+
+
+
+
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
