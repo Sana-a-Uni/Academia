@@ -177,6 +177,9 @@ def create_quiz_attempt():
     start_time = data.get('start_time')
     answers = data.get('answers')
 
+    if not student or not quiz or not start_time or not answers:
+        frappe.throw("Missing required parameters")
+
     start_time = datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S')
     end_time = datetime.now()
 
@@ -240,6 +243,43 @@ def create_quiz_attempt():
         'quiz_answer': quiz_answer_list
     })
     quiz_attempt.insert()
+    frappe.db.commit()
+
+    # Determine final score based on the number of attempts and grading basis
+    if quiz_doc.number_of_attempts == 1:
+        final_score = total_grade
+        attempts_taken = 1
+    else:
+        attempts = frappe.get_all('Quiz Attempt', filters={'student': student, 'quiz': quiz}, fields=['grade'])
+        attempts.append({'grade': total_grade})  # Include the current attempt
+
+        grading_basis = quiz_doc.grading_basis
+        if grading_basis == 'Highest Grade':
+            final_score = max(attempt['grade'] for attempt in attempts)
+        elif grading_basis == 'Latest Attempt':
+            final_score = attempts[-1]['grade']
+        elif grading_basis == 'Average of Attempts':
+            final_score = sum(attempt['grade'] for attempt in attempts) / len(attempts)
+
+        attempts_taken = len(attempts)
+
+    # Create or update Quiz Result
+    existing_result = frappe.get_all('Quiz Result', filters={'student': student, 'quiz': quiz}, fields=['name'])
+    if existing_result:
+        quiz_result = frappe.get_doc('Quiz Result', existing_result[0]['name'])
+        quiz_result.grade = final_score
+        quiz_result.attempts_taken = attempts_taken
+        quiz_result.save()
+    else:
+        quiz_result = frappe.get_doc({
+            'doctype': 'Quiz Result',
+            'student': student,
+            'quiz': quiz,
+            'grade': final_score,
+            'attempts_taken': attempts_taken
+        })
+        quiz_result.insert()
+
     frappe.db.commit()
 
     frappe.response["status_code"] = 200
