@@ -3,9 +3,9 @@
 		<div class="timer">{{ formattedTime }}</div>
 		<div class="middle-section">
 			<div class="arrows">
-				<span @click="prevQuestion">&#9664;</span>
-				<span class="question">{{ currentQuestion + 1 }} of 20</span>
-				<span @click="nextQuestion">&#9654;</span>
+				<span v-if="currentQuestion > 0" @click="prevQuestion">&#9664;</span>
+				<span class="question">{{ currentQuestion + 1 }} of {{ totalQuestions }}</span>
+				<span v-if="currentQuestion < totalQuestions - 1" @click="nextQuestion">&#9654;</span>
 			</div>
 		</div>
 		<button class="submit-btn" @click="submitAnswers">Submit</button>
@@ -13,8 +13,6 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
-
 const props = defineProps({
 	formattedTime: {
 		type: String,
@@ -34,6 +32,10 @@ const props = defineProps({
 	},
 	submitAnswers: {
 		type: Function,
+		required: true,
+	},
+	totalQuestions: {
+		type: Number,
 		required: true,
 	},
 });

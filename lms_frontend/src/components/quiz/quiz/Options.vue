@@ -1,14 +1,19 @@
 <template>
 	<div class="options">
-		<label v-for="(choice, index) in questions[currentQuestion].choices" :key="index">
-			<input type="radio" :name="'answer' + currentQuestion" :value="choice" @change="markAnswered" />
-			{{ choice }}
+		<label v-for="(choice, index) in questions[currentQuestion].question_options" :key="index">
+			<input
+				type="radio"
+				:name="'answer' + currentQuestion"
+				:value="choice.option"
+				@change="() => markAnswered(currentQuestion, choice.option)"
+				:checked="questions[currentQuestion].selectedAnswer === choice.option"
+			/>
+			{{ choice.option }}
 		</label>
 	</div>
 </template>
 
 <script setup>
-import { defineProps } from "vue";
 const props = defineProps({
 	questions: {
 		type: Array,

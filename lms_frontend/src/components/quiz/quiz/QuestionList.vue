@@ -8,15 +8,13 @@
 				@click="goToQuestion(index)"
 			>
 				<input type="radio" name="question" :checked="question.checked" disabled />
-				<label>{{ question.label }}</label>
+				<label>Question {{ index + 1 }}</label>
 			</li>
 		</ul>
 	</div>
 </template>
 
 <script setup>
-import { defineProps } from "vue";
-
 const props = defineProps({
 	questions: {
 		type: Array,

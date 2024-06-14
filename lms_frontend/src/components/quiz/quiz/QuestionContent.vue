@@ -3,18 +3,17 @@
 		<div class="question-title">
 			<span>Question {{ currentQuestion + 1 }}</span>
 			<div class="points-badge">
-				<span>{{ questions[currentQuestion].points }}</span>
+				<span>{{ questions[currentQuestion].question_grade }}</span>
 				<span>points</span>
 			</div>
 		</div>
 		<div class="question-text">
-			<p>{{ questions[currentQuestion].text }}</p>
+			<p v-html="questions[currentQuestion].question"></p>
 		</div>
 	</div>
 </template>
 
 <script setup>
-import { defineProps } from "vue";
 
 const props = defineProps({
 	questions: {
@@ -27,6 +26,7 @@ const props = defineProps({
 	},
 });
 </script>
+
 <style scoped>
 .question-content {
 	flex: 3;
