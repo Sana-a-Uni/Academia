@@ -19,8 +19,8 @@ class QuizAttempt(Document):
 		end_time: DF.Datetime | None
 		grade: DF.Float
 		grade_out_of: DF.Float
-		number_of_correct_answer: DF.Int
-		number_of_incorrect_answer: DF.Int
+		number_of_correct_answers: DF.Int
+		number_of_incorrect_answers: DF.Int
 		number_of_unanswered_questions: DF.Int
 		quiz: DF.Link | None
 		quiz_answer: DF.Table[QuizAnswer]

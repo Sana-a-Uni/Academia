@@ -13,10 +13,10 @@
   "section_break_tdsg",
   "quiz_answer",
   "section_break_a5jj",
-  "number_of_correct_answer",
+  "number_of_correct_answers",
   "number_of_unanswered_questions",
   "column_break_onhs",
-  "number_of_incorrect_answer",
+  "number_of_incorrect_answers",
   "section_break_g5qk",
   "grade",
   "start_time",
@@ -70,16 +70,6 @@
    "label": "Time Taken"
   },
   {
-   "fieldname": "number_of_correct_answer",
-   "fieldtype": "Int",
-   "label": "Number of correct answer "
-  },
-  {
-   "fieldname": "number_of_incorrect_answer",
-   "fieldtype": "Int",
-   "label": "Number of incorrect answer "
-  },
-  {
    "fieldname": "grade",
    "fieldtype": "Float",
    "label": "Grade"
@@ -118,11 +108,21 @@
   {
    "fieldname": "section_break_tdsg",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "number_of_correct_answers",
+   "fieldtype": "Int",
+   "label": "Number of correct answers "
+  },
+  {
+   "fieldname": "number_of_incorrect_answers",
+   "fieldtype": "Int",
+   "label": "Number of incorrect answers"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-28 19:41:33.415405",
+ "modified": "2024-06-14 03:31:12.439442",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "Quiz Attempt",
