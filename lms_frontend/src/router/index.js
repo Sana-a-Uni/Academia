@@ -11,6 +11,16 @@ const routes = [
 		name: "quizView",
 		component: () => import("../views/studentDashboard/quiz/quizView"),
 	},
+	{
+		path: "/quizInstructions",
+		name: "quizInstructions",
+		component: () => import("../views/studentDashboard/quiz/quizInstructions"),
+	},
+	{
+		path: "/quiz",
+		name: "quiz",
+		component: () => import("../views/studentDashboard/quiz/quiz"),
+	},
 ];
 
 const router = createRouter({
