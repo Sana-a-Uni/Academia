@@ -55,7 +55,7 @@ const quizName = ref("2874210861");
 const quizStore = useQuizStore();
 const { quiz, loading, error } = storeToRefs(quizStore);
 
-const timeLeft = ref(quiz.value.duration);
+const timeLeft = ref(0);
 
 const formattedTime = computed(() => {
 	const hours = Math.floor(timeLeft.value / 3600);
@@ -107,20 +107,41 @@ const markAnswered = (questionIndex, answer) => {
 	quiz.value.quiz_question = updatedQuestions;
 };
 
+const formatDate = (date) => {
+	const year = date.getFullYear();
+	const month = String(date.getMonth() + 1).padStart(2, "0");
+	const day = String(date.getDate()).padStart(2, "0");
+	const hours = String(date.getHours()).padStart(2, "0");
+	const minutes = String(date.getMinutes()).padStart(2, "0");
+	const seconds = String(date.getSeconds()).padStart(2, "0");
+	return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
+const startTime = new Date().toISOString().replace("T", " ").split(".")[0];
+
 const submitAnswers = () => {
+	quizStore.submitQuiz({
+		student: "EDU-STU-2024-00001",
+		quiz: quizName.value,
+		start_time: startTime,
+		answers: quiz.value.quiz_question.map((q) => ({
+			question: q.name,
+			selected_option: q.selectedAnswer,
+		})),
+	});
 	alert("Answers submitted!");
 };
 
 onMounted(() => {
 	quizStore.fetchQuiz(quizName.value);
-	startCountdown();
 });
 
 watch(
 	() => quiz.value,
 	(newQuiz) => {
-		timeLeft.value = newQuiz.duration;
-		startCountdown(); // Restart the countdown if quiz changes
+		if (newQuiz) {
+			timeLeft.value = newQuiz.duration;
+			startCountdown(); // Restart the countdown if quiz changes
+		}
 	}
 );
 </script>
