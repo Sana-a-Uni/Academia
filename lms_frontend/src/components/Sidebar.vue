@@ -19,7 +19,6 @@
 				</li>
 
 				<li>
-					<!-- <NuxtLink :to="{ name: quiz }">Quiz</NuxtLink> -->
 					<a href="#"><font-awesome-icon icon="question-circle" class="menu-icon" /> Quiz</a>
 				</li>
 				<li>
@@ -31,7 +30,6 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -55,7 +53,7 @@ const props = defineProps({
 <style scoped>
 .sidebar {
 	position: fixed;
-	top: 62px; /* Adjust based on the height of the navbar */
+	top: 63px; /* Adjust based on the height of the navbar */
 	left: 0;
 	width: 20%;
 	height: calc(100% - 70px); /* Adjust based on the height of the navbar */

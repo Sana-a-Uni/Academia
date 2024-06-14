@@ -30,8 +30,8 @@ const toggleDrawer = () => {
 
 .content {
 	display: flex;
-	margin-top: 70px; /* Adjust based on the height of the navbar */
-	margin-left: 20%; /* Width of the sidebar */
+	margin-top: 60px;
+	margin-left: 20%;
 	width: 80%;
 }
 
