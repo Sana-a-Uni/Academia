@@ -1,6 +1,7 @@
 import frappe
 from datetime import datetime
 from typing import Dict, Any, List
+import json
 
 @frappe.whitelist(allow_guest=True)
 def get_quizzes_by_course(course_name: str , student_id: str ) -> Dict[str, Any]:
@@ -118,7 +119,7 @@ def get_quiz_instruction(quiz_name: str, student_id: str ) -> Dict[str, Any]:
 
 
 @frappe.whitelist(allow_guest=True)
-def get_quiz(quiz_name="2874210861"):
+def get_quiz(quiz_name):
     try:
         # Fetch the quiz document
         quiz_doc = frappe.get_doc("LMS Quiz", quiz_name)
@@ -164,3 +165,82 @@ def get_quiz(quiz_name="2874210861"):
             "message": f"An error occurred while fetching quiz details: {str(e)}"
         })
     return frappe.response["message"]
+
+
+
+@frappe.whitelist(allow_guest=True)
+def create_quiz_attempt():
+    data = json.loads(frappe.request.data)
+
+    student = data.get('student')
+    quiz = data.get('quiz')
+    start_time = data.get('start_time')
+    answers = data.get('answers')
+
+    start_time = datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S')
+    end_time = datetime.now()
+
+    quiz_doc = frappe.get_doc('LMS Quiz', quiz)
+
+    time_taken = end_time - start_time
+
+    total_grade = 0
+    correct_answers = 0
+    incorrect_answers = 0
+    incomplete_answers = 0
+
+    quiz_answer_list = []
+    for answer in answers:
+        question = frappe.get_doc('Question', answer.get('question'))
+        correct_options = [option.option for option in question.question_options if option.is_correct]
+        question_grade = 0
+
+        for quiz_question in quiz_doc.quiz_question:
+            if quiz_question.question_link == answer.get('question'):
+                question_grade = quiz_question.question_grade
+                break
+
+        selected_options = answer.get('selected_option')
+        if not selected_options:
+            incomplete_answers += 1
+            selected_options_str = ""
+            is_correct = False
+            grade = 0
+        elif set(selected_options if isinstance(selected_options, list) else [selected_options]) == set(correct_options):
+            correct_answers += 1
+            total_grade += question_grade
+            selected_options_str = ', '.join(selected_options) if isinstance(selected_options, list) else str(selected_options)
+            is_correct = True
+            grade = question_grade
+        else:
+            incorrect_answers += 1
+            selected_options_str = ', '.join(selected_options) if isinstance(selected_options, list) else str(selected_options)
+            is_correct = False
+            grade = 0
+
+        quiz_answer_list.append({
+            'question': answer.get('question'),
+            'selected_option': selected_options_str,
+            'is_correct': is_correct,
+            'grade': grade
+        })
+
+    # Create new quiz attempt
+    quiz_attempt = frappe.get_doc({
+        'doctype': 'Quiz Attempt',
+        'student': student,
+        'quiz': quiz,
+        'grade': total_grade,
+        'number_of_correct_answers': correct_answers,
+        'number_of_incorrect_answers': incorrect_answers,
+        'number_of_unanswered_questions': incomplete_answers,
+        'start_time': start_time,
+        'end_time': end_time,
+        'time_taken': time_taken.total_seconds(), 
+        'quiz_answer': quiz_answer_list
+    })
+    quiz_attempt.insert()
+    frappe.db.commit()
+
+    frappe.response["status_code"] = 200
+    frappe.response["message"] = "Quiz Completed successfully"
