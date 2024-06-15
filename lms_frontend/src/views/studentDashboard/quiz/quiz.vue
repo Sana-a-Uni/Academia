@@ -98,35 +98,48 @@ const goToQuestion = (index) => {
 	currentQuestion.value = index;
 };
 
-const markAnswered = (questionIndex, answer) => {
+const markAnswered = (questionIndex, option, checked = false) => {
 	const updatedQuestions = [...quiz.value.quiz_question];
-	updatedQuestions[questionIndex] = {
-		...updatedQuestions[questionIndex],
-		selectedAnswer: answer,
-	};
+	const question = updatedQuestions[questionIndex];
+
+	if (question.question_type === "Multiple Choice") {
+		question.selectedAnswer = option;
+	} else if (question.question_type === "Multiple Answer") {
+		if (!question.selectedAnswer) {
+			question.selectedAnswer = [];
+		}
+		if (checked) {
+			question.selectedAnswer.push(option);
+		} else {
+			question.selectedAnswer = question.selectedAnswer.filter((item) => item !== option);
+		}
+	}
+
 	quiz.value.quiz_question = updatedQuestions;
 };
 
-const formatDate = (date) => {
-	const year = date.getFullYear();
-	const month = String(date.getMonth() + 1).padStart(2, "0");
-	const day = String(date.getDate()).padStart(2, "0");
-	const hours = String(date.getHours()).padStart(2, "0");
-	const minutes = String(date.getMinutes()).padStart(2, "0");
-	const seconds = String(date.getSeconds()).padStart(2, "0");
-	return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-};
 const startTime = new Date().toISOString().replace("T", " ").split(".")[0];
 
 const submitAnswers = () => {
+	const answers = quiz.value.quiz_question.map((q) => {
+		if (q.question_type === "Multiple Choice") {
+			return {
+				question: q.name,
+				selected_option: q.selectedAnswer || "",
+			};
+		} else if (q.question_type === "Multiple Answer") {
+			return {
+				question: q.name,
+				selected_option: q.selectedAnswer || [],
+			};
+		}
+	});
+
 	quizStore.submitQuiz({
 		student: "EDU-STU-2024-00001",
 		quiz: quizName.value,
 		start_time: startTime,
-		answers: quiz.value.quiz_question.map((q) => ({
-			question: q.name,
-			selected_option: q.selectedAnswer,
-		})),
+		answers: answers,
 	});
 	alert("Answers submitted!");
 };
