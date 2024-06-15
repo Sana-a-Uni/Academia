@@ -2,11 +2,24 @@
 	<div class="options">
 		<label v-for="(choice, index) in questions[currentQuestion].question_options" :key="index">
 			<input
+				v-if="questions[currentQuestion].question_type === 'Multiple Choice'"
 				type="radio"
 				:name="'answer' + currentQuestion"
 				:value="choice.option"
 				@change="() => markAnswered(currentQuestion, choice.option)"
 				:checked="questions[currentQuestion].selectedAnswer === choice.option"
+			/>
+			<input
+				v-if="questions[currentQuestion].question_type === 'Multiple Answer'"
+				type="checkbox"
+				:name="'answer' + currentQuestion"
+				:value="choice.option"
+				@change="(event) => markAnswered(currentQuestion, choice.option, event.target.checked)"
+				:checked="
+					questions[currentQuestion].selectedAnswer
+						? questions[currentQuestion].selectedAnswer.includes(choice.option)
+						: false
+				"
 			/>
 			{{ choice.option }}
 		</label>
