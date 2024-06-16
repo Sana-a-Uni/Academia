@@ -1,55 +1,60 @@
 <template>
-	<div class="quiz-result">
+	<div class="quiz-result" v-if="quizResult">
 		<header class="header">
 			<h1>Quiz Result</h1>
 		</header>
 		<div class="result-details">
 			<div class="details-row">
-				<span class="label">Name:</span> <span class="value">Week 2 Quiz</span>
+				<span class="label">Name:</span> <span class="value">Student Name</span>
 			</div>
 			<div class="details-row">
-				<span class="label">Date Start:</span> <span class="value">22/02/24 3:18pm</span>
+				<span class="label">Title:</span> <span class="value">{{ quizResult.quiz }}</span>
 			</div>
 			<div class="details-row">
-				<span class="label">Date Submitted:</span> <span class="value">22/02/24 3:18pm</span>
+				<span class="label">Date Start:</span> <span class="value">{{ quizResult.start_time }}</span>
 			</div>
 			<div class="details-row">
-				<span class="label">Time Spent:</span> <span class="value">31m 52s</span>
+				<span class="label">Date Submitted:</span>
+				<span class="value">{{ quizResult.end_time }}</span>
+			</div>
+			<div class="details-row">
+				<span class="label">Time Spent:</span> <span class="value">{{ quizResult.time_taken }}</span>
 			</div>
 			<div class="details-row score">
-				<span class="label">Grade:</span> <span class="value"> 25/25 </span>
+				<span class="label">Grade:</span>
+				<span class="value">{{ quizResult.grade }} / {{ quizResult.grade_out_of }}</span>
 			</div>
 		</div>
 		<div class="questions-result">
 			<div class="questions-row">
-				<div class="questions-label">Questions: 25</div>
-				<div class="questions-label">Correct: 25</div>
-				<div class="questions-label">Partial Credit: 0</div>
-				<div class="questions-label">Incorrect: 0</div>
-				<div class="questions-label">Incomplete: 0</div>
+				<div class="questions-label">Questions: {{ quizResult.number_of_questions }}</div>
+				<div class="questions-label">Correct: {{ quizResult.number_of_correct_answers }}</div>
+				<div class="questions-label">Incorrect: {{ quizResult.number_of_incorrect_answers }}</div>
+				<div class="questions-label">Incomplete: {{ quizResult.number_of_unanswered_questions }}</div>
 			</div>
 			<div class="questions-list">
-				<div class="question" v-for="q in questions" :key="q.number">
+				<div class="question" v-for="(q, index) in quizResult.questions_with_grades" :key="index">
 					<span class="question-icon">
-						<i :class="q.score === 1 ? 'correct-icon' : 'incorrect-icon'"></i>
+						<i :class="q.user_grade === q.grade ? 'correct-icon' : 'incorrect-icon'"></i>
 					</span>
-					<span class="question-number">Question {{ q.number }}</span>
-					<span class="question-score">({{ q.score }}/1)</span>
+					<span class="question-number">Question {{ index + 1 }}</span>
+					<span class="question-score">({{ q.user_grade }} / {{ q.grade }})</span>
 				</div>
 			</div>
 		</div>
 	</div>
+	<div v-else>
+		<p>No quiz result available.</p>
+	</div>
 </template>
 
 <script setup>
-import { ref } from "vue";
-
-const questions = ref(
-	Array.from({ length: 25 }, (_, i) => ({
-		number: i + 1,
-		score: 1, // Change to 0 to simulate incorrect answers
-	}))
-);
+const props = defineProps({
+	quizResult: {
+		type: Object,
+		required: true,
+	},
+});
 </script>
 
 <style scoped>
