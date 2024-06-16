@@ -284,3 +284,63 @@ def create_quiz_attempt():
 
     frappe.response["status_code"] = 200
     frappe.response["message"] = "Quiz Completed successfully"
+
+
+@frappe.whitelist(allow_guest=True)
+def get_quiz_result(quiz_attempt_id="dee2e6f2c0"):
+    try:
+        quiz_attempt = frappe.get_doc('Quiz Attempt', quiz_attempt_id)
+        quiz_doc = frappe.get_doc('LMS Quiz', quiz_attempt.quiz)
+
+        time_taken = quiz_attempt.time_taken
+        days, remainder = divmod(time_taken, 86400)
+        hours, remainder = divmod(remainder, 3600)
+        minutes, seconds = divmod(remainder, 60)
+
+        time_taken_str = ""
+        if days > 0:
+            time_taken_str += f"{int(days)}d "
+        if hours > 0:
+            time_taken_str += f"{int(hours)}h "
+        if minutes > 0:
+            time_taken_str += f"{int(minutes)}m "
+        time_taken_str += f"{int(seconds)}s"
+
+        questions_with_grades = []
+        for answer in quiz_attempt.quiz_answer:
+            question = frappe.get_doc('Question', answer.question)
+            question_grade = 0
+
+            for quiz_question in quiz_doc.quiz_question:
+                if quiz_question.question_link == answer.question:
+                    question_grade = quiz_question.question_grade
+                    break
+
+            questions_with_grades.append({
+                'question': question.question,
+                'grade': question_grade,
+                'user_grade': answer.grade
+            })
+
+        response_data = {
+            'course_name': quiz_attempt.course,
+            'quiz': quiz_doc.title,
+            'grade': quiz_attempt.grade,
+            'number_of_correct_answers': quiz_attempt.number_of_correct_answers,
+            'number_of_incorrect_answers': quiz_attempt.number_of_incorrect_answers,
+            'number_of_unanswered_questions': quiz_attempt.number_of_unanswered_questions,
+            'number_of_questions': len(quiz_doc.quiz_question),
+            'start_time': quiz_attempt.start_time.strftime('%Y-%m-%d %H:%M:%S'),
+            'end_time': quiz_attempt.end_time.strftime('%Y-%m-%d %H:%M:%S'),
+            'time_taken': time_taken_str,
+            'grade_out_of': quiz_attempt.grade_out_of,
+            'questions_with_grades': questions_with_grades  
+        }
+
+        frappe.response["status_code"] = 200
+        frappe.response["data"] = response_data
+
+    except Exception as e:
+        frappe.response["status_code"] = 500
+        frappe.response["message"] = "An error occurred while fetching the quiz result"
+        return {'error': str(e)}
