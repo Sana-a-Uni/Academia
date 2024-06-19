@@ -29,12 +29,13 @@ class CourseEnrollmentTool(Document):
 		students: DF.Table[CourseEnrollmentStudent]
 	# end: auto-generated types
 
-	child_table_data1 = []
+	courses1 = []
 
 	@frappe.whitelist()
 	def get_courses(self):
-		global child_table_data1
-		child_table_data = []
+		global courses1
+		courses = []
+		students = []
 		child_data = {}
 
 		if not self.academic_year:
@@ -44,17 +45,25 @@ class CourseEnrollmentTool(Document):
 		elif self.academic_program == "All Programs":
 			if self.level == "All Levels":
 				#code for get all prpgrams with all levels
+				program_enrollment = frappe.get_list('Program Enrollment', fields='*')
+				for student in program_enrollment:
+					students.append(student)
+
 				course_study = frappe.get_list('Course Study', fields='*')
 				for course in course_study:
-					child_table_data.append(course)
+					courses.append(course)
 
 			elif self.level == "Specific Level":
 				if self.specific_level:
 					#code for get all programs with a specific level
+					program_enrollment = frappe.get_list('Program Enrollment', fields='*')
+					for student in program_enrollment:
+						students.append(student)
+
 					course_study = frappe.get_list('Course Study', fields='*')
 					for course in course_study:
 						if course['level'] == self.specific_level:
-							child_table_data.append(course)
+							courses.append(course)
 					
 
 				else:
@@ -66,19 +75,29 @@ class CourseEnrollmentTool(Document):
 			if self.specific_program:
 				if self.level == "All Levels":
 					#code for get specific program with all levels
+					program_enrollment = frappe.get_list('Program Enrollment', fields='*')
+					for student in program_enrollment:
+						if student['program'] == self.specific_program:
+							students.append(student)
+
 					course_study = frappe.get_list('Course Study', fields='*')
 					for course in course_study:
 						if course['program'] == self.specific_program:
-							child_table_data.append(course)
+							courses.append(course)
 
 				elif self.level == "Specific Level":
 					if self.specific_level:
 						#code for get specific program with specific level
+						program_enrollment = frappe.get_list('Program Enrollment', fields='*')
+						for student in program_enrollment:
+							if student['program'] == self.specific_program:
+								students.append(student)
+
 						course_study = frappe.get_list('Course Study', fields='*')
 						for course in course_study:
 							if course['program'] == self.specific_program:
 								if course['level'] == self.specific_level:
-									child_table_data.append(course)
+									courses.append(course)
 						
 					else:
 						frappe.throw(_("Mandatory field - Specific Level"))
@@ -89,9 +108,18 @@ class CourseEnrollmentTool(Document):
 		else:
 			frappe.throw(_("Mandatory field - Academic Program"))
 
-		# child_table_data1 = child_table_data
+		# courses1 = courses
 
-		if child_table_data:
-			return child_table_data
-		else:
+		if not courses and not students:
+			frappe.throw(_("No courses and students Found"))
+		elif not students:
+			return {"courses": courses}
+			frappe.throw(_("No students Found"))
+		elif not courses:
+			return {"students": students}
 			frappe.throw(_("No courses Found"))
+		else:
+			return {
+				"students": students,
+				"courses": courses
+			}
