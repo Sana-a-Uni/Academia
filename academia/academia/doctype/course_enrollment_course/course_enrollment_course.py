@@ -16,6 +16,7 @@ class CourseEnrollmentCourse(Document):
 
 		course_code: DF.Link
 		course_type: DF.Data | None
+		level: DF.Data | None
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
