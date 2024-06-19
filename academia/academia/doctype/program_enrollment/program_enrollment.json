@@ -30,11 +30,10 @@
    "reqd": 1
   },
   {
-   "fetch_from": "student.student_name",
+   "fetch_from": "student.first_name",
    "fieldname": "student_name",
    "fieldtype": "Data",
-   "label": "Student Name",
-   "read_only": 1
+   "label": "Student Name"
   },
   {
    "fieldname": "enrollment_date",
@@ -108,7 +107,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-03 02:59:03.725991",
+ "modified": "2024-06-19 21:31:35.671402",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Enrollment",
