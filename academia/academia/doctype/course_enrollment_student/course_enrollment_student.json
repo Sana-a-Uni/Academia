@@ -13,10 +13,9 @@
  "fields": [
   {
    "fieldname": "student",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Student",
-   "options": "Student",
    "reqd": 1
   },
   {
@@ -38,7 +37,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-06-03 06:17:36.842694",
+ "modified": "2024-06-19 21:50:00.853743",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Enrollment Student",

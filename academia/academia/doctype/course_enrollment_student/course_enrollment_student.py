@@ -18,7 +18,7 @@ class CourseEnrollmentStudent(Document):
 		parentfield: DF.Data
 		parenttype: DF.Data
 		program: DF.Data | None
-		student: DF.Link
+		student: DF.Data
 		student_name: DF.Data | None
 	# end: auto-generated types
 	pass
