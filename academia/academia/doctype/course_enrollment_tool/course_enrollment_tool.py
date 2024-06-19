@@ -44,23 +44,17 @@ class CourseEnrollmentTool(Document):
 		elif self.academic_program == "All Programs":
 			if self.level == "All Levels":
 				#code for get all prpgrams with all levels
-				frappe.msgprint("all all")
 				course_study = frappe.get_list('Course Study', fields='*')
 				for course in course_study:
 					child_table_data.append(course)
-						# course_study_doc = frappe.get_doc("Course Study", course.name)
-						# for child in program_specification_doc.table_ytno:
-						# 	child_data = child.as_dict()
-			
-						# 	course_exists_in_course_study = frappe.db.exists('Course Study', {'course_name': child_data['course_name']})
-						# 	if not course_exists_in_course_study:
-						# 		child_table_data.append(child_data)
-				frappe.msgprint(str(child_table_data))
 
 			elif self.level == "Specific Level":
 				if self.specific_level:
 					#code for get all programs with a specific level
-					frappe.msgprint("all s")
+					course_study = frappe.get_list('Course Study', fields='*')
+					for course in course_study:
+						if course['level'] == self.specific_level:
+							child_table_data.append(course)
 					
 
 				else:
@@ -72,15 +66,20 @@ class CourseEnrollmentTool(Document):
 			if self.specific_program:
 				if self.level == "All Levels":
 					#code for get specific program with all levels
-					frappe.msgprint("s all")
-					
+					course_study = frappe.get_list('Course Study', fields='*')
+					for course in course_study:
+						if course['program'] == self.specific_program:
+							child_table_data.append(course)
 
 				elif self.level == "Specific Level":
 					if self.specific_level:
 						#code for get specific program with specific level
-						frappe.msgprint("s s")
+						course_study = frappe.get_list('Course Study', fields='*')
+						for course in course_study:
+							if course['program'] == self.specific_program:
+								if course['level'] == self.specific_level:
+									child_table_data.append(course)
 						
-
 					else:
 						frappe.throw(_("Mandatory field - Specific Level"))
 				else:
