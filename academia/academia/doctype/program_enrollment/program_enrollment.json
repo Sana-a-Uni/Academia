@@ -1,7 +1,6 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "prompt",
  "creation": "2024-04-27 05:29:51.231754",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -57,7 +56,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Program",
-   "options": "Academic Program",
+   "options": "Program Specification",
    "reqd": 1
   },
   {
@@ -109,11 +108,10 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-27 22:28:03.314732",
+ "modified": "2024-06-03 02:59:03.725991",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Enrollment",
- "naming_rule": "Set by user",
  "owner": "Administrator",
  "permissions": [
   {
