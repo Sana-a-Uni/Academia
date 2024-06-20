@@ -16,10 +16,10 @@ frappe.ui.form.on('Course Enrollment Tool', {
 			}
 		});
 	},
-	"generate_courses": function(frm) {
+	"generate": function(frm) {
 		//frm.set_value("courses",[]);
 		frappe.call({
-			method: "generate_courses",
+			method: "generate",
 			doc:frm.doc,
 			callback: function(r) {
 				if(r.message) {
