@@ -86,7 +86,7 @@ frappe.ui.form.on('Transaction', {
                         if(r.message[0]) {
                             
                             var last_action = r.message[0];
-                            console.log(last_action);
+                            // console.log(last_action);
                             if(
                                 last_action
                                 // && last_action.type === "Redirected" 
