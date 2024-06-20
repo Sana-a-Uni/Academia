@@ -19,6 +19,7 @@ class CourseEnrollmentStudent(Document):
 		parenttype: DF.Data
 		program: DF.Data | None
 		student: DF.Data
+		student_batch: DF.Data | None
 		student_name: DF.Data | None
 	# end: auto-generated types
 	pass

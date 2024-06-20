@@ -8,7 +8,8 @@
  "field_order": [
   "student",
   "student_name",
-  "program"
+  "program",
+  "student_batch"
  ],
  "fields": [
   {
@@ -32,12 +33,19 @@
    "in_list_view": 1,
    "label": "Program",
    "read_only": 1
+  },
+  {
+   "fieldname": "student_batch",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Student Batch",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-06-19 21:50:00.853743",
+ "modified": "2024-06-19 22:48:58.645393",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Enrollment Student",
