@@ -123,3 +123,24 @@ class CourseEnrollmentTool(Document):
 				"students": students,
 				"courses": courses
 			}
+
+	@frappe.whitelist()
+	def generate(self):
+		students = []
+		for student in self.students:
+			student_data = student.as_dict()
+			students.append(student_data)
+			for course in self.courses:
+				course_data = course.as_dict()
+				if course_data['program'] == student_data['program']:
+					course_enrollment = frappe.new_doc('Course Enrollment')
+					course_enrollment.student = student_data['student']
+					course_enrollment.student_name = student_data['student_name']
+					course_enrollment.academic_program = student_data['program']
+					course_enrollment.course = course_data['course_code']
+					course_enrollment.student_batch = student_data['student_batch']
+					course_enrollment.academic_year = self.academic_year
+					course_enrollment.academic_term = self.academic_term
+					course_enrollment.save()
+
+		frappe.msgprint('Students Enrolled Succesfully...')
