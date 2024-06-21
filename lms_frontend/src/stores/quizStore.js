@@ -63,12 +63,8 @@ export const useQuizStore = defineStore("quiz", {
 						params: {
 							quiz_name: quizName,
 						},
-						// headers: {
-						// 	Authorization: "Bearer 0b88a69d4861506:536f9ea01265e49",
-						// },
 					}
 				);
-
 				this.quiz = response.data.data;
 			} catch (error) {
 				this.error = error.message || "An error occurred while fetching the quiz.";
@@ -84,19 +80,17 @@ export const useQuizStore = defineStore("quiz", {
 				const response = await axios.post(
 					`http://localhost:8080/api/method/academia.lms_api.student.quiz.quiz.create_quiz_attempt`,
 					data
-					// {
-					// 	headers: {
-					// 		Authorization: "Bearer 0b88a69d4861506:536f9ea01265e49",
-					// 	},
-					// }
 				);
 				if (response.data.status_code === 200) {
-					alert(response.data.message);
+					console.log(response.data.quiz_attempt_id);
+					return response.data.quiz_attempt_id; // Return the quiz_attempt_id
 				} else {
 					this.error = response.data.message || "An error occurred while submitting the quiz.";
+					return null;
 				}
 			} catch (error) {
 				this.error = error.message || "An error occurred while submitting the quiz.";
+				return null;
 			} finally {
 				this.loading = false;
 			}
@@ -113,10 +107,8 @@ export const useQuizStore = defineStore("quiz", {
 					}
 				);
 				this.quizResult = response.data.data;
-				console.log(this.quizResult);
 			} catch (error) {
 				this.error = error.response?.data?.message || error.message;
-				console.log("no");
 			} finally {
 				this.loading = false;
 			}
