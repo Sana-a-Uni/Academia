@@ -282,8 +282,11 @@ def create_quiz_attempt():
 
     frappe.db.commit()
 
+    # Return the name of the current quiz attempt
     frappe.response["status_code"] = 200
     frappe.response["message"] = "Quiz Completed successfully"
+    frappe.response["quiz_attempt_id"] = quiz_attempt.name
+
 
 
 @frappe.whitelist(allow_guest=True)
