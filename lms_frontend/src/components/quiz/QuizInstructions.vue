@@ -33,13 +33,14 @@
 			</ul>
 		</div>
 		<div class="btn-container">
-			<router-link to="/" class="btn btn-start">Start Quiz</router-link>
-			<router-link to="/" class="btn btn-cancel">Cancel</router-link>
+			<button @click="startQuiz" class="btn btn-start">Start Quiz</button>
+			<button @click="cancel" class="btn btn-cancel">Cancel</button>
 		</div>
 	</div>
 </template>
 
 <script setup>
+import { useRouter, useRoute } from "vue-router";
 
 const props = defineProps({
 	quizInstructions: {
@@ -47,6 +48,18 @@ const props = defineProps({
 		required: true,
 	},
 });
+
+const router = useRouter();
+const route = useRoute();
+
+const startQuiz = () => {
+	const quizName = route.params.quizName;
+	router.push({ name: "quiz", params: { quizName } });
+};
+
+const cancel = () => {
+	router.push({ name: "quizView" });
+};
 
 function formatDuration(seconds) {
 	if (typeof seconds !== "number") {
@@ -69,25 +82,13 @@ function formatDuration(seconds) {
 </script>
 
 <style scoped>
-body {
-	font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-	background-color: #eef2f7;
-	color: #333;
-	margin: 200px 20px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-	text-align: center;
-}
-
 .container {
 	background-color: #fff;
 	border-radius: 15px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 	width: 95%;
 	padding: 20px;
-	margin: 0px 30px;
+	margin: 0px auto;
 }
 
 .instructions {
@@ -148,6 +149,7 @@ ul li strong::after {
 	text-decoration: none;
 	border-radius: 5px;
 	transition: background-color 0.3s ease;
+	cursor: pointer;
 }
 
 .btn-start {

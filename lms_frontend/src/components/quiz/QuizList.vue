@@ -21,13 +21,16 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="quiz in filteredQuizzes" :key="quiz.id">
+				<tr v-if="filteredQuizzes.length === 0">
+					<td colspan="5" class="no-data">No Data</td>
+				</tr>
+				<tr v-else v-for="quiz in filteredQuizzes" :key="quiz.id">
 					<td class="due-column">
 						<div>{{ formatDate(quiz.to_date) }}</div>
 						<div>{{ formatTime(quiz.to_date) }}</div>
 					</td>
 					<td class="quiz-column">
-						<a :href="quiz.link">{{ quiz.title }}</a>
+						<a @click.prevent="goToInstructions(quiz.name)">{{ quiz.title }}</a>
 					</td>
 					<td class="time-limit-column">{{ formatDuration(quiz.duration) }}</td>
 					<td class="attempts-column">
@@ -44,6 +47,7 @@
 
 <script setup>
 import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
 
 const props = defineProps({
 	quizzes: {
@@ -53,12 +57,17 @@ const props = defineProps({
 });
 
 const selectedQuiz = ref("all");
+const router = useRouter();
 
 const filteredQuizzes = computed(() => {
 	return props.quizzes.filter((quiz) => {
 		return selectedQuiz.value === "all" || quiz.type === selectedQuiz.value;
 	});
 });
+
+const goToInstructions = (quizName) => {
+	router.push({ name: "quizInstructions", params: { quizName } });
+};
 
 function formatDuration(seconds) {
 	if (typeof seconds !== "number") {
@@ -98,10 +107,11 @@ function formatTime(dateString) {
 	return hours + ":" + strMinutes + " " + ampm;
 }
 </script>
+
 <style scoped>
 .quiz-list {
 	width: 100%;
-	margin: 0px 10px;
+	margin: 0px auto;
 	border-collapse: collapse;
 }
 
@@ -161,6 +171,7 @@ th {
 a {
 	color: #2a73cc;
 	text-decoration: none;
+	cursor: pointer;
 }
 
 a:hover {
@@ -184,6 +195,13 @@ a:hover {
 .grade-column {
 	width: 10%;
 	text-align: center; /* Center align content horizontally */
+}
+
+.no-data {
+	text-align: center;
+	color: #666;
+	font-size: 1.2em;
+	padding: 20px; /* Padding for spacing */
 }
 
 @media (max-width: 768px) {

@@ -37,6 +37,7 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { useQuizStore } from "@/stores/quizStore";
 import { storeToRefs } from "pinia";
 
@@ -50,7 +51,9 @@ import Options from "@/components/quiz/quiz/Options.vue";
 
 const isCollapsed = ref(false);
 const currentQuestion = ref(0);
-const quizName = ref("2874210861");
+const route = useRoute();
+const router = useRouter();
+const quizName = ref(route.params.quizName);
 
 const quizStore = useQuizStore();
 const { quiz, loading, error } = storeToRefs(quizStore);
@@ -120,7 +123,7 @@ const markAnswered = (questionIndex, option, checked = false) => {
 
 const startTime = new Date().toISOString().replace("T", " ").split(".")[0];
 
-const submitAnswers = () => {
+const submitAnswers = async () => {
 	const answers = quiz.value.quiz_question.map((q) => {
 		if (q.question_type === "Multiple Choice") {
 			return {
@@ -135,13 +138,18 @@ const submitAnswers = () => {
 		}
 	});
 
-	quizStore.submitQuiz({
+	const quizAttemptId = await quizStore.submitQuiz({
 		student: "EDU-STU-2024-00001",
 		quiz: quizName.value,
 		start_time: startTime,
 		answers: answers,
 	});
-	alert("Answers submitted!");
+
+	if (quizAttemptId) {
+		router.push({ name: "quizResult", params: { quizAttemptId } });
+	} else {
+		alert("An error occurred while submitting the quiz.");
+	}
 };
 
 onMounted(() => {

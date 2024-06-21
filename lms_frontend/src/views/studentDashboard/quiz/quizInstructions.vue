@@ -1,6 +1,6 @@
 <template>
 	<main-layout>
-		<div v-if="quizStore.loading">Loading quiz instructions...</div>
+		<LoadingSpinner v-if="quizStore.loading" />
 		<div v-else-if="quizStore.error">{{ quizStore.error }}</div>
 		<QuizInstructions v-else :quizInstructions="quizInstructions" />
 	</main-layout>
@@ -8,13 +8,16 @@
 
 <script setup>
 import { ref, onMounted, watch } from "vue";
+import { useRoute } from "vue-router";
 import { useQuizStore } from "@/stores/quizStore";
 import QuizInstructions from "@/components/quiz/QuizInstructions.vue";
 import mainLayout from "@/components/MainLayout.vue";
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 const quizStore = useQuizStore();
-const quizName = ref("2874210861");
-const studentId = ref("EDU-STU-2024-00001");
+const route = useRoute();
+const quizName = ref(route.params.quizName);
+const studentId = ref("EDU-STU-2024-00002");
 
 onMounted(() => {
 	quizStore.fetchQuizInstructions(quizName.value, studentId.value);
