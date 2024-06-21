@@ -10,7 +10,7 @@
 			<div class="user-menu" @click="toggleDropdown">
 				<img src="@/assets/images/Icon.png" alt="User Avatar" class="avatar" />
 				<div class="user-details">
-					<h2 class="user-name">Atrab Al-Dubai</h2>
+					<h2 class="user-name">Student Name</h2>
 					<span class="user-major">Computer Science</span>
 				</div>
 				<font-awesome-icon icon="caret-down" class="caret-icon" />
@@ -19,7 +19,7 @@
 						<div class="user-details-dropdown">
 							<img src="@/assets/images/Icon.png" alt="User Avatar" class="avatar-dropdown" />
 							<div>
-								<h2 class="user-name">Atrab Al-Dubai</h2>
+								<h2 class="user-name">Student Name</h2>
 								<span class="user-major">Computer Science</span>
 							</div>
 						</div>
@@ -216,6 +216,10 @@ onBeforeUnmount(() => {
 	height: 16px;
 }
 
+.drawer-toggle {
+	display: none;
+}
+
 @media (max-width: 768px) {
 	.user-details-dropdown {
 		display: flex;
@@ -239,7 +243,7 @@ onBeforeUnmount(() => {
 		margin: 0 auto;
 	}
 
-	.bars-icon {
+	.drawer-toggle {
 		display: block;
 		font-size: 1.5em;
 	}
@@ -260,7 +264,7 @@ onBeforeUnmount(() => {
 		display: none;
 	}
 
-	.bars-icon {
+	.drawer-toggle {
 		display: none;
 	}
 }

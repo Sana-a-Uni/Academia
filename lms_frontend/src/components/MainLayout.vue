@@ -31,7 +31,7 @@ const toggleDrawer = () => {
 .content {
 	display: flex;
 	margin-top: 60px;
-	margin-left: 20%;
+	margin-left:22.5%;
 	width: 80%;
 }
 
