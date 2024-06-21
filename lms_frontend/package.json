@@ -11,11 +11,15 @@
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-solid-svg-icons": "^6.5.2",
     "@fortawesome/vue-fontawesome": "^3.0.8",
+    "@vueup/vue-quill": "^1.2.0",
     "axios": "^1.7.2",
     "core-js": "^3.8.3",
     "pinia": "^2.1.7",
+    "quill": "^2.0.2",
     "vue": "^3.2.13",
-    "vue-router": "^4.0.3"
+    "vue-quill-editor": "^3.0.6",
+    "vue-router": "^4.0.3",
+    "vue3-quill": "^0.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
