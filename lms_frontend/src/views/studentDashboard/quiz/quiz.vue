@@ -6,7 +6,7 @@
 			:currentQuestion="currentQuestion"
 			:prevQuestion="prevQuestion"
 			:nextQuestion="nextQuestion"
-			:submitAnswers="submitAnswers"
+			:submitAnswers="confirmSubmit"
 			:totalQuestions="quiz.questions_number"
 		/>
 		<div class="main">
@@ -30,7 +30,14 @@
 			:nextQuestion="nextQuestion"
 			:currentQuestion="currentQuestion"
 			:questionsNumber="quiz.questions_number"
-			:submitAnswers="submitAnswers"
+			:submitAnswers="confirmSubmit"
+		/>
+		<ConfirmationDialog
+			:showDialog="showDialog"
+			@close="closeDialog"
+			@confirm="submitAnswers"
+			:message="dialogMessage"
+			:unansweredCount="unansweredCount"
 		/>
 	</div>
 </template>
@@ -48,6 +55,7 @@ import QuestionList from "@/components/quiz/quiz/QuestionList.vue";
 import QuestionContent from "@/components/quiz/quiz/QuestionContent.vue";
 import Footer from "@/components/quiz/quiz/Footer.vue";
 import Options from "@/components/quiz/quiz/Options.vue";
+import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
 
 const isCollapsed = ref(false);
 const currentQuestion = ref(0);
@@ -59,6 +67,9 @@ const quizStore = useQuizStore();
 const { quiz, loading, error } = storeToRefs(quizStore);
 
 const timeLeft = ref(0);
+const showDialog = ref(false);
+const dialogMessage = ref("");
+const unansweredCount = ref(0);
 
 const formattedTime = computed(() => {
 	const hours = Math.floor(timeLeft.value / 3600);
@@ -75,8 +86,8 @@ const startCountdown = () => {
 			timeLeft.value--;
 		} else {
 			clearInterval(interval);
-			alert("Time is up!");
-			submitAnswers();
+			alert("الوقت انتهى!");
+			confirmSubmit();
 		}
 	}, 1000);
 };
@@ -123,7 +134,22 @@ const markAnswered = (questionIndex, option, checked = false) => {
 
 const startTime = new Date().toISOString().replace("T", " ").split(".")[0];
 
+const confirmSubmit = () => {
+	unansweredCount.value = quiz.value.quiz_question.filter(
+		(q) => !q.selectedAnswer || q.selectedAnswer.length === 0
+	).length;
+	dialogMessage.value =
+		unansweredCount.value > 0 ? "You have NOT completed your quiz!" : "You want to submit your quiz";
+	showDialog.value = true;
+};
+
+const closeDialog = () => {
+	showDialog.value = false;
+};
+
 const submitAnswers = async () => {
+	showDialog.value = false;
+
 	const answers = quiz.value.quiz_question.map((q) => {
 		if (q.question_type === "Multiple Choice") {
 			return {
@@ -148,7 +174,7 @@ const submitAnswers = async () => {
 	if (quizAttemptId) {
 		router.push({ name: "quizResult", params: { quizAttemptId } });
 	} else {
-		alert("An error occurred while submitting the quiz.");
+		alert("حدث خطأ أثناء إرسال الامتحان.");
 	}
 };
 
@@ -161,7 +187,7 @@ watch(
 	(newQuiz) => {
 		if (newQuiz) {
 			timeLeft.value = newQuiz.duration;
-			startCountdown(); // Restart the countdown if quiz changes
+			startCountdown();
 		}
 	}
 );
