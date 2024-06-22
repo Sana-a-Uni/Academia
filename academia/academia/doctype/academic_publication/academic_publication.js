@@ -29,7 +29,7 @@ frappe.ui.form.on("Academic Publication", {
     validate_extension: function (frm) {
         var publication_file = frm.doc.publication_file;
         if (publication_file) {
-            var allowed_extensions = ['.pdf', '.txt', '.doc', '.docx', '.ppt', '.pptx'];
+            var allowed_extensions = ['.pdf', '.txt', '.doc', '.docx', '.ppt', '.pptx', '.png', '.jpg', '.jpeg'];
             var publication_file_extension = publication_file.split('.').pop().toLowerCase();
             if (!allowed_extensions.includes('.' + publication_file_extension)) {
                 frappe.throw("Publication File has an invalid extension. Only files with extensions " + allowed_extensions.join(', ') + " are allowed.");

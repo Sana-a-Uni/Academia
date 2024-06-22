@@ -9,9 +9,52 @@ from datetime import datetime
 
 
 class FacultyMember(Document):
+    # begin: auto-generated types
+    # This code is auto-generated. Do not modify anything in this block.
+
+    from typing import TYPE_CHECKING
+
+    if TYPE_CHECKING:
+        from academia.academia.doctype.faculty_member_academic_ranking.faculty_member_academic_ranking import FacultyMemberAcademicRanking
+        from academia.academia.doctype.faculty_member_activity.faculty_member_activity import FacultyMemberActivity
+        from academia.academia.doctype.faculty_member_award_and_appreciation_certificate.faculty_member_award_and_appreciation_certificate import FacultyMemberAwardandAppreciationCertificate
+        from academia.academia.doctype.faculty_member_conference_and_workshop.faculty_member_conference_and_workshop import FacultyMemberConferenceandWorkshop
+        from academia.academia.doctype.faculty_member_course.faculty_member_course import FacultyMemberCourse
+        from academia.academia.doctype.faculty_member_language.faculty_member_language import FacultyMemberLanguage
+        from academia.academia.doctype.faculty_member_training_course.faculty_member_training_course import FacultyMemberTrainingCourse
+        from academia.academia.doctype.faculty_member_university_and_community_service.faculty_member_university_and_community_service import FacultyMemberUniversityandCommunityService
+        from frappe.types import DF
+
+        academic_rank: DF.Link | None
+        company: DF.Data | None
+        courses: DF.TableMultiSelect[FacultyMemberCourse]
+        date: DF.Date | None
+        date_of_joining_in_service: DF.Date | None
+        date_of_joining_in_university: DF.Date | None
+        decision_attachment: DF.Attach | None
+        decision_number: DF.Int
+        department: DF.Data | None
+        employee: DF.Link
+        employment_type: DF.Data | None
+        faculty_member_academic_ranking: DF.Table[FacultyMemberAcademicRanking]
+        faculty_member_activity: DF.Table[FacultyMemberActivity]
+        faculty_member_award_and_appreciation_certificate: DF.Table[FacultyMemberAwardandAppreciationCertificate]
+        faculty_member_conference_and_workshop: DF.Table[FacultyMemberConferenceandWorkshop]
+        faculty_member_name: DF.Data
+        faculty_member_name_english: DF.Data | None
+        faculty_member_training_course: DF.Table[FacultyMemberTrainingCourse]
+        faculty_member_university_and_community_service: DF.Table[FacultyMemberUniversityandCommunityService]
+        general_field: DF.Data | None
+        google_scholar_profile_link: DF.Data | None
+        image: DF.AttachImage | None
+        languages: DF.TableMultiSelect[FacultyMemberLanguage]
+        naming_series: DF.Literal["ACAD-FM-"]
+        nationality: DF.Link | None
+        specialist_field: DF.Data | None
+    # end: auto-generated types
+    
     # Start of validate controller hook
     def validate(self):
-
         # Calling functions
         self.validate_duplicate_employee()
         self.validate_date()
