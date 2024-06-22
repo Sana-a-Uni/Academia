@@ -5,8 +5,11 @@
 			<div class="filters">
 				<select v-model="selectedQuiz" class="custom-select">
 					<option value="all">All Quizzes</option>
-					<option value="homework">Homework</option>
-					<option value="tests">Tests</option>
+					<option value="available">Available</option>
+					<option value="expired">Expired</option>
+					<option value="not_attempted">Not Attempted</option>
+					<option value="attempted">Attempted</option>
+					<option value="has_attempts_remaining">Has Attempts Remaining</option>
 				</select>
 			</div>
 		</div>
@@ -66,7 +69,23 @@ const router = useRouter();
 
 const filteredQuizzes = computed(() => {
 	return props.quizzes.filter((quiz) => {
-		return selectedQuiz.value === "all" || quiz.type === selectedQuiz.value;
+		const now = new Date();
+		const dueDate = new Date(quiz.to_date);
+
+		switch (selectedQuiz.value) {
+			case "available":
+				return now <= dueDate && quiz.attempts_taken < quiz.number_of_attempts;
+			case "expired":
+				return now > dueDate;
+			case "not_attempted":
+				return quiz.attempts_taken === 0;
+			case "attempted":
+				return quiz.attempts_taken > 0;
+			case "has_attempts_remaining":
+				return quiz.attempts_taken < quiz.number_of_attempts;
+			default:
+				return true;
+		}
 	});
 });
 
@@ -263,4 +282,3 @@ a:hover:not(.disabled) {
 	}
 }
 </style>
-ss
