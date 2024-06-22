@@ -7,41 +7,25 @@
  "engine": "InnoDB",
  "field_order": [
   "section_break_wyzz",
+  "transaction",
   "type",
   "details",
   "column_break_mkjj",
   "action_date",
   "created_by",
-  "section_break_vdld",
-  "company",
-  "party",
-  "column_break_oaad",
-  "to_department",
-  "redirected_to"
+  "from_company",
+  "from_department",
+  "from_designation",
+  "section_break_hgwa",
+  "amended_from",
+  "recipients_tab",
+  "recipient_settings_section",
+  "get_recipients",
+  "recipients"
  ],
  "fields": [
   {
-   "fieldname": "section_break_vdld",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "company",
-   "fieldtype": "Link",
-   "label": "Company",
-   "options": "Company"
-  },
-  {
-   "fieldname": "to_department",
-   "fieldtype": "Dynamic Link",
-   "label": "To Department",
-   "options": "party"
-  },
-  {
    "fieldname": "column_break_mkjj",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_oaad",
    "fieldtype": "Column Break"
   },
   {
@@ -49,52 +33,105 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "redirected_to",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Redirected To",
-   "options": "User"
-  },
-  {
-   "fieldname": "party",
-   "fieldtype": "Link",
-   "label": "Party",
-   "options": "DocType"
-  },
-  {
    "allow_on_submit": 1,
    "fieldname": "type",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Type",
-   "options": "Received\nRedirected\nApproved\nRejected\nCanceled",
-   "read_only": 1
+   "options": "\nRedirected\nApproved\nRejected\nCanceled\nCouncil"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "created_by",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "in_list_view": 1,
+   "is_virtual": 1,
    "label": "Created By",
-   "options": "User"
-  },
-  {
-   "fieldname": "action_date",
-   "fieldtype": "Datetime",
-   "in_list_view": 1,
-   "label": "Action Date",
-   "read_only": 1
+   "options": "doc.owner",
+   "read_only": 1,
+   "set_only_once": 1
   },
   {
    "fieldname": "details",
    "fieldtype": "Text",
    "in_list_view": 1,
    "label": "Details"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Transaction Action",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "from_designation",
+   "fieldtype": "Data",
+   "label": "From Designation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "from_department",
+   "fieldtype": "Data",
+   "label": "From Department",
+   "read_only": 1
+  },
+  {
+   "fieldname": "from_company",
+   "fieldtype": "Data",
+   "label": "From Company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "transaction",
+   "fieldtype": "Link",
+   "label": "Transaction",
+   "options": "Transaction"
+  },
+  {
+   "fieldname": "recipient_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Recipient Settings"
+  },
+  {
+   "fieldname": "get_recipients",
+   "fieldtype": "Button",
+   "label": "Get Recipients"
+  },
+  {
+   "fieldname": "recipients_tab",
+   "fieldtype": "Tab Break",
+   "label": "Recipients"
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "Recipients",
+   "options": "Transaction Recipients"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "action_date",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "is_virtual": 1,
+   "label": "Action Date",
+   "options": "frappe.utils.format_datetime(doc.creation, \n                format_string='dd MMM yyyy, HH:mm:ss'\n            )",
+   "read_only": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "section_break_hgwa",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
- "istable": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2024-05-27 18:17:58.603052",
+ "modified": "2024-06-11 14:42:26.206193",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Action",
@@ -102,5 +139,9 @@
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",
- "sort_order": "DESC"
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
 }

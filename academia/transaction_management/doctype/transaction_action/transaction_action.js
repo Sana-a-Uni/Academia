@@ -2,211 +2,90 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Transaction Action", {
-	refresh: function(frm) {
+    onload: function(frm) {
+    //     // Set the initial visibility of the to_section
+    //     frm.toggle_display("to_section", frm.doc.type === "Redirected");
 
-//         // show Approve, Redirect and Reject actions if the document is draft and saved
-//         if(frm.doc.docstatus === 0 && !frm.doc.__islocal ){
-            
-//             // after amend from another Transaction Action change the status to be Open
-//             if(frm.doc.status === "Approved")
-//             {
-//                 frm.set_value('status', "Open");
-//                 frm.save();
-//             }
-//             else if(frm.doc.status === "Open")
-//             {
-//                 frm.page.clear_primary_action();
+    },
+    // type: function(frm) {
+    //     // Toggle the visibility of the to_section when the type changes
+    //     frm.toggle_display("to_section", frm.doc.type === "Redirected");
+    // },
+    transaction: function (frm) {
+        // if(frm.doc.transaction)
+        //     // console.log(frm.doc.transaction);
+        // frappe.call({
+        //     method: "frappe.client.get_list",
+        //     args: {
+        //       doctype: "Transaction",
+        //       filters: { 
+        //             name: frm.doc.transaction , 
+        //         },
+        //       fields: [
+        //         "transaction_scope", 
+        //         "company",
+        //         "department", 
+        //         "designation", 
+        //     ]
+        //     },
+        //     callback: (response) => {
+        //         var main_transaction = response.message
+        //     }
+        // });
+    },
 
-//                 // change it to pyothn script if you need
-//                 cur_frm.page.add_action_item(__('Received'), function() {
-//                     frm.set_value('status', "Received");
-//                     frm.set_value('receive_date', frappe.datetime.get_datetime_as_string());
-//                     frm.save();
-//                 });
-//             }
-//             else if(frm.doc.status === "Received")
-//             {
-
-//                 // clear all actions and add only what we need 
-//                 frm.page.clear_actions();
-
-//                 // add Approve to actions
-//                 cur_frm.page.add_action_item(__('Approve'), function() {
-//                     frappe.call({
-//                         method: 'academia.transaction_management.doctype.transaction_action.transaction_action.approve_transaction',
-//                         args: { 
-//                             doctype: "Transaction Action",
-//                             docname: frm.doc.name,
-//                         },
-//                         callback: function(response) {
-//                             if (response.message) {
-//                                 frappe.msgprint(__(response.message));
-//                                 deleteActionItems(frm, 'Approve', 'Redirect', 'Reject')
-//                             }
-                             
-//                         }
-//                     });
-//                 });
-
-//                 cur_frm.page.add_action_item(__('Redirect'), function() {
-//                     frappe.prompt([
-//                         {
-//                             fieldname: 'party',
-//                             label: __('Party'),
-//                             fieldtype: 'Link',
-//                             options: 'DocType',
-//                             reqd: 1,
-//                             get_query: function() {
-//                                 return {
-//                                     filters: [
-//                                         ['DocType', 'name', 'in', ['Department', 'External Party']]
-//                                     ]
-//                                 };
-//                             }
-//                         },
-//                         {
-//                             fieldname: 'to_department',
-//                             label: __('To Department'),
-//                             fieldtype: 'Dynamic Link',
-//                             options: 'party',
-//                             reqd: 1
-//                         },
-//                         {
-//                             fieldname: 'redirect_to',
-//                             label: __('Redirect To'),
-//                             fieldtype: 'Link',
-//                             options: 'User',
-//                             reqd: 1,
-//                         }
-//                     ]
-//                     , function(values){
+    // Advance Get members Dialog
+    get_recipients: function (frm) {
+        new frappe.ui.form.MultiSelectDialog({
+          doctype: "Employee",
+          target: frm,
+          setters: {
+            employee_name: null,
+            company: null,
+            department:  null,
+            designation: null,
+          },
+          get_query() {
+            return {
+                filters: { 
+                    docstatus: ['!=', 2],
+                    company: this.setters.company,
+                }
+            }
+          },
+          primary_action_label: "Get Recipients",
+          action(selections) {
+             // Fetch the selected employees with specific fields
+        frappe.call({
+            method: "frappe.client.get_list",
+            args: {
+              doctype: "Employee",
+              filters: { name: ["in", selections] },
+              fields: ["name","employee", "designation", "department", "company", "user_id"]
+            },
+            callback: (response) => {
+              var selectedEmployees = response.message;
     
-//                         var party = values.party;
-//                         var to_department = values.to_department;
-//                         var redirect_to = values.redirect_to;
-
-//                         frappe.call({
-//                             method: 'academia.transaction_management.doctype.transaction_action.transaction_action.redirect_transaction',
-//                             args: { 
-//                                 doctype: "Transaction Action",
-//                                 docname: frm.doc.name, 
-//                                 party: party,
-//                                 to_department: to_department,
-//                                 redirect_to: redirect_to,
-//                             },
-//                             callback: function(response) {
-//                                 if (response.message) {
-//                                     frappe.msgprint(__(response.message));
-
-//                                     deleteActionItems(frm, 'Approve', 'Redirect', 'Reject')
-//                                 }
-                                 
-//                             }
-//                         });
-//                         }, __('Redirect Transaction'));
-//                 });
-
-//                 cur_frm.page.add_action_item(__('Reject'), function() {
-//                     frappe.call({
-//                         method: 'academia.transaction_management.doctype.transaction_action.transaction_action.reject_transaction',
-//                         args: { 
-//                             doctype: "Transaction Action",
-//                             docname: frm.doc.name,
-//                         },
-//                         callback: function(response) {
-//                             if (response.message) {
-//                                 frappe.msgprint(__(response.message));
-
-//                                 deleteActionItems(frm, 'Approve', 'Redirect', 'Reject')
-//                             }
-//                         }
-//                     });
-//                 });
-//             }
-//         }
-//         else if(frm.doc.docstatus === 1){
-            
-//             // to delete the default cancel button
-//             cur_frm.page.btn_secondary.hide();
-
-//             cur_frm.page.add_action_item(__('Cancel'), function() {
-
-//                 frappe.call({
-//                     method: 'academia.transaction_management.doctype.transaction_action.transaction_action.cancel_transaction_action',
-//                     args: { 
-//                         doctype: "Transaction Action",
-//                         docname: frm.doc.name,
-//                     },
-//                     callback: function(response) {
-//                         if (response.message) {
-//                             frappe.msgprint(__(response.message));
-
-//                             deleteActionItems(frm, 'Cancel')
-//                         }
-                         
-//                     }
-//                 });
-//             });
-//         }
-
-//         if(frm.doc.main_transaction){
-//             // to display main_transaction_information_section
-//             frm.trigger('showMainTransactionInformation');
-//         }
-//         // filter party field
-//         frm.fields_dict.party.get_query = function(doc, cdt, cdn) {
-//             return {
-//                 filters: [
-//                     ['DocType', 'name', 'in', ['Department', 'External Party']]
-//                 ]
-//             };
-//         };
-
-	},
-//     showMainTransactionInformation: async function(frm) {
-//         await frappe.call({
-//             method: 'academia.transaction_management.doctype.transaction_action.transaction_action.get_main_transaction_information',
-//             args: { 
-//                 transaction: frm.doc.main_transaction
-//             },
-//             callback: function(response) {
-//                 if (response.message) {
-
-//                 frm.set_df_property("main_transaction_information_section", "hidden", 0);
-//                 frm.refresh_field("main_transaction_information_section");
-
-//                   // Display the association transactions
-//                   var MainTransaction = response.message;
-  
-//                   let html = `<div>`;
-  
-//                   // Loop through all fields in MainTransaction
-//                   for (var field in MainTransaction) {
-//                       if (field !== null) {
-//                           // Add only the fields that have a value
-//                           html += `<div>${field}: ${MainTransaction[field]}</div><br>`;
-//                       }
-//                   }
+              frm.set_value('recipients', []);
     
-//                   html += `</div>`;
-  
-//                   frm.set_df_property("main_transaction_information", "options", html);
-//                   frm.refresh_field("main_transaction_information");
-
-//               }else{
-
-//                 frm.set_df_property("main_transaction_information_section", "hidden", 1);
-//                 frm.refresh_field("main_transaction_information_section");
-//               }
-//           }
-//       });
-//   },
-
+              selectedEmployees.forEach((employee) => {
+    
+                    frm.add_child("recipients", {
+                    recipient_name:employee.employee,
+                    recipient_company:employee.company,
+                    recipient_department:employee.department,
+                    recipient_designation:employee.designation,
+                    recipient_email:employee.user_id,
+                  })
+    
+              })
+                this.dialog.hide();
+              frm.refresh_field("recipients");
+            }
+          });
+          }
+        });
+    
+      },
+    
 });
-
-// function deleteActionItems(frm, ...labels) {
-//     labels.forEach(label => {
-//         frm.page.actions.find(`[data-label="${label}"]`).parent().parent().remove();
-//         cur_frm.reload_doc();
-//     });
-// }

@@ -1,9 +1,9 @@
-# Copyright (c) 2024, SanU Development Team and contributors
+# Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
 # import frappe
 from frappe.model.document import Document
 
 
-class ExternalParty(Document):
+class ExternalEntityDesignation(Document):
 	pass
