@@ -30,7 +30,12 @@
 						<div>{{ formatTime(quiz.to_date) }}</div>
 					</td>
 					<td class="quiz-column">
-						<a @click.prevent="goToInstructions(quiz.name)">{{ quiz.title }}</a>
+						<a
+							@click.prevent="quizIsDue(quiz.to_date) ? goToInstructions(quiz.name) : null"
+							:class="{ disabled: !quizIsDue(quiz.to_date) }"
+						>
+							{{ quiz.title }}
+						</a>
 					</td>
 					<td class="time-limit-column">{{ formatDuration(quiz.duration) }}</td>
 					<td class="attempts-column">
@@ -67,6 +72,12 @@ const filteredQuizzes = computed(() => {
 
 const goToInstructions = (quizName) => {
 	router.push({ name: "quizInstructions", params: { quizName } });
+};
+
+const quizIsDue = (toDate) => {
+	const now = new Date();
+	const dueDate = new Date(toDate);
+	return now <= dueDate;
 };
 
 function formatDuration(seconds) {
@@ -151,8 +162,8 @@ h2 {
 }
 
 table {
-	width: calc(100% - 40px); /* Adjust the width to leave space on both sides */
-	margin: 0 20px; /* Add margins to the left and right */
+	width: calc(100% - 40px);
+	margin: 0 20px;
 	border: 1px solid #ddd;
 }
 
@@ -160,12 +171,12 @@ th,
 td {
 	padding: 12px;
 	border: 1px solid #ddd;
-	vertical-align: middle; /* Center align vertically for both th and td */
+	vertical-align: middle;
 }
 
 th {
 	background-color: #f4f4f4;
-	text-align: center; /* Center align header cells horizontally */
+	text-align: center;
 }
 
 a {
@@ -174,7 +185,13 @@ a {
 	cursor: pointer;
 }
 
-a:hover {
+a.disabled {
+	color: #000000;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+a:hover:not(.disabled) {
 	text-decoration: underline;
 }
 
@@ -194,19 +211,19 @@ a:hover {
 .attempts-column,
 .grade-column {
 	width: 10%;
-	text-align: center; /* Center align content horizontally */
+	text-align: center;
 }
 
 .no-data {
 	text-align: center;
 	color: #666;
 	font-size: 1.2em;
-	padding: 20px; /* Padding for spacing */
+	padding: 20px;
 }
 
 @media (max-width: 768px) {
 	h2 {
-		font-size: 18px; /* Reduce font size for smaller screens */
+		font-size: 18px;
 		position: static;
 		transform: none;
 		order: 1;
@@ -220,29 +237,30 @@ a:hover {
 	}
 
 	.filters select {
-		font-size: 14px; /* Reduce font size for smaller screens */
+		font-size: 14px;
 	}
 
 	table {
-		width: 100%; /* Make table full width on smaller screens */
-		margin: 0; /* Remove side margins on smaller screens */
+		width: 100%;
+		margin: 0;
 	}
 
 	th,
 	td {
-		font-size: 12px; /* Reduce font size on smaller screens */
-		padding: 8px; /* Reduce padding on smaller screens */
+		font-size: 12px;
+		padding: 8px;
 	}
 
 	.due-column,
 	.time-limit-column,
 	.attempts-column,
 	.grade-column {
-		width: auto; /* Auto width for columns on smaller screens */
+		width: auto;
 	}
 
 	.quiz-column {
-		width: auto; /* Auto width for quiz column on smaller screens */
+		width: auto;
 	}
 }
 </style>
+ss
