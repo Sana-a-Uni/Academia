@@ -7,6 +7,7 @@ export const useQuizStore = defineStore("quiz", {
 		quiz: {},
 		quizInstructions: [],
 		quizResult: {},
+		quizzesResult: [],
 		loading: false,
 		error: null,
 	}),
@@ -45,7 +46,12 @@ export const useQuizStore = defineStore("quiz", {
 						},
 					}
 				);
-				this.quizInstructions = response.data.data;
+				if (response.data.status_code !== 200) {
+					this.error =
+						response.data.message || "An error occurred while fetching quiz instructions.";
+				} else {
+					this.quizInstructions = response.data.data;
+				}
 			} catch (error) {
 				this.error = error.message || "An error occurred while fetching quiz instructions.";
 			} finally {
@@ -109,6 +115,27 @@ export const useQuizStore = defineStore("quiz", {
 				this.quizResult = response.data.data;
 			} catch (error) {
 				this.error = error.response?.data?.message || error.message;
+			} finally {
+				this.loading = false;
+			}
+		},
+
+		async fetchQuizzesResult(courseName, studentId) {
+			this.loading = true;
+			this.error = null;
+			try {
+				const response = await axios.get(
+					"http://localhost:8080/api/method/academia.lms_api.student.quiz.quiz.get_all_quiz_attempts",
+					{
+						params: {
+							course_name: courseName,
+							student_id: studentId,
+						},
+					}
+				);
+				this.quizzesResult = response.data.data;
+			} catch (error) {
+				this.error = error.message || "An error occurred while fetching quizzes result.";
 			} finally {
 				this.loading = false;
 			}
