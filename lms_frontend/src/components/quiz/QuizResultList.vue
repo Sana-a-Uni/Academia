@@ -26,14 +26,18 @@
 					<td colspan="6" class="no-data">No Data</td>
 				</tr>
 				<tr v-else v-for="quiz in filteredQuizzes" :key="quiz.id">
-					<td class="quiz-column">{{ quiz.title }}</td>
-					<td class="review-column">{{ quiz.review }}</td>
+					<td class="quiz-column">{{ quiz.quiz }}</td>
+					<td class="review-column">Review</td>
 					<td class="grade-column">
-						{{ quiz.grade ? `${quiz.grade} / ${quiz.total_grades}` : "N/A" }}
+						{{ `${quiz.grade} / ${quiz.grade_out_of}` }}
 					</td>
-					<td class="time-taken-column">{{ formatDuration(quiz.time_taken) }}</td>
-					<td class="date-started-column">{{ formatDate(quiz.date_started) }}</td>
-					<td class="date-ended-column">{{ formatDate(quiz.date_ended) }}</td>
+					<td class="time-taken-column">{{ quiz.time_taken }}</td>
+					<td class="date-started-column">
+						{{ formatDate(quiz.start_time) }} {{ formatTime(quiz.start_time) }}
+					</td>
+					<td class="date-ended-column">
+						{{ formatDate(quiz.end_time) }} {{ formatTime(quiz.end_time) }}
+					</td>
 				</tr>
 			</tbody>
 		</table>
@@ -42,10 +46,9 @@
 
 <script setup>
 import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
 
 const props = defineProps({
-	quizzes: {
+	quizzesResult: {
 		type: Array,
 		required: true,
 	},
@@ -54,7 +57,8 @@ const props = defineProps({
 const selectedQuiz = ref("all");
 
 const filteredQuizzes = computed(() => {
-	return props.quizzes.filter((quiz) => {
+	if (!props.quizzesResult) return [];
+	return props.quizzesResult.filter((quiz) => {
 		switch (selectedQuiz.value) {
 			case "passed":
 				return quiz.grade >= 50;
@@ -66,35 +70,43 @@ const filteredQuizzes = computed(() => {
 	});
 });
 
-function formatDuration(seconds) {
-	if (typeof seconds !== "number") {
-		return "";
-	}
+// function formatDuration(seconds) {
+// 	if (typeof seconds !== "number") {
+// 		return "";
+// 	}
 
-	const days = Math.floor(seconds / (24 * 3600));
-	const remainingSecondsAfterDays = seconds % (24 * 3600);
-	const hours = Math.floor(remainingSecondsAfterDays / 3600);
-	const remainingSecondsAfterHours = remainingSecondsAfterDays % 3600;
-	const minutes = Math.floor(remainingSecondsAfterHours / 60);
-	const remainingSeconds = remainingSecondsAfterHours % 60;
+// 	const days = Math.floor(seconds / (24 * 3600));
+// 	const remainingSecondsAfterDays = seconds % (24 * 3600);
+// 	const hours = Math.floor(remainingSecondsAfterDays / 3600);
+// 	const remainingSecondsAfterHours = remainingSecondsAfterDays % 3600;
+// 	const minutes = Math.floor(remainingSecondsAfterHours / 60);
+// 	const remainingSeconds = remainingSecondsAfterHours % 60;
 
-	const parts = [];
-	if (days > 0) parts.push(`${days}d`);
-	if (hours > 0) parts.push(`${hours}h`);
-	if (minutes > 0) parts.push(`${minutes}m`);
-	if (remainingSeconds > 0) parts.push(`${remainingSeconds}s`);
+// 	const parts = [];
+// 	if (days > 0) parts.push(`${days}d`);
+// 	if (hours > 0) parts.push(`${hours}h`);
+// 	if (minutes > 0) parts.push(`${minutes}m`);
+// 	if (remainingSeconds > 0) parts.push(`${remainingSeconds}s`);
 
-	return parts.join(" ");
-}
-
+// 	return parts.join(" ");
+// }
 function formatDate(dateString) {
 	const date = new Date(dateString);
 	const day = date.getDate().toString().padStart(2, "0");
 	const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-indexed
 	const year = date.getFullYear();
-	const hours = date.getHours().toString().padStart(2, "0");
-	const minutes = date.getMinutes().toString().padStart(2, "0");
-	return `${day}/${month}/${year} ${hours}:${minutes}`;
+	return `${day}/${month}/${year}`;
+}
+
+function formatTime(dateString) {
+	const date = new Date(dateString);
+	let hours = date.getHours();
+	const minutes = date.getMinutes();
+	const ampm = hours >= 12 ? "PM" : "AM";
+	hours = hours % 12;
+	hours = hours ? hours : 12; // the hour '0' should be '12'
+	const strMinutes = minutes < 10 ? "0" + minutes : minutes;
+	return hours + ":" + strMinutes + " " + ampm;
 }
 </script>
 
@@ -139,6 +151,7 @@ h2 {
 	left: 50%;
 	transform: translateX(-50%);
 }
+
 table {
 	width: calc(100% - 40px);
 	margin: 0 20px;
@@ -163,7 +176,7 @@ th {
 .grade-column,
 .time-taken-column,
 .date-started-column,
-date-ended-column {
+.date-ended-column {
 	width: 16%;
 	text-align: center;
 }
