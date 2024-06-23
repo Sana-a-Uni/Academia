@@ -60,6 +60,5 @@ class StudentGroupTool(Document):
 		else:
 			return students
 
-	@frappe.whitelist()
-	def generate_groups(self):
+	
 		
