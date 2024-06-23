@@ -1,25 +1,37 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2024-04-30 11:34:48.970300",
+ "autoname": "field:template",
+ "creation": "2024-06-23 12:57:17.795487",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "test"
+  "template",
+  "criteria"
  ],
  "fields": [
   {
-   "fieldname": "test",
+   "fieldname": "template",
    "fieldtype": "Data",
-   "label": "test"
+   "in_list_view": 1,
+   "label": "Template",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "criteria",
+   "fieldtype": "Table MultiSelect",
+   "label": "Criteria",
+   "options": "Evaluation Criteria"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-30 11:35:01.246511",
+ "modified": "2024-06-23 17:58:13.337842",
  "modified_by": "Administrator",
  "module": "Academia",
- "name": "Test",
+ "name": "Evaluation Criteria Template",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
