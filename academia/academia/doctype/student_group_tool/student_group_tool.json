@@ -14,7 +14,7 @@
   "tolerance",
   "students_section",
   "get_students",
-  "table_yldo",
+  "students",
   "generate_groups"
  ],
  "fields": [
@@ -49,11 +49,6 @@
    "label": "Get Students "
   },
   {
-   "fieldname": "table_yldo",
-   "fieldtype": "Table",
-   "options": "Student Group Student"
-  },
-  {
    "fieldname": "program",
    "fieldtype": "Link",
    "label": "Program",
@@ -85,12 +80,17 @@
    "fieldname": "generate_groups",
    "fieldtype": "Button",
    "label": "Generate groups"
+  },
+  {
+   "fieldname": "students",
+   "fieldtype": "Table",
+   "options": "Student Group Student"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-01 01:45:12.411693",
+ "modified": "2024-06-23 02:25:00.428115",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group Tool",
