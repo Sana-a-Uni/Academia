@@ -63,7 +63,7 @@ def get_quizzes_by_course(course_name: str , student_id: str ) -> Dict[str, Any]
 
 
 @frappe.whitelist(allow_guest=True)
-def get_quiz_instruction(quiz_name: str, student_id: str ) -> Dict[str, Any]:
+def get_quiz_instruction(quiz_name: str , student_id: str ) -> Dict[str, Any]:
     try:
         quiz_doc = frappe.get_doc("LMS Quiz", quiz_name)
 
@@ -290,7 +290,7 @@ def create_quiz_attempt():
 
 
 @frappe.whitelist(allow_guest=True)
-def get_quiz_result(quiz_attempt_id="dee2e6f2c0"):
+def get_quiz_result(quiz_attempt_id):
     try:
         quiz_attempt = frappe.get_doc('Quiz Attempt', quiz_attempt_id)
         quiz_doc = frappe.get_doc('LMS Quiz', quiz_attempt.quiz)
@@ -347,3 +347,57 @@ def get_quiz_result(quiz_attempt_id="dee2e6f2c0"):
         frappe.response["status_code"] = 500
         frappe.response["message"] = "An error occurred while fetching the quiz result"
         return {'error': str(e)}
+
+
+
+@frappe.whitelist(allow_guest=True)
+def get_all_quiz_attempts(course_name: str = "00", student_id: str = "EDU-STU-2024-00001") -> Dict[str, Any]:
+    try:
+        # Get all quiz attempts for the specified student in the specified course
+        quiz_attempts = frappe.get_all(
+            'Quiz Attempt',
+            filters={
+                'course': course_name,
+                'student': student_id
+            },
+            fields=['name', 'quiz', 'grade', 'grade_out_of', 'start_time', 'end_time', 'time_taken']
+        )
+
+        # Convert and format values for response
+        for attempt in quiz_attempts:
+            time_taken = attempt['time_taken']
+            days, remainder = divmod(time_taken, 86400)
+            hours, remainder = divmod(remainder, 3600)
+            minutes, seconds = divmod(remainder, 60)
+
+            time_taken_str = ""
+            if days > 0:
+                time_taken_str += f"{int(days)}d "
+            if hours > 0:
+                time_taken_str += f"{int(hours)}h "
+            if minutes > 0:
+                time_taken_str += f"{int(minutes)}m "
+            time_taken_str += f"{int(seconds)}s"
+
+            # Update formatted values in the attempts list
+            attempt['time_taken'] = time_taken_str
+            attempt['start_time'] = attempt['start_time'].strftime('%Y-%m-%d %H:%M:%S')
+            attempt['end_time'] = attempt['end_time'].strftime('%Y-%m-%d %H:%M:%S')
+
+        # Prepare the response
+        frappe.response.update({
+            "status_code": 200,
+            "message": "Quiz attempts fetched successfully",
+            "data": quiz_attempts
+        })
+        
+        return frappe.response["message"]
+    
+    except Exception as e:
+        # Prepare the error response in case of an issue
+        frappe.response.update({
+            "status_code": 500,
+            "message": f"An error occurred while fetching the quiz attempts: {str(e)}"
+        })
+        
+    return frappe.response["message"]
