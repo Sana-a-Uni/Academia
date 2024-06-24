@@ -60,5 +60,25 @@ class StudentGroupTool(Document):
 		else:
 			return students
 
-	
-		
+	@frappe.whitelist()
+	def generate_groups(self):
+		students = []
+		for student in self.students:
+			student_data = student.as_dict()
+			students.append(student_data)
+
+		keys = ['student_name', 'gender', 'program']
+		cleaned_students = [{k: v for k, v in d.items() if k in keys} for d in students]
+
+		if len(cleaned_students) <= self.capacity:
+			student_group = frappe.new_doc('Student Group')
+			student_group.student_group_name = self.student_batch + ' ' + self.program + ' ' + 'G1'
+			student_group.batch = self.student_batch
+			student_group.program = self.program
+			student_group.group_based_on = self.based_on
+			for student in cleaned_students:
+				student_entry = student_group.append('students', {})
+				student_entry.update(student)
+			student_group.save()
+
+			frappe.msgprint('successfuly...')
