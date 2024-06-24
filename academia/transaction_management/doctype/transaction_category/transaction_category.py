@@ -16,11 +16,24 @@ class TransactionCategory(Document):
 		from frappe.types import DF
 
 		category_name: DF.Data
-		category_parent: DF.Link | None
+		category_template: DF.Link | None
+		company: DF.Link | None
+		is_group: DF.Check
+		parent_category: DF.Link | None
 		requirements: DF.Table[TransactionCategoryRequirement]
-		text_editor_uzrj: DF.TextEditor | None
+		template: DF.Link | None
 	# end: auto-generated types
 	pass
+
+
+# I used the one in transaction.py
+# @frappe.whitelist()
+# def get_transaction_category_requirement(transaction_category):
+#     requirements = frappe.get_all("Transaction Category  Requirement",
+#                                    filters={"parent": transaction_category},
+#                                    fields=["name", "file_type", "required"])
+#     return requirements
+
 
     	
         	
