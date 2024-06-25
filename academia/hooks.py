@@ -6,6 +6,19 @@ app_email = "a.alshalabi@su.edu.ye"
 app_license = "mit"
 required_apps = ["frappe/erpnext","frappe/hrms"]
 
+fixtures = [
+ {
+  "doctype": "Print format",
+  "filters" : [
+                "name",
+                "in",
+                [
+     'transaction'
+                ]
+             ]
+     }
+ ]
+
 # Includes in <head>
 # ------------------
 
