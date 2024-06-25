@@ -8,6 +8,7 @@ export const useQuizStore = defineStore("quiz", {
 		quizInstructions: [],
 		quizResult: {},
 		quizzesResult: [],
+		questionsWithAnswers: [],
 		loading: false,
 		error: null,
 	}),
@@ -136,6 +137,29 @@ export const useQuizStore = defineStore("quiz", {
 				this.quizzesResult = response.data.data;
 			} catch (error) {
 				this.error = error.message || "An error occurred while fetching quizzes result.";
+			} finally {
+				this.loading = false;
+			}
+		},
+		async fetchQuizReview(quizAttemptId) {
+			this.loading = true;
+			this.error = null;
+			try {
+				const response = await axios.get(
+					`http://localhost:8080/api/method/academia.lms_api.student.quiz.quiz.get_quiz_attempt_details`,
+					{
+						params: {
+							quiz_attempt_id: quizAttemptId,
+						},
+					}
+				);
+				if (response.data.status_code === 200) {
+					this.questionsWithAnswers = response.data.questions_with_answers;
+				} else {
+					this.error = response.data.message || "An error occurred while fetching quiz details.";
+				}
+			} catch (error) {
+				this.error = error.message || "An error occurred while fetching quiz details.";
 			} finally {
 				this.loading = false;
 			}
