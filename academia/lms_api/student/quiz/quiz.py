@@ -349,7 +349,6 @@ def get_quiz_result(quiz_attempt_id):
         return {'error': str(e)}
 
 
-
 @frappe.whitelist(allow_guest=True)
 def get_all_quiz_attempts(course_name: str = "00", student_id: str = "EDU-STU-2024-00001") -> Dict[str, Any]:
     try:
@@ -364,6 +363,7 @@ def get_all_quiz_attempts(course_name: str = "00", student_id: str = "EDU-STU-20
         )
 
         # Convert and format values for response
+        result = []
         for attempt in quiz_attempts:
             time_taken = attempt['time_taken']
             days, remainder = divmod(time_taken, 86400)
@@ -379,16 +379,26 @@ def get_all_quiz_attempts(course_name: str = "00", student_id: str = "EDU-STU-20
                 time_taken_str += f"{int(minutes)}m "
             time_taken_str += f"{int(seconds)}s"
 
+            # Get the quiz title from LMS Quiz
+            quiz_doc = frappe.get_doc('LMS Quiz', attempt['quiz'])
+            quiz_title = quiz_doc.title
+
             # Update formatted values in the attempts list
-            attempt['time_taken'] = time_taken_str
-            attempt['start_time'] = attempt['start_time'].strftime('%Y-%m-%d %H:%M:%S')
-            attempt['end_time'] = attempt['end_time'].strftime('%Y-%m-%d %H:%M:%S')
+            attempt_data = {
+                'quiz': quiz_title,
+                'grade': attempt['grade'],
+                'grade_out_of': attempt['grade_out_of'],
+                'start_time': attempt['start_time'].strftime('%Y-%m-%d %H:%M:%S'),
+                'end_time': attempt['end_time'].strftime('%Y-%m-%d %H:%M:%S'),
+                'time_taken': time_taken_str
+            }
+            result.append(attempt_data)
 
         # Prepare the response
         frappe.response.update({
             "status_code": 200,
             "message": "Quiz attempts fetched successfully",
-            "data": quiz_attempts
+            "data": result
         })
         
         return frappe.response["message"]
@@ -401,3 +411,35 @@ def get_all_quiz_attempts(course_name: str = "00", student_id: str = "EDU-STU-20
         })
         
     return frappe.response["message"]
+
+
+@frappe.whitelist(allow_guest=True)
+def get_quiz_attempt_details(quiz_attempt_id="6e8dbb9b7b"):
+  try:
+        quiz_attempt = frappe.get_doc('Quiz Attempt', quiz_attempt_id)
+        quiz_doc = frappe.get_doc('LMS Quiz', quiz_attempt.quiz)
+
+        questions_with_answers = []
+        for answer in quiz_attempt.quiz_answer:
+            question = frappe.get_doc('Question', answer.question)
+            question_options = [{"option": option.option, "is_correct": option.is_correct} for option in question.question_options]
+            
+            questions_with_answers.append({
+                'question': question.question,
+                'question_type': question.question_type,  # إضافة نوع السؤال
+                'selected_option': answer.selected_option,
+                'is_correct': answer.is_correct,
+                'correct_option': ', '.join([opt['option'] for opt in question_options if opt['is_correct']]),
+                'question_options': question_options
+            })
+
+        frappe.response["status_code"] = 200
+        frappe.response["questions_with_answers"] = questions_with_answers
+
+  except Exception as e:
+        frappe.log_error(frappe.get_traceback(), "Quiz Attempt Details Error")
+        frappe.response["status_code"] = 500
+        frappe.response["message"] = f"An error occurred while fetching the quiz attempt details: {str(e)}"
+        frappe.response["error"] = str(e)
+
+  return frappe.response
