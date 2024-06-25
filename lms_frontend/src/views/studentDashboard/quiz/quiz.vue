@@ -1,3 +1,4 @@
+<!-- Main Container Component -->
 <template>
 	<div class="container">
 		<Header />
@@ -8,11 +9,17 @@
 			:nextQuestion="nextQuestion"
 			:submitAnswers="confirmSubmit"
 			:totalQuestions="quiz.questions_number"
+			:mode="'attempt'"
+			:closeReview="closeReview"
 		/>
 		<div class="main">
 			<Sidebar :isCollapsed="isCollapsed" :toggleQuestionList="toggleQuestionList">
 				<template v-if="!loading && quiz.quiz_question">
-					<QuestionList :questions="quiz.quiz_question" :goToQuestion="goToQuestion" />
+					<QuestionList
+						:questions="quiz.quiz_question"
+						:goToQuestion="goToQuestion"
+						:mode="'attempt'"
+					/>
 				</template>
 			</Sidebar>
 			<div class="content" :style="{ width: isCollapsed ? 'calc(100% - 40px)' : '80%' }" id="content">
@@ -22,6 +29,7 @@
 						:questions="quiz.quiz_question"
 						:currentQuestion="currentQuestion"
 						:markAnswered="markAnswered"
+						:mode="'attempt'"
 					/>
 				</template>
 			</div>
@@ -31,6 +39,8 @@
 			:currentQuestion="currentQuestion"
 			:questionsNumber="quiz.questions_number"
 			:submitAnswers="confirmSubmit"
+			:mode="'attempt'"
+			:closeReview="closeReview"
 		/>
 		<ConfirmationDialog
 			:showDialog="showDialog"
@@ -176,6 +186,10 @@ const submitAnswers = async () => {
 	} else {
 		alert("حدث خطأ أثناء إرسال الامتحان.");
 	}
+};
+
+const closeReview = () => {
+	router.push({ name: "home" });
 };
 
 onMounted(() => {

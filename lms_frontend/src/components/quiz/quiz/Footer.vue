@@ -26,15 +26,44 @@ const props = defineProps({
 		type: Function,
 		required: true,
 	},
+	mode: {
+		type: String,
+		required: true,
+	},
+	closeReview: {
+		type: Function,
+		required: true,
+	},
 });
 
 const isLastQuestion = computed(() => props.currentQuestion === props.questionsNumber - 1);
 
-const buttonText = computed(() => (isLastQuestion.value ? "Submit" : "Next"));
-const buttonClass = computed(() => (isLastQuestion.value ? "submit-btn" : "next-btn"));
+const buttonText = computed(() => {
+	if (props.mode === "review" && isLastQuestion.value) {
+		return "Close";
+	}
+	if (props.mode === "review") {
+		return "Next";
+	}
+	return isLastQuestion.value ? "Submit" : "Next";
+});
+
+const buttonClass = computed(() => {
+	if (props.mode === "review" && isLastQuestion.value) {
+		return "close-btn";
+	}
+	if (props.mode === "review") {
+		return "next-btn";
+	}
+	return isLastQuestion.value ? "submit-btn" : "next-btn";
+});
 
 const handleClick = () => {
-	if (isLastQuestion.value) {
+	if (props.mode === "review" && isLastQuestion.value) {
+		props.closeReview();
+	} else if (props.mode === "review") {
+		props.nextQuestion();
+	} else if (isLastQuestion.value) {
 		props.submitAnswers();
 	} else {
 		props.nextQuestion();
@@ -66,7 +95,8 @@ const handleClick = () => {
 	border-radius: 20px;
 	margin-right: 20px;
 }
-.submit-btn {
+.submit-btn,
+.close-btn {
 	background-color: #dc3545;
 	color: white;
 	border: none;

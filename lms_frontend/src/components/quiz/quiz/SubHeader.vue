@@ -1,6 +1,6 @@
 <template>
 	<div class="sub-header">
-		<div class="timer">{{ formattedTime }}</div>
+		<div v-if="mode !== 'review'" class="timer">{{ formattedTime }}</div>
 		<div class="middle-section">
 			<div class="arrows">
 				<span v-if="currentQuestion > 0" @click="prevQuestion">&#9664;</span>
@@ -8,7 +8,8 @@
 				<span v-if="currentQuestion < totalQuestions - 1" @click="nextQuestion">&#9654;</span>
 			</div>
 		</div>
-		<button class="submit-btn" @click="submitAnswers">Submit</button>
+		<button v-if="mode !== 'review'" class="submit-btn" @click="submitAnswers">Submit</button>
+		<button v-if="mode === 'review'" class="close-btn" @click="closeReview">Close</button>
 	</div>
 </template>
 
@@ -30,16 +31,25 @@ const props = defineProps({
 		type: Function,
 		required: true,
 	},
-	submitAnswers: {
-		type: Function,
-		required: true,
-	},
 	totalQuestions: {
 		type: Number,
 		required: true,
 	},
+	mode: {
+		type: String,
+		required: true,
+	},
+	closeReview: {
+		type: Function,
+		required: true,
+	},
+	submitAnswers: {
+		type: Function,
+		required: true,
+	},
 });
 </script>
+
 <style scoped>
 .sub-header {
 	display: flex;
@@ -64,7 +74,8 @@ const props = defineProps({
 	cursor: pointer;
 	margin: 0 5px;
 }
-.submit-btn {
+.submit-btn,
+.close-btn {
 	background-color: #dc3545;
 	color: white;
 	border: none;
@@ -73,6 +84,7 @@ const props = defineProps({
 	border-radius: 20px;
 	margin-left: 10px;
 }
+
 .timer {
 	font-size: 14px;
 }
@@ -86,7 +98,7 @@ const props = defineProps({
 		padding: 15px;
 	}
 	.submit-btn,
-	.next-btn {
+	.close-btn {
 		font-size: 12px;
 		padding: 2px 10px;
 		margin: 0 5px;
