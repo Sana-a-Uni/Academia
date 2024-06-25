@@ -6,6 +6,7 @@ app_email = "a.alshalabi@su.edu.ye"
 app_license = "mit"
 required_apps = ["frappe/erpnext","frappe/hrms"]
 
+# for print format
 fixtures = [
  {
   "doctype": "Print format",
