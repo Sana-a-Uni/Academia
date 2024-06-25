@@ -184,7 +184,7 @@
    "allow_on_submit": 1,
    "fieldname": "actions",
    "fieldtype": "HTML",
-   "options": "Transaction Action",
+   "options": "Press Refresh button to get actions if exist.",
    "read_only": 1
   },
   {
@@ -272,7 +272,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-11 14:40:27.334888",
+ "modified": "2024-06-11 23:28:49.106117",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

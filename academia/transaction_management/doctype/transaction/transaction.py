@@ -2,6 +2,7 @@
 # For license information, please see license.txt
 
 
+from queue import Full
 from jinja2 import Template # type: ignore
 import os
 import frappe # type: ignore
@@ -177,7 +178,7 @@ def create_new_transaction_action(user_id, transaction_name, type, details,):
 @frappe.whitelist()
 def get_actions_html(transaction_name):
 
-        # TODO: refact this, i know it isn't the best way but it works :3
+        # TODO: refact this, i know it's not the best way but it works :3
         current_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
         template_path = os.path.join(current_dir, "templates/vertical_path.html")
 
@@ -197,20 +198,14 @@ def get_actions_html(transaction_name):
 
         return rendered_html
 
-
 def get_recipient_actions(transaction_name, action_name=''):
-    if action_name != '':
-        recipients = frappe.get_all("Transaction Recipients",
-                                    filters={"parent": action_name},
-                                    fields=["recipient_email"],
-                                    order_by="creation"
-                                    )
-    else:
-        recipients = frappe.get_all("Transaction Recipients",
-                                    filters={"parent": transaction_name},
-                                    fields=["recipient_email"],
-                                    order_by="creation"
-                                    )
+    parent = action_name if action_name != '' else transaction_name
+    
+    recipients = frappe.get_all("Transaction Recipients",
+                                filters={"parent": parent},
+                                fields=["recipient_email"],
+                                order_by="creation"
+                                )
 
     actions = frappe.get_all("Transaction Action",
                              filters={"transaction": transaction_name},
@@ -219,27 +214,30 @@ def get_recipient_actions(transaction_name, action_name=''):
                              )
 
     recipient_actions = []
-    index = 1
 
     for recipient in recipients:
         recipient_dict = {
-            "recipients": recipient.recipient_email,
-            "actions": [],
-            "redirected": {
-                "recipients": [],
-                "actions": []
-            }
+            "recipient": recipient.recipient_email,
+            "action": None,
+            "redirected": [],
+            "link": None
         }
 
         for action in actions:
             if action.owner == recipient.recipient_email:
-                recipient_dict["actions"].append(action)
+                recipient_dict["action"] = action
+                recipient_dict["link"] = get_document_link("Transaction Action", action.name)
                 if action.type == "Redirected":
-                    sub_actions = get_recipient_actions(transaction_name, action.name)
-                    recipient_dict["redirected"]["recipients"].extend([sub_action["recipients"] for sub_action in sub_actions])
-                    recipient_dict["redirected"]["actions"].extend([sub_action["actions"] for sub_action in sub_actions])
+                    redirected_recipients = get_recipient_actions(transaction_name, action.name)
+                    recipient_dict["redirected"].append(redirected_recipients)
 
         recipient_actions.append(recipient_dict)
-        index += 1
 
     return recipient_actions
+
+
+
+def get_document_link(doctype, document_name):
+    document = frappe.get_doc(doctype, document_name)
+    link = document.get_url()
+    return link
