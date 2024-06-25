@@ -22,6 +22,17 @@ const routes = [
 		component: () => import("../views/studentDashboard/quiz/quizResult"),
 	},
 	{
+		path: "/quizResultList",
+		name: "quizResultList",
+		component: () => import("../views/studentDashboard/quiz/quizResultList"),
+	},
+	{
+		path: "/quizReview/:quizAttemptId",
+		name: "quizReview",
+		component: () => import("../views/studentDashboard/quiz/quizReview"),
+	},
+
+	{
 		path: "/createQuiz",
 		name: "createQuiz",
 		component: () => import("../views/teacherDashboard/quiz/createQuiz"),

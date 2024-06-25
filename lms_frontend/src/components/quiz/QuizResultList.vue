@@ -25,9 +25,16 @@
 				<tr v-if="filteredQuizzes.length === 0">
 					<td colspan="6" class="no-data">No Data</td>
 				</tr>
-				<tr v-else v-for="quiz in filteredQuizzes" :key="quiz.id">
+				<tr v-else v-for="quiz in filteredQuizzes" :key="quiz.name">
 					<td class="quiz-column">{{ quiz.quiz }}</td>
-					<td class="review-column">Review</td>
+					<td class="review-column">
+						<router-link
+							:to="{ name: 'quizReview', params: { quizAttemptId: quiz.name } }"
+							class="review-link"
+						>
+							Review
+						</router-link>
+					</td>
 					<td class="grade-column">
 						{{ `${quiz.grade} / ${quiz.grade_out_of}` }}
 					</td>
@@ -70,30 +77,10 @@ const filteredQuizzes = computed(() => {
 	});
 });
 
-// function formatDuration(seconds) {
-// 	if (typeof seconds !== "number") {
-// 		return "";
-// 	}
-
-// 	const days = Math.floor(seconds / (24 * 3600));
-// 	const remainingSecondsAfterDays = seconds % (24 * 3600);
-// 	const hours = Math.floor(remainingSecondsAfterDays / 3600);
-// 	const remainingSecondsAfterHours = remainingSecondsAfterDays % 3600;
-// 	const minutes = Math.floor(remainingSecondsAfterHours / 60);
-// 	const remainingSeconds = remainingSecondsAfterHours % 60;
-
-// 	const parts = [];
-// 	if (days > 0) parts.push(`${days}d`);
-// 	if (hours > 0) parts.push(`${hours}h`);
-// 	if (minutes > 0) parts.push(`${minutes}m`);
-// 	if (remainingSeconds > 0) parts.push(`${remainingSeconds}s`);
-
-// 	return parts.join(" ");
-// }
 function formatDate(dateString) {
 	const date = new Date(dateString);
 	const day = date.getDate().toString().padStart(2, "0");
-	const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-indexed
+	const month = (date.getMonth() + 1).toString().padStart(2, "0");
 	const year = date.getFullYear();
 	return `${day}/${month}/${year}`;
 }
@@ -179,6 +166,16 @@ th {
 .date-ended-column {
 	width: 16%;
 	text-align: center;
+}
+
+.review-link {
+	color: #2a73cc;
+	text-decoration: none;
+	cursor: pointer;
+}
+
+.review-link:hover {
+	text-decoration: underline;
 }
 
 .no-data {

@@ -385,6 +385,7 @@ def get_all_quiz_attempts(course_name: str = "00", student_id: str = "EDU-STU-20
 
             # Update formatted values in the attempts list
             attempt_data = {
+                "name":attempt['name'],
                 'quiz': quiz_title,
                 'grade': attempt['grade'],
                 'grade_out_of': attempt['grade_out_of'],
