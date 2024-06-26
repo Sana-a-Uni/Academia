@@ -34,11 +34,19 @@
 			</div>
 			<div class="questions-list">
 				<div class="question" v-for="(q, index) in quizResult.questions_with_grades" :key="index">
-					<span class="question-icon">
-						<i :class="q.user_grade === q.grade ? 'correct-icon' : 'incorrect-icon'"></i>
-					</span>
-					<span class="question-number">Question {{ index + 1 }}</span>
-					<span class="question-score">({{ q.user_grade }} / {{ q.grade }})</span>
+					<router-link
+						:to="{
+							name: 'quizReview',
+							params: { quizAttemptId: quizResult.id, questionIndex: index },
+						}"
+						class="question-link"
+					>
+						<span class="question-icon">
+							<i :class="q.user_grade === q.grade ? 'correct-icon' : 'incorrect-icon'"></i>
+						</span>
+						<span class="question-number">Question {{ index + 1 }}</span>
+						<span class="question-score">({{ q.user_grade }} / {{ q.grade }})</span>
+					</router-link>
 				</div>
 			</div>
 		</div>
@@ -131,6 +139,13 @@ const props = defineProps({
 	width: calc(25% - 10px);
 	box-sizing: border-box;
 	font-size: 1.1em;
+}
+
+.question-link {
+	text-decoration: none;
+	color: inherit;
+	display: flex;
+	align-items: center;
 }
 
 .question-icon {

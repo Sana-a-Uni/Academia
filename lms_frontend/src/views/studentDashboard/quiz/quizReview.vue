@@ -63,7 +63,7 @@ const isCollapsed = ref(false);
 const currentQuestion = ref(0);
 const route = useRoute();
 const router = useRouter();
-const quizAttemptId = ref("a3d2559b54");
+const quizAttemptId = ref(route.params.quizAttemptId);
 
 const quizStore = useQuizStore();
 const { questionsWithAnswers, loading, error } = storeToRefs(quizStore);
@@ -97,7 +97,7 @@ const markAnswered = (questionIndex, option, checked = false) => {
 };
 
 const closeReview = () => {
-	router.push({ name: "home" });
+	router.push({ name: "quizResultList" });
 };
 
 const submitAnswers = () => {
@@ -106,6 +106,9 @@ const submitAnswers = () => {
 
 onMounted(() => {
 	quizStore.fetchQuizReview(quizAttemptId.value);
+	if (route.params.questionIndex !== undefined) {
+		currentQuestion.value = parseInt(route.params.questionIndex, 10);
+	}
 	watch(questionsWithAnswers, (newVal) => {
 		console.log("Questions with Answers:", newVal); // تحقق من البيانات المحدثة
 	});

@@ -27,9 +27,13 @@ const routes = [
 		component: () => import("../views/studentDashboard/quiz/quizResultList"),
 	},
 	{
-		path: "/quizReview/:quizAttemptId",
+		path: "/quizReview/:quizAttemptId/:questionIndex?",
 		name: "quizReview",
 		component: () => import("../views/studentDashboard/quiz/quizReview"),
+		props: (route) => ({
+			quizAttemptId: route.params.quizAttemptId,
+			questionIndex: route.params.questionIndex ? parseInt(route.params.questionIndex, 10) : 0,
+		}),
 	},
 
 	{

@@ -1,13 +1,14 @@
 <template>
 	<main-layout>
-		<LoadingSpinner v-if="quizStore.loading" />
+		<LoadingSpinner v-if="quizResultStore.loading" />
 		<div v-else-if="quizResultStore.error">{{ quizResultStore.error }}</div>
-		<QuizResult v-else :quizResult="quizResult" />
+		<QuizResult v-else-if="quizResult" :quizResult="quizResult" />
+		<div v-else>No quiz result available.</div>
 	</main-layout>
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useQuizStore } from "@/stores/quizStore";
 import QuizResult from "@/components/quiz/QuizResult.vue";
@@ -24,4 +25,11 @@ onMounted(async () => {
 	await quizResultStore.fetchQuizResult(quizAttemptId);
 	quizResult.value = quizResultStore.quizResult;
 });
+
+watch(
+	() => quizResultStore.quizResult,
+	(newQuizResult) => {
+		quizResult.value = newQuizResult;
+	}
+);
 </script>
