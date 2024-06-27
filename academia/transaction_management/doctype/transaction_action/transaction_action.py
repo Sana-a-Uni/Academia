@@ -15,7 +15,6 @@ class TransactionAction(Document):
 		from academia.transaction_management.doctype.transaction_recipients.transaction_recipients import TransactionRecipients
 		from frappe.types import DF
 
-		action_date: DF.Data | None
 		amended_from: DF.Link | None
 		created_by: DF.Data | None
 		details: DF.Text | None
@@ -27,12 +26,11 @@ class TransactionAction(Document):
 		type: DF.Literal["", "Redirected", "Approved", "Rejected", "Canceled", "Council"]
 	# end: auto-generated types
 	def on_submit(self):
-		# TODO: change the fields to virtual
-		# self.action_date = frappe.utils.format_datetime(
-		# 					self.creation, 
-		# 					format_string='dd MMM yyyy, HH:mm:ss'
-		# 				)
-		# self.created_by = self.owner
+		self.action_date = frappe.utils.format_datetime(
+							self.creation, 
+							format_string='dd MMM yyyy, HH:mm:ss'
+						)
+		self.created_by = self.owner
 
         # make a read, write, share permissions for reciepents
 		for row in self.recipients:

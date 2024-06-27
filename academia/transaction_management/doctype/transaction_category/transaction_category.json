@@ -14,6 +14,8 @@
   "column_break_nqbz",
   "parent_category",
   "category_template",
+  "section_break_oqso",
+  "recipients",
   "requirements_tab",
   "requirements"
  ],
@@ -77,11 +79,21 @@
    "fieldtype": "Link",
    "label": "Template",
    "options": "Transaction Category Template"
+  },
+  {
+   "fieldname": "section_break_oqso",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "Recipients",
+   "options": "Transaction Recipients"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-07 14:12:16.033383",
+ "modified": "2024-06-25 18:09:23.388561",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Category",

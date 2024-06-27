@@ -38,7 +38,7 @@ class Transaction(Document):
         recipients: DF.Table[TransactionRecipients]
         reference_number: DF.Data | None
         start_date: DF.Data | None
-        status: DF.Literal["Pending", "Approved", "Rejected"]
+        status: DF.Literal["Pending", "Completed"]
         sub_category: DF.Link | None
         sub_external_entity: DF.Link | None
         title: DF.Data | None
@@ -109,24 +109,56 @@ def get_transaction_category_requirement(transaction_category):
 
 
 @frappe.whitelist()
+def get_transaction_category_recipients(transaction_category):
+    recipients = []
+
+    # Fetch recipients for the selected transaction category
+    transaction_category_recipients = frappe.get_all("Transaction Recipients",
+                                                      filters={"parent": transaction_category},
+                                                      fields=[
+                                                          "step_number", 
+                                                          "recipient_name", 
+                                                          "recipient_company", 
+                                                          "recipient_department", 
+                                                          "recipient_designation", 
+                                                          "recipient_email"
+                                                        ])
+    recipients.extend(transaction_category_recipients)
+
+    return recipients
+
+
+@frappe.whitelist()
 def update_share_permissions(docname, user, permissions):
     share = frappe.get_all("DocShare", filters={
         "share_doctype": "Transaction",
         "share_name": docname,
         "user": user
     })
-
     permissions_dict = json.loads(permissions)
-
     if share:
         # Share entry exists, update the permissions
         share = frappe.get_doc("DocShare", share[0].name)
         share.update(permissions_dict)
         share.save(ignore_permissions=True)
         frappe.db.commit()
+        return share
+    else:
+        return None
 
-    return share
 
+@frappe.whitelist()
+def get_user_permissions(docname, user):
+    share = frappe.get_all("DocShare", filters={
+        "share_doctype": "Transaction",
+        "share_name": docname,
+        "user": user
+    }, fields=["read", "share", "submit", "write"], limit=1)
+
+    if share:
+        return share[0]
+    else:
+        return None
 
 # def get_employee_by_user_id(user_id):
 #     try:
@@ -168,6 +200,16 @@ def create_new_transaction_action(user_id, transaction_name, type, details,):
             new_doc.submit()
         new_doc.save()
         
+        permissions = {
+                            "read": 1,
+                            "write": 0,
+                            "share": 0,
+                            "submit":0,
+                            "submit":0
+                        }
+        permissions_str = json.dumps(permissions)
+        update_share_permissions(transaction_name, user_id, permissions_str)
+        
         return "Action Success"
     else:
         return "No employee found for the given user ID."
@@ -178,7 +220,6 @@ def create_new_transaction_action(user_id, transaction_name, type, details,):
 @frappe.whitelist()
 def get_actions_html(transaction_name):
 
-        # TODO: refact this, i know it's not the best way but it works :3
         current_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
         template_path = os.path.join(current_dir, "templates/vertical_path.html")
 
