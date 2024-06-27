@@ -47,9 +47,7 @@
    "in_list_view": 1,
    "is_virtual": 1,
    "label": "Created By",
-   "options": "doc.owner",
-   "read_only": 1,
-   "set_only_once": 1
+   "read_only": 1
   },
   {
    "fieldname": "details",
@@ -119,9 +117,7 @@
    "in_list_view": 1,
    "is_virtual": 1,
    "label": "Action Date",
-   "options": "frappe.utils.format_datetime(doc.creation, \n                format_string='dd MMM yyyy, HH:mm:ss'\n            )",
-   "read_only": 1,
-   "set_only_once": 1
+   "read_only": 1
   },
   {
    "fieldname": "section_break_hgwa",
@@ -131,7 +127,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-11 14:42:26.206193",
+ "modified": "2024-06-27 21:33:25.672624",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Action",

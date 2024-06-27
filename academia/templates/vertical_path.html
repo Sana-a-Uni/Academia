@@ -25,11 +25,15 @@
     }
     
     .dot.redirect {
-      background-color: blue;
+      background-color: orange;
     }
     
     .dot.reject {
       background-color: red;
+    }
+    
+    .dot.pending {
+      background-color: grey;
     }
 
   </style>
@@ -37,26 +41,33 @@
 <body>
   {% for recipient_dict in recipient_actions %}
     <div>
-      {% for action in recipient_dict.actions %}
-        <div class="dot {% if action.type == 'Approved' %}approved{% elif action.type == 'Redirected' %}redirect{% elif action.type == 'Rejected' %}reject{% endif %}"></div>
-        <span class="recipient">{{ recipient_dict.recipients }} - {{ action.type }}</span>
-      {% endfor %}
-    </div>
-    {% if recipient_dict.actions|length > 0 %}
-      {% if recipient_dict.actions[-1].type == 'Redirected' %}
-        {% for index in range(recipient_dict.redirected.recipients|length) %}
-          {% for redirected_action in recipient_dict.redirected.actions[index] %}
-            <div class="redirected">
-              <div class="dot {% if redirected_action.type == 'Approved' %}approved{% elif redirected_action.type == 'Redirected' %}redirect{% elif redirected_action.type == 'Rejected' %}reject{% endif %}"></div>
-
-              <span>{{ recipient_dict.redirected.recipients[index] }} - {{ redirected_action.type }}</span>
-            </div>
-          {% endfor %}
-        {% endfor %}
+      {% if recipient_dict.action %}
+        <a href="{{ recipient_dict.link }}">
+          <div class="dot {% if recipient_dict.action.type == 'Approved' %}approved{% elif recipient_dict.action.type == 'Redirected' %}redirect{% elif recipient_dict.action.type == 'Rejected' %}reject{% else %}pending{% endif %}"></div>
+          <span class="recipient">{{ recipient_dict.recipient }} - {{ recipient_dict.action.type }}</span>
+        </a>
+      {% else %}
+        <div class="dot pending"></div>
+        <span>{{ recipient_dict.recipient }} - Pending</span>
       {% endif %}
+    </div>
+    {% if recipient_dict.action and recipient_dict.action.type == 'Redirected' %}
+      {% for redirected_recipient in recipient_dict.redirected %}
+        {% for sub_recipient_dict in redirected_recipient %}
+          <div class="redirected">
+            {% if sub_recipient_dict.action %}
+              <a href="{{ recipient_dict.link }}">
+                <div class="dot {% if sub_recipient_dict.action.type == 'Approved' %}approved{% elif sub_recipient_dict.action.type == 'Redirected' %}redirect{% elif sub_recipient_dict.action.type == 'Rejected' %}reject{% else %}pending{% endif %}"></div>
+                <span class="recipient">{{ sub_recipient_dict.recipient }} - {{ sub_recipient_dict.action.type }}</span>
+              </a>
+            {% else %}
+              <div class="dot pending"></div>
+              <span class="recipient">{{ sub_recipient_dict.recipient }} - Pending</span>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% endfor %}
     {% endif %}
   {% endfor %}
 </body>
 </html>
-
-
