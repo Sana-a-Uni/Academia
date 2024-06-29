@@ -176,6 +176,7 @@
    "fieldtype": "Section Break"
   },
   {
+   "depends_on": "eval:doc.is_multy_group == 1;",
    "fieldname": "table_ocar",
    "fieldtype": "Table",
    "options": "Multy Lesson Template"
@@ -183,7 +184,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-30 02:48:09.604995",
+ "modified": "2024-06-30 02:51:25.476958",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lesson Template",
