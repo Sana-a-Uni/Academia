@@ -9,10 +9,9 @@
   "theoretical_tab",
   "student_group_name",
   "batch",
-  "course",
+  "program",
   "column_break_zbwu",
   "faculty",
-  "program",
   "group_based_on",
   "students_section",
   "students",
@@ -26,7 +25,6 @@
   {
    "fieldname": "group_based_on",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Group Based On",
    "reqd": 1
   },
@@ -55,15 +53,6 @@
    "label": "Batch",
    "mandatory_depends_on": "eval:doc.group_based_on == \"Batch\"",
    "options": "Student Batch"
-  },
-  {
-   "fieldname": "course",
-   "fieldtype": "Link",
-   "in_global_search": 1,
-   "in_standard_filter": 1,
-   "label": "Course",
-   "mandatory_depends_on": "eval:doc.group_based_on == \"Course\"",
-   "options": "Course"
   },
   {
    "fieldname": "students_section",
@@ -113,7 +102,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-23 02:31:23.728258",
+ "modified": "2024-06-24 03:19:24.507277",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group",

@@ -16,7 +16,7 @@
   "tolerance",
   "students_section",
   "get_students",
-  "table_yldo",
+  "students",
   "generate_groups"
  ],
  "fields": [
@@ -52,11 +52,6 @@
    "label": "Get Students "
   },
   {
-   "fieldname": "table_yldo",
-   "fieldtype": "Table",
-   "options": "Student Group Student"
-  },
-  {
    "fieldname": "program",
    "fieldtype": "Link",
    "label": "Program",
@@ -89,6 +84,11 @@
    "fieldname": "generate_groups",
    "fieldtype": "Button",
    "label": "Generate groups"
+  },
+  {
+   "fieldname": "students",
+   "fieldtype": "Table",
+   "options": "Student Group Student"
   },
   {
    "fieldname": "grouping_by",
