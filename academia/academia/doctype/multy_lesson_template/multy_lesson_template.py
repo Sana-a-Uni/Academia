@@ -14,8 +14,11 @@ class MultyLessonTemplate(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
+		group: DF.Link | None
+		level: DF.Link | None
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
+		program: DF.Link | None
 	# end: auto-generated types
 	pass
