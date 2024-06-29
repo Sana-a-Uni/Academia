@@ -6,6 +6,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "theoretical_tab",
   "student_group_name",
   "batch",
   "program",
@@ -13,7 +14,12 @@
   "faculty",
   "group_based_on",
   "students_section",
-  "students"
+  "students",
+  "practical_tab",
+  "column_break_kcdp",
+  "column_break_renj",
+  "go_to",
+  "column_break_waol"
  ],
  "fields": [
   {
@@ -64,6 +70,34 @@
    "fieldtype": "Link",
    "label": "Program",
    "options": "Program Specification"
+  },
+  {
+   "fieldname": "theoretical_tab",
+   "fieldtype": "Tab Break",
+   "label": "Theoretical"
+  },
+  {
+   "fieldname": "practical_tab",
+   "fieldtype": "Tab Break",
+   "label": "Practical"
+  },
+  {
+   "fieldname": "column_break_kcdp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_renj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "To go to Student Group Tool to generate the practical groups. ",
+   "fieldname": "go_to",
+   "fieldtype": "Button",
+   "label": "Go To"
+  },
+  {
+   "fieldname": "column_break_waol",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,

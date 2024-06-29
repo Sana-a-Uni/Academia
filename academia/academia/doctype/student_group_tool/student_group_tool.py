@@ -20,9 +20,11 @@ class StudentGroupTool(Document):
 		based_on: DF.Literal["", "By Sex", "All"]
 		capacity: DF.Int
 		faculity: DF.Link
+		grouping_by: DF.Literal["", "Theoretical", "Practical"]
 		program: DF.Link
 		student_batch: DF.Link
 		students: DF.Table[StudentGroupStudent]
+		student_group: DF.Link
 		tolerance: DF.Int
 	# end: auto-generated types
 	
