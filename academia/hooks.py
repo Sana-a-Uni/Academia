@@ -223,33 +223,3 @@ before_tests = "academia.tests.test_utils.before_tests"
 export_python_type_annotations = True
 
 
-#Synchronizing Employee Image and Faculty Member Image
-
-import frappe
-
-def employee_image(doc, method):
-    if doc.image:
-        faculty_members = frappe.get_all("FacultyMember", filters={"employee": doc.name}, fields=["name"])
-        for faculty_member in faculty_members:
-            faculty_member_doc = frappe.get_doc("FacultyMember", faculty_member.name)
-            if faculty_member_doc.image != doc.image:
-                faculty_member_doc.image = doc.image
-                faculty_member_doc.save(ignore_permissions=True)
-
-def faculty_member_image(doc, method):
-    if doc.image:
-        employees = frappe.get_all("Employee", filters={"faculty_member": doc.name}, fields=["name"])
-        for employee in employees:
-            employee_doc = frappe.get_doc("Employee", employee.name)
-            if employee_doc.image != doc.image:
-                employee_doc.image = doc.image
-                employee_doc.save(ignore_permissions=True)
-
-# Triggering functions before save
-def attach_hooks():
-    frappe.db.before_save("Employee", employee_image)
-    frappe.db.before_save("FacultyMember", faculty_member_image)
-
-# Call the function to attach hooks when the app is installed
-def after_install():
-    attach_hooks()

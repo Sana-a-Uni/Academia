@@ -27,6 +27,7 @@
   "languages",
   "column_break_fxmn",
   "courses",
+<<<<<<< Updated upstream
   "current_academic_data_section",
   "employment_type",
   "academic_rank",
@@ -38,6 +39,10 @@
   "date",
   "column_break_pkgt",
   "decision_attachment",
+=======
+  "section_break_znzu",
+  "academic_services",
+>>>>>>> Stashed changes
   "profile_tab",
   "academic_ranking_section",
   "faculty_member_academic_ranking",
@@ -209,11 +214,22 @@
    "options": "Academic Rank"
   },
   {
+<<<<<<< Updated upstream
+=======
+   "fetch_from": "employee.employment_type",
+   "fetch_if_empty": 1,
+   "fieldname": "contract_status",
+   "fieldtype": "Data",
+   "label": "Contract Status"
+  },
+  {
+>>>>>>> Stashed changes
    "fieldname": "google_scholar_profile_link",
    "fieldtype": "Data",
    "label": "Google Scholar Profile Link"
   },
   {
+<<<<<<< Updated upstream
    "fieldname": "decision_number",
    "fieldtype": "Int",
    "label": "Decision Number"
@@ -233,6 +249,8 @@
    "fieldtype": "Column Break"
   },
   {
+=======
+>>>>>>> Stashed changes
    "fieldname": "personal_skills_section",
    "fieldtype": "Section Break",
    "label": "Personal Skills"
@@ -246,6 +264,7 @@
    "fieldtype": "Column Break"
   },
   {
+<<<<<<< Updated upstream
    "collapsible": 1,
    "fieldname": "academic_ranking_section",
    "fieldtype": "Section Break",
@@ -298,12 +317,26 @@
    "fieldname": "granting_tenure_data_section",
    "fieldtype": "Section Break",
    "label": "Granting Tenure Data"
+=======
+   "fieldname": "section_break_znzu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "academic_services",
+   "fieldtype": "Table MultiSelect",
+   "label": "Academic Services",
+   "options": "Faculty Member Academic Services"
+>>>>>>> Stashed changes
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
+<<<<<<< Updated upstream
  "modified": "2024-06-22 19:36:09.563381",
+=======
+ "modified": "2024-06-25 16:54:52.857595",
+>>>>>>> Stashed changes
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",

@@ -1,7 +1,50 @@
+// // Copyright (c) 2023, SanU and contributors
+// // For license information, please see license.txt
+
+// frappe.ui.form.on("Faculty Member", {
+//     // Start of refresh event
+//     refresh(frm) {
+//         // FN: refresh fetched field 'company'
+//         frappe.db.get_value("Employee", frm.doc.employee, "company", function (value) {
+//             if (value && value.company) {
+//                 frm.doc.company = value.company;
+//             }
+//             frm.refresh_field('company');
+//         });
+//         // End of the function
+//     },
+//     // End of refresh event
+
+//     // Start of validate event
+//     validate: function (frm) {
+//         // Calling functions
+//         frm.events.validate_extension(frm);
+//     },
+//     // End of validate event
+
+//     // FN: validate 'certification' file extensions
+//     validate_extension: function (frm) {
+//         frm.doc.faculty_member_training_course.forEach(function (row) {
+//             if (row.certification) {
+//                 var allowed_extensions = ['.pdf', '.png', '.jpg', '.jpeg'];
+//                 var certification_file_extension = row.certification.split('.').pop().toLowerCase();
+//                 if (!allowed_extensions.includes('.' + certification_file_extension)) {
+//                     frappe.throw("Certification file " + row.certification + " has an invalid extension. Only files with extensions " + allowed_extensions.join(', ') + " are allowed.");
+//                     frappe.validated = false;
+//                 }
+//             }
+//         });
+//     },
+//     // End of the function
+
+// });
+
+
 // Copyright (c) 2023, SanU and contributors
 // For license information, please see license.txt
 
 frappe.ui.form.on("Faculty Member", {
+<<<<<<< Updated upstream
     // Start of refresh event
     refresh(frm) {
         // FN: refresh fetched field 'employment_type'
@@ -66,6 +109,11 @@ frappe.ui.form.on("Faculty Member", {
     }
     // End of the function
 
+=======
+    // refresh(frm) {
+
+    // },
+>>>>>>> Stashed changes
 });
 // End of standard form scripts
 
@@ -94,3 +142,24 @@ function fetch_linked_value_and_toggle_section(frm) {
 // End of the function
 
 
+// Faculty Member Training Course Child DocType
+frappe.ui.form.on("Faculty Member Training Course", {
+    // FN: Verifying 'certification' file extensions
+    validate: function (frm, cdt, cdn) {
+        // Get the field
+        // var certification_file = frappe.model.get_doc(cdt, cdn); // not working
+        var row = locals[cdt][cdn];
+        // Verifying that field has non-null value
+        if (row.certification) {
+            // Define allowed file extensions list
+            var allowed_extensions = ['.pdf', '.png', '.jpg', '.jpeg'];
+            // Get the file extension of 'certification' field
+            var certification_file_extension = row.certification.split('.').pop().toLowerCase();
+            // Check if the file extension of 'certification' field is allowed
+            if (!allowed_extensions.includes('.' + certification_file_extension)) {
+                frappe.throw("Certification file has an invalid extension. Only files with extensions " + allowed_extensions.join(', ') + " are allowed.");
+                frappe.validated = false;
+            }
+        }
+    }
+});

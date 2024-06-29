@@ -15,17 +15,27 @@ class FacultyMember(Document):
     from typing import TYPE_CHECKING
 
     if TYPE_CHECKING:
+<<<<<<< Updated upstream
         from academia.academia.doctype.faculty_member_academic_ranking.faculty_member_academic_ranking import FacultyMemberAcademicRanking
+=======
+        from academia.academia.doctype.faculty_member_academic_experience.faculty_member_academic_experience import FacultyMemberAcademicExperience
+        from academia.academia.doctype.faculty_member_academic_services.faculty_member_academic_services import FacultyMemberAcademicServices
+>>>>>>> Stashed changes
         from academia.academia.doctype.faculty_member_activity.faculty_member_activity import FacultyMemberActivity
         from academia.academia.doctype.faculty_member_award_and_appreciation_certificate.faculty_member_award_and_appreciation_certificate import FacultyMemberAwardandAppreciationCertificate
         from academia.academia.doctype.faculty_member_conference_and_workshop.faculty_member_conference_and_workshop import FacultyMemberConferenceandWorkshop
         from academia.academia.doctype.faculty_member_course.faculty_member_course import FacultyMemberCourse
         from academia.academia.doctype.faculty_member_language.faculty_member_language import FacultyMemberLanguage
+<<<<<<< Updated upstream
+=======
+        from academia.academia.doctype.faculty_member_scientific_qualification.faculty_member_scientific_qualification import FacultyMemberScientificQualification
+>>>>>>> Stashed changes
         from academia.academia.doctype.faculty_member_training_course.faculty_member_training_course import FacultyMemberTrainingCourse
         from academia.academia.doctype.faculty_member_university_and_community_service.faculty_member_university_and_community_service import FacultyMemberUniversityandCommunityService
         from frappe.types import DF
 
         academic_rank: DF.Link | None
+<<<<<<< Updated upstream
         company: DF.Data | None
         courses: DF.TableMultiSelect[FacultyMemberCourse]
         date: DF.Date | None
@@ -37,22 +47,42 @@ class FacultyMember(Document):
         employee: DF.Link
         employment_type: DF.Data | None
         faculty_member_academic_ranking: DF.Table[FacultyMemberAcademicRanking]
+=======
+        academic_services: DF.TableMultiSelect[FacultyMemberAcademicServices]
+        company: DF.Data | None
+        contract_status: DF.Data | None
+        courses: DF.TableMultiSelect[FacultyMemberCourse]
+        date_of_joining_in_service: DF.Date | None
+        date_of_joining_in_university: DF.Date | None
+        employee: DF.Link
+        faculty_member_academic_experience: DF.Table[FacultyMemberAcademicExperience]
+>>>>>>> Stashed changes
         faculty_member_activity: DF.Table[FacultyMemberActivity]
         faculty_member_award_and_appreciation_certificate: DF.Table[FacultyMemberAwardandAppreciationCertificate]
         faculty_member_conference_and_workshop: DF.Table[FacultyMemberConferenceandWorkshop]
         faculty_member_name: DF.Data
         faculty_member_name_english: DF.Data | None
+<<<<<<< Updated upstream
         faculty_member_training_course: DF.Table[FacultyMemberTrainingCourse]
         faculty_member_university_and_community_service: DF.Table[FacultyMemberUniversityandCommunityService]
         general_field: DF.Data | None
+=======
+        faculty_member_scientific_qualification: DF.Table[FacultyMemberScientificQualification]
+        faculty_member_training_course: DF.Table[FacultyMemberTrainingCourse]
+        faculty_member_university_and_community_service: DF.Table[FacultyMemberUniversityandCommunityService]
+>>>>>>> Stashed changes
         google_scholar_profile_link: DF.Data | None
         image: DF.AttachImage | None
         languages: DF.TableMultiSelect[FacultyMemberLanguage]
         naming_series: DF.Literal["ACAD-FM-"]
         nationality: DF.Link | None
+<<<<<<< Updated upstream
         specialist_field: DF.Data | None
     # end: auto-generated types
     
+=======
+    # end: auto-generated types
+>>>>>>> Stashed changes
     # Start of validate controller hook
     def validate(self):
         # Calling functions

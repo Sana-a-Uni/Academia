@@ -1,36 +1,48 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:publication_type",
- "creation": "2024-04-24 15:49:41.766089",
+ "creation": "2024-05-28 04:59:56.032491",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "publication_type",
-  "description"
+  "university_name",
+  "country",
+  "city",
+  "private"
  ],
  "fields": [
   {
-   "fieldname": "publication_type",
+   "fieldname": "university_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Publication Type",
-   "reqd": 1,
-   "unique": 1
+   "label": "University Name",
+   "reqd": 1
   },
   {
-   "fieldname": "description",
-   "fieldtype": "Text",
-   "label": "Description "
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country",
+   "reqd": 1
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City"
+  },
+  {
+   "default": "0",
+   "fieldname": "private",
+   "fieldtype": "Check",
+   "label": "Private"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-28 05:40:59.930034",
+ "modified": "2024-06-05 21:41:08.405787",
  "modified_by": "Administrator",
  "module": "Academia",
- "name": "Academic Publication Type",
- "naming_rule": "By fieldname",
+ "name": "University",
  "owner": "Administrator",
  "permissions": [
   {
@@ -46,10 +58,7 @@
    "write": 1
   }
  ],
- "show_name_in_global_search": 1,
- "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": [],
- "title_field": "publication_type"
+ "states": []
 }
