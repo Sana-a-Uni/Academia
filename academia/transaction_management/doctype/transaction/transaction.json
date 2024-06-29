@@ -29,6 +29,13 @@
   "created_by",
   "status",
   "transaction_scan",
+  "through_route",
+  "print_official_paper",
+  "fromto_section",
+  "start_with",
+  "get_recipients",
+  "clear_recipients",
+  "recipients",
   "section_break_pgsu",
   "amended_from",
   "applicants_tab",
@@ -38,10 +45,7 @@
   "tracking_actions_tab",
   "refresh_button",
   "actions",
-  "recipients_tab",
-  "recipient_settings_section",
-  "get_recipients",
-  "recipients"
+  "recipients_tab"
  ],
  "fields": [
   {
@@ -119,7 +123,7 @@
    "fieldtype": "Select",
    "hidden": 1,
    "label": "Status",
-   "options": "Pending\nCompleted",
+   "options": "Pending\nApproved\nRejected",
    "read_only": 1
   },
   {
@@ -188,12 +192,7 @@
    "read_only": 1
   },
   {
-   "fieldname": "recipient_settings_section",
-   "fieldtype": "Section Break",
-   "label": "Recipient Settings"
-  },
-  {
-   "depends_on": "eval: doc.docstatus === 0 && !doc.category;",
+   "depends_on": "eval: doc.docstatus === 0;",
    "fieldname": "get_recipients",
    "fieldtype": "Button",
    "label": "Get Recipients"
@@ -201,7 +200,7 @@
   {
    "fieldname": "recipients",
    "fieldtype": "Table",
-   "label": "Recipients",
+   "label": "Recipient",
    "options": "Transaction Recipients"
   },
   {
@@ -266,13 +265,41 @@
    "fieldname": "refresh_button",
    "fieldtype": "Button",
    "label": "Refresh"
+  },
+  {
+   "fieldname": "fromto_section",
+   "fieldtype": "Section Break",
+   "label": "From/To"
+  },
+  {
+   "fieldname": "start_with",
+   "fieldtype": "Data",
+   "label": "Start with"
+  },
+  {
+   "fieldname": "clear_recipients",
+   "fieldtype": "Button",
+   "label": "Clear Recipients"
+  },
+  {
+   "default": "0",
+   "fieldname": "through_route",
+   "fieldtype": "Check",
+   "label": "Through Route"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.transaction_scope!=\"In Company\";",
+   "fieldname": "print_official_paper",
+   "fieldtype": "Check",
+   "label": "Print Official Paper"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-27 21:15:20.893321",
+ "modified": "2024-06-29 20:13:58.290310",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
@@ -301,7 +328,11 @@
   },
   {
    "color": "Green",
-   "title": "Completed"
+   "title": "Approved"
+  },
+  {
+   "color": "Red",
+   "title": "Rejected"
   }
  ]
 }

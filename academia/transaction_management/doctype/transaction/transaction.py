@@ -33,14 +33,17 @@ class Transaction(Document):
         external_entity_designation: DF.Link | None
         full_electronic: DF.Check
         main_external_entity: DF.Link | None
+        print_official_paper: DF.Check
         priority: DF.Literal["", "Low", "Medium", "High", "Urgent"]
         private: DF.Check
         recipients: DF.Table[TransactionRecipients]
         reference_number: DF.Data | None
         start_date: DF.Data | None
-        status: DF.Literal["Pending", "Completed"]
+        start_with: DF.Data | None
+        status: DF.Literal["Pending", "Approved", "Rejected"]
         sub_category: DF.Link | None
         sub_external_entity: DF.Link | None
+        through_route: DF.Check
         title: DF.Data | None
         transaction_scan: DF.Attach | None
         transaction_scope: DF.Literal["In Company", "Among Companies", "With External Entity"]
