@@ -27,7 +27,9 @@
   "section_break_wdte",
   "from_time",
   "column_break_fyil",
-  "to_time"
+  "to_time",
+  "section_break_laye",
+  "table_ocar"
  ],
  "fields": [
   {
@@ -168,11 +170,20 @@
    "fieldname": "is_multy_group",
    "fieldtype": "Check",
    "label": "is Multy Group"
+  },
+  {
+   "fieldname": "section_break_laye",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "table_ocar",
+   "fieldtype": "Table",
+   "options": "Multy Lesson Template"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-30 02:32:53.075366",
+ "modified": "2024-06-30 02:48:09.604995",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lesson Template",

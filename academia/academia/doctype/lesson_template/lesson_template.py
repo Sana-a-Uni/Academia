@@ -12,6 +12,7 @@ class LessonTemplate(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.academia.doctype.multy_lesson_template.multy_lesson_template import MultyLessonTemplate
 		from frappe.types import DF
 
 		academic_term: DF.Link
@@ -28,6 +29,7 @@ class LessonTemplate(Document):
 		room: DF.Link
 		schedule_template: DF.ReadOnly | None
 		schedule_template_version: DF.Link
+		table_ocar: DF.Table[MultyLessonTemplate]
 		to_time: DF.Time
 	# end: auto-generated types
 	pass
