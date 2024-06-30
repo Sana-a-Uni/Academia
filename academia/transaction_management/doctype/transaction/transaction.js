@@ -77,40 +77,6 @@ frappe.ui.form.on('Transaction', {
         {
             if(!frm.doc.__islocal )
             {
-                // frappe.call({
-                //     method: "academia.transaction_management.doctype.transaction_action.transaction_action.get_transaction_actions",
-                //     args: {
-                //         transaction_name: frm.doc.name
-                //     },
-                //     callback: function(r) {
-                //         if(r.message[0]) {
-                            
-                //             var last_action = r.message[0];
-                //             // console.log(last_action);
-                //             if(
-                //                 last_action
-                //                 // && last_action.type === "Redirected" 
-                //                 // && last_action.recipients.split(',')
-                //                 //                          .map(recipient => recipient.trim())
-                //                 //                          .includes(String(frappe.session.user))
-                //             ) {
-                //                 add_approve_action(frm);
-                //                 add_redirect_action(frm);
-                //                 add_reject_action(frm);
-                //                 add_council_action(frm);
-                //             }  
-                //         }
-                //         // show actions if the user is one of the recipients
-                //         else if(frm.doc.recipients.some(row => row.recipient_email === frappe.session.user))
-                //         {   
-                //             add_approve_action(frm);
-                //             add_redirect_action(frm);
-                //             add_reject_action(frm);
-                //             add_council_action(frm);
-                //         } 
-                //     }
-                // });  
-                
                 frappe.call({
                   method: "academia.transaction_management.doctype.transaction.transaction.get_user_permissions",
                   args: {
@@ -246,6 +212,12 @@ frappe.ui.form.on('Transaction', {
       if (all_companies) {
         setters.company = null;
       }
+
+      let existingRecipients = frm.doc.recipients || [];
+      let existingRecipientIds = existingRecipients.map(r => r.recipient_email);
+
+      // Add the current user to the existing recipient IDs
+      existingRecipientIds.push(frappe.session.user);
   
       let d=new frappe.ui.form.MultiSelectDialog({
         doctype: "Employee",
@@ -256,16 +228,20 @@ frappe.ui.form.on('Transaction', {
         date_field: "transaction_date",
   
         get_query() {
-          if (all_companies) {
-            // frappe.msgprint("all")
-            return {
-              filters: { docstatus: ['!=', 2] }
-            };
-          } else {
-            // frappe.msgprint("not all")
-            return {
-              filters: { docstatus: ['!=', 2], company: frm.doc.company }
-          }}
+          let filters = {
+            docstatus: ['!=', 2],
+            department: ['!=', null],
+            designation: ['!=', null],
+            user_id: ['not in', existingRecipientIds], // don't show Employee of current user
+          };
+    
+          if (!all_companies) {
+            filters.company = frm.doc.company;
+          }
+          
+          return {
+            filters: filters
+          };
         },
   
         primary_action_label: "Get Recipients",
@@ -282,7 +258,7 @@ frappe.ui.form.on('Transaction', {
           callback: (response) => {
             var selectedEmployees = response.message;
   
-            frm.set_value('recipients', []);
+            // frm.set_value('recipients', []);
   
             selectedEmployees.forEach((employee) => {
               frm.add_child("recipients", {
@@ -303,6 +279,7 @@ frappe.ui.form.on('Transaction', {
         }
       });
     },
+
     sub_category: function(frm) {
       // Clear previously added recipient fields
       frm.clear_table("recipients");
@@ -417,8 +394,8 @@ function add_redirect_action(frm) {
                 frappe.call({
                   method: "academia.transaction_management.doctype.transaction.transaction.update_share_permissions",
                   args: {
-                    transaction_name: frm.doc.name,
-                    user_id: frappe.session.user,
+                    docname: frm.doc.name,
+                    user: frappe.session.user,
                     permissions: {
                       "read": 1,
                       "write": 0,
