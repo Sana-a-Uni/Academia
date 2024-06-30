@@ -9,13 +9,15 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import { useQuizStore } from "@/stores/quizStore";
+import { useRoute } from "vue-router";
 import QuizList from "@/components/quiz/QuizList.vue";
 import mainLayout from "@/components/MainLayout.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
+const route = useRoute();
 
 const quizStore = useQuizStore();
-const courseName = ref("00");
-const studentId = ref("EDU-STU-2024-00001");
+const courseName = ref(route.params.courseName);
+const studentId = ref(route.params.studentId);
 
 onMounted(() => {
 	quizStore.fetchQuizzes(courseName.value, studentId.value);

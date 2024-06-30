@@ -17,9 +17,13 @@
 				<li>
 					<a href="#"><font-awesome-icon icon="tasks" class="menu-icon" /> Assignments</a>
 				</li>
-
 				<li>
-					<a href="#"><font-awesome-icon icon="question-circle" class="menu-icon" /> Quiz</a>
+					<router-link
+						:to="{ name: 'quizView', params: { courseName: courseName, studentId: studentId } }"
+						class="menu-link"
+					>
+						<font-awesome-icon icon="question-circle" class="menu-icon" /> Quiz
+					</router-link>
 				</li>
 				<li>
 					<a href="#"><font-awesome-icon icon="chart-bar" class="menu-icon" /> Grades</a>
@@ -30,6 +34,7 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -48,6 +53,9 @@ library.add(faTachometerAlt, faBook, faFolderOpen, faBullhorn, faTasks, faQuesti
 const props = defineProps({
 	isOpen: Boolean,
 });
+
+const courseName = ref("00");
+const studentId = ref("EDU-STU-2024-00001");
 </script>
 
 <style scoped>
@@ -57,7 +65,7 @@ const props = defineProps({
 	left: 0;
 	width: 20%;
 	height: calc(100% - 70px); /* Adjust based on the height of the navbar */
-	background-color: #fff;
+	background-color: #f4f4f4;
 	padding: 20px;
 	box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 	z-index: 1000;
@@ -84,7 +92,8 @@ const props = defineProps({
 	border-bottom: none; /* Remove border from last item */
 }
 
-.sidebar nav ul li a {
+.sidebar nav ul li a,
+.sidebar nav ul li .menu-link {
 	color: #333;
 	text-decoration: none;
 	padding: 10px;
@@ -93,11 +102,13 @@ const props = defineProps({
 	border-radius: 4px;
 }
 
-.sidebar nav ul li a:hover {
+.sidebar nav ul li a:hover,
+.sidebar nav ul li .menu-link:hover {
 	background-color: #ddd;
 }
 
-.sidebar nav ul li a .menu-icon {
+.sidebar nav ul li a .menu-icon,
+.sidebar nav ul li .menu-link .menu-icon {
 	margin-right: 10px; /* Add space between icon and text */
 	color: #0584ae; /* Change icon color */
 	font-size: 16px; /* Adjust the size of the icons */

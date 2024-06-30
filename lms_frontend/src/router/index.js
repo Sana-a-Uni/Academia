@@ -2,9 +2,20 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
 	{
-		path: "/quizView",
+		path: "/studentDashboard",
+		name: "studentDashboard",
+		component: () => import("../views/studentDashboard/dashboard"),
+	},
+	{
+		path: "/courseView",
+		name: "courseView",
+		component: () => import("../views/studentDashboard/courseView"),
+	},
+	{
+		path: "/quizView/:courseName/:studentId",
 		name: "quizView",
 		component: () => import("../views/studentDashboard/quiz/quizView"),
+		props: true,
 	},
 	{
 		path: "/quizInstructions/:quizName",
