@@ -1,6 +1,13 @@
 <!-- Main Container Component -->
 <template>
-	<div class="container">
+	<LoadingSpinner v-if="quizStore.loading" />
+	<AttemptsLimitDialog
+		v-else-if="quizStore.error"
+		:showDialog="true"
+		@close="goBack"
+		:message="quizStore.error"
+	/>
+	<div v-else class="container">
 		<Header />
 		<SubHeader
 			:formattedTime="formattedTime"
@@ -57,7 +64,7 @@ import { ref, computed, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useQuizStore } from "@/stores/quizStore";
 import { storeToRefs } from "pinia";
-
+import LoadingSpinner from "@/components/LoadingSpinner.vue";
 import Header from "@/components/quiz/quiz/Header.vue";
 import SubHeader from "@/components/quiz/quiz/SubHeader.vue";
 import Sidebar from "@/components/quiz/quiz/Sidebar.vue";
@@ -66,12 +73,14 @@ import QuestionContent from "@/components/quiz/quiz/QuestionContent.vue";
 import Footer from "@/components/quiz/quiz/Footer.vue";
 import Options from "@/components/quiz/quiz/Options.vue";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
+import AttemptsLimitDialog from "@/components/AttemptsLimitDialog.vue"; // تأكد من استيراد AttemptsLimitDialog
 
 const isCollapsed = ref(false);
 const currentQuestion = ref(0);
 const route = useRoute();
 const router = useRouter();
 const quizName = ref(route.params.quizName);
+const studentId = ref("EDU-STU-2024-00001");
 
 const quizStore = useQuizStore();
 const { quiz, loading, error } = storeToRefs(quizStore);
@@ -192,8 +201,17 @@ const closeReview = () => {
 	router.push({ name: "home" });
 };
 
+const goBack = () => {
+	router.go(-1);
+};
+
 onMounted(() => {
-	quizStore.fetchQuiz(quizName.value);
+	quizStore.fetchQuiz(quizName.value, studentId.value).then(() => {
+		if (quizStore.error && quizStore.error.includes("403")) {
+			alert(quizStore.error);
+			router.push({ name: "quizView" });
+		}
+	});
 });
 
 watch(

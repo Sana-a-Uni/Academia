@@ -34,7 +34,7 @@ export const useQuizStore = defineStore("quiz", {
 			}
 		},
 
-		async fetchQuizInstructions(quizName, studentId) {
+		async fetchQuizInstructions(quizName) {
 			this.loading = true;
 			this.error = null;
 			try {
@@ -43,7 +43,6 @@ export const useQuizStore = defineStore("quiz", {
 					{
 						params: {
 							quiz_name: quizName,
-							student_id: studentId,
 						},
 					}
 				);
@@ -60,7 +59,7 @@ export const useQuizStore = defineStore("quiz", {
 			}
 		},
 
-		async fetchQuiz(quizName) {
+		async fetchQuiz(quizName, studentId) {
 			this.loading = true;
 			this.error = null;
 			try {
@@ -69,10 +68,16 @@ export const useQuizStore = defineStore("quiz", {
 					{
 						params: {
 							quiz_name: quizName,
+							student_id: studentId,
 						},
 					}
 				);
-				this.quiz = response.data.data;
+				console.log(response.data);
+				if (response.data.status_code !== 200) {
+					this.error = response.data.message || "An error occurred while fetching quiz .";
+				} else {
+					this.quiz = response.data.data;
+				}
 			} catch (error) {
 				this.error = error.message || "An error occurred while fetching the quiz.";
 			} finally {

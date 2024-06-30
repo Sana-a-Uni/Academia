@@ -61,32 +61,10 @@ def get_quizzes_by_course(course_name: str , student_id: str ) -> Dict[str, Any]
         
     return frappe.response["message"]
 
-
 @frappe.whitelist(allow_guest=True)
-def get_quiz_instruction(quiz_name: str , student_id: str ) -> Dict[str, Any]:
+def get_quiz_instruction(quiz_name: str) -> Dict[str, Any]:
     try:
         quiz_doc = frappe.get_doc("LMS Quiz", quiz_name)
-
-        # Check if the quiz is no longer available
-        if not quiz_doc.make_the_quiz_availability or (quiz_doc.to_date < datetime.now()):
-            frappe.response.update({
-                "status_code": 403,
-                "message": "This quiz is no longer available."
-            })
-            return frappe.response["message"]
-        
-       # Check the number of attempts left for the student
-        quiz_results = frappe.get_all('Quiz Result', filters={'student': student_id, 'quiz': quiz_name}, fields=['attempts_taken'])
-        current_attempts = quiz_results[0]['attempts_taken'] if quiz_results else 0
-        attempts_left = quiz_doc.number_of_attempts - current_attempts
-
-        # Check if the student has reached the maximum number of attempts
-        if current_attempts >= quiz_doc.number_of_attempts:
-            frappe.response.update({
-                "status_code": 403,
-                "message": "You have reached the maximum number of attempts for this quiz."
-            })
-            return frappe.response["message"]
 
         # Prepare quiz details
         quiz_details = {
@@ -96,7 +74,7 @@ def get_quiz_instruction(quiz_name: str , student_id: str ) -> Dict[str, Any]:
             "to_date": quiz_doc.to_date.strftime('%Y-%m-%d %H:%M:%S') if quiz_doc.make_the_quiz_availability else None,
             "duration": quiz_doc.duration if quiz_doc.is_time_bound else None,
             "number_of_attempts": quiz_doc.number_of_attempts,
-            "attempts_left": attempts_left,  
+            # "attempts_left": attempts_left,
             "grading_basis": quiz_doc.grading_basis,
             "total_grades": quiz_doc.total_grades
         }
@@ -109,7 +87,6 @@ def get_quiz_instruction(quiz_name: str , student_id: str ) -> Dict[str, Any]:
         })
         return frappe.response["message"]
 
-    # Construct the error response
     except Exception as e:
         frappe.response.update({
             "status_code": 500,
@@ -117,12 +94,23 @@ def get_quiz_instruction(quiz_name: str , student_id: str ) -> Dict[str, Any]:
         })
         return frappe.response["message"]
 
-
 @frappe.whitelist(allow_guest=True)
-def get_quiz(quiz_name):
+def get_quiz(quiz_name: str ="2874210861", student_id: str="EDU-STU-2024-00001"):
     try:
         # Fetch the quiz document
         quiz_doc = frappe.get_doc("LMS Quiz", quiz_name)
+        
+        # Check the number of attempts left for the student
+        quiz_results = frappe.get_all('Quiz Result', filters={'student': student_id, 'quiz': quiz_name}, fields=['attempts_taken'])
+        current_attempts = quiz_results[0]['attempts_taken'] if quiz_results else 0
+
+        # Check if the student has reached the maximum number of attempts
+        if current_attempts >= quiz_doc.number_of_attempts:
+            frappe.response.update({
+                "status_code": 403,
+                "message": "You have reached the maximum number of attempts for this quiz."
+            })
+            return frappe.response["message"]
 
         # Prepare the quiz details
         quiz = {
@@ -164,8 +152,7 @@ def get_quiz(quiz_name):
             "status_code": 500,
             "message": f"An error occurred while fetching quiz details: {str(e)}"
         })
-    return frappe.response["message"]
-
+        return frappe.response["message"]
 
 
 @frappe.whitelist(allow_guest=True)
