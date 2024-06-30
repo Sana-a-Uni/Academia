@@ -273,8 +273,9 @@
   },
   {
    "fieldname": "start_with",
-   "fieldtype": "Data",
-   "label": "Start with"
+   "fieldtype": "Link",
+   "label": "Start with",
+   "options": "Employee"
   },
   {
    "fieldname": "clear_recipients",
@@ -299,7 +300,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-29 20:13:58.290310",
+ "modified": "2024-06-30 17:51:12.968310",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

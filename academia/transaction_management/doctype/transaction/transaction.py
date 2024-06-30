@@ -39,7 +39,7 @@ class Transaction(Document):
         recipients: DF.Table[TransactionRecipients]
         reference_number: DF.Data | None
         start_date: DF.Data | None
-        start_with: DF.Data | None
+        start_with: DF.Link | None
         status: DF.Literal["Pending", "Approved", "Rejected"]
         sub_category: DF.Link | None
         sub_external_entity: DF.Link | None
@@ -63,19 +63,25 @@ class Transaction(Document):
 				name = self.name,
 				user = appicant_user_id,
 				read = 1,
-			)        
-        # make a read, write, share permissions for reciepents
-        for row in self.recipients:
-            user = frappe.get_doc("User", row.recipient_email)
-            frappe.share.add(
-                    doctype = "Transaction",
-                    name = self.name,
-                    user = user.email,
-                    read = 1,
-                    write = 1,
-                    share = 1
-                )  
+			)  
+                    # check if the through_route is disabled
+        if self.through_route == 1:
+            share_permission_through_route(self, self.start_with)
 
+        else:
+            # make a read, write, share permissions for reciepents
+            for row in self.recipients:
+                # user = frappe.get_doc("User", row.recipient_email)
+                frappe.share.add(
+                        doctype = "Transaction",
+                        name = self.name,
+                        # user = user.email,
+                        user = row.recipient_email,
+                        read = 1,
+                        write = 1,
+                        share = 1
+                    )
+                 
     def before_save(self):
         if frappe.session.user != "Administrator":
             self.set_employee_details()
@@ -285,3 +291,17 @@ def get_document_link(doctype, document_name):
     document = frappe.get_doc(doctype, document_name)
     link = document.get_url()
     return link
+
+
+def share_permission_through_route(document, current_employee):
+    employee = frappe.get_doc("Employee", current_employee)
+    reports_to = employee.reports_to
+    reports_to_emp = frappe.get_doc("Employee", reports_to)
+    frappe.share.add(
+                doctype = "Transaction",
+                name = document.name,
+                user = reports_to_emp.user_id,
+                read = 1,
+                write = 1,
+                share = 1
+            )

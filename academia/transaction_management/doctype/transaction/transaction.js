@@ -26,50 +26,50 @@ frappe.ui.form.on('Transaction', {
   },
 
 
-  // onload:
-  // function(frm) {
-  //  if(frm.doc.docstatus === 0)
-  //    {
+  onload:
+  function(frm) {
+   if(frm.doc.docstatus === 0)
+     {
 
-  //      // if user is admin ignore bcoz he cant be employee
-  //      if(frappe.session.user !== "Administrator")
-  //      {
-  //        // Fetch the current employee's document only if the docstatus is draft
-  //        frappe.call({
-  //          method: 'frappe.client.get_value',
-  //          args: {
-  //            doctype: 'User',
-  //            filters: { name: frappe.session.user },
-  //            fieldname: 'email'
-  //          },
-  //          callback: function(response) {
-  //            if (response.message && response.message.email) {
-  //              var userEmail = response.message.email;
+       // if user is admin ignore bcoz he cant be employee
+       if(frappe.session.user !== "Administrator")
+       {
+         // Fetch the current employee's document only if the docstatus is draft
+         frappe.call({
+           method: 'frappe.client.get_value',
+           args: {
+             doctype: 'User',
+             filters: { name: frappe.session.user },
+             fieldname: 'email'
+           },
+           callback: function(response) {
+             if (response.message && response.message.email) {
+               var userEmail = response.message.email;
 
-  //              frappe.call({
-  //                method: 'frappe.client.get',
-  //                args: {
-  //                  doctype: 'Employee',
-  //                  filters: { user_id: userEmail }
-  //                },
-  //                callback: function(response) {
-  //                  if (response.message) {
-  //                    var employee = response.message;
-  //                    // Set the default value of the department field to the current employee's department
-  //                    frm.set_value('department', employee.department);
-  //                    frm.set_value('designation', employee.designation);
-  //                    // You can access other fields of the employee document as well
-  //                    // Example: frm.set_value('employee_name', employee.employee_name);
-  //                  }
+               frappe.call({
+                 method: 'frappe.client.get',
+                 args: {
+                   doctype: 'Employee',
+                   filters: { user_id: userEmail }
+                 },
+                 callback: function(response) {
+                   if (response.message) {
+                     var employee = response.message;
+                     // Set the default value of the department field to the current employee's department
+                     frm.set_value('department', employee.department);
+                     frm.set_value('designation', employee.designation);
+                     // You can access other fields of the employee document as well
+                     // Example: frm.set_value('employee_name', employee.employee_name);
+                   }
                    
-  //                }
-  //              });
-  //            }  
-  //          }
-  //        }); 
-  //      }
-  //    }
-  //  },
+                 }
+               });
+             }  
+           }
+         }); 
+       }
+     }
+   },
 
     refresh: function(frm) {
 
