@@ -9,6 +9,7 @@
   "section_break_gnoe",
   "student",
   "student_name",
+  "gender",
   "enrollment_date",
   "image",
   "column_break_hxtm",
@@ -103,11 +104,17 @@
   {
    "fieldname": "section_break_gnoe",
    "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "student.gender",
+   "fieldname": "gender",
+   "fieldtype": "Data",
+   "label": "Gender"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-19 21:31:35.671402",
+ "modified": "2024-06-23 00:33:08.783935",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Enrollment",

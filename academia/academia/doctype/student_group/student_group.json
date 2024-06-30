@@ -6,21 +6,25 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "theoretical_tab",
   "student_group_name",
   "batch",
-  "course",
+  "program",
   "column_break_zbwu",
   "faculty",
-  "program",
   "group_based_on",
   "students_section",
-  "students"
+  "students",
+  "practical_tab",
+  "column_break_kcdp",
+  "column_break_renj",
+  "go_to",
+  "column_break_waol"
  ],
  "fields": [
   {
    "fieldname": "group_based_on",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "label": "Group Based On",
    "reqd": 1
   },
@@ -51,15 +55,6 @@
    "options": "Student Batch"
   },
   {
-   "fieldname": "course",
-   "fieldtype": "Link",
-   "in_global_search": 1,
-   "in_standard_filter": 1,
-   "label": "Course",
-   "mandatory_depends_on": "eval:doc.group_based_on == \"Course\"",
-   "options": "Course"
-  },
-  {
    "fieldname": "students_section",
    "fieldtype": "Section Break",
    "label": "Students"
@@ -75,11 +70,39 @@
    "fieldtype": "Link",
    "label": "Program",
    "options": "Program Specification"
+  },
+  {
+   "fieldname": "theoretical_tab",
+   "fieldtype": "Tab Break",
+   "label": "Theoretical"
+  },
+  {
+   "fieldname": "practical_tab",
+   "fieldtype": "Tab Break",
+   "label": "Practical"
+  },
+  {
+   "fieldname": "column_break_kcdp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_renj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "To go to Student Group Tool to generate the practical groups. ",
+   "fieldname": "go_to",
+   "fieldtype": "Button",
+   "label": "Go To"
+  },
+  {
+   "fieldname": "column_break_waol",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-01 03:24:38.988791",
+ "modified": "2024-06-24 03:19:24.507277",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group",

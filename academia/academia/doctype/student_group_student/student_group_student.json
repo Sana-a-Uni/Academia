@@ -24,7 +24,8 @@
    "fieldname": "gender",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Gender"
+   "label": "Gender",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_ywie",
@@ -34,13 +35,14 @@
    "fieldname": "program",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Program"
+   "label": "Program",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-22 01:52:10.600275",
+ "modified": "2024-06-23 03:08:33.120100",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group Student",
