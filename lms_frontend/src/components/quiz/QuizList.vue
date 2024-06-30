@@ -32,13 +32,18 @@
 						<div>{{ formatDate(quiz.to_date) }}</div>
 						<div>{{ formatTime(quiz.to_date) }}</div>
 					</td>
-					<td class="quiz-column">
+					<td
+						class="quiz-column"
+						@mouseenter="showMessage($event, !quizIsDue(quiz.to_date))"
+						@mouseleave="hideMessage"
+					>
 						<a
 							@click.prevent="quizIsDue(quiz.to_date) ? goToInstructions(quiz.name) : null"
 							:class="{ disabled: !quizIsDue(quiz.to_date) }"
 						>
 							{{ quiz.title }}
 						</a>
+						<span v-show="showTooltip" class="tooltip">not available </span>
 					</td>
 					<td class="time-limit-column">{{ formatDuration(quiz.duration) }}</td>
 					<td class="attempts-column">
@@ -65,6 +70,7 @@ const props = defineProps({
 });
 
 const selectedQuiz = ref("all");
+const showTooltip = ref(false);
 const router = useRouter();
 
 const filteredQuizzes = computed(() => {
@@ -97,6 +103,16 @@ const quizIsDue = (toDate) => {
 	const now = new Date();
 	const dueDate = new Date(toDate);
 	return now <= dueDate;
+};
+
+const showMessage = (event, isDisabled) => {
+	if (isDisabled) {
+		showTooltip.value = true;
+	}
+};
+
+const hideMessage = () => {
+	showTooltip.value = false;
 };
 
 function formatDuration(seconds) {
@@ -202,6 +218,7 @@ a {
 	color: #2a73cc;
 	text-decoration: none;
 	cursor: pointer;
+	position: relative;
 }
 
 a.disabled {
@@ -214,6 +231,27 @@ a:hover:not(.disabled) {
 	text-decoration: underline;
 }
 
+.tooltip {
+	position: absolute;
+	background-color: #f4f4f4;
+	color: #000;
+	font-weight: bold;
+	padding: 5px;
+	border-radius: 3px;
+	white-space: nowrap;
+	z-index: 10;
+	font-size: 12px;
+	top: 70%;
+	left: 10%;
+	transform: translateY(-50%);
+	opacity: 0;
+	transition: opacity 0.2s ease-in-out;
+}
+
+.quiz-column:hover .tooltip {
+	opacity: 1;
+}
+
 .due-column {
 	width: 10%;
 }
@@ -224,6 +262,7 @@ a:hover:not(.disabled) {
 
 .quiz-column {
 	width: 55%;
+	position: relative;
 }
 
 .time-limit-column,
