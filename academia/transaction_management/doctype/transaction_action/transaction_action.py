@@ -15,6 +15,7 @@ class TransactionAction(Document):
 		from academia.transaction_management.doctype.transaction_recipients.transaction_recipients import TransactionRecipients
 		from frappe.types import DF
 
+		action_date: DF.Data | None
 		amended_from: DF.Link | None
 		created_by: DF.Data | None
 		details: DF.Text | None
