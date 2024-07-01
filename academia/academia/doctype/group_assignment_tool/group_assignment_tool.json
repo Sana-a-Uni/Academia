@@ -17,7 +17,8 @@
   "section_break_tqrm",
   "get_courses",
   "section_break_txen",
-  "table_acya"
+  "courses",
+  "generate"
  ],
  "fields": [
   {
@@ -91,15 +92,20 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "table_acya",
+   "fieldname": "courses",
    "fieldtype": "Table",
    "options": "Group Assignment Group"
+  },
+  {
+   "fieldname": "generate",
+   "fieldtype": "Button",
+   "label": "Generate"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-03 07:31:20.058099",
+ "modified": "2024-07-01 03:38:44.848455",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Group Assignment Tool",

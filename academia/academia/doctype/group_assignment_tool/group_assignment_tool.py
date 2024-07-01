@@ -17,10 +17,10 @@ class GroupAssignmentTool(Document):
 
 		academic_term: DF.Link
 		academic_year: DF.Link
+		courses: DF.Table[GroupAssignmentGroup]
 		faculty: DF.Link
 		group: DF.Data
 		program: DF.Link
 		student_batch: DF.Link
-		table_acya: DF.Table[GroupAssignmentGroup]
 	# end: auto-generated types
 	pass
