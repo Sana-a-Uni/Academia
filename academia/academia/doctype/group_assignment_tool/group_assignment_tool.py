@@ -21,7 +21,7 @@ class GroupAssignmentTool(Document):
 		academic_year: DF.Link
 		courses: DF.Table[GroupAssignmentGroup]
 		faculty: DF.Link
-		group: DF.Data
+		group: DF.Link
 		program: DF.Link
 		student_batch: DF.Link
 	# end: auto-generated types
