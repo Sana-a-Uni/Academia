@@ -22,13 +22,26 @@ class GroupAssignmentTool(Document):
 		courses: DF.Table[GroupAssignmentGroup]
 		faculty: DF.Link
 		group: DF.Link
+		level: DF.Data | None
 		program: DF.Link
 		student_batch: DF.Link
 	# end: auto-generated types
 	
 	@frappe.whitelist()
 	def get_courses(self):
-		frappe.msgprint('get_courses...')
+		courses = []
+
+		course_study = frappe.get_list('Course Study', fields='*')
+		for course in course_study:
+			if course['program'] == self.program and course['student_batch'] == self .student_batch and course['level'] == self.level and course['academic_year'] == self.academic_year and course['academic_term'] == self.academic_term:
+				courses.append(course)
+
+		frappe.msgprint(str(courses))
+		
+		if not courses:
+			frappe.throw(_("No courses Found"))
+		else:
+			return courses
 
 	@frappe.whitelist()
 	def generate(self):
