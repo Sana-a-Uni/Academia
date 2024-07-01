@@ -5,6 +5,17 @@ frappe.ui.form.on("Course Enrollment", {
     refresh(frm) {
 
     },
+        // whenever "state" field is changed
+        faculty(frm) {
+            frm.set_query("faculty_department", (doc) => {
+                return {
+                    filters: {
+                        "faculty": doc.faculty // whatever state is selected
+                    }
+                }
+            });
+        },
+        
     before_save: function (frm) {
         // Get the value of the current doctype field
         const student_batch_Value = frm.doc.student_batch; // Replace 'student_batch' with the actual field name in your doctype
