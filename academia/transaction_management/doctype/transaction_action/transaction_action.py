@@ -46,6 +46,30 @@ class TransactionAction(Document):
 			)
 
 
+import frappe
+
+@frappe.whitelist()
+def get_recipients(transaction_name):
+    actions = frappe.get_all("Transaction Action",
+                             filters={
+                                "transaction": transaction_name,
+                                "docstatus": 1
+                             },
+                             fields=["name"])
+
+    recipients_parent = [a.name for a in actions]
+    recipients_parent.append(transaction_name)  # Add transaction_name to recipients_parent list
+
+
+    recipients = frappe.get_all("Transaction Recipients",
+                                filters={"parent": ["in", recipients_parent]},
+                                fields=["recipient_email"],
+                                order_by="creation")
+
+    recipient_emails = [r.recipient_email for r in recipients]
+
+    return recipient_emails
+
 @frappe.whitelist()
 def get_transaction_actions(transaction_name):
     # """
