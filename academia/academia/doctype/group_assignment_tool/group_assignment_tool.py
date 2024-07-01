@@ -1,8 +1,10 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
-# import frappe
+import frappe
+from frappe import _
 from frappe.model.document import Document
+from frappe.utils import cint
 
 
 class GroupAssignmentTool(Document):
@@ -23,4 +25,11 @@ class GroupAssignmentTool(Document):
 		program: DF.Link
 		student_batch: DF.Link
 	# end: auto-generated types
-	pass
+	
+	@frappe.whitelist()
+	def get_courses(self):
+		frappe.msgprint('get_courses...')
+
+	@frappe.whitelist()
+	def generate(self):
+		frappe.msgprint('generate...')
