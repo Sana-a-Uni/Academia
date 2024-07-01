@@ -18,7 +18,7 @@ class GroupAssignment(Document):
 		academic_year: DF.Link
 		course: DF.Link
 		faculty: DF.Link
-		group: DF.Data | None
+		group: DF.Link | None
 		instructor: DF.Link
 		program: DF.Link
 		student_batch: DF.Link

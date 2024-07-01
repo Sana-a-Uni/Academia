@@ -14,7 +14,7 @@ class GroupAssignmentGroup(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		course: DF.Link
+		course_code: DF.Link
 		instructor: DF.Link
 		parent: DF.Data
 		parentfield: DF.Data
