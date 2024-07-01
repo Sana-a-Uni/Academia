@@ -43,7 +43,7 @@ class Transaction(Document):
         start_with_company: DF.Link | None
         start_with_department: DF.Link | None
         start_with_designation: DF.Link | None
-        status: DF.Literal["Pending", "Approved", "Rejected"]
+        status: DF.Literal["Pending", "Completed", "Canceled"]
         sub_category: DF.Link | None
         sub_external_entity: DF.Link | None
         through_route: DF.Check
@@ -207,11 +207,16 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
         new_doc.from_department = employee.department
         new_doc.from_designation = employee.designation
         new_doc.details = details
-        if type == "Approved" or type == "Rejected":
-            pass
 
         new_doc.submit()
         new_doc.save()
+
+        
+        if type == "Approved" or type == "Rejected":
+            if check_all_recipients_action(transaction_name):
+                transaction_doc = frappe.get_doc("Transaction", transaction_name)
+                transaction_doc.status = "Completed"
+                transaction_doc.save()
         
         permissions = {
                             "read": 1,
@@ -226,7 +231,42 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
         return "Action Success"
     else:
         return "No employee found for the given user ID."
+
+
+def check_all_recipients_action(transaction_name, action_name=''):
+    parent = action_name if action_name != '' else transaction_name
     
+    recipients = frappe.get_all("Transaction Recipients",
+                                filters={"parent": parent},
+                                fields=["recipient_email"],
+                                order_by="creation"
+                                )
+
+    actions = frappe.get_all("Transaction Action",
+                             filters={
+                                 "transaction": transaction_name,
+                                 "docstatus": 1,
+                                 },
+                             fields=["name", "type", "owner"],
+                             order_by="creation"
+                             )
+    for recipient in recipients:
+        recipient_email = recipient.recipient_email
+        action_type = None
+
+        for action in actions:
+            if action.owner == recipient_email:
+                action_type = action.type
+                if action_type == "Redirected":
+                    if not check_all_recipients_action(transaction_name, action.name):
+                        return False
+                break
+        
+        if action_type == None:
+            return False
+    return True
+
+                    
 
 # to get html template 
 @frappe.whitelist()

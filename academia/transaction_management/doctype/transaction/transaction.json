@@ -17,22 +17,16 @@
   "title",
   "description",
   "column_break_ktxa",
-  "private",
-  "full_electronic",
+  "priority",
   "category",
   "sub_category",
-  "priority",
-  "start_date",
   "status",
+  "private",
+  "full_electronic",
   "transaction_scan",
   "through_route",
   "print_official_paper",
-  "transaction_owner_information_section",
-  "created_by",
-  "company",
-  "column_break_eucw",
-  "department",
-  "designation",
+  "start_date",
   "fromto_section",
   "start_with",
   "start_with_company",
@@ -41,6 +35,12 @@
   "get_recipients",
   "clear_recipients",
   "recipients",
+  "transaction_owner_information_section",
+  "created_by",
+  "company",
+  "column_break_eucw",
+  "department",
+  "designation",
   "section_break_pgsu",
   "amended_from",
   "applicants_tab",
@@ -125,9 +125,8 @@
    "allow_on_submit": 1,
    "fieldname": "status",
    "fieldtype": "Select",
-   "hidden": 1,
    "label": "Status",
-   "options": "Pending\nApproved\nRejected",
+   "options": "Pending\nCompleted\nCanceled",
    "read_only": 1
   },
   {
@@ -332,7 +331,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-01 18:36:44.403011",
+ "modified": "2024-07-01 21:03:34.125256",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
@@ -361,11 +360,11 @@
   },
   {
    "color": "Green",
-   "title": "Approved"
+   "title": "Completed"
   },
   {
    "color": "Red",
-   "title": "Rejected"
+   "title": "Canceled"
   }
  ]
 }
