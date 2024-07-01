@@ -40,6 +40,9 @@ class Transaction(Document):
         reference_number: DF.Data | None
         start_date: DF.Data | None
         start_with: DF.Link | None
+        start_with_company: DF.Link | None
+        start_with_department: DF.Link | None
+        start_with_designation: DF.Link | None
         status: DF.Literal["Pending", "Approved", "Rejected"]
         sub_category: DF.Link | None
         sub_external_entity: DF.Link | None
@@ -125,7 +128,6 @@ def get_transaction_category_recipients(transaction_category):
     transaction_category_recipients = frappe.get_all("Transaction Recipients",
                                                       filters={"parent": transaction_category},
                                                       fields=[
-                                                          "step_number", 
                                                           "recipient_name", 
                                                           "recipient_company", 
                                                           "recipient_department", 
@@ -191,7 +193,7 @@ def get_employee_by_user_id(user_id):
 
 
 @frappe.whitelist()
-def create_new_transaction_action(user_id, transaction_name, type, details,):
+def create_new_transaction_action(user_id, transaction_name, type, details):
     """
     Create a new document in Transaction Action and pass the relevant data from Transaction.
     This function will be called when a button is pressed in Transaction.
@@ -206,7 +208,9 @@ def create_new_transaction_action(user_id, transaction_name, type, details,):
         new_doc.from_designation = employee.designation
         new_doc.details = details
         if type == "Approved" or type == "Rejected":
-            new_doc.submit()
+            pass
+
+        new_doc.submit()
         new_doc.save()
         
         permissions = {
@@ -223,7 +227,6 @@ def create_new_transaction_action(user_id, transaction_name, type, details,):
     else:
         return "No employee found for the given user ID."
     
-
 
 # to get html template 
 @frappe.whitelist()
@@ -258,7 +261,10 @@ def get_recipient_actions(transaction_name, action_name=''):
                                 )
 
     actions = frappe.get_all("Transaction Action",
-                             filters={"transaction": transaction_name},
+                             filters={
+                                 "transaction": transaction_name,
+                                 "docstatus": 1,
+                                 },
                              fields=["name", "type", "owner"],
                              order_by="creation"
                              )

@@ -85,7 +85,7 @@ frappe.ui.form.on('Transaction', {
                   },
                   callback: function(response) {
                     var docshare = response.message;
-                    console.log(docshare);
+                    // console.log(docshare);
                     if(docshare.share === 1)
                     {
                       add_approve_action(frm);
@@ -280,6 +280,11 @@ frappe.ui.form.on('Transaction', {
       });
     },
 
+    clear_recipients: function(frm) {
+      frm.clear_table("recipients");
+      frm.refresh_field("recipients");
+    },
+
     sub_category: function(frm) {
       // Clear previously added recipient fields
       frm.clear_table("recipients");
@@ -298,7 +303,6 @@ frappe.ui.form.on('Transaction', {
 
             recipients.forEach(function(recipient) {
               frm.add_child("recipients", {
-                step_number: recipient.step_number,
                 recipient_name: recipient.recipient_name,
                 recipient_company: recipient.recipient_company, 
                 recipient_department: recipient.recipient_department, 
@@ -373,7 +377,24 @@ frappe.ui.form.on('Transaction', {
     if (missing_attachments.length > 0) {
         let message =` Please attach the following required files before saving:\n\n${missing_attachments.join('\n')}`;
         frappe.throw(message);
-    }}
+    }},
+    start_with: function(frm) {
+      frappe.call({
+        method: "frappe.client.get",
+        args: {
+        doctype: "Employee",
+        filters: { name: frm.doc.start_with },
+        fields: ["designation", "department", "company"]
+      },
+      callback: (response) => {
+        employee = response.message
+        console.log(employee);
+        frm.set_value('start_with_company', employee.company);
+        frm.set_value('start_with_department', employee.department);
+        frm.set_value('start_with_designation', employee.designation);
+      }
+    });
+    }
 });
 
 
@@ -440,7 +461,7 @@ function add_approve_action(frm) {
                 },
                 callback: function(r) {
                     if(r.message) {
-                      console.log(r.message);
+                      // console.log(r.message);
                       if (r.message) {
                           location.reload();
                       }

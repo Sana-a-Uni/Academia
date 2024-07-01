@@ -17,22 +17,27 @@
   "title",
   "description",
   "column_break_ktxa",
-  "company",
-  "department",
   "private",
   "full_electronic",
-  "designation",
   "category",
   "sub_category",
   "priority",
   "start_date",
-  "created_by",
   "status",
   "transaction_scan",
   "through_route",
   "print_official_paper",
+  "transaction_owner_information_section",
+  "created_by",
+  "company",
+  "column_break_eucw",
+  "department",
+  "designation",
   "fromto_section",
   "start_with",
+  "start_with_company",
+  "start_with_department",
+  "start_with_designation",
   "get_recipients",
   "clear_recipients",
   "recipients",
@@ -44,8 +49,7 @@
   "attachments",
   "tracking_actions_tab",
   "refresh_button",
-  "actions",
-  "recipients_tab"
+  "actions"
  ],
  "fields": [
   {
@@ -146,6 +150,7 @@
   {
    "fieldname": "company",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Company",
    "options": "Company",
    "read_only": 1
@@ -218,13 +223,9 @@
    "options": "External Entity"
   },
   {
-   "fieldname": "recipients_tab",
-   "fieldtype": "Tab Break",
-   "label": "Recipients"
-  },
-  {
    "fieldname": "department",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Department",
    "options": "Department",
    "read_only": 1
@@ -232,6 +233,7 @@
   {
    "fieldname": "designation",
    "fieldtype": "Link",
+   "hidden": 1,
    "label": "Designation",
    "options": "Designation",
    "read_only": 1
@@ -294,13 +296,43 @@
    "fieldname": "print_official_paper",
    "fieldtype": "Check",
    "label": "Print Official Paper"
+  },
+  {
+   "fieldname": "start_with_company",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "start_with_department",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Department",
+   "options": "Department"
+  },
+  {
+   "fieldname": "start_with_designation",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Designation",
+   "options": "Designation"
+  },
+  {
+   "fieldname": "transaction_owner_information_section",
+   "fieldtype": "Section Break",
+   "label": "Transaction Owner Information"
+  },
+  {
+   "fieldname": "column_break_eucw",
+   "fieldtype": "Column Break"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-30 17:51:12.968310",
+ "modified": "2024-07-01 18:36:44.403011",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

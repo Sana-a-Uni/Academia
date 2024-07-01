@@ -39,35 +39,36 @@
   </style>
 </head>
 <body>
-  {% for recipient_dict in recipient_actions %}
-    <div>
-      {% if recipient_dict.action %}
-        <a href="{{ recipient_dict.link }}">
-          <div class="dot {% if recipient_dict.action.type == 'Approved' %}approved{% elif recipient_dict.action.type == 'Redirected' %}redirect{% elif recipient_dict.action.type == 'Rejected' %}reject{% else %}pending{% endif %}"></div>
-          <span class="recipient">{{ recipient_dict.recipient }} - {{ recipient_dict.action.type }}</span>
-        </a>
-      {% else %}
-        <div class="dot pending"></div>
-        <span>{{ recipient_dict.recipient }} - Pending</span>
-      {% endif %}
-    </div>
-    {% if recipient_dict.action and recipient_dict.action.type == 'Redirected' %}
-      {% for redirected_recipient in recipient_dict.redirected %}
-        {% for sub_recipient_dict in redirected_recipient %}
-          <div class="redirected">
-            {% if sub_recipient_dict.action %}
-              <a href="{{ recipient_dict.link }}">
-                <div class="dot {% if sub_recipient_dict.action.type == 'Approved' %}approved{% elif sub_recipient_dict.action.type == 'Redirected' %}redirect{% elif sub_recipient_dict.action.type == 'Rejected' %}reject{% else %}pending{% endif %}"></div>
-                <span class="recipient">{{ sub_recipient_dict.recipient }} - {{ sub_recipient_dict.action.type }}</span>
-              </a>
-            {% else %}
-              <div class="dot pending"></div>
-              <span class="recipient">{{ sub_recipient_dict.recipient }} - Pending</span>
-            {% endif %}
-          </div>
-        {% endfor %}
-      {% endfor %}
+  {% macro render_recipient(recipient_dict) %}
+  <div>
+    {% if recipient_dict.action %}
+      <a href="{{ recipient_dict.link }}">
+        <div class="dot 
+          {% if recipient_dict.action.type == 'Approved' %}approved
+          {% elif recipient_dict.action.type == 'Redirected' %}redirect
+          {% elif recipient_dict.action.type == 'Rejected' %}reject
+          {% else %}pending
+          {% endif %}"></div>
+        <span class="recipient">{{ recipient_dict.recipient }} - {{ recipient_dict.action.type }}</span>
+      </a>
+    {% else %}
+      <div class="dot pending"></div>
+      <span>{{ recipient_dict.recipient }} - Pending</span>
     {% endif %}
-  {% endfor %}
+  </div>
+  {% if recipient_dict.action and recipient_dict.action.type == 'Redirected' %}
+    {% for redirected_recipient in recipient_dict.redirected %}
+      {% for sub_recipient_dict in redirected_recipient %}
+        <div class="redirected">
+          {{ render_recipient(sub_recipient_dict) }}
+        </div>
+      {% endfor %}
+    {% endfor %}
+  {% endif %}
+{% endmacro %}
+
+{% for recipient_dict in recipient_actions %}
+  {{ render_recipient(recipient_dict) }}
+{% endfor %}
 </body>
 </html>
