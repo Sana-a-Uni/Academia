@@ -14,6 +14,7 @@
   "instructor",
   "column_break_nceb",
   "program",
+  "level",
   "section_break_jaga",
   "course_type",
   "suitable_env",
@@ -137,11 +138,18 @@
    "label": "Course Type",
    "options": "Hour Type",
    "reqd": 1
+  },
+  {
+   "fieldname": "level",
+   "fieldtype": "Link",
+   "label": "Level",
+   "options": "Level",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-21 23:19:32.094423",
+ "modified": "2024-06-03 02:42:23.366255",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Study",

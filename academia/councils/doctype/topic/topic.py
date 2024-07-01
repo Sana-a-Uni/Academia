@@ -1,10 +1,11 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
+import json
 
 import frappe
 from frappe import _
 from frappe.model.document import Document
-import json
+
 
 class Topic(Document):
 	# begin: auto-generated types
@@ -13,150 +14,182 @@ class Topic(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.councils.doctype.topic_applicant.topic_applicant import TopicApplicant
+		from academia.councils.doctype.topic_attachment.topic_attachment import TopicAttachment
 		from frappe.types import DF
 
 		amended_from: DF.Link | None
-		applicants: DF.Table[TopicApplicant]
-		application_date: DF.Datetime
+		attachments: DF.Table[TopicAttachment]
+		category: DF.Link
 		council: DF.Link
+		decision: DF.TextEditor | None
+		decision_type: DF.Literal["", "Postponed", "Resolved", "Transferred"]
 		description: DF.TextEditor
-		related_to: DF.Link | None
-		status: DF.Literal["Open", "Complete", "in Progress", "Hold", "Closed"]
-		title: DF.Data 
-		topic_main_category: DF.Link
-		topic_sub_category: DF.Link
+		is_group: DF.Check
+		parent_topic: DF.Link | None
+		status: DF.Literal["Accepted", "Pending Review", "Pending Acceptance", "Rejected"]
+		title: DF.Data
+		topic_date: DF.Date
 	# end: auto-generated types
-	def onload(self):
-		if self.has_topic_assignment():
-			self.set_onload('has_topic_assignment', True)
-		else:
-			self.set_onload('has_topic_assignment', False)
-		
 	def validate(self):
-		self.validate_main_sub_category_relationship()
-		self.check_for_duplicate_applicants()
+		if not self.get("__islocal") and self.is_group:
+			self.validate_grouped_topics()
+		self.validate_parent_topic()
+		# self.check_main_and_sub_categories()
+		# self.validate_main_sub_category_relationship()
 
-	def validate_main_sub_category_relationship(self):
+	def autoname(self):
+		if not self.is_group:
+			# When there is a specific topic linked, include it in the name
+			self.name = frappe.model.naming.make_autoname(f"CNCL-TPC-.YY.-.MM.-.{self.council}.-.###")
+		else:
+			# For grouped topics without a specific topic
+			self.name = frappe.model.naming.make_autoname(f"CNCL-TPC-GRP-.YY.-.MM.-.{self.council}.-.###")
+
+	def on_submit(self):
+		if self.is_group:
+			self.submit_grouped_topics()
+
+	# def validate_main_sub_category_relationship(self):
+	#     """
+	#     Validate the relationship between main category and sub-category, and check that the selected sub category is one of the  selected main category's sub categories
+	#     """
+	#     if self.main_category and self.sub_category:
+	#         main_category_of_selected_sub = frappe.get_value(
+	#             "Topic Sub Category", self.sub_category, "main_category"
+	#         )
+	#         # Check if the main category of the sub-category does not  match the selected main category
+	#         if main_category_of_selected_sub != self.main_category:
+	#             frappe.throw(
+	#                 _("{0} is not sub category of {1}").format(self.sub_category, self.main_category)
+	#             )
+
+	def submit_grouped_topics(self):
+		if self.decision_type in ["Resolved", "Transferred"]:
+			grouped_topics = frappe.get_all(
+				"Topic", filters={"parent_topic": self.name, "is_group": 0}, fields=["name"]
+			)
+			if len(grouped_topics) > 0:
+				for topic_data in grouped_topics:
+					topic = frappe.get_doc("Topic", topic_data["name"])
+					topic.decision_type = self.decision_type
+					topic.decision = self.decision
+					topic.flags.ignore_validate = True
+					topic.save(ignore_permissions=True)
+					topic.submit()
+
+	def validate_parent_topic(self):
 		"""
-		Validate the relationship between main category and sub-category, and check that the selected sub category is one of the  selected main category's sub categories
+		Validates the parent topic of the current Topic.
+
+		Ensures that:
+		1. The parent topic is a group topic.
+		2. The parent topic's council matches the current topic's council.
+		3. The parent topic is not submitted or canceled.
 		"""
-		if(self.topic_main_category and self.topic_sub_category):
-			main_category_of_selected_sub=frappe.get_value("Topic Sub Category",self.topic_sub_category,"main_category")
-			# Check if the main category of the sub-category does not  match the selected main category
-			if main_category_of_selected_sub!=self.topic_main_category:
+		if self.parent_topic:
+			parent_topic = frappe.db.get_value(
+				"Topic", self.parent_topic, ["council", "is_group", "docstatus"], as_dict=1
+			)
+			if parent_topic["is_group"] == 1:  # is group
+				if parent_topic["council"] != self.council:
+					frappe.throw(
+						_("The council of the parent topic does not match the current topic's council.")
+					)
+				if parent_topic["docstatus"] != 0:
+					status = "submitted" if parent_topic["docstatus"] == 1 else "canceled"
+					frappe.throw(_(f"The chosen parent topic {self.parent_topic} cannot be {status}."))
+			else:
+				frappe.throw(_("The chosen parent topic is not a group topic."))
+
+	# def check_main_and_sub_categories(self):
+	#     """
+	#     Validates that both main_category and sub_category fields are set.
+	#     Throws an error if any of these fields are missing.
+	#     """
+	#     if not self.main_category:
+	#         frappe.throw(_("Main category must be set."))
+	#     elif not self.sub_category:
+	#         frappe.throw(_("Sub category must be set."))
+
+	def validate_grouped_topics(self):
+		"""
+		Validates that all grouped Topics have the same council
+		as the current group Topic and are not group topics.
+		"""
+		grouped_topics = frappe.get_all(
+			"Topic",
+			filters={"parent_topic": self.name},
+			fields=["name", "council", "is_group"],
+		)
+
+		for topic in grouped_topics:
+			if topic.council != self.council:
 				frappe.throw(
-					_("{0} is not sub category of {1}").format(self.topic_sub_category,self.topic_main_category)
+					_("Grouped topic {0} does not have the same council as the group topic.").format(
+						topic.name
+					)
 				)
-		
-		
-	def check_for_duplicate_applicants(self):
-		"""
-		Ensures no duplicates in 'applicants' child table based on 'applicant' and 'applicant_type'.
-		Raises ValidationError if duplicates are found.
-		"""
-		applicants = self.get('applicants') or []  # Ensure it's always a list
-		seen_applicants = set()
-		for d in applicants:
-			applicant_id = (d.applicant, d.applicant_type)  # Tuple as unique identifier
-			if applicant_id in seen_applicants:
-				frappe.throw(f'Duplicate entry for Applicant: {d.applicant} of Type: {d.applicant_type}',
-							title='Duplicate Applicant Error')
-			seen_applicants.add(applicant_id)		
-			
-	def has_topic_assignment(self):
-		"""
-		Check if the topic has been assigned to a council
-		"""
-		assignments = frappe.get_all('Topic Assignment', 
-                                 filters={'topic': self.name}, 
-                                 fields=['name'])
-		if assignments:
-			return True
+			if topic.is_group:
+				frappe.throw(_("Grouped topic {0} can not be of type group.").format(topic.name))
 
+
+# @frappe.whitelist()
+# def get_available_topics(doctype, txt, searchfield, start, page_len, filters):
+# 	return frappe.db.sql(
+# 		"""SELECT name FROM `tabTopic`
+#         WHERE docstatus= %(docstatus)s  AND
+#         status IN %(status)s AND
+#         name NOT IN (
+#             SELECT topic
+#             FROM `tabTopic`
+#             WHERE council = %(council)s
+#         )
+#         ORDER BY name
+#        """,
+# 		{
+# 			"council": filters.get("council"),
+# 			"docstatus": filters.get("docstatus"),
+# 			"status": filters.get("status"),
+# 		},
+# 		as_list=True,
+# 	)
 
 
 @frappe.whitelist()
-def get_all_related_assignments(topic_name):
-	query = """
-		-- Fetch direct assignments linked to the topic
-		SELECT
-			ta.name ,
-			ta.title ,
-			ta.status ,
-			ta.council ,
-			ta.assignment_date ,
-			ta.decision_type ,
-			ta.parent_assignment 
-		FROM
-			`tabTopic Assignment` ta
-		WHERE
-			ta.topic = %s
+def get_grouped_topics(parent_name):
+	grouped_topics = frappe.get_all(
+		"Topic",
+		filters={"parent_topic": parent_name, "is_group": 0},
+		fields=["name", "title", "topic_date", "decision_type"],
+	)
+	return grouped_topics
 
-		UNION
 
-		-- Fetch parent assignments where any child assignment is linked to the topic
-		SELECT
-			parent_ta.name,
-			parent_ta.title,
-			parent_ta.status,
-			parent_ta.council,
-			parent_ta.assignment_date,
-			parent_ta.decision_type,
-			parent_ta.parent_assignment
-		FROM
-			`tabTopic Assignment` AS child_ta
-		INNER JOIN
-			`tabTopic Assignment` AS parent_ta ON child_ta.parent_assignment = parent_ta.name
-		WHERE
-			child_ta.topic = %s AND
-			child_ta.parent_assignment IS NOT NULL
+@frappe.whitelist()
+def add_topics_to_group(parent_name, topics):
+	try:
+		topics_list = json.loads(topics)  # Parse the JSON string into a list
+		for topic_name in topics_list:
+			topic = frappe.get_doc("Topic", topic_name)
+			topic.parent_topic = parent_name
+			topic.save()
 
-		ORDER BY assignment_date
-	"""
-	data = frappe.db.sql(query, (topic_name, topic_name), as_dict=True)
-	return data
+		return "ok"
+	except Exception as e:
+		frappe.log_error(frappe.get_traceback(), "Error adding topics")
+		return str(e)
 
-"""	def check_duplicate_applicant(self):
-		if(self.applicants):
-			found=[]
-			for applicant in self.applicants:
-				# Get the value of user field of the applicant
-				user= frappe.get_value(applicant.applicant_type, applicant.applicant, "user_id")
-				# Check if the user is already in the found list
-				if user in found:
-					frappe.throw(
-						_("Applicant {0} entered before ").format(applicant.applicant_name)
-								)
-				found.append(user)   
-		
-"""
 
-# @frappe.whitelist()
-# def get_applicant_users_batch(applicants):
-#     """
-#     Retrieve the user associated with a batch of applicants.
-    
-#     Args:
-#         applicants (str): A JSON string representing a list of applicants where each applicant
-#                           is a dictionary with 'applicant_type' and 'applicant' keys.
-    
-#     Returns:
-#         list: A list of user values or None for each applicant in the batch.
-#     """
-	
-#     try:
-#         # Convert the JSON string back to a Python list of dictionaries
-#         applicants_list = json.loads(applicants)
-#         user_values = []
+@frappe.whitelist()
+def delete_topics_from_group(topic_names):
+	try:
+		topics_list = json.loads(topic_names)  # Parse the JSON string into a list
+		for topic_name in topics_list:
+			topic = frappe.get_doc("Topic", topic_name)
+			topic.parent_topic = None
+			topic.save()
 
-#         for applicant in applicants_list:
-#             # Attempt to fetch the 'user' value for each applicant based on their type and name
-#             user = frappe.get_value(applicant["applicant_type"], applicant["applicant"], "user")
-#             user_values.append(user)  # Will append None if user is not found
-
-#         return user_values
-#     except Exception as e:
-#         frappe.log_error(f"Error in get_applicant_users_batch: {e}", "Get Applicant Users Batch Error")
-#         # Return a list of Nones to match the expected output format in case of error
-#         return [None] * len(applicants_list)
+		return "ok"
+	except Exception as e:
+		frappe.log_error(frappe.get_traceback(), "Error removing topics")
+		return str(e)

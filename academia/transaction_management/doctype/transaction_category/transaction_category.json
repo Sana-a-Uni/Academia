@@ -6,18 +6,18 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "requirements_tab",
+  "details_tab",
   "category_name",
-  "requirements",
+  "company",
+  "is_group",
+  "template",
   "column_break_nqbz",
-  "text_editor_uzrj"
+  "parent_category",
+  "category_template",
+  "requirements_tab",
+  "requirements"
  ],
  "fields": [
-  {
-   "fieldname": "text_editor_uzrj",
-   "fieldtype": "Text Editor",
-   "label": "Description"
-  },
   {
    "fieldname": "requirements",
    "fieldtype": "Table",
@@ -27,7 +27,7 @@
   {
    "fieldname": "requirements_tab",
    "fieldtype": "Tab Break",
-   "label": "Requirements "
+   "label": "Requirements"
   },
   {
    "fieldname": "category_name",
@@ -40,11 +40,48 @@
   {
    "fieldname": "column_break_nqbz",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_group",
+   "fieldtype": "Check",
+   "label": "Is Group"
+  },
+  {
+   "fieldname": "category_template",
+   "fieldtype": "Link",
+   "label": "Category Template",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Details"
+  },
+  {
+   "depends_on": "eval:!doc.is_group;",
+   "fieldname": "parent_category",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": " Parent Category",
+   "options": "Transaction Category"
+  },
+  {
+   "fieldname": "template",
+   "fieldtype": "Link",
+   "label": "Template",
+   "options": "Transaction Category Template"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-28 12:58:45.684594",
+ "modified": "2024-06-07 14:12:16.033383",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Category",
@@ -60,6 +97,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Employee",
    "share": 1,
    "write": 1
   }

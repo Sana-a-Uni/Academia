@@ -14,18 +14,12 @@ class CourseEnrollmentCourse(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		academic_program: DF.Link
-		academic_year: DF.Link
-		course: DF.Link | None
-		enrollment_date: DF.Date
-		faculty: DF.Link
-		faculty_department: DF.Link
+		course_code: DF.Link
+		course_type: DF.Data | None
+		level: DF.Data | None
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
-		semester: DF.Link | None
-		student: DF.Link
-		student_batch: DF.Link
-		student_name: DF.Data | None
+		program: DF.Data | None
 	# end: auto-generated types
 	pass

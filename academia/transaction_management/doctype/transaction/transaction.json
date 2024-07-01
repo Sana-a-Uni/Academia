@@ -6,22 +6,42 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "document_details_tab",
   "additional_details_section",
+  "transaction_scope",
+  "type",
+  "main_external_entity",
+  "sub_external_entity",
+  "external_entity_designation",
   "reference_number",
   "title",
   "description",
   "column_break_ktxa",
+  "company",
+  "department",
+  "private",
   "full_electronic",
-  "client",
-  "start_date",
+  "designation",
   "category",
+  "sub_category",
+  "priority",
+  "start_date",
   "created_by",
   "status",
-  "attachments_section",
+  "transaction_scan",
+  "section_break_pgsu",
+  "amended_from",
+  "applicants_tab",
+  "applicants_table",
+  "attachments_tab",
   "attachments",
-  "summary_section",
-  "summary",
-  "amended_from"
+  "tracking_actions_tab",
+  "refresh_button",
+  "actions",
+  "recipients_tab",
+  "recipient_settings_section",
+  "get_recipients",
+  "recipients"
  ],
  "fields": [
   {
@@ -32,8 +52,7 @@
   },
   {
    "fieldname": "additional_details_section",
-   "fieldtype": "Section Break",
-   "label": "Document Details"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "title",
@@ -50,11 +69,13 @@
    "fieldtype": "Column Break"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "start_date",
-   "fieldtype": "Date",
+   "fieldtype": "Data",
+   "is_virtual": 1,
    "label": "Start Date",
-   "read_only": 1,
-   "set_only_once": 1
+   "options": "frappe.utils.format_datetime(doc.creation, \n                format_string='dd MMM yyyy, HH:mm:ss'\n            )",
+   "read_only": 1
   },
   {
    "fieldname": "reference_number",
@@ -62,35 +83,16 @@
    "label": "Reference Number"
   },
   {
-   "fieldname": "client",
-   "fieldtype": "Link",
-   "label": "Applicant",
-   "options": "Contact"
-  },
-  {
+   "allow_on_submit": 1,
    "fieldname": "created_by",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
+   "is_virtual": 1,
    "label": "Created By",
-   "options": "User",
-   "read_only": 1,
-   "set_only_once": 1
+   "options": "doc.owner",
+   "read_only": 1
   },
   {
-   "fieldname": "summary_section",
-   "fieldtype": "Section Break",
-   "hidden": 1,
-   "label": "Summary"
-  },
-  {
-   "fieldname": "summary",
-   "fieldtype": "HTML"
-  },
-  {
-   "fieldname": "attachments_section",
-   "fieldtype": "Section Break",
-   "label": "Attachments"
-  },
-  {
+   "allow_on_submit": 1,
    "fieldname": "attachments",
    "fieldtype": "Table",
    "options": "Transaction Attachments"
@@ -115,15 +117,162 @@
    "allow_on_submit": 1,
    "fieldname": "status",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Status",
    "options": "Pending\nApproved\nRejected",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_break_pgsu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "label": "Priority",
+   "options": "\nLow\nMedium\nHigh\nUrgent"
+  },
+  {
+   "depends_on": "eval:doc.category;",
+   "fieldname": "sub_category",
+   "fieldtype": "Link",
+   "label": "Sub Category",
+   "options": "Transaction Category"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "transaction_scope",
+   "fieldtype": "Select",
+   "label": "Transaction Scope",
+   "options": "In Company\nAmong Companies\nWith External Entity"
+  },
+  {
+   "fieldname": "applicants_tab",
+   "fieldtype": "Tab Break",
+   "label": "Applicants"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "attachments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Attachments"
+  },
+  {
+   "depends_on": "eval:doc.docstatus === 1;",
+   "fieldname": "tracking_actions_tab",
+   "fieldtype": "Tab Break",
+   "label": "Tracking Actions"
+  },
+  {
+   "fieldname": "document_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Document Details"
+  },
+  {
+   "fieldname": "applicants_table",
+   "fieldtype": "Table",
+   "label": "Applicants Table",
+   "options": "Topic Applicant"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "actions",
+   "fieldtype": "HTML",
+   "options": "Transaction Action",
+   "read_only": 1
+  },
+  {
+   "fieldname": "recipient_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Recipient Settings"
+  },
+  {
+   "depends_on": "eval: doc.docstatus === 0;",
+   "fieldname": "get_recipients",
+   "fieldtype": "Button",
+   "label": "Get Recipients"
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "Recipients",
+   "options": "Transaction Recipients"
+  },
+  {
+   "depends_on": "eval:doc.transaction_scope==\"With External Entity\";",
+   "fieldname": "main_external_entity",
+   "fieldtype": "Link",
+   "label": "Main External Entity",
+   "options": "External Entity"
+  },
+  {
+   "depends_on": "eval:doc.main_external_entity && doc.transaction_scope==\"With External Entity\";",
+   "fieldname": "sub_external_entity",
+   "fieldtype": "Link",
+   "label": "Sub External Entity",
+   "options": "External Entity"
+  },
+  {
+   "fieldname": "recipients_tab",
+   "fieldtype": "Tab Break",
+   "label": "Recipients"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department",
+   "read_only": 1
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Link",
+   "label": "Designation",
+   "options": "Designation",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.main_external_entity && doc.transaction_scope==\"With External Entity\";",
+   "fieldname": "external_entity_designation",
+   "fieldtype": "Link",
+   "label": "External Entity Designation",
+   "options": "External Entity Designation"
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Select",
+   "label": "Type",
+   "options": "Outgoing\nIncoming"
+  },
+  {
+   "depends_on": "eval:doc.transaction_scope==\"With External Entity\";",
+   "fieldname": "transaction_scan",
+   "fieldtype": "Attach",
+   "label": "Transaction Scan"
+  },
+  {
+   "default": "0",
+   "fieldname": "private",
+   "fieldtype": "Check",
+   "label": "Private"
+  },
+  {
+   "fieldname": "refresh_button",
+   "fieldtype": "Button",
+   "label": "Refresh"
   }
  ],
+ "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-17 12:14:06.769256",
+ "modified": "2024-06-11 14:40:27.334888",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
