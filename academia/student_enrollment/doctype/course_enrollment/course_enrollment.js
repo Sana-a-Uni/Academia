@@ -5,12 +5,25 @@ frappe.ui.form.on("Course Enrollment", {
     refresh(frm) {
 
     },
-        // whenever "state" field is changed
+
+      // begin validation with doctype
+        // faculty field is changed
         faculty(frm) {
             frm.set_query("faculty_department", (doc) => {
                 return {
                     filters: {
-                        "faculty": doc.faculty // whatever state is selected
+                        "faculty": doc.faculty // whatever  selected
+                    }
+                }
+            });
+        },
+
+         // faculty field is changed
+         faculty_department(frm) {
+            frm.set_query("academic_program", (doc) => {
+                return {
+                    filters: {
+                        "faculty_department": doc.faculty_department // whatever  selected
                     }
                 }
             });
