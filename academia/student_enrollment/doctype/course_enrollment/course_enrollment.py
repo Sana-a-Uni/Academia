@@ -17,7 +17,7 @@ class CourseEnrollment(Document):
 		academic_program: DF.Link
 		academic_term: DF.Link | None
 		academic_year: DF.Link
-		course: DF.Data | None
+		course: DF.Link | None
 		enrollment_date: DF.Date | None
 		faculty: DF.Link | None
 		faculty_department: DF.Link | None

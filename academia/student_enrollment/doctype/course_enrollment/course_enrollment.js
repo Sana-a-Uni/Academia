@@ -18,7 +18,7 @@ frappe.ui.form.on("Course Enrollment", {
             });
         },
 
-         // faculty field is changed
+         // faculty_department field is changed
          faculty_department(frm) {
             frm.set_query("academic_program", (doc) => {
                 return {
@@ -28,7 +28,21 @@ frappe.ui.form.on("Course Enrollment", {
                 }
             });
         },
+
+           //  academic_program field is changed
+           academic_program(frm) {
+            frm.set_query("student_batch", (doc) => {
+                return {
+                    filters: {
+                        "program_specification": doc.academic_program // whatever  selected
+                    }
+                }
+            });
+        },
         
+        
+
+
     before_save: function (frm) {
         // Get the value of the current doctype field
         const student_batch_Value = frm.doc.student_batch; // Replace 'student_batch' with the actual field name in your doctype
