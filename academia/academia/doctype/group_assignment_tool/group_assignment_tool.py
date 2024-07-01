@@ -31,13 +31,20 @@ class GroupAssignmentTool(Document):
 	def get_courses(self):
 		courses = []
 
-		course_study = frappe.get_list('Course Study', fields='*')
-		for course in course_study:
-			if course['program'] == self.program and course['student_batch'] == self .student_batch and course['level'] == self.level and course['academic_year'] == self.academic_year and course['academic_term'] == self.academic_term:
-				courses.append(course)
+		if not self.academic_year:
+			frappe.throw(_("Mandatory field - Academic Year"))
+		elif not self.academic_term:
+			frappe.throw(_("Mandatory field - Academic Term"))
+		elif not self.program:
+			frappe.throw(_("Mandatory field - Program"))
+		elif not self.student_batch:
+			frappe.throw(_("Mandatory field - Student Batch"))
+		else:
+			course_study = frappe.get_list('Course Study', fields='*')
+			for course in course_study:
+				if course['program'] == self.program and course['student_batch'] == self .student_batch and course['level'] == self.level and course['academic_year'] == self.academic_year and course['academic_term'] == self.academic_term:
+					courses.append(course)
 
-		frappe.msgprint(str(courses))
-		
 		if not courses:
 			frappe.throw(_("No courses Found"))
 		else:
