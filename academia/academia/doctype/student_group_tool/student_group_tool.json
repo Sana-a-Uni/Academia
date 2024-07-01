@@ -5,20 +5,23 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "grouping_by",
   "based_on",
   "program",
   "capacity",
   "column_break_gtdl",
   "faculity",
   "student_batch",
+  "student_group",
   "tolerance",
   "students_section",
   "get_students",
-  "table_yldo",
+  "students",
   "generate_groups"
  ],
  "fields": [
   {
+   "depends_on": "eval:doc.grouping_by == \"Theoretical\";",
    "fieldname": "based_on",
    "fieldtype": "Select",
    "in_list_view": 1,
@@ -49,11 +52,6 @@
    "label": "Get Students "
   },
   {
-   "fieldname": "table_yldo",
-   "fieldtype": "Table",
-   "options": "Student Group Student"
-  },
-  {
    "fieldname": "program",
    "fieldtype": "Link",
    "label": "Program",
@@ -75,6 +73,7 @@
    "reqd": 1
   },
   {
+   "fetch_from": ".",
    "fieldname": "tolerance",
    "fieldtype": "Int",
    "label": "Tolerance",
@@ -85,12 +84,33 @@
    "fieldname": "generate_groups",
    "fieldtype": "Button",
    "label": "Generate groups"
+  },
+  {
+   "fieldname": "students",
+   "fieldtype": "Table",
+   "options": "Student Group Student"
+  },
+  {
+   "fieldname": "grouping_by",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Grouping By",
+   "options": "\nTheoretical\nPractical",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.grouping_by == \"Practical\";",
+   "fieldname": "student_group",
+   "fieldtype": "Link",
+   "label": "Student Group",
+   "options": "Student Group",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-01 01:45:12.411693",
+ "modified": "2024-06-23 01:48:06.334476",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group Tool",

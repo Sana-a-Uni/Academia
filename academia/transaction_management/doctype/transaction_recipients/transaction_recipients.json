@@ -1,0 +1,62 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-06-04 12:50:46.006037",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "recipient_name",
+  "recipient_company",
+  "recipient_department",
+  "recipient_designation",
+  "recipient_email"
+ ],
+ "fields": [
+  {
+   "fieldname": "recipient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Recipient Name"
+  },
+  {
+   "fieldname": "recipient_company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Recipient Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "recipient_department",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Recipient Department",
+   "options": "Department"
+  },
+  {
+   "fieldname": "recipient_designation",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Recipient Designation",
+   "options": "Designation"
+  },
+  {
+   "fieldname": "recipient_email",
+   "fieldtype": "Link",
+   "label": "Recipient Email",
+   "options": "User"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-06-07 19:07:20.343814",
+ "modified_by": "Administrator",
+ "module": "Transaction Management",
+ "name": "Transaction Recipients",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

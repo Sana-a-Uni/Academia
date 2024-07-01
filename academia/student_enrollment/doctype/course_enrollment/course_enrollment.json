@@ -1,7 +1,6 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:{level}-{semester}-{student}",
  "creation": "2024-01-29 00:12:04.103215",
  "default_view": "List",
  "doctype": "DocType",
@@ -50,8 +49,7 @@
    "fieldname": "enrollment_date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Enrollment Date",
-   "reqd": 1
+   "label": "Enrollment Date"
   },
   {
    "fieldname": "column_break_nlbw",
@@ -61,16 +59,14 @@
    "fieldname": "faculty",
    "fieldtype": "Link",
    "label": "Faculty",
-   "options": "Faculty",
-   "reqd": 1
+   "options": "Faculty"
   },
   {
    "fieldname": "faculty_department",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Faculty Department",
-   "options": "Faculty Department",
-   "reqd": 1
+   "options": "Faculty Department"
   },
   {
    "fieldname": "academic_year",
@@ -81,9 +77,8 @@
   },
   {
    "fieldname": "course",
-   "fieldtype": "Link",
-   "label": "Course",
-   "options": "Course Study"
+   "fieldtype": "Data",
+   "label": "Course"
   },
   {
    "fieldname": "student_batch",
@@ -103,11 +98,10 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-03 01:11:43.825826",
+ "modified": "2024-06-20 23:43:36.725621",
  "modified_by": "Administrator",
  "module": "Student Enrollment",
  "name": "Course Enrollment",
- "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

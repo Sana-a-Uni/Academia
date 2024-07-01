@@ -34,9 +34,6 @@ class CourseStudyTool(Document):
 	
 	child_table_data1 = []
 
-	def course_exists_in_course_study(course_name):
-		return frappe.db.exists('Course Study', {'course_name': course_name})
-
 	@frappe.whitelist()
 	def get_courses(self):
 		global child_table_data1
@@ -56,7 +53,13 @@ class CourseStudyTool(Document):
 			
 							course_exists_in_course_study = frappe.db.exists('Course Study', {'course_name': child_data['course_name']})
 							if not course_exists_in_course_study:
+								student_batch = frappe.get_list("Student Batch", fields='*')
+								for batch in student_batch:
+									if batch.program_specification == child_data['parent']:
+										child_data['batch'] = batch.name
+								
 								child_table_data.append(child_data)
+					frappe.msgprint(str(child_table_data))
 
 				elif self.level == "Specific Level":
 					if self.specific_level:
@@ -69,6 +72,11 @@ class CourseStudyTool(Document):
 			
 								course_exists_in_course_study = frappe.db.exists('Course Study', {'course_name': child_data['course_name']})
 								if not course_exists_in_course_study:
+									student_batch = frappe.get_list("Student Batch", fields='*')
+									for batch in student_batch:
+										if batch.program_specification == child_data['parent']:
+											child_data['batch'] = batch.name
+
 									child_table_data.append(child_data)
 						filterd_data_by_specific_level = [d for d in child_table_data if d.get("study_level") == self.specific_level]
 						child_table_data  = filterd_data_by_specific_level
@@ -89,6 +97,11 @@ class CourseStudyTool(Document):
 			
 							course_exists_in_course_study = frappe.db.exists('Course Study', {'course_name': child_data['course_name']})
 							if not course_exists_in_course_study:
+								student_batch = frappe.get_list("Student Batch", fields='*')
+								for batch in student_batch:
+									if batch.program_specification == child_data['parent']:
+										child_data['batch'] = batch.name
+
 								child_table_data.append(child_data)
 
 					elif self.level == "Specific Level":
@@ -100,6 +113,11 @@ class CourseStudyTool(Document):
 			
 								course_exists_in_course_study = frappe.db.exists('Course Study', {'course_name': child_data['course_name']})
 								if not course_exists_in_course_study:
+									student_batch = frappe.get_list("Student Batch", fields='*')
+									for batch in student_batch:
+										if batch.program_specification == child_data['parent']:
+											child_data['batch'] = batch.name
+
 									child_table_data.append(child_data)
 							
 							filterd_data_by_specific_level = [d for d in child_table_data if d.get("study_level") == self.specific_level]
@@ -127,6 +145,7 @@ class CourseStudyTool(Document):
 			
 						course_exists_in_course_study = frappe.db.exists('Course Study', {'course_name': child_data['course_name']})
 						if not course_exists_in_course_study:
+							child_data['batch'] = self.student_batch
 							child_table_data.append(child_data)
 
 			else:
@@ -164,14 +183,14 @@ class CourseStudyTool(Document):
 					frappe.msgprint(_("You have to add at least one row for the credit hours table in {0} course specification...").format(cour.course_name))
 				elif num >=1 :
 					for i, hour_table in child_hours_data.items():
-						key = cour.course_name +' '+ hour_table['hour_type']
-						course_exists_in_course_study = frappe.db.exists('Course Study', {'course_name': key})
+						course_exists_in_course_study = frappe.db.exists('Course Study', {'course_code': cour.course_code , 'course_type': hour_table['hour_type']})
 						if course_exists_in_course_study:
 							frappe.msgprint(_("This course {0} already generated...").format(cour.course_name +' '+ hour_table['hour_type']))
 						else:
 							course_study = frappe.new_doc("Course Study")
 							course_study.course_code = cour.course_code
-							course_study.student_batch = "batch1"
+							course_study.student_batch = cour.batch
+							course_study.program = cour.parent
 							course_study.academic_year = self.academic_year
 							course_study.academic_term = self.academic_term
 							course_study.level = cour.study_level
