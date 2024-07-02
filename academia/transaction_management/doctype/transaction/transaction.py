@@ -2,12 +2,14 @@
 # For license information, please see license.txt
 
 
-from queue import Full
-from jinja2 import Template # type: ignore
-import os
-import frappe # type: ignore
-from frappe.model.document import Document # type: ignore
 import json
+import os
+from queue import Full
+
+import frappe  # type: ignore
+from frappe.model.document import Document  # type: ignore
+from jinja2 import Template  # type: ignore
+
 
 class Transaction(Document):
     # begin: auto-generated types
@@ -16,10 +18,15 @@ class Transaction(Document):
     from typing import TYPE_CHECKING
 
     if TYPE_CHECKING:
-        from academia.councils.doctype.topic_applicant.topic_applicant import TopicApplicant
-        from academia.transaction_management.doctype.transaction_attachments.transaction_attachments import TransactionAttachments
-        from academia.transaction_management.doctype.transaction_recipients.transaction_recipients import TransactionRecipients
         from frappe.types import DF
+
+        from academia.councils.doctype.topic_applicant.topic_applicant import TopicApplicant
+        from academia.transaction_management.doctype.transaction_attachments.transaction_attachments import (
+            TransactionAttachments,
+        )
+        from academia.transaction_management.doctype.transaction_recipients.transaction_recipients import (
+            TransactionRecipients,
+        )
 
         amended_from: DF.Link | None
         applicants_table: DF.Table[TopicApplicant]
@@ -66,7 +73,7 @@ class Transaction(Document):
 				name = self.name,
 				user = appicant_user_id,
 				read = 1,
-			)  
+			)
                     # check if the through_route is disabled
         if self.through_route == 1:
             share_permission_through_route(self, self.start_with)
@@ -84,7 +91,7 @@ class Transaction(Document):
                         write = 1,
                         share = 1
                     )
-                 
+
     def before_save(self):
         if frappe.session.user != "Administrator":
             self.set_employee_details()
@@ -94,7 +101,7 @@ class Transaction(Document):
         employee = frappe.db.get_value("Employee", {"user_id": frappe.session.user}, ["department", "designation"], as_dict=True)
         if employee:
             self.department = employee.department
-            self.designation = employee.designation  
+            self.designation = employee.designation
 
 
 
@@ -128,10 +135,10 @@ def get_transaction_category_recipients(transaction_category):
     transaction_category_recipients = frappe.get_all("Transaction Recipients",
                                                       filters={"parent": transaction_category},
                                                       fields=[
-                                                          "recipient_name", 
-                                                          "recipient_company", 
-                                                          "recipient_department", 
-                                                          "recipient_designation", 
+                                                          "recipient_name",
+                                                          "recipient_company",
+                                                          "recipient_department",
+                                                          "recipient_designation",
                                                           "recipient_email"
                                                         ])
     recipients.extend(transaction_category_recipients)
@@ -211,23 +218,22 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
         new_doc.submit()
         new_doc.save()
 
-        
+
         if type == "Approved" or type == "Rejected":
             if check_all_recipients_action(transaction_name):
                 transaction_doc = frappe.get_doc("Transaction", transaction_name)
                 transaction_doc.status = "Completed"
                 transaction_doc.save()
-        
+
         permissions = {
                             "read": 1,
                             "write": 0,
                             "share": 0,
-                            "submit":0,
                             "submit":0
                         }
         permissions_str = json.dumps(permissions)
         update_share_permissions(transaction_name, user_id, permissions_str)
-        
+
         return "Action Success"
     else:
         return "No employee found for the given user ID."
@@ -235,7 +241,7 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
 
 def check_all_recipients_action(transaction_name, action_name=''):
     parent = action_name if action_name != '' else transaction_name
-    
+
     recipients = frappe.get_all("Transaction Recipients",
                                 filters={"parent": parent},
                                 fields=["recipient_email"],
@@ -261,14 +267,14 @@ def check_all_recipients_action(transaction_name, action_name=''):
                     if not check_all_recipients_action(transaction_name, action.name):
                         return False
                 break
-        
-        if action_type == None:
+
+        if action_type is None:
             return False
     return True
 
-                    
 
-# to get html template 
+
+# to get html template
 @frappe.whitelist()
 def get_actions_html(transaction_name):
 
@@ -276,7 +282,7 @@ def get_actions_html(transaction_name):
         template_path = os.path.join(current_dir, "templates/vertical_path.html")
 
         # Load the template file
-        with open(template_path, "r") as file:
+        with open(template_path) as file:
             template_content = file.read()
         template = Template(template_content)
 
@@ -285,7 +291,7 @@ def get_actions_html(transaction_name):
         context = {
             "recipient_actions": recipient_actions
         }
-        
+
         # Render the template
         rendered_html = template.render(context)
 
@@ -293,7 +299,7 @@ def get_actions_html(transaction_name):
 
 def get_recipient_actions(transaction_name, action_name=''):
     parent = action_name if action_name != '' else transaction_name
-    
+
     recipients = frappe.get_all("Transaction Recipients",
                                 filters={"parent": parent},
                                 fields=["recipient_email"],

@@ -1,9 +1,11 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
+from datetime import datetime
+
 import frappe
 from frappe.model.document import Document
-from datetime import datetime
+
 
 class TransactionAction(Document):
 	# begin: auto-generated types
@@ -12,8 +14,11 @@ class TransactionAction(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.transaction_management.doctype.transaction_recipients.transaction_recipients import TransactionRecipients
 		from frappe.types import DF
+
+		from academia.transaction_management.doctype.transaction_recipients.transaction_recipients import (
+			TransactionRecipients,
+		)
 
 		action_date: DF.Data | None
 		amended_from: DF.Link | None
@@ -28,7 +33,7 @@ class TransactionAction(Document):
 	# end: auto-generated types
 	def on_submit(self):
 		self.action_date = frappe.utils.format_datetime(
-							self.creation, 
+							self.creation,
 							format_string='dd MMM yyyy, HH:mm:ss'
 						)
 		self.created_by = self.owner
@@ -46,7 +51,6 @@ class TransactionAction(Document):
 			)
 
 
-import frappe
 
 @frappe.whitelist()
 def get_recipients(transaction_name):
@@ -74,10 +78,10 @@ def get_recipients(transaction_name):
 def get_transaction_actions(transaction_name):
     # """
     # Retrieves all the Transaction Action documents associated with the given Transaction document.
-    
+
     # Args:
     #     transaction_name (str): Name of the Transaction document.
-        
+
     # Returns:
     #     List[dict]: List of dictionaries representing the Transaction Action documents.
     # """
@@ -92,9 +96,9 @@ def get_transaction_actions(transaction_name):
     #         "transaction": transaction_name
     #     },
     #     fields=[
-	# 		"name", 
-	# 		"type", 
-	# 		"details", 
+	# 		"name",
+	# 		"type",
+	# 		"details",
 	# 		"creation"
 	# 		# to get recipients with all document
 	# 		"(SELECT * FROM `tabTransaction Recipients` WHERE parenttype='Transaction Action' AND parent = `tabTransaction Action`.name) as recipients"
