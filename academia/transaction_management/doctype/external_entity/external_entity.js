@@ -1,8 +1,6 @@
 // Copyright (c) 2024, SanU Development Team and contributors
 // For license information, please see license.txt
 
-/* global frappe */
-
 frappe.ui.form.on('External Entity', {
     onload: function(frm) {
       frm.set_query("parent_external_entity", function() {
