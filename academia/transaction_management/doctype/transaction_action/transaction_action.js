@@ -1,29 +1,9 @@
 // Copyright (c) 2024, SanU and contributors
 // For license information, please see license.txt
 
+/* global frappe */
+
 frappe.ui.form.on("Transaction Action", {
-    transaction: function (frm) {
-        // if(frm.doc.transaction)
-        //     // console.log(frm.doc.transaction);
-        // frappe.call({
-        //     method: "frappe.client.get_list",
-        //     args: {
-        //       doctype: "Transaction",
-        //       filters: { 
-        //             name: frm.doc.transaction , 
-        //         },
-        //       fields: [
-        //         "transaction_scope", 
-        //         "company",
-        //         "department", 
-        //         "designation", 
-        //     ]
-        //     },
-        //     callback: (response) => {
-        //         var main_transaction = response.message
-        //     }
-        // });
-    },
 
     // Advance Get members Dialog
     get_recipients: function (frm) {

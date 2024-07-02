@@ -1,8 +1,13 @@
 // Copyright (c) 2024, SanU and contributors
 // For license information, please see license.txt
 
+/* global frappe */
+
+import jQuery from 'jquery';
+
 frappe.ui.form.on('Transaction', {
-  setup: function (frm) {
+  setup: function() {
+    const $ = jQuery;
     // Changing Button Style
     $(`<style>
       .btn[data-fieldname="get_recipients"] {
@@ -170,7 +175,7 @@ frappe.ui.form.on('Transaction', {
 
    
       
-      frm.set_query("external_entity_designation", function (doc, cdt, cdn) {
+      frm.set_query("external_entity_designation", function() {
         return {
           "filters": {
             "parent": main_entity
@@ -187,7 +192,7 @@ frappe.ui.form.on('Transaction', {
    // Filter the External Entity options based on is_group field
     
     
-    frm.set_query("external_entity_designation", function (doc, cdt, cdn) {
+    frm.set_query("external_entity_designation", function() {
       return {
         "filters": {
           "parent": sub_entity
@@ -219,7 +224,7 @@ frappe.ui.form.on('Transaction', {
       // Add the current user to the existing recipient IDs
       existingRecipientIds.push(frappe.session.user);
   
-      let d=new frappe.ui.form.MultiSelectDialog({
+      new frappe.ui.form.MultiSelectDialog({
         doctype: "Employee",
         target: frm,
         setters: setters,
@@ -387,8 +392,7 @@ frappe.ui.form.on('Transaction', {
         fields: ["designation", "department", "company"]
       },
       callback: (response) => {
-        employee = response.message
-        console.log(employee);
+        let employee = response.message
         frm.set_value('start_with_company', employee.company);
         frm.set_value('start_with_department', employee.department);
         frm.set_value('start_with_designation', employee.designation);
@@ -399,7 +403,7 @@ frappe.ui.form.on('Transaction', {
 
 
 function add_redirect_action(frm) {
-    cur_frm.page.add_action_item(__('Redirect'), function() {
+  frm.page.add_action_item(('Redirect'), function() {
         frappe.new_doc('Transaction Action', {
             'transaction': frm.doc.name,
             'type': 'Redirected',
@@ -421,7 +425,6 @@ function add_redirect_action(frm) {
                       "read": 1,
                       "write": 0,
                       "share": 0,
-                      "submit":0,
                       "submit":0
                   }
                   },
@@ -438,12 +441,12 @@ function add_redirect_action(frm) {
 }
 
 function add_council_action(frm) {
-    cur_frm.page.add_action_item(__('Council'), function() {
+  frm.page.add_action_item(('Council'), function() {
         });
 }
 
 function add_approve_action(frm) {
-    cur_frm.page.add_action_item(__('Approve'), function() {
+  frm.page.add_action_item(('Approve'), function() {
         frappe.prompt([
             {
                 label: 'Details',
@@ -469,13 +472,13 @@ function add_approve_action(frm) {
                       }
                 }
             });
-        }, __('Enter Approval Details'), __('Submit'));
+        }, ('Enter Approval Details'), ('Submit'));
         
     });
 }
 
 function add_reject_action(frm) {
-    cur_frm.page.add_action_item(__('Reject'), function() {
+  frm.page.add_action_item(('Reject'), function() {
         frappe.prompt([
             {
                 label: 'Details',
@@ -498,6 +501,6 @@ function add_reject_action(frm) {
                     }
                 }
             });
-        }, __('Enter Rejection Details'), __('Submit'));
+        }, ('Enter Rejection Details'), ('Submit'));
     });
 }

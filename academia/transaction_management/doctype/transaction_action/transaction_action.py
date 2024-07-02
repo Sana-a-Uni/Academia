@@ -24,7 +24,7 @@ class TransactionAction(Document):
 		from_designation: DF.Data | None
 		recipients: DF.Table[TransactionRecipients]
 		transaction: DF.Link | None
-		type: DF.Literal["", "Redirected", "Approved", "Rejected", "Canceled", "Council"]
+		type: DF.Literal["Redirected", "Approved", "Rejected", "Canceled", "Council"]
 	# end: auto-generated types
 	def on_submit(self):
 		self.action_date = frappe.utils.format_datetime(
