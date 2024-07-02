@@ -7,12 +7,14 @@
  "field_order": [
   "schedule_version_section",
   "schedule_template_version",
+  "is_multy_group",
   "column_break_vmss",
   "schedule_template",
   "section_break_wyzm",
   "academic_year",
   "faculty",
   "level",
+  "course",
   "column_break_jdfp",
   "academic_term",
   "program",
@@ -21,13 +23,14 @@
   "instructor",
   "room",
   "column_break_yvwh",
-  "course",
   "group",
   "section_break_wdte",
   "date",
   "column_break_fyil",
   "from_time",
-  "to_time"
+  "to_time",
+  "section_break_mxrm",
+  "table_hfgk"
  ],
  "fields": [
   {
@@ -39,6 +42,7 @@
    "reqd": 1
   },
   {
+   "depends_on": "eval:doc.is_multy_group == 0;",
    "fieldname": "level",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -59,6 +63,7 @@
    "reqd": 1
   },
   {
+   "depends_on": "eval:doc.is_multy_group == 0;",
    "fieldname": "program",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -96,9 +101,11 @@
    "reqd": 1
   },
   {
+   "depends_on": "eval:doc.is_multy_group == 0;",
    "fieldname": "group",
-   "fieldtype": "Data",
-   "label": "Group"
+   "fieldtype": "Link",
+   "label": "Group",
+   "options": "Student Group"
   },
   {
    "fieldname": "faculty",
@@ -164,11 +171,27 @@
    "fieldname": "schedule_version_section",
    "fieldtype": "Section Break",
    "label": "Schedule Version"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_multy_group",
+   "fieldtype": "Check",
+   "label": "is Multy Group"
+  },
+  {
+   "fieldname": "section_break_mxrm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.is_multy_group == 1;",
+   "fieldname": "table_hfgk",
+   "fieldtype": "Table",
+   "options": "Multy Lesson Template"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-06 02:40:36.452866",
+ "modified": "2024-07-02 23:46:44.589626",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lesson",
