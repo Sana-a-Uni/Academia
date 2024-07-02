@@ -27,35 +27,43 @@ class StudentGroupTool(Document):
 		students: DF.Table[StudentGroupStudent]
 		tolerance: DF.Int
 	# end: auto-generated types
+
+	def rename_field_label(self, field_name, new_label):
+		doctype = frappe.get_doc('DocType', 'Student Group')
+		for field in doctype.fields:
+			if field.fieldname == field_name:
+				field.label = new_label
+				break
+		doctype.save()
 	
 	@frappe.whitelist()
 	def get_students(self):
-
-		# doctype = frappe.get_doc('DocType', 'Student Group Tool')
-		# doctype.append('fields', {
-		# 	'fieldname': 'ssssss',
-		# 	'fieldtype': 'Data',
-		# 	'label': 'ssssss'
-		# })
-		# doctype.save()
-		# frappe.db.commit()
 		students = []
 
-		if not self.based_on:
-			frappe.throw(_("Mandatory field - Based On"))
-		elif not self.program:
-			frappe.throw(_("Mandatory field - Program"))
-		elif not self.student_batch:
-			frappe.throw(_("Mandatory field - Student Batch"))
-		elif not self.capacity:
-			frappe.throw(_("Mandatory field - Capacity"))
-		elif not self.tolerance:
-			frappe.throw(_("Mandatory field - Tolerance"))
+		if self.grouping_by == 'Practical':
+			if not self.student_group:
+				frappe.throw(_("Mandatory field - Student Group"))
+			else:
+				student_group = frappe.get_doc('Student Group', self.student_group)
+				for student in student_group.students:
+					student_data = student.as_dict()
+					students.append(student_data)
 		else:
-			program_enrollment = frappe.get_list('Program Enrollment', fields='*')
-			for student in program_enrollment:
-				if student['program'] == self.program and student['student_batch'] == self.student_batch:
-					students.append(student)
+			if not self.based_on:
+				frappe.throw(_("Mandatory field - Based On"))
+			elif not self.program:
+				frappe.throw(_("Mandatory field - Program"))
+			elif not self.student_batch:
+				frappe.throw(_("Mandatory field - Student Batch"))
+			elif not self.capacity:
+				frappe.throw(_("Mandatory field - Capacity"))
+			elif not self.tolerance:
+				frappe.throw(_("Mandatory field - Tolerance"))
+			else:
+				program_enrollment = frappe.get_list('Program Enrollment', fields='*')
+				for student in program_enrollment:
+					if student['program'] == self.program and student['student_batch'] == self.student_batch:
+						students.append(student)
 		
 		if not students:
 			frappe.throw(_("No students Found"))
@@ -71,7 +79,6 @@ class StudentGroupTool(Document):
 
 		keys = ['student_name', 'gender', 'program']
 		cleaned_students = [{k: v for k, v in d.items() if k in keys} for d in students]
-
 
 		if self.based_on == 'All':
 			if len(cleaned_students) <= self.capacity:
