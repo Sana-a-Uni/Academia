@@ -1,16 +1,12 @@
 // Copyright (c) 2024, SanU Development Team and contributors
 // For license information, please see license.txt
 
-// frappe.ui.form.on("Transaction Category", {
-// 	refresh(frm) {
-
-// 	},
-// });
+/* global frappe */
 
 frappe.ui.form.on('Transaction Category', {
     refresh: function(frm) {
         // Filter the "Parent Transaction Category" field choices
-        frm.fields_dict['parent_category'].get_query = function(doc, cdt, cdn) {
+        frm.fields_dict['parent_category'].get_query = function() {
             return {
                 filters: [
                     ["Transaction Category", "is_group", "=", 1],
@@ -30,7 +26,7 @@ frappe.ui.form.on('Transaction Category', {
         } else {
             // If is_group is not checked, ensure parent_category is not empty
             if (!frm.doc.parent_category) {
-                frappe.throw(__("Parent Category is mandatory if 'Is Group' is not checked."));
+                frappe.throw(("Parent Category is mandatory if 'Is Group' is not checked."));
             }
         }
     }  
