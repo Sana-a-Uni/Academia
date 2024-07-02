@@ -14,5 +14,22 @@
 	    		window.open(url, '_blank');
 	    	    });
 	    	}
+		if (frm.doc.students1 && frm.doc.students1.length > 0){
+			$(frm.fields_dict.students1.wrapper).show();
+		} else {
+			$(frm.fields_dict.students1.wrapper).hide();
+		}
+
+		if (frm.doc.students2 && frm.doc.students2.length > 0){
+			$(frm.fields_dict.students2.wrapper).show();
+		} else {
+			$(frm.fields_dict.students2.wrapper).hide();
+		}
+
+		if (frm.doc.students3 && frm.doc.students3.length > 0){
+			$(frm.fields_dict.students3.wrapper).show();
+		} else {
+			$(frm.fields_dict.students3.wrapper).hide();
+		}
    	}
    });

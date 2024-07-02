@@ -110,25 +110,22 @@
   {
    "fieldname": "students1",
    "fieldtype": "Table",
-   "hidden": 1,
    "options": "Student Group Student"
   },
   {
    "fieldname": "students2",
    "fieldtype": "Table",
-   "hidden": 1,
    "options": "Student Group Student"
   },
   {
    "fieldname": "students3",
    "fieldtype": "Table",
-   "hidden": 1,
    "options": "Student Group Student"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-03 01:14:36.238495",
+ "modified": "2024-07-03 01:48:49.849789",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group",
