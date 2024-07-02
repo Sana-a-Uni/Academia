@@ -173,6 +173,75 @@ class StudentGroupTool(Document):
 							del cleaned_students[0]
 						student_group.save()
 					frappe.msgprint('Groups Successfully Generated...')
+			elif len(cleaned_students) > self.capacity * 3 and len(cleaned_students) <= self.capacity * 4:
+				gSize = int(len(cleaned_students) / 4)
+				if not len(cleaned_students) % 4 == 0:
+					if len(cleaned_students) % 4 == 1:
+						gSize = gSize + 2
+						for i in range(4):
+							#frappe.msgprint(str(cleaned_students[0]))
+							if i == 3:
+								gSize = gSize - 1
+							student_group = frappe.new_doc('Student Group')
+							student_group.student_group_name = self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1)
+							student_group.batch = self.student_batch
+							student_group.program = self.program
+							student_group.group_based_on = self.based_on
+							for i in range(gSize):
+								student_entry = student_group.append('students', {})
+								student_entry.update(cleaned_students[0])
+								del cleaned_students[0]
+							student_group.save()
+							gSize = gSize -1
+						frappe.msgprint('Groups Successfully Generated...')
+					elif len(cleaned_students) % 4 == 2:
+						gSize = gSize + 2
+						for i in range(4):
+							#frappe.msgprint(str(cleaned_students[0]))
+							student_group = frappe.new_doc('Student Group')
+							student_group.student_group_name = self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1)
+							student_group.batch = self.student_batch
+							student_group.program = self.program
+							student_group.group_based_on = self.based_on
+							for i in range(gSize):
+								student_entry = student_group.append('students', {})
+								student_entry.update(cleaned_students[0])
+								del cleaned_students[0]
+							student_group.save()
+							gSize = gSize -1
+						frappe.msgprint('Groups Successfully Generated...')
+					elif len(cleaned_students) % 4 == 3:
+						gSize = gSize + 2
+						for i in range(4):
+							#frappe.msgprint(str(cleaned_students[0]))
+							if i == 3:
+								gSize = gSize + 1
+							student_group = frappe.new_doc('Student Group')
+							student_group.student_group_name = self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1)
+							student_group.batch = self.student_batch
+							student_group.program = self.program
+							student_group.group_based_on = self.based_on
+							for i in range(gSize):
+								student_entry = student_group.append('students', {})
+								student_entry.update(cleaned_students[0])
+								del cleaned_students[0]
+							student_group.save()
+							gSize = gSize -1
+						frappe.msgprint('Groups Successfully Generated...')
+				else:
+					for i in range(4):
+						#frappe.msgprint(str(cleaned_students[0]))
+						student_group = frappe.new_doc('Student Group')
+						student_group.student_group_name = self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1)
+						student_group.batch = self.student_batch
+						student_group.program = self.program
+						student_group.group_based_on = self.based_on
+						for i in range(gSize):
+							student_entry = student_group.append('students', {})
+							student_entry.update(cleaned_students[0])
+							del cleaned_students[0]
+						student_group.save()
+					frappe.msgprint('Groups Successfully Generated...')
 		elif self.based_on == 'By Sex':
 			males = []
 			females = []
