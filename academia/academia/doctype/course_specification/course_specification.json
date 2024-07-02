@@ -140,7 +140,8 @@
   {
    "fieldname": "date_of_course_development",
    "fieldtype": "Date",
-   "label": "Date of Course Development"
+   "label": "Date of Course Development",
+   "reqd": 1
   },
   {
    "fieldname": "file",
@@ -159,7 +160,7 @@
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-08 01:03:55.313925",
+ "modified": "2024-06-13 08:28:28.197817",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Specification",

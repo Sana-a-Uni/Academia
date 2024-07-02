@@ -14,7 +14,6 @@
   "academic_year",
   "faculty",
   "level",
-  "course",
   "column_break_jdfp",
   "academic_term",
   "program",
@@ -24,6 +23,9 @@
   "room",
   "column_break_yvwh",
   "group",
+  "course",
+  "course_type",
+  "sub_group",
   "section_break_wdte",
   "date",
   "column_break_fyil",
@@ -187,6 +189,18 @@
    "fieldname": "table_hfgk",
    "fieldtype": "Table",
    "options": "Multy Lesson Template"
+   "fieldname": "course_type",
+   "fieldtype": "Select",
+   "label": "Course Type",
+   "options": "\nTheoretical\nPractical",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.course_type == \"Practical\";",
+   "fieldname": "sub_group",
+   "fieldtype": "Data",
+   "label": "Sub Group",
+   "mandatory_depends_on": "eval:doc.course_type == \"Practical\";"
   }
  ],
  "index_web_pages_for_search": 1,

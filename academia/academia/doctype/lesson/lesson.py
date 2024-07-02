@@ -18,6 +18,7 @@ class Lesson(Document):
 		academic_term: DF.Link
 		academic_year: DF.Link
 		course: DF.Link
+		course_type: DF.Literal["", "Theoretical", "Practical"]
 		date: DF.Date
 		faculty: DF.Link
 		from_time: DF.Time
@@ -31,6 +32,7 @@ class Lesson(Document):
 		schedule_template: DF.ReadOnly | None
 		schedule_template_version: DF.Link
 		table_hfgk: DF.Table[MultyLessonTemplate]
+		sub_group: DF.Data | None
 		to_time: DF.Time
 	# end: auto-generated types
 	pass

@@ -26,7 +26,7 @@ class CourseSpecification(Document):
 		course_name_english: DF.Data | None
 		course_type: DF.ReadOnly | None
 		credit_hours: DF.Table[CourseHours]
-		date_of_course_development: DF.Date | None
+		date_of_course_development: DF.Date
 		description: DF.TextEditor | None
 		effective_academic_year: DF.Link | None
 		faculty: DF.ReadOnly | None
