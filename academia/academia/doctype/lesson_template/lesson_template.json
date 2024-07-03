@@ -20,7 +20,7 @@
   "academic_term",
   "program",
   "lesson_type",
-  "sup_group",
+  "sub_group",
   "section_break_stfq",
   "instructor",
   "room",
@@ -233,14 +233,14 @@
    "reqd": 1
   },
   {
-   "fieldname": "sup_group",
+   "fieldname": "sub_group",
    "fieldtype": "Data",
-   "label": "Sup Group"
+   "label": "Sub Group"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-03 20:39:44.899946",
+ "modified": "2024-07-03 20:41:33.269972",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lesson Template",

@@ -32,8 +32,8 @@ class LessonTemplate(Document):
 		saturday: DF.Check
 		schedule_template: DF.ReadOnly | None
 		schedule_template_version: DF.Link
+		sub_group: DF.Data | None
 		sunday: DF.Check
-		sup_group: DF.Data | None
 		table_ocar: DF.Table[MultyLessonTemplate]
 		thursday: DF.Check
 		to_time: DF.Time
