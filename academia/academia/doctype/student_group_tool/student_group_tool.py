@@ -272,6 +272,12 @@ class StudentGroupTool(Document):
 					frappe.msgprint(str(males))
 					frappe.msgprint(str(females))
 			elif self.grouping_by == 'Practical':
-				frappe.msgprint('Practical here...')
+				if len(cleaned_students) <= self.capacity:
+						student_group = frappe.get_doc('Student Group', self.student_group)
+						for student in cleaned_students:
+							student_entry = student_group.append('students1', {})
+							student_entry.update(student)
+						student_group.save()
+						frappe.msgprint('Practical Groups Successfully Generated...')
 		else:
 			frappe.msgprint('please, get the students first...')		
