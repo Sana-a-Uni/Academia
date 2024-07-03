@@ -31,5 +31,25 @@ frappe.ui.form.on("Lesson Template", {
         if (frm.doc.sunday) {
             handle_checkboxes(frm, 'sunday');
         }
+    },
+    monday: function(frm){
+        if (frm.doc.monday) {
+            handle_checkboxes(frm, 'monday');
+        }
+    },
+    tuesday: function(frm){
+        if (frm.doc.tuesday) {
+            handle_checkboxes(frm, 'tuesday');
+        }
+    },
+    wednesday: function(frm){
+        if (frm.doc.wednesday) {
+            handle_checkboxes(frm, 'wednesday');
+        }
+    },
+    thursday: function(frm){
+        if (frm.doc.thursday) {
+            handle_checkboxes(frm, 'thursday');
+        }
     }
 });
