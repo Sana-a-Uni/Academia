@@ -31,8 +31,8 @@ class Lesson(Document):
 		room: DF.Link
 		schedule_template: DF.ReadOnly | None
 		schedule_template_version: DF.Link
-		table_hfgk: DF.Table[MultyLessonTemplate]
 		sub_group: DF.Data | None
+		table_hfgk: DF.Table[MultyLessonTemplate]
 		to_time: DF.Time
 	# end: auto-generated types
 	pass
