@@ -52,4 +52,29 @@ class GroupAssignmentTool(Document):
 
 	@frappe.whitelist()
 	def generate(self):
-		frappe.msgprint('generate...')
+		count = 0
+		for course in self.courses:
+			course_data = course.as_dict()
+			if course_data['instructor'] == None:
+				count = count + 1
+		if count == 0:
+			if not self.faculty:
+				frappe.throw(_("Mandatory field - Faculty"))
+			elif not self.group:
+				frappe.throw(_("Mandatory field - Group"))
+			else:
+				for course in self.courses:
+					course_data = course.as_dict()	
+					group_assignment = frappe.new_doc('Group Assignment')
+					group_assignment.academic_year = self.academic_year
+					group_assignment.academic_term = self.academic_term
+					group_assignment.faculty = self.faculty
+					group_assignment.program = self.program
+					group_assignment.student_batch = self.student_batch
+					group_assignment.group = self.group
+					group_assignment.instructor = course_data['instructor']
+					group_assignment.course = course_data['course_code']
+					group_assignment.save()
+				frappe.msgprint('Groups Assigned Succesfully...')	
+		else:
+			frappe.throw(_("There are " + str(count) + " Records are Empty, please fill them..."))		
