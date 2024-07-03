@@ -279,5 +279,32 @@ class StudentGroupTool(Document):
 							student_entry.update(student)
 						student_group.save()
 						frappe.msgprint('Practical Groups Successfully Generated...')
+				elif len(cleaned_students) > self.capacity and len(cleaned_students) <= self.capacity * 2:
+						#frappe.msgprint('ssss')
+						gSize = int(len(cleaned_students) / 2)
+						if not len(cleaned_students) % 2 == 0:
+							gSize = gSize + 1
+							for i in range(2):
+								#frappe.msgprint(str(cleaned_students[0]))
+								student_group = frappe.get_doc('Student Group', self.student_group)
+								table_name = 'students' + str(i+1)
+								for i in range(gSize): 
+									student_entry = student_group.append(table_name, {})
+									student_entry.update(cleaned_students[0])
+									del cleaned_students[0]
+								student_group.save()
+								gSize = gSize -1
+							frappe.msgprint('Practical Groups Successfully Generated...')
+						else:
+							for i in range(2):
+								#frappe.msgprint(str(cleaned_students[0]))
+								student_group = frappe.get_doc('Student Group', self.student_group)
+								table_name = 'students' + str(i+1)
+								for i in range(gSize):
+									student_entry = student_group.append(table_name, {})
+									student_entry.update(cleaned_students[0])
+									del cleaned_students[0]
+								student_group.save()
+							frappe.msgprint('Practical Groups Successfully Generated...')
 		else:
 			frappe.msgprint('please, get the students first...')		
