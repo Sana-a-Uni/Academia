@@ -14,6 +14,7 @@
   "academic_year",
   "faculty",
   "level",
+  "course_type",
   "course",
   "column_break_jdfp",
   "academic_term",
@@ -222,11 +223,18 @@
    "fieldname": "thursday",
    "fieldtype": "Check",
    "label": "Thursday"
+  },
+  {
+   "fieldname": "course_type",
+   "fieldtype": "Select",
+   "label": "Course Type",
+   "options": "\nTheoretical\nPractical",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-03 18:01:14.553798",
+ "modified": "2024-07-03 20:35:29.309588",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lesson Template",

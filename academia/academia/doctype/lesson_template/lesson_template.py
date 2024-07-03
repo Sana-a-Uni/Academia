@@ -18,6 +18,7 @@ class LessonTemplate(Document):
 		academic_term: DF.Link
 		academic_year: DF.Link
 		course: DF.Link
+		course_type: DF.Literal["", "Theoretical", "Practical"]
 		faculty: DF.Link
 		from_time: DF.Time
 		group: DF.Link | None
