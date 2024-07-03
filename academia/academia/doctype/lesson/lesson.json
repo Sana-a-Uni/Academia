@@ -189,6 +189,8 @@
    "fieldname": "table_hfgk",
    "fieldtype": "Table",
    "options": "Multy Lesson Template"
+  },
+  {
    "fieldname": "course_type",
    "fieldtype": "Select",
    "label": "Course Type",
