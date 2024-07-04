@@ -71,26 +71,26 @@ frappe.ui.form.on("Faculty Member", {
 
 
 // FN: show or hide granting_tenure_data_section 
-function fetch_linked_value_and_toggle_section(frm) {
-    if (frm.doc.employee) {
-        frappe.call({
-            method: 'frappe.client.get',
-            args: {
-                doctype: 'Employee',
-                name: frm.doc.employee
-            },
-            callback: function (r) {
-                if (r.message && r.message.employment_type === 'Official') {
-                    frm.toggle_display('granting_tenure_data_section', true);
-                } else {
-                    frm.toggle_display('granting_tenure_data_section', false);
-                }
-            }
-        });
-    } else {
-        frm.toggle_display('granting_tenure_data_section', false);
-    }
-}
+// function fetch_linked_value_and_toggle_section(frm) {
+//     if (frm.doc.employee) {
+//         frappe.call({
+//             method: 'frappe.client.get',
+//             args: {
+//                 doctype: 'Employee',
+//                 name: frm.doc.employee
+//             },
+//             callback: function (r) {
+//                 if (r.message && r.message.employment_type === 'Official') {
+//                     frm.toggle_display('granting_tenure_data_section', true);
+//                 } else {
+//                     frm.toggle_display('granting_tenure_data_section', false);
+//                 }
+//             }
+//         });
+//     } else {
+//         frm.toggle_display('granting_tenure_data_section', false);
+//     }
+// }
 // End of the function
 
 
@@ -134,3 +134,19 @@ frappe.ui.form.on('Faculty Member', {
         });
     }
 });
+
+frappe.ui.form.on("Faculty Member", {
+    is_in_a_probation_period: function(frm) {
+      // Toggle the visibility of the "Granting Tenure Data" section
+      frm.toggle_display("granting_tenure_data_section", !frm.doc.is_in_a_probation_period);
+    },
+    refresh: function(frm) {
+      // Trigger the is_in_a_probation_period event when the form is refreshed
+      frm.trigger("is_in_a_probation_period");
+    },
+    onload: function(frm) {
+        // Trigger the is_in_a_probation_period event when the form is loaded
+        frm.trigger("is_in_a_probation_period");
+      }
+  });
+

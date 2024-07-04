@@ -64,6 +64,7 @@ class FacultyMember(Document):
         general_field: DF.Data | None
         google_scholar_profile_link: DF.Data | None
         image: DF.AttachImage | None
+        is_in_a_probation_period: DF.Check
         languages: DF.TableMultiSelect[FacultyMemberLanguage]
         naming_series: DF.Literal["ACAD-FM-"]
         nationality: DF.Link | None

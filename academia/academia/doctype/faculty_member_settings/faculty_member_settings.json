@@ -1,0 +1,107 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2024-07-04 04:15:51.443743",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "granting_tenure_settings_section",
+  "naming_series",
+  "academic_rank",
+  "probation_period_end_date",
+  "column_break_gpip",
+  "date_of_joining",
+  "is_eligible_for_granting_tenure",
+  "section_break_xmka",
+  "valid_from",
+  "column_break_qbjn",
+  "valid_upto"
+ ],
+ "fields": [
+  {
+   "fieldname": "granting_tenure_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Granting Tenure Settings"
+  },
+  {
+   "fieldname": "academic_rank",
+   "fieldtype": "Link",
+   "label": "Academic Rank",
+   "options": "Academic Rank"
+  },
+  {
+   "fieldname": "date_of_joining",
+   "fieldtype": "Date",
+   "label": "Date of Joining"
+  },
+  {
+   "fieldname": "probation_period_end_date",
+   "fieldtype": "Date",
+   "label": "Probation Period End Date"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_eligible_for_granting_tenure",
+   "fieldtype": "Check",
+   "label": "Is Eligible for Granting Tenure"
+  },
+  {
+   "fieldname": "column_break_gpip",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "valid_from",
+   "fieldtype": "Date",
+   "label": "Valid From"
+  },
+  {
+   "fieldname": "valid_upto",
+   "fieldtype": "Date",
+   "label": "Valid Upto"
+  },
+  {
+   "fieldname": "section_break_xmka",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_qbjn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Series ",
+   "no_copy": 1,
+   "options": "ACAD-FM-S-.YYYY.-.MM.-.####.",
+   "set_only_once": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-04 08:48:45.156675",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Faculty Member Settings",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
