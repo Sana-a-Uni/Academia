@@ -188,7 +188,7 @@
    "depends_on": "eval:doc.is_multy_group == 1;",
    "fieldname": "table_hfgk",
    "fieldtype": "Table",
-   "options": "Multy Lesson Template"
+   "options": "Multy Lesson Template",
    "fieldname": "course_type",
    "fieldtype": "Select",
    "label": "Course Type",

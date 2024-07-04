@@ -226,9 +226,8 @@ before_tests = "academia.tests.test_utils.before_tests"
 # ]
 export_python_type_annotations = True
 
-from frappe.fixtures import get_fixture_data
-
-fixtures = [
+# Define the fixture data directly in the code
+journal_fixtures = [
     {
         "doctype": "Journal",
         "field_name": "Quarter Classification",
@@ -237,8 +236,8 @@ fixtures = [
 ]
 
 def before_all(context):
-    # Load the fixtures from the Journal doctype
-    context.journal_fixtures = get_fixture_data("Journal", fixtures)
+    # Load the fixtures into the context
+    context.journal_fixtures = journal_fixtures
 
 def after_all(context):
     # Clean up any resources or state created during the test run
