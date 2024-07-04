@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestTopicTemplate(FrappeTestCase):
+class TestTopicDecisionTemplate(FrappeTestCase):
 	pass

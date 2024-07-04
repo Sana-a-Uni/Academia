@@ -49,7 +49,7 @@
   },
   {
    "fieldname": "opening",
-   "fieldtype": "Text",
+   "fieldtype": "Text Editor",
    "in_list_view": 1,
    "label": "Opening"
   },
@@ -137,7 +137,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-08 02:33:13.885554",
+ "modified": "2024-07-01 18:42:41.557213",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Session",

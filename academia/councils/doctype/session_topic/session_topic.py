@@ -17,6 +17,7 @@ class SessionTopic(Document):
 		decision: DF.TextEditor | None
 		decision_type: DF.Literal["Other", "Accepted", "Rejected"]
 		description: DF.TextEditor | None
+		get_template: DF.Link | None
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
