@@ -9,7 +9,6 @@ from datetime import datetime
 
 from academia.academia.doctype.faculty_member_academic_ranking.faculty_member_academic_ranking import FacultyMemberAcademicRanking
 
-from academia.academia.doctype.faculty_member_academic_experience.faculty_member_academic_experience import FacultyMemberAcademicExperience
 from academia.academia.doctype.faculty_member_academic_services.faculty_member_academic_services import FacultyMemberAcademicServices
 
 from academia.academia.doctype.faculty_member_activity.faculty_member_activity import FacultyMemberActivity
@@ -17,8 +16,6 @@ from academia.academia.doctype.faculty_member_award_and_appreciation_certificate
 from academia.academia.doctype.faculty_member_conference_and_workshop.faculty_member_conference_and_workshop import FacultyMemberConferenceandWorkshop
 from academia.academia.doctype.faculty_member_course.faculty_member_course import FacultyMemberCourse
 from academia.academia.doctype.faculty_member_language.faculty_member_language import FacultyMemberLanguage
-
-from academia.academia.doctype.faculty_member_scientific_qualification.faculty_member_scientific_qualification import FacultyMemberScientificQualification
 
 from academia.academia.doctype.faculty_member_training_course.faculty_member_training_course import FacultyMemberTrainingCourse
 from academia.academia.doctype.faculty_member_university_and_community_service.faculty_member_university_and_community_service import FacultyMemberUniversityandCommunityService
@@ -31,6 +28,7 @@ class FacultyMember(Document):
     from typing import TYPE_CHECKING
 
     if TYPE_CHECKING:
+        from academia.academia.doctype.faculty_member_academic_ranking.faculty_member_academic_ranking import FacultyMemberAcademicRanking
         from academia.academia.doctype.faculty_member_academic_services.faculty_member_academic_services import FacultyMemberAcademicServices
         from academia.academia.doctype.faculty_member_activity.faculty_member_activity import FacultyMemberActivity
         from academia.academia.doctype.faculty_member_award_and_appreciation_certificate.faculty_member_award_and_appreciation_certificate import FacultyMemberAwardandAppreciationCertificate
@@ -41,18 +39,20 @@ class FacultyMember(Document):
         from academia.academia.doctype.faculty_member_university_and_community_service.faculty_member_university_and_community_service import FacultyMemberUniversityandCommunityService
         from frappe.types import DF
 
-        academic_rank: DF.Link | None
+        academic_rank: DF.Link
         academic_services: DF.TableMultiSelect[FacultyMemberAcademicServices]
-        company: DF.Data | None
+        company: DF.Link
         courses: DF.TableMultiSelect[FacultyMemberCourse]
         date: DF.Date | None
         date_of_joining_in_service: DF.Date | None
         date_of_joining_in_university: DF.Date | None
         decision_attachment: DF.Attach | None
         decision_number: DF.Int
-        department: DF.Data | None
+        department: DF.Link | None
         employee: DF.Link
         employment_type: DF.Data | None
+        faculty: DF.Link | None
+        faculty_member_academic_ranking: DF.Table[FacultyMemberAcademicRanking]
         faculty_member_activity: DF.Table[FacultyMemberActivity]
         faculty_member_award_and_appreciation_certificate: DF.Table[FacultyMemberAwardandAppreciationCertificate]
         faculty_member_conference_and_workshop: DF.Table[FacultyMemberConferenceandWorkshop]

@@ -1,45 +1,3 @@
-// // Copyright (c) 2023, SanU and contributors
-// // For license information, please see license.txt
-
-// frappe.ui.form.on("Faculty Member", {
-//     // Start of refresh event
-//     refresh(frm) {
-//         // FN: refresh fetched field 'company'
-//         frappe.db.get_value("Employee", frm.doc.employee, "company", function (value) {
-//             if (value && value.company) {
-//                 frm.doc.company = value.company;
-//             }
-//             frm.refresh_field('company');
-//         });
-//         // End of the function
-//     },
-//     // End of refresh event
-
-//     // Start of validate event
-//     validate: function (frm) {
-//         // Calling functions
-//         frm.events.validate_extension(frm);
-//     },
-//     // End of validate event
-
-//     // FN: validate 'certification' file extensions
-//     validate_extension: function (frm) {
-//         frm.doc.faculty_member_training_course.forEach(function (row) {
-//             if (row.certification) {
-//                 var allowed_extensions = ['.pdf', '.png', '.jpg', '.jpeg'];
-//                 var certification_file_extension = row.certification.split('.').pop().toLowerCase();
-//                 if (!allowed_extensions.includes('.' + certification_file_extension)) {
-//                     frappe.throw("Certification file " + row.certification + " has an invalid extension. Only files with extensions " + allowed_extensions.join(', ') + " are allowed.");
-//                     frappe.validated = false;
-//                 }
-//             }
-//         });
-//     },
-//     // End of the function
-
-// });
-
-
 // Copyright (c) 2023, SanU and contributors
 // For license information, please see license.txt
 
@@ -67,7 +25,7 @@ frappe.ui.form.on("Faculty Member", {
         frm.events.validate_extension(frm);
         frm.events.validate_child_extension(frm, 'faculty_member_academic_ranking', 'attachment', "Attachment File");
         frm.events.validate_child_extension(frm, 'faculty_member_training_course', 'certification', "Certification File");
-        
+
     },
     // End of validate event
 
@@ -103,39 +61,36 @@ frappe.ui.form.on("Faculty Member", {
     // End of the function
 
     // FN: refresh granting_tenure_data_section immediately 
-//     employee: function (frm) {
-//         fetch_linked_value_and_toggle_section(frm);
-//     }
-//     // End of the function
+    employee: function (frm) {
+        fetch_linked_value_and_toggle_section(frm);
+    }
+    // End of the function
 
-//     // refresh(frm) {
-
-//     // },
 });
 // // End of standard form scripts
 
 
 // FN: show or hide granting_tenure_data_section 
-// function fetch_linked_value_and_toggle_section(frm) {
-//     if (frm.doc.employee) {
-//         frappe.call({
-//             method: 'frappe.client.get',
-//             args: {
-//                 doctype: 'Employee',
-//                 name: frm.doc.employee
-//             },
-//             callback: function (r) {
-//                 if (r.message && r.message.employment_type === 'Official') {
-//                     frm.toggle_display('granting_tenure_data_section', true);
-//                 } else {
-//                     frm.toggle_display('granting_tenure_data_section', false);
-//                 }
-//             }
-//         });
-//     } else {
-//         frm.toggle_display('granting_tenure_data_section', false);
-//     }
-// }
+function fetch_linked_value_and_toggle_section(frm) {
+    if (frm.doc.employee) {
+        frappe.call({
+            method: 'frappe.client.get',
+            args: {
+                doctype: 'Employee',
+                name: frm.doc.employee
+            },
+            callback: function (r) {
+                if (r.message && r.message.employment_type === 'Official') {
+                    frm.toggle_display('granting_tenure_data_section', true);
+                } else {
+                    frm.toggle_display('granting_tenure_data_section', false);
+                }
+            }
+        });
+    } else {
+        frm.toggle_display('granting_tenure_data_section', false);
+    }
+}
 // End of the function
 
 
@@ -163,19 +118,19 @@ frappe.ui.form.on("Faculty Member Training Course", {
 
 // FN: show or hide academic_services_section 
 frappe.ui.form.on('Faculty Member', {
-    onload: function(frm) {
-      // Fetch the employment type from the Employee doctype
-      frappe.db.get_value('Employee', frm.doc.employee, 'employment_type', (r) => {
-        // Check if the employment type is 'Academic'
-        if (r.employment_type === 'Contract') {
-          // Show the Academic Services section
-          frm.get_field('academic_services_section').df.hidden = 0;
-          frm.refresh_field('academic_services_section');
-        } else {
-          // Hide the Academic Services section
-          frm.get_field('academic_services_section').df.hidden = 1;
-          frm.refresh_field('academic_services_section');
-        }
-      });
+    onload: function (frm) {
+        // Fetch the employment type from the Employee doctype
+        frappe.db.get_value('Employee', frm.doc.employee, 'employment_type', (r) => {
+            // Check if the employment type is 'Academic'
+            if (r.employment_type === 'Contract') {
+                // Show the Academic Services section
+                frm.get_field('academic_services_section').df.hidden = 0;
+                frm.refresh_field('academic_services_section');
+            } else {
+                // Hide the Academic Services section
+                frm.get_field('academic_services_section').df.hidden = 1;
+                frm.refresh_field('academic_services_section');
+            }
+        });
     }
-  });
+});

@@ -16,12 +16,17 @@ class TenureEvaluationRequest(Document):
 		from frappe.types import DF
 
 		academic_rank: DF.Link
-		academic_term: DF.Link | None
-		academic_year: DF.Link | None
+		academic_term: DF.Link
+		academic_year: DF.Link
 		amended_from: DF.Link | None
 		attachment: DF.Attach | None
 		company: DF.Link
 		department: DF.Link
+		department_heads_notes: DF.SmallText | None
+		faculty: DF.Link | None
+		faculty_member: DF.Link
+		faculty_member_name: DF.Data | None
+		naming_series: DF.Literal["EVALREQ-.YYYY.-.faculty_member_name.-"]
 		template: DF.Link | None
 		tenure_evaluation_criteria: DF.Table[TenureEvaluationCriteria]
 	# end: auto-generated types

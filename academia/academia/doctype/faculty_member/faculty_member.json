@@ -14,10 +14,11 @@
   "employee",
   "faculty_member_name",
   "faculty_member_name_english",
+  "nationality",
   "column_break_hagf",
   "company",
   "department",
-  "nationality",
+  "faculty",
   "column_break_zcxq",
   "date_of_joining_in_service",
   "date_of_joining_in_university",
@@ -43,6 +44,8 @@
   "column_break_pkgt",
   "decision_attachment",
   "profile_tab",
+  "academic_ranking_section",
+  "faculty_member_academic_ranking",
   "training_courses_section",
   "faculty_member_training_course",
   "conferences_and_workshops_section",
@@ -130,8 +133,10 @@
    "fetch_from": "employee.company",
    "fetch_if_empty": 1,
    "fieldname": "company",
-   "fieldtype": "Data",
-   "label": "Company"
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
   },
   {
    "fieldname": "faculty_member_name_english",
@@ -208,7 +213,8 @@
    "fieldname": "academic_rank",
    "fieldtype": "Link",
    "label": "Academic Rank",
-   "options": "Academic Rank"
+   "options": "Academic Rank",
+   "reqd": 1
   },
   {
    "fieldname": "google_scholar_profile_link",
@@ -265,10 +271,11 @@
   },
   {
    "fetch_from": "employee.department",
+   "fetch_if_empty": 1,
    "fieldname": "department",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "label": "Department ",
-   "read_only": 1
+   "options": "Department"
   },
   {
    "fieldname": "current_academic_data_section",
@@ -310,12 +317,30 @@
    "fieldname": "academic_services_section",
    "fieldtype": "Section Break",
    "label": "Academic Services"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "academic_ranking_section",
+   "fieldtype": "Section Break",
+   "label": "Academic Ranking"
+  },
+  {
+   "fieldname": "faculty_member_academic_ranking",
+   "fieldtype": "Table",
+   "label": "Faculty Member Academic Ranking",
+   "options": "Faculty Member Academic Ranking"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-04 05:13:47.883045",
+ "modified": "2024-07-04 14:35:37.674595",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",

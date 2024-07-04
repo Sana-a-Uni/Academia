@@ -2,26 +2,23 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Tenure Evaluation Request", {
-    refresh(frm) {
+    refresh: function (frm) {
 
     },
-
-    // Start of validate event
-    validate: function (frm) {
-        // Calling functions
-        frm.events.validate_extension(frm);
-    },
-    // End of validate event
 
     // FN: validate 'attachment' extensions
-    validate_extension: function (frm) {
+    attachment: function (frm) {
         var attachment = frm.doc.attachment;
         if (attachment) {
             var allowed_extensions = ['.pdf', '.png', '.jpg', '.jpeg'];
             var attachment_extension = attachment.split('.').pop().toLowerCase();
             if (!allowed_extensions.includes('.' + attachment_extension)) {
+                frm.doc.attachment = null; // Clear the attachment field
+                frm.refresh_field('attachment');
                 frappe.throw("Attachment File has an invalid extension. Only files with extensions " + allowed_extensions.join(', ') + " are allowed.");
                 frappe.validated = false;
+            } else {
+                frappe.validated = true;
             }
         }
     },
@@ -43,7 +40,24 @@ frappe.ui.form.on("Tenure Evaluation Request", {
                 refresh_field("tenure_evaluation_criteria")
             });
         }
-    }
+    },
+    // End of the function
+
+
+    // FN: Filtering Academic Term field by Academic Year field
+    academic_year: function (frm) {
+        var academic_year = frm.doc.academic_year;
+        if (frm.doc.academic_term) {
+            frm.set_value('academic_term', '');
+        }
+        frm.set_query("academic_term", function () {
+            return {
+                filters: {
+                    "academic_year": academic_year
+                }
+            };
+        });
+    },
     // End of the function
 
 });

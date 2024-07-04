@@ -16,6 +16,7 @@ class TenureEvaluationCriteria(Document):
 
 		criterion: DF.Data
 		evaluation: DF.Literal["", "Excellent", "Good", "Satisfactory", "Fair", "Poor"]
+		name: DF.Int | None
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data

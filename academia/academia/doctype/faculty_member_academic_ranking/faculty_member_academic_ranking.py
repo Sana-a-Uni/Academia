@@ -23,7 +23,7 @@ class FacultyMemberAcademicRanking(Document):
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
-		research_paper_title: DF.Data | None
 		specialist_field: DF.Data | None
+		thesis_title: DF.Data | None
 	# end: auto-generated types
 	pass
