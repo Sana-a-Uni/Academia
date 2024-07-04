@@ -84,16 +84,17 @@
    "fieldtype": "Column Break"
   },
   {
-    "fieldname": "get_template",
-    "fieldtype": "Link",
-    "label": "Get Template",
-    "options": "Topic Decision Template"
+   "depends_on": "status",
+   "fieldname": "get_template",
+   "fieldtype": "Link",
+   "label": "Get Template",
+   "options": "Topic Decision Template"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-01 14:26:36.261024",
+ "modified": "2024-07-04 21:53:58.531817",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Session Topic",

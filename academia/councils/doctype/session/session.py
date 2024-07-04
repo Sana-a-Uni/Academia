@@ -185,7 +185,6 @@ def get_template(decision_template=None, topic=None, session=None):
             session_data = json.loads(session)
         else: 
             return None
-        #  = extract_session_data(session_data)
          
         attendees, absentees = extract_session_members(session_data)
         session_data["weekday"]= extract_weekday_from_date(session_data["date"])
