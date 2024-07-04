@@ -1,36 +1,39 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:publication_type",
- "creation": "2024-04-24 15:49:41.766089",
+ "creation": "2024-06-09 05:06:28.439711",
  "doctype": "DocType",
+ "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "publication_type",
+  "academic_service_name",
   "description"
  ],
  "fields": [
   {
-   "fieldname": "publication_type",
+   "fieldname": "academic_service_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Publication Type",
-   "reqd": 1,
-   "unique": 1
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Academic Service Name",
+   "reqd": 1
   },
   {
    "fieldname": "description",
-   "fieldtype": "Text",
-   "label": "Description "
+   "fieldtype": "Text Editor",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Description"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-28 05:40:59.930034",
+ "modified": "2024-06-25 16:56:52.079733",
  "modified_by": "Administrator",
  "module": "Academia",
- "name": "Academic Publication Type",
- "naming_rule": "By fieldname",
+ "name": "Academic Services",
  "owner": "Administrator",
  "permissions": [
   {
@@ -46,10 +49,7 @@
    "write": 1
   }
  ],
- "show_name_in_global_search": 1,
- "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": [],
- "title_field": "publication_type"
+ "states": []
 }

@@ -1,35 +1,36 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:publication_type",
- "creation": "2024-04-24 15:49:41.766089",
+ "autoname": "field:template",
+ "creation": "2024-06-23 12:57:17.795487",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "publication_type",
-  "description"
+  "template",
+  "criteria"
  ],
  "fields": [
   {
-   "fieldname": "publication_type",
+   "fieldname": "template",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Publication Type",
+   "label": "Template",
    "reqd": 1,
    "unique": 1
   },
   {
-   "fieldname": "description",
-   "fieldtype": "Text",
-   "label": "Description "
+   "fieldname": "criteria",
+   "fieldtype": "Table MultiSelect",
+   "label": "Criteria",
+   "options": "Evaluation Criteria"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-28 05:40:59.930034",
+ "modified": "2024-06-23 17:58:13.337842",
  "modified_by": "Administrator",
  "module": "Academia",
- "name": "Academic Publication Type",
+ "name": "Evaluation Criteria Template",
  "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
@@ -46,10 +47,7 @@
    "write": 1
   }
  ],
- "show_name_in_global_search": 1,
- "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": [],
- "title_field": "publication_type"
+ "states": []
 }
