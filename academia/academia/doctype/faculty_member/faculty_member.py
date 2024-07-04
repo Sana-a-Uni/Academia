@@ -33,7 +33,7 @@ class FacultyMember(Document):
         date_of_joining_in_service: DF.Date | None
         date_of_joining_in_university: DF.Date | None
         decision_attachment: DF.Attach | None
-        decision_number: DF.Int
+        decision_number: DF.Data | None
         department: DF.Link | None
         employee: DF.Link
         employment_type: DF.Link | None
@@ -50,7 +50,6 @@ class FacultyMember(Document):
         general_field: DF.Data | None
         google_scholar_profile_link: DF.Data | None
         image: DF.AttachImage | None
-        is_in_a_probation_period: DF.Check
         languages: DF.TableMultiSelect[FacultyMemberLanguage]
         naming_series: DF.Literal["ACAD-FM-"]
         nationality: DF.Link | None

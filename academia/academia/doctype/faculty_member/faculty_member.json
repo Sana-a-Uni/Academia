@@ -35,12 +35,6 @@
   "column_break_gcym",
   "general_field",
   "specialist_field",
-  "academic_services_section",
-  "academic_services",
-  "column_break_pkbw",
-  "from_another_university",
-  "section_break_jgqa",
-  "is_in_a_probation_period",
   "tenure_data_section",
   "decision_number",
   "date",
@@ -323,15 +317,8 @@
    "label": "Academic Services"
   },
   {
-   "fieldname": "section_break_jgqa",
-   "fieldtype": "Section Break"
-  },
-  {
-   "default": "0",
-   "fieldname": "is_in_a_probation_period",
-   "fieldtype": "Check",
-   "label": "Is In a Probation Period ",
    "collapsible": 1,
+   "default": "0",
    "fieldname": "academic_ranking_section",
    "fieldtype": "Section Break",
    "label": "Academic Ranking"
@@ -355,12 +342,19 @@
    "fieldname": "tenure_data_section",
    "fieldtype": "Section Break",
    "label": "Tenure Data"
+  },
+  {
+   "fetch_from": ".",
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-04 21:23:49.178041",
+ "modified": "2024-07-04 23:49:43.475640",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",
