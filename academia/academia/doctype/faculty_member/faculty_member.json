@@ -31,6 +31,7 @@
   "current_academic_data_section",
   "academic_rank",
   "employment_type",
+  "tenure_status",
   "column_break_gcym",
   "general_field",
   "specialist_field",
@@ -40,11 +41,15 @@
   "from_another_university",
   "section_break_jgqa",
   "is_in_a_probation_period",
-  "granting_tenure_data_section",
+  "tenure_data_section",
   "decision_number",
   "date",
   "column_break_pkgt",
   "decision_attachment",
+  "academic_services_section",
+  "academic_services",
+  "column_break_pkbw",
+  "from_another_university",
   "profile_tab",
   "academic_ranking_section",
   "faculty_member_academic_ranking",
@@ -225,8 +230,9 @@
   },
   {
    "fieldname": "decision_number",
-   "fieldtype": "Int",
-   "label": "Decision Number"
+   "fieldtype": "Data",
+   "label": "Decision Number",
+   "mandatory_depends_on": "eval: doc.tenure_status == \"Tenured\""
   },
   {
    "fieldname": "date",
@@ -262,11 +268,6 @@
    "options": "Faculty Member Academic Services"
   },
   {
-   "fieldname": "granting_tenure_data_section",
-   "fieldtype": "Section Break",
-   "label": "Granting Tenure Data"
-  },
-  {
    "fieldname": "personal_information_section",
    "fieldtype": "Section Break",
    "label": "Personal Information "
@@ -287,8 +288,9 @@
   {
    "fetch_from": "employee.employment_type",
    "fieldname": "employment_type",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "label": "Employment Type",
+   "options": "Employment Type",
    "read_only": 1
   },
   {
@@ -328,13 +330,37 @@
    "default": "0",
    "fieldname": "is_in_a_probation_period",
    "fieldtype": "Check",
-   "label": "Is In a Probation Period "
+   "label": "Is In a Probation Period ",
+   "collapsible": 1,
+   "fieldname": "academic_ranking_section",
+   "fieldtype": "Section Break",
+   "label": "Academic Ranking"
+  },
+  {
+   "fieldname": "faculty_member_academic_ranking",
+   "fieldtype": "Table",
+   "label": "Faculty Member Academic Ranking",
+   "options": "Faculty Member Academic Ranking"
+  },
+  {
+   "depends_on": "eval: doc.employment_type == \"Official\"",
+   "fieldname": "tenure_status",
+   "fieldtype": "Select",
+   "label": "Tenure Status",
+   "mandatory_depends_on": "eval: doc.employment_type == \"Official\"",
+   "options": "\nOn Probation\nTenured"
+  },
+  {
+   "depends_on": "eval: doc.tenure_status == \"Tenured\"",
+   "fieldname": "tenure_data_section",
+   "fieldtype": "Section Break",
+   "label": "Tenure Data"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-04 09:42:13.652982",
+ "modified": "2024-07-04 21:23:49.178041",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",

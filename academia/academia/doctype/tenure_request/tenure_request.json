@@ -1,16 +1,20 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:{YY}-{####}",
+ "autoname": "naming_series:",
  "creation": "2024-06-23 14:41:53.236870",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "section_break_mplq",
+  "naming_series",
+  "faculty_member",
+  "faculty_member_name",
   "company",
+  "faculty",
+  "column_break_aujg",
   "department",
   "academic_rank",
-  "column_break_aujg",
   "evaluations",
   "amended_from"
  ],
@@ -30,22 +34,32 @@
    "search_index": 1
   },
   {
+   "fetch_from": "faculty_member.company",
+   "fetch_if_empty": 1,
    "fieldname": "company",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Company",
-   "options": "Company"
+   "options": "Company",
+   "reqd": 1
   },
   {
+   "fetch_from": "faculty_member.department",
+   "fetch_if_empty": 1,
    "fieldname": "department",
    "fieldtype": "Link",
    "label": "Department",
    "options": "Department"
   },
   {
+   "fetch_from": "faculty_member.academic_rank",
+   "fetch_if_empty": 1,
    "fieldname": "academic_rank",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Academic Rank",
-   "options": "Academic Rank"
+   "options": "Academic Rank",
+   "reqd": 1
   },
   {
    "fieldname": "evaluations",
@@ -57,19 +71,54 @@
   {
    "fieldname": "column_break_aujg",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "faculty_member",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Faculty Member",
+   "options": "Faculty Member",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fetch_from": "faculty_member.faculty",
+   "fetch_if_empty": 1,
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Series",
+   "options": "TENUREQ-.YYYY.-.faculty_member_name.-",
+   "print_hide": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "faculty_member.faculty_member_name",
+   "fieldname": "faculty_member_name",
+   "fieldtype": "Data",
+   "label": "Faculty Member Name",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-23 14:54:38.173276",
+ "modified": "2024-07-04 17:41:33.858404",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Tenure Request",
- "naming_rule": "Expression",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
+   "amend": 1,
+   "cancel": 1,
    "create": 1,
    "delete": 1,
    "email": 1,
@@ -81,9 +130,50 @@
    "share": 1,
    "submit": 1,
    "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Faculty Dean",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Department Head",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Faculty Member",
+   "share": 1,
+   "write": 1
   }
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1
 }

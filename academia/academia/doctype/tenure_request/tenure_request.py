@@ -15,10 +15,14 @@ class TenureRequest(Document):
 		from academia.academia.doctype.faculty_member_evaluation.faculty_member_evaluation import FacultyMemberEvaluation
 		from frappe.types import DF
 
-		academic_rank: DF.Link | None
+		academic_rank: DF.Link
 		amended_from: DF.Link | None
-		company: DF.Link | None
+		company: DF.Link
 		department: DF.Link | None
 		evaluations: DF.TableMultiSelect[FacultyMemberEvaluation]
+		faculty: DF.Link | None
+		faculty_member: DF.Link
+		faculty_member_name: DF.Data | None
+		naming_series: DF.Literal["TENUREQ-.YYYY.-.faculty_member_name.-"]
 	# end: auto-generated types
 	pass

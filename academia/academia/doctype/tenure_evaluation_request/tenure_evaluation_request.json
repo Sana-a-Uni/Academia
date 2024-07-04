@@ -137,7 +137,8 @@
    "fetch_from": "faculty_member.faculty_member_name",
    "fieldname": "faculty_member_name",
    "fieldtype": "Data",
-   "label": "Faculty Member Name"
+   "label": "Faculty Member Name",
+   "read_only": 1
   },
   {
    "fieldname": "other_details_section",
@@ -171,7 +172,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-04 15:22:59.986157",
+ "modified": "2024-07-04 17:37:38.775198",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Tenure Evaluation Request",

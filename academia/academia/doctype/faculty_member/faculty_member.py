@@ -7,20 +7,6 @@ from frappe import _
 import re
 from datetime import datetime
 
-from academia.academia.doctype.faculty_member_academic_ranking.faculty_member_academic_ranking import FacultyMemberAcademicRanking
-
-from academia.academia.doctype.faculty_member_academic_services.faculty_member_academic_services import FacultyMemberAcademicServices
-
-from academia.academia.doctype.faculty_member_activity.faculty_member_activity import FacultyMemberActivity
-from academia.academia.doctype.faculty_member_award_and_appreciation_certificate.faculty_member_award_and_appreciation_certificate import FacultyMemberAwardandAppreciationCertificate
-from academia.academia.doctype.faculty_member_conference_and_workshop.faculty_member_conference_and_workshop import FacultyMemberConferenceandWorkshop
-from academia.academia.doctype.faculty_member_course.faculty_member_course import FacultyMemberCourse
-from academia.academia.doctype.faculty_member_language.faculty_member_language import FacultyMemberLanguage
-
-from academia.academia.doctype.faculty_member_training_course.faculty_member_training_course import FacultyMemberTrainingCourse
-from academia.academia.doctype.faculty_member_university_and_community_service.faculty_member_university_and_community_service import FacultyMemberUniversityandCommunityService
-from frappe.types import DF
-
 class FacultyMember(Document):
     # begin: auto-generated types
     # This code is auto-generated. Do not modify anything in this block.
@@ -50,7 +36,7 @@ class FacultyMember(Document):
         decision_number: DF.Int
         department: DF.Link | None
         employee: DF.Link
-        employment_type: DF.Data | None
+        employment_type: DF.Link | None
         faculty: DF.Link | None
         faculty_member_academic_ranking: DF.Table[FacultyMemberAcademicRanking]
         faculty_member_activity: DF.Table[FacultyMemberActivity]
@@ -69,17 +55,17 @@ class FacultyMember(Document):
         naming_series: DF.Literal["ACAD-FM-"]
         nationality: DF.Link | None
         specialist_field: DF.Data | None
+        tenure_status: DF.Literal["", "On Probation", "Tenured"]
     # end: auto-generated types
     
-
-    # end: auto-generated types
-
+    
     # Start of validate controller hook
     def validate(self):
         # Calling functions
         self.validate_duplicate_employee()
         self.validate_date()
         self.validate_url()
+        self.validate_decision_number()
     # End of validate controller hook
    
     # FN: validate duplicate 'employee' field
@@ -114,7 +100,11 @@ class FacultyMember(Document):
                 frappe.throw("Google Scholar Profile Link is not valid. Please enter a valid URL starting with http, https, or ftp")
     # End of the function
 
-		
+    # FN: validate 'decision_number' field
+    def validate_decision_number(self):
+        if self.decision_number and not self.decision_number.isdigit():
+            frappe.throw("Decision Number should contain only digits")
+    # End of the function
 
 
 

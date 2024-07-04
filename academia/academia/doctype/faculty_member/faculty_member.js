@@ -13,8 +13,8 @@ frappe.ui.form.on("Faculty Member", {
         });
         // End of the function
 
-        // Calling function to refresh granting_tenure_data_section 
-        fetch_linked_value_and_toggle_section(frm);
+        // Calling function to refresh tenure_data_section 
+        // fetch_linked_value_and_toggle_section(frm);
 
     },
     // End of refresh event
@@ -60,17 +60,17 @@ frappe.ui.form.on("Faculty Member", {
     },
     // End of the function
 
-    // FN: refresh granting_tenure_data_section immediately 
-    employee: function (frm) {
-        fetch_linked_value_and_toggle_section(frm);
-    }
+    // // FN: refresh tenure_data_section immediately 
+    // employee: function (frm) {
+    //     fetch_linked_value_and_toggle_section(frm);
+    // }
     // End of the function
 
 });
 // // End of standard form scripts
 
 
-// FN: show or hide granting_tenure_data_section 
+// FN: show or hide tenure_data_section 
 // function fetch_linked_value_and_toggle_section(frm) {
 //     if (frm.doc.employee) {
 //         frappe.call({
@@ -81,40 +81,17 @@ frappe.ui.form.on("Faculty Member", {
 //             },
 //             callback: function (r) {
 //                 if (r.message && r.message.employment_type === 'Official') {
-//                     frm.toggle_display('granting_tenure_data_section', true);
+//                     frm.toggle_display('tenure_data_section', true);
 //                 } else {
-//                     frm.toggle_display('granting_tenure_data_section', false);
+//                     frm.toggle_display('tenure_data_section', false);
 //                 }
 //             }
 //         });
 //     } else {
-//         frm.toggle_display('granting_tenure_data_section', false);
+//         frm.toggle_display('tenure_data_section', false);
 //     }
 // }
 // End of the function
-
-
-// Faculty Member Training Course Child DocType
-frappe.ui.form.on("Faculty Member Training Course", {
-    // FN: Verifying 'certification' file extensions
-    validate: function (frm, cdt, cdn) {
-        // Get the field
-        // var certification_file = frappe.model.get_doc(cdt, cdn); // not working
-        var row = locals[cdt][cdn];
-        // Verifying that field has non-null value
-        if (row.certification) {
-            // Define allowed file extensions list
-            var allowed_extensions = ['.pdf', '.png', '.jpg', '.jpeg'];
-            // Get the file extension of 'certification' field
-            var certification_file_extension = row.certification.split('.').pop().toLowerCase();
-            // Check if the file extension of 'certification' field is allowed
-            if (!allowed_extensions.includes('.' + certification_file_extension)) {
-                frappe.throw("Certification file has an invalid extension. Only files with extensions " + allowed_extensions.join(', ') + " are allowed.");
-                frappe.validated = false;
-            }
-        }
-    }
-});
 
 // FN: show or hide academic_services_section 
 frappe.ui.form.on('Faculty Member', {
@@ -149,4 +126,3 @@ frappe.ui.form.on("Faculty Member", {
         frm.trigger("is_in_a_probation_period");
       }
   });
-
