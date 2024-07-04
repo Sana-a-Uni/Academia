@@ -33,6 +33,7 @@ frappe.ui.form.on('Student Group Tool', {
 		//const capacity = urlParams.get('capacity');
 	   const student_group = urlParams.get('student_group');
 	   const based_on = urlParams.get('based_on');
+	   const grouping_by = urlParams.get('grouping_by')
 		
 		 if (based_on) {
 			 frm.set_value('based_on', based_on);
@@ -43,7 +44,10 @@ frappe.ui.form.on('Student Group Tool', {
 		if (student_group) {
 		   frm.set_value('student_group', student_group);
 	   }
-
+		if (grouping_by) {
+		   frm.set_value('grouping_by', grouping_by);
+	   }
+		
 	}
 });
 

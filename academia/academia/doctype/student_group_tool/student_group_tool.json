@@ -95,7 +95,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Grouping By",
-   "options": "\nTheoretical\nPractical",
+   "options": "Theoretical\nPractical",
    "reqd": 1
   },
   {
@@ -110,7 +110,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-23 01:48:06.334476",
+ "modified": "2024-07-01 03:00:57.669670",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group Tool",

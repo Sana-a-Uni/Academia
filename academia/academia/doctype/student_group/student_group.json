@@ -19,7 +19,11 @@
   "column_break_kcdp",
   "column_break_renj",
   "go_to",
-  "column_break_waol"
+  "column_break_waol",
+  "section_break_ebmm",
+  "students1",
+  "students2",
+  "students3"
  ],
  "fields": [
   {
@@ -98,11 +102,30 @@
   {
    "fieldname": "column_break_waol",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_ebmm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "students1",
+   "fieldtype": "Table",
+   "options": "Student Group Student"
+  },
+  {
+   "fieldname": "students2",
+   "fieldtype": "Table",
+   "options": "Student Group Student"
+  },
+  {
+   "fieldname": "students3",
+   "fieldtype": "Table",
+   "options": "Student Group Student"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-24 03:19:24.507277",
+ "modified": "2024-07-03 01:48:49.849789",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group",

@@ -12,12 +12,14 @@
   "program",
   "section_break_yges",
   "student_batch",
+  "level",
   "column_break_chbe",
   "group",
   "section_break_tqrm",
   "get_courses",
   "section_break_txen",
-  "table_acya"
+  "courses",
+  "generate"
  ],
  "fields": [
   {
@@ -73,8 +75,9 @@
   },
   {
    "fieldname": "group",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "label": "Group",
+   "options": "Student Group",
    "reqd": 1
   },
   {
@@ -91,15 +94,28 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "table_acya",
+   "fieldname": "courses",
    "fieldtype": "Table",
    "options": "Group Assignment Group"
+  },
+  {
+   "fieldname": "generate",
+   "fieldtype": "Button",
+   "label": "Generate"
+  },
+  {
+   "fetch_from": "student_batch.current_level",
+   "fieldname": "level",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Level",
+   "options": "Student Batch"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-06-03 07:31:20.058099",
+ "modified": "2024-07-01 21:51:40.498705",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Group Assignment Tool",

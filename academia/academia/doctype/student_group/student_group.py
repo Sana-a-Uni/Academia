@@ -20,6 +20,9 @@ class StudentGroup(Document):
 		group_based_on: DF.Data
 		program: DF.Link | None
 		student_group_name: DF.Data
+		students1: DF.Table[StudentGroupStudent]
+		students2: DF.Table[StudentGroupStudent]
+		students3: DF.Table[StudentGroupStudent]
 		students: DF.Table[StudentGroupStudent]
 	# end: auto-generated types
 	pass
