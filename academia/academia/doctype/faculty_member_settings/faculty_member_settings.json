@@ -1,0 +1,66 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-04 04:15:51.443743",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "granting_tenure_settings_section",
+  "effective_date",
+  "academic_rank",
+  "date_of_joining",
+  "probation_period"
+ ],
+ "fields": [
+  {
+   "fieldname": "granting_tenure_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Granting Tenure Settings"
+  },
+  {
+   "fieldname": "effective_date",
+   "fieldtype": "Date",
+   "label": "Effective Date"
+  },
+  {
+   "fieldname": "academic_rank",
+   "fieldtype": "Link",
+   "label": "Academic Rank",
+   "options": "Academic Rank"
+  },
+  {
+   "fieldname": "date_of_joining",
+   "fieldtype": "Date",
+   "label": "Date of Joining"
+  },
+  {
+   "fieldname": "probation_period",
+   "fieldtype": "Select",
+   "label": "Probation Period "
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-04 04:30:51.321312",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Faculty Member Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

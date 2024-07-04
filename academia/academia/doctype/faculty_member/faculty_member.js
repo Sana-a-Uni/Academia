@@ -44,7 +44,6 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Faculty Member", {
-<<<<<<< Updated upstream
     // Start of refresh event
     refresh(frm) {
         // FN: refresh fetched field 'employment_type'
@@ -104,41 +103,39 @@ frappe.ui.form.on("Faculty Member", {
     // End of the function
 
     // FN: refresh granting_tenure_data_section immediately 
-    employee: function (frm) {
-        fetch_linked_value_and_toggle_section(frm);
-    }
-    // End of the function
+//     employee: function (frm) {
+//         fetch_linked_value_and_toggle_section(frm);
+//     }
+//     // End of the function
 
-=======
-    // refresh(frm) {
+//     // refresh(frm) {
 
-    // },
->>>>>>> Stashed changes
+//     // },
 });
-// End of standard form scripts
+// // End of standard form scripts
 
 
 // FN: show or hide granting_tenure_data_section 
-function fetch_linked_value_and_toggle_section(frm) {
-    if (frm.doc.employee) {
-        frappe.call({
-            method: 'frappe.client.get',
-            args: {
-                doctype: 'Employee',
-                name: frm.doc.employee
-            },
-            callback: function (r) {
-                if (r.message && r.message.employment_type === 'Official') {
-                    frm.toggle_display('granting_tenure_data_section', true);
-                } else {
-                    frm.toggle_display('granting_tenure_data_section', false);
-                }
-            }
-        });
-    } else {
-        frm.toggle_display('granting_tenure_data_section', false);
-    }
-}
+// function fetch_linked_value_and_toggle_section(frm) {
+//     if (frm.doc.employee) {
+//         frappe.call({
+//             method: 'frappe.client.get',
+//             args: {
+//                 doctype: 'Employee',
+//                 name: frm.doc.employee
+//             },
+//             callback: function (r) {
+//                 if (r.message && r.message.employment_type === 'Official') {
+//                     frm.toggle_display('granting_tenure_data_section', true);
+//                 } else {
+//                     frm.toggle_display('granting_tenure_data_section', false);
+//                 }
+//             }
+//         });
+//     } else {
+//         frm.toggle_display('granting_tenure_data_section', false);
+//     }
+// }
 // End of the function
 
 
@@ -163,3 +160,22 @@ frappe.ui.form.on("Faculty Member Training Course", {
         }
     }
 });
+
+// FN: show or hide academic_services_section 
+frappe.ui.form.on('Faculty Member', {
+    onload: function(frm) {
+      // Fetch the employment type from the Employee doctype
+      frappe.db.get_value('Employee', frm.doc.employee, 'employment_type', (r) => {
+        // Check if the employment type is 'Academic'
+        if (r.employment_type === 'Contract') {
+          // Show the Academic Services section
+          frm.get_field('academic_services_section').df.hidden = 0;
+          frm.refresh_field('academic_services_section');
+        } else {
+          // Hide the Academic Services section
+          frm.get_field('academic_services_section').df.hidden = 1;
+          frm.refresh_field('academic_services_section');
+        }
+      });
+    }
+  });

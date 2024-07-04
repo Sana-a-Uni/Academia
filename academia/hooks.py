@@ -226,4 +226,46 @@ before_tests = "academia.tests.test_utils.before_tests"
 # ]
 export_python_type_annotations = True
 
+from frappe.fixtures import get_fixture_data
 
+fixtures = [
+    {
+        "doctype": "Journal",
+        "field_name": "Quarter Classification",
+        "fixture_values": ["Q1", "Q2", "Q3", "Q4"]
+    }
+]
+
+def before_all(context):
+    # Load the fixtures from the Journal doctype
+    context.journal_fixtures = get_fixture_data("Journal", fixtures)
+
+def after_all(context):
+    # Clean up any resources or state created during the test run
+    pass
+
+from frappe import _
+
+fixtures = [
+    {
+        "doctype": "Journal Type",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Internal",
+                    "Indexed",
+                    "Q4",
+                    "Q3",
+                    "Q2",
+                    "Q1"
+                ]
+            ]
+        ],
+        "fields": [
+            "journal_type",
+            "journal_weight"
+        ]
+    }
+]
