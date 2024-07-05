@@ -51,6 +51,14 @@ frappe.ui.form.on("Topic", {
 
 		show_grouped_topics(frm);
 
+		frm.set_query("sub_category", function () {
+			return {
+				filters: {
+					parent_category: frm.doc.category,
+				},
+			};
+		});
+
 		frm.set_query("parent_topic", function () {
 			return {
 				filters: {
