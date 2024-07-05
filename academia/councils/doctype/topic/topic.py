@@ -29,6 +29,7 @@ class Topic(Document):
 		is_group: DF.Check
 		parent_topic: DF.Link | None
 		status: DF.Literal["Pending", "Scheduled", "Postponed", "Resolved"]
+		sub_category: DF.Link
 		title: DF.Data
 		topic_date: DF.Date
 		transaction: DF.Link
@@ -39,6 +40,7 @@ class Topic(Document):
 		if not self.get("__islocal") and self.is_group:
 			self.validate_grouped_topics()
 		self.validate_parent_topic()
+		self.check_sub_category()
 		# self.check_main_and_sub_categories()
 		# self.validate_main_sub_category_relationship()
 
@@ -107,15 +109,17 @@ class Topic(Document):
 			else:
 				frappe.throw(_("The chosen parent topic is not a group topic."))
 
-	# def check_main_and_sub_categories(self):
-	#     """
-	#     Validates that both main_category and sub_category fields are set.
-	#     Throws an error if any of these fields are missing.
-	#     """
-	#     if not self.main_category:
-	#         frappe.throw(_("Main category must be set."))
-	#     elif not self.sub_category:
-	#         frappe.throw(_("Sub category must be set."))
+	def check_sub_category(self):
+		if self.category and self.sub_category:
+			parent_category = frappe.db.get_value(
+				"Transaction Category", self.sub_category, "parent_category"
+			)
+			if parent_category and self.category != parent_category:
+				frappe.throw(
+					_(
+						f"The category {frappe.bold(self.category)} does not match the parent category {frappe.bold(parent_category)} of sub-category {frappe.bold(self.sub_category)}."
+					)
+				)
 
 	def validate_grouped_topics(self):
 		"""
