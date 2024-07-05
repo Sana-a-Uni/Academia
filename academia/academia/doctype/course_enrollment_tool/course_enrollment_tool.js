@@ -27,5 +27,28 @@ frappe.ui.form.on('Course Enrollment Tool', {
 				}
 			}
 		});
-	}
+	},
+	refresh: function(frm) {
+        // Add filter for Specific Program based on Faculty
+        frm.fields_dict['specific_program'].get_query = function(doc) {
+            return {
+                filters: {
+                    'faculty': doc.faculty
+                }
+            };
+        };
+    },
+    faculty: function(frm) {
+        // Clear Specific Program field when Faculty is changed
+        frm.set_value('specific_program', null);
+
+        // Trigger the filter update for Specific Program
+        frm.fields_dict['specific_program'].get_query = function(doc) {
+            return {
+                filters: {
+                    'faculty': doc.faculty
+                }
+            };
+        };
+    }
 });
