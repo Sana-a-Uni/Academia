@@ -216,8 +216,7 @@
    "fieldname": "recipients",
    "fieldtype": "Table",
    "label": "Recipient",
-   "options": "Transaction Recipients",
-   "read_only": 1
+   "options": "Transaction Recipients"
   },
   {
    "fieldname": "department",
@@ -330,14 +329,14 @@
    "fieldtype": "Column Break"
   },
   {
-   "depends_on": "eval:doc.category;",
+   "depends_on": "eval:doc.eferenced_doctype;",
    "fieldname": "referenced_document",
    "fieldtype": "Dynamic Link",
    "label": "Referenced Document",
    "options": "referenced_doctype"
   },
   {
-   "depends_on": "eval:doc.category;",
+   "depends_on": "eval:doc.sub_category;",
    "fieldname": "referenced_doctype",
    "fieldtype": "Link",
    "label": "Referenced Doctype",
@@ -399,7 +398,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-06 12:24:17.422775",
+ "modified": "2024-07-06 15:03:54.363982",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

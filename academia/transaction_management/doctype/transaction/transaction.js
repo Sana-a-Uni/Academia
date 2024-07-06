@@ -76,6 +76,17 @@ frappe.ui.form.on('Transaction', {
 
     refresh: function(frm) {
 
+      frm.fields_dict.recipients.grid.wrapper.find(".grid-add-row")
+      .toggle(!frm.doc.through_route);
+
+      // Disable the "Add New" button when through_route is checked
+      frm.fields_dict.recipients.grid.wrapper.find(".grid-add-row")
+        .prop("disabled", frm.doc.through_route);
+        
+      // Disable the "Get Recipients" button when through_route is checked and there is at least one recipient
+      frm.set_df_property("get_recipients", "hidden", frm.doc.through_route && frm.doc.recipients.length > 0);
+      frm.set_df_property("get_recipients", "disabled", frm.doc.through_route && frm.doc.recipients.length > 0);
+
         if(frm.doc.docstatus === 1)       
         {
             if(!frm.doc.__islocal )
@@ -140,6 +151,12 @@ frappe.ui.form.on('Transaction', {
 
     },
 
+    through_route: function(frm) {
+      frm.fields_dict.recipients.grid.wrapper.find(".grid-add-row")
+        .prop("disabled", frm.doc.through_route);
+
+      frm.set_df_property("get_recipients", "disabled", frm.doc.through_route && frm.doc.recipients.length > 0);
+    },
 
     // refresh action html template only when press this button
     refresh_button:function (frm) {
@@ -221,84 +238,96 @@ frappe.ui.form.on('Transaction', {
 
       // Add the current user to the existing recipient IDs
       existingRecipientIds.push(frappe.session.user);
-  
-      let d=new frappe.ui.form.MultiSelectDialog({
-        doctype: "Employee",
-        target: frm,
-        setters: setters,
-  
-        // add_filters_group: 1,
-        date_field: "transaction_date",
-  
-        get_query() {
-          let filters = {
-            docstatus: ['!=', 2],
-            department: ['!=', null],
-            designation: ['!=', null],
-            user_id: ['not in', existingRecipientIds], // don't show Employee of current user
-          };
+      
+      if(frm.doc.through_route && existingRecipients.length > 0){
+
+        // Disable the "Get Recipients" button
+        frm.get_field("get_recipients").df.read_only = true;
+        frm.refresh_field("get_recipients");
+
+      }else{
+        // Enable the "Get Recipients" button
+        frm.get_field("get_recipients").df.read_only = false;
+        frm.refresh_field("get_recipients");
+
+        let d=new frappe.ui.form.MultiSelectDialog({
+          doctype: "Employee",
+          target: frm,
+          setters: setters,
     
-          if (!all_companies) {
-            filters.company = frm.doc.company;
-          }
-          
-          return {
-            filters: filters
-          };
-        },
-  
-        primary_action_label: "Get Recipients",
-        action(selections) {
-
-          // if the transaction through route you can select only one recipientS
-          if (frm.doc.through_route && selections.length !== 1) {
-            frappe.msgprint("Please select only one employee.");
-            return;
-          }
-        // Fetch the selected employees with specific fields
-        frappe.call({
-            method: "frappe.client.get_list",
-            args: {
-            doctype: "Employee",
-            filters: { name: ["in", selections] },
-            fields: ["employee_name", "designation", "department", "company", "user_id"]
-          },
-          callback: (response) => {
-            var selectedEmployees = response.message;
-
-            // Check the value of the 'through_route' field
-            if (frm.doc.through_route) {
-              // If 'through_route' is checked, only allow one recipient
-              if (selectedEmployees.length > 1) {
-                frappe.msgprint("You can only select one recipient when 'Through Route' is checked.");
-                return;
-              }
+          // add_filters_group: 1,
+          date_field: "transaction_date",
+    
+          get_query() {
+            let filters = {
+              docstatus: ['!=', 2],
+              department: ['!=', null],
+              designation: ['!=', null],
+              user_id: ['not in', existingRecipientIds], // don't show Employee of current user
+            };
+      
+            if (!all_companies) {
+              filters.company = frm.doc.company;
             }
+            
+            return {
+              filters: filters
+            };
+          },
+    
+          primary_action_label: "Get Recipients",
+          action(selections) {
   
-            // frm.set_value('recipients', []);
+            // if the transaction through route you can select only one recipientS
+            if (frm.doc.through_route && selections.length !== 1) {
+              frappe.msgprint("Please select only one employee.");
+              return;
+            }
+          // Fetch the selected employees with specific fields
+          frappe.call({
+              method: "frappe.client.get_list",
+              args: {
+              doctype: "Employee",
+              filters: { name: ["in", selections] },
+              fields: ["employee_name", "designation", "department", "company", "user_id"]
+            },
+            callback: (response) => {
+              var selectedEmployees = response.message;
+
+              // Check the value of the 'through_route' field
+              if (frm.doc.through_route) {
+                // If 'through_route' is checked, only allow one recipient
+                if (selectedEmployees.length > 1) {
+                  frappe.msgprint("You can only select one recipient when 'Through Route' is checked.");
+                  return;
+                }
+              }
   
-            selectedEmployees.forEach((employee) => {
-              frm.add_child("recipients", {
-                recipient_name:employee.employee_name,
-                recipient_company:employee.company,
-                recipient_department:employee.department,
-                recipient_designation:employee.designation,
-                recipient_email:employee.user_id,
-                // member_role: "Council Member"
+              // frm.set_value('recipients', []);
+    
+              selectedEmployees.forEach((employee) => {
+                frm.add_child("recipients", {
+                  recipient_name:employee.employee_name,
+                  recipient_company:employee.company,
+                  recipient_department:employee.department,
+                  recipient_designation:employee.designation,
+                  recipient_email:employee.user_id,
+                  // member_role: "Council Member"
+                })
               })
-            })
-  
-            this.dialog.hide();
-  
-            frm.refresh_field("recipients");
-            // Hide the "Add" button for the recipients table if through_route is checked and there's a recipient
-            frm.get_field("recipients").grid.grid_buttons.find(".grid-add-row").toggle(!frm.doc.through_route || existingRecipients.length === 0);
-          
-        
+    
+              this.dialog.hide();
+    
+              frm.refresh_field("recipients");
+
+              // Hide the "Add" button for the recipients table if through_route is checked and there's a recipient
+              frm.get_field("recipients").grid.grid_buttons.find(".grid-add-row").toggle(!frm.doc.through_route || existingRecipients.length === 0);
+            }
+          });
           }
         });
-        }
-      });
+      }
+      
     },
 
     clear_recipients: function(frm) {
