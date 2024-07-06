@@ -335,8 +335,34 @@ frappe.ui.form.on('Transaction', {
       frm.refresh_field("recipients");
     },
 
+    test_template_button: function(frm) {
+
+      let template = frm.doc.description;
+      let referenced_doctype = frm.doc.referenced_doctype;
+      let referenced_document = frm.doc.referenced_document;
+
+      frappe.call({
+          method: "academia.transaction_management.doctype.transaction.transaction.render_template",
+          args: {
+              description: template,
+              referenced_doctype: referenced_doctype,
+              referenced_document: referenced_document,
+              ... frm.doc
+          },
+          callback: function(r) {
+              if (r.message) {
+                  frappe.msgprint(__("Description Template: \n\n" + r.message));
+              } else {
+                  frappe.msgprint(__("Error rendering template 123"));
+              }
+          }
+      });
+    },
+
     sub_category: function(frm) {
-      get_cateory_doctype(frm)
+      // Call the get_category_doctype method
+      get_cateory_doctype(frm);
+      
       // Clear previously added recipient fields
       frm.clear_table("recipients");
 
@@ -557,23 +583,23 @@ function add_reject_action(frm) {
 }
 
 function get_cateory_doctype(frm) {
-  frappe.msgprint("in")
- 
-  frappe.call({
-    method: "frappe.client.get",
-    args: {
-      doctype: "Transaction Category",
-      name: transaction.sub_category
-    },
-    callback: function(response) {
-      var category = response.message;
-     //set value of doctype 
-     frappe.msgprint(category.category_doctype)
-    },
-    error: function(error) {
-      console.error("Error retrieving transaction document:", error);
-    }
+  if (frm.doc.sub_category) {
+    frappe.call({
+      method: "academia.transaction_management.doctype.transaction.transaction.get_category_doctype",
+      args: {
+          sub_category: frm.doc.sub_category
+      },
+      callback: function(r) {
+          if (r.message) {
+              frm.set_value("description", r.message.description);
+              frm.set_value("referenced_doctype", r.message.referenced_doctype);
+          }
+      }
   });
+  }else{
+    frm.set_value("referenced_doctype", '');
+    frm.set_value("referenced_document", '');
+  }
 }
 
 

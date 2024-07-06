@@ -22,6 +22,7 @@
   "reference_number",
   "title",
   "description",
+  "test_template_button",
   "category_information_section",
   "category",
   "sub_category",
@@ -329,7 +330,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "depends_on": "eval:doc.eferenced_doctype;",
+   "depends_on": "eval:doc.referenced_doctype;",
    "fieldname": "referenced_document",
    "fieldtype": "Dynamic Link",
    "label": "Referenced Document",
@@ -393,12 +394,17 @@
    "fieldtype": "Link",
    "label": "External Entity Designation",
    "options": "External Entity Designation"
+  },
+  {
+   "fieldname": "test_template_button",
+   "fieldtype": "Button",
+   "label": "Test Template Button"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-06 15:03:54.363982",
+ "modified": "2024-07-06 15:24:44.890367",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

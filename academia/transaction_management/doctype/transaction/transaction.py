@@ -363,3 +363,38 @@ def share_permission_through_route(document, current_employee):
                 )
     else:
         frappe.msgprint("Theres no any reports to")
+
+@frappe.whitelist()
+def get_category_doctype(sub_category):
+    """
+    Fetches the template_doctype from the Transaction Category Template
+    and sets it as the referenced_doctype in the current Transaction document.
+    """
+    if sub_category:
+        category_doc = frappe.get_doc("Transaction Category", sub_category)
+        if category_doc.template:
+            template_doc = frappe.get_doc("Transaction Category Template", category_doc.template)
+            return {
+                "description": template_doc.description,
+                "referenced_doctype": template_doc.template_doctype
+            }
+    return {}
+
+
+@frappe.whitelist()
+def render_template(description, referenced_doctype, referenced_document, **context):
+    """
+    Renders the description template with the provided context.
+    """
+    try:
+        context["current_date"] = frappe.utils.today()
+        
+        # Fetch the referenced document and add it to the context
+        if referenced_doctype and referenced_document:
+            doc = frappe.get_doc(referenced_doctype, referenced_document)
+            context.update(doc.as_dict())
+        
+        return frappe.render_template(description, context)
+    except Exception as e:
+        frappe.log_error(e, "Error rendering template")
+        return None
