@@ -36,6 +36,14 @@ frappe.ui.form.on("Session", {
 		});
 	},
 
+	get_opening_template: function (frm) {
+		frappe.confirm(
+			__('Are you sure you want to reload opening field?<br>All data in the field will be lost.'),
+			function() {
+				get_opening_template(frm, reload=true)
+			}
+		)
+	},
 	refresh: function (frm) {
 		get_opening_template(frm)
 	},
@@ -350,8 +358,9 @@ validate_topic = function (frm, row) {
 		});
 };
 
-function get_opening_template(frm) {
-	if (frm.doc.date && frm.doc.begin_time && frm.doc.council) {
+function get_opening_template(frm, reload = false) {
+	if(reload){frm.doc.opening=null}
+	if (frm.doc.opening == null && frm.doc.date && frm.doc.begin_time && frm.doc.council) {
 		frappe.call({
 			method: "academia.councils.doctype.session.session.get_template",
 			args: {

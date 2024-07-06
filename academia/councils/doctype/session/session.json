@@ -10,6 +10,7 @@
   "naming_series",
   "council",
   "title",
+  "get_opening_template",
   "opening",
   "date_and_time_tab",
   "date",
@@ -132,12 +133,18 @@
    "label": "Topics",
    "options": "Session Topic",
    "reqd": 1
+  },
+  {
+   "depends_on": "opening",
+   "fieldname": "get_opening_template",
+   "fieldtype": "Button",
+   "label": "Get Opening Template"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-01 18:42:41.557213",
+ "modified": "2024-07-05 20:15:59.120746",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Session",

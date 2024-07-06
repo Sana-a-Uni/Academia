@@ -32,7 +32,7 @@ class Session(Document):
 		end_time: DF.Time | None
 		members: DF.Table[SessionMember]
 		naming_series: DF.Literal["CNCL-SESS-.YY.-.{council}.-.###"]
-		opening: DF.Text | None
+		opening: DF.TextEditor | None
 		title: DF.Data
 		topics: DF.Table[SessionTopic]
 	# end: auto-generated types
