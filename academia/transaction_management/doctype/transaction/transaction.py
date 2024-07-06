@@ -84,7 +84,10 @@ class Transaction(Document):
 			)  
                     # check if the through_route is disabled
         if self.through_route == 1:
-            share_permission_through_route(self, self.start_with)
+            employee = frappe.get_doc("Employee",
+                                       self.start_with,
+                                       fields=["reports_to"])
+            share_permission_through_route(self, employee)             
 
         else:
             # make a read, write, share permissions for reciepents
@@ -213,6 +216,23 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
     Create a new document in Transaction Action and pass the relevant data from Transaction.
     This function will be called when a button is pressed in Transaction.
     """
+    transaction_doc = frappe.get_doc("Transaction", transaction_name)
+    is_type = type in ["Approved", "Rejected"]
+    is_through = transaction_doc.through_route
+
+    if is_type and is_through:
+        current_employee = frappe.get_all("Employee", filters={
+                "user_id": user_id,
+            }
+              ,fields=["reports_to"]
+            )
+        next_share = frappe.get_doc("Employee", current_employee[0].reports_to)        
+        is_reports_to = next_share != None
+        is_report_not_recipient = next_share.user_id == transaction_doc.recipients[0].recipient_email
+
+        if is_reports_to and is_report_not_recipient:
+            share_permission_through_route(transaction_doc, current_employee[0])
+    
     employee = get_employee_by_user_id(user_id)
     if employee:
         new_doc = frappe.new_doc("Transaction Action")
@@ -226,19 +246,15 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
         new_doc.submit()
         new_doc.save()
 
-        
-        if type == "Approved" or type == "Rejected":
-            if check_all_recipients_action(transaction_name, user_id):
-                transaction_doc = frappe.get_doc("Transaction", transaction_name)
-                transaction_doc.status = "Completed"
-                transaction_doc.save()
-    
+        if check_all_recipients_action(transaction_name, user_id):
+            transaction_doc = frappe.get_doc("Transaction", transaction_name)
+            transaction_doc.status = "Completed"
+            transaction_doc.save()
         
         permissions = {
                             "read": 1,
                             "write": 0,
                             "share": 0,
-                            "submit":0,
                             "submit":0
                         }
         permissions_str = json.dumps(permissions)
@@ -247,7 +263,6 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
         return "Action Success"
     else:
         return "No employee found for the given user ID."
-
 
 def check_all_recipients_action(docname, user_id):
     shares = frappe.get_all("DocShare", filters={
@@ -334,14 +349,17 @@ def get_document_link(doctype, document_name):
 
 
 def share_permission_through_route(document, current_employee):
-    employee = frappe.get_doc("Employee", current_employee)
-    reports_to = employee.reports_to
-    reports_to_emp = frappe.get_doc("Employee", reports_to)
-    frappe.share.add(
-                doctype = "Transaction",
-                name = document.name,
-                user = reports_to_emp.user_id,
-                read = 1,
-                write = 1,
-                share = 1
-            )
+    reports_to = current_employee.reports_to
+    if reports_to:
+        reports_to_emp = frappe.get_doc("Employee", reports_to)
+        # if reports_to_emp != document.recipients[0].recipient_email:
+        frappe.share.add(
+                    doctype = "Transaction",
+                    name = document.name,
+                    user = reports_to_emp.user_id,
+                    read = 1,
+                    write = 1,
+                    share = 1
+                )
+    else:
+        frappe.msgprint("Theres no any reports to")

@@ -250,6 +250,11 @@ frappe.ui.form.on('Transaction', {
         primary_action_label: "Get Recipients",
         action(selections) {
 
+          // if the transaction through route you can select only one recipientS
+          if (frm.doc.through_route && selections.length !== 1) {
+            frappe.msgprint("Please select only one employee.");
+            return;
+          }
         // Fetch the selected employees with specific fields
         frappe.call({
             method: "frappe.client.get_list",
