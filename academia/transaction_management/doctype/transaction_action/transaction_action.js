@@ -127,5 +127,26 @@ frappe.ui.form.on("Transaction Action", {
       frm.clear_table("recipients");
       frm.refresh_field("recipients");
     },
+    refresh:
+    function(frm) {
+    if(frappe.session.user !== "Administrator"){
+
+      frappe.call({
+        method: "academia.transaction_management.doctype.transaction.transaction_action.get_next_through_route",
+        args: {
+          
+        },
+        callback: function(response) {
+          
+          
+        }
+      });
+
+
+    }}
+
+    
+
+
 
 });

@@ -257,6 +257,15 @@ frappe.ui.form.on('Transaction', {
           },
           callback: (response) => {
             var selectedEmployees = response.message;
+
+            // Check the value of the 'through_route' field
+            if (frm.doc.through_route) {
+              // If 'through_route' is checked, only allow one recipient
+              if (selectedEmployees.length > 1) {
+                frappe.msgprint("You can only select one recipient when 'Through Route' is checked.");
+                return;
+              }
+            }
   
             // frm.set_value('recipients', []);
   
@@ -274,6 +283,10 @@ frappe.ui.form.on('Transaction', {
             this.dialog.hide();
   
             frm.refresh_field("recipients");
+            // Hide the "Add" button for the recipients table if through_route is checked and there's a recipient
+            frm.get_field("recipients").grid.grid_buttons.find(".grid-add-row").toggle(!frm.doc.through_route || existingRecipients.length === 0);
+          
+        
           }
         });
         }
@@ -286,6 +299,7 @@ frappe.ui.form.on('Transaction', {
     },
 
     sub_category: function(frm) {
+      get_cateory_doctype(frm)
       // Clear previously added recipient fields
       frm.clear_table("recipients");
 
@@ -501,3 +515,25 @@ function add_reject_action(frm) {
         }, __('Enter Rejection Details'), __('Submit'));
     });
 }
+
+function get_cateory_doctype(frm) {
+  frappe.msgprint("in")
+ 
+  frappe.call({
+    method: "frappe.client.get",
+    args: {
+      doctype: "Transaction Category",
+      name: transaction.sub_category
+    },
+    callback: function(response) {
+      var category = response.message;
+     //set value of doctype 
+     frappe.msgprint(category.category_doctype)
+    },
+    error: function(error) {
+      console.error("Error retrieving transaction document:", error);
+    }
+  });
+}
+
+

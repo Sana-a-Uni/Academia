@@ -7,13 +7,13 @@
  "engine": "InnoDB",
  "field_order": [
   "details_tab",
-  "category_name",
   "company",
-  "is_group",
+  "category_name",
   "template",
+  "is_group",
   "column_break_nqbz",
   "parent_category",
-  "category_template",
+  "category_doctype",
   "section_break_oqso",
   "recipients",
   "requirements_tab",
@@ -50,12 +50,6 @@
    "label": "Is Group"
   },
   {
-   "fieldname": "category_template",
-   "fieldtype": "Link",
-   "label": "Category Template",
-   "options": "DocType"
-  },
-  {
    "fieldname": "company",
    "fieldtype": "Link",
    "label": "Company",
@@ -75,6 +69,7 @@
    "options": "Transaction Category"
   },
   {
+   "depends_on": "eval:!doc.is_group;",
    "fieldname": "template",
    "fieldtype": "Link",
    "label": "Template",
@@ -89,11 +84,17 @@
    "fieldtype": "Table",
    "label": "Recipients",
    "options": "Transaction Recipients"
+  },
+  {
+   "fieldname": "category_doctype",
+   "fieldtype": "Link",
+   "label": "Category Doctype",
+   "options": "DocType"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-25 18:09:23.388561",
+ "modified": "2024-07-06 07:44:42.800064",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Category",
@@ -123,6 +124,15 @@
    "role": "Employee",
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "role": "Transaction User",
+   "select": 1,
+   "share": 1
   }
  ],
  "sort_field": "modified",

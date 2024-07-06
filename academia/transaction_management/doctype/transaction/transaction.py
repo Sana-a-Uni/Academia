@@ -38,6 +38,8 @@ class Transaction(Document):
         private: DF.Check
         recipients: DF.Table[TransactionRecipients]
         reference_number: DF.Data | None
+        referenced_doctype: DF.Link | None
+        referenced_document: DF.DynamicLink | None
         start_date: DF.Data | None
         start_with: DF.Link | None
         start_with_company: DF.Link | None

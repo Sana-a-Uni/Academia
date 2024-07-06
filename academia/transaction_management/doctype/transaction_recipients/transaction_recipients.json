@@ -10,7 +10,9 @@
   "recipient_company",
   "recipient_department",
   "recipient_designation",
-  "recipient_email"
+  "recipient_email",
+  "step",
+  "fully_electronic"
  ],
  "fields": [
   {
@@ -45,12 +47,24 @@
    "fieldtype": "Link",
    "label": "Recipient Email",
    "options": "User"
+  },
+  {
+   "fieldname": "step",
+   "fieldtype": "Data",
+   "label": "Step"
+  },
+  {
+   "default": "0",
+   "fieldname": "fully_electronic",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Fully Electronic"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-06-27 18:22:11.132979",
+ "modified": "2024-07-04 22:50:53.223175",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Recipients",

@@ -16,8 +16,8 @@ class TransactionCategory(Document):
 		from academia.transaction_management.doctype.transaction_recipients.transaction_recipients import TransactionRecipients
 		from frappe.types import DF
 
+		category_doctype: DF.Link | None
 		category_name: DF.Data
-		category_template: DF.Link | None
 		company: DF.Link | None
 		is_group: DF.Check
 		parent_category: DF.Link | None

@@ -129,3 +129,32 @@ def get_transaction_actions(transaction_name):
 
 	result = frappe.db.sql(query, {"transaction_name": transaction_name}, as_dict=True)
 	return result
+
+
+# def share_permission_through_route(document, current_employee):
+#     employee = frappe.get_doc("Employee", current_employee)
+#     reports_to = employee.reports_to
+#     reports_to_emp = frappe.get_doc("Employee", reports_to)
+#     frappe.share.add(
+#                 doctype = "Transaction",
+#                 name = document.name,
+#                 user = reports_to_emp.user_id,
+#                 read = 1,
+#                 write = 1,
+#                 share = 1
+#             )
+
+@frappe.whitelist()
+def get_next_through_route():
+	user = frappe.session.user
+	user_doc = frappe.get_doc("User", user)
+	current_employee = user_doc.employee
+
+		
+	employee = frappe.get_doc("Employee", current_employee)
+	reports_to = employee.reports_to
+	reports_to_emp = frappe.get_doc("Employee", reports_to)
+	# return reports_to_emp
+	frappe.msgprint(reports_to)
+
+
