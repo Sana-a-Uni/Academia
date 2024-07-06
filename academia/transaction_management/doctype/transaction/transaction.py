@@ -30,9 +30,11 @@ class Transaction(Document):
         department: DF.Link | None
         description: DF.TextEditor | None
         designation: DF.Link | None
-        external_entity_designation: DF.Link | None
+        external_entity_designation_from: DF.Link | None
+        external_entity_designation_to: DF.Link | None
         full_electronic: DF.Check
-        main_external_entity: DF.Link | None
+        main_external_entity_from: DF.Link | None
+        main_external_entity_to: DF.Link | None
         print_official_paper: DF.Check
         priority: DF.Literal["", "Low", "Medium", "High", "Urgent"]
         private: DF.Check
@@ -47,7 +49,8 @@ class Transaction(Document):
         start_with_designation: DF.Link | None
         status: DF.Literal["Pending", "Completed", "Canceled"]
         sub_category: DF.Link | None
-        sub_external_entity: DF.Link | None
+        sub_external_entity_from: DF.Link | None
+        sub_external_entity_to: DF.Link | None
         through_route: DF.Check
         title: DF.Data | None
         transaction_scan: DF.Attach | None
