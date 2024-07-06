@@ -58,7 +58,17 @@ class Transaction(Document):
         type: DF.Literal["Outgoing", "Incoming"]
     # end: auto-generated types
     def on_submit(self):
-
+        if self.start_with:
+            employee = frappe.get_doc("Employee", self.start_with)
+            frappe.share.add(
+                doctype = "Transaction",
+                name = self.name,
+                user = employee.user_id,
+                read = 1,
+                write = 0,
+                share = 0
+            )
+        
         # make a read permission for applicants
         for row in self.applicants_table:
             applicant = frappe.get_doc(row.applicant_type, row.applicant)
@@ -218,10 +228,11 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
 
         
         if type == "Approved" or type == "Rejected":
-            if check_all_recipients_action(transaction_name):
+            if check_all_recipients_action(transaction_name, user_id):
                 transaction_doc = frappe.get_doc("Transaction", transaction_name)
                 transaction_doc.status = "Completed"
                 transaction_doc.save()
+    
         
         permissions = {
                             "read": 1,
@@ -238,39 +249,17 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
         return "No employee found for the given user ID."
 
 
-def check_all_recipients_action(transaction_name, action_name=''):
-    parent = action_name if action_name != '' else transaction_name
-    
-    recipients = frappe.get_all("Transaction Recipients",
-                                filters={"parent": parent},
-                                fields=["recipient_email"],
-                                order_by="creation"
-                                )
-
-    actions = frappe.get_all("Transaction Action",
-                             filters={
-                                 "transaction": transaction_name,
-                                 "docstatus": 1,
-                                 },
-                             fields=["name", "type", "owner"],
-                             order_by="creation"
-                             )
-    for recipient in recipients:
-        recipient_email = recipient.recipient_email
-        action_type = None
-
-        for action in actions:
-            if action.owner == recipient_email:
-                action_type = action.type
-                if action_type == "Redirected":
-                    if not check_all_recipients_action(transaction_name, action.name):
-                        return False
-                break
-        
-        if action_type == None:
+def check_all_recipients_action(docname, user_id):
+    shares = frappe.get_all("DocShare", filters={
+                "share_doctype": "Transaction",
+                "share_name": docname,
+            }, fields=["share", "user"])
+            
+    for share in shares:
+        if share["share"] == 1 and share["user"] != user_id:
             return False
+            
     return True
-
                     
 
 # to get html template 

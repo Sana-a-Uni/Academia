@@ -31,6 +31,9 @@ frappe.ui.form.on('Transaction', {
    if(frm.doc.docstatus === 0)
      {
 
+      frm.set_value('status', "Pending");
+
+
        // if user is admin ignore bcoz he cant be employee
        if(frappe.session.user !== "Administrator")
        {
@@ -393,21 +396,24 @@ frappe.ui.form.on('Transaction', {
         frappe.throw(message);
     }},
     start_with: function(frm) {
-      frappe.call({
-        method: "frappe.client.get",
-        args: {
-        doctype: "Employee",
-        filters: { name: frm.doc.start_with },
-        fields: ["designation", "department", "company"]
-      },
-      callback: (response) => {
-        employee = response.message
-        console.log(employee);
-        frm.set_value('start_with_company', employee.company);
-        frm.set_value('start_with_department', employee.department);
-        frm.set_value('start_with_designation', employee.designation);
-      }
-    });
+      if(frm.doc.start_with)
+        {
+          frappe.call({
+            method: "frappe.client.get",
+            args: {
+            doctype: "Employee",
+            filters: { name: frm.doc.start_with },
+            fields: ["designation", "department", "company"]
+          },
+          callback: (response) => {
+            employee = response.message
+            // console.log(employee);
+            frm.set_value('start_with_company', employee.company);
+            frm.set_value('start_with_department', employee.department);
+            frm.set_value('start_with_designation', employee.designation);
+          }
+        });
+        }
     }
 });
 
@@ -424,25 +430,25 @@ function add_redirect_action(frm) {
         });
          // back to Transaction after save the transaction action
          frappe.ui.form.on("Transaction Action", {
-            on_submit: function(frm) {
-                frappe.set_route('Form', 'Transaction', frm.doc.transaction);
-                frappe.call({
-                  method: "academia.transaction_management.doctype.transaction.transaction.update_share_permissions",
-                  args: {
-                    docname: frm.doc.name,
-                    user: frappe.session.user,
-                    permissions: {
-                      "read": 1,
-                      "write": 0,
-                      "share": 0,
-                      "submit":0,
-                      "submit":0
-                  }
-                  },
-                  callback: function(response) {
-                    if(response.message)
-                    {
-                      location.reload();
+          on_submit: function() {
+            frappe.call({
+              method: "academia.transaction_management.doctype.transaction.transaction.update_share_permissions",
+              args: {
+                docname: frm.doc.name,
+                user: frappe.session.user,
+                permissions: {
+                  "read": 1,
+                  "write": 0,
+                  "share": 0,
+                  "submit":0
+              }
+              },
+              callback: function(response) {
+                if(response.message)
+                {
+                    // back to Transaction after save the transaction action
+                    frappe.set_route('Form', 'Transaction', frm.doc.name);
+                    location.reload();
                     }
                   }
                 });
