@@ -7,7 +7,7 @@
  "field_order": [
   "schedule_version_section",
   "schedule_template_version",
-  "is_multy_group",
+  "is_multi_group",
   "column_break_vmss",
   "schedule_template",
   "section_break_wyzm",
@@ -174,12 +174,6 @@
    "label": "Schedule Version"
   },
   {
-   "default": "0",
-   "fieldname": "is_multy_group",
-   "fieldtype": "Check",
-   "label": "is Multy Group"
-  },
-  {
    "fieldname": "section_break_laye",
    "fieldtype": "Section Break"
   },
@@ -187,7 +181,7 @@
    "depends_on": "eval:doc.is_multy_group == 1;",
    "fieldname": "table_ocar",
    "fieldtype": "Table",
-   "options": "Multy Lesson Template"
+   "options": "Multi Lesson Template"
   },
   {
    "default": "0",
@@ -236,11 +230,17 @@
    "fieldname": "sub_group",
    "fieldtype": "Data",
    "label": "Sub Group"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_multi_group",
+   "fieldtype": "Check",
+   "label": "is Multi Group"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-03 20:41:33.269972",
+ "modified": "2024-07-06 18:24:41.193710",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lesson Template",
