@@ -21,7 +21,8 @@
   "transaction_scan",
   "reference_number",
   "title",
-  "description",
+  "trans_desc",
+  "transaction_description",
   "test_template_button",
   "category_information_section",
   "category",
@@ -76,11 +77,6 @@
    "fieldname": "title",
    "fieldtype": "Data",
    "label": "Title"
-  },
-  {
-   "fieldname": "description",
-   "fieldtype": "Text Editor",
-   "label": "Description"
   },
   {
    "fieldname": "column_break_ktxa",
@@ -398,13 +394,25 @@
   {
    "fieldname": "test_template_button",
    "fieldtype": "Button",
+   "hidden": 1,
    "label": "Test Template Button"
+  },
+  {
+   "fieldname": "transaction_description",
+   "fieldtype": "Text Editor",
+   "hidden": 1,
+   "label": "Transaction Description"
+  },
+  {
+   "fieldname": "trans_desc",
+   "fieldtype": "Text Editor",
+   "label": "Trans Desc"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-06 15:24:44.890367",
+ "modified": "2024-07-06 18:19:53.501050",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

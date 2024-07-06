@@ -335,32 +335,39 @@ frappe.ui.form.on('Transaction', {
       frm.refresh_field("recipients");
     },
 
-    test_template_button: function(frm) {
+    referenced_document: function(frm) {
+      
+      // set the renderer template to trans_desc field
 
-      let template = frm.doc.description;
-      let referenced_doctype = frm.doc.referenced_doctype;
-      let referenced_document = frm.doc.referenced_document;
+      if (frm.doc.referenced_doctype && frm.doc.referenced_document) {
+        let template = frm.doc.transaction_description;
+        let referenced_doctype = frm.doc.referenced_doctype;
+        let referenced_document = frm.doc.referenced_document;
 
-      frappe.call({
-          method: "academia.transaction_management.doctype.transaction.transaction.render_template",
-          args: {
-              description: template,
-              referenced_doctype: referenced_doctype,
-              referenced_document: referenced_document,
-              ... frm.doc
-          },
-          callback: function(r) {
-              if (r.message) {
-                  frappe.msgprint(__("Description Template: \n\n" + r.message));
-              } else {
-                  frappe.msgprint(__("Error rendering template 123"));
-              }
-          }
-      });
+        frappe.call({
+            method: "academia.transaction_management.doctype.transaction.transaction.render_template",
+            args: {
+                description: template,
+                referenced_doctype: referenced_doctype,
+                referenced_document: referenced_document,
+                ... frm.doc
+            },
+            callback: function(r) {
+                if (r.message) {
+                    frm.set_value("trans_desc", r.message);
+                } else {
+                    frappe.msgprint(__("Error rendering template 123"));
+                }
+            }
+        });
+      }else{
+        frm.set_value("trans_desc", '');
+      }
     },
 
     sub_category: function(frm) {
-      // Call the get_category_doctype method
+
+      // set values to reference_doctype and transacton_description hidden field
       get_cateory_doctype(frm);
       
       // Clear previously added recipient fields
@@ -591,7 +598,7 @@ function get_cateory_doctype(frm) {
       },
       callback: function(r) {
           if (r.message) {
-              frm.set_value("description", r.message.description);
+              frm.set_value("transaction_description", r.message.description);
               frm.set_value("referenced_doctype", r.message.referenced_doctype);
           }
       }

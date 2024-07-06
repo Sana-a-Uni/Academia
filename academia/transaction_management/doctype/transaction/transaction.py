@@ -28,7 +28,6 @@ class Transaction(Document):
         company: DF.Link | None
         created_by: DF.Data | None
         department: DF.Link | None
-        description: DF.TextEditor | None
         designation: DF.Link | None
         external_entity_designation_from: DF.Link | None
         external_entity_designation_to: DF.Link | None
@@ -53,6 +52,8 @@ class Transaction(Document):
         sub_external_entity_to: DF.Link | None
         through_route: DF.Check
         title: DF.Data | None
+        trans_desc: DF.TextEditor | None
+        transaction_description: DF.TextEditor | None
         transaction_scan: DF.Attach | None
         transaction_scope: DF.Literal["In Company", "Among Companies", "With External Entity"]
         type: DF.Literal["Outgoing", "Incoming"]
@@ -382,7 +383,7 @@ def get_category_doctype(sub_category):
 
 
 @frappe.whitelist()
-def render_template(description, referenced_doctype, referenced_document, **context):
+def render_template(transaction_description, referenced_doctype, referenced_document, **context):
     """
     Renders the description template with the provided context.
     """
@@ -394,7 +395,7 @@ def render_template(description, referenced_doctype, referenced_document, **cont
             doc = frappe.get_doc(referenced_doctype, referenced_document)
             context.update(doc.as_dict())
         
-        return frappe.render_template(description, context)
+        return frappe.render_template(transaction_description, context)
     except Exception as e:
         frappe.log_error(e, "Error rendering template")
         return None
