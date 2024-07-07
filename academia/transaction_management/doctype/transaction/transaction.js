@@ -100,7 +100,7 @@ frappe.ui.form.on('Transaction', {
                   callback: function(response) {
                     var docshare = response.message;
                     // console.log(docshare);
-                    if(docshare.share === 1)
+                    if(docshare && docshare.share === 1)
                     {
                       add_approve_action(frm);
                       add_redirect_action(frm);
@@ -353,12 +353,9 @@ frappe.ui.form.on('Transaction', {
     },
 
     sub_category: function(frm) {
-
-      // set values to reference_doctype and transacton_description hidden field
-      get_cateory_doctype(frm);
-      
       // Clear previously added recipient fields
       frm.clear_table("recipients");
+      frm.refresh_fields("recipients");
 
       // Fetch Transaction Type Recipients based on the selected category
       if (frm.doc.sub_category) {
@@ -375,31 +372,24 @@ frappe.ui.form.on('Transaction', {
             recipients.forEach(function(recipient) {
               frm.add_child("recipients", {
                 recipient_name: recipient.recipient_name,
+                step: recipient.step,
                 recipient_company: recipient.recipient_company, 
                 recipient_department: recipient.recipient_department, 
                 recipient_designation: recipient.recipient_designation, 
-                recipient_email: recipient.recipient_email
+                recipient_email: recipient.recipient_email,
+                fully_electronic: recipient.fully_electronic,
               });
             });
-
-            // Hide 'add row' button
-            frm.get_field("recipients").grid.cannot_add_rows = true;
-            // Stop 'add below' & 'add above' options
-            frm.get_field("recipients").grid.only_sortable();
-            //make the lables uneditable
-            frm.fields_dict.recipients.grid.docfields[1].read_only = 1;
 
             // Refresh the form to display the newly added fields
              frm.refresh_fields("recipients");
           }
         });
-      }
-
+        
       // Clear previously added attach image fields
       frm.clear_table("attachments");
 
       // Fetch Transaction Type Requirements based on the selected Transaction Type
-      if (frm.doc.sub_category) {
         frappe.call({
           method: "academia.transaction_management.doctype.transaction.transaction.get_transaction_category_requirement",
           args: {
@@ -432,6 +422,8 @@ frappe.ui.form.on('Transaction', {
         });
       }
     },
+
+
 
    // Validate function
    before_save: function(frm) {
@@ -574,26 +566,6 @@ function add_reject_action(frm) {
             });
         }, __('Enter Rejection Details'), __('Submit'));
     });
-}
-
-function get_cateory_doctype(frm) {
-  if (frm.doc.sub_category) {
-    frappe.call({
-      method: "academia.transaction_management.doctype.transaction.transaction.get_category_doctype",
-      args: {
-          sub_category: frm.doc.sub_category
-      },
-      callback: function(r) {
-          if (r.message) {
-              frm.set_value("referenced_doctype", r.message);
-              frm.set_value("referenced_document", '');
-          }
-      }
-  });
-  }else{
-    frm.set_value("referenced_doctype", '');
-    frm.set_value("referenced_document", '');
-  }
 }
 
 function get_default_template(frm){

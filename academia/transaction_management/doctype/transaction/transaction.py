@@ -3,7 +3,7 @@
 
 
 from queue import Full
-from jinja2 import Template 
+from jinja2 import Template  # type: ignore
 import os
 import frappe # type: ignore
 from frappe.model.document import Document # type: ignore
@@ -47,6 +47,7 @@ class Transaction(Document):
         start_with_department: DF.Link | None
         start_with_designation: DF.Link | None
         status: DF.Literal["Pending", "Completed", "Canceled"]
+        step: DF.Int
         sub_category: DF.Link | None
         sub_external_entity_from: DF.Link | None
         sub_external_entity_to: DF.Link | None
@@ -92,16 +93,16 @@ class Transaction(Document):
         else:
             # make a read, write, share permissions for reciepents
             for row in self.recipients:
-                # user = frappe.get_doc("User", row.recipient_email)
-                frappe.share.add(
-                        doctype = "Transaction",
-                        name = self.name,
-                        # user = user.email,
-                        user = row.recipient_email,
-                        read = 1,
-                        write = 1,
-                        share = 1
-                    )
+                if row.step == 1:
+                    frappe.share.add(
+                            doctype = "Transaction",
+                            name = self.name,
+                            user = row.recipient_email,
+                            read = 1,
+                            write = 1,
+                            share = 1,
+                            submit = 1
+                        )
                  
     def before_save(self):
         if frappe.session.user != "Administrator":
@@ -146,12 +147,16 @@ def get_transaction_category_recipients(transaction_category):
     transaction_category_recipients = frappe.get_all("Transaction Recipients",
                                                       filters={"parent": transaction_category},
                                                       fields=[
-                                                          "recipient_name", 
-                                                          "recipient_company", 
-                                                          "recipient_department", 
-                                                          "recipient_designation", 
-                                                          "recipient_email"
-                                                        ])
+                                                            "step", 
+                                                            "recipient_name", 
+                                                            "recipient_company",
+                                                            "recipient_department",
+                                                            "recipient_designation",
+                                                            "recipient_email",
+                                                            "fully_electronic",
+                                                        ],
+                                                        order_by="step ASC",
+                                                        )
     recipients.extend(transaction_category_recipients)
 
     return recipients
@@ -246,17 +251,40 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
         new_doc.submit()
         new_doc.save()
 
-        if check_all_recipients_action(transaction_name, user_id):
-            transaction_doc = frappe.get_doc("Transaction", transaction_name)
-            transaction_doc.status = "Completed"
-            transaction_doc.save()
+        check_result = check_all_recipients_action(transaction_name, user_id)
         
+        if check_result:
+            transaction_doc = frappe.get_doc("Transaction", transaction_name)
+
+            next_step = transaction_doc.step + 1
+            next_step_recipients = frappe.get_all("Transaction Recipients",
+                                                filters={
+                                                        "parent": transaction_doc.name,
+                                                        "step": ("=", next_step)
+                                                    }, fields=["recipient_email", "step"]
+                                                )
+            if len(next_step_recipients) > 0:
+                for recipient in next_step_recipients:
+                    frappe.share.add(
+                            doctype = "Transaction",
+                            name = transaction_doc.name,
+                            user = recipient.recipient_email,
+                            read = 1,
+                            write = 1,
+                            share = 1,
+                            submit = 1
+                        )
+                transaction_doc.step = next_step
+            else:
+                transaction_doc.status = "Completed"
+
+            transaction_doc.save()
         permissions = {
-                            "read": 1,
-                            "write": 0,
-                            "share": 0,
-                            "submit":0
-                        }
+                        "read": 1,
+                        "write": 0,
+                        "share": 0,
+                        "submit":0
+                    }
         permissions_str = json.dumps(permissions)
         update_share_permissions(transaction_name, user_id, permissions_str)
         
@@ -264,18 +292,23 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
     else:
         return "No employee found for the given user ID."
 
+@frappe.whitelist()
 def check_all_recipients_action(docname, user_id):
     shares = frappe.get_all("DocShare", filters={
                 "share_doctype": "Transaction",
                 "share_name": docname,
-            }, fields=["share", "user"])
-            
+                "share": 1,
+            }, fields=["user"])
+    
+    return_result = True
+
     for share in shares:
-        if share["share"] == 1 and share["user"] != user_id:
-            return False
-            
-    return True
-                    
+        if share["user"] != user_id:
+            return_result = False
+
+    return return_result
+    
+                       
 
 # to get html template 
 @frappe.whitelist()
@@ -359,7 +392,8 @@ def share_permission_through_route(document, current_employee):
                     user = reports_to_emp.user_id,
                     read = 1,
                     write = 1,
-                    share = 1
+                    share = 1,
+                    submit = 1
                 )
     else:
         frappe.msgprint("Theres no any reports to")

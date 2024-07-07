@@ -53,6 +53,7 @@
   "designation",
   "section_break_pgsu",
   "amended_from",
+  "step",
   "applicants_tab",
   "applicants_table",
   "attachments_tab",
@@ -399,12 +400,20 @@
    "fieldname": "get_default_template",
    "fieldtype": "Button",
    "label": "Get Default Template"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "1",
+   "fieldname": "step",
+   "fieldtype": "Int",
+   "label": "Step",
+   "non_negative": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-07 07:14:12.024628",
+ "modified": "2024-07-07 11:45:51.886192",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

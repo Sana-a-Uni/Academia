@@ -90,6 +90,7 @@
    "options": "Transaction"
   },
   {
+   "depends_on": "eval:doc.type == \"Redirected\";",
    "fieldname": "recipient_settings_section",
    "fieldtype": "Section Break",
    "label": "Recipients"
@@ -127,7 +128,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-01 21:04:50.679660",
+ "modified": "2024-07-07 11:51:27.838074",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Action",
