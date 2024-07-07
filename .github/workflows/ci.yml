@@ -8,16 +8,7 @@ on:
       - "**.md"
       - "**.html"
       - "**.csv"
-
-  push:
-    branches:
-      - develop
-    paths-ignore:
-      - "**.css"
-      - "**.js"
-      - "**.md"
-      - "**.html"
-      - "**.csv"
+      
   workflow_dispatch:
 env:
   ACADEMIA_BRANCH: ${{ github.base_ref || github.ref_name }}

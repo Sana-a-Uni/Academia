@@ -1,0 +1,232 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-06-03 07:38:33.912640",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "schedule_version_section",
+  "schedule_template_version",
+  "is_multi_group",
+  "column_break_vmss",
+  "schedule_template",
+  "section_break_wyzm",
+  "academic_year",
+  "faculty",
+  "level",
+  "column_break_jdfp",
+  "academic_term",
+  "program",
+  "lesson_type",
+  "section_break_stfq",
+  "instructor",
+  "room",
+  "column_break_yvwh",
+  "group",
+  "course_type",
+  "course",
+  "sub_group",
+  "section_break_wdte",
+  "date",
+  "column_break_fyil",
+  "from_time",
+  "to_time",
+  "section_break_mxrm",
+  "table_hfgk"
+ ],
+ "fields": [
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Year",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.is_multy_group == 0;",
+   "fieldname": "level",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Level",
+   "options": "Level",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_jdfp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Term",
+   "options": "Academic Term",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.is_multy_group == 0;",
+   "fieldname": "program",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Program",
+   "options": "Program Specification",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_stfq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "instructor",
+   "fieldtype": "Link",
+   "label": "Instructor",
+   "options": "Faculty Member",
+   "reqd": 1
+  },
+  {
+   "fieldname": "room",
+   "fieldtype": "Link",
+   "label": "Room",
+   "options": "Room",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_yvwh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "course",
+   "fieldtype": "Link",
+   "label": "course",
+   "options": "Course Study",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.is_multy_group == 0;",
+   "fieldname": "group",
+   "fieldtype": "Link",
+   "label": "Group",
+   "options": "Student Group"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_wdte",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_fyil",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "from_time",
+   "fieldtype": "Time",
+   "label": "From Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "to_time",
+   "fieldtype": "Time",
+   "label": "To Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "lesson_type",
+   "fieldtype": "Select",
+   "label": "Lesson Type",
+   "options": "\nOrdinary Lesson\nCompensatory Lesson"
+  },
+  {
+   "fieldname": "schedule_template_version",
+   "fieldtype": "Link",
+   "label": "Schedule Template Version",
+   "options": "Schedule Template Version",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_vmss",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "schedule_template_version.schedule_template",
+   "fieldname": "schedule_template",
+   "fieldtype": "Read Only",
+   "label": "Schedule Template"
+  },
+  {
+   "fieldname": "section_break_wyzm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "schedule_version_section",
+   "fieldtype": "Section Break",
+   "label": "Schedule Version"
+  },
+  {
+   "fieldname": "section_break_mxrm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.is_multy_group == 1;",
+   "fieldname": "table_hfgk",
+   "fieldtype": "Table",
+   "options": "Multi Lesson Template"
+  },
+  {
+   "fieldname": "course_type",
+   "fieldtype": "Select",
+   "label": "Course Type",
+   "options": "\nTheoretical\nPractical",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.course_type == \"Practical\";",
+   "fieldname": "sub_group",
+   "fieldtype": "Data",
+   "label": "Sub Group",
+   "mandatory_depends_on": "eval:doc.course_type == \"Practical\";"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_multi_group",
+   "fieldtype": "Check",
+   "label": "is Multi Group"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-06 18:25:14.445970",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Lesson",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

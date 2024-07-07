@@ -6,6 +6,23 @@ from frappe.model.document import Document
 import re
  
 class Journal(Document):
+    # begin: auto-generated types
+    # This code is auto-generated. Do not modify anything in this block.
+
+    from typing import TYPE_CHECKING
+
+    if TYPE_CHECKING:
+        from frappe.types import DF
+
+        hindex: DF.Data | None
+        impact_factor: DF.Float
+        internal_journal: DF.Check
+        issn: DF.Data | None
+        journal_name: DF.Data
+        journal_type: DF.Link | None
+        quarter_classification: DF.Literal["", "Q1", "Q2", "Q3", "Q4"]
+        website_link: DF.Data | None
+    # end: auto-generated types
     def validate(self):
         # Calling functions
         self.validate_url()

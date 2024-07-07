@@ -15,5 +15,6 @@ class TopicTemplate(Document):
 		from frappe.types import DF
 
 		description: DF.TextEditor
+		subject: DF.Data
 	# end: auto-generated types
 	pass

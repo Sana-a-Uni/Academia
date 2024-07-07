@@ -15,12 +15,12 @@ class CourseEnrollment(Document):
 		from frappe.types import DF
 
 		academic_program: DF.Link
+		academic_term: DF.Link | None
 		academic_year: DF.Link
 		course: DF.Link | None
-		enrollment_date: DF.Date
-		faculty: DF.Link
-		faculty_department: DF.Link
-		semester: DF.Link | None
+		enrollment_date: DF.Date | None
+		faculty: DF.Link | None
+		faculty_department: DF.Link | None
 		student: DF.Link
 		student_batch: DF.Link
 		student_name: DF.Data | None

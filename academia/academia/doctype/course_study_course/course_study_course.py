@@ -16,7 +16,7 @@ class CourseStudyCourse(Document):
 
 		academic_term: DF.Data | None
 		academic_year: DF.Data | None
-		course: DF.Data
+		course_code: DF.Data
 		course_name: DF.Data | None
 		course_type: DF.Data | None
 		instructor: DF.Data | None

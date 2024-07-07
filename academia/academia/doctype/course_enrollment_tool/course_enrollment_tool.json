@@ -6,20 +6,17 @@
  "engine": "InnoDB",
  "field_order": [
   "academic_year",
-  "academic_program",
-  "specific_program",
-  "column_break_inmo",
-  "academic_term",
+  "faculty",
   "level",
   "specific_level",
-  "section_break_apny",
-  "student_batch",
-  "current_level",
-  "column_break_arfk",
-  "program_specification",
+  "column_break_inmo",
+  "academic_term",
+  "academic_program",
+  "specific_program",
   "section_break_jdiw",
   "get_courses",
-  "table_yztw",
+  "students",
+  "courses",
   "generate"
  ],
  "fields": [
@@ -36,7 +33,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Academic Program",
-   "options": "\nAll Program\nSpecific Program",
+   "options": "\nAll Programs\nSpecific Program",
    "reqd": 1
   },
   {
@@ -45,7 +42,7 @@
    "fieldtype": "Link",
    "label": "Specific Program",
    "mandatory_depends_on": "eval:doc.academic_program == \"Specific Program\";",
-   "options": "Academic Program"
+   "options": "Program Specification"
   },
   {
    "fieldname": "column_break_inmo",
@@ -63,7 +60,7 @@
    "fieldname": "level",
    "fieldtype": "Select",
    "label": "Level",
-   "options": "\nAll Level\nSpecific Level",
+   "options": "\nAll Levels\nSpecific Level",
    "reqd": 1
   },
   {
@@ -75,58 +72,43 @@
    "options": "Level"
   },
   {
-   "fieldname": "section_break_apny",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "student_batch",
-   "fieldtype": "Link",
-   "label": "Student Batch",
-   "options": "Student Batch",
-   "reqd": 1
-  },
-  {
-   "fetch_from": "student_batch.current_level",
-   "fieldname": "current_level",
-   "fieldtype": "Read Only",
-   "in_list_view": 1,
-   "label": "Current Level",
-   "reqd": 1
-  },
-  {
-   "fieldname": "column_break_arfk",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fetch_from": "student_batch.program_specification",
-   "fieldname": "program_specification",
-   "fieldtype": "Read Only",
-   "label": "Program Specification"
-  },
-  {
    "fieldname": "section_break_jdiw",
    "fieldtype": "Section Break"
   },
   {
    "fieldname": "get_courses",
    "fieldtype": "Button",
-   "label": "get courses"
-  },
-  {
-   "fieldname": "table_yztw",
-   "fieldtype": "Table",
-   "options": "Course Enrollment Course"
+   "label": "get students and courses"
   },
   {
    "fieldname": "generate",
    "fieldtype": "Button",
    "label": "Generate"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty",
+   "reqd": 1
+  },
+  {
+   "fieldname": "courses",
+   "fieldtype": "Table",
+   "label": "Courses",
+   "options": "Course Enrollment Course"
+  },
+  {
+   "fieldname": "students",
+   "fieldtype": "Table",
+   "label": "Students",
+   "options": "Course Enrollment Student"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-22 01:43:35.980454",
+ "modified": "2024-06-03 06:30:12.160867",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Enrollment Tool",

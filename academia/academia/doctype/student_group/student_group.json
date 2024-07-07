@@ -6,42 +6,30 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "academic_year",
-  "group_based_on",
+  "theoretical_tab",
   "student_group_name",
-  "gender",
-  "max_strength",
-  "level",
-  "column_break_zbwu",
-  "academic_term",
-  "faculty",
-  "faculty_department",
   "batch",
-  "academic_program",
-  "student_category",
-  "course",
-  "disabled",
+  "program",
+  "column_break_zbwu",
+  "faculty",
+  "group_based_on",
   "students_section",
-  "get_students",
   "students",
-  "instructors_section",
-  "instructors"
+  "practical_tab",
+  "column_break_kcdp",
+  "column_break_renj",
+  "go_to",
+  "column_break_waol",
+  "section_break_ebmm",
+  "students1",
+  "students2",
+  "students3"
  ],
  "fields": [
   {
-   "fieldname": "academic_year",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Academic Year",
-   "options": "Academic Year",
-   "reqd": 1
-  },
-  {
    "fieldname": "group_based_on",
-   "fieldtype": "Select",
-   "in_list_view": 1,
+   "fieldtype": "Data",
    "label": "Group Based On",
-   "options": "\nBatch\nCourse\nLevel & Semester",
    "reqd": 1
   },
   {
@@ -53,37 +41,8 @@
    "unique": 1
   },
   {
-   "fieldname": "gender",
-   "fieldtype": "Link",
-   "label": "Gender ",
-   "options": "Gender"
-  },
-  {
-   "description": "Set 0 for no limit ",
-   "fieldname": "max_strength",
-   "fieldtype": "Int",
-   "label": "Max Strength ",
-   "non_negative": 1,
-   "reqd": 1
-  },
-  {
-   "depends_on": "eval:doc.group_based_on == \"Level & Semester\"",
-   "fieldname": "level",
-   "fieldtype": "Link",
-   "in_global_search": 1,
-   "in_standard_filter": 1,
-   "label": "Level",
-   "mandatory_depends_on": "eval:doc.group_based_on == \"Level & Semester\"",
-   "options": "Semester Enrollment"
-  },
-  {
    "fieldname": "column_break_zbwu",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "academic_term",
-   "fieldtype": "Data",
-   "label": "Academic Term"
   },
   {
    "fieldname": "faculty",
@@ -100,38 +59,9 @@
    "options": "Student Batch"
   },
   {
-   "fieldname": "student_category",
-   "fieldtype": "Link",
-   "label": "Student Category ",
-   "options": "Student Category",
-   "reqd": 1
-  },
-  {
-   "depends_on": "eval:doc.group_based_on == \"Course\"",
-   "fieldname": "course",
-   "fieldtype": "Link",
-   "in_global_search": 1,
-   "in_standard_filter": 1,
-   "label": "Course",
-   "mandatory_depends_on": "eval:doc.group_based_on == \"Course\"",
-   "options": "Course"
-  },
-  {
-   "default": "0",
-   "fieldname": "disabled",
-   "fieldtype": "Check",
-   "label": "Disabled "
-  },
-  {
-   "depends_on": "eval:!doc.__islocal",
    "fieldname": "students_section",
    "fieldtype": "Section Break",
    "label": "Students"
-  },
-  {
-   "fieldname": "get_students",
-   "fieldtype": "Button",
-   "label": "Get Students"
   },
   {
    "fieldname": "students",
@@ -140,32 +70,62 @@
    "options": "Student Group Student"
   },
   {
-   "fieldname": "instructors_section",
-   "fieldtype": "Section Break",
-   "label": "Instructors"
-  },
-  {
-   "fieldname": "instructors",
-   "fieldtype": "Table",
-   "label": "Instructors",
-   "options": "Student Group Instructor"
-  },
-  {
-   "fieldname": "academic_program",
+   "fieldname": "program",
    "fieldtype": "Link",
-   "label": "Academic Program",
+   "label": "Program",
    "options": "Program Specification"
   },
   {
-   "fieldname": "faculty_department",
-   "fieldtype": "Link",
-   "label": "Faculty Department",
-   "options": "Faculty Department"
+   "fieldname": "theoretical_tab",
+   "fieldtype": "Tab Break",
+   "label": "Theoretical"
+  },
+  {
+   "fieldname": "practical_tab",
+   "fieldtype": "Tab Break",
+   "label": "Practical"
+  },
+  {
+   "fieldname": "column_break_kcdp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_renj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "To go to Student Group Tool to generate the practical groups. ",
+   "fieldname": "go_to",
+   "fieldtype": "Button",
+   "label": "Go To"
+  },
+  {
+   "fieldname": "column_break_waol",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_ebmm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "students1",
+   "fieldtype": "Table",
+   "options": "Student Group Student"
+  },
+  {
+   "fieldname": "students2",
+   "fieldtype": "Table",
+   "options": "Student Group Student"
+  },
+  {
+   "fieldname": "students3",
+   "fieldtype": "Table",
+   "options": "Student Group Student"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-24 17:11:22.959787",
+ "modified": "2024-07-03 01:48:49.849789",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group",

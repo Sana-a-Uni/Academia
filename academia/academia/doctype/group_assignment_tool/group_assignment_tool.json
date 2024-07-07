@@ -1,0 +1,138 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-06-03 07:26:22.669704",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "academic_year",
+  "faculty",
+  "column_break_iycl",
+  "academic_term",
+  "program",
+  "section_break_yges",
+  "student_batch",
+  "level",
+  "column_break_chbe",
+  "group",
+  "section_break_tqrm",
+  "get_courses",
+  "section_break_txen",
+  "courses",
+  "generate"
+ ],
+ "fields": [
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Year",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Faculty",
+   "options": "Faculty",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_iycl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Term",
+   "options": "Academic Term",
+   "reqd": 1
+  },
+  {
+   "fieldname": "program",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Program",
+   "options": "Program Specification",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_yges",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "student_batch",
+   "fieldtype": "Link",
+   "label": "Student Batch",
+   "options": "Student Batch",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_chbe",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "group",
+   "fieldtype": "Link",
+   "label": "Group",
+   "options": "Student Group",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_tqrm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "get_courses",
+   "fieldtype": "Button",
+   "label": "Get Courses "
+  },
+  {
+   "fieldname": "section_break_txen",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "courses",
+   "fieldtype": "Table",
+   "options": "Group Assignment Group"
+  },
+  {
+   "fieldname": "generate",
+   "fieldtype": "Button",
+   "label": "Generate"
+  },
+  {
+   "fetch_from": "student_batch.current_level",
+   "fieldname": "level",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Level",
+   "options": "Student Batch"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-07-01 21:51:40.498705",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Group Assignment Tool",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

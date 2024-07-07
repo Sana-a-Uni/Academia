@@ -1,0 +1,53 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:template",
+ "creation": "2024-06-23 12:57:17.795487",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "template",
+  "criteria"
+ ],
+ "fields": [
+  {
+   "fieldname": "template",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Template",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "criteria",
+   "fieldtype": "Table MultiSelect",
+   "label": "Criteria",
+   "options": "Evaluation Criteria"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-06-23 17:58:13.337842",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Evaluation Criteria Template",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
