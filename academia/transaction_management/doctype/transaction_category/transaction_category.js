@@ -45,19 +45,19 @@ frappe.ui.form.on('Transaction Category', {
         };
     },
 
-    validate: function(frm) {
-        // Validation for is_group checkbox
-        if (frm.doc.is_group) {
-            // If is_group is checked, clear the parent_category field
-            frm.set_value('parent_category', null);
-            frm.refresh_field('parent_category');
-        } else {
-            // If is_group is not checked, ensure parent_category is not empty
-            if (!frm.doc.parent_category) {
-                frappe.throw(__("Parent Category is mandatory if 'Is Group' is not checked."));
-            }
-        }
-    },
+    // validate: function(frm) {
+    //     // Validation for is_group checkbox
+    //     if (frm.doc.is_group) {
+    //         // If is_group is checked, clear the parent_category field
+    //         frm.set_value('parent_category', null);
+    //         frm.refresh_field('parent_category');
+    //     } else {
+    //         // If is_group is not checked, ensure parent_category is not empty
+    //         if (!frm.doc.parent_category) {
+    //             frappe.throw(__("Parent Category is mandatory if 'Is Group' is not checked."));
+    //         }
+    //     }
+    // },
     
     // Advance Get members Dialog
     get_recipients: function (frm) {

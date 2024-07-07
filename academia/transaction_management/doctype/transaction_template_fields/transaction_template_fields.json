@@ -5,6 +5,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "link_field",
   "doctype_name",
   "docfield_name",
   "docfield_title"
@@ -12,9 +13,10 @@
  "fields": [
   {
    "fieldname": "doctype_name",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Doctype Name"
+   "label": "Doctype Name",
+   "options": "DocType"
   },
   {
    "fieldname": "docfield_name",
@@ -27,12 +29,17 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Docfield Title"
+  },
+  {
+   "fieldname": "link_field",
+   "fieldtype": "Data",
+   "label": "Link Field"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-06 07:52:42.847173",
+ "modified": "2024-07-07 13:11:48.901542",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Template Fields",

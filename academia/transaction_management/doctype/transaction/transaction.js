@@ -335,8 +335,8 @@ frappe.ui.form.on('Transaction', {
       frm.refresh_field("recipients");
     },
 
-    get_default_template:function(frm){
-      if (frm.doc.transaction_description) {
+    get_default_template_button:function(frm){
+      if (frm.doc.transaction_description && frm.doc.referenced_document) {
         frappe.confirm(
           __(
             "Are you sure you want to reload opening field?<br>All data in the field will be lost."
@@ -353,6 +353,9 @@ frappe.ui.form.on('Transaction', {
     },
 
     sub_category: function(frm) {
+
+      get_cateory_doctype(frm)
+
       // Clear previously added recipient fields
       frm.clear_table("recipients");
       frm.refresh_fields("recipients");
@@ -568,6 +571,25 @@ function add_reject_action(frm) {
     });
 }
 
+function get_cateory_doctype(frm) {
+  if (frm.doc.sub_category) {
+    frappe.call({
+      method: "academia.transaction_management.doctype.transaction.transaction.get_category_doctype",
+      args: {
+          sub_category: frm.doc.sub_category
+      },
+      callback: function(r) {
+          if (r.message) {
+              frm.set_value("referenced_doctype", r.message);
+          }
+      }
+  });
+  }else{
+    frm.set_value("referenced_doctype", '');
+    frm.set_value("referenced_document", '');
+  }
+}
+
 function get_default_template(frm){
 
   if (frm.doc.referenced_doctype && frm.doc.referenced_document && frm.doc.sub_category) {
@@ -577,7 +599,6 @@ function get_default_template(frm){
             referenced_doctype: frm.doc.referenced_doctype,
             referenced_document: frm.doc.referenced_document,
             sub_category: frm.doc.sub_category,
-            ... frm.doc
         },
         callback: function(r) {
             if (r.message) {

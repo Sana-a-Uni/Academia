@@ -16,7 +16,8 @@ class TransactionTemplateFields(Document):
 
 		docfield_name: DF.Data | None
 		docfield_title: DF.Data | None
-		doctype_name: DF.Data | None
+		doctype_name: DF.Link | None
+		link_field: DF.Data | None
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data

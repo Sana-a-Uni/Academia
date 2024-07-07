@@ -3,7 +3,7 @@
 
 
 from queue import Full
-from jinja2 import Template  # type: ignore
+from jinja2 import Template  
 import os
 import frappe # type: ignore
 from frappe.model.document import Document # type: ignore
@@ -421,14 +421,25 @@ def get_template_description(sub_category):
     return ''
 
 @frappe.whitelist()
-def render_template(referenced_doctype, referenced_document, sub_category, **kwargs):
+def render_template(referenced_doctype, referenced_document, sub_category):
     if referenced_doctype and referenced_document and sub_category:
         try:
             template_description = get_template_description(sub_category)
+            
             if template_description:
                 doc = frappe.get_doc(referenced_doctype, referenced_document)
-                template = Template(template_description)
-                return template.render(doc.as_dict())
+                
+                linked_field_values = get_linked_field_values(sub_category, referenced_document)
+                context = doc.as_dict()
+                
+                if linked_field_values:
+                    context.update({item["docfield_title"]: item["value"] for item in linked_field_values})
+                    template = Template(template_description)
+                    return template.render(context)
+                else:
+                    template = Template(template_description)
+                    return template.render(context)
+
             else:
                 frappe.log_error(f"Error fetching template description for sub_category: {sub_category}")
                 return None
@@ -437,3 +448,45 @@ def render_template(referenced_doctype, referenced_document, sub_category, **kwa
             return None
     else:
         return None
+
+
+@frappe.whitelist()
+def get_linked_field_values(sub_category, referenced_document):
+    """
+    Fetches the linked field values from the Transaction based on the provided sub_category.
+    """
+    if sub_category:
+        category_doc = frappe.get_doc("Transaction Category", sub_category)
+        if category_doc.template:
+            template_doc = frappe.get_doc("Transaction Category Template", category_doc.template)
+            template_doctype = template_doc.template_doctype
+            linked_fields = template_doc.get("linked_fields", [])
+
+            if linked_fields:
+
+                field_values = []
+                for field in linked_fields:
+                    value = frappe.db.get_value(template_doctype, referenced_document, field.link_field)
+                    if value:
+                        field_values.append({
+                            "link_field": field.link_field,
+                            "doctype_name": field.doctype_name,
+                            "docfield_name": field.docfield_name,
+                            "docfield_title": field.docfield_title,
+                            "value": value
+                        })
+
+                jinja_values = []
+                for item in field_values:
+                    record = frappe.get_doc(item["doctype_name"], item["value"])
+                    jinja_value = getattr(record, item["docfield_name"])
+                    jinja_values.append({
+                        "docfield_title": item["docfield_title"],
+                        "value": jinja_value
+                    })
+
+                return jinja_values
+            
+            return []
+    return []
+

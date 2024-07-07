@@ -21,7 +21,7 @@
   "transaction_scan",
   "reference_number",
   "title",
-  "get_default_template",
+  "get_default_template_button",
   "transaction_description",
   "category_information_section",
   "category",
@@ -397,23 +397,23 @@
    "label": "Transaction Description"
   },
   {
-   "fieldname": "get_default_template",
-   "fieldtype": "Button",
-   "label": "Get Default Template"
-  },
-  {
    "allow_on_submit": 1,
    "default": "1",
    "fieldname": "step",
    "fieldtype": "Int",
    "label": "Step",
    "non_negative": 1
+  },
+  {
+   "fieldname": "get_default_template_button",
+   "fieldtype": "Button",
+   "label": "Get Default Template"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-07 11:45:51.886192",
+ "modified": "2024-07-07 13:59:38.292024",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

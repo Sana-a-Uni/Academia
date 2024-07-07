@@ -37,13 +37,14 @@
   {
    "fieldname": "template_doctype",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Template Doctype",
    "options": "DocType"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-06 15:00:25.617225",
+ "modified": "2024-07-07 13:25:56.388998",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Category Template",
