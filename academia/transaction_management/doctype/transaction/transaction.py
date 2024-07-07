@@ -16,13 +16,13 @@ class Transaction(Document):
     from typing import TYPE_CHECKING
 
     if TYPE_CHECKING:
-        from academia.councils.doctype.topic_applicant.topic_applicant import TopicApplicant
+        from academia.transaction_management.doctype.transaction_applicant.transaction_applicant import TransactionApplicant
         from academia.transaction_management.doctype.transaction_attachments.transaction_attachments import TransactionAttachments
         from academia.transaction_management.doctype.transaction_recipients.transaction_recipients import TransactionRecipients
         from frappe.types import DF
 
         amended_from: DF.Link | None
-        applicants_table: DF.Table[TopicApplicant]
+        applicants_table: DF.Table[TransactionApplicant]
         attachments: DF.Table[TransactionAttachments]
         category: DF.Link | None
         company: DF.Link | None

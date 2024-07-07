@@ -44,7 +44,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-07 13:25:56.388998",
+ "modified": "2024-07-07 21:51:49.097008",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Category Template",
@@ -71,7 +71,7 @@
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Employee",
+   "role": "Transaction Manager",
    "share": 1,
    "write": 1
   }
