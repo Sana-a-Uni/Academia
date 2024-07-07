@@ -21,9 +21,8 @@
   "transaction_scan",
   "reference_number",
   "title",
-  "trans_desc",
+  "get_default_template",
   "transaction_description",
-  "test_template_button",
   "category_information_section",
   "category",
   "sub_category",
@@ -392,27 +391,20 @@
    "options": "External Entity Designation"
   },
   {
-   "fieldname": "test_template_button",
-   "fieldtype": "Button",
-   "hidden": 1,
-   "label": "Test Template Button"
-  },
-  {
    "fieldname": "transaction_description",
    "fieldtype": "Text Editor",
-   "hidden": 1,
    "label": "Transaction Description"
   },
   {
-   "fieldname": "trans_desc",
-   "fieldtype": "Text Editor",
-   "label": "Trans Desc"
+   "fieldname": "get_default_template",
+   "fieldtype": "Button",
+   "label": "Get Default Template"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-06 18:19:53.501050",
+ "modified": "2024-07-07 07:14:12.024628",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

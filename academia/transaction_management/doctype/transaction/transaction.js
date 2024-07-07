@@ -335,34 +335,21 @@ frappe.ui.form.on('Transaction', {
       frm.refresh_field("recipients");
     },
 
-    referenced_document: function(frm) {
-      
-      // set the renderer template to trans_desc field
-
-      if (frm.doc.referenced_doctype && frm.doc.referenced_document) {
-        let template = frm.doc.transaction_description;
-        let referenced_doctype = frm.doc.referenced_doctype;
-        let referenced_document = frm.doc.referenced_document;
-
-        frappe.call({
-            method: "academia.transaction_management.doctype.transaction.transaction.render_template",
-            args: {
-                description: template,
-                referenced_doctype: referenced_doctype,
-                referenced_document: referenced_document,
-                ... frm.doc
-            },
-            callback: function(r) {
-                if (r.message) {
-                    frm.set_value("trans_desc", r.message);
-                } else {
-                    frappe.msgprint(__("Error rendering template 123"));
-                }
-            }
-        });
-      }else{
-        frm.set_value("trans_desc", '');
+    get_default_template:function(frm){
+      if (frm.doc.transaction_description) {
+        frappe.confirm(
+          __(
+            "Are you sure you want to reload opening field?<br>All data in the field will be lost."
+          ),
+          function () {
+            get_default_template(frm);
+          }
+        );
       }
+    },
+
+    referenced_document: function(frm) {
+      get_default_template(frm);
     },
 
     sub_category: function(frm) {
@@ -598,8 +585,8 @@ function get_cateory_doctype(frm) {
       },
       callback: function(r) {
           if (r.message) {
-              frm.set_value("transaction_description", r.message.description);
-              frm.set_value("referenced_doctype", r.message.referenced_doctype);
+              frm.set_value("referenced_doctype", r.message);
+              frm.set_value("referenced_document", '');
           }
       }
   });
@@ -607,6 +594,31 @@ function get_cateory_doctype(frm) {
     frm.set_value("referenced_doctype", '');
     frm.set_value("referenced_document", '');
   }
+}
+
+function get_default_template(frm){
+
+  if (frm.doc.referenced_doctype && frm.doc.referenced_document && frm.doc.sub_category) {
+    frappe.call({
+        method: "academia.transaction_management.doctype.transaction.transaction.render_template",
+        args: {
+            referenced_doctype: frm.doc.referenced_doctype,
+            referenced_document: frm.doc.referenced_document,
+            sub_category: frm.doc.sub_category,
+            ... frm.doc
+        },
+        callback: function(r) {
+            if (r.message) {
+                frm.set_value("transaction_description", r.message);
+            } else {
+                frappe.msgprint(__("Error rendering template"));
+            }
+        }
+    });
+  } else {
+      frm.set_value("transaction_description", '');
+  }
+
 }
 
 

@@ -3,7 +3,7 @@
 
 
 from queue import Full
-from jinja2 import Template # type: ignore
+from jinja2 import Template 
 import os
 import frappe # type: ignore
 from frappe.model.document import Document # type: ignore
@@ -52,7 +52,6 @@ class Transaction(Document):
         sub_external_entity_to: DF.Link | None
         through_route: DF.Check
         title: DF.Data | None
-        trans_desc: DF.TextEditor | None
         transaction_description: DF.TextEditor | None
         transaction_scan: DF.Attach | None
         transaction_scope: DF.Literal["In Company", "Among Companies", "With External Entity"]
@@ -375,27 +374,32 @@ def get_category_doctype(sub_category):
         category_doc = frappe.get_doc("Transaction Category", sub_category)
         if category_doc.template:
             template_doc = frappe.get_doc("Transaction Category Template", category_doc.template)
-            return {
-                "description": template_doc.description,
-                "referenced_doctype": template_doc.template_doctype
-            }
-    return {}
-
+            return template_doc.template_doctype
+    return ''
 
 @frappe.whitelist()
-def render_template(transaction_description, referenced_doctype, referenced_document, **context):
-    """
-    Renders the description template with the provided context.
-    """
-    try:
-        context["current_date"] = frappe.utils.today()
-        
-        # Fetch the referenced document and add it to the context
-        if referenced_doctype and referenced_document:
-            doc = frappe.get_doc(referenced_doctype, referenced_document)
-            context.update(doc.as_dict())
-        
-        return frappe.render_template(transaction_description, context)
-    except Exception as e:
-        frappe.log_error(e, "Error rendering template")
+def get_template_description(sub_category):
+    if sub_category:
+        category_doc = frappe.get_doc("Transaction Category", sub_category)
+        if category_doc.template:
+            template_doc = frappe.get_doc("Transaction Category Template", category_doc.template)
+            return template_doc.description
+    return ''
+
+@frappe.whitelist()
+def render_template(referenced_doctype, referenced_document, sub_category, **kwargs):
+    if referenced_doctype and referenced_document and sub_category:
+        try:
+            template_description = get_template_description(sub_category)
+            if template_description:
+                doc = frappe.get_doc(referenced_doctype, referenced_document)
+                template = Template(template_description)
+                return template.render(doc.as_dict())
+            else:
+                frappe.log_error(f"Error fetching template description for sub_category: {sub_category}")
+                return None
+        except frappe.DoesNotExistError:
+            frappe.log_error(f"Error rendering template for {referenced_doctype}: {referenced_document}")
+            return None
+    else:
         return None
