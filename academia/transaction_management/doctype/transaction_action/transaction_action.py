@@ -42,7 +42,8 @@ class TransactionAction(Document):
 				user = user.email,
 				read = 1,
 				write = 1,
-				share = 1
+				share = 1,
+				submit = 1
 			)
 
 
@@ -72,52 +73,6 @@ def get_recipients(transaction_name):
 
 @frappe.whitelist()
 def get_transaction_actions(transaction_name):
-    # """
-    # Retrieves all the Transaction Action documents associated with the given Transaction document.
-    
-    # Args:
-    #     transaction_name (str): Name of the Transaction document.
-        
-    # Returns:
-    #     List[dict]: List of dictionaries representing the Transaction Action documents.
-    # """
-
-	# transaction_action = frappe.qb.DocType('Transaction Action')
-	# transaction_recipients = frappe.qb.DocType('Transaction Recipients')
-
-
-	# transaction_actions = frappe.get_all(
-    #     "Transaction Action",
-    #     filters={
-    #         "transaction": transaction_name
-    #     },
-    #     fields=[
-	# 		"name", 
-	# 		"type", 
-	# 		"details", 
-	# 		"creation"
-	# 		# to get recipients with all document
-	# 		"(SELECT * FROM `tabTransaction Recipients` WHERE parenttype='Transaction Action' AND parent = `tabTransaction Action`.name) as recipients"
-	# 		],
-	# 	order_by="creation DESC",
-    # )
-	# transaction_actions = frappe.db.sql(
-	# 	f"""
-	# 	SELECT `name`,
-	# 	FROM `tabTransaction Action`
-	# 	WHERE `transaction` == {transaction_name}
-	# 	"""
-	# )
-	# return transaction_actions
-
-	# HasRole = frappe.qb.DocType('Has Role')
-	# CustomRole = frappe.qb.DocType('Custom Role')
-
-	# query = (frappe.qb.from_(HasRole)
-	# 	.inner_join(CustomRole)
-	# 	.on(CustomRole.name == HasRole.parent)
-	# 	.select(CustomRole.page, HasRole.parent, HasRole.role))
-
 	query = """
     SELECT ta.name AS action_name,ta.type AS type, GROUP_CONCAT(tr.recipient_email SEPARATOR ', ') AS recipients
     FROM `tabTransaction Action` AS ta
@@ -129,32 +84,3 @@ def get_transaction_actions(transaction_name):
 
 	result = frappe.db.sql(query, {"transaction_name": transaction_name}, as_dict=True)
 	return result
-
-
-# def share_permission_through_route(document, current_employee):
-#     employee = frappe.get_doc("Employee", current_employee)
-#     reports_to = employee.reports_to
-#     reports_to_emp = frappe.get_doc("Employee", reports_to)
-#     frappe.share.add(
-#                 doctype = "Transaction",
-#                 name = document.name,
-#                 user = reports_to_emp.user_id,
-#                 read = 1,
-#                 write = 1,
-#                 share = 1
-#             )
-
-@frappe.whitelist()
-def get_next_through_route():
-	user = frappe.session.user
-	user_doc = frappe.get_doc("User", user)
-	current_employee = user_doc.employee
-
-		
-	employee = frappe.get_doc("Employee", current_employee)
-	reports_to = employee.reports_to
-	reports_to_emp = frappe.get_doc("Employee", reports_to)
-	# return reports_to_emp
-	frappe.msgprint(reports_to)
-
-

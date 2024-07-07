@@ -23,6 +23,6 @@ class TransactionRecipients(Document):
 		recipient_designation: DF.Link | None
 		recipient_email: DF.Link | None
 		recipient_name: DF.Data | None
-		step: DF.Data | None
+		step: DF.Int
 	# end: auto-generated types
 	pass
