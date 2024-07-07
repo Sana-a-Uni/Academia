@@ -17,6 +17,7 @@ class TransactionCategoryTemplate(Document):
 
 		description: DF.TextEditor | None
 		linked_fields: DF.Table[TransactionTemplateFields]
+		template_doctype: DF.Link | None
 		template_title: DF.Data | None
 	# end: auto-generated types
 	pass

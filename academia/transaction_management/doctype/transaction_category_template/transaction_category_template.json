@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "template_title",
+  "template_doctype",
   "description",
   "fields_from_different_doctypes_section",
   "linked_fields"
@@ -32,11 +33,17 @@
    "fieldtype": "Table",
    "label": "Linked Fields",
    "options": "Transaction Template Fields"
+  },
+  {
+   "fieldname": "template_doctype",
+   "fieldtype": "Link",
+   "label": "Template Doctype",
+   "options": "DocType"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-06 07:52:24.352277",
+ "modified": "2024-07-06 15:00:25.617225",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Category Template",

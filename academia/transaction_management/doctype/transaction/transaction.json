@@ -21,7 +21,8 @@
   "transaction_scan",
   "reference_number",
   "title",
-  "description",
+  "get_default_template",
+  "transaction_description",
   "category_information_section",
   "category",
   "sub_category",
@@ -75,11 +76,6 @@
    "fieldname": "title",
    "fieldtype": "Data",
    "label": "Title"
-  },
-  {
-   "fieldname": "description",
-   "fieldtype": "Text Editor",
-   "label": "Description"
   },
   {
    "fieldname": "column_break_ktxa",
@@ -216,8 +212,7 @@
    "fieldname": "recipients",
    "fieldtype": "Table",
    "label": "Recipient",
-   "options": "Transaction Recipients",
-   "read_only": 1
+   "options": "Transaction Recipients"
   },
   {
    "fieldname": "department",
@@ -330,14 +325,14 @@
    "fieldtype": "Column Break"
   },
   {
-   "depends_on": "eval:doc.category;",
+   "depends_on": "eval:doc.referenced_doctype;",
    "fieldname": "referenced_document",
    "fieldtype": "Dynamic Link",
    "label": "Referenced Document",
    "options": "referenced_doctype"
   },
   {
-   "depends_on": "eval:doc.category;",
+   "depends_on": "eval:doc.sub_category;",
    "fieldname": "referenced_doctype",
    "fieldtype": "Link",
    "label": "Referenced Doctype",
@@ -394,12 +389,22 @@
    "fieldtype": "Link",
    "label": "External Entity Designation",
    "options": "External Entity Designation"
+  },
+  {
+   "fieldname": "transaction_description",
+   "fieldtype": "Text Editor",
+   "label": "Transaction Description"
+  },
+  {
+   "fieldname": "get_default_template",
+   "fieldtype": "Button",
+   "label": "Get Default Template"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-06 12:24:17.422775",
+ "modified": "2024-07-07 07:14:12.024628",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

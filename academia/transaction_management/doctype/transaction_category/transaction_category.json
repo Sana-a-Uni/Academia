@@ -13,7 +13,6 @@
   "is_group",
   "column_break_nqbz",
   "parent_category",
-  "category_doctype",
   "section_break_oqso",
   "recipients",
   "requirements_tab",
@@ -84,17 +83,11 @@
    "fieldtype": "Table",
    "label": "Recipients",
    "options": "Transaction Recipients"
-  },
-  {
-   "fieldname": "category_doctype",
-   "fieldtype": "Link",
-   "label": "Category Doctype",
-   "options": "DocType"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-06 07:44:42.800064",
+ "modified": "2024-07-06 15:02:06.617079",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Category",
