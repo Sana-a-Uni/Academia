@@ -61,3 +61,32 @@ def create_questions(questions_data):
         question_doc = create_question(question_data)
         questions.append(question_doc)
     return questions
+
+
+
+import frappe
+
+@frappe.whitelist()
+def get_grading_basis_options():
+    try:
+        # Fetch grading basis options from the 'grading_basis' field in 'LMS Quiz' Doctype
+        grading_basis_options = frappe.get_meta('LMS Quiz').get_field('grading_basis').options
+        if grading_basis_options:
+            # Split options into a list and strip any extra whitespace
+            grading_basis_options = [option.strip() for option in grading_basis_options.split('\n')]
+        else:
+            grading_basis_options = []
+
+        # Update response with options and success status
+        frappe.response.update({
+            "status_code": 200,
+            "data": grading_basis_options
+        })
+    except Exception as e:
+        # On error, update response with error and failure status
+        frappe.response.update({
+            "status_code": 500,
+            "data": [],
+            "error": str(e)
+        })
+
