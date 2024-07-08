@@ -56,7 +56,6 @@ const createQuiz = () => {
 		instruction: quizInstruction.value,
 	};
 	emit("quiz-created", quizData);
-	console.log(quizInstruction.value); // تأكد من عرض قيمة quizInstruction في وحدة التحكم
 };
 
 const cancelQuiz = () => {

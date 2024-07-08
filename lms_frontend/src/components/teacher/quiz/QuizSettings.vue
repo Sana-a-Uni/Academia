@@ -64,19 +64,31 @@
 					:class="['attempt-input', { active: multiple_attempts, faded: !multiple_attempts }]"
 					id="attempt-input"
 				>
+					<label for="number_of_attempts" class="label-inline" v-if="multiple_attempts">
+						Number of attempts
+					</label>
 					<input
+						id="number_of_attempts"
 						type="number"
 						placeholder="Enter the number of attempts"
 						class="input-field"
 						v-model="number_of_attempts"
 					/>
-					<input
-						type="text"
-						placeholder="Enter the grading basis"
+					<label for="grading_basis" class="label-inline" v-if="multiple_attempts">
+						Grading Basis
+					</label>
+
+					<select
+						id="grading_basis"
+						placeholder="Select grading basis"
 						class="input-field"
 						v-if="multiple_attempts"
 						v-model="grading_basis"
-					/>
+					>
+						<option v-for="option in quizStore.gradingBasisOptions" :key="option" :value="option">
+							{{ option }}
+						</option>
+					</select>
 				</div>
 			</div>
 
@@ -170,12 +182,15 @@
 </template>
 
 <script setup>
-import { ref, computed, defineEmits } from "vue";
+import { ref, onMounted, computed, defineEmits } from "vue";
+import { useQuizStore } from "@/stores/teacherStore/quizStore";
 import moment from "moment";
 import DurationInput from "@/components/teacher/DurationInput.vue";
 import DatetimePicker from "@/components/teacher/DatetimePicker.vue";
 
 const emit = defineEmits(["go-back", "save-settings"]);
+
+const quizStore = useQuizStore();
 
 const make_the_quiz_availability = ref(false);
 const is_time_bound = ref(false);
@@ -237,9 +252,14 @@ const saveSettings = () => {
 const previousPage = () => {
 	emit("go-back");
 };
-</script>
 
+// جلب خيارات "grading_basis" عند تحميل المكون
+onMounted(() => {
+	quizStore.fetchGradingBasisOptions();
+});
+</script>
 <style scoped>
+/* إضافة CSS المخصص هنا */
 .container {
 	max-width: 100%;
 	margin: 0 auto;
@@ -277,7 +297,7 @@ h1 {
 	line-height: 1.2; /* تعديل المحاذاة الرأسية للنص */
 }
 
-section-header input {
+.section-header input {
 	margin-right: 5px;
 	margin-top: 20px;
 }
@@ -334,10 +354,6 @@ section-header input {
 	width: 10px;
 	text-align: center;
 }
-
-/* .inline-fields h4 {
-	margin: 5px 0 0;
-} */
 
 .card-actions {
 	display: flex;
