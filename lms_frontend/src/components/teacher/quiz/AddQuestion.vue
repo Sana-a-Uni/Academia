@@ -1,11 +1,10 @@
 <template>
 	<div class="question-card">
 		<div class="select-type">
-			<h3 style="margin: 0">Question </h3>
+			<h3 style="margin: 0">Question</h3>
 			<select id="questionType" v-model="questionType">
 				<option value="" disabled selected>Select the type of Question</option>
-				<option value="Multiple Choice">Multiple Choice</option>
-				<option value="Multiple Answer">Multiple Answer</option>
+				<option v-for="type in quizStore.questionTypes" :key="type" :value="type">{{ type }}</option>
 			</select>
 		</div>
 		<div class="question-content">
@@ -39,10 +38,12 @@
 
 <script setup>
 import { ref, onMounted, nextTick } from "vue";
+import { useQuizStore } from "@/stores/teacherStore/quizStore";
 import Quill from "quill";
 
 const emit = defineEmits(["questions"]);
 
+const quizStore = useQuizStore();
 const questionContent = ref("");
 const questionType = ref("");
 const options = ref([{ option: "", is_correct: false }]);
@@ -68,6 +69,9 @@ onMounted(() => {
 			questionContent.value = editor.root.innerHTML;
 		});
 	});
+
+	// استدعاء الدالة لجلب أنواع الأسئلة
+	quizStore.fetchQuestionTypes();
 });
 
 const addQuestion = () => {
