@@ -159,7 +159,7 @@ class Session(Document):
 		topics = [row.topic for row in self.topics]
 		topics_set = set(topics)
 		if len(topics) != len(topics_set):
-			frappe.throw(_(f"Topics can't be duplicated"))
+			frappe.throw(_("Topics can't be duplicated"))
 
 	def validate_topics(self):
 		for row in self.topics:
