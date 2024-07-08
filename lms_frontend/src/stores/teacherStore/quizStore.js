@@ -15,10 +15,34 @@ export const useQuizStore = defineStore("quiz", {
 			multiple_attempts: 0,
 			number_of_attempts: "",
 			grading_basis: "",
-			quiz_question: [], 
+			quiz_question: [],
 		},
+		gradingBasisOptions: [], // هنا سيتم تخزين خيارات "grading_basis"
 	}),
 	actions: {
+		async fetchGradingBasisOptions() {
+			try {
+				const response = await axios.get(
+					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.get_grading_basis_options",
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: "token 0b88a69d4861506:a0640c80d24119a",
+						},
+					}
+				);
+				if (response.status == "200") {
+					this.gradingBasisOptions = response.data.data;
+				} else {
+					console.error("Error fetching grading basis options");
+				}
+			} catch (error) {
+				console.error(
+					"Error fetching grading basis options:",
+					error.response ? error.response.data : error
+				);
+			}
+		},
 		async createQuiz() {
 			try {
 				const response = await axios.post(
