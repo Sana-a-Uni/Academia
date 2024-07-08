@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class TransactionRecipients(Document):
+class TransactionPaperReceiver(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -14,15 +14,8 @@ class TransactionRecipients(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		fully_electronic: DF.Check
-		parent: DF.Data
-		parentfield: DF.Data
-		parenttype: DF.Data
-		recipient_company: DF.Link | None
-		recipient_department: DF.Link | None
-		recipient_designation: DF.Link | None
-		recipient_email: DF.Link | None
-		recipient_name: DF.Data | None
-		step: DF.Int
+		company: DF.Link | None
+		department: DF.Link | None
+		secretary: DF.Link | None
 	# end: auto-generated types
 	pass

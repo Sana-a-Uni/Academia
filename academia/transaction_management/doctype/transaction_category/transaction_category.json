@@ -7,13 +7,16 @@
  "engine": "InnoDB",
  "field_order": [
   "details_tab",
-  "category_name",
   "company",
-  "is_group",
+  "category_name",
   "template",
+  "is_group",
   "column_break_nqbz",
   "parent_category",
-  "category_template",
+  "section_break_oqso",
+  "recipients",
+  "get_recipients",
+  "clear_recipients",
   "requirements_tab",
   "requirements"
  ],
@@ -48,12 +51,6 @@
    "label": "Is Group"
   },
   {
-   "fieldname": "category_template",
-   "fieldtype": "Link",
-   "label": "Category Template",
-   "options": "DocType"
-  },
-  {
    "fieldname": "company",
    "fieldtype": "Link",
    "label": "Company",
@@ -73,15 +70,38 @@
    "options": "Transaction Category"
   },
   {
+   "depends_on": "eval:!doc.is_group;",
    "fieldname": "template",
    "fieldtype": "Link",
    "label": "Template",
    "options": "Transaction Category Template"
+  },
+  {
+   "depends_on": "eval:!doc.is_group;",
+   "fieldname": "section_break_oqso",
+   "fieldtype": "Section Break",
+   "label": "Transaction Path"
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "Recipients",
+   "options": "Transaction Recipients"
+  },
+  {
+   "fieldname": "get_recipients",
+   "fieldtype": "Button",
+   "label": "Get Recipients"
+  },
+  {
+   "fieldname": "clear_recipients",
+   "fieldtype": "Button",
+   "label": "Clear Recipients"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-07 14:12:16.033383",
+ "modified": "2024-07-07 21:50:23.886258",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Category",
@@ -109,6 +129,27 @@
    "read": 1,
    "report": 1,
    "role": "Employee",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "role": "Transaction User",
+   "select": 1,
+   "share": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction Manager",
    "share": 1,
    "write": 1
   }
