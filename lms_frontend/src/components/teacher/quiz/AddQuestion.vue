@@ -1,33 +1,28 @@
 <template>
-	<h1>Add Question</h1>
 	<div class="question-card">
 		<div class="select-type">
-			<h3 style="margin: 0">Question 1</h3>
-			<select id="questionType" @change="updateQuestionType">
+			<h3 style="margin: 0">Question </h3>
+			<select id="questionType" v-model="questionType">
 				<option value="" disabled selected>Select the type of Question</option>
-				<option value="handleCheckboxChange">One Answer</option>
-				<option value="multipleAnswers">Multiple Answers</option>
+				<option value="Multiple Choice">Multiple Choice</option>
+				<option value="Multiple Answer">Multiple Answer</option>
 			</select>
 		</div>
 		<div class="question-content">
 			<label for="quizDescription">Question Content:</label>
-			<QuillEditor
-				v-model="quizDescription"
-				:options="editorOptions"
-				class="quill-editor"
-				style="height: 150px"
-			></QuillEditor>
+
+			<div ref="quillEditor" class="quill-editor" style="height: 150px"></div>
 
 			<h3 style="margin-top: 20px; margin-bottom: 10px">Options</h3>
 			<div class="scrollable-card">
-				<div
-					class="options"
-					v-for="(option, index) in options"
-					:key="index"
-					:id="'option' + (index + 1)"
-				>
-					<input type="checkbox" @change="handleCheckboxChange($event, index)" />
-					<input class="option" type="text" :placeholder="'Option ' + (index + 1)" />
+				<div class="options" v-for="(option, index) in options" :key="index">
+					<input type="checkbox" v-model="option.is_correct" />
+					<input
+						class="option"
+						type="text"
+						:placeholder="'Option ' + (index + 1)"
+						v-model="option.option"
+					/>
 					<i class="mdi mdi-delete" @click="removeOption(index)"></i>
 				</div>
 				<div class="v-card-actions">
@@ -35,30 +30,23 @@
 				</div>
 			</div>
 			<div class="card-actions">
-				<button class="cancel-btn" @click="addQuestion">Cancel</button>
-				<button class="next-btn" @click="cancel">Add</button>
+				<button class="cancel-btn" @click="cancel">Cancel</button>
+				<button class="next-btn" @click="addQuestion">Add</button>
 			</div>
 		</div>
 	</div>
 </template>
 
-<script>
-import { ref, computed, defineProps, defineEmits } from "vue";
+<script setup>
+import { ref, onMounted, nextTick } from "vue";
+import Quill from "quill";
 
-const emit = defineEmits(["questions", "questions"]);
+const emit = defineEmits(["questions"]);
 
-const quizTitle = ref("");
-const quizDescription = ref("");
-
-const addQuestion = () => {
-	// Emit event to parent to change the view to QuizInformation
-	emit("questions");
-};
-
-const cancel = () => {
-	// Emit event to parent to change the view to QuizInformation
-	emit("questions");
-};
+const questionContent = ref("");
+const questionType = ref("");
+const options = ref([{ option: "", is_correct: false }]);
+const quillEditor = ref(null);
 
 const editorOptions = {
 	theme: "snow",
@@ -72,54 +60,40 @@ const editorOptions = {
 		],
 	},
 };
-export default {
-	data() {
-		return {
-			currentQuestionType: "",
-			options: [1, 2],
-			textAlignment: "left",
-			fontStyles: [],
-		};
-	},
-	methods: {
-		updateQuestionType() {
-			this.currentQuestionType = document.getElementById("questionType").value;
-		},
-		handleCheckboxChange(event, index) {
-			if (this.currentQuestionType === "handleCheckboxChange") {
-				this.options.forEach((_, i) => {
-					if (i !== index) {
-						document
-							.getElementById(`option${i + 1}`)
-							.querySelector('input[type="checkbox"]').checked = false;
-					}
-				});
-			}
-		},
 
-		addOption() {
-			this.options.push(this.options.length + 1);
-		},
-		removeOption(index) {
-			this.options.splice(index, 1);
-		},
-		cancel() {
-			// Cancel logic
-		},
-	},
-	mounted() {
-		this.$nextTick(() => {
-			this.options.forEach((_, index) => {
-				document
-					.getElementById(`option${index + 1}`)
-					.querySelector('input[type="checkbox"]').onchange = (event) => {
-					if (this.currentQuestionType === "handleCheckboxChange") {
-						this.handleCheckboxChange(event, index);
-					}
-				};
-			});
+onMounted(() => {
+	nextTick(() => {
+		const editor = new Quill(quillEditor.value, editorOptions);
+		editor.on("text-change", () => {
+			questionContent.value = editor.root.innerHTML;
 		});
-	},
+	});
+});
+
+const addQuestion = () => {
+	const questionData = {
+		question: questionContent.value,
+		question_type: questionType.value,
+		question_grade: 0, // يمكن ضبط الدرجة لاحقًا
+		question_options: options.value,
+	};
+	emit("questions", questionData);
+	// Reset the form after adding a question
+	questionContent.value = "";
+	questionType.value = "";
+	options.value = [{ option: "", is_correct: false }];
+};
+
+const cancel = () => {
+	emit("questions");
+};
+
+const addOption = () => {
+	options.value.push({ option: "", is_correct: false });
+};
+
+const removeOption = (index) => {
+	options.value.splice(index, 1);
 };
 </script>
 
