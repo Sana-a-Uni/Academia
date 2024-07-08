@@ -39,6 +39,7 @@ const handleQuizCreated = () => {
 const handleSaveSettings = (settingsData) => {
 	quizStore.updateQuizData(settingsData);
 	quizStore.createQuiz().then(() => {
+		resetFields(); // Call reset fields after creating quiz
 		currentView.value = "information"; // أو الصفحة التي تريد الانتقال إليها بعد الحفظ
 	});
 };
@@ -46,5 +47,19 @@ const handleSaveSettings = (settingsData) => {
 const handleAddQuestion = (questionData) => {
 	quizStore.addQuestion(questionData);
 	currentView.value = "questions";
+};
+
+const resetFields = () => {
+	quizStore.quizData.title = "";
+	quizStore.quizData.instruction = "";
+	quizStore.quizData.make_the_quiz_availability = false;
+	quizStore.quizData.from_date = "";
+	quizStore.quizData.to_date = "";
+	quizStore.quizData.is_time_bound = false;
+	quizStore.quizData.duration = 0;
+	quizStore.quizData.multiple_attempts = false;
+	quizStore.quizData.number_of_attempts = "";
+	quizStore.quizData.grading_basis = "";
+	quizStore.quizData.quiz_question = [];
 };
 </script>
