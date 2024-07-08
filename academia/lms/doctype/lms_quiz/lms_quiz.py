@@ -20,7 +20,7 @@ class LMSQuiz(Document):
 		faculty_member: DF.Link | None
 		from_date: DF.Datetime | None
 		grading_basis: DF.Literal["Highest Grade", "Latest Attempt", "Average of Attempts"]
-		instruction: DF.SmallText | None
+		instruction: DF.TextEditor | None
 		is_time_bound: DF.Check
 		make_the_quiz_availability: DF.Check
 		multiple_attempts: DF.Check

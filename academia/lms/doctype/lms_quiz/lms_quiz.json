@@ -59,7 +59,7 @@
   },
   {
    "fieldname": "instruction",
-   "fieldtype": "Small Text",
+   "fieldtype": "Text Editor",
    "label": "Instruction"
   },
   {
@@ -154,7 +154,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-11 01:12:39.465416",
+ "modified": "2024-07-07 00:42:58.838331",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "LMS Quiz",
