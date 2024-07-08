@@ -7,7 +7,7 @@
 					<input
 						id="availability-check"
 						type="checkbox"
-						v-model="make_the_quiz_availability"
+						v-model="quizStore.quizData.make_the_quiz_availability"
 						class="checkbox-inline"
 					/>
 					<label for="availability-check" class="label-inline">Make the quiz availability</label>
@@ -15,18 +15,21 @@
 				<div
 					:class="[
 						'date-input',
-						{ active: make_the_quiz_availability, faded: !make_the_quiz_availability },
+						{
+							active: quizStore.quizData.make_the_quiz_availability,
+							faded: !quizStore.quizData.make_the_quiz_availability,
+						},
 					]"
 					id="date-inputs"
 				>
 					<div class="inline-fields">
 						<div class="from-date">
 							<h4 style="margin-top: 6px; margin-right: 15px">From</h4>
-							<DatetimePicker v-model="from_date" />
+							<DatetimePicker v-model="quizStore.quizData.from_date" />
 						</div>
 						<div class="from-date">
 							<h4 style="margin-top: 6px; margin-right: 15px">To</h4>
-							<DatetimePicker v-model="to_date" />
+							<DatetimePicker v-model="quizStore.quizData.to_date" />
 						</div>
 					</div>
 				</div>
@@ -37,16 +40,25 @@
 					<input
 						id="time-limit-check"
 						type="checkbox"
-						v-model="is_time_bound"
+						v-model="quizStore.quizData.is_time_bound"
 						class="checkbox-inline"
 					/>
 					<label for="time-limit-check" class="label-inline">is Time-Bound</label>
 				</div>
 				<div
-					:class="['time-input', { active: is_time_bound, faded: !is_time_bound }]"
+					:class="[
+						'time-input',
+						{
+							active: quizStore.quizData.is_time_bound,
+							faded: !quizStore.quizData.is_time_bound,
+						},
+					]"
 					id="time-input"
 				>
-					<DurationInput v-model="duration" @update:seconds="updateDurationInSeconds" />
+					<DurationInput
+						v-model="quizStore.quizData.duration"
+						@update:seconds="updateDurationInSeconds"
+					/>
 				</div>
 			</div>
 
@@ -55,16 +67,26 @@
 					<input
 						id="multiple-attempt-check"
 						type="checkbox"
-						v-model="multiple_attempts"
+						v-model="quizStore.quizData.multiple_attempts"
 						class="checkbox-inline"
 					/>
 					<label for="multiple-attempt-check" class="label-inline">Multiple Attempts</label>
 				</div>
 				<div
-					:class="['attempt-input', { active: multiple_attempts, faded: !multiple_attempts }]"
+					:class="[
+						'attempt-input',
+						{
+							active: quizStore.quizData.multiple_attempts,
+							faded: !quizStore.quizData.multiple_attempts,
+						},
+					]"
 					id="attempt-input"
 				>
-					<label for="number_of_attempts" class="label-inline" v-if="multiple_attempts">
+					<label
+						for="number_of_attempts"
+						class="label-inline"
+						v-if="quizStore.quizData.multiple_attempts"
+					>
 						Number of attempts
 					</label>
 					<input
@@ -72,9 +94,13 @@
 						type="number"
 						placeholder="Enter the number of attempts"
 						class="input-field"
-						v-model="number_of_attempts"
+						v-model="quizStore.quizData.number_of_attempts"
 					/>
-					<label for="grading_basis" class="label-inline" v-if="multiple_attempts">
+					<label
+						for="grading_basis"
+						class="label-inline"
+						v-if="quizStore.quizData.multiple_attempts"
+					>
 						Grading Basis
 					</label>
 
@@ -82,8 +108,8 @@
 						id="grading_basis"
 						placeholder="Select grading basis"
 						class="input-field"
-						v-if="multiple_attempts"
-						v-model="grading_basis"
+						v-if="quizStore.quizData.multiple_attempts"
+						v-model="quizStore.quizData.grading_basis"
 					>
 						<option v-for="option in quizStore.gradingBasisOptions" :key="option" :value="option">
 							{{ option }}
@@ -193,18 +219,9 @@ const emit = defineEmits(["go-back", "save-settings"]);
 const quizStore = useQuizStore();
 
 const make_the_quiz_availability = ref(false);
-const is_time_bound = ref(false);
-const multiple_attempts = ref(false);
 const studentGroupActive = ref(false);
 const studentActive = ref(false);
 
-const from_date = ref("");
-const to_date = ref("");
-const duration = ref("");
-const durationInSeconds = ref(0);
-const number_of_attempts = ref(1);
-const grading_basis = ref("");
-const selected_group = ref("");
 const searchTerm = ref("");
 const selectedGroupForSearch = ref("");
 
@@ -224,24 +241,24 @@ const filteredItems = computed(() => {
 });
 
 const updateDurationInSeconds = (seconds) => {
-	durationInSeconds.value = seconds;
+	quizStore.quizData.duration = seconds;
 };
 
 const saveSettings = () => {
 	const settingsData = {
-		make_the_quiz_availability: make_the_quiz_availability.value,
-		from_date: make_the_quiz_availability.value
-			? moment(from_date.value).format("YYYY-MM-DD HH:mm:ss")
+		make_the_quiz_availability: quizStore.quizData.make_the_quiz_availability,
+		from_date: quizStore.quizData.from_date
+			? moment(quizStore.quizData.from_date).format("YYYY-MM-DD HH:mm:ss")
 			: null,
-		to_date: make_the_quiz_availability.value
-			? moment(to_date.value).format("YYYY-MM-DD HH:mm:ss")
+		to_date: quizStore.quizData.to_date
+			? moment(quizStore.quizData.to_date).format("YYYY-MM-DD HH:mm:ss")
 			: null,
-		is_time_bound: is_time_bound.value,
-		duration: is_time_bound.value ? durationInSeconds.value : null,
-		multiple_attempts: multiple_attempts.value,
-		number_of_attempts: multiple_attempts.value ? number_of_attempts.value : 1,
-		grading_basis: multiple_attempts.value ? grading_basis.value : null,
-		selected_group: selected_group.value,
+		is_time_bound: quizStore.quizData.is_time_bound,
+		duration: quizStore.quizData.is_time_bound ? quizStore.quizData.duration : null,
+		multiple_attempts: quizStore.quizData.multiple_attempts,
+		number_of_attempts: quizStore.quizData.multiple_attempts ? quizStore.quizData.number_of_attempts : 1,
+		grading_basis: quizStore.quizData.multiple_attempts ? quizStore.quizData.grading_basis : null,
+		selected_group: quizStore.quizData.selected_group,
 		selected_students: students.value
 			.filter((student) => student.selected)
 			.map((student) => student.studentname),
@@ -258,6 +275,7 @@ onMounted(() => {
 	quizStore.fetchGradingBasisOptions();
 });
 </script>
+
 <style scoped>
 /* إضافة CSS المخصص هنا */
 .container {

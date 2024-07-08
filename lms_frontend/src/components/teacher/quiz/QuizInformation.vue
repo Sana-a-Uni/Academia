@@ -3,10 +3,9 @@
 		<h1>Create a New Quiz</h1>
 		<form @submit.prevent="createQuiz">
 			<label for="quizTitle">Quiz Title:</label>
-			<input type="text" id="quizTitle" v-model="quizTitle" />
+			<input type="text" id="quizTitle" v-model="quizStore.quizData.title" />
 
 			<label for="quizInstruction">Quiz Instruction:</label>
-
 			<div ref="quillEditor" class="quill-editor"></div>
 
 			<div class="button-group">
@@ -20,12 +19,12 @@
 <script setup>
 import { ref, onMounted, nextTick } from "vue";
 import Quill from "quill";
+import { useQuizStore } from "@/stores/teacherStore/quizStore";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
 const emit = defineEmits(["quiz-created"]);
 
-const quizTitle = ref("");
-const quizInstruction = ref("");
+const quizStore = useQuizStore();
 const quillEditor = ref(null);
 
 const editorOptions = {
@@ -44,23 +43,20 @@ const editorOptions = {
 onMounted(() => {
 	nextTick(() => {
 		const editor = new Quill(quillEditor.value, editorOptions);
+		editor.root.innerHTML = quizStore.quizData.instruction; // Load existing data
 		editor.on("text-change", () => {
-			quizInstruction.value = editor.root.innerHTML;
+			quizStore.quizData.instruction = editor.root.innerHTML;
 		});
 	});
 });
 
 const createQuiz = () => {
-	const quizData = {
-		title: quizTitle.value,
-		instruction: quizInstruction.value,
-	};
-	emit("quiz-created", quizData);
+	emit("quiz-created");
 };
 
 const cancelQuiz = () => {
-	quizTitle.value = "";
-	quizInstruction.value = "";
+	quizStore.quizData.title = "";
+	quizStore.quizData.instruction = "";
 };
 </script>
 

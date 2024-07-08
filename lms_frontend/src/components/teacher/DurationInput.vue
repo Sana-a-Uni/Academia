@@ -76,6 +76,9 @@ const formattedDuration = ref("");
 const durationContainer = ref(null);
 
 const parseDuration = (duration) => {
+	if (typeof duration !== "string") {
+		return;
+	}
 	const regex = /(\d+d)?\s*(\d+h)?\s*(\d+m)?\s*(\d+s)?/;
 	const matches = duration.match(regex);
 	if (matches) {
@@ -111,6 +114,7 @@ const handleClickOutside = (event) => {
 
 onMounted(() => {
 	document.addEventListener("click", handleClickOutside);
+	parseDuration(props.modelValue); // Parse the initial modelValue
 });
 
 onBeforeUnmount(() => {

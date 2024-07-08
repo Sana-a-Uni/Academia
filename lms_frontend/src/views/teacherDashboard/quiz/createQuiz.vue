@@ -32,15 +32,15 @@ import mainLayout from "@/components/teacher/layout/MainLayout.vue";
 const currentView = ref("information");
 const quizStore = useQuizStore();
 
-const handleQuizCreated = (quizData) => {
-	quizStore.updateQuizData(quizData);
+const handleQuizCreated = () => {
 	currentView.value = "questions";
 };
 
 const handleSaveSettings = (settingsData) => {
 	quizStore.updateQuizData(settingsData);
-	quizStore.createQuiz();
-	currentView.value = "information"; // أو الصفحة التي تريد الانتقال إليها بعد الحفظ
+	quizStore.createQuiz().then(() => {
+		currentView.value = "information"; // أو الصفحة التي تريد الانتقال إليها بعد الحفظ
+	});
 };
 
 const handleAddQuestion = (questionData) => {
