@@ -105,7 +105,9 @@ class Topic(Document):
 					)
 				if parent_topic["docstatus"] != 0:
 					status = "submitted" if parent_topic["docstatus"] == 1 else "canceled"
-					frappe.throw(_(f"The chosen parent topic {self.parent_topic} cannot be {status}."))
+					frappe.throw(
+						_("The chosen parent topic {0} cannot be {1}.").format(self.parent_topic, status)
+					)
 			else:
 				frappe.throw(_("The chosen parent topic is not a group topic."))
 
@@ -116,8 +118,10 @@ class Topic(Document):
 			)
 			if parent_category and self.category != parent_category:
 				frappe.throw(
-					_(
-						f"The category {frappe.bold(self.category)} does not match the parent category {frappe.bold(parent_category)} of sub-category {frappe.bold(self.sub_category)}."
+					_("The category {0} does not match the parent category {1} of sub-category {2}.").format(
+						frappe.bold(self.category),
+						frappe.bold(parent_category),
+						frappe.bold(self.sub_category),
 					)
 				)
 
