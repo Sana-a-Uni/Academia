@@ -63,9 +63,6 @@ def create_questions(questions_data):
     return questions
 
 
-
-import frappe
-
 @frappe.whitelist()
 def get_grading_basis_options():
     try:
@@ -90,3 +87,25 @@ def get_grading_basis_options():
             "error": str(e)
         })
 
+@frappe.whitelist()
+def get_question_types():
+    try:
+        question_types = frappe.get_meta('Question').get_field('question_type').options
+        if question_types:
+            question_types = [option.strip() for option in question_types.split('\n') if option.strip()]
+        else:
+            question_types = []
+            
+        # Update response with options and success status
+        frappe.response.update({
+            "status_code": 200,
+            "data": question_types
+        })
+
+    except Exception as e:
+        # On error, update response with error and failure status
+        frappe.response.update({
+            "status_code": 500,
+            "data": [],
+            "error": str(e)
+        })
