@@ -11,13 +11,14 @@ export const useQuizStore = defineStore("quiz", {
 			from_date: "",
 			to_date: "",
 			is_time_bound: 0,
-			duration: 60,
+			duration: "",
 			multiple_attempts: 0,
 			number_of_attempts: "",
 			grading_basis: "",
 			quiz_question: [],
 		},
 		gradingBasisOptions: [], // هنا سيتم تخزين خيارات "grading_basis"
+		questionTypes: [], // هنا سيتم تخزين خيارات أنواع الأسئلة
 	}),
 	actions: {
 		async fetchGradingBasisOptions() {
@@ -31,7 +32,7 @@ export const useQuizStore = defineStore("quiz", {
 						},
 					}
 				);
-				if (response.status == "200") {
+				if (response.data.status_code === 200) {
 					this.gradingBasisOptions = response.data.data;
 				} else {
 					console.error("Error fetching grading basis options");
@@ -41,6 +42,26 @@ export const useQuizStore = defineStore("quiz", {
 					"Error fetching grading basis options:",
 					error.response ? error.response.data : error
 				);
+			}
+		},
+		async fetchQuestionTypes() {
+			try {
+				const response = await axios.get(
+					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.get_question_types",
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: "token 0b88a69d4861506:a0640c80d24119a",
+						},
+					}
+				);
+				if (response.data.status_code === 200) {
+					this.questionTypes = response.data.data;
+				} else {
+					console.error("Error fetching question types");
+				}
+			} catch (error) {
+				console.error("Error fetching question types:", error.response ? error.response.data : error);
 			}
 		},
 		async createQuiz() {
