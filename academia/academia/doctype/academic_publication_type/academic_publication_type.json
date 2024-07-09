@@ -26,7 +26,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-24 15:50:57.602572",
+ "modified": "2024-06-28 05:40:59.930034",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Publication Type",
@@ -46,6 +46,7 @@
    "write": 1
   }
  ],
+ "show_name_in_global_search": 1,
  "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",

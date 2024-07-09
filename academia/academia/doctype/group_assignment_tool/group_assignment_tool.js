@@ -25,5 +25,32 @@ frappe.ui.form.on('Group Assignment Tool', {
 				}
 			}
 		});
-	}
+	},
+	refresh: function(frm) {
+        frm.set_query('program', function() {
+            if (frm.doc.faculty) {
+                return {
+                    filters: {
+                        'faculty': frm.doc.faculty
+                    }
+                };
+            } else {
+                return {};
+            }
+        });
+    },
+    faculty: function(frm) {
+        frm.set_value('program', null);  // Reset the program field when faculty changes
+        frm.set_query('program', function() {
+            if (frm.doc.faculty) {
+                return {
+                    filters: {
+                        'faculty': frm.doc.faculty
+                    }
+                };
+            } else {
+                return {};
+            }
+        });
+    }
 });

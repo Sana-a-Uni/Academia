@@ -13,13 +13,14 @@ class TransactionCategory(Document):
 
 	if TYPE_CHECKING:
 		from academia.transaction_management.doctype.transaction_category__requirement.transaction_category__requirement import TransactionCategoryRequirement
+		from academia.transaction_management.doctype.transaction_recipients.transaction_recipients import TransactionRecipients
 		from frappe.types import DF
 
 		category_name: DF.Data
-		category_template: DF.Link | None
 		company: DF.Link | None
 		is_group: DF.Check
 		parent_category: DF.Link | None
+		recipients: DF.Table[TransactionRecipients]
 		requirements: DF.Table[TransactionCategoryRequirement]
 		template: DF.Link | None
 	# end: auto-generated types

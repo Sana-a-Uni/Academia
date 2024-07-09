@@ -16,12 +16,12 @@
   "from_company",
   "from_department",
   "from_designation",
-  "section_break_hgwa",
-  "amended_from",
-  "recipients_tab",
   "recipient_settings_section",
   "get_recipients",
-  "recipients"
+  "clear_recipients",
+  "recipients",
+  "section_break_hgwa",
+  "amended_from"
  ],
  "fields": [
   {
@@ -38,18 +38,16 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Type",
-   "options": "\nRedirected\nApproved\nRejected\nCanceled\nCouncil"
+   "options": "Redirected\nApproved\nRejected\nCanceled\nCouncil"
   },
   {
    "allow_on_submit": 1,
    "fieldname": "created_by",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "is_virtual": 1,
    "label": "Created By",
    "options": "doc.owner",
-   "read_only": 1,
-   "set_only_once": 1
+   "read_only": 1
   },
   {
    "fieldname": "details",
@@ -92,19 +90,15 @@
    "options": "Transaction"
   },
   {
+   "depends_on": "eval:doc.type == \"Redirected\";",
    "fieldname": "recipient_settings_section",
    "fieldtype": "Section Break",
-   "label": "Recipient Settings"
+   "label": "Recipients"
   },
   {
    "fieldname": "get_recipients",
    "fieldtype": "Button",
    "label": "Get Recipients"
-  },
-  {
-   "fieldname": "recipients_tab",
-   "fieldtype": "Tab Break",
-   "label": "Recipients"
   },
   {
    "fieldname": "recipients",
@@ -116,22 +110,25 @@
    "allow_on_submit": 1,
    "fieldname": "action_date",
    "fieldtype": "Data",
-   "in_list_view": 1,
    "is_virtual": 1,
    "label": "Action Date",
    "options": "frappe.utils.format_datetime(doc.creation, \n                format_string='dd MMM yyyy, HH:mm:ss'\n            )",
-   "read_only": 1,
-   "set_only_once": 1
+   "read_only": 1
   },
   {
    "fieldname": "section_break_hgwa",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "clear_recipients",
+   "fieldtype": "Button",
+   "label": "Clear Recipients"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-11 14:42:26.206193",
+ "modified": "2024-07-07 11:51:27.838074",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Action",

@@ -7,26 +7,34 @@
  "field_order": [
   "schedule_version_section",
   "schedule_template_version",
-  "is_multy_group",
+  "is_multi_group",
   "column_break_vmss",
   "schedule_template",
   "section_break_wyzm",
   "academic_year",
   "faculty",
   "level",
+  "course_type",
   "course",
   "column_break_jdfp",
   "academic_term",
   "program",
   "lesson_type",
+  "sub_group",
   "section_break_stfq",
   "instructor",
   "room",
   "column_break_yvwh",
   "group",
   "section_break_wdte",
+  "saturday",
+  "monday",
+  "wednesday",
   "from_time",
   "column_break_fyil",
+  "sunday",
+  "tuesday",
+  "thursday",
   "to_time",
   "section_break_laye",
   "table_ocar"
@@ -166,12 +174,6 @@
    "label": "Schedule Version"
   },
   {
-   "default": "0",
-   "fieldname": "is_multy_group",
-   "fieldtype": "Check",
-   "label": "is Multy Group"
-  },
-  {
    "fieldname": "section_break_laye",
    "fieldtype": "Section Break"
   },
@@ -179,12 +181,66 @@
    "depends_on": "eval:doc.is_multy_group == 1;",
    "fieldname": "table_ocar",
    "fieldtype": "Table",
-   "options": "Multy Lesson Template"
+   "options": "Multi Lesson Template"
+  },
+  {
+   "default": "0",
+   "fieldname": "saturday",
+   "fieldtype": "Check",
+   "label": "Saturday"
+  },
+  {
+   "default": "0",
+   "fieldname": "monday",
+   "fieldtype": "Check",
+   "label": "Monday"
+  },
+  {
+   "default": "0",
+   "fieldname": "wednesday",
+   "fieldtype": "Check",
+   "label": "Wednesday"
+  },
+  {
+   "default": "0",
+   "fieldname": "sunday",
+   "fieldtype": "Check",
+   "label": "Sunday"
+  },
+  {
+   "default": "0",
+   "fieldname": "tuesday",
+   "fieldtype": "Check",
+   "label": "Tuesday"
+  },
+  {
+   "default": "0",
+   "fieldname": "thursday",
+   "fieldtype": "Check",
+   "label": "Thursday"
+  },
+  {
+   "fieldname": "course_type",
+   "fieldtype": "Select",
+   "label": "Course Type",
+   "options": "\nTheoretical\nPractical",
+   "reqd": 1
+  },
+  {
+   "fieldname": "sub_group",
+   "fieldtype": "Data",
+   "label": "Sub Group"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_multi_group",
+   "fieldtype": "Check",
+   "label": "is Multi Group"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-30 02:56:19.172348",
+ "modified": "2024-07-06 18:24:41.193710",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lesson Template",
