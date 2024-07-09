@@ -26,6 +26,9 @@
 						{{ option.option }}
 					</li>
 				</ul>
+				<div class="delete-button-container">
+					<button class="delete-button" @click="deleteQuestion(index)">Delete</button>
+				</div>
 			</div>
 		</div>
 		<div class="card-actions">
@@ -44,7 +47,7 @@ const props = defineProps({
 		required: true,
 	},
 });
-const emit = defineEmits(["go-back", "settings", "addQuestion", "reuseQuestion"]);
+const emit = defineEmits(["go-back", "settings", "addQuestion", "reuseQuestion", "deleteQuestion"]);
 
 const selectedAnswers = ref([]);
 
@@ -67,10 +70,14 @@ const previousPage = () => {
 const selectAnswer = (questionIndex, optionIndex) => {
 	selectedAnswers.value[questionIndex] = optionIndex;
 };
+
+const deleteQuestion = (index) => {
+	props.questions.splice(index, 1);
+	emit("deleteQuestion", index);
+};
 </script>
 
 <style scoped>
-/* التصميم العام */
 body {
 	font-family: Arial, sans-serif;
 	background-color: #f9f9f9;
@@ -78,7 +85,6 @@ body {
 	padding: 0;
 }
 
-/* زر الإضافة وإعادة الاستخدام */
 .select-button {
 	display: flex;
 	justify-content: space-between;
@@ -95,12 +101,12 @@ body {
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
-	width: 35%; /* تعديل العرض ليكون مرناً */
+	width: 35%;
 }
 button:hover {
 	opacity: 0.9;
 }
-/* بطاقة التمرير */
+
 .scrollable-card {
 	background-color: #f4f4f4;
 	padding-left: 20px;
@@ -108,18 +114,18 @@ button:hover {
 	padding-top: 20px;
 	width: 96%;
 	border: 1px solid #ddd;
-	height: calc(78vh - 80px); /* اجعل البطاقة تشغل ارتفاع الشاشة بالكامل ناقص الأزرار */
+	height: calc(78vh - 80px);
 	overflow-y: auto;
 	border-radius: 10px;
 }
 
-/* أسئلة الكويز */
 .question {
 	background-color: white;
 	padding: 20px;
 	border: 1px solid #ddd;
 	border-radius: 10px;
 	margin-bottom: 20px;
+	position: relative;
 }
 
 .question-grade {
@@ -131,26 +137,26 @@ button:hover {
 
 .question-grade h2 {
 	margin: 0;
-	font-size: 1.2rem; /* تصغير حجم الخط */
+	font-size: 1.2rem;
 }
 
 .grade {
-	width: 130px; /* تعديل العرض ليكون متناسقاً */
+	width: 130px;
 	padding: 5px;
 	border: 1px solid #ccc;
 	border-radius: 5px;
-	font-size: 0.9rem; /* تصغير حجم الخط */
+	font-size: 0.9rem;
 }
 
 .question p {
-	font-size: 1rem; /* تصغير حجم النص */
+	font-size: 1rem;
 }
 
 .question ul {
 	list-style-type: none;
 	padding: 0;
 	margin: 10px 0 0 0;
-	font-size: 0.9rem; /* تصغير حجم النص */
+	font-size: 0.9rem;
 }
 
 .question ul li {
@@ -164,7 +170,26 @@ button:hover {
 	border-radius: 5px;
 }
 
-/* أزرار الإجراءات */
+.delete-button-container {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 10px;
+}
+
+.delete-button {
+	background-color: #dc3545;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	padding: 5px 10px;
+	width: 100px;
+	text-align: center;
+}
+.delete-button:hover {
+	opacity: 0.9;
+}
+
 .card-actions {
 	display: flex;
 	justify-content: flex-end;
@@ -178,18 +203,17 @@ button:hover {
 	border: none;
 	border-radius: 5px;
 	cursor: pointer;
-	background-color: #0584ae; /* تغيير اللون */
-	color: white; /* تغيير لون النص إلى الأبيض */
+	background-color: #0584ae;
+	color: white;
 }
 .card-actions button:hover {
-	opacity: 0.9; /* تغيير اللون */
+	opacity: 0.9;
 }
 
 .card-actions .prev-btn {
 	margin-right: 10px;
 }
 
-/* استجابة التصميم للشاشات الصغيرة */
 @media (max-width: 768px) {
 	.select-button {
 		flex-direction: column;
@@ -219,7 +243,7 @@ button:hover {
 
 @media (max-width: 576px) {
 	.scrollable-card {
-		height: calc(100vh - 100px); /* تعديل الارتفاع للشاشات الصغيرة */
+		height: calc(100vh - 100px);
 		padding: 10px;
 	}
 }

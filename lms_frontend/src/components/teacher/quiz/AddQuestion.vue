@@ -212,7 +212,7 @@ h1 {
 	opacity: 0.9;
 }
 .delete-icon {
-	color: red;
+	color: #dc3545;
 	font-size: 20px;
 	cursor: pointer;
 	margin: 5px;
