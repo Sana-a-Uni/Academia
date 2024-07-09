@@ -1,36 +1,43 @@
 <template>
-	<div class="question-card">
-		<div class="select-type">
-			<h3 style="margin: 0">Question</h3>
-			<select id="questionType" v-model="questionType">
-				<option value="" disabled selected>Select the type of Question</option>
-				<option v-for="type in quizStore.questionTypes" :key="type" :value="type">{{ type }}</option>
-			</select>
-		</div>
-		<div class="question-content">
-			<label for="quizDescription">Question Content:</label>
-
-			<div ref="quillEditor" class="quill-editor" style="height: 150px"></div>
-
-			<h3 style="margin-top: 20px; margin-bottom: 10px">Options</h3>
-			<div class="scrollable-card">
-				<div class="options" v-for="(option, index) in options" :key="index">
-					<input type="checkbox" v-model="option.is_correct" />
-					<input
-						class="option"
-						type="text"
-						:placeholder="'Option ' + (index + 1)"
-						v-model="option.option"
-					/>
-					<i class="mdi mdi-delete" @click="removeOption(index)"></i>
-				</div>
-				<div class="v-card-actions">
-					<button class="add-option" @click="addOption">Add Option</button>
-				</div>
+	<div class="add-question-page">
+		<h1 class="page-title">Add Question</h1>
+		<div class="question-card">
+			<div class="select-type">
+				<h3 style="margin: 0">Question</h3>
+				<select id="questionType" v-model="questionType">
+					<option value="" disabled selected>Select the type of Question</option>
+					<option v-for="type in quizStore.questionTypes" :key="type" :value="type">
+						{{ type }}
+					</option>
+				</select>
 			</div>
-			<div class="card-actions">
-				<button class="cancel-btn" @click="cancel">Cancel</button>
-				<button class="next-btn" @click="addQuestion">Add</button>
+			<div class="question-content">
+				<label for="quizDescription">Question Content:</label>
+				<div ref="quillEditor" class="quill-editor" style="height: 150px"></div>
+				<h3 style="margin-top: 20px; margin-bottom: 10px">Options</h3>
+				<div class="scrollable-card">
+					<div class="options" v-for="(option, index) in options" :key="index">
+						<input type="checkbox" v-model="option.is_correct" />
+						<input
+							class="option"
+							type="text"
+							:placeholder="'Option ' + (index + 1)"
+							v-model="option.option"
+						/>
+						<font-awesome-icon
+							icon="trash-alt"
+							@click="removeOption(index)"
+							class="delete-icon"
+						/>
+					</div>
+					<div class="v-card-actions">
+						<button class="add-option" @click="addOption">Add Option</button>
+					</div>
+				</div>
+				<div class="card-actions">
+					<button class="cancel-btn" @click="cancel">Cancel</button>
+					<button class="next-btn" @click="addQuestion">Add</button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -40,13 +47,21 @@
 import { ref, onMounted, nextTick } from "vue";
 import { useQuizStore } from "@/stores/teacherStore/quizStore";
 import Quill from "quill";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { library } from "@fortawesome/fontawesome-svg-core";
+
+library.add(faTrashAlt);
 
 const emit = defineEmits(["questions"]);
 
 const quizStore = useQuizStore();
 const questionContent = ref("");
 const questionType = ref("");
-const options = ref([{ option: "", is_correct: false }]);
+const options = ref([
+	{ option: "", is_correct: false },
+	{ option: "", is_correct: false },
+]);
 const quillEditor = ref(null);
 
 const editorOptions = {
@@ -70,7 +85,6 @@ onMounted(() => {
 		});
 	});
 
-	// استدعاء الدالة لجلب أنواع الأسئلة
 	quizStore.fetchQuestionTypes();
 });
 
@@ -78,14 +92,16 @@ const addQuestion = () => {
 	const questionData = {
 		question: questionContent.value,
 		question_type: questionType.value,
-		question_grade: 0, // يمكن ضبط الدرجة لاحقًا
+		question_grade: 0,
 		question_options: options.value,
 	};
 	emit("questions", questionData);
-	// Reset the form after adding a question
 	questionContent.value = "";
 	questionType.value = "";
-	options.value = [{ option: "", is_correct: false }];
+	options.value = [
+		{ option: "", is_correct: false },
+		{ option: "", is_correct: false },
+	];
 };
 
 const cancel = () => {
@@ -102,12 +118,18 @@ const removeOption = (index) => {
 </script>
 
 <style scoped>
-/* Include your styles here */
-
 h1 {
 	text-align: center;
 	font-size: 24px;
+	margin-bottom: 20px;
 }
+
+.add-question-page {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 .question-card {
 	width: 97%;
 	padding-left: 20px;
@@ -180,7 +202,6 @@ h1 {
 	justify-content: flex-end;
 	margin-top: 10px;
 }
-
 .add-option {
 	background-color: #0584ae;
 	padding: 10px;
@@ -190,12 +211,15 @@ h1 {
 .add-option:hover {
 	opacity: 0.9;
 }
-
-.options .mdi-delete {
+.delete-icon {
 	color: red;
-	font-size: 24px;
+	font-size: 20px;
 	cursor: pointer;
-	margin-bottom: 20px;
+	margin: 5px;
+	margin-right: 15px;
+	margin-left: 15px;
+	position: relative;
+	top: -10px;
 }
 .options input[type="checkbox"] {
 	width: 15px;
@@ -211,9 +235,9 @@ select {
 	font-size: 16px;
 	background-color: #fff;
 	color: #333;
-	width: 30%; /* اجعل العرض 100% للتوافق مع الشاشات الصغيرة */
+	width: 30%;
 	cursor: pointer;
-	appearance: none; /* لإزالة شكل السهم الافتراضي في بعض المتصفحات */
+	appearance: none;
 }
 
 select:focus {
@@ -226,15 +250,13 @@ select:focus {
 	justify-content: space-between;
 }
 
-/* Default styles */
 @media only screen and (max-width: 768px) {
-	/* Styles for screens up to 768px width */
 	.question-card {
-		width: 90%; /* Adjust width for smaller screens */
-		margin: 10px; /* Adjust margin for smaller screens */
+		width: 90%;
+		margin: 10px;
 	}
 	.scrollable-card {
-		height: 60%; /* Adjust height for smaller screens */
+		height: 60%;
 	}
 }
 
@@ -251,42 +273,31 @@ select:focus {
 	}
 }
 
-/* Default styles */
 .options {
 	display: flex;
 	align-items: center;
 }
 
 .options input[type="checkbox"] {
-	width: 5%; /* Adjust width for checkbox */
+	width: 5%;
 }
 
 .options .option {
-	width: 100%; /* Adjust width for input */
-}
-
-.options .mdi-delete {
-	width: 5%; /* Adjust width for delete icon */
-	margin-left: 20px;
+	width: 100%;
 }
 
 @media only screen and (max-width: 768px) {
-	/* Styles for screens up to 768px width */
 	.options .option {
-		width: 60%; /* Adjust width for smaller screens */
+		width: 60%;
 	}
 }
 
 @media only screen and (max-width: 480px) {
-	/* Styles for screens up to 480px width */
 	.options input[type="checkbox"] {
-		width: 10%; /* Adjust width for smaller screens */
+		width: 10%;
 	}
 	.options .option {
-		width: 50%; /* Adjust width for smaller screens */
-	}
-	.options .mdi-delete {
-		width: 10%; /* Adjust width for smaller screens */
+		width: 50%;
 	}
 }
 </style>

@@ -40,7 +40,7 @@ const handleSaveSettings = (settingsData) => {
 	quizStore.updateQuizData(settingsData);
 	quizStore.createQuiz().then(() => {
 		resetFields(); // Call reset fields after creating quiz
-		currentView.value = "information"; // أو الصفحة التي تريد الانتقال إليها بعد الحفظ
+		currentView.value = "information"; 
 	});
 };
 
