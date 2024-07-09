@@ -38,23 +38,25 @@ frappe.ui.form.on("Session", {
 
 	get_opening_template: function (frm) {
 		frappe.confirm(
-			__('Are you sure you want to reload opening field?<br>All data in the field will be lost.'),
-			function() {
-				get_opening_template(frm, reload=true)
+			__(
+				"Are you sure you want to reload opening field?<br>All data in the field will be lost."
+			),
+			function () {
+				get_opening_template(frm, (reload = true));
 			}
-		)
+		);
 	},
 	refresh: function (frm) {
-		get_opening_template(frm)
+		get_opening_template(frm);
 	},
 	begin_time: function (frm) {
-		get_opening_template(frm)
+		get_opening_template(frm);
 	},
 	council: function (frm) {
-        // get_opening_template(frm);          did not work
+		// get_opening_template(frm);          did not work
 	},
 	date: function (frm) {
-		get_opening_template(frm)
+		get_opening_template(frm);
 	},
 	validate(frm) {
 		frm.events.validate_time(frm);
@@ -114,7 +116,7 @@ frappe.ui.form.on("Session", {
 					filters: { docstatus: ["!=", 2], company: this.setters.company },
 				};
 			},
-			primary_action_label: "Get Members",
+			primary_action_label: __("Get Members"),
 			action(selections) {
 				// console.log(d.dialog.get_value("company"));
 				// emptying Council members
@@ -159,7 +161,7 @@ frappe.ui.form.on("Session", {
 					},
 				};
 			},
-			primary_action_label: "Get Topic",
+			primary_action_label: __("Get Topic"),
 			action(topics) {
 				// Clear any existing topics in the child table:
 				frm.doc.topics = "";
@@ -220,7 +222,7 @@ frappe.ui.form.on("Session Topic", {
 			args: {
 				decision_template: row.get_template,
 				topic: row.topic,
-				session: JSON.stringify(frm.doc)
+				session: JSON.stringify(frm.doc),
 			},
 			callback: function (response) {
 				if (response.message && !response.error) {
@@ -308,15 +310,15 @@ frappe.ui.form.on("Session Member", {
 		// Call the check_council_head_and_reporter_duplication function to check for duplicate members Council Heads and Reporters
 		academia.councils.utils.check_council_head_and_reporter_duplication(frm, row);
 	},
-    members_remove: function(frm) {
-        get_opening_template(frm);
-    },
-    attendance: function(frm) { 
-        get_opening_template(frm);
-    },
-	member_role: function(frm) { 
-        get_opening_template(frm);
-    }
+	members_remove: function (frm) {
+		get_opening_template(frm);
+	},
+	attendance: function (frm) {
+		get_opening_template(frm);
+	},
+	member_role: function (frm) {
+		get_opening_template(frm);
+	},
 });
 // Function to check for duplicate topics
 check_topic_duplicate = function (frm, row) {
@@ -331,7 +333,7 @@ check_topic_duplicate = function (frm, row) {
 				// Refresh the topics field in the form to reflect the changes
 				frm.refresh_field("topics");
 				// message indicating that the topic already exists in a specific row
-				msgprint(__(`${row.topic} already exists in row ${topic_doc.idx}`));
+				msgprint(__("{0} already exists in row {1}", [row.topic, topic_doc.idx]));
 				// stop loop
 				return;
 			}
@@ -353,18 +355,20 @@ validate_topic = function (frm, row) {
 				row.topic = "";
 				// Refresh the topics field in the form to reflect the changes
 				frm.refresh_field("topics");
-				msgprint(__(`You cannot use ${topic_doc.name}, please select from the list`));
+				msgprint(__("You cannot use {0}, please select from the list", topic_doc.name));
 			}
 		});
 };
 
 function get_opening_template(frm, reload = false) {
-	if(reload){frm.doc.opening=null}
+	if (reload) {
+		frm.doc.opening = null;
+	}
 	if (frm.doc.opening == null && frm.doc.date && frm.doc.begin_time && frm.doc.council) {
 		frappe.call({
 			method: "academia.councils.doctype.session.session.get_template",
 			args: {
-				session: JSON.stringify(frm.doc)
+				session: JSON.stringify(frm.doc),
 			},
 			callback: function (response) {
 				if (response.message && !response.error) {

@@ -172,92 +172,87 @@ class Session(Document):
 			):
 				frappe.throw(_("There are topic outside the valid list, please check again."))
 
+
 @frappe.whitelist()
 def get_template(decision_template=None, topic=None, session=None):
-    try:
-        decision_template_id = get_decision_template_id() if not decision_template else decision_template
-        decision_template_data = fetch_decision_template(decision_template_id)
-        if not decision_template_data:
-            return None
+	try:
+		decision_template_id = get_decision_template_id() if not decision_template else decision_template
+		decision_template_data = fetch_decision_template(decision_template_id)
+		if not decision_template_data:
+			return None
 
-        topic_info = fetch_topic_info(topic) if topic else None
-        if session:
-            session_data = json.loads(session)
-        else: 
-            return None
-         
-        attendees, absentees = extract_session_members(session_data)
-        session_data["weekday"]= extract_weekday_from_date(session_data["date"])
-        # Convert the string to a datetime object
-        rendered_template = render_decision_template(
-            decision_template_data,
-            topic_info,
-            attendees,
-            absentees,
-            session_data
+		topic_info = fetch_topic_info(topic) if topic else None
+		if session:
+			session_data = json.loads(session)
+		else:
+			return None
+		attendees, absentees = extract_session_members(session_data)
+		session_data["weekday"] = extract_weekday_from_date(session_data["date"])
+		# Convert the string to a datetime object
+		rendered_template = render_decision_template(
+			decision_template_data, topic_info, attendees, absentees, session_data
 		)
-        return rendered_template
+		return rendered_template
 
-    except Exception as e:
-        log_and_return_error(e)
+	except Exception as e:
+		log_and_return_error(e)
+
 
 def get_decision_template_id():
 	decision_template = frappe.get_all(
-		"Topic Decision Template",
-		filters={"subject": "افتتاحية الجلسة"},
-		fields=["name"]
+		"Topic Decision Template", filters={"subject": "افتتاحية الجلسة"}, fields=["name"]
 	)
 	if not decision_template:
 		return None
 	return decision_template[0].name
 
+
 def fetch_decision_template(decision_template_id):
-    if not decision_template_id:
-        return None
-    return frappe.get_doc("Topic Decision Template", decision_template_id)
+	if not decision_template_id:
+		return None
+	return frappe.get_doc("Topic Decision Template", decision_template_id)
+
 
 def fetch_topic_info(topic):
-    topic_docs = frappe.get_doc("Topic", topic)
-    if not topic_docs:
-        return None
-    return topic_docs.as_dict()
+	topic_docs = frappe.get_doc("Topic", topic)
+	if not topic_docs:
+		return None
+	return topic_docs.as_dict()
+
 
 def extract_session_members(session_data):
-    attendees = []
-    absentees = []
-    if 'members' in session_data:
-        for member in session_data["members"]:
-            member_info = {
-                "name": member.get("member_name", ""),
-                "role": member.get("member_role", "")
-            }
-            if member.get("attendance") == "Attend":
-                attendees.append(member_info)
-            else:
-                absentees.append(member_info)
-    return attendees, absentees
+	attendees = []
+	absentees = []
+	if "members" in session_data:
+		for member in session_data["members"]:
+			member_info = {"name": member.get("member_name", ""), "role": member.get("member_role", "")}
+			if member.get("attendance") == "Attend":
+				attendees.append(member_info)
+			else:
+				absentees.append(member_info)
+	return attendees, absentees
+
 
 def render_decision_template(decision_template_data, topic_info, attendees, absentees, session_data):
-    template_content = decision_template_data.decision
-    template = Template(template_content)
+	template_content = decision_template_data.decision
+	template = Template(template_content)
 
-    return template.render(
-        topic = topic_info if topic_info else {},
-        attendees=attendees,
-        absentees=absentees,
-        session=session_data
-    )
+	return template.render(
+		topic=topic_info if topic_info else {}, attendees=attendees, absentees=absentees, session=session_data
+	)
+
 
 def extract_weekday_from_date(date_str):
-    # Set the locale to Arabic for Gregorian date
-    locale.setlocale(locale.LC_TIME, 'ar_SA.utf8')
-    
-    date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+	# Set the locale to Arabic for Gregorian date
+	locale.setlocale(locale.LC_TIME, "ar_SA.utf8")
 
-    weekday = date_obj.strftime('%A')
+	date_obj = datetime.strptime(date_str, "%Y-%m-%d")
 
-    return weekday
+	weekday = date_obj.strftime("%A")
+
+	return weekday
+
 
 def log_and_return_error(exception):
-    frappe.log_error(frappe.get_traceback(), "Error fetching Decision Template")
-    return {"error": str(exception)}
+	frappe.log_error(frappe.get_traceback(), "Error fetching Decision Template")
+	return {"error": str(exception)}
