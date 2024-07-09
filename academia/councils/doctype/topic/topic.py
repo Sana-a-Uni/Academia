@@ -190,7 +190,7 @@ def add_topics_to_group(parent_name, topics):
 
 		return "ok"
 	except Exception as e:
-		frappe.log_error(frappe.get_traceback(), "Error adding topics")
+		frappe.log_error(frappe.get_traceback(), _("Error adding topics"))
 		return str(e)
 
 
@@ -205,7 +205,7 @@ def delete_topics_from_group(topic_names):
 
 		return "ok"
 	except Exception as e:
-		frappe.log_error(frappe.get_traceback(), "Error removing topics")
+		frappe.log_error(frappe.get_traceback(), _("Error removing topics"))
 		return str(e)
 
 
