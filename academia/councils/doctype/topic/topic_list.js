@@ -8,7 +8,7 @@ frappe.listview_settings["Topic"] = {
 				return;
 			}
 			const dialog = new frappe.ui.Dialog({
-				title: "Choose Group",
+				title: __("Choose Group"),
 				fields: [
 					{
 						label: "Group Topic",
@@ -25,7 +25,7 @@ frappe.listview_settings["Topic"] = {
 					},
 				],
 				size: "small",
-				primary_action_label: "Choose",
+				primary_action_label: __("Choose"),
 				primary_action(values) {
 					frappe.call({
 						method: "academia.councils.doctype.topic.topic.add_topics_to_group",
@@ -36,7 +36,7 @@ frappe.listview_settings["Topic"] = {
 						callback: function (response) {
 							if (response.message === "ok") {
 								frappe.show_alert({
-									message: __("Topic/s added successfully."),
+									message: __("Topic(s) added successfully."),
 									indicator: "green",
 								});
 								cur_list.refresh();
