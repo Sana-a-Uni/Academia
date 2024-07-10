@@ -40,7 +40,7 @@ const handleSaveSettings = (settingsData) => {
 	quizStore.updateQuizData(settingsData);
 	quizStore.createQuiz().then(() => {
 		resetFields(); // Call reset fields after creating quiz
-		currentView.value = "information"; 
+		currentView.value = "information";
 	});
 };
 
@@ -61,5 +61,8 @@ const resetFields = () => {
 	quizStore.quizData.number_of_attempts = "";
 	quizStore.quizData.grading_basis = "";
 	quizStore.quizData.quiz_question = [];
+	quizStore.quizData.show_question_score = false;
+	quizStore.quizData.show_correct_answer = false;
+	quizStore.quizData.randomize_question_order = false;
 };
 </script>

@@ -177,7 +177,7 @@ button:hover {
 }
 
 .delete-button {
-	background-color: #dc3545;
+	background-color: #ff4d4d;
 	color: white;
 	border: none;
 	border-radius: 5px;

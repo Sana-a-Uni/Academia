@@ -37,6 +37,10 @@ def create_quiz_doc(data, questions):
         quiz_doc.grading_basis = data.get("grading_basis")
     else:
         quiz_doc.number_of_attempts = 1
+    
+    quiz_doc.randomize_question_order = data.get("randomize_question_order")
+    quiz_doc.show_question_score = data.get("show_question_score")
+    quiz_doc.show_correct_answer = data.get("show_correct_answer")
 
     total_grades = 0
     for question_doc in questions:
