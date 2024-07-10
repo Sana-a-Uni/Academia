@@ -2,6 +2,8 @@ import frappe
 from datetime import datetime
 from typing import Dict, Any, List
 import json
+import random
+
 
 @frappe.whitelist(allow_guest=True)
 def get_quizzes_by_course(course_name: str , student_id: str ) -> Dict[str, Any]:
@@ -134,6 +136,10 @@ def get_quiz(quiz_name: str ="2874210861", student_id: str="EDU-STU-2024-00001")
                 "question_grade": question_row.question_grade,
             }
             quiz["quiz_question"].append(question_details)
+
+        # Randomize the question order if required
+        if quiz_doc.randomize_question_order:
+            random.shuffle(quiz["quiz_question"])
 
         # Add the total number of questions
         quiz["questions_number"] = len(quiz["quiz_question"])
