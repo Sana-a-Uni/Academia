@@ -10,6 +10,9 @@ fixtures = [
     "Academic Status"
 ]
 
+fixtures = [
+    "Journal Type"
+]
 # Includes in <head>
 # ------------------
 
@@ -226,45 +229,4 @@ before_tests = "academia.tests.test_utils.before_tests"
 # ]
 export_python_type_annotations = True
 
-# Define the fixture data directly in the code
-journal_fixtures = [
-    {
-        "doctype": "Journal",
-        "field_name": "Quarter Classification",
-        "fixture_values": ["Q1", "Q2", "Q3", "Q4"]
-    }
-]
 
-def before_all(context):
-    # Load the fixtures into the context
-    context.journal_fixtures = journal_fixtures
-
-def after_all(context):
-    # Clean up any resources or state created during the test run
-    pass
-
-from frappe import _
-
-fixtures = [
-    {
-        "doctype": "Journal Type",
-        "filters": [
-            [
-                "name",
-                "in",
-                [
-                    "Internal",
-                    "Indexed",
-                    "Q4",
-                    "Q3",
-                    "Q2",
-                    "Q1"
-                ]
-            ]
-        ],
-        "fields": [
-            "journal_type",
-            "journal_weight"
-        ]
-    }
-]

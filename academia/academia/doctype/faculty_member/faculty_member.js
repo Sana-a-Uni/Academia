@@ -93,36 +93,5 @@ frappe.ui.form.on("Faculty Member", {
 // }
 // End of the function
 
-// FN: show or hide academic_services_section 
-frappe.ui.form.on('Faculty Member', {
-    onload: function (frm) {
-        // Fetch the employment type from the Employee doctype
-        frappe.db.get_value('Employee', frm.doc.employee, 'employment_type', (r) => {
-            // Check if the employment type is 'Academic'
-            if (r.employment_type === 'Contract') {
-                // Show the Academic Services section
-                frm.get_field('academic_services_section').df.hidden = 0;
-                frm.refresh_field('academic_services_section');
-            } else {
-                // Hide the Academic Services section
-                frm.get_field('academic_services_section').df.hidden = 1;
-                frm.refresh_field('academic_services_section');
-            }
-        });
-    }
-});
 
-frappe.ui.form.on("Faculty Member", {
-    is_in_a_probation_period: function(frm) {
-      // Toggle the visibility of the "Granting Tenure Data" section
-      frm.toggle_display("granting_tenure_data_section", !frm.doc.is_in_a_probation_period);
-    },
-    refresh: function(frm) {
-      // Trigger the is_in_a_probation_period event when the form is refreshed
-      frm.trigger("is_in_a_probation_period");
-    },
-    onload: function(frm) {
-        // Trigger the is_in_a_probation_period event when the form is loaded
-        frm.trigger("is_in_a_probation_period");
-      }
-  });
+
