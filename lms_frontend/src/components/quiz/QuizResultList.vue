@@ -28,12 +28,17 @@
 				<tr v-else v-for="quiz in filteredQuizzes" :key="quiz.name">
 					<td class="quiz-column">{{ quiz.quiz }}</td>
 					<td class="review-column">
-						<router-link
-							:to="{ name: 'quizReview', params: { quizAttemptId: quiz.name } }"
-							class="review-link"
-						>
-							Review
-						</router-link>
+						<template v-if="quiz.show_correct_answer">
+							<router-link
+								:to="{ name: 'quizReview', params: { quizAttemptId: quiz.name } }"
+								class="review-link"
+							>
+								Review
+							</router-link>
+						</template>
+						<template v-else>
+							<span class="review-disabled">Review</span>
+						</template>
 					</td>
 					<td class="grade-column">
 						{{ `${quiz.grade} / ${quiz.grade_out_of}` }}
@@ -176,6 +181,11 @@ th {
 
 .review-link:hover {
 	text-decoration: underline;
+}
+
+.review-disabled {
+	color: black;
+	cursor: not-allowed;
 }
 
 .no-data {
