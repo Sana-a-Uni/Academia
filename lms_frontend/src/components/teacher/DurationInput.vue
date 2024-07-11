@@ -16,7 +16,7 @@
 						placeholder="Days"
 						class="input-field-small"
 						v-model.number="days"
-						@input="updateFormattedDuration"
+						@input="checkForNegative('days')"
 					/>
 					<span>days</span>
 				</div>
@@ -26,7 +26,7 @@
 						placeholder="Hours"
 						class="input-field-small"
 						v-model.number="hours"
-						@input="updateFormattedDuration"
+						@input="checkForNegative('hours')"
 					/>
 					<span>hours</span>
 				</div>
@@ -36,7 +36,7 @@
 						placeholder="Minutes"
 						class="input-field-small"
 						v-model.number="minutes"
-						@input="updateFormattedDuration"
+						@input="checkForNegative('minutes')"
 					/>
 					<span>minutes</span>
 				</div>
@@ -46,7 +46,7 @@
 						placeholder="Seconds"
 						class="input-field-small"
 						v-model.number="seconds"
-						@input="updateFormattedDuration"
+						@input="checkForNegative('seconds')"
 					/>
 					<span>seconds</span>
 				</div>
@@ -104,6 +104,14 @@ const updateDuration = (value) => {
 
 const convertToSeconds = () => {
 	return days.value * 24 * 60 * 60 + hours.value * 60 * 60 + minutes.value * 60 + seconds.value;
+};
+
+const checkForNegative = (field) => {
+	if (field === 'days' && days.value < 0) days.value = 0;
+	if (field === 'hours' && hours.value < 0) hours.value = 0;
+	if (field === 'minutes' && minutes.value < 0) minutes.value = 0;
+	if (field === 'seconds' && seconds.value < 0) seconds.value = 0;
+	updateFormattedDuration();
 };
 
 const handleClickOutside = (event) => {

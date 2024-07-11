@@ -118,6 +118,8 @@ def get_quiz(quiz_name: str ="2874210861", student_id: str="EDU-STU-2024-00001")
         quiz = {
             "title": quiz_doc.title,
             "course": quiz_doc.course,
+            "is_time_bound":quiz_doc.is_time_bound,
+            "to_date": quiz_doc.to_date.strftime('%Y-%m-%d %H:%M:%S'),
             "duration": quiz_doc.duration if quiz_doc.is_time_bound else None,
             "quiz_question": []
         }

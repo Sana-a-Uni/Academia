@@ -1,4 +1,3 @@
-<!-- Main Container Component -->
 <template>
 	<LoadingSpinner v-if="quizStore.loading" />
 	<AttemptsLimitDialog
@@ -10,7 +9,7 @@
 	<div v-else class="container">
 		<Header />
 		<SubHeader
-			:formattedTime="formattedTime"
+			:formattedTime="shouldShowTimer ? formattedTime : ''"
 			:currentQuestion="currentQuestion"
 			:prevQuestion="prevQuestion"
 			:nextQuestion="nextQuestion"
@@ -19,6 +18,7 @@
 			:mode="'attempt'"
 			:closeReview="closeReview"
 		/>
+
 		<div class="main">
 			<Sidebar :isCollapsed="isCollapsed" :toggleQuestionList="toggleQuestionList">
 				<template v-if="!loading && quiz.quiz_question">
@@ -60,7 +60,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, watch } from "vue";
+import { ref, computed, onMounted, watch, onBeforeUnmount } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useQuizStore } from "@/stores/quizStore";
 import { storeToRefs } from "pinia";
@@ -73,7 +73,7 @@ import QuestionContent from "@/components/quiz/quiz/QuestionContent.vue";
 import Footer from "@/components/quiz/quiz/Footer.vue";
 import Options from "@/components/quiz/quiz/Options.vue";
 import ConfirmationDialog from "@/components/ConfirmationDialog.vue";
-import AttemptsLimitDialog from "@/components/AttemptsLimitDialog.vue"; // تأكد من استيراد AttemptsLimitDialog
+import AttemptsLimitDialog from "@/components/AttemptsLimitDialog.vue";
 
 const isCollapsed = ref(false);
 const currentQuestion = ref(0);
@@ -90,6 +90,8 @@ const showDialog = ref(false);
 const dialogMessage = ref("");
 const unansweredCount = ref(0);
 
+const interval = ref(null);
+
 const formattedTime = computed(() => {
 	const hours = Math.floor(timeLeft.value / 3600);
 	const minutes = Math.floor((timeLeft.value % 3600) / 60);
@@ -99,16 +101,42 @@ const formattedTime = computed(() => {
 		.padStart(2, "0")}`;
 });
 
+const shouldShowTimer = ref(false);
+
+const updateShouldShowTimer = () => {
+	if (!quiz.value) return;
+
+	const endTime = new Date(quiz.value.to_date).getTime();
+	const currentTime = new Date().getTime();
+	const timeRemaining = (endTime - currentTime) / 1000;
+
+	shouldShowTimer.value = quiz.value.is_time_bound || timeRemaining <= 7200;
+
+	if (timeRemaining <= 0) {
+		clearInterval(interval.value);
+		alert("الوقت انتهى!");
+		confirmSubmit();
+	}
+};
+
 const startCountdown = () => {
-	const interval = setInterval(() => {
+	interval.value = setInterval(() => {
 		if (timeLeft.value > 0) {
 			timeLeft.value--;
+			updateShouldShowTimer();
 		} else {
-			clearInterval(interval);
+			clearInterval(interval.value);
 			alert("الوقت انتهى!");
 			confirmSubmit();
 		}
 	}, 1000);
+};
+
+const stopCountdown = () => {
+	if (interval.value) {
+		clearInterval(interval.value);
+		interval.value = null;
+	}
 };
 
 const toggleQuestionList = () => {
@@ -160,6 +188,10 @@ const confirmSubmit = () => {
 	dialogMessage.value =
 		unansweredCount.value > 0 ? "You have NOT completed your quiz!" : "You want to submit your quiz";
 	showDialog.value = true;
+
+	if (shouldShowTimer.value) {
+		stopCountdown(); // إيقاف المؤقت عند عرض رسالة التأكيد
+	}
 };
 
 const closeDialog = () => {
@@ -167,6 +199,9 @@ const closeDialog = () => {
 };
 
 const submitAnswers = async () => {
+	if (shouldShowTimer.value) {
+		stopCountdown(); // إيقاف المؤقت عند إرسال الإجابات
+	}
 	showDialog.value = false;
 
 	const answers = quiz.value.quiz_question.map((q) => {
@@ -203,6 +238,7 @@ const closeReview = () => {
 
 const goBack = () => {
 	router.go(-1);
+	stopCountdown(); // إيقاف المؤقت عند العودة للخلف
 };
 
 onMounted(() => {
@@ -210,19 +246,50 @@ onMounted(() => {
 		if (quizStore.error && quizStore.error.includes("403")) {
 			alert(quizStore.error);
 			router.push({ name: "quizView" });
+			return;
 		}
+
+		updateShouldShowTimer();
+
+		const endTime = new Date(quiz.value.to_date).getTime();
+		const currentTime = new Date().getTime();
+		const remainingTime = Math.floor((endTime - currentTime) / 1000);
+		if (quiz.value.duration) {
+			timeLeft.value = Math.min(quiz.value.duration, remainingTime);
+		} else {
+			timeLeft.value = remainingTime;
+		}
+
+		startCountdown();
 	});
 });
 
 watch(
 	() => quiz.value,
 	(newQuiz) => {
-		if (newQuiz) {
-			timeLeft.value = newQuiz.duration;
-			startCountdown();
+		updateShouldShowTimer();
+
+		const endTime = new Date(newQuiz.to_date).getTime();
+		const currentTime = new Date().getTime();
+		const remainingTime = Math.floor((endTime - currentTime) / 1000);
+		if (newQuiz.duration) {
+			timeLeft.value = Math.min(newQuiz.duration, remainingTime);
+		} else {
+			timeLeft.value = remainingTime;
 		}
 	}
 );
+
+watch(
+	() => timeLeft.value,
+	() => {
+		updateShouldShowTimer();
+	}
+);
+
+onBeforeUnmount(() => {
+	stopCountdown();
+});
 </script>
 
 <style scoped>

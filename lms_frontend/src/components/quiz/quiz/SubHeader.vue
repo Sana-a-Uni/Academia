@@ -1,6 +1,6 @@
 <template>
 	<div class="sub-header">
-		<div v-if="mode !== 'review'" class="timer">{{ formattedTime }}</div>
+		<div v-if="mode !== 'review' && formattedTime !== ''" class="timer">{{ formattedTime }}</div>
 		<div class="middle-section">
 			<div class="arrows">
 				<span v-if="currentQuestion > 0" @click="prevQuestion">&#9664;</span>
@@ -58,10 +58,14 @@ const props = defineProps({
 	background-color: #0584ae;
 	color: white;
 	padding: 25px;
+	position: relative;
 }
 .middle-section {
 	display: flex;
 	align-items: center;
+	position: absolute;
+	left: 50%;
+	transform: translateX(-50%);
 }
 .middle-section .question {
 	margin: 0 10px;
@@ -82,9 +86,9 @@ const props = defineProps({
 	padding: 5px 20px;
 	cursor: pointer;
 	border-radius: 20px;
-	margin-left: 10px;
+	position: absolute;
+	right: 25px;
 }
-
 .timer {
 	font-size: 14px;
 }
