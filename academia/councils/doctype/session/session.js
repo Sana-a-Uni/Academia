@@ -355,7 +355,7 @@ validate_topic = function (frm, row) {
 				row.topic = "";
 				// Refresh the topics field in the form to reflect the changes
 				frm.refresh_field("topics");
-				msgprint(__("You cannot use {0}, please select from the list", topic_doc.name));
+				msgprint(__("You cannot use {0}, please select from the list", [topic_doc.name]));
 			}
 		});
 };
