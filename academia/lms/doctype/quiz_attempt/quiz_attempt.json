@@ -1,0 +1,148 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-02-11 11:32:51.633484",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_qsgi",
+  "student",
+  "quiz",
+  "column_break_m3yi",
+  "course",
+  "section_break_tdsg",
+  "quiz_answer",
+  "section_break_a5jj",
+  "number_of_correct_answers",
+  "number_of_unanswered_questions",
+  "column_break_onhs",
+  "number_of_incorrect_answers",
+  "section_break_g5qk",
+  "grade",
+  "start_time",
+  "time_taken",
+  "column_break_ygn8",
+  "grade_out_of",
+  "end_time"
+ ],
+ "fields": [
+  {
+   "fieldname": "student",
+   "fieldtype": "Link",
+   "label": "Student",
+   "options": "Student"
+  },
+  {
+   "fieldname": "column_break_m3yi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "quiz.course",
+   "fieldname": "course",
+   "fieldtype": "Link",
+   "label": "Course",
+   "options": "Course"
+  },
+  {
+   "fieldname": "section_break_a5jj",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "quiz",
+   "fieldtype": "Link",
+   "label": "Quiz",
+   "options": "LMS Quiz"
+  },
+  {
+   "fieldname": "column_break_onhs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_g5qk",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_ygn8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "time_taken",
+   "fieldtype": "Duration",
+   "label": "Time Taken"
+  },
+  {
+   "fieldname": "grade",
+   "fieldtype": "Float",
+   "label": "Grade"
+  },
+  {
+   "fieldname": "start_time",
+   "fieldtype": "Datetime",
+   "label": "Start Time"
+  },
+  {
+   "fetch_from": "quiz.total_grades",
+   "fieldname": "grade_out_of",
+   "fieldtype": "Float",
+   "label": "Grade out of"
+  },
+  {
+   "fieldname": "end_time",
+   "fieldtype": "Datetime",
+   "label": "End Time"
+  },
+  {
+   "fieldname": "number_of_unanswered_questions",
+   "fieldtype": "Int",
+   "label": "Number of unanswered questions  "
+  },
+  {
+   "fieldname": "section_break_qsgi",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "quiz_answer",
+   "fieldtype": "Table",
+   "label": "Quiz Answer",
+   "options": "Quiz Answer"
+  },
+  {
+   "fieldname": "section_break_tdsg",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "number_of_correct_answers",
+   "fieldtype": "Int",
+   "label": "Number of correct answers "
+  },
+  {
+   "fieldname": "number_of_incorrect_answers",
+   "fieldtype": "Int",
+   "label": "Number of incorrect answers"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-06-24 00:20:00.139484",
+ "modified_by": "Administrator",
+ "module": "LMS",
+ "name": "Quiz Attempt",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

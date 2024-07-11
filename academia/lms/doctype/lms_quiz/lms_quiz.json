@@ -10,6 +10,7 @@
   "title",
   "student_group",
   "column_break_jsvl",
+  "faculty_member",
   "instruction",
   "section_break_mpgl",
   "make_the_quiz_availability",
@@ -19,12 +20,13 @@
   "section_break_qksq",
   "is_time_bound",
   "duration",
-  "grading_basis",
-  "column_break_feab",
-  "max_attempts",
   "total_grades",
+  "column_break_feab",
+  "multiple_attempts",
+  "number_of_attempts",
+  "grading_basis",
   "section_break_euqq",
-  "question"
+  "quiz_question"
  ],
  "fields": [
   {
@@ -57,7 +59,7 @@
   },
   {
    "fieldname": "instruction",
-   "fieldtype": "Small Text",
+   "fieldtype": "Text Editor",
    "label": "Instruction"
   },
   {
@@ -105,21 +107,15 @@
    "label": "Duration"
   },
   {
+   "depends_on": "multiple_attempts",
    "fieldname": "grading_basis",
    "fieldtype": "Select",
    "label": "Grading Basis",
-   "options": "Latest Highest Score\nLastest Attempt"
+   "options": "Highest Grade\nLatest Attempt\nAverage of Attempts"
   },
   {
    "fieldname": "column_break_feab",
    "fieldtype": "Column Break"
-  },
-  {
-   "default": "1",
-   "fieldname": "max_attempts",
-   "fieldtype": "Int",
-   "label": "Max Attempts",
-   "reqd": 1
   },
   {
    "fieldname": "total_grades",
@@ -131,16 +127,34 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "question",
+   "fieldname": "faculty_member",
+   "fieldtype": "Link",
+   "label": "Faculty Member",
+   "options": "Faculty Member"
+  },
+  {
+   "default": "0",
+   "fieldname": "multiple_attempts",
+   "fieldtype": "Check",
+   "label": "Multiple Attempts"
+  },
+  {
+   "fieldname": "quiz_question",
    "fieldtype": "Table",
-   "label": "Question",
-   "options": "Quiz Question",
-   "reqd": 1
+   "label": "Quiz Question",
+   "options": "Quiz Question"
+  },
+  {
+   "default": "1",
+   "depends_on": "multiple_attempts",
+   "fieldname": "number_of_attempts",
+   "fieldtype": "Int",
+   "label": "Number of attempts"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-02-11 18:14:40.940782",
+ "modified": "2024-07-07 00:42:58.838331",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "LMS Quiz",
