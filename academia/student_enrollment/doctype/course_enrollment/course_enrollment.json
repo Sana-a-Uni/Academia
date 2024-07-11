@@ -1,7 +1,6 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:{level}-{semester}-{student}",
  "creation": "2024-01-29 00:12:04.103215",
  "default_view": "List",
  "doctype": "DocType",
@@ -18,7 +17,7 @@
   "faculty_department",
   "student_batch",
   "academic_year",
-  "semester"
+  "academic_term"
  ],
  "fields": [
   {
@@ -50,8 +49,7 @@
    "fieldname": "enrollment_date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Enrollment Date",
-   "reqd": 1
+   "label": "Enrollment Date"
   },
   {
    "fieldname": "column_break_nlbw",
@@ -61,16 +59,14 @@
    "fieldname": "faculty",
    "fieldtype": "Link",
    "label": "Faculty",
-   "options": "Faculty",
-   "reqd": 1
+   "options": "Faculty"
   },
   {
    "fieldname": "faculty_department",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Faculty Department",
-   "options": "Faculty Department",
-   "reqd": 1
+   "options": "Faculty Department"
   },
   {
    "fieldname": "academic_year",
@@ -78,13 +74,6 @@
    "label": "Academic Year",
    "options": "Academic Year",
    "reqd": 1
-  },
-  {
-   "fieldname": "semester",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Semester",
-   "options": "Semester"
   },
   {
    "fieldname": "course",
@@ -99,15 +88,21 @@
    "label": "Student Batch",
    "options": "Student Batch",
    "reqd": 1
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Term",
+   "options": "Academic Term"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-05 20:21:12.530423",
+ "modified": "2024-07-01 23:30:41.354278",
  "modified_by": "Administrator",
  "module": "Student Enrollment",
  "name": "Course Enrollment",
- "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

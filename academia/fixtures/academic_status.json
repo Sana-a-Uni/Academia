@@ -1,0 +1,37 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Academic Status",
+  "modified": "2024-06-02 00:10:17.412951",
+  "name": "Continued",
+  "status": "Continued"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Academic Status",
+  "modified": "2024-06-02 00:10:38.305146",
+  "name": "Suspended",
+  "status": "Suspended"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Academic Status",
+  "modified": "2024-06-02 00:15:08.106749",
+  "name": "Withdrawn",
+  "status": "Withdrawn"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Academic Status",
+  "modified": "2024-06-02 00:16:01.471732",
+  "name": "Graduated",
+  "status": "Graduated"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Academic Status",
+  "modified": "2024-06-02 00:17:07.821981",
+  "name": "Transferred",
+  "status": "Transferred"
+ }
+]

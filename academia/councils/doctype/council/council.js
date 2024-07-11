@@ -17,9 +17,9 @@ frappe.ui.form.on("Council", {
         </style>`).appendTo("head");
   },
 
-  validate: function (frm) {
-    academia.councils.utils.validate_head_exist(frm.doc.members);
-  },
+  // validate: function (frm) {
+  //   academia.councils.utils.validate_head_exist(frm.doc.members);
+  // },
 
   // Filtering administrative body based on the Company
   company: function (frm) {
@@ -83,6 +83,7 @@ frappe.ui.form.on("Council", {
         }
       },
       primary_action_label: "Get Members",
+
       action(selections) {
         // console.log(d.dialog.get_value("company"));
         // emptying Council members

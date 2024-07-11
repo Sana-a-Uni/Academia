@@ -6,136 +6,81 @@ from frappe.model.document import Document
 from datetime import datetime
 
 class TransactionAction(Document):
-	def before_save(self):
-		for row in self.attachments:
-			if not row.attachment_name:
-				row.attachment_name = row.attachment_label.replace(" ", "_").lower() + "_file"
-		   
-@frappe.whitelist()
-def get_main_transaction_information(transaction):
-    transaction = frappe.get_doc('Transaction', transaction )
-    return transaction
+	# begin: auto-generated types
+	# This code is auto-generated. Do not modify anything in this block.
+
+	from typing import TYPE_CHECKING
+
+	if TYPE_CHECKING:
+		from academia.transaction_management.doctype.transaction_recipients.transaction_recipients import TransactionRecipients
+		from frappe.types import DF
+
+		action_date: DF.Data | None
+		amended_from: DF.Link | None
+		created_by: DF.Data | None
+		details: DF.Text | None
+		from_company: DF.Data | None
+		from_department: DF.Data | None
+		from_designation: DF.Data | None
+		recipients: DF.Table[TransactionRecipients]
+		transaction: DF.Link | None
+		type: DF.Literal["Redirected", "Approved", "Rejected", "Canceled", "Council"]
+	# end: auto-generated types
+	def on_submit(self):
+		self.action_date = frappe.utils.format_datetime(
+							self.creation, 
+							format_string='dd MMM yyyy, HH:mm:ss'
+						)
+		self.created_by = self.owner
+
+        # make a read, write, share permissions for reciepents
+		for row in self.recipients:
+			user = frappe.get_doc("User", row.recipient_email)
+			frappe.share.add(
+				doctype = "Transaction",
+				name = self.transaction,
+				user = user.email,
+				read = 1,
+				write = 1,
+				share = 1,
+				submit = 1
+			)
+
+
+import frappe
 
 @frappe.whitelist()
-def redirect_transaction(doctype, docname, party, to_department, redirect_to, permlevel=0):
+def get_recipients(transaction_name):
+    actions = frappe.get_all("Transaction Action",
+                             filters={
+                                "transaction": transaction_name,
+                                "docstatus": 1
+                             },
+                             fields=["name"])
 
-	current_transaction = frappe.get_doc(doctype, docname)
+    recipients_parent = [a.name for a in actions]
+    recipients_parent.append(transaction_name)  # Add transaction_name to recipients_parent list
 
-	# create new transaction action to redirect it
-	redirected_transaction = frappe.new_doc("Transaction Action")
-	redirected_transaction.main_transaction = current_transaction.main_transaction
-	redirected_transaction.priority = current_transaction.priority
-	redirected_transaction.status = "Open"
-	redirected_transaction.full_electronic = current_transaction.full_electronic
 
-	attachments = []
-    
-	# Iterate over the attachments in the current transaction
-	for attachment in current_transaction.attachments:
-		attachment_dict = frappe.new_doc("Transaction Attachments")
-		attachment_dict.attachment_name = attachment.attachment_name
-		attachment_dict.attachment_label = attachment.attachment_label
-		attachment_dict.file = attachment.file
-		attachments.append(attachment_dict)
+    recipients = frappe.get_all("Transaction Recipients",
+                                filters={"parent": ["in", recipients_parent]},
+                                fields=["recipient_email"],
+                                order_by="creation")
 
-	# Assign the attachments to the redirected transaction
-	redirected_transaction.set("attachments", attachments)
+    recipient_emails = [r.recipient_email for r in recipients]
 
-	redirected_transaction.insert()
-	
-	redirected_transaction_user_permission = frappe.get_doc({
-        "doctype": "User Permission",
-        "user": redirect_to,
-        "allow": doctype,
-        "for_value": redirected_transaction,
-        "apply_to_all_doctypes": 0,
-        "permlevel": permlevel
-    })
-	redirected_transaction_user_permission.insert()
-
-	main_transaction = frappe.get_doc("Transaction", current_transaction.main_transaction)
-	# Check if the user permission already exists
-	existing_permission = frappe.get_all(
-		"User Permission",
-		filters={
-			"user": redirect_to,
-			"allow": "Transaction",
-			"for_value": main_transaction
-		},
-		fields=["name"],
-		limit=1
-	)
-
-	if not existing_permission:
-		main_transaction_user_permission = frappe.get_doc({
-			"doctype": "User Permission",
-			"user": redirect_to,
-			"allow": "Transaction",
-			"for_value": main_transaction,
-			"apply_to_all_doctypes": 0,
-			"permlevel": permlevel
-		})
-
-		main_transaction_user_permission.insert()
-		
-	party = frappe.get_doc("DocType", party)
-
-	to_department = frappe.get_doc(party.name, to_department)
-	
-
-	# change the transaction action to be submitted
-	current_transaction.status = "Redirected"
-	current_transaction.redirected_transaction_action = redirect_transaction
-	current_transaction.party = party
-	current_transaction.to_department = to_department
-	current_transaction.redirected_to = redirect_to
-	current_transaction.sent_date = datetime.now()
-	current_transaction.save()
-
-	current_transaction.submit()
-
-	# get document of user by email
-	redirected_to = frappe.get_doc("User", redirect_to)
-	return f'Transaction redirected successfully to <b> <strong> {redirected_to.username} </strong> </b>'
+    return recipient_emails
 
 @frappe.whitelist()
-def approve_transaction(doctype, docname):
-	# change the transaction action to be submitted
-	doc = frappe.get_doc(doctype, docname)
-	doc.status = "Approved"
-	doc.save()
-	doc.submit()
+def get_transaction_actions(transaction_name):
+	query = """
+    SELECT ta.name AS action_name,ta.type AS type, GROUP_CONCAT(tr.recipient_email SEPARATOR ', ') AS recipients
+    FROM `tabTransaction Action` AS ta
+    LEFT JOIN `tabTransaction Recipients` AS tr ON ta.name = tr.parent
+    WHERE ta.transaction = %(transaction_name)s
+    GROUP BY ta.name
+	ORDER BY ta.creation DESC
+	"""
 
-	return "Transaction approved successfully"
-
-
-@frappe.whitelist()
-def reject_transaction(doctype, docname):
-	# change the transaction action to be submitted
-	doc = frappe.get_doc(doctype, docname)
-	doc.status = "Rejected"
-	doc.save()
-	doc.submit()
-
-	return "Transaction approved successfully"
-
-@frappe.whitelist()
-def cancel_transaction_action(doctype, docname):
-	doc = frappe.get_doc(doctype, docname)
-	user = doc.redirected_to
-	doc.cancel()
-
-	if user:
-		user_permission = frappe.get_list(
-			"User Permission",
-			filters={
-				"allow": doctype,
-				"for_value": doc.redirected_transaction_action,
-				"user": user
-			},
-		)
-		if user_permission:
-			frappe.delete_doc("User Permission", user_permission[0].name)
-			return "Redirect canceled successfully"
-	else:
-		return "Document canceled successfully"
+	result = frappe.db.sql(query, {"transaction_name": transaction_name}, as_dict=True)
+	return result

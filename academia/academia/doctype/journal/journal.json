@@ -8,7 +8,12 @@
   "journal_name",
   "hindex",
   "issn",
-  "website_link"
+  "website_link",
+  "column_break_pupn",
+  "quarter_classification",
+  "impact_factor",
+  "journal_type",
+  "internal_journal"
  ],
  "fields": [
   {
@@ -34,11 +39,39 @@
    "fieldname": "website_link",
    "fieldtype": "Data",
    "label": "Website Link"
+  },
+  {
+   "default": "0",
+   "description": "Check if journal belongs to the university",
+   "fieldname": "internal_journal",
+   "fieldtype": "Check",
+   "label": "Internal Journal"
+  },
+  {
+   "fieldname": "quarter_classification",
+   "fieldtype": "Select",
+   "label": "Quarter Classification",
+   "options": "\nQ1\nQ2\nQ3\nQ4"
+  },
+  {
+   "fieldname": "impact_factor",
+   "fieldtype": "Float",
+   "label": "Impact Factor"
+  },
+  {
+   "fieldname": "column_break_pupn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "journal_type",
+   "fieldtype": "Link",
+   "label": "Journal Type",
+   "options": "Journal Type"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-25 21:58:24.481514",
+ "modified": "2024-05-28 21:40:25.800085",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Journal",

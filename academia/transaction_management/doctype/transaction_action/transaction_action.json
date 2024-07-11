@@ -6,107 +6,54 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "main_transaction_information_section",
-  "main_transaction_information",
   "section_break_wyzz",
-  "main_transaction",
-  "receive_date",
-  "status",
+  "transaction",
+  "type",
+  "details",
   "column_break_mkjj",
-  "priority",
-  "sent_date",
-  "section_break_vdld",
-  "party",
-  "company",
-  "column_break_oaad",
-  "to_department",
-  "deliver_to",
-  "redirected_to",
-  "attachments_section",
-  "attachments",
-  "section_break_tzgo",
-  "amended_from",
-  "redirected_transaction_action"
+  "action_date",
+  "created_by",
+  "from_company",
+  "from_department",
+  "from_designation",
+  "recipient_settings_section",
+  "get_recipients",
+  "clear_recipients",
+  "recipients",
+  "section_break_hgwa",
+  "amended_from"
  ],
  "fields": [
   {
-   "fieldname": "main_transaction",
-   "fieldtype": "Link",
-   "label": "Main Transaction",
-   "options": "Transaction"
-  },
-  {
-   "fieldname": "section_break_vdld",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "company",
-   "fieldtype": "Link",
-   "label": "Company",
-   "options": "Company"
-  },
-  {
-   "fieldname": "attachments_section",
-   "fieldtype": "Section Break",
-   "label": "Attachments"
-  },
-  {
-   "fieldname": "to_department",
-   "fieldtype": "Dynamic Link",
-   "label": "To Department",
-   "options": "party"
-  },
-  {
-   "fieldname": "priority",
-   "fieldtype": "Select",
-   "label": "Priority",
-   "options": "\nLow\nMedium\nHigh\nUrgent"
-  },
-  {
    "fieldname": "column_break_mkjj",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_oaad",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "main_transaction_information_section",
-   "fieldtype": "Section Break",
-   "hidden": 1,
-   "label": "Main Transaction Information"
-  },
-  {
-   "fieldname": "main_transaction_information",
-   "fieldtype": "HTML"
   },
   {
    "fieldname": "section_break_wyzz",
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "attachments",
-   "fieldtype": "Table",
-   "options": "Transaction Attachments"
+   "allow_on_submit": 1,
+   "fieldname": "type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Type",
+   "options": "Redirected\nApproved\nRejected\nCanceled\nCouncil"
   },
   {
-   "fieldname": "deliver_to",
-   "fieldtype": "Link",
-   "label": "Redirected From",
-   "options": "User",
+   "allow_on_submit": 1,
+   "fieldname": "created_by",
+   "fieldtype": "Data",
+   "is_virtual": 1,
+   "label": "Created By",
+   "options": "doc.owner",
    "read_only": 1
   },
   {
-   "fieldname": "sent_date",
-   "fieldtype": "Datetime",
-   "label": "Sent Date ",
-   "read_only": 1
-  },
-  {
-   "fieldname": "redirected_to",
-   "fieldtype": "Link",
-   "label": "Redirected To",
-   "options": "User"
+   "fieldname": "details",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Details"
   },
   {
    "fieldname": "amended_from",
@@ -119,83 +66,79 @@
    "search_index": 1
   },
   {
+   "fieldname": "from_designation",
+   "fieldtype": "Data",
+   "label": "From Designation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "from_department",
+   "fieldtype": "Data",
+   "label": "From Department",
+   "read_only": 1
+  },
+  {
+   "fieldname": "from_company",
+   "fieldtype": "Data",
+   "label": "From Company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "transaction",
+   "fieldtype": "Link",
+   "label": "Transaction",
+   "options": "Transaction"
+  },
+  {
+   "depends_on": "eval:doc.type == \"Redirected\";",
+   "fieldname": "recipient_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Recipients"
+  },
+  {
+   "fieldname": "get_recipients",
+   "fieldtype": "Button",
+   "label": "Get Recipients"
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "Recipients",
+   "options": "Transaction Recipients"
+  },
+  {
    "allow_on_submit": 1,
-   "fieldname": "status",
-   "fieldtype": "Select",
-   "label": "Status",
-   "options": "Open\nReceived\nRedirected\nApproved\nRejected",
+   "fieldname": "action_date",
+   "fieldtype": "Data",
+   "is_virtual": 1,
+   "label": "Action Date",
+   "options": "frappe.utils.format_datetime(doc.creation, \n                format_string='dd MMM yyyy, HH:mm:ss'\n            )",
    "read_only": 1
   },
   {
-   "fieldname": "receive_date",
-   "fieldtype": "Datetime",
-   "label": "Receive Date",
-   "read_only": 1
-  },
-  {
-   "fieldname": "section_break_tzgo",
+   "fieldname": "section_break_hgwa",
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "redirected_transaction_action",
-   "fieldtype": "Link",
-   "hidden": 1,
-   "label": "Redirected Transaction Action",
-   "options": "Transaction Action",
-   "read_only": 1
-  },
-  {
-   "fieldname": "party",
-   "fieldtype": "Link",
-   "label": "Party",
-   "options": "DocType"
+   "fieldname": "clear_recipients",
+   "fieldtype": "Button",
+   "label": "Clear Recipients"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-05-17 13:28:44.388328",
+ "modified": "2024-07-07 11:51:27.838074",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Action",
  "naming_rule": "Expression",
  "owner": "Administrator",
- "permissions": [
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "System Manager",
-   "share": 1,
-   "write": 1
-  }
- ],
+ "permissions": [],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": [
-  {
-   "color": "Gray",
-   "custom": 1,
-   "title": "Open"
-  },
-  {
-   "color": "Blue",
-   "custom": 1,
-   "title": "Received"
-  },
-  {
-   "color": "Orange",
-   "custom": 1,
-   "title": "Redirected"
-  },
-  {
-   "color": "Green",
-   "custom": 1,
-   "title": "Approved"
-  }
- ]
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
 }

@@ -6,6 +6,25 @@ app_email = "a.alshalabi@su.edu.ye"
 app_license = "mit"
 required_apps = ["frappe/erpnext","frappe/hrms"]
 
+
+# for print format
+fixtures = [
+ {
+  "doctype": "Print format",
+  "filters" : [
+                "name",
+                "in",
+                [
+     'transaction'
+                ]
+             ]
+     }
+ ]
+
+fixtures = [
+    "Academic Status"
+]
+
 # Includes in <head>
 # ------------------
 
@@ -222,34 +241,45 @@ before_tests = "academia.tests.test_utils.before_tests"
 # ]
 export_python_type_annotations = True
 
+# Define the fixture data directly in the code
+journal_fixtures = [
+    {
+        "doctype": "Journal",
+        "field_name": "Quarter Classification",
+        "fixture_values": ["Q1", "Q2", "Q3", "Q4"]
+    }
+]
 
-#Synchronizing Employee Image and Faculty Member Image
+def before_all(context):
+    # Load the fixtures into the context
+    context.journal_fixtures = journal_fixtures
 
-import frappe
+def after_all(context):
+    # Clean up any resources or state created during the test run
+    pass
 
-def employee_image(doc, method):
-    if doc.image:
-        faculty_members = frappe.get_all("FacultyMember", filters={"employee": doc.name}, fields=["name"])
-        for faculty_member in faculty_members:
-            faculty_member_doc = frappe.get_doc("FacultyMember", faculty_member.name)
-            if faculty_member_doc.image != doc.image:
-                faculty_member_doc.image = doc.image
-                faculty_member_doc.save(ignore_permissions=True)
+from frappe import _
 
-def faculty_member_image(doc, method):
-    if doc.image:
-        employees = frappe.get_all("Employee", filters={"faculty_member": doc.name}, fields=["name"])
-        for employee in employees:
-            employee_doc = frappe.get_doc("Employee", employee.name)
-            if employee_doc.image != doc.image:
-                employee_doc.image = doc.image
-                employee_doc.save(ignore_permissions=True)
-
-# Triggering functions before save
-def attach_hooks():
-    frappe.db.before_save("Employee", employee_image)
-    frappe.db.before_save("FacultyMember", faculty_member_image)
-
-# Call the function to attach hooks when the app is installed
-def after_install():
-    attach_hooks()
+fixtures = [
+    {
+        "doctype": "Journal Type",
+        "filters": [
+            [
+                "name",
+                "in",
+                [
+                    "Internal",
+                    "Indexed",
+                    "Q4",
+                    "Q3",
+                    "Q2",
+                    "Q1"
+                ]
+            ]
+        ],
+        "fields": [
+            "journal_type",
+            "journal_weight"
+        ]
+    }
+]

@@ -5,28 +5,28 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "grouping_by",
   "based_on",
-  "max_strength",
+  "program",
+  "capacity",
   "column_break_gtdl",
+  "faculity",
   "student_batch",
+  "student_group",
+  "tolerance",
   "students_section",
   "get_students",
-  "table_yldo"
+  "students",
+  "generate_groups"
  ],
  "fields": [
   {
+   "depends_on": "eval:doc.grouping_by == \"Theoretical\";",
    "fieldname": "based_on",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Based On",
    "options": "\nBy Sex\nAll",
-   "reqd": 1
-  },
-  {
-   "fieldname": "max_strength",
-   "fieldtype": "Int",
-   "in_list_view": 1,
-   "label": "Max Strength",
    "reqd": 1
   },
   {
@@ -52,15 +52,65 @@
    "label": "Get Students "
   },
   {
-   "fieldname": "table_yldo",
+   "fieldname": "program",
+   "fieldtype": "Link",
+   "label": "Program",
+   "options": "Program Specification",
+   "reqd": 1
+  },
+  {
+   "fieldname": "capacity",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Capacity",
+   "reqd": 1
+  },
+  {
+   "fieldname": "faculity",
+   "fieldtype": "Link",
+   "label": "Faculity",
+   "options": "Faculty",
+   "reqd": 1
+  },
+  {
+   "fetch_from": ".",
+   "fieldname": "tolerance",
+   "fieldtype": "Int",
+   "label": "Tolerance",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "generate_groups",
+   "fieldtype": "Button",
+   "label": "Generate groups"
+  },
+  {
+   "fieldname": "students",
    "fieldtype": "Table",
    "options": "Student Group Student"
+  },
+  {
+   "fieldname": "grouping_by",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Grouping By",
+   "options": "Theoretical\nPractical",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.grouping_by == \"Practical\";",
+   "fieldname": "student_group",
+   "fieldtype": "Link",
+   "label": "Student Group",
+   "options": "Student Group",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-22 01:50:22.397979",
+ "modified": "2024-07-01 03:00:57.669670",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group Tool",

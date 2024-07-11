@@ -19,6 +19,7 @@ class ProgramEnrollment(Document):
 		enabled: DF.Check
 		enrollment_date: DF.Date | None
 		faculty: DF.Link
+		gender: DF.Data | None
 		image: DF.AttachImage | None
 		program: DF.Link
 		status: DF.Link | None

@@ -1,0 +1,106 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:external_entity",
+ "creation": "2024-04-17 18:14:44.549087",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_ahej",
+  "external_entity",
+  "company",
+  "is_group",
+  "column_break_dzaw",
+  "parent_external_entity",
+  "section_break_hnzu",
+  "designation"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_ahej",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_group",
+   "fieldtype": "Check",
+   "label": "Is Group"
+  },
+  {
+   "depends_on": "eval:!doc.is_group;",
+   "fieldname": "parent_external_entity",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "label": "Parent External Entity",
+   "options": "External Entity"
+  },
+  {
+   "fieldname": "external_entity",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "External Entity",
+   "unique": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "column_break_dzaw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_group",
+   "fieldtype": "Check",
+   "label": "Is Group"
+  },
+  {
+   "depends_on": "eval:!doc.is_group;",
+   "fieldname": "parent_external_entity",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "label": "Parent External Entity",
+   "options": "External Entity"
+  },
+  {
+   "fieldname": "section_break_hnzu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Table",
+   "label": "Designation",
+   "options": "External Entity Designation"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-06-03 18:06:39.588975",
+ "modified_by": "Administrator",
+ "module": "Transaction Management",
+ "name": "External Entity",
+ "naming_rule": "By fieldname",
+ "nsm_parent_field": "parent_external_entity",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "show_name_in_global_search": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

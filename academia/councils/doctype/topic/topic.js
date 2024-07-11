@@ -1,299 +1,308 @@
-// // Copyright (c) 2024, SanU and contributors
-// // For license information, please see license.txt
+// Copyright (c) 2024, SanU and contributors
+// For license information, please see license.txt
 
 frappe.ui.form.on("Topic", {
-  refresh(frm) {
-    // Add a custom button to assign the topic to a council
-    if (
-      frm.doc.__onload &&
-      frm.doc.__onload.has_topic_assignment != false &&
-      frm.doc.docstatus === 1
-    ) {
-      frm.add_custom_button(__("Assign to Council"), function () {
-        frappe.new_doc("Topic Assignment", {
-          topic: frm.doc.name,
-          title: frm.doc.title,
-          descripition: frm.doc.descripition,
-          council: frm.doc.council,
-        });
-      });
-    }
+	setup: function (frm) {
+		$(`<style>
+      .btn[data-fieldname="get_data_from_topic"] {
+        background-color: #171717; /* Custom dark gray */
+        color: white;
+      }
+      .btn[data-fieldname="get_data_from_topic"]:hover {
+        background-color: #171710 !important; /* Slightly darker gray for interaction states */
+        color: white !important;
+      }
+    </style>`).appendTo("head");
 
-    if (!frm.is_new()) {
-      // Render the list view
-      show_related_assignments(frm);
-    }
+		// frm.add_fetch("topic", "topic_main_category", "main_category");
+		// frm.add_fetch("topic", "topic_sub_category", "sub_category");
+	},
 
-    frm.add_custom_button(
-      __("Select Applicants"),
-      function () {
-        show_applicant_selector(frm);
-      },
-      __("Get Applicants")
-    );
-  },
-  topic_main_category(frm) {
-    // Update the options for the sub-category field based on the selected main category
-    frm.set_query("topic_sub_category", function () {
-      return {
-        filters: {
-          main_category: frm.doc.topic_main_category,
-        },
-      };
-    });
-  },
+	onload: function (frm) {
+		// frm.events.topic_filters(frm);
+		// frm.set_df_property("topic", "placeholder", "Council must be filled");
+	},
+
+	// topic_filters: function (frm) {
+	// 	frm.set_query("topic", function () {
+	// 		return {
+	// 			query: "academia.councils.doctype.topic.topic.get_available_topics",
+	// 			filters: {
+	// 				council: frm.doc.council,
+	// 				docstatus: 1,
+	// 				status: ["Complete", "In Progress"],
+	// 			},
+	// 		};
+	// 	});
+	// },
+	is_group: function (frm) {
+		if (frm.doc.is_group) {
+			// frm.events.clear_topic(frm); // clear topic field which will also clear the main and sub category fields if user enable is_group checkbox
+		} else {
+			// frm.set_value("main_category", ""); //clear categories if user disable is_group checkbox
+			// frm.set_value("sub_category", "");
+		}
+	},
+
+	refresh: function (frm) {
+		if (frm.is_new() || frm.doc.docstatus !== 0) {
+			frm.toggle_display("get_topics_to_group", false);
+		} else {
+			frm.toggle_display("get_topics_to_group", true);
+		}
+
+		show_grouped_topics(frm);
+
+		frm.set_query("parent_topic", function () {
+			return {
+				filters: {
+					council: frm.doc.council,
+					is_group: 1,
+					decision_type: "", //empty, not set, means topic not scheduled for session
+					docstatus: 0, // draft
+				},
+			};
+		});
+	},
+
+	council: function (frm) {
+		// frm.events.clear_topic(frm);
+	},
+
+	// main_category(frm) {
+	// 	// Update the options for the sub-category field based on the selected main category
+	// 	frm.set_query("sub_category", function () {
+	// 		return {
+	// 			filters: {
+	// 				main_category: frm.doc.main_category,
+	// 			},
+	// 		};
+	// 	});
+	// },
+
+	// get_data_from_topic: function (frm) {
+	// 	if (frm.doc.topic) {
+	// 		// Manually fetch the title and description from the "Topic" DocType
+	// 		frappe.db
+	// 			.get_value("Topic", { name: frm.doc.topic }, ["title", "description"])
+	// 			.then((r) => {
+	// 				if (r.message) {
+	// 					// Manually set the fetched values to the form fields
+	// 					frm.set_value("title", r.message.title);
+	// 					frm.set_value("description", r.message.description);
+	// 				}
+	// 			});
+	// 	}
+	// },
+
+	// clear_topic: function (frm) {
+	// 	frm.set_value("topic", "");
+	// 	frm.refresh_field("topic");
+	// },
+
+	get_topics_to_group: function (frm) {
+		new frappe.ui.form.MultiSelectDialog({
+			doctype: "Topic",
+			target: frm,
+			setters: {
+				title: null,
+				category: null,
+				topic_date: null,
+			},
+			add_filters_group: 1,
+			// date_field: "transaction_date",
+			// columns: ["title","main_category"],
+			get_query() {
+				return {
+					filters: {
+						is_group: 0,
+						council: frm.doc.council,
+						parent_topic: "",
+						decision_type: "", //empty, not set, means topic not scheduled for session
+						docstatus: 0, // draft
+						// status:"Accepted"
+					},
+				};
+			},
+			primary_action_label: "Get Topics To Group",
+			action: function (selections) {
+				frappe.call({
+					method: "academia.councils.doctype.topic.topic.add_topics_to_group",
+					args: {
+						parent_name: frm.doc.name,
+						topics: JSON.stringify(selections), // Convert the selections array to a JSON string
+					},
+					callback: function (response) {
+						if (response.message === "ok") {
+							show_grouped_topics(frm);
+							frappe.show_alert({
+								message: __("Topic/s added successfully."),
+								indicator: "green",
+							});
+						} else {
+							frappe.show_alert({
+								message: __(`Error adding topics!`),
+								indicator: "red",
+							});
+							console.error(response.message);
+						}
+					},
+					error: function (error) {
+						console.error(error);
+						frappe.show_alert({
+							message: __("Error adding topics!"),
+							indicator: "red",
+						});
+					},
+				});
+				this.dialog.hide();
+			},
+		});
+	},
 });
 
-frappe.ui.form.on("Topic Applicant", {
-  applicant: function (frm, cdt, cdn) {
-    // Retrieve and update form with the applicant name
-    let topic_applicant = frappe.get_doc(cdt, cdn);
+function show_grouped_topics(frm) {
+	const container = $(frm.fields_dict.grouped_topics.wrapper);
+	container.empty(); // Clear previous data
 
-    if (topic_applicant.applicant) {
-      // Attempt to check for duplicates after ensuring applicant list is updated
-      try {
-        check_for_duplicate_applicant(frm, cdt, cdn);
-      } catch (error) {
-        frappe.msgprint(
-          __("Failed to verify duplicate applicants: " + error.message)
-        );
-      }
-    }
-    if (topic_applicant.applicant) {
-      populate_applicant_full_name(cdt, cdn, topic_applicant);
-    }
-  },
-  applicant_type: function (frm, cdt, cdn) {
-    frappe.model.set_value(cdt, cdn, "applicant", "");
-    frappe.model.set_value(cdt, cdn, "applicant_name", "");
-  },
-});
+	if (frm.is_new()) {
+		$(container).html("<h3>You should save this document before adding grouped topics!</h3>");
+		return;
+	}
 
-/**
- * Checks for duplicate applicants
- * to ensure that there are no duplicate entries with the same applicant and applicant type.
- * If a duplicate is found, it clears the duplicate applicant fields and displays a message.
- *
- * @param {object} frm - The current form object.
- * @param {string} cdt - The child doctype (child table name).
- * @param {string} cdn - The name of the child doctype record (unique identifier for the row).
- */
-function check_for_duplicate_applicant(frm, cdt, cdn) {
-  var row = locals[cdt][cdn]; // Access the specific row in the child table using the locals object.
-  // Filter the child table rows to find any other rows with the same applicant and applicant type.
-  var duplicates = frm.doc.applicants.filter(function (d) {
-    return (
-      d.applicant === row.applicant &&
-      d.applicant_type === row.applicant_type &&
-      d.name !== row.name
-    );
-  });
-  // If duplicates are found, display a message and clear the fields to correct the entry.
-  if (duplicates.length > 0) {
-    frappe.msgprint(
-      __("Duplicate entry for Applicant: {0} of Type: {1}", [
-        row.applicant,
-        row.applicant_type,
-      ])
-    );
-    frappe.model.set_value(cdt, cdn, "applicant_name", ""); // Additionally, clear the duplicate applicant name field.
-    frappe.model.set_value(cdt, cdn, "applicant", ""); // Clear the duplicate applicant ID field.
-  }
+	fetch_topics_data(frm, function (data) {
+		if (data.length > 0) {
+			create_datatable(frm, container, data);
+		} else {
+			$(container).html("<h3>No grouped topics added yet!</h3>");
+		}
+	});
 }
 
-function populate_applicant_full_name(cdt, cdn, applicant) {
-  frappe.db
-    .get_value(applicant.applicant_type, { name: applicant.applicant }, [
-      "first_name",
-      "last_name",
-    ])
-    .then(function (values) {
-      if (values) {
-        let applicant_full_name =
-          values.message.first_name + " " + values.message.last_name;
-        // Set the value of the 'applicant_name' field
-        frappe.model.set_value(cdt, cdn, "applicant_name", applicant_full_name);
-      }
-    });
+function fetch_topics_data(frm, callback) {
+	frm.call({
+		method: "get_grouped_topics",
+		args: { parent_name: frm.doc.name },
+		callback: function (r) {
+			const data = r.message ? format_topic_data(r.message) : [];
+			callback(data);
+		},
+	});
 }
 
-function show_applicant_selector(frm) {
-  let applicant_type_dialog = new frappe.ui.Dialog({
-    title: __("Select Applicant Type"),
-    fields: [
-      {
-        fieldname: "applicant_type",
-        label: __("Applicant Type"),
-        fieldtype: "Select",
-        options: ["Student", "Academic", "Other"],
-        reqd: 1,
-      },
-    ],
-    primary_action_label: __("Continue"),
-    primary_action(values) {
-      console.log(" applicant type:", values.applicant_type);
-      applicant_type_dialog.hide();
-      open_multiselect_dialog(frm, values.applicant_type);
-    },
-  });
-
-  applicant_type_dialog.show();
+function format_topic_data(topics) {
+	return topics.map((d) => [
+		`<input type="checkbox" data-topic="${d.name}">`,
+		`<a href='/app/topic/${d.name}'>${d.name}</a>`,
+		d.title,
+		frappe.datetime.str_to_user(d.topic_date),
+		d.decision_type,
+	]);
 }
 
-function open_multiselect_dialog(frm, applicant_type) {
-  let opts = get_applicant_type_info(frm, applicant_type);
+function create_datatable(frm, container, data) {
+	const datatable = new DataTable(container[0], {
+		columns: get_datatable_columns(),
+		data: data,
+		dynamicRowHeight: true,
+		checkboxColumn: false,
+		// inlineFilters: true,
+	});
 
-  const d = new frappe.ui.form.MultiSelectDialog({
-    doctype: opts.source_doctype,
-    target: opts.target,
-    date_field: opts.date_field || undefined,
-    setters: opts.setters,
-    data_fields: opts.data_fields,
-    get_query: opts.get_query,
-    add_filters_group: 1,
-    allow_child_item_selection: opts.allow_child_item_selection,
-    child_fieldname: opts.child_fieldname,
-    child_columns: opts.child_columns,
-    size: opts.size,
-    action: function (selections) {
-      let values = selections;
-      if (values.length === 0) {
-        frappe.msgprint(__("Please select {0}", [opts.source_doctype]));
-        return;
-      }
-      console.log("Selections:", values);
-      d.dialog.hide();
-      add_applicants_to_topic(frm, values, opts.source_doctype);
-    },
-  });
+	datatable.style.setStyle(".dt-cell__content", { textAlign: "left" });
+
+	const deleteButton = $("<button>")
+		.text("Delete")
+		.addClass("btn btn-danger")
+		.css({ marginBottom: "10px", visibility: "hidden" })
+		.on("click", function () {
+			const selectedRows = get_selected_rows();
+			if (selectedRows.length > 0) {
+				frappe.confirm(
+					"Are you sure you want to delete the selected topics?",
+					function () {
+						handleDeletion(frm, selectedRows);
+					}
+				);
+			}
+		});
+
+	container.append(deleteButton);
+
+	container.on("change", "input[data-topic]", function () {
+		const selectedRows = get_selected_rows();
+		if (selectedRows.length > 0) {
+			deleteButton.css("visibility", "visible"); // Correct property setting
+		} else {
+			deleteButton.css("visibility", "hidden"); // Correct property setting
+		}
+	});
+
+	// Add event listener for the "Select All" checkbox
+	container.on("change", 'input[data-topic1="All"]', function () {
+		const isChecked = $(this).prop("checked");
+		$("input[data-topic]")
+			.not('[data-topic1="All"]')
+			.prop("checked", isChecked)
+			.trigger("change");
+	});
 }
 
-function add_applicants_to_topic(frm, selections, applicant_type) {
-  selections.forEach(function (applicant) {
-    const row = frm.add_child("applicants", {
-      applicant_type: applicant_type,
-    });
-    frappe.model.set_value(row.doctype, row.name, "applicant", applicant);
-  });
-  frm.refresh_field("applicants");
+function get_selected_rows() {
+	const selectedRows = [];
+	$("input[data-topic]:checked").each(function () {
+		selectedRows.push($(this).data("topic"));
+	});
+	return selectedRows;
 }
 
-function get_applicant_type_info(frm, applicant_type) {
-  let academic_opts = {
-    source_doctype: "Faculty Member",
-    target: frm,
-    // date_field: "",
-    setters: {
-      company: "",
-      faculty_member_name: "",
-      academic_rank: "",
-    },
-
-    get_query: function () {
-      return {
-        filters: {},
-      };
-    },
-    add_filters_group: 1,
-    allow_child_item_selection: false, // assuming no child table selection is needed
-    child_fieldname: "",
-    child_columns: [],
-    size: "large",
-  };
-  let student_opts = {
-    source_doctype: "Student",
-    target: frm,
-    // date_field: "",
-    setters: {
-      academic_level: "",
-      academic_status: "",
-      gender: "",
-      joining_date: "",
-    },
-    // data_fields: [
-    //   {
-    //     label: "Course",
-    //     fieldname: "course",
-    //     fieldtype: "Link",
-    //     options: "Course",
-    //   },
-    // ],
-    get_query: function () {
-      return {
-        filters: {},
-      };
-    },
-    add_filters_group: 1,
-    allow_child_item_selection: false, // assuming no child table selection is needed
-    child_fieldname: "",
-    child_columns: [],
-    size: "large",
-  };
-
-  switch (applicant_type) {
-    case "Student":
-      return student_opts;
-    case "Academic":
-      return academic_opts;
-    default:
-      return "Employee"; // Assuming 'Other' maps to 'Employee'
-  }
+function get_datatable_columns() {
+	return [
+		{
+			name: `<input type="checkbox" data-topic1="All">`,
+			width: 50,
+			editable: false,
+			sortable: false,
+		},
+		{ name: "Topic", width: 300, editable: false },
+		{ name: "Title", width: 300, editable: false },
+		{ name: "Topic Date", width: 150, editable: false },
+		{ name: "Decision Type", width: 143, editable: false },
+	];
+}
+function delete_topics_from_group(frm, topic_names, callback) {
+	frappe.call({
+		method: "academia.councils.doctype.topic.topic.delete_topics_from_group",
+		args: {
+			topic_names: JSON.stringify(topic_names), // Convert the array to a JSON string
+		},
+		callback: function (response) {
+			if (response.message === "ok") {
+				callback(null);
+			} else {
+				callback(new Error(response.message));
+			}
+		},
+		error: function (error) {
+			callback(error);
+		},
+	});
 }
 
-function show_related_assignments(frm) {
-  const container = $(frm.fields_dict.related_assignments.wrapper);
-  container.empty(); // Clear previous data
-
-  fetch_data(frm, function (data) {
-    if (data.length > 0) {
-      create_datatable(container, data);
-    } else {
-      $(container).html("No related assignments found.");
-    }
-  });
-}
-
-function fetch_data(frm, callback) {
-  frm.call({
-    method: "get_all_related_assignments",
-    args: { topic_name: frm.doc.name },
-    callback: function (r) {
-      if (r.message) {
-        const data = r.message.map((d) => [
-          `<a href='/app/topic-assignment/${d.name}'>${d.name}</a>`,
-          d.title,
-          d.status,
-          d.council,
-          frappe.datetime.str_to_user(d.assignment_date),
-          d.decision_type,
-          d.parent_assignment,
-        ]);
-        callback(data);
-      } else {
-        callback([]);
-      }
-    },
-  });
-}
-
-function create_datatable(container, data) {
-  const datatable = new DataTable(container[0], {
-    columns: [
-      { name: "Assignment", width: 180, editable: false },
-      { name: "Title", width: 220, editable: false },
-      { name: "Status", width: 120, editable: false },
-      { name: "Council", width: 150, editable: false },
-      { name: "Assignment Date", width: 150, editable: false },
-      { name: "Decision Type", width: 120, editable: false },
-      { name: "Parent Assignment", width: 150, editable: false },
-    ],
-    data: data,
-    dynamicRowHeight: true,
-    checkboxColumn: false,
-    inlineFilters: true,
-  });
-
-  datatable.style.setStyle(".dt-cell__content", {
-    textAlign: "left",
-  });
+function handleDeletion(frm, selectedRows) {
+	delete_topics_from_group(frm, selectedRows, function (error) {
+		if (error) {
+			frappe.show_alert({
+				message: __("Error removing topics!"),
+				indicator: "red",
+			});
+			console.error(error);
+		} else {
+			frappe.show_alert({
+				message: __("Topics removed successfully."),
+				indicator: "green",
+			});
+			show_grouped_topics(frm);
+		}
+	});
 }

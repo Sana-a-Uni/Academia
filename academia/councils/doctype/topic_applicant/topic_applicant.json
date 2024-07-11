@@ -1,6 +1,6 @@
 {
  "actions": [],
- "allow_rename": 1,
+ "autoname": "hash",
  "creation": "2024-01-11 07:04:44.730294",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -12,25 +12,17 @@
  ],
  "fields": [
   {
-   "allow_in_quick_entry": 1,
    "fieldname": "applicant_type",
    "fieldtype": "Select",
-   "in_filter": 1,
    "in_list_view": 1,
-   "in_preview": 1,
-   "in_standard_filter": 1,
    "label": "Applicant Type",
-   "options": "\nStudent\nAcademic\nUser\nOther",
+   "options": "\nStudent\nFaculty Member\nEmployee\nOther",
    "reqd": 1
   },
   {
-   "allow_in_quick_entry": 1,
    "fieldname": "applicant",
    "fieldtype": "Dynamic Link",
-   "in_filter": 1,
    "in_list_view": 1,
-   "in_preview": 1,
-   "in_standard_filter": 1,
    "label": "Applicant",
    "options": "applicant_type",
    "reqd": 1
@@ -47,10 +39,11 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-01 07:46:48.482887",
+ "modified": "2024-05-23 07:22:37.101833",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic Applicant",
+ "naming_rule": "Random",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",
