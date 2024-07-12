@@ -304,7 +304,8 @@ fixtures = [
             "Student Category",
             "Appreciation Type",
             "Authority",
-            "Scientific Degree"
+            "Scientific Degree",
+            "Nationality"
             ]
         ]
     ]}
