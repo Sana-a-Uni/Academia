@@ -294,7 +294,8 @@ fixtures = [
         ["parent", "in", [
             "Course",
             "Student Group Tool",
-            "Lesson"
+            "Lesson",
+            "Lesson Template"
             ]
         ]
     ]}
