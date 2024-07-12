@@ -299,7 +299,8 @@ fixtures = [
             "Student Group",
             "Academic Year",
             "Academic Specialty",
-            "Study Method"
+            "Study Method",
+            "Program Degree"
             ]
         ]
     ]}
