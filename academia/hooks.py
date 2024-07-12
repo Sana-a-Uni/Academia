@@ -297,7 +297,8 @@ fixtures = [
             "Lesson",
             "Lesson Template",
             "Student Group",
-            "Academic Year"
+            "Academic Year",
+            "Academic Specialty"
             ]
         ]
     ]}
