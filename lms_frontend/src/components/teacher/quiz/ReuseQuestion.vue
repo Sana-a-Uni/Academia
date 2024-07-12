@@ -43,31 +43,25 @@
 	</div>
 </template>
 
-<script>
-import { useQuizStore } from "@/stores/teacherStore/quizStore";
+<script setup>
+import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useQuizStore } from '@/stores/teacherStore/quizStore';
 
-export default {
-	data() {
-		return {
-			courseName: "00", // قم بتغيير هذا إلى اسم المادة المطلوب
-		};
-	},
-	computed: {
-		questions() {
-			const store = useQuizStore();
-			return store.questions;
-		},
-	},
-	methods: {
-		navigateTo(page) {
-			this.$router.push(`/${page}`);
-		},
-	},
-	async mounted() {
-		const store = useQuizStore();
-		await store.fetchQuestionsByCourse(this.courseName);
-	},
+const courseName = ref('00');
+const facultyMember = ref('ACAD-FM-00001');
+const store = useQuizStore();
+const router = useRouter();
+
+const questions = computed(() => store.questions);
+
+const navigateTo = (page) => {
+	router.push(`/${page}`);
 };
+
+onMounted(async () => {
+	await store.fetchQuestionsByCourse(courseName.value, facultyMember.value);
+});
 </script>
 
 <style scoped>

@@ -118,15 +118,17 @@ def get_question_types():
 
 
 @frappe.whitelist(allow_guest=True)
-def get_questions_by_course(course_name: str ="00")  -> Dict[str, Any]:
+def get_questions_by_course_and_faculty_member(course_name: str = "00", faculty_member: str = "ACAD-FM-00001") -> Dict[str, Any]:
     try:
-        # Fetch questions for the given course
+        # Fetch questions for the given course and faculty_member
+      
         questions: List[Dict[str, Any]] = frappe.get_all(
             "Question",
             fields=['name', 'question', 'question_type'],
             filters={
-                'course': course_name
-            }
+                'course': course_name,
+                'faculty_member': faculty_member,
+            },
         )
 
         questions_data = []
