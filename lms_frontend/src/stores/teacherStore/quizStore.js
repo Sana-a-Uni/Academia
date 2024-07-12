@@ -17,11 +17,33 @@ export const useQuizStore = defineStore("quiz", {
 			grading_basis: "",
 			quiz_question: [],
 		},
-		gradingBasisOptions: [], // هنا سيتم تخزين خيارات "grading_basis"
-		questionTypes: [], // هنا سيتم تخزين خيارات أنواع الأسئلة
-		submitted: false, // حالة لتتبع إذا ما تم إرسال الإجابات
+		gradingBasisOptions: [],
+		questionTypes: [],
+		questions: [],
 	}),
 	actions: {
+		async fetchQuestionsByCourse(courseName) {
+			try {
+				const response = await axios.get(
+					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.get_questions_by_course",
+					 {
+					params: { course_name: courseName },
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: "token 0b88a69d4861506:a0640c80d24119a",
+					},
+				});
+				if (response.data.status_code === 200) {
+					this.questions = response.data.data;
+					console.log(this.questions);
+				} else {
+					console.error("Error fetching questions");
+				}
+			} catch (error) {
+				console.error("Error fetching questions:", error.response ? error.response.data : error);
+			}
+		},
+
 		async fetchGradingBasisOptions() {
 			try {
 				const response = await axios.get(
@@ -87,30 +109,7 @@ export const useQuizStore = defineStore("quiz", {
 				console.error("Error creating quiz:", error.response ? error.response.data : error);
 			}
 		},
-		async submitQuiz(quizData) {
-			try {
-				const response = await axios.post(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.submit_quiz",
-					quizData,
-					{
-						headers: {
-							"Content-Type": "application/json",
-							Authorization: "token 0b88a69d4861506:a0640c80d24119a",
-						},
-					}
-				);
-				if (response.status === 200) {
-					this.submitted = true;
-					return response.data.quizAttemptId;
-				} else {
-					console.error("Error submitting quiz");
-					return null;
-				}
-			} catch (error) {
-				console.error("Error submitting quiz:", error.response ? error.response.data : error);
-				return null;
-			}
-		},
+
 		setQuizData(data) {
 			this.quizData = data;
 		},
