@@ -305,7 +305,8 @@ fixtures = [
             "Appreciation Type",
             "Authority",
             "Scientific Degree",
-            "Nationality"
+            "Nationality",
+            "Consultation Type"
             ]
         ]
     ]}
