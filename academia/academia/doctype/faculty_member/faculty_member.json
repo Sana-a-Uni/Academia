@@ -1,5 +1,4 @@
 {
- "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
  "autoname": "naming_series:",
@@ -316,6 +315,7 @@
    "options": "University"
   },
   {
+   "depends_on": "eval: doc.employee && doc.employment_type != \"Official\"",
    "fieldname": "academic_services_section",
    "fieldtype": "Section Break",
    "label": "Academic Services"
@@ -334,7 +334,7 @@
    "options": "Faculty Member Academic Ranking"
   },
   {
-   "depends_on": "eval: doc.employment_type == \"Official\"",
+   "depends_on": "eval: doc.employee && doc.employment_type == \"Official\"",
    "fieldname": "tenure_status",
    "fieldtype": "Select",
    "label": "Tenure Status",
@@ -342,7 +342,7 @@
    "options": "\nOn Probation\nTenured"
   },
   {
-   "depends_on": "eval: doc.tenure_status == \"Tenured\"",
+   "depends_on": "eval: doc.employee && doc.employment_type == \"Official\" && doc.tenure_status == \"Tenured\"",
    "fieldname": "tenure_data_section",
    "fieldtype": "Section Break",
    "label": "Tenure Data"
@@ -402,7 +402,7 @@
    "link_fieldname": "faculty_member"
   }
  ],
- "modified": "2024-07-12 20:44:58.830643",
+ "modified": "2024-07-12 21:41:19.975422",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",

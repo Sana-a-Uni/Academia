@@ -13,9 +13,6 @@ frappe.ui.form.on("Faculty Member", {
         });
         // End of the function
 
-        // Calling function to refresh tenure_data_section 
-        // fetch_linked_value_and_toggle_section(frm);
-
     },
     // End of refresh event
 
@@ -60,38 +57,9 @@ frappe.ui.form.on("Faculty Member", {
     },
     // End of the function
 
-    // // FN: refresh tenure_data_section immediately 
-    // employee: function (frm) {
-    //     fetch_linked_value_and_toggle_section(frm);
-    // }
-    // End of the function
-
 });
 // // End of standard form scripts
 
-
-// FN: show or hide tenure_data_section 
-// function fetch_linked_value_and_toggle_section(frm) {
-//     if (frm.doc.employee) {
-//         frappe.call({
-//             method: 'frappe.client.get',
-//             args: {
-//                 doctype: 'Employee',
-//                 name: frm.doc.employee
-//             },
-//             callback: function (r) {
-//                 if (r.message && r.message.employment_type === 'Official') {
-//                     frm.toggle_display('tenure_data_section', true);
-//                 } else {
-//                     frm.toggle_display('tenure_data_section', false);
-//                 }
-//             }
-//         });
-//     } else {
-//         frm.toggle_display('tenure_data_section', false);
-//     }
-// }
-// End of the function
 
 
 

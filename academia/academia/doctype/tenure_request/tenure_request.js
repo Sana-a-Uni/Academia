@@ -6,16 +6,30 @@ frappe.ui.form.on("Tenure Request", {
 
     },
 
-    // FN: Filtering evaluations by faculty_member
+    // Start of onload event
+    onload(frm) {
+        // Calling functions
+        frm.events.filtering_evaluations(frm);
+    },
+    // End of onload event
+
+
+    // FN: Clearing evaluations when value of faculty_member changes
     faculty_member: function (frm) {
-        var faculty_member = frm.doc.faculty_member;
         if (frm.doc.evaluations) {
             frm.set_value('evaluations', '');
         }
+        // Calling function
+        frm.events.filtering_evaluations(frm);
+    },
+    // End of the function
+
+    // FN: Filtering evaluations by faculty_member and workflow_state
+    filtering_evaluations: function (frm) {
         frm.set_query("evaluations", function () {
             return {
                 filters: {
-                    "faculty_member": faculty_member,
+                    "faculty_member": frm.doc.faculty_member,
                     "workflow_state": "Approved"
                 }
             };

@@ -6,6 +6,13 @@ frappe.ui.form.on("Tenure Evaluation Request", {
 
     },
 
+    // Start of onload event
+    onload(frm) {
+        // Calling functions
+        frm.events.filtering_academic_term(frm);
+    },
+    // End of onload event
+
     // FN: validate 'attachment' extensions
     attachment: function (frm) {
         var attachment = frm.doc.attachment;
@@ -43,17 +50,22 @@ frappe.ui.form.on("Tenure Evaluation Request", {
     },
     // End of the function
 
-
-    // FN: Filtering Academic Term field by Academic Year field
+    // FN: Clearing academic_term field when value of academic_year changes
     academic_year: function (frm) {
-        var academic_year = frm.doc.academic_year;
         if (frm.doc.academic_term) {
             frm.set_value('academic_term', '');
         }
+        // Calling function
+        frm.events.filtering_academic_term(frm);
+    },
+    // End of the function
+
+    // FN: Filtering Academic Term field by Academic Year field
+    filtering_academic_term: function (frm) {
         frm.set_query("academic_term", function () {
             return {
                 filters: {
-                    "academic_year": academic_year
+                    "academic_year": frm.doc.academic_year
                 }
             };
         });
