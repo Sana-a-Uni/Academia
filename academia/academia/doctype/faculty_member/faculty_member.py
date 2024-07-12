@@ -53,6 +53,7 @@ class FacultyMember(Document):
         languages: DF.TableMultiSelect[FacultyMemberLanguage]
         naming_series: DF.Literal["ACAD-FM-"]
         nationality: DF.Link | None
+        scientific_degree: DF.Link
         specialist_field: DF.Data | None
         tenure_status: DF.Literal["", "On Probation", "Tenured"]
     # end: auto-generated types

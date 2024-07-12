@@ -16,7 +16,6 @@ class JournalType(Document):
 
         journal_type: DF.Data
         journal_weight: DF.Int
-
     # end: auto-generated types
 
     def validate(self):
