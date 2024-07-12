@@ -1,4 +1,5 @@
 {
+ "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "autoname": "field:academic_rank_name",
  "creation": "2024-04-24 15:02:10.621806",
@@ -20,12 +21,12 @@
   {
    "fieldname": "description",
    "fieldtype": "Text",
-   "label": "Description "
+   "label": "Description"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-24 15:17:51.638560",
+ "modified": "2024-07-12 17:13:12.757007",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Rank",
