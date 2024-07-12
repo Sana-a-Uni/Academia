@@ -25,8 +25,8 @@ class JournalType(Document):
 
 
     def validate_journal_type(self):
-        if not re.match("^[A-Za-z\s]+$", self.journal_type):
-            frappe.throw("Journal Type Name should only contain letters")
+        if not re.match("^[A-Za-z0-9\s]+$", self.journal_type):
+            frappe.throw("Journal Type Name should only contain letters and numbers")
             
     def validate_journal_weight(self):   
         if self.journal_weight and not re.match("^[0-9]+$", str(self.journal_weight)):

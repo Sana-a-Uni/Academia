@@ -6,13 +6,21 @@ app_email = "a.alshalabi@su.edu.ye"
 app_license = "mit"
 required_apps = ["frappe/erpnext","frappe/hrms"]
 
-fixtures = [
-    "Academic Status"
-]
 
 fixtures = [
-    "Journal Type"
+    "Academic Status",
+    "Journal Type",
+    "Workflow",
+    "Workflow State",
+    "Workflow Action Master",
+    {
+        "doctype": "Role",
+        "filters": [
+            ["name", "in", ["Academic User", "Faculty Dean", "Department Head"]]
+        ]
+    }
 ]
+
 # Includes in <head>
 # ------------------
 
