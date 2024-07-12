@@ -290,7 +290,5 @@ fixtures = [
 ]
 
 fixtures = [
-    {"dt": "Custom DocPerm", "filters": [["parent", "=", "Student Group Tool"]]}
-]
-        
-
+    {"dt": "Custom DocPerm", "filters": [["parent", "in", ["Course","Student Group Tool"]]]}
+]   
