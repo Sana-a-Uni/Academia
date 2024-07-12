@@ -1,5 +1,6 @@
 import frappe
 import json
+from typing import List, Dict, Any
 
 @frappe.whitelist()
 def create_quiz():
@@ -113,3 +114,50 @@ def get_question_types():
             "data": [],
             "error": str(e)
         })
+
+
+
+@frappe.whitelist(allow_guest=True)
+def get_questions_by_course(course_name: str ="00")  -> Dict[str, Any]:
+    try:
+        # Fetch questions for the given course
+        questions: List[Dict[str, Any]] = frappe.get_all(
+            "Question",
+            fields=['name', 'question', 'question_type'],
+            filters={
+                'course': course_name
+            }
+        )
+
+        questions_data = []
+
+        for question in questions:
+            question_doc = frappe.get_doc("Question", question['name'])
+            question_details = {
+                "name": question_doc.name,
+                "question": question_doc.question,
+                "question_type": question_doc.question_type,
+                "question_options": [
+                    {"option": option.option, "is_correct": option.is_correct}
+                    for option in question_doc.question_options
+                ]
+            }
+            questions_data.append(question_details)
+
+        # Construct the response
+        frappe.response.update({
+            "status_code": 200,
+            "message": "Questions fetched successfully",
+            "data": questions_data
+        })
+        
+        return frappe.response["message"]
+    
+    # Construct the error response
+    except Exception as e:
+        frappe.response.update({
+            "status_code": 500,
+            "message": f"An error occurred while fetching questions: {str(e)}"
+        })
+        
+    return frappe.response["message"]
