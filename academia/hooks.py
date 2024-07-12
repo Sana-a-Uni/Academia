@@ -295,7 +295,8 @@ fixtures = [
             "Course",
             "Student Group Tool",
             "Lesson",
-            "Lesson Template"
+            "Lesson Template",
+            "Student Group"
             ]
         ]
     ]}
