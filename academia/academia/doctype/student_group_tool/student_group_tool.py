@@ -267,10 +267,27 @@ class StudentGroupTool(Document):
 								student_group.save()
 						frappe.msgprint('Practical Groups Successfully Generated...')
 			elif self.grouping_by == 'Theoretical and Practical':
-				frappe.msgprint('Theoretical and Practical here...')
+				if self.based_on == 'All':
+					# Theoretical and Practical All grouping here:
+					if len(cleaned_students) % self.capacity == 0:
+						groups_size = len(cleaned_students) / self.capacity
+						for i in range(int(groups_size)):
+							student_group = frappe.new_doc('Student Group')
+							student_group.student_group_name = self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1)
+							student_group.batch = self.student_batch
+							student_group.program = self.program
+							student_group.group_based_on = self.based_on
+							for i in range(self.capacity):
+								student_entry = student_group.append('students', {})
+								student_entry.update(cleaned_students[0])
+								del cleaned_students[0]
+							student_group.save()
+						frappe.msgprint('Groups Successfully Generated...')
 		else:
 			frappe.msgprint('please, get the students first...')	
 
+
+	# This function is useless and can be deleted...
 	@frappe.whitelist()
 	def generate_groups(self):
 		students = []
