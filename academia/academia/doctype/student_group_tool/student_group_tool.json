@@ -13,7 +13,7 @@
   "faculity",
   "student_batch",
   "student_group",
-  "tolerance",
+  "practical_capacity",
   "students_section",
   "get_students",
   "students",
@@ -73,14 +73,6 @@
    "reqd": 1
   },
   {
-   "fetch_from": ".",
-   "fieldname": "tolerance",
-   "fieldtype": "Int",
-   "label": "Tolerance",
-   "non_negative": 1,
-   "reqd": 1
-  },
-  {
    "fieldname": "generate_groups",
    "fieldtype": "Button",
    "label": "Generate groups"
@@ -95,7 +87,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Grouping By",
-   "options": "Theoretical\nPractical",
+   "options": "Theoretical\nPractical\nTheoretical and Practical",
    "reqd": 1
   },
   {
@@ -105,12 +97,21 @@
    "label": "Student Group",
    "options": "Student Group",
    "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.grouping_by == \"Theoretical and Practical\";",
+   "fetch_from": ".",
+   "fieldname": "practical_capacity",
+   "fieldtype": "Int",
+   "label": "Practical Capacity",
+   "non_negative": 1,
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-07-01 03:00:57.669670",
+ "modified": "2024-07-12 23:54:20.906854",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group Tool",
