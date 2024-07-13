@@ -80,7 +80,29 @@ class StudentGroupTool(Document):
 		keys = ['student_name', 'gender', 'program']
 		cleaned_students = [{k: v for k, v in d.items() if k in keys} for d in students]
 
-		
+		if len(cleaned_students) > 0:
+			if self.grouping_by == 'Theoretical':
+				if self.based_on == 'All':
+					# Theoretical All grouping here:
+					
+						frappe.msgprint('Groups Successfully Generated...')
+				elif self.based_on == 'By Sex':
+					males = []
+					females = []
+
+					for student in cleaned_students:
+						if student['gender'] == 'Male':
+							males.append(student)
+						elif student['gender'] == 'Female':
+							females.append(student)
+
+					
+			elif self.grouping_by == 'Practical':
+				frappe.msgprint('practical here...')
+			elif self.grouping_by == 'Theoretical and Practical':
+				frappe.msgprint('Theoretical and Practical here...')
+		else:
+			frappe.msgprint('please, get the students first...')	
 
 	@frappe.whitelist()
 	def generate_groups(self):
