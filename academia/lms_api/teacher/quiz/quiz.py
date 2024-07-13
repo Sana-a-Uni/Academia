@@ -54,11 +54,18 @@ def create_quiz_doc(data, questions):
     quiz_doc.insert()
 
 def create_question(question_data):
-    question_doc = frappe.new_doc("Question")
-    question_doc.update(question_data)
-   
+    if 'name' in question_data:
+        # السؤال السابق
+        question_doc = frappe.get_doc("Question", question_data['name'])
+        question_doc.question_grade = question_data['question_grade']
+    else:
+        # السؤال الجديد
+        question_doc = frappe.new_doc("Question")
+        question_doc.update(question_data)
+    
     question_doc.save()
     return question_doc
+
 
 def create_questions(questions_data):
     questions = []
