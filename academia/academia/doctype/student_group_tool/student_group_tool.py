@@ -370,7 +370,48 @@ class StudentGroupTool(Document):
 										del males[0]
 									student_group.save()
 							frappe.msgprint('Groups Successfully Generated...')
-						
+						# Females:
+						if len(females) % self.capacity == 0:
+							groups_size = len(females) / self.capacity
+							for i in range(int(groups_size)):
+								student_group = frappe.new_doc('Student Group')
+								student_group.student_group_name = self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1) + ' Females'
+								student_group.batch = self.student_batch
+								student_group.program = self.program
+								student_group.group_based_on = self.based_on
+								for i in range(self.capacity):
+									student_entry = student_group.append('students', {})
+									student_entry.update(females[0])
+									del females[0]
+								student_group.save()
+							frappe.msgprint('Groups Successfully Generated...')
+						else:
+							groups_size = len(females) / self.capacity + 1
+							capacity = len(females) / int(groups_size)
+							for i in range(int(groups_size)):
+								if i < len(females) % int(groups_size):
+									student_group = frappe.new_doc('Student Group')
+									student_group.student_group_name = self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1) + ' Females'
+									student_group.batch = self.student_batch
+									student_group.program = self.program
+									student_group.group_based_on = self.based_on
+									for i in range(int(capacity) + 1):
+										student_entry = student_group.append('students', {})
+										student_entry.update(females[0])
+										del females[0]
+									student_group.save()
+								else:
+									student_group = frappe.new_doc('Student Group')
+									student_group.student_group_name = self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1) + ' Females'
+									student_group.batch = self.student_batch
+									student_group.program = self.program
+									student_group.group_based_on = self.based_on
+									for i in range(int(capacity)):
+										student_entry = student_group.append('students', {})
+										student_entry.update(females[0])
+										del females[0]
+									student_group.save()
+							frappe.msgprint('Groups Successfully Generated...')
 		else:
 			frappe.msgprint('please, get the students first...')	
 
