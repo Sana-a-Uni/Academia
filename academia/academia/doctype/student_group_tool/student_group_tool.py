@@ -100,7 +100,7 @@ class StudentGroupTool(Document):
 						frappe.msgprint('Groups Successfully Generated...')
 					else:
 						groups_size = len(cleaned_students) / self.capacity + 1
-						capacity = len(cleaned_students) / groups_size
+						capacity = len(cleaned_students) / int(groups_size)
 						for i in range(int(groups_size)):
 							if i < len(cleaned_students) % int(groups_size):
 								student_group = frappe.new_doc('Student Group')
@@ -241,6 +241,30 @@ class StudentGroupTool(Document):
 								student_entry.update(cleaned_students[0])
 								del cleaned_students[0]
 							student_group.save()
+						frappe.msgprint('Practical Groups Successfully Generated...')
+				else:
+					groups_size = len(cleaned_students) / self.capacity + 1
+					capacity = len(cleaned_students) / int(groups_size)
+					if int(groups_size) > 3:
+						frappe.throw(_("Can't generate more then three Practical groups, please add more capacity to continue."))
+					else:
+						for i in range(int(groups_size)):
+							if i < len(cleaned_students) % int(groups_size):
+								student_group = frappe.get_doc('Student Group', self.student_group)
+								table_name = 'students' + str(i+1)
+								for i in range(int(capacity) + 1):
+									student_entry = student_group.append(table_name, {})
+									student_entry.update(cleaned_students[0])
+									del cleaned_students[0]
+								student_group.save()
+							else:
+								student_group = frappe.get_doc('Student Group', self.student_group)
+								table_name = 'students' + str(i+1)
+								for i in range(int(capacity)):
+									student_entry = student_group.append(table_name, {})
+									student_entry.update(cleaned_students[0])
+									del cleaned_students[0]
+								student_group.save()
 						frappe.msgprint('Practical Groups Successfully Generated...')
 			elif self.grouping_by == 'Theoretical and Practical':
 				frappe.msgprint('Theoretical and Practical here...')
