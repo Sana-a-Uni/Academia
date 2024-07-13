@@ -316,7 +316,8 @@ fixtures = [
             "Student",
             "Academic Rank",
             "Academic Publication",
-            "Building"
+            "Building",
+            "Lab Type"
             ]
         ]
     ]}
