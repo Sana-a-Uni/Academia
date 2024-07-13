@@ -31,12 +31,13 @@
   "current_academic_data_section",
   "scientific_degree",
   "academic_rank",
-  "column_break_gcym",
   "general_field",
   "specialist_field",
-  "column_break_wovm",
+  "column_break_gcym",
   "employment_type",
   "tenure_status",
+  "probation_period_end_date",
+  "is_eligible_for_granting_tenure",
   "tenure_data_section",
   "decision_number",
   "date",
@@ -368,8 +369,18 @@
    "reqd": 1
   },
   {
-   "fieldname": "column_break_wovm",
-   "fieldtype": "Column Break"
+   "depends_on": "eval: doc.tenure_status == \"On Probation\"",
+   "fieldname": "probation_period_end_date",
+   "fieldtype": "Date",
+   "label": "Probation Period End Date",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_eligible_for_granting_tenure",
+   "fieldtype": "Check",
+   "label": "Is Eligible for Granting Tenure",
+   "read_only": 1
   }
  ],
  "image_field": "image",
@@ -402,7 +413,7 @@
    "link_fieldname": "faculty_member"
   }
  ],
- "modified": "2024-07-12 21:41:19.975422",
+ "modified": "2024-07-13 07:09:30.745958",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",

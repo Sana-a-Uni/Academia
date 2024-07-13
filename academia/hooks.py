@@ -237,4 +237,3 @@ before_tests = "academia.tests.test_utils.before_tests"
 # ]
 export_python_type_annotations = True
 
-

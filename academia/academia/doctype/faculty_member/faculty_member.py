@@ -5,7 +5,10 @@ from frappe.model.document import Document
 import frappe
 from frappe import _
 import re
-from datetime import datetime
+from datetime import datetime, timedelta
+from frappe.utils import add_months, nowdate
+import logging
+
 
 class FacultyMember(Document):
     # begin: auto-generated types
@@ -50,14 +53,15 @@ class FacultyMember(Document):
         general_field: DF.Data | None
         google_scholar_profile_link: DF.Data | None
         image: DF.AttachImage | None
+        is_eligible_for_granting_tenure: DF.Check
         languages: DF.TableMultiSelect[FacultyMemberLanguage]
         naming_series: DF.Literal["ACAD-FM-"]
         nationality: DF.Link | None
+        probation_period_end_date: DF.Date | None
         scientific_degree: DF.Link
         specialist_field: DF.Data | None
         tenure_status: DF.Literal["", "On Probation", "Tenured"]
     # end: auto-generated types
-    
     
     # Start of validate controller hook
     def validate(self):
@@ -66,14 +70,16 @@ class FacultyMember(Document):
         self.validate_date()
         self.validate_url()
         self.validate_decision_number()
+        self.get_probation_end_date()
+        self.check_tenure_eligibility()
     # End of validate controller hook
-   
+
     # FN: validate duplicate 'employee' field
     def validate_duplicate_employee(self):
-          if self.employee:
+        if self.employee:
             exist_employee = frappe.get_value("Faculty Member", {"employee": self.employee, "name": ["!=", self.name]}, "faculty_member_name")
             if exist_employee:
-                frappe.throw(f"Employee {self.employee} is already assigned to {exist_employee}")    
+                frappe.throw(f"Employee {self.employee} is already assigned to {exist_employee}")
     # End of the function
 
     # FN: validate 'date_of_joining_in_university' and 'date_of_joining_in_service' fields
@@ -106,5 +112,79 @@ class FacultyMember(Document):
             frappe.throw("Decision Number should contain only digits")
     # End of the function
 
+    # def get_probation_end_date(self):
+    #     if self.date_of_joining_in_university and self.tenure_status == "On Probation":
+    #         faculty_member_settings = frappe.get_all(
+    #             "Faculty Member Settings",
+    #             filters=[
+    #                 ["academic_rank", "=", self.academic_rank],
+    #                 ["valid_from", "<=", self.date_of_joining_in_university],
+    #             ],
+    #             fields=["name", "probation_period"],
+    #             order_by="valid_from desc",
+    #         )
+
+    #         # Check if results are found before accessing elements
+    #         if faculty_member_settings:
+    #             faculty_member_settings = faculty_member_settings[0]
+    #             self.probation_period_end_date = add_months(
+    #                 self.date_of_joining_in_university,
+    #                 int(faculty_member_settings.probation_period),
+    #             )
+    #         else:
+    #             # Handle missing settings gracefully (optional)
+    #             frappe.msgprint(
+    #                 _(
+    #                     "Probation periods not found in Faculty Member Settings for  <b>{self.academic_rank}</b>. Please create appropriate settings."
+    #                 ),
+    #                 title=_("Missing Probation Settings"),
+    #                 indicator="orange",
+    #             )
+    def get_probation_end_date(self):
+        if self.date_of_joining_in_university and self.tenure_status == "On Probation":
+            # Fetch settings with filters
+            faculty_member_settings = frappe.get_all(
+                "Faculty Member Settings",
+                filters=[
+                    ["academic_rank", "=", self.academic_rank],
+                    ["valid_from", "<=", self.date_of_joining_in_university],
+                ],
+                fields=["name", "probation_period"],
+                order_by="valid_from desc",
+            )
+            
+            # Check if results are found before accessing elements
+            if faculty_member_settings:
+                faculty_member_settings = faculty_member_settings[0]
+                self.probation_period_end_date = add_months(
+                    self.date_of_joining_in_university,
+                    int(faculty_member_settings.probation_period),
+                )
+            else:
+                # Raise an exception to prevent saving the document
+                frappe.throw(
+                    _(
+                        "Probation periods not found in Faculty Member Settings for <b>{}</b> from this date. Please create appropriate settings.".format(self.academic_rank)
+                    ),
+                    title=_("Missing Probation Settings"),
+                )
+
+
+
+    def check_tenure_eligibility(self):
+        if self.probation_period_end_date:
+            try:
+                probation_end_date = datetime.strptime(self.probation_period_end_date, "%Y-%m-%d").date()
+                today = datetime.strptime(nowdate(), "%Y-%m-%d").date()
+
+                if probation_end_date >= today:
+                    self.is_eligible_for_granting_tenure = 1
+                else:
+                    self.is_eligible_for_granting_tenure = 0
+
+            except ValueError as e:
+                # Handle date format errors
+                frappe.msgprint(_("Error parsing probation end date: {0}").format(e), title=_("Date Parsing Error"), indicator="red")
+                self.is_eligible_for_granting_tenure = 0
 
 
