@@ -307,7 +307,8 @@ fixtures = [
             "Scientific Degree",
             "Nationality",
             "Consultation Type",
-            "Lecture"
+            "Lecture",
+            "Study Plan"
             ]
         ]
     ]}
