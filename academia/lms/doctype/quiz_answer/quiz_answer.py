@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class QuizQuestion(Document):
+class QuizAnswer(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -14,11 +14,12 @@ class QuizQuestion(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
+		grade: DF.Float
+		is_correct: DF.Check
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
-		question: DF.TextEditor | None
-		question_grade: DF.Float
-		question_link: DF.Link
+		question: DF.Link | None
+		selected_option: DF.Data | None
 	# end: auto-generated types
 	pass
