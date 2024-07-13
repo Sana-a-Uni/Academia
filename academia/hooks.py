@@ -311,7 +311,8 @@ fixtures = [
             "Study Plan",
             "Semester",
             "Level",
-            "Academic Term"
+            "Academic Term",
+            "Student State"
             ]
         ]
     ]}
