@@ -6,6 +6,7 @@ export const useQuizStore = defineStore("quiz", {
 		quizData: {
 			title: "",
 			course: "00",
+			faculty_member: "ACAD-FM-00001",
 			instruction: "",
 			make_the_quiz_availability: 0,
 			from_date: "",
@@ -22,7 +23,7 @@ export const useQuizStore = defineStore("quiz", {
 		questions: [],
 	}),
 	actions: {
-		async fetchQuestionsByCourse(courseName , facultyMember) {
+		async fetchQuestionsByCourse(courseName, facultyMember) {
 			try {
 				const response = await axios.get(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.get_questions_by_course_and_faculty_member",

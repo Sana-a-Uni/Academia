@@ -6,6 +6,11 @@ from typing import List, Dict, Any
 def create_quiz():
     data = json.loads(frappe.request.data)
     try:
+        for question in data.get("quiz_question"):
+            if 'name' not in question:
+                question["course"] = data.get("course")
+                question["faculty_member"] = data.get("faculty_member")
+
         questions = create_questions(data.get("quiz_question"))
         create_quiz_doc(data, questions)
 
@@ -20,6 +25,7 @@ def create_quiz():
 def create_quiz_doc(data, questions):
     quiz_doc = frappe.new_doc("LMS Quiz")
     quiz_doc.course = data.get("course")
+    quiz_doc.faculty_member = data.get("faculty_member")
     quiz_doc.title = data.get("title")
     quiz_doc.instruction = data.get("instruction")
     quiz_doc.make_the_quiz_availability = data.get("make_the_quiz_availability")
@@ -55,17 +61,16 @@ def create_quiz_doc(data, questions):
 
 def create_question(question_data):
     if 'name' in question_data:
-        # السؤال السابق
         question_doc = frappe.get_doc("Question", question_data['name'])
         question_doc.question_grade = question_data['question_grade']
     else:
-        # السؤال الجديد
         question_doc = frappe.new_doc("Question")
         question_doc.update(question_data)
+        question_doc.course = question_data.get("course")
+        question_doc.faculty_member = question_data.get("faculty_member")
     
     question_doc.save()
     return question_doc
-
 
 def create_questions(questions_data):
     questions = []
