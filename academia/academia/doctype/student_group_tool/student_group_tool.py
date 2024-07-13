@@ -71,6 +71,18 @@ class StudentGroupTool(Document):
 			return students
 
 	@frappe.whitelist()
+	def generate_groups_ultra(self):
+		students = []
+		for student in self.students:
+			student_data = student.as_dict()
+			students.append(student_data)
+
+		keys = ['student_name', 'gender', 'program']
+		cleaned_students = [{k: v for k, v in d.items() if k in keys} for d in students]
+
+		
+
+	@frappe.whitelist()
 	def generate_groups(self):
 		students = []
 		for student in self.students:
