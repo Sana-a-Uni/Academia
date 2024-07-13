@@ -323,7 +323,8 @@ fixtures = [
             "lab",
             "Faculty Department",
             "Academic Program",
-            "Student Batch"
+            "Student Batch",
+            "Hour Type"
             ]
         ]
     ]}
