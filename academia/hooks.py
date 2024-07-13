@@ -309,7 +309,8 @@ fixtures = [
             "Consultation Type",
             "Lecture",
             "Study Plan",
-            "Semester"
+            "Semester",
+            "Level"
             ]
         ]
     ]}
