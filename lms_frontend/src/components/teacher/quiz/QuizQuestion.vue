@@ -5,7 +5,7 @@
 			<button class="question-type" @click="goToReuseQuestion">REUSE QUESTION</button>
 		</div>
 		<div class="scrollable-card">
-			<div class="question" v-for="(question, index) in questions" :key="index">
+			<div class="question" v-for="(question, index) in allQuestions" :key="index">
 				<div class="question-grade">
 					<h2>Question {{ index + 1 }}</h2>
 					<input
@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits } from "vue";
+import { ref, defineProps, defineEmits, computed } from "vue";
 
 const props = defineProps({
 	questions: {
@@ -47,9 +47,18 @@ const props = defineProps({
 		required: true,
 	},
 });
-const emit = defineEmits(["go-back", "settings", "addQuestion", "reuseQuestion", "deleteQuestion"]);
+const emit = defineEmits([
+	"go-back",
+	"settings",
+	"addQuestion",
+	"reuseQuestion",
+	"deleteQuestion",
+]);
 
 const selectedAnswers = ref([]);
+const additionalQuestions = ref([]);
+
+const allQuestions = computed(() => [...props.questions, ...additionalQuestions.value]);
 
 const goToAddQuestion = () => {
 	emit("addQuestion");
@@ -60,7 +69,7 @@ const goToReuseQuestion = () => {
 };
 
 const nextPage = () => {
-	emit("settings", props.questions);
+	emit("settings", allQuestions.value);
 };
 
 const previousPage = () => {
@@ -72,9 +81,26 @@ const selectAnswer = (questionIndex, optionIndex) => {
 };
 
 const deleteQuestion = (index) => {
-	props.questions.splice(index, 1);
+	allQuestions.value.splice(index, 1);
 	emit("deleteQuestion", index);
 };
+
+const addQuestions = (newQuestions) => {
+	additionalQuestions.value.push(...newQuestions);
+};
+
+// استقبال الأسئلة المضافة
+const onAddQuestion = (question) => {
+	additionalQuestions.value.push(question);
+};
+
+const onAddQuestions = (questions) => {
+	additionalQuestions.value.push(...questions);
+};
+
+// الاستماع للأسئلة المضافة من صفحة إعادة الاستخدام
+emit("on-add-question", onAddQuestion);
+emit("on-add-questions", onAddQuestions);
 </script>
 
 <style scoped>

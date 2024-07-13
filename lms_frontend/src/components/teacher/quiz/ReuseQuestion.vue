@@ -1,67 +1,73 @@
 <template>
-	<div class="big-card">
-		<h1>Reuse Question</h1>
-		<div class="scrollable-card">
-			<div class="question" v-for="(question, index) in questions" :key="index">
-				<div class="question-grade">
+	<div class="reuse-question-page">
+		<h1 class="page-title">Reuse Question</h1>
+		<div class="question-card">
+			<div class="scrollable-card">
+				<div class="question" v-for="(question, index) in questions" :key="index">
 					<div class="check">
-						<input class="checkbox" type="checkbox" />
+						<input
+							class="checkbox"
+							type="checkbox"
+							v-model="selectedQuestions"
+							:value="question"
+						/>
 						<p v-html="question.question" class="question-text"></p>
 					</div>
+					<ul class="options-list">
+						<li
+							v-for="(option, idx) in question.question_options"
+							:key="idx"
+							class="option-item"
+							:class="{ correct: option.is_correct }"
+						>
+							<label class="option-label">
+								<input
+									:type="
+										question.question_type === 'Multiple Answer'
+											? 'checkbox'
+											: 'radio'
+									"
+									:name="'option-' + index"
+									:id="'option-' + index + '-' + idx"
+									class="option-input"
+									:checked="option.is_correct"
+									disabled
+								/>
+								<span class="option-text">{{ option.option }}</span>
+							</label>
+						</li>
+					</ul>
 				</div>
-
-				<ul class="options-list">
-					<li
-						v-for="(option, idx) in question.question_options"
-						:key="idx"
-						class="option-item"
-						:class="{ correct: option.is_correct }"
-					>
-						<label class="option-label">
-							<input
-								:type="
-									question.question_type === 'Multiple Answer'
-										? 'checkbox'
-										: 'radio'
-								"
-								:name="'option-' + index"
-								:id="'option-' + index + '-' + idx"
-								class="option-input"
-								:checked="option.is_correct"
-								disabled
-							/>
-							<span class="option-text">{{ option.option }}</span>
-						</label>
-					</li>
-				</ul>
 			</div>
-		</div>
-		<div class="card-actions">
-			<button class="cancel-btn" @click="navigateTo('questionlist')">Cancel</button>
-			<button class="next-btn" @click="navigateTo('questionlist')">Reuse</button>
+			<div class="card-actions">
+				<button class="cancel-btn" @click="cancel">Cancel</button>
+				<button class="next-btn" @click="reuseQuestions">Reuse</button>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { useQuizStore } from '@/stores/teacherStore/quizStore';
+import { ref, computed, onMounted } from "vue";
+import { useQuizStore } from "@/stores/teacherStore/quizStore";
 
-const courseName = ref('00');
-const facultyMember = ref('ACAD-FM-00001');
+const selectedQuestions = ref([]);
 const store = useQuizStore();
-const router = useRouter();
+const emit = defineEmits(["questions", "cancel"]);
 
 const questions = computed(() => store.questions);
 
-const navigateTo = (page) => {
-	router.push(`/${page}`);
+onMounted(async () => {
+	await store.fetchQuestionsByCourse("00", "ACAD-FM-00001");
+});
+
+const reuseQuestions = () => {
+	emit("questions", selectedQuestions.value);
 };
 
-onMounted(async () => {
-	await store.fetchQuestionsByCourse(courseName.value, facultyMember.value);
-});
+const cancel = () => {
+	emit("cancel");
+};
 </script>
 
 <style scoped>

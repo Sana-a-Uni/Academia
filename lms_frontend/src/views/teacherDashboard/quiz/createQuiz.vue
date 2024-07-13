@@ -15,7 +15,11 @@
 			@save-settings="handleSaveSettings"
 		/>
 		<AddQuestion v-if="currentView === 'addQuestion'" @questions="handleAddQuestion" />
-		<ReuseQuestion v-if="currentView === 'reuseQuestion'" @go-back="currentView = 'questions'" />
+		<ReuseQuestion
+			v-if="currentView === 'reuseQuestion'"
+			@questions="handleReuseQuestion"
+			@cancel="currentView = 'questions'"
+		/>
 	</mainLayout>
 </template>
 
@@ -46,6 +50,16 @@ const handleSaveSettings = (settingsData) => {
 
 const handleAddQuestion = (questionData) => {
 	quizStore.addQuestion(questionData);
+	currentView.value = "questions";
+};
+
+const handleReuseQuestion = (selectedQuestions) => {
+	selectedQuestions.forEach((question) => {
+		quizStore.addQuestion({
+			name: question.name,
+			question_grade: question.question_grade,
+		});
+	});
 	currentView.value = "questions";
 };
 
