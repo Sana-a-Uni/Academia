@@ -225,29 +225,22 @@ def create_topic_from_transaction(transaction_name, transaction_action, target_d
 		target_doc.topic_date = today()
 		target_doc.transaction = transaction_name
 		target_doc.transaction_action = transaction_action
-		target_doc.council = get_council_for_topic()
+		target_doc.council = get_council_for_topic(transaction_action)
 
 	def get_council_for_topic():
-		user = frappe.session.user  # Get the current logged in user
-		employee = frappe.db.get_value("Employee", {"user_id": user}, "name")  # Fetch the linked employee
+		department = frappe.db.get_value(
+			"Transaction Action", {"name": transaction_action}, "department"
+		)  # Fetch the linked employee
 
-		if not employee:
-			frappe.throw(_("No linked employee found for the current user."))
+		if not department:
+			frappe.throw(_("Transaction Action has no Department."))
+		else:
+			council = frappe.db.get_value("Council", {"department": department}, "name")
 
-		# Find if the employee is a head in any council
-		council = frappe.db.sql(
-			"""
-			SELECT * FROM `tabCouncil Member`
-			WHERE employee=%s AND member_role='Council Head'
-			LIMIT 1
-		""",
-			(employee,),
-			as_dict=1,
-		)
 		if not council:
-			frappe.throw(_("You are not listed as head of any council"))
+			frappe.throw(_("No Council found for {0} department.").format(department))
 
-		return council[0].parent if council else None
+		return council if council else None
 
 	# Define the mapping specifications
 	mappings = {
@@ -256,16 +249,14 @@ def create_topic_from_transaction(transaction_name, transaction_action, target_d
 			"field_map": {"category": "category", "title": "title", "description": "description"},
 			"postprocess": set_additional_values,
 		},
-		"Topic Attachment": {
+		"Transaction Attachments": {
 			"doctype": "Topic Attachment",
 			"field_map": {
-				"title": "title",
-				"type": "type",
-				"attachment": "attachment",
-				"upload_date": "upload_date",
+				"title": "lable",
+				"attachment": "file",
 			},
 		},
-		"Topic Applicant": {
+		"Transaction Applicant": {
 			"doctype": "Topic Applicant",
 			"field_map": {
 				"applicant_type": "applicant_type",
