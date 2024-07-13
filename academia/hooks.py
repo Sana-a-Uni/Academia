@@ -321,7 +321,8 @@ fixtures = [
             "Room",
             "Scientific Article",
             "lab",
-            "Faculty Department"
+            "Faculty Department",
+            "Academic Program"
             ]
         ]
     ]}
