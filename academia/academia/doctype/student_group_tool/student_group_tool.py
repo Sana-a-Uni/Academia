@@ -310,6 +310,23 @@ class StudentGroupTool(Document):
 									del cleaned_students[0]
 								student_group.save()
 						frappe.msgprint('Groups Successfully Generated...')
+				elif self.based_on == 'By Sex':
+					males = []
+					females = []
+
+					for student in cleaned_students:
+						if student['gender'] == 'Male':
+							males.append(student)
+						elif student['gender'] == 'Female':
+							females.append(student)
+
+					if not males:
+						self.based_on = 'All'
+						frappe.msgprint('There are no Male students found, please set the Based On field to All.')
+					elif not females:
+						self.based_on = 'All'
+						frappe.msgprint('There are no Female students found, please set the Based On field to All.')
+					
 		else:
 			frappe.msgprint('please, get the students first...')	
 
