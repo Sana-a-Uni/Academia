@@ -45,6 +45,7 @@ const props = defineProps({
 	questions: {
 		type: Array,
 		required: true,
+		default: () => [], // إضافة قيمة افتراضية
 	},
 });
 const emit = defineEmits([
@@ -58,7 +59,11 @@ const emit = defineEmits([
 const selectedAnswers = ref([]);
 const additionalQuestions = ref([]);
 
-const allQuestions = computed(() => [...props.questions, ...additionalQuestions.value]);
+const allQuestions = computed(() => {
+	return props.questions && Array.isArray(props.questions)
+		? [...props.questions, ...additionalQuestions.value]
+		: [...additionalQuestions.value];
+});
 
 const goToAddQuestion = () => {
 	emit("addQuestion");
@@ -81,7 +86,11 @@ const selectAnswer = (questionIndex, optionIndex) => {
 };
 
 const deleteQuestion = (index) => {
-	allQuestions.value.splice(index, 1);
+	if (index < props.questions.length) {
+		props.questions.splice(index, 1);
+	} else {
+		additionalQuestions.value.splice(index - props.questions.length, 1);
+	}
 	emit("deleteQuestion", index);
 };
 
@@ -129,6 +138,7 @@ body {
 	cursor: pointer;
 	width: 35%;
 }
+
 button:hover {
 	opacity: 0.9;
 }
@@ -203,7 +213,7 @@ button:hover {
 }
 
 .delete-button {
-	background-color: #ff4d4d;
+	background-color: #c82333;
 	color: white;
 	border: none;
 	border-radius: 5px;
@@ -212,6 +222,7 @@ button:hover {
 	width: 100px;
 	text-align: center;
 }
+
 .delete-button:hover {
 	opacity: 0.9;
 }
@@ -232,6 +243,7 @@ button:hover {
 	background-color: #0584ae;
 	color: white;
 }
+
 .card-actions button:hover {
 	opacity: 0.9;
 }
