@@ -129,7 +129,22 @@ class StudentGroupTool(Document):
 					males = []
 					females = []
 
-					
+					for student in cleaned_students:
+						if student['gender'] == 'Male':
+							males.append(student)
+						elif student['gender'] == 'Female':
+							females.append(student)
+
+					if not males:
+						self.based_on = 'All'
+						frappe.msgprint('There are no Male students found, please set the Based On field to All.')
+					elif not females:
+						self.based_on = 'All'
+						frappe.msgprint('There are no Female students found, please set the Based On field to All.')
+					else:
+						# Theoretical By Sex grouping here:
+						# Males:
+						
 			elif self.grouping_by == 'Practical':
 				frappe.msgprint('practical here...')
 			elif self.grouping_by == 'Theoretical and Practical':
