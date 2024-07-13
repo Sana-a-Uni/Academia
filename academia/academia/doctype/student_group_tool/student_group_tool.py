@@ -326,7 +326,51 @@ class StudentGroupTool(Document):
 					elif not females:
 						self.based_on = 'All'
 						frappe.msgprint('There are no Female students found, please set the Based On field to All.')
-					
+					else:
+						# Theoretical and Practical By Sex grouping here:
+						# Males:
+						if len(males) % self.capacity == 0:
+							groups_size = len(males) / self.capacity
+							for i in range(int(groups_size)):
+								student_group = frappe.new_doc('Student Group')
+								student_group.student_group_name = self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1) + ' Males'
+								student_group.batch = self.student_batch
+								student_group.program = self.program
+								student_group.group_based_on = self.based_on
+								for i in range(self.capacity):
+									student_entry = student_group.append('students', {})
+									student_entry.update(males[0])
+									del males[0]
+								student_group.save()
+							frappe.msgprint('Groups Successfully Generated...')
+						else:
+							groups_size = len(males) / self.capacity + 1
+							capacity = len(males) / int(groups_size)
+							for i in range(int(groups_size)):
+								if i < len(males) % int(groups_size):
+									student_group = frappe.new_doc('Student Group')
+									student_group.student_group_name = self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1) + ' Males'
+									student_group.batch = self.student_batch
+									student_group.program = self.program
+									student_group.group_based_on = self.based_on
+									for i in range(int(capacity) + 1):
+										student_entry = student_group.append('students', {})
+										student_entry.update(males[0])
+										del males[0]
+									student_group.save()
+								else:
+									student_group = frappe.new_doc('Student Group')
+									student_group.student_group_name = self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1) + ' Males'
+									student_group.batch = self.student_batch
+									student_group.program = self.program
+									student_group.group_based_on = self.based_on
+									for i in range(int(capacity)):
+										student_entry = student_group.append('students', {})
+										student_entry.update(males[0])
+										del males[0]
+									student_group.save()
+							frappe.msgprint('Groups Successfully Generated...')
+						
 		else:
 			frappe.msgprint('please, get the students first...')	
 
