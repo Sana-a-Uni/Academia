@@ -1,53 +1,83 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2024-02-11 11:05:05.057137",
+ "creation": "2024-05-28 19:13:39.794083",
  "doctype": "DocType",
- "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "question",
-  "selected_option",
-  "result"
+  "student",
+  "quiz",
+  "column_break_szil",
+  "course",
+  "section_break_hemv",
+  "grade",
+  "column_break_dfft",
+  "attempts_taken"
  ],
  "fields": [
   {
-   "fieldname": "question",
+   "fieldname": "student",
    "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Question",
-   "options": "Question",
-   "read_only": 1,
-   "reqd": 1
+   "label": "Student",
+   "options": "Student"
   },
   {
-   "fieldname": "selected_option",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Selected Option",
-   "read_only": 1,
-   "set_only_once": 1
+   "fieldname": "quiz",
+   "fieldtype": "Link",
+   "label": "Quiz",
+   "options": "LMS Quiz"
   },
   {
-   "fieldname": "result",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Result",
-   "options": "\nCorrect\nWrong",
-   "read_only": 1,
-   "reqd": 1,
-   "set_only_once": 1
+   "fieldname": "column_break_szil",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "quiz.course",
+   "fieldname": "course",
+   "fieldtype": "Link",
+   "label": "Course",
+   "options": "Course"
+  },
+  {
+   "fieldname": "section_break_hemv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "grade",
+   "fieldtype": "Float",
+   "label": "Grade"
+  },
+  {
+   "fieldname": "column_break_dfft",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "attempts_taken",
+   "fieldtype": "Int",
+   "label": "Attempts taken"
   }
  ],
  "index_web_pages_for_search": 1,
- "istable": 1,
  "links": [],
- "modified": "2024-02-11 11:24:44.635871",
+ "modified": "2024-05-28 19:16:52.570123",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "Quiz Result",
  "owner": "Administrator",
- "permissions": [],
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []
