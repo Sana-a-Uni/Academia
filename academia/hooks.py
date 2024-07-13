@@ -318,7 +318,8 @@ fixtures = [
             "Academic Publication",
             "Building",
             "Lab Type",
-            "Room"
+            "Room",
+            "Scientific Article"
             ]
         ]
     ]}
