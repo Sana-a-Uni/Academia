@@ -310,7 +310,8 @@ fixtures = [
             "Lecture",
             "Study Plan",
             "Semester",
-            "Level"
+            "Level",
+            "Academic Term"
             ]
         ]
     ]}
