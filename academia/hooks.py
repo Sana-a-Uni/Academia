@@ -314,7 +314,8 @@ fixtures = [
             "Academic Term",
             "Student State",
             "Student",
-            "Academic Rank"
+            "Academic Rank",
+            "Academic Publication"
             ]
         ]
     ]}
