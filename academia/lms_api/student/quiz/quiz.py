@@ -96,6 +96,7 @@ def get_quiz_instruction(quiz_name: str) -> Dict[str, Any]:
         })
         return frappe.response["message"]
 
+
 @frappe.whitelist(allow_guest=True)
 def get_quiz(quiz_name: str ="2874210861", student_id: str="EDU-STU-2024-00001"):
     try:
@@ -127,14 +128,20 @@ def get_quiz(quiz_name: str ="2874210861", student_id: str="EDU-STU-2024-00001")
         # Fetch each question linked to the quiz
         for question_row in quiz_doc.quiz_question:
             question_doc = frappe.get_doc("Question", question_row.question_link)
+            question_options = [
+                {"option": option.option}
+                for option in question_doc.question_options
+            ]
+
+            # Randomize the order of options if required
+            if quiz_doc.randomize_question_order:
+                random.shuffle(question_options)
+
             question_details = {
                 "name": question_doc.name,
                 "question": question_doc.question,
                 "question_type": question_doc.question_type,
-                "question_options": [
-                    {"option": option.option}
-                    for option in question_doc.question_options
-                ],
+                "question_options": question_options,
                 "question_grade": question_row.question_grade,
             }
             quiz["quiz_question"].append(question_details)
