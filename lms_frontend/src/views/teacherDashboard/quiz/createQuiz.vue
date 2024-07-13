@@ -57,6 +57,8 @@ const handleReuseQuestion = (selectedQuestions) => {
 	selectedQuestions.forEach((question) => {
 		quizStore.addQuestion({
 			name: question.name,
+			question: question.question,
+			question_options: question.question_options,
 			question_grade: question.question_grade,
 		});
 	});
