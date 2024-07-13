@@ -185,6 +185,12 @@ def add_topics_to_group(parent_name, topics):
 		topics_list = json.loads(topics)  # Parse the JSON string into a list
 		for topic_name in topics_list:
 			topic = frappe.get_doc("Topic", topic_name)
+			# Check if the topic already has a parent_topic assigned
+			if topic.parent_topic:
+				frappe.msgprint(
+					_("Topic {0} is already in group {1}.").format(topic_name, topic.parent_topic)
+				)
+				continue
 			topic.parent_topic = parent_name
 			topic.save()
 
