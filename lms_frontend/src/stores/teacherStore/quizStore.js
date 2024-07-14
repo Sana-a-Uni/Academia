@@ -21,8 +21,30 @@ export const useQuizStore = defineStore("quiz", {
 		gradingBasisOptions: [],
 		questionTypes: [],
 		questions: [],
+		quizzes: [],
 	}),
 	actions: {
+		async fetchQuizzes(courseName, facultyMember) {
+			this.loading = true;
+			this.error = null;
+			try {
+				const response = await axios.get(
+					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.get_quizzes_by_course_and_faculty",
+					{
+						params: {
+							course: courseName,
+							faculty_member: facultyMember,
+						},
+					}
+				);
+				this.quizzes = response.data.data;
+			} catch (error) {
+				this.error = error.message || "An error occurred while fetching quizzes.";
+			} finally {
+				this.loading = false;
+			}
+		},
+
 		async fetchQuestionsByCourse(courseName, facultyMember) {
 			try {
 				const response = await axios.get(
