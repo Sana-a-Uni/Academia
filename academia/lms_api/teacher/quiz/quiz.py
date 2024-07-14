@@ -175,3 +175,42 @@ def get_questions_by_course_and_faculty_member(course_name: str = "00", faculty_
         })
         
     return frappe.response["message"]
+
+
+
+@frappe.whitelist(allow_guest=True)
+def get_quizzes_by_course_and_faculty(course: str="00", faculty_member: str= "ACAD-FM-00001"):
+    try:
+        # Fetch all quizzes that match the given course and faculty member
+        quizzes = frappe.get_all('LMS Quiz',
+            filters={
+                'course': course,
+                'faculty_member': faculty_member
+            },
+            fields=['name', 'title', 'from_date', 'to_date', 'duration', 'number_of_attempts',  'total_grades']
+        )
+
+        # Check if quizzes were found
+        if not quizzes:
+            frappe.response.update({
+                "status_code": 404,
+                "message": "No quizzes found for the given course and faculty member."
+            })
+            return frappe.response["message"]
+
+        # Construct the success response
+        frappe.response.update({
+            "status_code": 200,
+            "message": "Quizzes fetched successfully",
+            "data": quizzes
+        })
+        return frappe.response["message"]
+
+    except Exception as e:
+        # General error handling
+        frappe.response.update({
+            "status_code": 500,
+            "message": f"An error occurred while fetching quizzes: {str(e)}"
+        })
+        return frappe.response["message"]
+
