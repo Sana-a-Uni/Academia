@@ -303,13 +303,17 @@ class StudentGroupTool(Document):
 								practical_capacity = len(practical_students) / practical_groups_size
 								for i in range(int(practical_groups_size)):
 									if i < len(practical_students) % practical_groups_size:
-										for i in range(self.practical_capacity):
+										for i in range(int(practical_capacity) + 1):
 											student_entry = practical_student_group.append(table_name, {})
 											student_entry.update(practical_students[0])
 											del practical_students[0]
 										practical_student_group.save()
 									else:
-										
+										for i in range(int(practical_capacity)):
+											student_entry = practical_student_group.append(table_name, {})
+											student_entry.update(practical_students[0])
+											del practical_students[0]
+										practical_student_group.save()
 						frappe.msgprint('Groups Successfully Generated...')
 					else:
 						groups_size = len(cleaned_students) / self.capacity + 1
