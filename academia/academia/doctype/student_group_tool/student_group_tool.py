@@ -300,20 +300,23 @@ class StudentGroupTool(Document):
 										practical_student_group.save()
 							else:
 								practical_groups_size = len(practical_students) / self.practical_capacity +1
-								practical_capacity = len(practical_students) / practical_groups_size
-								for i in range(int(practical_groups_size)):
-									if i < len(practical_students) % practical_groups_size:
-										for i in range(int(practical_capacity) + 1):
-											student_entry = practical_student_group.append(table_name, {})
-											student_entry.update(practical_students[0])
-											del practical_students[0]
-										practical_student_group.save()
-									else:
-										for i in range(int(practical_capacity)):
-											student_entry = practical_student_group.append(table_name, {})
-											student_entry.update(practical_students[0])
-											del practical_students[0]
-										practical_student_group.save()
+								practical_capacity = len(practical_students) / int(practical_groups_size)
+								if int(practical_groups_size) > 3:
+									frappe.msgprint("Can't generate more then three Practical groups, please add more capacity to for the " + self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1) + ' group and try again.')
+								else:
+									for i in range(int(practical_groups_size)):
+										if i < len(practical_students) % int(practical_groups_size):
+											for i in range(int(practical_capacity) + 1):
+												student_entry = practical_student_group.append(table_name, {})
+												student_entry.update(practical_students[0])
+												del practical_students[0]
+											practical_student_group.save()
+										else:
+											for i in range(int(practical_capacity)):
+												student_entry = practical_student_group.append(table_name, {})
+												student_entry.update(practical_students[0])
+												del practical_students[0]
+											practical_student_group.save()
 						frappe.msgprint('Groups Successfully Generated...')
 					else:
 						groups_size = len(cleaned_students) / self.capacity + 1
@@ -325,22 +328,92 @@ class StudentGroupTool(Document):
 								student_group.batch = self.student_batch
 								student_group.program = self.program
 								student_group.group_based_on = self.based_on
+								practical_students = []
 								for i in range(int(capacity) + 1):
 									student_entry = student_group.append('students', {})
 									student_entry.update(cleaned_students[0])
+									practical_students.append(cleaned_students[0])
 									del cleaned_students[0]
 								student_group.save()
+								# Practical:
+								practical_student_group = frappe.get_doc('Student Group', self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1))
+								table_name = 'students' + str(i+1)
+								if len(practical_students) % self.practical_capacity == 0: 
+									practical_groups_size = len(practical_students) / self.practical_capacity
+									if int(practical_groups_size) > 3:
+										frappe.msgprint("Can't generate more then three Practical groups, please add more capacity to for the " + self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1) + ' group and try again.')
+									else:
+										for i in range(int(practical_groups_size)):
+											for i in range(self.practical_capacity):
+												student_entry = practical_student_group.append(table_name, {})
+												student_entry.update(practical_students[0])
+												del practical_students[0]
+											practical_student_group.save()
+								else:
+									practical_groups_size = len(practical_students) / self.practical_capacity +1
+									practical_capacity = len(practical_students) / int(practical_groups_size)
+									if int(practical_groups_size) > 3:
+										frappe.msgprint("Can't generate more then three Practical groups, please add more capacity to for the " + self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1) + ' group and try again.')
+									else:
+										for i in range(int(practical_groups_size)):
+											if i < len(practical_students) % int(practical_groups_size):
+												for i in range(int(practical_capacity) + 1):
+													student_entry = practical_student_group.append(table_name, {})
+													student_entry.update(practical_students[0])
+													del practical_students[0]
+												practical_student_group.save()
+											else:
+												for i in range(int(practical_capacity)):
+													student_entry = practical_student_group.append(table_name, {})
+													student_entry.update(practical_students[0])
+													del practical_students[0]
+												practical_student_group.save()
 							else:
 								student_group = frappe.new_doc('Student Group')
 								student_group.student_group_name = self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1)
 								student_group.batch = self.student_batch
 								student_group.program = self.program
 								student_group.group_based_on = self.based_on
+								practical_students = []
 								for i in range(int(capacity)):
 									student_entry = student_group.append('students', {})
 									student_entry.update(cleaned_students[0])
+									practical_students.append(cleaned_students[0])
 									del cleaned_students[0]
 								student_group.save()
+								# Practical:
+								practical_student_group = frappe.get_doc('Student Group', self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1))
+								table_name = 'students' + str(i+1)
+								if len(practical_students) % self.practical_capacity == 0: 
+									practical_groups_size = len(practical_students) / self.practical_capacity
+									if int(practical_groups_size) > 3:
+										frappe.msgprint("Can't generate more then three Practical groups, please add more capacity to for the " + self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1) + ' group and try again.')
+									else:
+										for i in range(int(practical_groups_size)):
+											for i in range(self.practical_capacity):
+												student_entry = practical_student_group.append(table_name, {})
+												student_entry.update(practical_students[0])
+												del practical_students[0]
+											practical_student_group.save()
+								else:
+									practical_groups_size = len(practical_students) / self.practical_capacity +1
+									practical_capacity = len(practical_students) / int(practical_groups_size)
+									if int(practical_groups_size) > 3:
+										frappe.msgprint("Can't generate more then three Practical groups, please add more capacity to for the " + self.student_batch + ' ' + self.program + ' ' + 'G' + str(i+1) + ' group and try again.')
+									else:
+										for i in range(int(practical_groups_size)):
+											if i < len(practical_students) % int(practical_groups_size):
+												for i in range(int(practical_capacity) + 1):
+													student_entry = practical_student_group.append(table_name, {})
+													student_entry.update(practical_students[0])
+													del practical_students[0]
+												practical_student_group.save()
+											else:
+												for i in range(int(practical_capacity)):
+													student_entry = practical_student_group.append(table_name, {})
+													student_entry.update(practical_students[0])
+													del practical_students[0]
+												practical_student_group.save()
 						frappe.msgprint('Groups Successfully Generated...')
 				elif self.based_on == 'By Sex':
 					males = []
