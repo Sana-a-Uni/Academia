@@ -26,6 +26,7 @@
 <script setup>
 import { ref } from "vue";
 import { useQuizStore } from "@/stores/teacherStore/quizStore";
+import { useRouter } from "vue-router";
 import QuizInformation from "@/components/teacher/quiz/QuizInformation.vue";
 import QuizQuestion from "@/components/teacher/quiz/QuizQuestion.vue";
 import QuizSettings from "@/components/teacher/quiz/QuizSettings.vue";
@@ -35,6 +36,7 @@ import mainLayout from "@/components/teacher/layout/MainLayout.vue";
 
 const currentView = ref("information");
 const quizStore = useQuizStore();
+const router = useRouter();
 
 const handleQuizCreated = () => {
 	currentView.value = "questions";
@@ -44,7 +46,7 @@ const handleSaveSettings = (settingsData) => {
 	quizStore.updateQuizData(settingsData);
 	quizStore.createQuiz().then(() => {
 		resetFields(); // Call reset fields after creating quiz
-		currentView.value = "information";
+		router.push({ name: "quizList" }); // Redirect to quizList after reusing questions
 	});
 };
 
