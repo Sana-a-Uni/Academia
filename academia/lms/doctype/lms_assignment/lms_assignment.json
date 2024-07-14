@@ -11,18 +11,14 @@
   "student_group",
   "column_break_bsqh",
   "instruction",
-  "assignment_type",
   "section_break_gimj",
   "make_the_assignment_availability",
   "from_date",
   "column_break_tjfh",
   "to_date",
-  "section_break_epao",
+  "section_break_ytru",
   "question",
-  "attachment",
-  "column_break_zcpn",
-  "answer",
-  "file_upload"
+  "attachment"
  ],
  "fields": [
   {
@@ -59,14 +55,6 @@
    "label": "Instruction"
   },
   {
-   "fieldname": "assignment_type",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Assignment Type",
-   "options": "\nEssay\nFile Upload",
-   "reqd": 1
-  },
-  {
    "fieldname": "section_break_gimj",
    "fieldtype": "Section Break",
    "label": "Availability"
@@ -94,11 +82,6 @@
    "label": "To Date"
   },
   {
-   "fieldname": "section_break_epao",
-   "fieldtype": "Section Break",
-   "label": "Assignment"
-  },
-  {
    "fieldname": "question",
    "fieldtype": "Text Editor",
    "label": "Question"
@@ -109,25 +92,13 @@
    "label": "Attachment"
   },
   {
-   "fieldname": "column_break_zcpn",
-   "fieldtype": "Column Break"
-  },
-  {
-   "depends_on": "eval:doc.assignment_type == \"Essay\"",
-   "fieldname": "answer",
-   "fieldtype": "Text Editor",
-   "label": "Answer"
-  },
-  {
-   "depends_on": "eval:doc.assignment_type == \"File Upload\"",
-   "fieldname": "file_upload",
-   "fieldtype": "Attach",
-   "label": "File Upload"
+   "fieldname": "section_break_ytru",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-02-11 00:07:28.633103",
+ "modified": "2024-07-15 00:51:42.944884",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "LMS Assignment",
