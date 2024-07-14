@@ -92,7 +92,7 @@ const addQuestion = () => {
   const questionData = {
     question: questionContent.value,
     question_type: questionType.value,
-    question_grade: 0,
+    // question_grade: 0,
     question_options: options.value
   };
   emit('questions', questionData);

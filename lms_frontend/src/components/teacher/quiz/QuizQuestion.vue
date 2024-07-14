@@ -16,14 +16,29 @@
 					/>
 				</div>
 				<p v-html="question.question"></p>
-				<ul>
+				<ul class="options-list">
 					<li
 						v-for="(option, optIndex) in question.question_options"
 						:key="optIndex"
-						:class="{ selected: selectedAnswers[index] === optIndex }"
-						@click="selectAnswer(index, optIndex)"
+						:class="{
+							selected: selectedAnswers[index] === optIndex,
+							correct: option.is_correct,
+						}"
 					>
-						{{ option.option }}
+						<label class="option-label">
+							<input
+								:type="
+									question.question_type === 'Multiple Choice'
+										? 'radio'
+										: 'checkbox'
+								"
+								:name="'question-' + index"
+								:v-model="selectedAnswers[index]"
+								:value="optIndex"
+								class="option-input"
+							/>
+							<span class="option-text">{{ option.option }}</span>
+						</label>
 					</li>
 				</ul>
 				<div class="delete-button-container">
@@ -188,22 +203,45 @@ button:hover {
 	font-size: 1rem;
 }
 
-.question ul {
+.options-list {
 	list-style-type: none;
 	padding: 0;
-	margin: 10px 0 0 0;
+	margin: 5px 0 0 0;
 	font-size: 0.9rem;
 }
 
-.question ul li {
-	margin: 5px 0;
+.options-list li {
+	margin: -20px 0;
 	padding: 5px;
-	cursor: pointer;
+	display: flex;
+	align-items: center; /* لضمان أن الخيارات والنصوص تكون في نفس السطر */
+	justify-content: flex-start; /* محاذاة العناصر إلى اليسار */
 }
 
-.question ul li.selected {
+.options-list li.selected {
 	background-color: #d3e8ff;
 	border-radius: 5px;
+}
+
+.options-list li.correct .option-text {
+	color: green; /* تغيير لون النص للخيار الصحيح */
+	font-weight: bold;
+}
+
+.option-label {
+	display: flex;
+	align-items: center;
+}
+.options-list li .option-text {
+	white-space: nowrap; /* منع النص من الالتفاف */
+	color: inherit; /* للحفاظ على لون النص الأصلي */
+}
+
+.option-input {
+	margin-right: 10px;
+	transform: scale(1.2); /* تكبير حجم الراديو أو الشيكبوكس */
+	position: relative;
+	top: 8px; /* رفع الراديو أو الشيكبوكس قليلاً */
 }
 
 .delete-button-container {
