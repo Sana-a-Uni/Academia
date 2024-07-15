@@ -3,33 +3,39 @@
 		<h1>Quiz Instructions</h1>
 		<div class="instructions">
 			<p>
-				Welcome to <strong> {{ quizInstructions.title }} </strong> in
-				<strong> {{ quizInstructions.course }} </strong>! Please read the following instructions
-				carefully before you begin:
+				Welcome to <strong>{{ quizInstructions.title }}</strong> in
+				<strong>{{ quizInstructions.course }}</strong
+				>! Please read the following instructions carefully before you begin:
 			</p>
 			<ul>
 				<li>
 					Attempts allowed: You have
-					<strong> {{ quizInstructions.number_of_attempts }} </strong> attempts to complete the
-					quiz.
+					<strong>{{ quizInstructions.number_of_attempts }}</strong> attempts to complete the quiz.
 				</li>
 				<li v-if="quizInstructions.duration !== null">
-					Time limit: You have <strong> {{ formatDuration(quizInstructions.duration) }} </strong> to
+					Time limit: You have <strong>{{ formatDuration(quizInstructions.duration) }}</strong> to
 					complete the quiz from the moment you start your attempt.
 				</li>
 				<li>
 					Total score: The maximum possible score is
-					<strong> {{ quizInstructions.total_grades }} </strong> points.
+					<strong>{{ quizInstructions.total_grades }}</strong> points.
 				</li>
 				<li>
 					Grading basis: Your grade will be determined based on
-					<strong> {{ quizInstructions.grading_basis }} </strong>.
+					<strong>{{ quizInstructions.grading_basis }}</strong
+					>.
 				</li>
 				<li>
 					End time: All attempts must be completed before
-					<strong> {{ quizInstructions.to_date }} </strong>.
+					<strong>{{ quizInstructions.to_date }}</strong
+					>.
 				</li>
-				<li v-if="quizInstructions.instruction">Notes: {{ quizInstructions.instruction }}</li>
+				<li v-if="quizInstructions.instruction">
+					<div class="inline-container">
+						<span class="note-label">Notes:</span>
+						<span v-html="quizInstructions.instruction" class="instruction-text"></span>
+					</div>
+				</li>
 			</ul>
 		</div>
 		<div class="btn-container">
@@ -133,6 +139,20 @@ ul li strong {
 ul li strong::before,
 ul li strong::after {
 	content: "\00a0";
+}
+
+.inline-container {
+	display: flex;
+	align-items: baseline;
+}
+
+.note-label {
+	margin-right: 5px;
+	color: #555;
+}
+
+.instruction-text {
+	color: #555;
 }
 
 .btn-container {

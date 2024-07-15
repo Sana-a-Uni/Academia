@@ -15,6 +15,8 @@ class Question(Document):
 		from academia.lms.doctype.question_options.question_options import QuestionOptions
 		from frappe.types import DF
 
+		course: DF.Link | None
+		faculty_member: DF.Link | None
 		question: DF.TextEditor | None
 		question_options: DF.Table[QuestionOptions]
 		question_type: DF.Literal["", "Multiple Choice", "Multiple Answer"]
