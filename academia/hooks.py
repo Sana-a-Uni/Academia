@@ -339,7 +339,8 @@ fixtures = [
             "Evaluation Criterion",
             "Program Enrollment",
             "Course Specification",
-            "Facility"
+            "Facility",
+            "Schedule Template Version"
             ]
         ]
     ]}
