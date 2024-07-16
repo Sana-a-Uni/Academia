@@ -354,7 +354,8 @@ fixtures = [
             "Student Admission",
             "Academic Attendance Tool",
             "Course Enrollment",
-            "LMS Quiz"
+            "LMS Quiz",
+            "Lesson Attendance"
             ]
         ]
     ]}
