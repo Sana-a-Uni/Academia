@@ -6,25 +6,6 @@ app_email = "a.alshalabi@su.edu.ye"
 app_license = "mit"
 required_apps = ["frappe/erpnext","frappe/hrms"]
 
-
-# for print format
-fixtures = [
- {
-  "doctype": "Print format",
-  "filters" : [
-                "name",
-                "in",
-                [
-     'transaction'
-                ]
-             ]
-     }
- ]
-
-fixtures = [
-    "Academic Status"
-]
-
 # Includes in <head>
 # ------------------
 
@@ -89,6 +70,7 @@ app_include_js = "academia.bundle.js"
 
 # before_install = "academia.install.before_install"
 # after_install = "academia.install.after_install"
+after_install = "academia.setup.install.after_install"
 
 # Uninstallation
 # ------------
