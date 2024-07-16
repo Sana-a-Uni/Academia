@@ -348,7 +348,8 @@ fixtures = [
             "Faculty Need",
             "Degree Accreditation",
             "Journal",
-            "Journal Type"
+            "Journal Type",
+            "Course Study Tool"
             ]
         ]
     ]}
