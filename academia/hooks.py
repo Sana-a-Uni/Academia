@@ -326,7 +326,8 @@ fixtures = [
             "Student Batch",
             "Hour Type",
             "Level And Semester Enrollment",
-            "Program Specification"
+            "Program Specification",
+            "Tenure Evaluation Request"
             ]
         ]
     ]}
