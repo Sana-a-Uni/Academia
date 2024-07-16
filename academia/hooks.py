@@ -345,7 +345,8 @@ fixtures = [
             "Course Enrollment Tool",
             "Course Study",
             "Academic Status",
-            "Faculty Need"
+            "Faculty Need",
+            "Degree Accreditation"
             ]
         ]
     ]}
