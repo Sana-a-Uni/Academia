@@ -357,7 +357,8 @@ fixtures = [
             "LMS Quiz",
             "Lesson Attendance",
             "Student Applicant",
-            "Question"
+            "Question",
+            "Quiz Attempt"
             ]
         ]
     ]}
