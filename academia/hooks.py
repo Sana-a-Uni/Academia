@@ -351,7 +351,8 @@ fixtures = [
             "Journal Type",
             "Course Study Tool",
             "Asset Access Request",
-            "Student Admission"
+            "Student Admission",
+            "Academic Attendance Tool"
             ]
         ]
     ]}
