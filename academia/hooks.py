@@ -341,7 +341,8 @@ fixtures = [
             "Course Specification",
             "Facility",
             "Schedule Template Version",
-            "University"
+            "University",
+            "Course Enrollment Tool"
             ]
         ]
     ]}
