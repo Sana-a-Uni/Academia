@@ -343,7 +343,8 @@ fixtures = [
             "Schedule Template Version",
             "University",
             "Course Enrollment Tool",
-            "Course Study"
+            "Course Study",
+            "Academic Status"
             ]
         ]
     ]}
