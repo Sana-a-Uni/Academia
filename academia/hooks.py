@@ -333,7 +333,8 @@ fixtures = [
             "Group Assignment Tool",
             "Group Assignment",
             "Academic Publication Type",
-            "Academic Services"
+            "Academic Services",
+            "Evaluation Criteria Template"
             ]
         ]
     ]}
