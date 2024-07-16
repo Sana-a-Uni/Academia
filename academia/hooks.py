@@ -344,7 +344,8 @@ fixtures = [
             "University",
             "Course Enrollment Tool",
             "Course Study",
-            "Academic Status"
+            "Academic Status",
+            "Faculty Need"
             ]
         ]
     ]}
