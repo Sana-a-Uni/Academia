@@ -353,7 +353,8 @@ fixtures = [
             "Asset Access Request",
             "Student Admission",
             "Academic Attendance Tool",
-            "Course Enrollment"
+            "Course Enrollment",
+            "LMS Quiz"
             ]
         ]
     ]}
