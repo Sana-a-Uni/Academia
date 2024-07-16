@@ -328,7 +328,8 @@ fixtures = [
             "Level And Semester Enrollment",
             "Program Specification",
             "Tenure Evaluation Request",
-            "Faculty Member"
+            "Faculty Member",
+            "Faculty"
             ]
         ]
     ]}
