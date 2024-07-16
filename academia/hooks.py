@@ -70,7 +70,6 @@ app_include_js = "academia.bundle.js"
 
 # before_install = "academia.install.before_install"
 # after_install = "academia.install.after_install"
-after_install = "academia.setup.install.after_install"
 
 # Uninstallation
 # ------------
