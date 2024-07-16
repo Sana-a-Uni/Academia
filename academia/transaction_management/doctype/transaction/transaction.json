@@ -1,463 +1,499 @@
 {
-    "actions": [],
-    "allow_rename": 1,
-    "autoname": "format:TRA-{MM}-{YY}-{####}",
-    "creation": "2024-04-25 22:30:46.203673",
-    "doctype": "DocType",
-    "engine": "InnoDB",
-    "field_order": [
-        "document_details_tab",
-        "additional_details_section",
-        "transaction_scope",
-        "type",
-        "start_date",
-        "private",
-        "print_official_paper",
-        "through_route",
-        "full_electronic",
-        "priority",
-        "column_break_ktxa",
-        "status",
-        "transaction_scan",
-        "reference_number",
-        "title",
-        "get_default_template_button",
-        "transaction_description",
-        "category_information_section",
-        "category",
-        "sub_category",
-        "column_break_yyhz",
-        "referenced_doctype",
-        "referenced_document",
-        "fromto_section",
-        "start_with",
-        "start_with_company",
-        "main_external_entity_from",
-        "sub_external_entity_from",
-        "column_break_jcbr",
-        "start_with_department",
-        "start_with_designation",
-        "external_entity_designation_from",
-        "to_section",
-        "recipients",
-        "get_recipients",
-        "clear_recipients",
-        "main_external_entity_to",
-        "sub_external_entity_to",
-        "external_entity_designation_to",
-        "transaction_owner_information_section",
-        "created_by",
-        "company",
-        "column_break_eucw",
-        "department",
-        "designation",
-        "section_break_pgsu",
-        "amended_from",
-        "step",
-        "applicants_tab",
-        "applicants_table",
-        "attachments_tab",
-        "attachments",
-        "tracking_actions_tab",
-        "refresh_button",
-        "actions"
-    ],
-    "fields": [{
-            "fieldname": "category",
-            "fieldtype": "Link",
-            "label": "Category",
-            "options": "Transaction Category"
-        },
-        {
-            "fieldname": "additional_details_section",
-            "fieldtype": "Section Break"
-        },
-        {
-            "fieldname": "title",
-            "fieldtype": "Data",
-            "label": "Title"
-        },
-        {
-            "fieldname": "column_break_ktxa",
-            "fieldtype": "Column Break"
-        },
-        {
-            "allow_on_submit": 1,
-            "fieldname": "start_date",
-            "fieldtype": "Data",
-            "is_virtual": 1,
-            "label": "Start Date",
-            "options": "frappe.utils.format_datetime(doc.creation, \n                format_string='dd MMM yyyy, HH:mm:ss'\n            )",
-            "read_only": 1
-        },
-        {
-            "fieldname": "reference_number",
-            "fieldtype": "Data",
-            "label": "Reference Number"
-        },
-        {
-            "allow_on_submit": 1,
-            "fieldname": "created_by",
-            "fieldtype": "Data",
-            "is_virtual": 1,
-            "label": "Created By",
-            "options": "doc.owner",
-            "read_only": 1
-        },
-        {
-            "allow_on_submit": 1,
-            "fieldname": "attachments",
-            "fieldtype": "Table",
-            "options": "Transaction Attachments"
-        },
-        {
-            "default": "0",
-            "fieldname": "full_electronic",
-            "fieldtype": "Check",
-            "label": "Full Electronic"
-        },
-        {
-            "fieldname": "amended_from",
-            "fieldtype": "Link",
-            "label": "Amended From",
-            "no_copy": 1,
-            "options": "Transaction",
-            "print_hide": 1,
-            "read_only": 1,
-            "search_index": 1
-        },
-        {
-            "allow_on_submit": 1,
-            "depends_on": "eval:!doc.__islocal",
-            "fieldname": "status",
-            "fieldtype": "Select",
-            "label": "Status",
-            "options": "Pending\nCompleted\nCanceled",
-            "read_only": 1
-        },
-        {
-            "fieldname": "section_break_pgsu",
-            "fieldtype": "Section Break"
-        },
-        {
-            "fieldname": "priority",
-            "fieldtype": "Select",
-            "label": "Priority",
-            "options": "\nLow\nMedium\nHigh\nUrgent"
-        },
-        {
-            "depends_on": "eval:doc.category;",
-            "fieldname": "sub_category",
-            "fieldtype": "Link",
-            "label": "Sub Category",
-            "options": "Transaction Category"
-        },
-        {
-            "fieldname": "company",
-            "fieldtype": "Link",
-            "hidden": 1,
-            "label": "Company",
-            "options": "Company",
-            "read_only": 1
-        },
-        {
-            "fieldname": "transaction_scope",
-            "fieldtype": "Select",
-            "label": "Transaction Scope",
-            "options": "In Company\nAmong Companies\nWith External Entity"
-        },
-        {
-            "fieldname": "applicants_tab",
-            "fieldtype": "Tab Break",
-            "label": "Applicants"
-        },
-        {
-            "allow_on_submit": 1,
-            "fieldname": "attachments_tab",
-            "fieldtype": "Tab Break",
-            "label": "Attachments"
-        },
-        {
-            "depends_on": "eval:doc.docstatus === 1;",
-            "fieldname": "tracking_actions_tab",
-            "fieldtype": "Tab Break",
-            "label": "Tracking Actions"
-        },
-        {
-            "fieldname": "document_details_tab",
-            "fieldtype": "Tab Break",
-            "label": "Document Details"
-        },
-        {
-            "fieldname": "applicants_table",
-            "fieldtype": "Table",
-            "label": "Applicants Table",
-            "options": "Transaction Applicant"
-        },
-        {
-            "allow_on_submit": 1,
-            "fieldname": "actions",
-            "fieldtype": "HTML",
-            "options": "Press Refresh button to get actions if exist.",
-            "read_only": 1
-        },
-        {
-            "depends_on": "eval: !(doc.transaction_scope==\"With External Entity\"&&doc.type==\"Outgoing\");",
-            "fieldname": "get_recipients",
-            "fieldtype": "Button",
-            "label": "Get Recipients"
-        },
-        {
-            "depends_on": "eval: !(doc.transaction_scope==\"With External Entity\"&&doc.type==\"Outgoing\");",
-            "fieldname": "recipients",
-            "fieldtype": "Table",
-            "label": "Recipient",
-            "options": "Transaction Recipients"
-        },
-        {
-            "fieldname": "department",
-            "fieldtype": "Link",
-            "hidden": 1,
-            "label": "Department",
-            "options": "Department",
-            "read_only": 1
-        },
-        {
-            "fieldname": "designation",
-            "fieldtype": "Link",
-            "hidden": 1,
-            "label": "Designation",
-            "options": "Designation",
-            "read_only": 1
-        },
-        {
-            "depends_on": "eval:doc.transaction_scope==\"With External Entity\";",
-            "fieldname": "type",
-            "fieldtype": "Select",
-            "label": "Type",
-            "options": "Outgoing\nIncoming"
-        },
-        {
-            "fieldname": "transaction_scan",
-            "fieldtype": "Attach",
-            "label": "Transaction Scan"
-        },
-        {
-            "default": "0",
-            "fieldname": "private",
-            "fieldtype": "Check",
-            "label": "Private"
-        },
-        {
-            "fieldname": "refresh_button",
-            "fieldtype": "Button",
-            "label": "Refresh"
-        },
-        {
-            "fieldname": "fromto_section",
-            "fieldtype": "Section Break",
-            "label": "From"
-        },
-        {
-            "depends_on": "eval: !(doc.transaction_scope==\"With External Entity\"&&doc.type==\"Incoming\");",
-            "fieldname": "start_with",
-            "fieldtype": "Link",
-            "label": "Start From",
-            "options": "Employee"
-        },
-        {
-            "depends_on": "eval: !(doc.transaction_scope==\"With External Entity\"&&doc.type==\"Outgoing\");",
-            "fieldname": "clear_recipients",
-            "fieldtype": "Button",
-            "label": "Clear Recipients"
-        },
-        {
-            "default": "0",
-            "fieldname": "through_route",
-            "fieldtype": "Check",
-            "label": "Through Route"
-        },
-        {
-            "default": "0",
-            "depends_on": "eval:doc.transaction_scope!=\"In Company\";",
-            "fieldname": "print_official_paper",
-            "fieldtype": "Check",
-            "label": "Print Official Paper"
-        },
-        {
-            "depends_on": "eval: !(doc.transaction_scope==\"With External Entity\"&&doc.type==\"Incoming\");",
-            "fieldname": "start_with_company",
-            "fieldtype": "Link",
-            "label": "Company",
-            "options": "Company"
-        },
-        {
-            "depends_on": "eval: !(doc.transaction_scope==\"With External Entity\"&&doc.type==\"Incoming\");",
-            "fieldname": "start_with_department",
-            "fieldtype": "Link",
-            "label": "Department",
-            "options": "Department"
-        },
-        {
-            "depends_on": "eval: !(doc.transaction_scope==\"With External Entity\"&&doc.type==\"Incoming\");",
-            "fieldname": "start_with_designation",
-            "fieldtype": "Link",
-            "label": "Designation",
-            "options": "Designation"
-        },
-        {
-            "depends_on": "eval:!doc.__islocal",
-            "fieldname": "transaction_owner_information_section",
-            "fieldtype": "Section Break",
-            "label": "Transaction Creator Information"
-        },
-        {
-            "fieldname": "column_break_eucw",
-            "fieldtype": "Column Break"
-        },
-        {
-            "fieldname": "to_section",
-            "fieldtype": "Section Break",
-            "label": "To"
-        },
-        {
-            "fieldname": "column_break_jcbr",
-            "fieldtype": "Column Break"
-        },
-        {
-            "depends_on": "eval:doc.referenced_doctype;",
-            "fieldname": "referenced_document",
-            "fieldtype": "Dynamic Link",
-            "label": "Referenced Document",
-            "options": "referenced_doctype"
-        },
-        {
-            "depends_on": "eval:doc.sub_category;",
-            "fieldname": "referenced_doctype",
-            "fieldtype": "Link",
-            "label": "Referenced Doctype",
-            "options": "DocType",
-            "read_only": 1
-        },
-        {
-            "fieldname": "category_information_section",
-            "fieldtype": "Section Break",
-            "label": "Category Information"
-        },
-        {
-            "fieldname": "column_break_yyhz",
-            "fieldtype": "Column Break"
-        },
-        {
-            "depends_on": "eval:doc.transaction_scope==\"With External Entity\"&&doc.type==\"Incoming\";",
-            "fieldname": "main_external_entity_from",
-            "fieldtype": "Link",
-            "label": "Main External Entity",
-            "options": "External Entity"
-        },
-        {
-            "depends_on": "eval:doc.main_external_entity_from && doc.transaction_scope==\"With External Entity\"&&doc.type==\"Incoming\";",
-            "fieldname": "sub_external_entity_from",
-            "fieldtype": "Link",
-            "label": "Sub External Entity",
-            "options": "External Entity"
-        },
-        {
-            "depends_on": "eval:doc.main_external_entity_from && doc.transaction_scope==\"With External Entity\"&&doc.type==\"Incoming\";",
-            "fieldname": "external_entity_designation_from",
-            "fieldtype": "Link",
-            "label": "External Entity Designation",
-            "options": "External Entity Designation"
-        },
-        {
-            "depends_on": "eval:doc.transaction_scope==\"With External Entity\"&&doc.type==\"Outgoing\";",
-            "fieldname": "main_external_entity_to",
-            "fieldtype": "Link",
-            "label": "Main External Entity",
-            "options": "External Entity"
-        },
-        {
-            "depends_on": "eval:doc.main_external_entity_to && doc.transaction_scope==\"With External Entity\"&&doc.type==\"Outgoing\";",
-            "fieldname": "sub_external_entity_to",
-            "fieldtype": "Link",
-            "label": "Sub External Entity",
-            "options": "External Entity"
-        },
-        {
-            "depends_on": "eval:doc.main_external_entity_to && doc.transaction_scope==\"With External Entity\"&&doc.type==\"Outgoing\";",
-            "fieldname": "external_entity_designation_to",
-            "fieldtype": "Link",
-            "label": "External Entity Designation",
-            "options": "External Entity Designation"
-        },
-        {
-            "fieldname": "transaction_description",
-            "fieldtype": "Text Editor",
-            "label": "Transaction Description"
-        },
-        {
-            "allow_on_submit": 1,
-            "default": "1",
-            "fieldname": "step",
-            "fieldtype": "Int",
-            "hidden": 1,
-            "label": "Step",
-            "non_negative": 1
-        },
-        {
-            "fieldname": "get_default_template_button",
-            "fieldtype": "Button",
-            "label": "Get Default Template"
-        }
-    ],
-    "index_web_pages_for_search": 1,
-    "is_submittable": 1,
-    "links": [],
-    "modified": "2024-07-07 21:13:04.901107",
-    "modified_by": "Administrator",
-    "module": "Transaction Management",
-    "name": "Transaction",
-    "naming_rule": "Expression",
-    "owner": "Administrator",
-    "permissions": [{
-            "create": 1,
-            "delete": 1,
-            "email": 1,
-            "export": 1,
-            "print": 1,
-            "read": 1,
-            "report": 1,
-            "role": "System Manager",
-            "share": 1,
-            "write": 1
-        },
-        {
-            "create": 1,
-            "delete": 1,
-            "email": 1,
-            "export": 1,
-            "print": 1,
-            "read": 1,
-            "report": 1,
-            "role": "Transaction User",
-            "share": 1,
-            "submit": 1,
-            "write": 1
-        }
-    ],
-    "sort_field": "modified",
-    "sort_order": "DESC",
-    "states": [{
-            "color": "Blue",
-            "title": "Pending"
-        },
-        {
-            "color": "Green",
-            "title": "Completed"
-        },
-        {
-            "color": "Red",
-            "title": "Canceled"
-        }
-    ]
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:TRA-{MM}-{YY}-{####}",
+ "creation": "2024-04-25 22:30:46.203673",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "document_details_tab",
+  "additional_details_section",
+  "transaction_scope",
+  "type",
+  "start_date",
+  "private",
+  "through_route",
+  "full_electronic",
+  "circular",
+  "print_official_paper",
+  "priority",
+  "column_break_ktxa",
+  "status",
+  "transaction_scan",
+  "reference_number",
+  "title",
+  "get_default_template_button",
+  "transaction_description",
+  "category_information_section",
+  "category",
+  "sub_category",
+  "column_break_yyhz",
+  "referenced_doctype",
+  "referenced_document",
+  "fromto_section",
+  "start_with",
+  "start_with_company",
+  "main_external_entity_from",
+  "sub_external_entity_from",
+  "column_break_jcbr",
+  "start_with_department",
+  "start_with_designation",
+  "external_entity_designation_from",
+  "to_section",
+  "recipients",
+  "get_recipients",
+  "clear_recipients",
+  "main_external_entity_to",
+  "sub_external_entity_to",
+  "external_entity_designation_to",
+  "transaction_owner_information_section",
+  "created_by",
+  "company",
+  "column_break_eucw",
+  "department",
+  "designation",
+  "section_break_pgsu",
+  "amended_from",
+  "step",
+  "signatories",
+  "applicants_tab",
+  "applicants_table",
+  "attachments_tab",
+  "attachments",
+  "tracking_actions_tab",
+  "refresh_button",
+  "actions"
+ ],
+ "fields": [
+  {
+   "fieldname": "category",
+   "fieldtype": "Link",
+   "label": "Category",
+   "options": "Transaction Category"
+  },
+  {
+   "fieldname": "additional_details_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title"
+  },
+  {
+   "fieldname": "column_break_ktxa",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "start_date",
+   "fieldtype": "Data",
+   "is_virtual": 1,
+   "label": "Start Date",
+   "options": "frappe.utils.format_datetime(doc.creation, \n                format_string='dd MMM yyyy, HH:mm:ss'\n            )",
+   "read_only": 1
+  },
+  {
+   "fieldname": "reference_number",
+   "fieldtype": "Data",
+   "label": "Reference Number"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "created_by",
+   "fieldtype": "Data",
+   "is_virtual": 1,
+   "label": "Created By",
+   "options": "doc.owner",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "attachments",
+   "fieldtype": "Table",
+   "options": "Transaction Attachments"
+  },
+  {
+   "default": "0",
+   "fieldname": "full_electronic",
+   "fieldtype": "Check",
+   "label": "Full Electronic"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Transaction",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "depends_on": "eval:!doc.__islocal",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Pending\nCompleted\nCanceled",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_pgsu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "label": "Priority",
+   "options": "\nLow\nMedium\nHigh\nUrgent"
+  },
+  {
+   "depends_on": "eval:doc.category;",
+   "fieldname": "sub_category",
+   "fieldtype": "Link",
+   "label": "Sub Category",
+   "options": "Transaction Category"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "transaction_scope",
+   "fieldtype": "Select",
+   "label": "Transaction Scope",
+   "options": "In Company\nAmong Companies\nWith External Entity"
+  },
+  {
+   "fieldname": "applicants_tab",
+   "fieldtype": "Tab Break",
+   "label": "Applicants"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "attachments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Attachments"
+  },
+  {
+   "depends_on": "eval:doc.docstatus === 1;",
+   "fieldname": "tracking_actions_tab",
+   "fieldtype": "Tab Break",
+   "label": "Tracking Actions"
+  },
+  {
+   "fieldname": "document_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Document Details"
+  },
+  {
+   "fieldname": "applicants_table",
+   "fieldtype": "Table",
+   "label": "Applicants Table",
+   "options": "Transaction Applicant"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "actions",
+   "fieldtype": "HTML",
+   "options": "Press Refresh button to get actions if exist.",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval: !(doc.transaction_scope==\"With External Entity\"&&doc.type==\"Outgoing\");",
+   "fieldname": "get_recipients",
+   "fieldtype": "Button",
+   "label": "Get Recipients"
+  },
+  {
+   "depends_on": "eval: !(doc.transaction_scope==\"With External Entity\"&&doc.type==\"Outgoing\");",
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "Recipient",
+   "options": "Transaction Recipients"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Department",
+   "options": "Department",
+   "read_only": 1
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Designation",
+   "options": "Designation",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.transaction_scope==\"With External Entity\";",
+   "fieldname": "type",
+   "fieldtype": "Select",
+   "label": "Type",
+   "options": "Outgoing\nIncoming"
+  },
+  {
+   "fieldname": "transaction_scan",
+   "fieldtype": "Attach",
+   "label": "Transaction Scan"
+  },
+  {
+   "default": "0",
+   "fieldname": "private",
+   "fieldtype": "Check",
+   "label": "Private"
+  },
+  {
+   "fieldname": "refresh_button",
+   "fieldtype": "Button",
+   "label": "Refresh"
+  },
+  {
+   "fieldname": "fromto_section",
+   "fieldtype": "Section Break",
+   "label": "From"
+  },
+  {
+   "depends_on": "eval: !(doc.transaction_scope==\"With External Entity\"&&doc.type==\"Incoming\");",
+   "fieldname": "start_with",
+   "fieldtype": "Link",
+   "label": "Start From",
+   "options": "Employee"
+  },
+  {
+   "depends_on": "eval: !(doc.transaction_scope==\"With External Entity\"&&doc.type==\"Outgoing\");",
+   "fieldname": "clear_recipients",
+   "fieldtype": "Button",
+   "label": "Clear Recipients"
+  },
+  {
+   "default": "0",
+   "fieldname": "through_route",
+   "fieldtype": "Check",
+   "label": "Through Route"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.transaction_scope!=\"In Company\";",
+   "fieldname": "print_official_paper",
+   "fieldtype": "Check",
+   "label": "Print Official Paper"
+  },
+  {
+   "depends_on": "eval: !(doc.transaction_scope==\"With External Entity\"&&doc.type==\"Incoming\");",
+   "fieldname": "start_with_company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "depends_on": "eval: !(doc.transaction_scope==\"With External Entity\"&&doc.type==\"Incoming\");",
+   "fieldname": "start_with_department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department"
+  },
+  {
+   "depends_on": "eval: !(doc.transaction_scope==\"With External Entity\"&&doc.type==\"Incoming\");",
+   "fieldname": "start_with_designation",
+   "fieldtype": "Link",
+   "label": "Designation",
+   "options": "Designation"
+  },
+  {
+   "depends_on": "eval:!doc.__islocal",
+   "fieldname": "transaction_owner_information_section",
+   "fieldtype": "Section Break",
+   "label": "Transaction Creator Information"
+  },
+  {
+   "fieldname": "column_break_eucw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "to_section",
+   "fieldtype": "Section Break",
+   "label": "To"
+  },
+  {
+   "fieldname": "column_break_jcbr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.referenced_doctype;",
+   "fieldname": "referenced_document",
+   "fieldtype": "Dynamic Link",
+   "label": "Referenced Document",
+   "options": "referenced_doctype"
+  },
+  {
+   "depends_on": "eval:doc.sub_category;",
+   "fieldname": "referenced_doctype",
+   "fieldtype": "Link",
+   "label": "Referenced Doctype",
+   "options": "DocType",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval: !doc.circular && !doc.through_route;",
+   "fieldname": "category_information_section",
+   "fieldtype": "Section Break",
+   "label": "Category Information"
+  },
+  {
+   "fieldname": "column_break_yyhz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.transaction_scope==\"With External Entity\"&&doc.type==\"Incoming\";",
+   "fieldname": "main_external_entity_from",
+   "fieldtype": "Link",
+   "label": "Main External Entity",
+   "options": "External Entity"
+  },
+  {
+   "depends_on": "eval:doc.main_external_entity_from && doc.transaction_scope==\"With External Entity\"&&doc.type==\"Incoming\";",
+   "fieldname": "sub_external_entity_from",
+   "fieldtype": "Link",
+   "label": "Sub External Entity",
+   "options": "External Entity"
+  },
+  {
+   "depends_on": "eval:doc.main_external_entity_from && doc.transaction_scope==\"With External Entity\"&&doc.type==\"Incoming\";",
+   "fieldname": "external_entity_designation_from",
+   "fieldtype": "Link",
+   "label": "External Entity Designation",
+   "options": "External Entity Designation"
+  },
+  {
+   "depends_on": "eval:doc.transaction_scope==\"With External Entity\"&&doc.type==\"Outgoing\";",
+   "fieldname": "main_external_entity_to",
+   "fieldtype": "Link",
+   "label": "Main External Entity",
+   "options": "External Entity"
+  },
+  {
+   "depends_on": "eval:doc.main_external_entity_to && doc.transaction_scope==\"With External Entity\"&&doc.type==\"Outgoing\";",
+   "fieldname": "sub_external_entity_to",
+   "fieldtype": "Link",
+   "label": "Sub External Entity",
+   "options": "External Entity"
+  },
+  {
+   "depends_on": "eval:doc.main_external_entity_to && doc.transaction_scope==\"With External Entity\"&&doc.type==\"Outgoing\";",
+   "fieldname": "external_entity_designation_to",
+   "fieldtype": "Link",
+   "label": "External Entity Designation",
+   "options": "External Entity Designation"
+  },
+  {
+   "fieldname": "transaction_description",
+   "fieldtype": "Text Editor",
+   "label": "Transaction Description"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "1",
+   "fieldname": "step",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Step",
+   "non_negative": 1
+  },
+  {
+   "fieldname": "get_default_template_button",
+   "fieldtype": "Button",
+   "label": "Get Default Template"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.transaction_scope == 'In Company';",
+   "fieldname": "circular",
+   "fieldtype": "Check",
+   "label": "Circular"
+  },
+  {
+   "fieldname": "signatories",
+   "fieldtype": "Table",
+   "label": "Signatories",
+   "options": "Transaction Signatories"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-07-15 18:13:46.908856",
+ "modified_by": "Administrator",
+ "module": "Transaction Management",
+ "name": "Transaction",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction User",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [
+  {
+   "color": "Blue",
+   "title": "Pending"
+  },
+  {
+   "color": "Green",
+   "title": "Completed"
+  },
+  {
+   "color": "Red",
+   "title": "Canceled"
+  }
+ ]
 }

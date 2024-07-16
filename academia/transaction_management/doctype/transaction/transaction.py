@@ -17,21 +17,17 @@ class Transaction(Document):
     from typing import TYPE_CHECKING
 
     if TYPE_CHECKING:
-        from academia.transaction_management.doctype.transaction_applicant.transaction_applicant import (
-            TransactionApplicant,
-        )
-        from academia.transaction_management.doctype.transaction_attachments.transaction_attachments import (
-            TransactionAttachments,
-        )
-        from academia.transaction_management.doctype.transaction_recipients.transaction_recipients import (
-            TransactionRecipients,
-        )
+        from academia.transaction_management.doctype.transaction_applicant.transaction_applicant import TransactionApplicant
+        from academia.transaction_management.doctype.transaction_attachments.transaction_attachments import TransactionAttachments
+        from academia.transaction_management.doctype.transaction_recipients.transaction_recipients import TransactionRecipients
+        from academia.transaction_management.doctype.transaction_signatories.transaction_signatories import TransactionSignatories
         from frappe.types import DF
 
         amended_from: DF.Link | None
         applicants_table: DF.Table[TransactionApplicant]
         attachments: DF.Table[TransactionAttachments]
         category: DF.Link | None
+        circular: DF.Check
         company: DF.Link | None
         created_by: DF.Data | None
         department: DF.Link | None
@@ -48,6 +44,7 @@ class Transaction(Document):
         reference_number: DF.Data | None
         referenced_doctype: DF.Link | None
         referenced_document: DF.DynamicLink | None
+        signatories: DF.Table[TransactionSignatories]
         start_date: DF.Data | None
         start_with: DF.Link | None
         start_with_company: DF.Link | None
@@ -62,11 +59,8 @@ class Transaction(Document):
         title: DF.Data | None
         transaction_description: DF.TextEditor | None
         transaction_scan: DF.Attach | None
-        transaction_scope: DF.Literal[
-            "In Company", "Among Companies", "With External Entity"
-        ]
+        transaction_scope: DF.Literal["In Company", "Among Companies", "With External Entity"]
         type: DF.Literal["Outgoing", "Incoming"]
-
     # end: auto-generated types
     def on_submit(self):
         if self.start_with:
@@ -118,6 +112,65 @@ class Transaction(Document):
     def before_save(self):
         if frappe.session.user != "Administrator":
             self.set_employee_details()
+        
+        # signatories
+        signatories_employee = []
+        self.set("signatories", [])
+
+        if self.start_with:
+            start_with = frappe.get_doc("Employee",
+                                self.start_with,
+                                fields=["employee_name", "designation"]
+                                )
+            
+            signatories_employee.append({
+                "name": start_with.employee_name,
+                "designation": start_with.designation,
+                "official": True
+            })
+
+            if self.through_route:
+                reports_to_list = get_reports_hierarchy_emp(self.start_with)
+                reports_to_list.pop()
+                signatories_employee.extend(reports_to_list)
+
+            if self.transaction_scope == "Among Companies" and self.through_route:
+                dean_emp = frappe.get_all("Employee", 
+                                        filters={"designation": "Dean",
+                                                 "company": self.start_with_company
+                                                },
+                                        fields=["employee_name", "designation"],
+                                        limit=1,
+                                        )
+
+                signatories_employee.append({
+                    "name": dean_emp.employee_name,
+                    "designation": dean_emp.designation,
+                    "official": True
+                })
+
+            if self.sub_category:
+                for recipient in self.recipients:
+                    if recipient.has_sign:
+                        signatories_employee.append({
+                            "name": recipient.get("recipient_name"),
+                            "designation": recipient.get("designation"),
+                            "official": False
+                        })
+                        
+
+
+        if len(signatories_employee) > 0:
+            for emp in signatories_employee:
+                
+                signatory_field = self.append("signatories", {})
+                signatory_field.official = emp.get("official")
+                signatory_field.signatory_name = emp.get("name"),
+                signatory_field.signatory_designation = emp.get("designation")
+
+        frappe.db.commit()
+                
+            
 
     def set_employee_details(self):
         # Fetch the current employee's document
@@ -152,7 +205,8 @@ def create_redirect_action(user, transaction_name, recipients, step=1, auto=0):
                 "recipient_designation"
             )
             recipients_field.recipient_email = recipient.get("recipient_email")
-            recipients_field.fully_electronic = recipient.get("fully_electronic")
+            recipients_field.has_sign = recipient.get("has_sign")
+            recipients_field.print_paper = recipient.get("print_paper")
     if employee:
         new_doc.from_company = employee.company
         new_doc.from_department = employee.department
@@ -209,7 +263,8 @@ def get_transaction_category_recipients(transaction_category):
             "recipient_department",
             "recipient_designation",
             "recipient_email",
-            "fully_electronic",
+            "print_paper",
+            "has_sign"
         ],
         order_by="step ASC",
     )
@@ -621,3 +676,56 @@ def get_linked_field_values(sub_category, referenced_document):
 
             return []
     return []
+
+# to get recipients for bottom up states
+@frappe.whitelist()
+def get_reports_hierarchy(employee_name):
+    reports_emails = []
+    employee = frappe.get_doc("Employee", employee_name)
+    reports_to = employee.reports_to
+
+    while reports_to:
+        employee = frappe.get_doc("Employee", reports_to)
+        reports_emails.append(employee.user_id)
+        reports_to = employee.reports_to
+
+    return reports_emails
+
+# to get recipients from top down states
+@frappe.whitelist()
+def get_reports_hierarchy_reverse(employee_name):
+    employees = []
+    
+    # Get employees with reports_to set as the given employee
+    direct_reports = frappe.get_all(
+        "Employee",
+        filters={"reports_to": employee_name},
+        fields=["user_id", "name"]
+    )
+
+    
+    # Iterate over direct reports
+    for employee in direct_reports:
+        # frappe.msgprint(f"{employee.user_id}")
+        employees.append(employee.user_id)
+        
+        # Recursively call the function for each direct report
+        employees += get_reports_hierarchy_reverse(employee.name)
+    
+    return employees
+
+def get_reports_hierarchy_emp(employee_name):
+    reports_employee = []
+    employee = frappe.get_doc("Employee", employee_name)
+    reports_to = employee.reports_to
+
+    while reports_to:
+        employee = frappe.get_doc("Employee", reports_to)
+        reports_employee.append({
+                "name": employee.employee_name,
+                "designation": employee.designation,
+                "official": False
+            })
+        reports_to = employee.reports_to
+
+    return reports_employee

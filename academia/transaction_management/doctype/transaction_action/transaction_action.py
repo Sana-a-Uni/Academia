@@ -13,13 +13,12 @@ class TransactionAction(Document):
     from typing import TYPE_CHECKING
 
     if TYPE_CHECKING:
-        from academia.transaction_management.doctype.transaction_recipients.transaction_recipients import (
-            TransactionRecipients,
-        )
+        from academia.transaction_management.doctype.transaction_recipients.transaction_recipients import TransactionRecipients
         from frappe.types import DF
 
         action_date: DF.Data | None
         amended_from: DF.Link | None
+        auto_redirect: DF.Int
         created_by: DF.Data | None
         details: DF.Text | None
         from_company: DF.Data | None
@@ -28,7 +27,6 @@ class TransactionAction(Document):
         recipients: DF.Table[TransactionRecipients]
         transaction: DF.Link | None
         type: DF.Literal["Redirected", "Approved", "Rejected", "Canceled", "Council"]
-
     # end: auto-generated types
     def on_submit(self):
         self.action_date = frappe.utils.format_datetime(

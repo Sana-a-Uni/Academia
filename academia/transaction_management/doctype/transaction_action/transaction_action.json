@@ -1,150 +1,193 @@
 {
-    "actions": [],
-    "allow_rename": 1,
-    "autoname": "format:TACT-{MM}-{YY}- {####}",
-    "creation": "2024-05-11 09:35:50.825877",
-    "doctype": "DocType",
-    "engine": "InnoDB",
-    "field_order": [
-        "section_break_wyzz",
-        "transaction",
-        "type",
-        "details",
-        "column_break_mkjj",
-        "action_date",
-        "created_by",
-        "from_company",
-        "from_department",
-        "from_designation",
-        "recipient_settings_section",
-        "get_recipients",
-        "clear_recipients",
-        "recipients",
-        "section_break_hgwa",
-        "amended_from",
-        "auto_redirect"
-    ],
-    "fields": [{
-            "fieldname": "column_break_mkjj",
-            "fieldtype": "Column Break"
-        },
-        {
-            "fieldname": "section_break_wyzz",
-            "fieldtype": "Section Break"
-        },
-        {
-            "allow_on_submit": 1,
-            "fieldname": "type",
-            "fieldtype": "Select",
-            "in_list_view": 1,
-            "label": "Type",
-            "options": "Redirected\nApproved\nRejected\nCanceled\nCouncil"
-        },
-        {
-            "allow_on_submit": 1,
-            "fieldname": "created_by",
-            "fieldtype": "Data",
-            "is_virtual": 1,
-            "label": "Created By",
-            "options": "doc.owner",
-            "read_only": 1
-        },
-        {
-            "fieldname": "details",
-            "fieldtype": "Text",
-            "in_list_view": 1,
-            "label": "Details"
-        },
-        {
-            "fieldname": "amended_from",
-            "fieldtype": "Link",
-            "label": "Amended From",
-            "no_copy": 1,
-            "options": "Transaction Action",
-            "print_hide": 1,
-            "read_only": 1,
-            "search_index": 1
-        },
-        {
-            "fieldname": "from_designation",
-            "fieldtype": "Data",
-            "label": "From Designation",
-            "read_only": 1
-        },
-        {
-            "fieldname": "from_department",
-            "fieldtype": "Data",
-            "label": "From Department",
-            "read_only": 1
-        },
-        {
-            "fieldname": "from_company",
-            "fieldtype": "Data",
-            "label": "From Company",
-            "read_only": 1
-        },
-        {
-            "fieldname": "transaction",
-            "fieldtype": "Link",
-            "label": "Transaction",
-            "options": "Transaction"
-        },
-        {
-            "depends_on": "eval:doc.type == \"Redirected\";",
-            "fieldname": "recipient_settings_section",
-            "fieldtype": "Section Break",
-            "label": "Recipients"
-        },
-        {
-            "fieldname": "get_recipients",
-            "fieldtype": "Button",
-            "label": "Get Recipients"
-        },
-        {
-            "fieldname": "recipients",
-            "fieldtype": "Table",
-            "label": "Recipients",
-            "options": "Transaction Recipients"
-        },
-        {
-            "allow_on_submit": 1,
-            "fieldname": "action_date",
-            "fieldtype": "Data",
-            "is_virtual": 1,
-            "label": "Action Date",
-            "options": "frappe.utils.format_datetime(doc.creation, \n                format_string='dd MMM yyyy, HH:mm:ss'\n            )",
-            "read_only": 1
-        },
-        {
-            "fieldname": "section_break_hgwa",
-            "fieldtype": "Section Break"
-        },
-        {
-            "fieldname": "clear_recipients",
-            "fieldtype": "Button",
-            "label": "Clear Recipients"
-        },
-        {
-            "default": "0",
-            "fieldname": "auto_redirect",
-            "fieldtype": "Int",
-            "label": "Auto Redirect"
-        }
-    ],
-    "index_web_pages_for_search": 1,
-    "is_submittable": 1,
-    "links": [],
-    "modified": "2024-07-07 11:51:27.838074",
-    "modified_by": "Administrator",
-    "module": "Transaction Management",
-    "name": "Transaction Action",
-    "naming_rule": "Expression",
-    "owner": "Administrator",
-    "permissions": [],
-    "sort_field": "modified",
-    "sort_order": "DESC",
-    "states": [],
-    "track_changes": 1,
-    "track_seen": 1,
-    "track_views": 1
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:TACT-{MM}-{YY}- {####}",
+ "creation": "2024-05-11 09:35:50.825877",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_wyzz",
+  "transaction",
+  "type",
+  "details",
+  "column_break_mkjj",
+  "action_date",
+  "created_by",
+  "from_company",
+  "from_department",
+  "from_designation",
+  "recipient_settings_section",
+  "get_recipients",
+  "clear_recipients",
+  "recipients",
+  "section_break_hgwa",
+  "amended_from",
+  "auto_redirect"
+ ],
+ "fields": [
+  {
+   "fieldname": "column_break_mkjj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_wyzz",
+   "fieldtype": "Section Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Type",
+   "options": "Redirected\nApproved\nRejected\nCanceled\nCouncil"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "created_by",
+   "fieldtype": "Data",
+   "is_virtual": 1,
+   "label": "Created By",
+   "options": "doc.owner",
+   "read_only": 1
+  },
+  {
+   "fieldname": "details",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Details"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Transaction Action",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "from_designation",
+   "fieldtype": "Data",
+   "label": "From Designation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "from_department",
+   "fieldtype": "Data",
+   "label": "From Department",
+   "read_only": 1
+  },
+  {
+   "fieldname": "from_company",
+   "fieldtype": "Data",
+   "label": "From Company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "transaction",
+   "fieldtype": "Link",
+   "label": "Transaction",
+   "options": "Transaction"
+  },
+  {
+   "depends_on": "eval:doc.type == \"Redirected\";",
+   "fieldname": "recipient_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Recipients"
+  },
+  {
+   "fieldname": "get_recipients",
+   "fieldtype": "Button",
+   "label": "Get Recipients"
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "Recipients",
+   "options": "Transaction Recipients"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "action_date",
+   "fieldtype": "Data",
+   "is_virtual": 1,
+   "label": "Action Date",
+   "options": "frappe.utils.format_datetime(doc.creation, \n                format_string='dd MMM yyyy, HH:mm:ss'\n            )",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_hgwa",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "clear_recipients",
+   "fieldtype": "Button",
+   "label": "Clear Recipients"
+  },
+  {
+   "default": "0",
+   "fieldname": "auto_redirect",
+   "fieldtype": "Int",
+   "label": "Auto Redirect"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-07-15 10:54:16.045724",
+ "modified_by": "Administrator",
+ "module": "Transaction Management",
+ "name": "Transaction Action",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction User",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
 }
