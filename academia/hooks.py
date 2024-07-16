@@ -330,7 +330,8 @@ fixtures = [
             "Tenure Evaluation Request",
             "Faculty Member",
             "Faculty",
-            "Group Assignment Tool"
+            "Group Assignment Tool",
+            "Group Assignment"
             ]
         ]
     ]}
