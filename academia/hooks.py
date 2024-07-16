@@ -338,7 +338,8 @@ fixtures = [
             "Tenure Request",
             "Evaluation Criterion",
             "Program Enrollment",
-            "Course Specification"
+            "Course Specification",
+            "Facility"
             ]
         ]
     ]}
