@@ -284,6 +284,11 @@ fixtures = [
     }
 ]
 
+
+fixtures = [
+    "Role"
+]
+
 fixtures = [
     {"dt": "Custom DocPerm", "filters": [
         ["parent", "in", [
@@ -349,8 +354,4 @@ fixtures = [
             ]
         ]
     ]}
-]
-
-fixtures = [
-    "Role"
 ]
