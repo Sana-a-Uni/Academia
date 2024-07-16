@@ -331,7 +331,8 @@ fixtures = [
             "Faculty Member",
             "Faculty",
             "Group Assignment Tool",
-            "Group Assignment"
+            "Group Assignment",
+            "Academic Publication Type"
             ]
         ]
     ]}
