@@ -37,6 +37,7 @@ class Transaction(Document):
         full_electronic: DF.Check
         main_external_entity_from: DF.Link | None
         main_external_entity_to: DF.Link | None
+        outgoing_for: DF.Link | None
         print_official_paper: DF.Check
         priority: DF.Literal["", "Low", "Medium", "High", "Urgent"]
         private: DF.Check
@@ -50,7 +51,7 @@ class Transaction(Document):
         start_with_company: DF.Link | None
         start_with_department: DF.Link | None
         start_with_designation: DF.Link | None
-        status: DF.Literal["Pending", "Completed", "Canceled"]
+        status: DF.Literal["Pending", "Completed", "Canceled", "Closed"]
         step: DF.Int
         sub_category: DF.Link | None
         sub_external_entity_from: DF.Link | None
@@ -729,3 +730,38 @@ def get_reports_hierarchy_emp(employee_name):
         reports_to = employee.reports_to
 
     return reports_employee
+
+
+
+@frappe.whitelist()
+def update_closed_premissions(docname):
+    
+    docshares = frappe.get_all(
+        "DocShare",
+        filters={"share_doctype": "Transaction", "share_name": docname,},
+    )
+    share_user = []
+    if docshares:
+        for docsh in docshares:
+            docshare = frappe.get_doc("DocShare", docsh.name)
+            # share_user.append(docshare.user)
+            share_user = docshare.user
+
+            permissions = {"read": 1, "write": 0, "share": 0, "submit": 0}
+            permissions_str = json.dumps(permissions)
+            update_share_permissions(docname, share_user, permissions_str)
+
+        # Update the status of the transaction to "Closed"
+        transaction = frappe.get_doc("Transaction", docname)
+        transaction.status = "Closed"
+        transaction.save()
+    
+        return "Closed successfully"
+    
+    else:
+        # Update the status of the transaction to "Closed"
+        transaction = frappe.get_doc("Transaction", docname)
+        transaction.status = "Closed"
+        transaction.save()
+        return "There are no share users"
+    

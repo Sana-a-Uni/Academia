@@ -88,6 +88,29 @@ frappe.ui.form.on('Transaction', {
     frm.set_df_property("get_recipients", "disabled", frm.doc.through_route && frm.doc.recipients.length > 0);
       if(frm.doc.docstatus === 1)       
       {
+          // Closed Button
+          if(frappe.user_roles.includes("Transaction Manager") && frm.doc.status !== 'Closed'){
+            frm.add_custom_button("Closed", () => {
+
+                const share_name = frm.doc.name;
+                console.log("Pressed:", share_name)
+
+                // Call the Python function to get the shared users
+                frappe.call({
+                    method: "academia.transaction_management.doctype.transaction.transaction.update_closed_premissions",
+                    args: {
+                      docname: share_name,
+                    },
+                    callback: function(r) {
+                      if(r.message){
+
+                        location.reload();
+                      }
+                    }
+                });
+            })
+          }
+
           if(!frm.doc.__islocal )
           {
               frappe.call({
@@ -120,16 +143,7 @@ frappe.ui.form.on('Transaction', {
               }
           };
       });
-      // Filter the External Entity options based on is_group field
-      frm.set_query('main_external_entity', function() {
-          return {
-            filters: {
-              is_group: 1
-            }
-          };
-        });
-
-
+      
       // Set query for sub_category field based on selected category
       frm.fields_dict['sub_category'].get_query = function(doc) {
           return {
@@ -139,16 +153,91 @@ frappe.ui.form.on('Transaction', {
           };
       };
 
-      // TODO: fix the error here 
-      // frm.fields_dict['sub_external_entity'].get_query = function(doc) {
-      //     return {
-      //         filters: {
-      //             'parent_external_entity':doc.externalEntity
-      //         }
-      //     };
-      // };
-      
+      // Filter the External Entity options based on is_group field
+      frm.set_query('main_external_entity_from', function() {
+        return {
+          filters: {
+            is_group: 1
+          }
+        };
+      });
 
+      frm.set_query('main_external_entity_to', function() {
+        return {
+          filters: {
+            is_group: 1
+          }
+        };
+      });
+
+  },
+  main_external_entity_from: function(frm){
+    var main_entity=frm.doc.main_external_entity_from;
+    console.log("here from");
+    if(main_entity){
+      frm.set_query('sub_external_entity_from', function() {
+       return {
+         filters: {
+           parent_external_entity: main_entity
+         }
+       };
+     });
+
+     frm.set_query("external_entity_designation_from", function (doc, cdt, cdn) {
+      return {
+        "filters": {
+          "parent": main_entity
+        },
+      };
+    });
+    }
+    else{
+      frm.set_value("sub_external_entity_from", '');
+      frm.set_value("external_entity_designation_from", '');
+    }
+  },
+
+  main_external_entity_to: function(frm){
+    var main_entity=frm.doc.main_external_entity_to;
+    var scope = "With External Entity";
+    var type = "Incoming";
+    var status = "Completed";
+
+    console.log("here to");
+    if(main_entity){
+      frm.set_query('sub_external_entity_to', function() {
+       return {
+         filters: {
+           parent_external_entity: main_entity
+         }
+       };
+      });
+
+      frm.set_query("external_entity_designation_to", function (doc, cdt, cdn) {
+       return {
+         "filters": {
+           "parent": main_entity
+         },
+       };
+     });
+
+     frm.set_query('outgoing_for', function() {
+      return {
+        filters: {
+          transaction_scope: scope,
+          type:type,
+          main_external_entity_from: main_entity,
+          status: status,
+        }
+      };
+     });
+    }
+    
+    else{
+      frm.set_value("sub_external_entity_to", '');
+      frm.set_value("external_entity_designation_to", '');
+      frm.set_value("outgoing_for", '');
+    }
   },
 
   through_route: function(frm){
@@ -181,51 +270,19 @@ frappe.ui.form.on('Transaction', {
       });
   },
 
-  main_external_entity: function(frm){
-
-      var main_entity=frm.doc.main_external_entity
-      // frappe.msgprint("here")
-     // Filter the External Entity options based on is_group field
-     frm.set_query('sub_external_entity', function() {
-      return {
-        filters: {
-          parent_external_entity: main_entity
+  get_default_template_button:function(frm){
+    if (frm.doc.transaction_description && frm.doc.referenced_document) {
+      frappe.confirm(
+        __(
+          "Are you sure you want to reload opening field?<br>All data in the field will be lost."
+        ),
+        function () {
+          get_default_template(frm);
         }
-      };
-    });
-
-   
-      
-      frm.set_query("external_entity_designation", function (doc, cdt, cdn) {
-        return {
-          "filters": {
-            "parent": main_entity
-          },
-        };
-      });
-      
-  
+      );
+    }
   },
 
-  sub_external_entity: function(frm){
-
-      var sub_entity=frm.doc.sub_external_entity
-      // frappe.msgprint("here")
-    // Filter the External Entity options based on is_group field
-      
-      
-      frm.set_query("external_entity_designation", function (doc, cdt, cdn) {
-        return {
-          "filters": {
-            "parent": sub_entity
-          },
-        };
-      });
-      
-
-
-
-  },
     // Advance Get members Dialog
   get_recipients: function (frm) {
 
@@ -350,19 +407,6 @@ frappe.ui.form.on('Transaction', {
   clear_recipients: function(frm) {
     frm.clear_table("recipients");
     frm.refresh_field("recipients");
-  },
-
-  get_default_template_button:function(frm){
-    if (frm.doc.transaction_description && frm.doc.referenced_document) {
-      frappe.confirm(
-        __(
-          "Are you sure you want to reload opening field?<br>All data in the field will be lost."
-        ),
-        function () {
-          get_default_template(frm);
-        }
-      );
-    }
   },
 
   referenced_document: function(frm) {
