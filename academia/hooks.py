@@ -335,7 +335,8 @@ fixtures = [
             "Academic Publication Type",
             "Academic Services",
             "Evaluation Criteria Template",
-            "Tenure Request"
+            "Tenure Request",
+            "Evaluation Criterion"
             ]
         ]
     ]}
