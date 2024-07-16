@@ -85,11 +85,11 @@ const studentId = ref("EDU-STU-2024-00001");
 .sidebar nav ul li {
 	margin-bottom: 10px;
 	border-bottom: 1px solid #ddd; /* Add bottom border */
-	padding-bottom: 10px; /* Add padding to bottom */
+	padding-bottom: 10px;
 }
 
 .sidebar nav ul li:last-child {
-	border-bottom: none; /* Remove border from last item */
+	border-bottom: none;
 }
 
 .sidebar nav ul li a,
