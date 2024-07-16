@@ -334,7 +334,8 @@ fixtures = [
             "Group Assignment",
             "Academic Publication Type",
             "Academic Services",
-            "Evaluation Criteria Template"
+            "Evaluation Criteria Template",
+            "Tenure Request"
             ]
         ]
     ]}
