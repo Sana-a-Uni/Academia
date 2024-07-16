@@ -7,7 +7,8 @@
  "engine": "InnoDB",
  "field_order": [
   "question_link",
-  "question"
+  "question",
+  "question_grade"
  ],
  "fields": [
   {
@@ -25,12 +26,18 @@
    "label": "Question Link",
    "options": "Question",
    "reqd": 1
+  },
+  {
+   "fieldname": "question_grade",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Question Grade"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-02-11 17:59:04.940142",
+ "modified": "2024-05-28 18:51:53.620335",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "Quiz Question",

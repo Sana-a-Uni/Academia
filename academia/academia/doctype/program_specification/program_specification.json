@@ -118,7 +118,8 @@
   {
    "fieldname": "date_of_programe_development",
    "fieldtype": "Date",
-   "label": "Date of Programe Development"
+   "label": "Date of Programe Development",
+   "reqd": 1
   },
   {
    "fetch_from": "program_name.faculty",
@@ -245,7 +246,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-13 08:04:01.089951",
+ "modified": "2024-07-14 01:24:36.981086",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Specification",

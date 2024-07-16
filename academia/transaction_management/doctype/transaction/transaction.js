@@ -26,91 +26,90 @@ frappe.ui.form.on('Transaction', {
   },
 
 
-  // onload:
-  // function(frm) {
-  //  if(frm.doc.docstatus === 0)
-  //    {
+  onload:
+  function(frm) {
+   if(frm.doc.docstatus === 0)
+     {
 
-  //      // if user is admin ignore bcoz he cant be employee
-  //      if(frappe.session.user !== "Administrator")
-  //      {
-  //        // Fetch the current employee's document only if the docstatus is draft
-  //        frappe.call({
-  //          method: 'frappe.client.get_value',
-  //          args: {
-  //            doctype: 'User',
-  //            filters: { name: frappe.session.user },
-  //            fieldname: 'email'
-  //          },
-  //          callback: function(response) {
-  //            if (response.message && response.message.email) {
-  //              var userEmail = response.message.email;
+      frm.set_value('status', "Pending");
 
-  //              frappe.call({
-  //                method: 'frappe.client.get',
-  //                args: {
-  //                  doctype: 'Employee',
-  //                  filters: { user_id: userEmail }
-  //                },
-  //                callback: function(response) {
-  //                  if (response.message) {
-  //                    var employee = response.message;
-  //                    // Set the default value of the department field to the current employee's department
-  //                    frm.set_value('department', employee.department);
-  //                    frm.set_value('designation', employee.designation);
-  //                    // You can access other fields of the employee document as well
-  //                    // Example: frm.set_value('employee_name', employee.employee_name);
-  //                  }
+
+       // if user is admin ignore bcoz he cant be employee
+       if(frappe.session.user !== "Administrator")
+       {
+         // Fetch the current employee's document only if the docstatus is draft
+         frappe.call({
+           method: 'frappe.client.get_value',
+           args: {
+             doctype: 'User',
+             filters: { name: frappe.session.user },
+             fieldname: 'email'
+           },
+           callback: function(response) {
+             if (response.message && response.message.email) {
+               var userEmail = response.message.email;
+
+               frappe.call({
+                 method: 'frappe.client.get',
+                 args: {
+                   doctype: 'Employee',
+                   filters: { user_id: userEmail }
+                 },
+                 callback: function(response) {
+                   if (response.message) {
+                     var employee = response.message;
+                     // Set the default value of the department field to the current employee's department
+                     frm.set_value('department', employee.department);
+                     frm.set_value('designation', employee.designation);
+                     // You can access other fields of the employee document as well
+                     // Example: frm.set_value('employee_name', employee.employee_name);
+                   }
                    
-  //                }
-  //              });
-  //            }  
-  //          }
-  //        }); 
-  //      }
-  //    }
-  //  },
+                 }
+               });
+             }  
+           }
+         }); 
+       }
+     }
+   },
 
     refresh: function(frm) {
+
+      frm.fields_dict.recipients.grid.wrapper.find(".grid-add-row")
+      .toggle(!frm.doc.through_route);
+
+      // Disable the "Add New" button when through_route is checked
+      frm.fields_dict.recipients.grid.wrapper.find(".grid-add-row")
+        .prop("disabled", frm.doc.through_route);
+        
+      // Disable the "Get Recipients" button when through_route is checked and there is at least one recipient
+      frm.set_df_property("get_recipients", "hidden", frm.doc.through_route && frm.doc.recipients.length > 0);
+      frm.set_df_property("get_recipients", "disabled", frm.doc.through_route && frm.doc.recipients.length > 0);
 
         if(frm.doc.docstatus === 1)       
         {
             if(!frm.doc.__islocal )
             {
                 frappe.call({
-                    method: "academia.transaction_management.doctype.transaction_action.transaction_action.get_transaction_actions",
-                    args: {
-                        transaction_name: frm.doc.name
-                    },
-                    callback: function(r) {
-                        if(r.message[0]) {
-                            
-                            var last_action = r.message[0];
-                            console.log(last_action);
-                            if(
-                                last_action
-                                // && last_action.type === "Redirected" 
-                                // && last_action.recipients.split(',')
-                                //                          .map(recipient => recipient.trim())
-                                //                          .includes(String(frappe.session.user))
-                            ) {
-                                add_approve_action(frm);
-                                add_redirect_action(frm);
-                                add_reject_action(frm);
-                                add_council_action(frm);
-                            }  
-                        }
-                        // show actions if the user is one of the recipients
-                        else if(frm.doc.recipients.some(row => row.recipient_email === frappe.session.user))
-                        {   
-                            add_approve_action(frm);
-                            add_redirect_action(frm);
-                            add_reject_action(frm);
-                            add_council_action(frm);
-                        } 
+                  method: "academia.transaction_management.doctype.transaction.transaction.get_user_permissions",
+                  args: {
+                    docname: frm.doc.name,
+                    user: frappe.session.user
+                  },
+                  callback: function(response) {
+                    var docshare = response.message;
+                    // console.log(docshare);
+                    if(docshare && docshare.share === 1)
+                    {
+                      add_approve_action(frm);
+                      add_redirect_action(frm);
+                      add_reject_action(frm);
+                      add_council_action(frm);
                     }
-                });  
-            }
+                  }
+                });
+              }
          
         }
 
@@ -152,6 +151,12 @@ frappe.ui.form.on('Transaction', {
 
     },
 
+    through_route: function(frm) {
+      frm.fields_dict.recipients.grid.wrapper.find(".grid-add-row")
+        .prop("disabled", frm.doc.through_route);
+
+      frm.set_df_property("get_recipients", "disabled", frm.doc.through_route && frm.doc.recipients.length > 0);
+    },
 
     // refresh action html template only when press this button
     refresh_button:function (frm) {
@@ -227,77 +232,167 @@ frappe.ui.form.on('Transaction', {
       if (all_companies) {
         setters.company = null;
       }
-  
-      let d=new frappe.ui.form.MultiSelectDialog({
-        doctype: "Employee",
-        target: frm,
-        setters: setters,
-  
-        // add_filters_group: 1,
-        date_field: "transaction_date",
-  
-        get_query() {
-          if (all_companies) {
-            // frappe.msgprint("all")
-            return {
-              filters: { docstatus: ['!=', 2] }
+
+      let existingRecipients = frm.doc.recipients || [];
+      let existingRecipientIds = existingRecipients.map(r => r.recipient_email);
+
+      // Add the current user to the existing recipient IDs
+      existingRecipientIds.push(frappe.session.user);
+      
+      if(frm.doc.through_route && existingRecipients.length > 0){
+
+        // Disable the "Get Recipients" button
+        frm.get_field("get_recipients").df.read_only = true;
+        frm.refresh_field("get_recipients");
+
+      }else{
+        // Enable the "Get Recipients" button
+        frm.get_field("get_recipients").df.read_only = false;
+        frm.refresh_field("get_recipients");
+
+        let d=new frappe.ui.form.MultiSelectDialog({
+          doctype: "Employee",
+          target: frm,
+          setters: setters,
+    
+          // add_filters_group: 1,
+          date_field: "transaction_date",
+    
+          get_query() {
+            let filters = {
+              docstatus: ['!=', 2],
+              department: ['!=', null],
+              designation: ['!=', null],
+              user_id: ['not in', existingRecipientIds], // don't show Employee of current user
             };
-          } else {
-            // frappe.msgprint("not all")
+      
+            if (!all_companies) {
+              filters.company = frm.doc.company;
+            }
+            
             return {
-              filters: { docstatus: ['!=', 2], company: frm.doc.company }
-          }}
-        },
-  
-        primary_action_label: "Get Recipients",
-        action(selections) {
-        console.log(selections)
-  
-        // Fetch the selected employees with specific fields
-        frappe.call({
-            method: "frappe.client.get_list",
-            args: {
-            doctype: "Employee",
-            filters: { name: ["in", selections] },
-            fields: ["name","employee", "designation", "department", "company", "user_id"]
+              filters: filters
+            };
           },
-          callback: (response) => {
-            var selectedEmployees = response.message;
-            console.log(selectedEmployees);
-            // emptying 
+    
+          primary_action_label: "Get Recipients",
+          action(selections) {
   
-            frm.set_value('recipients', []);
+            // if the transaction through route you can select only one recipientS
+            if (frm.doc.through_route && selections.length !== 1) {
+              frappe.msgprint("Please select only one employee.");
+              return;
+            }
+          // Fetch the selected employees with specific fields
+          frappe.call({
+              method: "frappe.client.get_list",
+              args: {
+              doctype: "Employee",
+              filters: { name: ["in", selections] },
+              fields: ["employee_name", "designation", "department", "company", "user_id"]
+            },
+            callback: (response) => {
+              var selectedEmployees = response.message;
+
+              // Check the value of the 'through_route' field
+              if (frm.doc.through_route) {
+                // If 'through_route' is checked, only allow one recipient
+                if (selectedEmployees.length > 1) {
+                  frappe.msgprint("You can only select one recipient when 'Through Route' is checked.");
+                  return;
+                }
+              }
   
-            selectedEmployees.forEach((employee) => {
-  
-              frm.add_child("recipients", {
-                // employee: recipient,
-                recipient_name:employee.employee,
-                recipient_company:employee.company,
-                recipient_department:employee.department,
-                recipient_designation:employee.designation,
-                recipient_email:employee.user_id,
-                // member_name: employee.employee_name,
-                // member_role: "Council Member"
+              // frm.set_value('recipients', []);
+    
+              selectedEmployees.forEach((employee) => {
+                frm.add_child("recipients", {
+                  recipient_name:employee.employee_name,
+                  recipient_company:employee.company,
+                  recipient_department:employee.department,
+                  recipient_designation:employee.designation,
+                  recipient_email:employee.user_id,
+                  // member_role: "Council Member"
+                })
               })
-            })
-  
-            this.dialog.hide();
-  
-            frm.refresh_field("recipients");
+    
+              this.dialog.hide();
+    
+              frm.refresh_field("recipients");
+
+              // Hide the "Add" button for the recipients table if through_route is checked and there's a recipient
+              frm.get_field("recipients").grid.grid_buttons.find(".grid-add-row").toggle(!frm.doc.through_route || existingRecipients.length === 0);
+            }
+          });
           }
         });
-        }
-      });
+      }
+      
+    },
+
+    clear_recipients: function(frm) {
+      frm.clear_table("recipients");
+      frm.refresh_field("recipients");
+    },
+
+    get_default_template_button:function(frm){
+      if (frm.doc.transaction_description && frm.doc.referenced_document) {
+        frappe.confirm(
+          __(
+            "Are you sure you want to reload opening field?<br>All data in the field will be lost."
+          ),
+          function () {
+            get_default_template(frm);
+          }
+        );
+      }
+    },
+
+    referenced_document: function(frm) {
+      get_default_template(frm);
     },
 
     sub_category: function(frm) {
 
+      get_cateory_doctype(frm)
+
+      // Clear previously added recipient fields
+      frm.clear_table("recipients");
+      frm.refresh_fields("recipients");
+
+      // Fetch Transaction Type Recipients based on the selected category
+      if (frm.doc.sub_category) {
+        frappe.call({
+          method: "academia.transaction_management.doctype.transaction.transaction.get_transaction_category_recipients",
+          args: {
+            transaction_category: frm.doc.sub_category
+          },
+          callback: function(response) {
+
+            // Add recipient image fields for each Transaction Type Requirement
+            const recipients = response.message || [];
+
+            recipients.forEach(function(recipient) {
+              frm.add_child("recipients", {
+                recipient_name: recipient.recipient_name,
+                step: recipient.step,
+                recipient_company: recipient.recipient_company, 
+                recipient_department: recipient.recipient_department, 
+                recipient_designation: recipient.recipient_designation, 
+                recipient_email: recipient.recipient_email,
+                fully_electronic: recipient.fully_electronic,
+              });
+            });
+
+            // Refresh the form to display the newly added fields
+             frm.refresh_fields("recipients");
+          }
+        });
+        
       // Clear previously added attach image fields
       frm.clear_table("attachments");
 
       // Fetch Transaction Type Requirements based on the selected Transaction Type
-      if (frm.doc.sub_category) {
         frappe.call({
           method: "academia.transaction_management.doctype.transaction.transaction.get_transaction_category_requirement",
           args: {
@@ -331,6 +426,8 @@ frappe.ui.form.on('Transaction', {
       }
     },
 
+
+
    // Validate function
    before_save: function(frm) {
     // Check if any required attachment is missing
@@ -346,7 +443,27 @@ frappe.ui.form.on('Transaction', {
     if (missing_attachments.length > 0) {
         let message =` Please attach the following required files before saving:\n\n${missing_attachments.join('\n')}`;
         frappe.throw(message);
-    }}
+    }},
+    start_with: function(frm) {
+      if(frm.doc.start_with)
+        {
+          frappe.call({
+            method: "frappe.client.get",
+            args: {
+            doctype: "Employee",
+            filters: { name: frm.doc.start_with },
+            fields: ["designation", "department", "company"]
+          },
+          callback: (response) => {
+            employee = response.message
+            // console.log(employee);
+            frm.set_value('start_with_company', employee.company);
+            frm.set_value('start_with_department', employee.department);
+            frm.set_value('start_with_designation', employee.designation);
+          }
+        });
+        }
+    }
 });
 
 
@@ -362,9 +479,28 @@ function add_redirect_action(frm) {
         });
          // back to Transaction after save the transaction action
          frappe.ui.form.on("Transaction Action", {
-            on_submit: function(frm) {
-                frappe.set_route('Form', 'Transaction', frm.doc.transaction);
-                location.reload();
+          on_submit: function() {
+            frappe.call({
+              method: "academia.transaction_management.doctype.transaction.transaction.update_share_permissions",
+              args: {
+                docname: frm.doc.name,
+                user: frappe.session.user,
+                permissions: {
+                  "read": 1,
+                  "write": 0,
+                  "share": 0,
+                  "submit":0
+              }
+              },
+              callback: function(response) {
+                if(response.message)
+                {
+                    // back to Transaction after save the transaction action
+                    frappe.set_route('Form', 'Transaction', frm.doc.name);
+                    location.reload();
+                    }
+                  }
+                });
             },
         })
     });
@@ -394,13 +530,12 @@ function add_approve_action(frm) {
                 },
                 callback: function(r) {
                     if(r.message) {
-                        // frm.set_value('status', 'Approved');
-                        frappe.db.set_value('Transaction', frm.docname, 'status', 'Approved');
-
-                        // frm.save(function() {
-                        //     // location.reload();   
-                        // });                    
-                        }
+                      // console.log(r.message);
+                      if (r.message) {
+                          location.reload();
+                      }
+                        // frappe.db.set_value('Transaction', frm.docname, 'status', 'Approved');     
+                      }
                 }
             });
         }, __('Enter Approval Details'), __('Submit'));
@@ -427,10 +562,56 @@ function add_reject_action(frm) {
                 },
                 callback: function(r) {
                     if(r.message) {
-                        frappe.db.set_value('Transaction', frm.docname, 'status', 'Rejected');
+                        location.reload();
+                        // frappe.db.set_value('Transaction', frm.docname, 'status', 'Rejected');
                     }
                 }
             });
         }, __('Enter Rejection Details'), __('Submit'));
     });
 }
+
+function get_cateory_doctype(frm) {
+  if (frm.doc.sub_category) {
+    frappe.call({
+      method: "academia.transaction_management.doctype.transaction.transaction.get_category_doctype",
+      args: {
+          sub_category: frm.doc.sub_category
+      },
+      callback: function(r) {
+          if (r.message) {
+              frm.set_value("referenced_doctype", r.message);
+          }
+      }
+  });
+  }else{
+    frm.set_value("referenced_doctype", '');
+    frm.set_value("referenced_document", '');
+  }
+}
+
+function get_default_template(frm){
+
+  if (frm.doc.referenced_doctype && frm.doc.referenced_document && frm.doc.sub_category) {
+    frappe.call({
+        method: "academia.transaction_management.doctype.transaction.transaction.render_template",
+        args: {
+            referenced_doctype: frm.doc.referenced_doctype,
+            referenced_document: frm.doc.referenced_document,
+            sub_category: frm.doc.sub_category,
+        },
+        callback: function(r) {
+            if (r.message) {
+                frm.set_value("transaction_description", r.message);
+            } else {
+                frappe.msgprint(__("Error rendering template"));
+            }
+        }
+    });
+  } else {
+      frm.set_value("transaction_description", '');
+  }
+
+}
+
+

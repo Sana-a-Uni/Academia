@@ -14,6 +14,7 @@ class TransactionRecipients(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
+		fully_electronic: DF.Check
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
@@ -22,5 +23,6 @@ class TransactionRecipients(Document):
 		recipient_designation: DF.Link | None
 		recipient_email: DF.Link | None
 		recipient_name: DF.Data | None
+		step: DF.Int
 	# end: auto-generated types
 	pass

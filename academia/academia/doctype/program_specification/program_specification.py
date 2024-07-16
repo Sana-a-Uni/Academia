@@ -21,7 +21,7 @@ class ProgramSpecification(Document):
         approval_date: DF.Date | None
         course_language: DF.TableMultiSelect[CourseLanguage]
         courses: DF.Check
-        date_of_programe_development: DF.Date | None
+        date_of_programe_development: DF.Date
         delivery_mode: DF.Literal["", "On Campus", "Online"]
         effective_year: DF.Link | None
         faculty: DF.Link

@@ -1,0 +1,47 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-07 19:47:24.252222",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "applicant_type",
+  "applicant",
+  "applicant_name"
+ ],
+ "fields": [
+  {
+   "fieldname": "applicant_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Applicant Type",
+   "options": "\nStudent\nAcademic\nEmployee\nUser"
+  },
+  {
+   "fieldname": "applicant",
+   "fieldtype": "Dynamic Link",
+   "in_list_view": 1,
+   "label": "Applicant",
+   "options": "applicant_type"
+  },
+  {
+   "fieldname": "applicant_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Applicant Name"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-07-07 19:50:43.981712",
+ "modified_by": "Administrator",
+ "module": "Transaction Management",
+ "name": "Transaction Applicant",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
