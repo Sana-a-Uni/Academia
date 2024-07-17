@@ -764,4 +764,18 @@ def update_closed_premissions(docname):
         transaction.status = "Closed"
         transaction.save()
         return "There are no share users"
+
     
+
+@frappe.whitelist()
+def set_is_received_true(docname):
+    """
+    Set the 'is_received' field to True for the current user in the given document.
+    """
+    doc = frappe.get_doc("Transaction", docname)
+    for recipient in doc.recipients:
+        if recipient.recipient_email == frappe.session.user:
+            if recipient.print_paper:
+                recipient.is_received = 1
+    doc.save(ignore_permissions=True)
+    return "Received status updated successfully!"
