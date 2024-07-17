@@ -38,6 +38,7 @@ class FacultyMember(Document):
         decision_attachment: DF.Attach | None
         decision_number: DF.Data | None
         department: DF.Link | None
+        email: DF.Data | None
         employee: DF.Link
         employment_type: DF.Link | None
         faculty: DF.Link | None

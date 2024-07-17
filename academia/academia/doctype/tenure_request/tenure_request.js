@@ -6,14 +6,6 @@ frappe.ui.form.on("Tenure Request", {
 
     },
 
-    // Start of onload event
-    onload(frm) {
-        // Calling functions
-        frm.events.filtering_evaluations(frm);
-    },
-    // End of onload event
-
-
     // FN: Clearing evaluations when value of faculty_member changes
     faculty_member: function (frm) {
         if (frm.doc.evaluations) {
@@ -26,15 +18,22 @@ frappe.ui.form.on("Tenure Request", {
 
     // FN: Filtering evaluations by faculty_member and workflow_state
     filtering_evaluations: function (frm) {
-        frm.set_query("evaluations", function () {
-            return {
-                filters: {
-                    "faculty_member": frm.doc.faculty_member,
-                    "workflow_state": "Approved"
-                }
-            };
-        });
+        let faculty_member = frm.doc.faculty_member;
+        if (faculty_member) {
+            frappe.call({
+                method: 'academia.academia.doctype.tenure_request.tenure_request.get_evaluations',
+                args: { faculty_member: faculty_member },
+            }).done((r) => {
+                // frm.doc.evaluation_details = []
+                $.each(r.message, function (_i, e) {
+                    let entry = frm.add_child("evaluations");
+                    entry.evaluation = e.name;
+                })
+                refresh_field("evaluations")
+            });
+        }
     },
+
     // End of the function
 
 });

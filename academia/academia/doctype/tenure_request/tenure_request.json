@@ -1,4 +1,5 @@
 {
+ "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
  "autoname": "naming_series:",
@@ -6,23 +7,19 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_mplq",
+  "personal_information_section",
   "naming_series",
   "faculty_member",
   "faculty_member_name",
+  "academic_rank",
+  "department",
+  "column_break_aujg",
   "company",
   "faculty",
-  "column_break_aujg",
-  "department",
-  "academic_rank",
   "evaluations",
   "amended_from"
  ],
  "fields": [
-  {
-   "fieldname": "section_break_mplq",
-   "fieldtype": "Section Break"
-  },
   {
    "fieldname": "amended_from",
    "fieldtype": "Link",
@@ -62,13 +59,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "evaluations",
-   "fieldtype": "Table MultiSelect",
-   "label": "Evaluations",
-   "options": "Faculty Member Evaluation",
-   "reqd": 1
-  },
-  {
    "fieldname": "column_break_aujg",
    "fieldtype": "Column Break"
   },
@@ -104,12 +94,25 @@
    "fieldtype": "Data",
    "label": "Faculty Member Name",
    "read_only": 1
+  },
+  {
+   "fieldname": "evaluations",
+   "fieldtype": "Table MultiSelect",
+   "label": "Submitted Academic Evaluations for Faculty Member",
+   "options": "Evaluations",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "personal_information_section",
+   "fieldtype": "Section Break",
+   "label": "Personal Information"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-04 17:41:33.858404",
+ "modified": "2024-07-16 18:31:22.521626",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Tenure Request",

@@ -14,11 +14,12 @@
   "employee",
   "faculty_member_name",
   "faculty_member_name_english",
-  "nationality",
+  "email",
   "column_break_hagf",
   "company",
   "department",
   "faculty",
+  "nationality",
   "column_break_zcxq",
   "date_of_joining_in_service",
   "date_of_joining_in_university",
@@ -381,6 +382,14 @@
    "fieldtype": "Check",
    "label": "Is Eligible for Granting Tenure",
    "read_only": 1
+  },
+  {
+   "fetch_from": "employee.user_id",
+   "fetch_if_empty": 1,
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
   }
  ],
  "image_field": "image",
@@ -413,7 +422,7 @@
    "link_fieldname": "faculty_member"
   }
  ],
- "modified": "2024-07-13 07:09:30.745958",
+ "modified": "2024-07-17 15:37:37.334341",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",
