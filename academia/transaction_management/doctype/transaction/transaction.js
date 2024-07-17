@@ -587,14 +587,14 @@ frappe.ui.form.on('Transaction', {
   },
 
   circular: function (frm) {
-    // update_must_include(frm)
+    update_must_include(frm)
     if(frm.doc.circular)
     {
       frm.doc.through_route = false
       frm.refresh_field("through_route");
     }
 
-  }
+  },
 });
 
 
@@ -781,6 +781,9 @@ function get_default_template(frm){
 function update_must_include(frm) {
   if(frm.doc.start_with)
   {
+    frm.clear_table("recipients");
+    frm.refresh_field("recipients");
+
     if(frm.doc.through_route){
       frappe.call({
         method: "academia.transaction_management.doctype.transaction.transaction.get_reports_hierarchy",
@@ -789,11 +792,9 @@ function update_must_include(frm) {
         },
         callback: function(response) {
           mustInclude = response.message;
-          console.log(mustInclude);
         }
       });
     }
-    // else if(frm.doc.circular)
       else {
         frappe.call({
           method: "academia.transaction_management.doctype.transaction.transaction.get_reports_hierarchy_reverse",

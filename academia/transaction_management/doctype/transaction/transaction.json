@@ -425,6 +425,7 @@
   {
    "fieldname": "signatories",
    "fieldtype": "Table",
+   "hidden": 1,
    "label": "Signatories",
    "options": "Transaction Signatories"
   },
@@ -439,7 +440,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-16 16:46:04.651305",
+ "modified": "2024-07-17 13:52:16.430866",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

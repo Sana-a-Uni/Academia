@@ -109,56 +109,8 @@ class Transaction(Document):
                         share=1,
                         submit=1,
                     )
-
-    def before_save(self):
-        if frappe.session.user != "Administrator":
-            self.set_employee_details()
-        
         # signatories
-        signatories_employee = []
-        self.set("signatories", [])
-
-        if self.start_with:
-            start_with = frappe.get_doc("Employee",
-                                self.start_with,
-                                fields=["employee_name", "designation"]
-                                )
-            
-            signatories_employee.append({
-                "name": start_with.employee_name,
-                "designation": start_with.designation,
-                "official": True
-            })
-
-            if self.through_route:
-                reports_to_list = get_reports_hierarchy_emp(self.start_with)
-                reports_to_list.pop()
-                signatories_employee.extend(reports_to_list)
-
-            if self.transaction_scope == "Among Companies" and self.through_route:
-                dean_emp = frappe.get_all("Employee", 
-                                        filters={"designation": "Dean",
-                                                 "company": self.start_with_company
-                                                },
-                                        fields=["employee_name", "designation"],
-                                        limit=1,
-                                        )
-
-                signatories_employee.append({
-                    "name": dean_emp.employee_name,
-                    "designation": dean_emp.designation,
-                    "official": True
-                })
-
-            if self.sub_category:
-                for recipient in self.recipients:
-                    if recipient.has_sign:
-                        signatories_employee.append({
-                            "name": recipient.get("recipient_name"),
-                            "designation": recipient.get("designation"),
-                            "official": False
-                        })
-                        
+        signatories_employee = get_signatories(self)
 
 
         if len(signatories_employee) > 0:
@@ -170,6 +122,14 @@ class Transaction(Document):
                 signatory_field.signatory_designation = emp.get("designation")
 
         frappe.db.commit()
+
+    def before_save(self):
+        if frappe.session.user != "Administrator":
+            self.set_employee_details()
+
+        # to avoid "Value for Signatory Name cannot be a list" error
+        self.set("signatories", [])
+        
                 
             
 
@@ -185,6 +145,51 @@ class Transaction(Document):
             self.department = employee.department
             self.designation = employee.designation
 
+# signatories
+def get_signatories(doc):
+    signatories_employee = []
+
+    if doc.start_with:
+        start_with = frappe.get_doc("Employee",
+                            doc.start_with,
+                            fields=["employee_name", "designation"]
+                            )
+        
+        signatories_employee.append({
+            "name": start_with.employee_name,
+            "designation": start_with.designation,
+            "official": True
+        })
+
+        if doc.through_route:
+            reports_to_list = get_reports_hierarchy_emp(doc.start_with)
+            reports_to_list.pop()
+            signatories_employee.extend(reports_to_list)
+
+        if doc.transaction_scope == "Among Companies" and doc.through_route:
+            dean_emp = frappe.get_all("Employee", 
+                                    filters={"designation": "Dean",
+                                                "company": doc.start_with_company
+                                            },
+                                    fields=["employee_name", "designation"],
+                                    limit=1,
+                                    )
+
+            signatories_employee.append({
+                "name": dean_emp.employee_name,
+                "designation": dean_emp.designation,
+                "official": True
+            })
+
+        if doc.sub_category:
+            for recipient in doc.recipients:
+                if recipient.has_sign:
+                    signatories_employee.append({
+                        "name": recipient.get("recipient_name"),
+                        "designation": recipient.get("designation"),
+                        "official": False
+                    })
+    return signatories_employee
 
 def create_redirect_action(user, transaction_name, recipients, step=1, auto=0):
     employee = get_employee_by_user_id(user)
