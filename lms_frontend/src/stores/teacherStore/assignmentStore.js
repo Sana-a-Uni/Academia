@@ -40,6 +40,32 @@ export const useAssignmentStore = defineStore("assignment", {
 			}
 		},
 
-	
+		async createAssignment() {
+			try {
+				const response = await axios.post(
+					"http://localhost:8080/api/method/academia.lms_api.teacher.assignment.create_assignment",
+					this.assignmentData,
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: "token 0b88a69d4861506:a0640c80d24119a",
+						},
+					}
+				);
+				if (response.status === 200) {
+					console.log("Assignment created successfully");
+				} else {
+					console.error("Error creating assignment");
+				}
+			} catch (error) {
+				console.error(
+					"Error creating assignment:",
+					error.response ? error.response.data : error
+				);
+			}
+		},
+		updateAssignmentData(partialData) {
+			this.assignmentData = { ...this.assignmentData, ...partialData };
+		},
 	},
 });
