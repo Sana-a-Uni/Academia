@@ -12,16 +12,20 @@ class LMSAssignment(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.lms.doctype.assessment_criteria.assessment_criteria import AssessmentCriteria
 		from frappe.types import DF
 
+		assessment_criteria: DF.Table[AssessmentCriteria]
+		assignment_title: DF.Data
 		attachment: DF.Attach | None
 		course: DF.Link | None
+		faculty_member: DF.Link | None
 		from_date: DF.Datetime | None
 		instruction: DF.SmallText | None
 		make_the_assignment_availability: DF.Check
 		question: DF.TextEditor | None
 		student_group: DF.Link | None
-		title: DF.Data
 		to_date: DF.Datetime | None
+		total_grades: DF.Float
 	# end: auto-generated types
 	pass

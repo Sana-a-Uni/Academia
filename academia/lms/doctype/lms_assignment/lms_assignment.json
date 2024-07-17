@@ -7,9 +7,10 @@
  "field_order": [
   "details_section",
   "course",
-  "title",
+  "assignment_title",
   "student_group",
   "column_break_bsqh",
+  "faculty_member",
   "instruction",
   "section_break_gimj",
   "make_the_assignment_availability",
@@ -18,7 +19,10 @@
   "to_date",
   "section_break_ytru",
   "question",
-  "attachment"
+  "attachment",
+  "section_break_erkf",
+  "assessment_criteria",
+  "total_grades"
  ],
  "fields": [
   {
@@ -31,13 +35,6 @@
    "fieldtype": "Link",
    "label": "Course",
    "options": "Course"
-  },
-  {
-   "fieldname": "title",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Title",
-   "reqd": 1
   },
   {
    "fieldname": "student_group",
@@ -94,11 +91,39 @@
   {
    "fieldname": "section_break_ytru",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "faculty_member",
+   "fieldtype": "Link",
+   "label": "Faculty Member",
+   "options": "Faculty Member"
+  },
+  {
+   "fieldname": "section_break_erkf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "assessment_criteria",
+   "fieldtype": "Table",
+   "label": "Assessment Criteria",
+   "options": "Assessment Criteria"
+  },
+  {
+   "fieldname": "assignment_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Assignment Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_grades",
+   "fieldtype": "Float",
+   "label": "Total Grades"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-15 00:51:42.944884",
+ "modified": "2024-07-16 02:22:58.935819",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "LMS Assignment",
