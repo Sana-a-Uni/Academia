@@ -54,6 +54,33 @@ frappe.listview_settings["Topic"] = {
 			});
 			dialog.show();
 		});
+
+		topic.page.add_action_item(__("Add to New Group"), function () {
+			const selected_topics = topic.get_checked_items();
+
+			frappe.call({
+				method: "academia.councils.doctype.topic.topic.create_new_group",
+				freeze: true,
+				args: {
+					topics: selected_topics,
+				},
+				callback: function (r) {
+					if (r.message) {
+						frappe.show_alert({
+							message: __("Group created and Topic(s) added successfully."),
+							indicator: "green",
+						});
+						var doc = frappe.model.sync(r.message)[0];
+						frappe.set_route("Form", doc.doctype, doc.name);
+					} else {
+						frappe.show_alert({
+							message: __("Error creating group or adding topics!"),
+							indicator: "red",
+						});
+					}
+				},
+			});
+		});
 	},
 
 	has_indicator_for_draft: 1,
