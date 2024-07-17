@@ -170,6 +170,29 @@ class Topic(Document):
 
 
 @frappe.whitelist()
+def create_new_group(topics):
+	import json
+
+	if isinstance(topics, str):
+		topics = json.loads(topics)
+
+	if len(topics) == 0:
+		frappe.throw(_("Atleast one Topic has to be selected."))
+	transactions = []
+	for topic in topics:
+		print(topic)
+		print("########################################################################")
+		# need to check if topic.parent_topic is empty and get the topic.transaction and append it to transactions list if parent is empty
+		if topic.get("parent_topic"):
+			continue
+		transactions.append(topic.get("transaction"))
+		print(transactions)
+	new_parent_topic = make_new_group(transactions, options)
+
+	return new_parent_topic
+
+
+@frappe.whitelist()
 def get_grouped_topics(parent_name):
 	grouped_topics = frappe.get_all(
 		"Topic",
