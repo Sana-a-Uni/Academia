@@ -185,6 +185,21 @@ def create_new_group(topics):
 		transactions.append(topic.get("transaction"))
 		topics_names.append(topic.get("name"))
 
+	user = frappe.session.user
+	employee = frappe.db.get_value(
+		"Employee", {"user_id": user}, ["name", "company", "department", "designation"], as_dict=True
+	)
+
+	if not employee:
+		frappe.throw(_("No Employee record found for the current user."))
+
+	options = {
+		"company": employee.company,
+		"department": employee.department,
+		"designation": employee.designation,
+		"user": user,
+	}
+
 	new_parent_topic = make_new_group(transactions, options)
 
 	if new_parent_topic:
