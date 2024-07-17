@@ -183,8 +183,7 @@ def create_new_group(topics):
 		print(topic)
 		print("########################################################################")
 		# need to check if topic.parent_topic is empty and get the topic.transaction and append it to transactions list if parent is empty
-		if topic.get("parent_topic"):
-			continue
+		check_topic_info(topic)
 		transactions.append(topic.get("transaction"))
 		print(transactions)
 	new_parent_topic = make_new_group(transactions, options)
@@ -208,12 +207,7 @@ def add_topics_to_group(parent_name, topics):
 		topics_list = json.loads(topics)  # Parse the JSON string into a list
 		for topic_name in topics_list:
 			topic = frappe.get_doc("Topic", topic_name)
-			# Check if the topic already has a parent_topic assigned
-			if topic.parent_topic:
-				frappe.msgprint(
-					_("Topic {0} is already in group {1}.").format(topic_name, topic.parent_topic)
-				)
-				continue
+			check_topic_info(topic)
 			topic.parent_topic = parent_name
 			topic.save()
 
@@ -221,6 +215,13 @@ def add_topics_to_group(parent_name, topics):
 	except Exception as e:
 		frappe.log_error(frappe.get_traceback(), _("Error adding topics"))
 		return str(e)
+
+
+def check_topic_info(topic):
+	if topic.get("parent_topic"):  # Check if the topic already has a parent_topic assigned
+		frappe.msgprint(
+			_("Topic {0} is already in group {1}.").format(topic.get("name"), topic.get("parent_topic"))
+		)
 
 
 @frappe.whitelist()
