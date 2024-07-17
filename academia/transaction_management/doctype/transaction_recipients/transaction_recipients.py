@@ -15,6 +15,7 @@ class TransactionRecipients(Document):
 		from frappe.types import DF
 
 		has_sign: DF.Check
+		is_received: DF.Check
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data

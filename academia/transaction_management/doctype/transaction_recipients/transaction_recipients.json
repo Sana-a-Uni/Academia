@@ -13,7 +13,8 @@
   "recipient_designation",
   "recipient_email",
   "print_paper",
-  "has_sign"
+  "has_sign",
+  "is_received"
  ],
  "fields": [
   {
@@ -69,12 +70,20 @@
    "fieldtype": "Check",
    "in_list_view": 1,
    "label": "Print Paper"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "0",
+   "fieldname": "is_received",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Is Received"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-15 14:03:12.302045",
+ "modified": "2024-07-17 07:12:50.109436",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Recipients",

@@ -124,10 +124,34 @@ frappe.ui.form.on('Transaction', {
                   // console.log(docshare);
                   if(docshare && docshare.share === 1)
                   {
-                    add_approve_action(frm);
-                    add_redirect_action(frm);
-                    add_reject_action(frm);
-                    add_council_action(frm);
+                    // Check if the user is in the "recipients" child table
+                    var is_in_recipients = false;
+                    var print_paper_checked = false;
+                    var is_received = false;
+                    
+                    // Loop through the "recipients" child table
+                    frm.doc.recipients.forEach(function(recipient) {
+                      if (recipient.recipient_email === frappe.session.user) {
+                        is_in_recipients = true;
+                        if (recipient.print_paper) {
+                          print_paper_checked = true;
+
+                          if(recipient.is_received){
+                            is_received = true
+                          }
+                        }
+                      }
+                    });
+
+                    if (is_in_recipients && print_paper_checked && !is_received) {
+                      add_received_action(frm);
+                    }
+                    else{
+                      add_approve_action(frm);
+                      add_redirect_action(frm);
+                      add_reject_action(frm);
+                      add_council_action(frm);
+                    }
                   }
                 }
               });
@@ -170,7 +194,37 @@ frappe.ui.form.on('Transaction', {
         };
       });
 
+      frm.doc.recipients.forEach(function(row) {
+        if (frm.doc.full_electronic) {
+          frm.doc.recipients.forEach(function(recipient) {
+            frm.set_df_property("print_paper", "read_only", frm.doc.full_electronic, row.name);
+            recipient.print_paper = 0;
+          });
+        }
+      });
+
   },
+
+  // full_electronic: function(frm) {
+  //   frm.doc.recipients.forEach(function(row) {
+  //     frm.set_df_property("print_paper", "read_only", frm.doc.full_electronic);
+  //   });
+  // },
+
+  // recipients_add: function(frm, cdt, cdn) {
+  //   let row = frappe.get_doc(cdt, cdn);
+  //   frm.set_df_property("print_paper", "read_only", frm.doc.full_electronic, row.name);
+  // },
+
+  // before_save: function(frm) {
+  //   frm.doc.recipients.forEach(function(row) {
+  //     frm.set_df_property("print_paper", "read_only", frm.doc.full_electronic);
+  //     if (frm.doc.full_electronic) {
+  //       frm.set_value("print_paper", 0, row.name);
+  //     }
+  //   });
+  // },
+
   main_external_entity_from: function(frm){
     var main_entity=frm.doc.main_external_entity_from;
     console.log("here from");
@@ -196,6 +250,7 @@ frappe.ui.form.on('Transaction', {
       frm.set_value("external_entity_designation_from", '');
     }
   },
+
 
   main_external_entity_to: function(frm){
     var main_entity=frm.doc.main_external_entity_to;
@@ -386,7 +441,7 @@ frappe.ui.form.on('Transaction', {
                 recipient_department:employee.department,
                 recipient_designation:employee.designation,
                 recipient_email:employee.user_id,
-                // member_role: "Council Member"
+                // print_paper: !frm.doc.full_electronic
               })
             })
   
@@ -517,12 +572,17 @@ frappe.ui.form.on('Transaction', {
           fields: ["designation", "department", "company"]
         },
         callback: (response) => {
-          employee = response.message
-          frm.set_value('start_with_company', employee.company);
-          frm.set_value('start_with_department', employee.department);
-          frm.set_value('start_with_designation', employee.designation);
-        }
-      });
+            employee = response.message
+            frm.set_value('start_with_company', employee.company);
+            frm.set_value('start_with_department', employee.department);
+            frm.set_value('start_with_designation', employee.designation);
+          }
+        });
+      }
+      else{
+        frm.set_value('start_with_company', '');
+        frm.set_value('start_with_department', '');
+        frm.set_value('start_with_designation', '');
       }
   },
 
@@ -539,13 +599,23 @@ frappe.ui.form.on('Transaction', {
 
 
 function add_redirect_action(frm) {
-    cur_frm.page.add_action_item(__('Redirect'), function() {
+  cur_frm.page.add_action_item(__('Redirect'), function() {
+      var is_received = false
+      frm.doc.recipients.forEach(function(recipient) {
+        if (recipient.recipient_email === frappe.session.user) {
+          if (recipient.print_paper && recipient.is_received) {
+            is_received = true
+          }
+        }
+      });
+      
         frappe.new_doc('Transaction Action', {
             'transaction': frm.doc.name,
             'type': 'Redirected',
-            'from_company': frm.doc.company,
-            'from_department':frm.doc.department,
-            'from_designation': frm.doc.designation,
+            'from_company': frm.doc.start_with_company,
+            'from_department':frm.doc.start_with_department,
+            'from_designation': frm.doc.start_with_designation,
+            'received': is_received,
 
         });
          // back to Transaction after save the transaction action
@@ -578,8 +648,31 @@ function add_redirect_action(frm) {
 }
 
 function add_council_action(frm) {
-    cur_frm.page.add_action_item(__('Council'), function() {
+  cur_frm.page.add_action_item(__('Council'), function() {
+  });
+}
+
+function add_received_action(frm) {
+  cur_frm.page.add_action_item(__('Received'), function() {
+    frappe.call({
+      method: "academia.transaction_management.doctype.transaction.transaction.set_is_received_true",
+      args: {
+        docname: frm.doc.name
+      },
+      callback: function(r) {
+        if (r.message) {
+          location.reload();
+        }
+      },
+      error: function(r) {
+        frappe.show_alert({
+          message: __("Error updating received status"),
+          indicator: 'red'
         });
+      }
+    });
+
+  });
 }
 
 function add_approve_action(frm) {
