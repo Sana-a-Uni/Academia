@@ -205,9 +205,10 @@ def get_grouped_topics(parent_name):
 def add_topics_to_group(parent_name, topics):
 	try:
 		topics_list = json.loads(topics)  # Parse the JSON string into a list
+		parent_topic = frappe.get_doc("Topic", parent_name)
 		for topic_name in topics_list:
 			topic = frappe.get_doc("Topic", topic_name)
-			check_topic_info(topic)
+			check_topic_info(topic, parent_topic.council)
 			topic.parent_topic = parent_name
 			topic.save()
 
@@ -217,15 +218,22 @@ def add_topics_to_group(parent_name, topics):
 		return str(e)
 
 
-def check_topic_info(topic):
+def check_topic_info(topic, council=None):
 	if topic.get("parent_topic"):  # Check if the topic already has a parent_topic assigned
 		frappe.throw(
 			_("Topic {0} is already in group {1}.").format(topic.get("name"), topic.get("parent_topic"))
 		)
+
 	if topic.get("docstatus") != 0:  # Check if the topic is submitted or canceled
 		frappe.throw(
 			_("Topic {0} is not in draft state and can't be grouped anymore.").format(topic.get("name"))
 		)
+
+	# Check if the council is the same for all topics
+	if council is None:
+		council = topic.get("council")
+	elif topic.get("council") != council:
+		frappe.throw(_("All selected topics must belong to the same council."))
 
 
 @frappe.whitelist()
