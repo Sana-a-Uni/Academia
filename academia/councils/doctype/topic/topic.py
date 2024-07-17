@@ -219,8 +219,12 @@ def add_topics_to_group(parent_name, topics):
 
 def check_topic_info(topic):
 	if topic.get("parent_topic"):  # Check if the topic already has a parent_topic assigned
-		frappe.msgprint(
+		frappe.throw(
 			_("Topic {0} is already in group {1}.").format(topic.get("name"), topic.get("parent_topic"))
+		)
+	if topic.get("docstatus") != 0:  # Check if the topic is submitted or canceled
+		frappe.throw(
+			_("Topic {0} is not in draft state and can't be grouped anymore.").format(topic.get("name"))
 		)
 
 
@@ -239,12 +243,11 @@ def delete_topics_from_group(topic_names):
 		return str(e)
 
 
-from frappe.model.mapper import get_mapped_doc
-from frappe.utils import today
-
-
 @frappe.whitelist()
 def create_topic_from_transaction(transaction_name, transaction_action, target_doc=None):
+	from frappe.model.mapper import get_mapped_doc
+	from frappe.utils import today
+
 	def set_additional_values(source_doc, target_doc, source_parent_doc):
 		target_doc.topic_date = today()
 		target_doc.transaction = transaction_name
