@@ -56,15 +56,11 @@
       <span>{{ recipient_dict.recipient }} - Pending</span>
     {% endif %}
   </div>
-  {% if recipient_dict.action and recipient_dict.action.type == 'Redirected' %}
     {% for redirected_recipient in recipient_dict.redirected %}
-      {% for sub_recipient_dict in redirected_recipient %}
-        <div class="redirected">
-          {{ render_recipient(sub_recipient_dict) }}
-        </div>
-      {% endfor %}
+      <div class="redirected">
+        {{ render_recipient(redirected_recipient) }}
+      </div>
     {% endfor %}
-  {% endif %}
 {% endmacro %}
 
 {% for recipient_dict in recipient_actions %}
