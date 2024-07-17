@@ -179,16 +179,19 @@ def create_new_group(topics):
 	if len(topics) == 0:
 		frappe.throw(_("Atleast one Topic has to be selected."))
 	transactions = []
+	topics_names = []
 	for topic in topics:
-		print(topic)
-		print("########################################################################")
-		# need to check if topic.parent_topic is empty and get the topic.transaction and append it to transactions list if parent is empty
 		check_topic_info(topic)
 		transactions.append(topic.get("transaction"))
-		print(transactions)
+		topics_names.append(topic.get("name"))
+
 	new_parent_topic = make_new_group(transactions, options)
 
-	return new_parent_topic
+	if new_parent_topic:
+		response = assign_topics_to_group(topics_names, new_parent_topic)
+
+	if response == "Grouped":
+		return new_parent_topic
 
 
 @frappe.whitelist()
@@ -234,6 +237,25 @@ def check_topic_info(topic, council=None):
 		council = topic.get("council")
 	elif topic.get("council") != council:
 		frappe.throw(_("All selected topics must belong to the same council."))
+
+
+def assign_topics_to_group(topics, parent_topic):
+	try:
+		if not topics:
+			return "No Topics"
+		if not parent_topic:
+			return "No Parent Topic"
+
+		for topic_name in topics:
+			topic = frappe.get_doc("Topic", topic_name)
+			topic.parent_topic = parent_topic
+			topic.save()
+
+		return "Grouped"
+
+	except Exception as e:
+		frappe.log_error(frappe.get_traceback(), _("Error adding topics"))
+		return str(e)
 
 
 @frappe.whitelist()
