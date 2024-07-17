@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestDegreeAccreditation(FrappeTestCase):
+class TestNeedAggregation(FrappeTestCase):
 	pass

@@ -72,4 +72,25 @@ frappe.ui.form.on("Tenure Evaluation Request", {
     },
     // End of the function
 
+
+    department: function (frm) {
+        if (frm.doc.department) {
+            frappe.call({
+                method: 'academia.academia.doctype.tenure_evaluation_request.tenure_evaluation_request.get_department_head',
+                args: {
+                    department: frm.doc.department
+                },
+                callback: function (r) {
+                    if (r.message) {
+                        frm.set_value('department_head', r.message);
+                    } else {
+                        frm.set_value('department_head', 'None');
+                        frm.set_value('department_head_email', '');
+                        frappe.msgprint(__('No Department Head found for the selected department'));
+                    }
+                }
+            });
+        }
+    }
+
 });
