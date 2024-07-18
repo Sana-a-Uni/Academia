@@ -70,6 +70,16 @@ const routes = [
 		name: "createAssignment",
 		component: () => import("../views/teacherDashboard/assignment/createAssignment"),
 	},
+	{
+		path: "/assignmentView",
+		name: "assignmentView",
+		component: () => import("../views/studentDashboard/assignment/assignmentView"),
+	},
+	{
+		path: "/assignment",
+		name: "assignment",
+		component: () => import("../views/studentDashboard/assignment/assignment"),
+	},
 ];
 
 const router = createRouter({
