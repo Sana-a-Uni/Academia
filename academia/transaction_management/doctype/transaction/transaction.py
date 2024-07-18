@@ -37,12 +37,12 @@ class Transaction(Document):
         full_electronic: DF.Check
         main_external_entity_from: DF.Link | None
         main_external_entity_to: DF.Link | None
-        outgoing_for: DF.Link | None
         print_official_paper: DF.Check
         priority: DF.Literal["", "Low", "Medium", "High", "Urgent"]
         private: DF.Check
         recipients: DF.Table[TransactionRecipients]
         reference_number: DF.Data | None
+        reference_transaction: DF.Link | None
         referenced_doctype: DF.Link | None
         referenced_document: DF.DynamicLink | None
         signatories: DF.Table[TransactionSignatories]
@@ -213,6 +213,7 @@ def create_redirect_action(user, transaction_name, recipients, step=1, auto=0):
             recipients_field.recipient_email = recipient.get("recipient_email")
             recipients_field.has_sign = recipient.get("has_sign")
             recipients_field.print_paper = recipient.get("print_paper")
+            recipients_field.is_received = recipient.get("is_received")
     if employee:
         new_doc.from_company = employee.company
         new_doc.from_department = employee.department
@@ -770,17 +771,44 @@ def update_closed_premissions(docname):
         transaction.save()
         return "There are no share users"
 
-    
 
 @frappe.whitelist()
-def set_is_received_true(docname):
-    """
-    Set the 'is_received' field to True for the current user in the given document.
-    """
-    doc = frappe.get_doc("Transaction", docname)
-    for recipient in doc.recipients:
-        if recipient.recipient_email == frappe.session.user:
-            if recipient.print_paper:
-                recipient.is_received = 1
-    doc.save(ignore_permissions=True)
-    return "Received status updated successfully!"
+def search_in_actions_for_print_paper_user(transacion_name, user, from_company, from_department, from_designation):
+    actions = frappe.get_all(
+        "Transaction Action",
+        filters={"transaction": transacion_name, 
+                 "type": "Redirected",
+                 "from_company": from_company,
+                 "from_department": from_department,
+                 "from_designation": from_designation,
+                },
+        fields=["name"],
+        order_by="creation desc"
+    )
+
+    for action in actions:
+        recipients = frappe.get_all(
+            "Transaction Recipients",
+            filters={
+                "parent": action.name,
+                "recipient_email": user,
+            },
+            fields=["name", "print_paper", "is_received"],
+        )
+        if recipients:
+            return action.name, recipients[0].print_paper, recipients[0].is_received, recipients[0].name
+        
+    return actions
+
+
+@frappe.whitelist()
+def change_is_received_in_action_recipients(rcipient_name):
+    action = frappe.get_doc("Transaction Recipients", rcipient_name)
+    
+
+    action.is_received = 1
+    action.save(ignore_permissions=True)
+
+
+    return action
+

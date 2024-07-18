@@ -10,6 +10,7 @@
   "additional_details_section",
   "transaction_scope",
   "type",
+  "reference_transaction",
   "start_date",
   "private",
   "through_route",
@@ -46,7 +47,6 @@
   "main_external_entity_to",
   "sub_external_entity_to",
   "external_entity_designation_to",
-  "outgoing_for",
   "transaction_owner_information_section",
   "created_by",
   "company",
@@ -238,6 +238,7 @@
    "depends_on": "eval:doc.transaction_scope==\"With External Entity\";",
    "fieldname": "type",
    "fieldtype": "Select",
+   "in_standard_filter": 1,
    "label": "Type",
    "options": "Outgoing\nIncoming"
   },
@@ -425,22 +426,21 @@
   {
    "fieldname": "signatories",
    "fieldtype": "Table",
-   "hidden": 1,
-   "label": "Signatories",
+   "label": "Signatures",
    "options": "Transaction Signatories"
   },
   {
-   "depends_on": "eval: doc.main_external_entity_to && doc.transaction_scope==\"With External Entity\"&&doc.type==\"Outgoing\";",
-   "fieldname": "outgoing_for",
+   "depends_on": "eval: doc.transaction_scope==\"With External Entity\"&&doc.type==\"Outgoing\";",
+   "fieldname": "reference_transaction",
    "fieldtype": "Link",
-   "label": "Outgoing For",
+   "label": "Referenced Transaction",
    "options": "Transaction"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-17 13:52:16.430866",
+ "modified": "2024-07-18 20:48:56.316808",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

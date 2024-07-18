@@ -3,6 +3,11 @@
 
 let mustInclude = [];
 
+var global_print_papaer = null;
+var global_is_received = null;
+var global_action_name = null;
+var global_recipient_docname = null;
+
 frappe.ui.form.on('Transaction', {
   setup: function (frm){
     // Changing Button Style
@@ -30,6 +35,10 @@ frappe.ui.form.on('Transaction', {
   onload: function(frm){
    if(frm.doc.docstatus === 0)
      {
+      global_print_papaer = null;
+      global_is_received = null;
+      global_action_name = null;
+      global_recipient_docname = null;
 
       frm.set_value('status', "Pending");
 
@@ -75,6 +84,10 @@ frappe.ui.form.on('Transaction', {
    },
 
   refresh: function(frm){
+    global_print_papaer = null;
+    global_is_received = null;
+    global_action_name = null;
+    global_recipient_docname = null;
 
     frm.fields_dict.recipients.grid.wrapper.find(".grid-add-row")
     .toggle(!frm.doc.through_route);
@@ -111,51 +124,66 @@ frappe.ui.form.on('Transaction', {
             })
           }
 
-          if(!frm.doc.__islocal )
-          {
-              frappe.call({
-                method: "academia.transaction_management.doctype.transaction.transaction.get_user_permissions",
-                args: {
-                  docname: frm.doc.name,
-                  user: frappe.session.user
-                },
-                callback: function(response) {
-                  var docshare = response.message;
-                  // console.log(docshare);
-                  if(docshare && docshare.share === 1)
-                  {
-                    // Check if the user is in the "recipients" child table
-                    var is_in_recipients = false;
-                    var print_paper_checked = false;
-                    var is_received = false;
-                    
-                    // Loop through the "recipients" child table
-                    frm.doc.recipients.forEach(function(recipient) {
-                      if (recipient.recipient_email === frappe.session.user) {
-                        is_in_recipients = true;
-                        if (recipient.print_paper) {
-                          print_paper_checked = true;
-
-                          if(recipient.is_received){
-                            is_received = true
-                          }
+          if (!frm.doc.__islocal) {
+            frappe.call({
+              method: "academia.transaction_management.doctype.transaction.transaction.search_in_actions_for_print_paper_user",
+              args: {
+                transacion_name: frm.doc.name,
+                user: frappe.session.user,
+                from_company: frm.doc.start_with_company??'',
+                from_department: frm.doc.start_with_department??'',
+                from_designation: frm.doc.start_with_designation??''
+              },
+              callback: function(r) {
+                if (r.message) {
+                  console.log(r.message);
+                  msg = r.message;
+                 if(msg[0]){
+                  global_action_name = msg[0];
+                 }
+          
+                  if (msg[1]) {
+                    global_print_papaer = true;
+                    console.log(msg[1]);
+                  }
+                  if (msg[2]) {
+                    global_is_received = true;
+                    console.log(msg[2]);
+                  }
+                  if(msg[3]){
+                    console.log("receipent docname:", msg[3])
+                    global_recipient_docname = msg[3];
+                  }
+          
+                  // After the first method, call the get_user_permissions method
+                  frappe.call({
+                    method: "academia.transaction_management.doctype.transaction.transaction.get_user_permissions",
+                    args: {
+                      docname: frm.doc.name,
+                      user: frappe.session.user
+                    },
+                    callback: function(response) {
+                      var docshare = response.message;
+                      if (docshare && docshare.share === 1) {
+                        
+                        console.log("print_paper_checked2: ", global_print_papaer);
+                        console.log("is_received2: ", global_is_received);
+          
+                        if (global_print_papaer && !global_is_received) {
+                          add_received_action(frm);
+                        } else if((global_print_papaer == true && global_is_received == true) || (global_print_papaer == null )){
+                          add_approve_action(frm);
+                          add_redirect_action(frm);
+                          add_reject_action(frm);
+                          add_council_action(frm);
                         }
                       }
-                    });
-
-                    if (is_in_recipients && print_paper_checked && !is_received) {
-                      add_received_action(frm);
                     }
-                    else{
-                      add_approve_action(frm);
-                      add_redirect_action(frm);
-                      add_reject_action(frm);
-                      add_council_action(frm);
-                    }
-                  }
+                  });
                 }
-              });
-            }
+              }
+            });
+          }
         
       }
 
@@ -194,6 +222,16 @@ frappe.ui.form.on('Transaction', {
         };
       });
 
+      frm.set_query('reference_transaction', function() {
+        return {
+          filters: {
+            transaction_scope: "With External Entity",
+            type:"Incoming",
+            // status: "Completed",
+          }
+        };
+       });
+
       frm.doc.recipients.forEach(function(row) {
         if (frm.doc.full_electronic) {
           frm.doc.recipients.forEach(function(recipient) {
@@ -204,26 +242,6 @@ frappe.ui.form.on('Transaction', {
       });
 
   },
-
-  // full_electronic: function(frm) {
-  //   frm.doc.recipients.forEach(function(row) {
-  //     frm.set_df_property("print_paper", "read_only", frm.doc.full_electronic);
-  //   });
-  // },
-
-  // recipients_add: function(frm, cdt, cdn) {
-  //   let row = frappe.get_doc(cdt, cdn);
-  //   frm.set_df_property("print_paper", "read_only", frm.doc.full_electronic, row.name);
-  // },
-
-  // before_save: function(frm) {
-  //   frm.doc.recipients.forEach(function(row) {
-  //     frm.set_df_property("print_paper", "read_only", frm.doc.full_electronic);
-  //     if (frm.doc.full_electronic) {
-  //       frm.set_value("print_paper", 0, row.name);
-  //     }
-  //   });
-  // },
 
   main_external_entity_from: function(frm){
     var main_entity=frm.doc.main_external_entity_from;
@@ -254,9 +272,6 @@ frappe.ui.form.on('Transaction', {
 
   main_external_entity_to: function(frm){
     var main_entity=frm.doc.main_external_entity_to;
-    var scope = "With External Entity";
-    var type = "Incoming";
-    var status = "Completed";
 
     console.log("here to");
     if(main_entity){
@@ -276,22 +291,11 @@ frappe.ui.form.on('Transaction', {
        };
      });
 
-     frm.set_query('outgoing_for', function() {
-      return {
-        filters: {
-          transaction_scope: scope,
-          type:type,
-          main_external_entity_from: main_entity,
-          status: status,
-        }
-      };
-     });
     }
     
     else{
       frm.set_value("sub_external_entity_to", '');
       frm.set_value("external_entity_designation_to", '');
-      frm.set_value("outgoing_for", '');
     }
   },
 
@@ -654,14 +658,20 @@ function add_council_action(frm) {
 
 function add_received_action(frm) {
   cur_frm.page.add_action_item(__('Received'), function() {
-    frappe.call({
-      method: "academia.transaction_management.doctype.transaction.transaction.set_is_received_true",
+
+    // console.log(global_action_name)
+    // console.log(global_print_papaer)
+    // console.log(global_is_received)
+
+      frappe.call({
+      method: "academia.transaction_management.doctype.transaction.transaction.change_is_received_in_action_recipients",
       args: {
-        docname: frm.doc.name
+        rcipient_name: global_recipient_docname,
       },
       callback: function(r) {
         if (r.message) {
           location.reload();
+          console.log(r.message)
         }
       },
       error: function(r) {
@@ -671,7 +681,6 @@ function add_received_action(frm) {
         });
       }
     });
-
   });
 }
 
