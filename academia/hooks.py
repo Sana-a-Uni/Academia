@@ -283,3 +283,50 @@ fixtures = [
         ]
     }
 ]
+
+
+fixtures = [
+    "Role"
+]
+
+fixtures = [
+    {"dt": "Custom DocPerm", "filters": [
+        ["parent", "in", [
+            "Course",
+            "Student Group Tool",
+            "Lesson",
+            "Lesson Template",
+            "Student Group",
+            "Academic Year",
+            "Academic Specialty",
+            "Study Method",
+            "Program Degree",
+            "Student Category",
+            "Appreciation Type",
+            "Authority",
+            "Scientific Degree",
+            "Nationality",
+            "Consultation Type",
+            "Lecture",
+            "Study Plan",
+            "Semester",
+            "Level",
+            "Academic Term",
+            "Student State",
+            "Student",
+            "Academic Rank",
+            "Academic Publication",
+            "Building",
+            "Lab Type",
+            "Room",
+            "Scientific Article",
+            "lab",
+            "Faculty Department",
+            "Academic Program",
+            "Student Batch",
+            "Hour Type",
+            "Level And Semester Enrollment"
+            ]
+        ]
+    ]}
+]   

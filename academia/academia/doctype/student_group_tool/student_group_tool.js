@@ -17,7 +17,7 @@ frappe.ui.form.on('Student Group Tool', {
 	"generate_groups": function(frm) {
 		//frm.set_value("courses",[]);
 		frappe.call({
-			method: "generate_groups",
+			method: "generate_groups_ultra",
 			doc:frm.doc,
 			callback: function(r) {
 				if(r.message) {
