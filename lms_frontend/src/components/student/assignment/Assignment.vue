@@ -1,27 +1,27 @@
 <template>
-	<div class="container">
+	<div class="container" v-if="assignmentDetails">
 		<form @submit.prevent="createAssignment">
 			<div class="content-time">
-				<h3>Assignment 1</h3>
+				<h3>{{ assignmentDetails.title }}</h3>
 				<div class="clock-time">
-					<i
-						style="margin-top: 21px; color: #0584ae"
-						class="mdi mdi-clock"
-						@click="removeFile(index)"
-					></i>
+					<i style="margin-top: 21px; color: #0584ae" class="mdi mdi-clock"></i>
 					<h4 class="file-name">Time Remaining 1:00:26</h4>
 				</div>
 			</div>
 
 			<label for="assignmentTitle">Assignment content:</label>
-
-			<div class="assignment-content">
-				Write examples of liberties (negative rights) and claim-rights (positive rights)
-				that are at opposition to each other?
-			</div>
+			<div class="assignment-content">{{ assignmentDetails.question }}</div>
 			<div class="assignment-file">
 				<label for="assignmentDescription">Assignment File:</label>
-				<label class="file-name" for="assignmentDescription">Assignment1.pdf</label>
+				<label
+					v-for="file in assignmentDetails.attached_files"
+					:key="file.file_url"
+					class="file-name"
+				>
+					<a :href="getFullFileUrl(file.file_url)" target="_blank">{{
+						file.file_name
+					}}</a>
+				</label>
 			</div>
 			<label for="assignmentDescription">Assignment Materials:</label>
 			<QuillEditor
@@ -71,16 +71,19 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="(criterion, index) in criteria" :key="index">
-							<td>{{ criterion.name }}</td>
-							<td>{{ criterion.grade }}</td>
+						<tr
+							v-for="(criterion, index) in assignmentDetails.assessment_criteria"
+							:key="index"
+						>
+							<td>{{ criterion.assessment_criteria }}</td>
+							<td>{{ criterion.maximum_grade }}</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
 			<div class="button-group">
-				<button type="button" @click="saveDraft">Save As Draft</button>
 				<button type="button" @click="cancelAssignment">Cancel</button>
+				<button type="button" @click="saveDraft">Save As Draft</button>
 				<button type="submit">Submit</button>
 			</div>
 		</form>
@@ -88,22 +91,19 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits } from "vue";
+import { ref, computed, onMounted } from "vue";
+import { useRoute } from "vue-router";
+import { useAssignmentStore } from "@/stores/studentStore/assignmentStore";
+import { QuillEditor } from "@vueup/vue-quill";
 
-const props = defineProps([""]);
-const emit = defineEmits(["assignment-created"]);
+const route = useRoute();
+const store = useAssignmentStore();
+const assignmentName = "ecff4b55c2";
+// const assignmentName = route.params.assignmentName;
 
-const assignmentTitle = ref("");
 const assignmentDescription = ref("");
 const assignmentComment = ref("");
 const uploadedFiles = ref([]);
-const criteria = ref([
-	{ name: "Content Quality", grade: "10" },
-	{ name: "Relevance", grade: "10" },
-	{ name: "Completeness", grade: "10" },
-	{ name: "Presentation", grade: "10" },
-	{ name: "Grammar", grade: "10" },
-]);
 
 const editorOptions = {
 	theme: "snow",
@@ -120,27 +120,21 @@ const editorOptions = {
 
 const createAssignment = () => {
 	console.log("Assignment Created:", {
-		title: assignmentTitle.value,
 		description: assignmentDescription.value,
 		comment: assignmentComment.value,
 		files: uploadedFiles.value,
-		criteria: criteria.value,
 	});
-	emit("assignment-created");
 };
 
 const saveDraft = () => {
 	console.log("Assignment Saved as Draft:", {
-		title: assignmentTitle.value,
 		description: assignmentDescription.value,
 		comment: assignmentComment.value,
 		files: uploadedFiles.value,
-		criteria: criteria.value,
 	});
 };
 
 const cancelAssignment = () => {
-	assignmentTitle.value = "";
 	assignmentDescription.value = "";
 	assignmentComment.value = "";
 	uploadedFiles.value = [];
@@ -156,12 +150,23 @@ const handleFileUpload = (event) => {
 const removeFile = (index) => {
 	uploadedFiles.value.splice(index, 1);
 };
+
+const getFullFileUrl = (fileUrl) => {
+	return `http://localhost:80${fileUrl}`;
+};
+
+onMounted(() => {
+	store.fetchAssignmentDetails(assignmentName);
+});
+
+const assignmentDetails = computed(() => store.assignmentDetails);
+const loading = computed(() => store.loading);
+const error = computed(() => store.error);
 </script>
 
 <style>
 body {
 	font-family: Arial, sans-serif;
-	background-color: ;
 	margin: 0;
 	padding: 0;
 }
@@ -204,6 +209,7 @@ body {
 	margin-left: 10px;
 	color: #0584ae;
 }
+
 h1 {
 	text-align: center;
 	margin-bottom: 20px;
@@ -235,6 +241,7 @@ textarea {
 	font-size: 20px;
 	cursor: pointer;
 }
+
 .button-group {
 	display: flex;
 	justify-content: flex-end;
@@ -358,6 +365,7 @@ button[type="button"]:hover {
 .file-list th {
 	background-color: #f4f4f4;
 }
+
 .file-list td button {
 	padding: 5px 10px;
 	background-color: #c82333;
