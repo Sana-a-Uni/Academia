@@ -22,9 +22,9 @@
 					>
 				</li>
 				<li>
-					<a href="#"
-						><font-awesome-icon icon="tasks" class="menu-icon" /> Assignments</a
-					>
+					<router-link :to="{ name: 'assignments' }" class="menu-link">
+						<font-awesome-icon icon="tasks" class="menu-icon" /> Assignments
+					</router-link>
 				</li>
 
 				<li>
