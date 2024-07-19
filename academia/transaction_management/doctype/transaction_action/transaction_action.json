@@ -10,7 +10,6 @@
   "transaction",
   "type",
   "details",
-  "received",
   "column_break_mkjj",
   "action_date",
   "created_by",
@@ -131,18 +130,12 @@
    "fieldname": "auto_redirect",
    "fieldtype": "Int",
    "label": "Auto Redirect"
-  },
-  {
-   "default": "0",
-   "fieldname": "received",
-   "fieldtype": "Check",
-   "label": "Received"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-17 06:07:32.546278",
+ "modified": "2024-07-18 20:39:44.389321",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Action",

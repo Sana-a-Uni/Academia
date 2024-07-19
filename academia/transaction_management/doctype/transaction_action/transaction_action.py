@@ -24,7 +24,6 @@ class TransactionAction(Document):
         from_company: DF.Data | None
         from_department: DF.Data | None
         from_designation: DF.Data | None
-        received: DF.Check
         recipients: DF.Table[TransactionRecipients]
         transaction: DF.Link | None
         type: DF.Literal["Redirected", "Approved", "Rejected", "Canceled", "Council"]
