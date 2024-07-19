@@ -1,4 +1,5 @@
 {
+ "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "autoname": "autoincrement",
  "creation": "2024-01-24 10:49:16.932637",
@@ -39,7 +40,7 @@
    "fieldname": "certification",
    "fieldtype": "Attach",
    "in_list_view": 1,
-   "label": "Certification "
+   "label": "Certification"
   },
   {
    "fieldname": "course_name",
@@ -61,7 +62,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-04-25 23:45:03.059878",
+ "modified": "2024-07-12 17:02:34.781319",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member Training Course",

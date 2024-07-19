@@ -15,6 +15,6 @@ class AcademicServices(Document):
 		from frappe.types import DF
 
 		academic_service_name: DF.Data
-		description: DF.TextEditor | None
+		description: DF.Text | None
 	# end: auto-generated types
 	pass

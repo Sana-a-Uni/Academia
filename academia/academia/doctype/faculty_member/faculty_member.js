@@ -13,9 +13,6 @@ frappe.ui.form.on("Faculty Member", {
         });
         // End of the function
 
-        // Calling function to refresh granting_tenure_data_section 
-        fetch_linked_value_and_toggle_section(frm);
-
     },
     // End of refresh event
 
@@ -60,77 +57,29 @@ frappe.ui.form.on("Faculty Member", {
     },
     // End of the function
 
-    // FN: refresh granting_tenure_data_section immediately 
-    employee: function (frm) {
-        fetch_linked_value_and_toggle_section(frm);
-    }
-    // End of the function
-
 });
 // // End of standard form scripts
 
-
-// FN: show or hide granting_tenure_data_section 
-function fetch_linked_value_and_toggle_section(frm) {
-    if (frm.doc.employee) {
-        frappe.call({
-            method: 'frappe.client.get',
-            args: {
-                doctype: 'Employee',
-                name: frm.doc.employee
-            },
-            callback: function (r) {
-                if (r.message && r.message.employment_type === 'Official') {
-                    frm.toggle_display('granting_tenure_data_section', true);
-                } else {
-                    frm.toggle_display('granting_tenure_data_section', false);
-                }
-            }
-        });
-    } else {
-        frm.toggle_display('granting_tenure_data_section', false);
-    }
-}
-// End of the function
+// frappe.ui.form.on('Faculty Member', {
+//     refresh: function(frm) {
+//         if (frm.doc.date_of_joining_in_university && frm.doc.tenure_status === 'On Probation') {
+//             console.log("Conditions met, making server call");
+//             frappe.call({
+//                 method: 'academia.academia.doctype.faculty_member.faculty_member.get_probation_end_date',
+//                 args: {
+//                     date_of_joining_in_university: frm.doc.date_of_joining_in_university,
+//                     academic_rank: frm.doc.academic_rank
+//                 },
+//                 callback: function(r) {
+//                     if (r.message) {
+//                         frm.set_value('probation_period_end_date', r.message.probation_period_end_date);
+//                         frm.set_value('is_eligible_for_granting_tenure', r.message.is_eligible_for_granting_tenure);
+//                     }
+//                 }
+//             });
+//         }
+//     }
+// });
 
 
-// Faculty Member Training Course Child DocType
-frappe.ui.form.on("Faculty Member Training Course", {
-    // FN: Verifying 'certification' file extensions
-    validate: function (frm, cdt, cdn) {
-        // Get the field
-        // var certification_file = frappe.model.get_doc(cdt, cdn); // not working
-        var row = locals[cdt][cdn];
-        // Verifying that field has non-null value
-        if (row.certification) {
-            // Define allowed file extensions list
-            var allowed_extensions = ['.pdf', '.png', '.jpg', '.jpeg'];
-            // Get the file extension of 'certification' field
-            var certification_file_extension = row.certification.split('.').pop().toLowerCase();
-            // Check if the file extension of 'certification' field is allowed
-            if (!allowed_extensions.includes('.' + certification_file_extension)) {
-                frappe.throw("Certification file has an invalid extension. Only files with extensions " + allowed_extensions.join(', ') + " are allowed.");
-                frappe.validated = false;
-            }
-        }
-    }
-});
 
-// FN: show or hide academic_services_section 
-frappe.ui.form.on('Faculty Member', {
-    onload: function (frm) {
-        // Fetch the employment type from the Employee doctype
-        frappe.db.get_value('Employee', frm.doc.employee, 'employment_type', (r) => {
-            // Check if the employment type is 'Academic'
-            if (r.employment_type === 'Contract') {
-                // Show the Academic Services section
-                frm.get_field('academic_services_section').df.hidden = 0;
-                frm.refresh_field('academic_services_section');
-            } else {
-                // Hide the Academic Services section
-                frm.get_field('academic_services_section').df.hidden = 1;
-                frm.refresh_field('academic_services_section');
-            }
-        });
-    }
-});

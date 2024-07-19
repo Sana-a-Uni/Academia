@@ -10,6 +10,8 @@
   "home_page": null,
   "is_custom": 0,
   "list_sidebar": 1,
+  "modified": "2024-07-04 14:19:32.083456",
+
   "modified": "2024-07-11 03:57:36.370962",
   "name": "Academic Manager",
   "notifications": 1,
@@ -1187,6 +1189,7 @@
   "is_custom": 0,
   "list_sidebar": 1,
   "modified": "2024-07-11 06:23:14.035067",
+
   "name": "Department Head",
   "notifications": 1,
   "restrict_to_domain": null,
@@ -1207,7 +1210,11 @@
   "home_page": null,
   "is_custom": 0,
   "list_sidebar": 1,
+
+  "modified": "2024-07-04 14:19:59.825440",
+
   "modified": "2024-07-11 06:23:14.121345",
+
   "name": "Faculty Dean",
   "notifications": 1,
   "restrict_to_domain": null,
@@ -1228,6 +1235,13 @@
   "home_page": null,
   "is_custom": 0,
   "list_sidebar": 1,
+
+  "modified": "2024-07-04 14:20:52.337632",
+  "name": "Academic User",
+  "notifications": 1,
+  "restrict_to_domain": null,
+  "role_name": "Academic User",
+
   "modified": "2024-07-11 06:23:29.586033",
   "name": "Transaction Manager",
   "notifications": 1,
@@ -1254,6 +1268,7 @@
   "notifications": 1,
   "restrict_to_domain": null,
   "role_name": "Transaction User",
+
   "search_bar": 1,
   "timeline": 1,
   "two_factor_auth": 0,

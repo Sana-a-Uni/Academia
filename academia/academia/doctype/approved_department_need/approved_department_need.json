@@ -1,0 +1,108 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2024-07-13 19:42:57.823766",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "faculty",
+  "faculty_department",
+  "scientific_degree",
+  "number_of_positions",
+  "academic_specialty",
+  "specialist_field",
+  "academic_year",
+  "application_requirements",
+  "reference_to_department_need_approval"
+ ],
+ "fields": [
+  {
+   "columns": 1,
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Faculty",
+   "options": "Faculty",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "faculty_department",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Faculty Department",
+   "options": "Faculty Department",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "scientific_degree",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Scientific Degree",
+   "options": "Scientific Degree",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "number_of_positions",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Number of Positions",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Year",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "specialist_field",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Specialist Field"
+  },
+  {
+   "columns": 1,
+   "fieldname": "academic_specialty",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Specialty",
+   "options": "Academic Specialty"
+  },
+  {
+   "columns": 2,
+   "fieldname": "application_requirements",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Application Requirements"
+  },
+  {
+   "fieldname": "reference_to_department_need_approval",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Reference to Department Need Approval",
+   "options": "Department Need Approval",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-07-15 14:09:12.805371",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Approved Department Need",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
