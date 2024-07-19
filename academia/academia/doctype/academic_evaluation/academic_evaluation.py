@@ -33,9 +33,9 @@ class AcademicEvaluation(Document):
 		evaluator_party_name: DF.Data | None
 		evaluator_party_type: DF.Literal
 		faculty: DF.Link | None
-		naming_series: DF.Literal["Unknown-", "EVAL-.evaluatee_party_name.-EMP-FM-", "EVAL-.evaluatee_party_name.-FM-EMP-", "EVAL-.evaluatee_party_name.-FM-STD-"]
+		naming_series: DF.Literal["Unknown-", "EVAL-EMP-FM-.department.-.evaluatee_party_name.-.YYYY.-", "EVAL-FM-EMP-.department.-.evaluatee_party_name.-.YYYY.-", "EVAL-FM-STD-.department.-.evaluatee_party_name.-.YYYY.-"]
 		notes: DF.SmallText | None
-		template: DF.Link
+		template: DF.Link | None
 	# end: auto-generated types
 	
 

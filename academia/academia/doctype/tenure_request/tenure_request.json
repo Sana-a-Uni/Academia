@@ -1,5 +1,4 @@
 {
- "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
  "autoname": "naming_series:",
@@ -12,9 +11,10 @@
   "faculty_member",
   "faculty_member_name",
   "academic_rank",
-  "department",
+  "date",
   "column_break_aujg",
   "company",
+  "department",
   "faculty",
   "evaluations",
   "amended_from"
@@ -107,12 +107,19 @@
    "fieldname": "personal_information_section",
    "fieldtype": "Section Break",
    "label": "Personal Information"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-16 18:31:22.521626",
+ "modified": "2024-07-17 18:46:25.419419",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Tenure Request",

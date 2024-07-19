@@ -13,6 +13,7 @@ frappe.ui.form.on("Academic Evaluation", {
         // Calling functions
         frm.events.filtering_evaluator_party_type(frm);
         frm.events.filtering_academic_term(frm);
+        frm.events.template(frm);
     },
     // End of onload event
 
@@ -54,6 +55,9 @@ frappe.ui.form.on("Academic Evaluation", {
                 })
                 refresh_field("evaluation_details")
             });
+        } else {
+            frm.clear_table('evaluation_details');
+            refresh_field("evaluation_details")
         }
     },
     // End of the function
@@ -120,6 +124,7 @@ frappe.ui.form.on("Academic Evaluation", {
         frm.refresh_field('evaluator_party_type');
     },
     // End of the function
+
 
     evaluator_party: function (frm) {
         if (frm.doc.evaluator_party) {
@@ -192,11 +197,11 @@ function update_party_field_label(frm, partyTypeField, partyField) {
 function update_naming_series(frm) {
     var naming_series = '';
     if (frm.doc.evaluatee_party_type == 'Employee' && frm.doc.evaluator_party_type == 'Faculty Member') {
-        naming_series = 'EVAL-.evaluatee_party_name.-EMP-FM-.YYYY.-';
+        naming_series = 'EVAL-EMP-FM-.department.-.evaluatee_party_name.-.YYYY.-';
     } else if (frm.doc.evaluatee_party_type == 'Faculty Member' && frm.doc.evaluator_party_type == 'Employee') {
-        naming_series = 'EVAL-.evaluatee_party_name.-FM-EMP-.YYYY.-';
+        naming_series = 'EVAL-FM-EMP-.department.-.evaluatee_party_name.-.YYYY.-';
     } else if (frm.doc.evaluatee_party_type == 'Faculty Member' && frm.doc.evaluator_party_type == 'Student') {
-        naming_series = 'EVAL-.evaluatee_party_name.-FM-STD-.YYYY.-';
+        naming_series = 'EVAL-FM-STD-.department.-.evaluatee_party_name.-.YYYY.-';
     } else {
         naming_series = 'Unknown-';
     }

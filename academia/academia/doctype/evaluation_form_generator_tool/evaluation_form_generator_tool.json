@@ -1,0 +1,127 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-17 21:57:57.011111",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "evaluator_section",
+  "employee",
+  "column_break_bsnd",
+  "employee_name",
+  "column_break_igbi",
+  "department",
+  "evaluatee_section",
+  "faculty_members",
+  "other_details_section",
+  "academic_year",
+  "academic_term",
+  "column_break_visn",
+  "evaluation_template"
+ ],
+ "fields": [
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Year",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Term",
+   "options": "Academic Term",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_igbi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_visn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval: doc.employee",
+   "fieldname": "faculty_members",
+   "fieldtype": "Table",
+   "label": "Faculty Members",
+   "options": "Faculty Member Evaluation Form"
+  },
+  {
+   "fetch_from": "employee.department",
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department",
+   "read_only": 1
+  },
+  {
+   "fieldname": "evaluation_template",
+   "fieldtype": "Link",
+   "label": "Evaluation Template",
+   "options": "Evaluation Criteria Template"
+  },
+  {
+   "fieldname": "evaluator_section",
+   "fieldtype": "Section Break",
+   "label": "Evaluator"
+  },
+  {
+   "fieldname": "evaluatee_section",
+   "fieldtype": "Section Break",
+   "label": "Evaluatee"
+  },
+  {
+   "fieldname": "other_details_section",
+   "fieldtype": "Section Break",
+   "label": "Other Details"
+  },
+  {
+   "fieldname": "column_break_bsnd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-07-19 17:35:35.167548",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Evaluation Form Generator Tool",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1
+}

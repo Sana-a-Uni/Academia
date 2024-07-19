@@ -1,4 +1,5 @@
 {
+ "_comments": "[{\"comment\": \"<div class=\\\"ql-editor read-mode\\\"><p><br></p></div>\", \"by\": \"admin@example.com\", \"name\": \"d4184d2933\"}]",
  "actions": [],
  "allow_rename": 1,
  "autoname": "naming_series:",
@@ -102,8 +103,7 @@
    "fieldname": "template",
    "fieldtype": "Link",
    "label": "Template",
-   "options": "Evaluation Criteria Template",
-   "reqd": 1
+   "options": "Evaluation Criteria Template"
   },
   {
    "fieldname": "notes",
@@ -121,7 +121,7 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Series",
-   "options": "Unknown-\nEVAL-.evaluatee_party_name.-EMP-FM-\nEVAL-.evaluatee_party_name.-FM-EMP-\nEVAL-.evaluatee_party_name.-FM-STD-",
+   "options": "Unknown-\nEVAL-EMP-FM-.department.-.evaluatee_party_name.-.YYYY.-\nEVAL-FM-EMP-.department.-.evaluatee_party_name.-.YYYY.-\nEVAL-FM-STD-.department.-.evaluatee_party_name.-.YYYY.-",
    "read_only": 1,
    "reqd": 1
   },
@@ -237,9 +237,11 @@
    "show_dashboard": 1
   },
   {
+   "default": "Today",
    "fieldname": "date",
    "fieldtype": "Date",
-   "label": "Date"
+   "label": "Date",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
@@ -253,7 +255,7 @@
    "table_fieldname": "evaluations"
   }
  ],
- "modified": "2024-07-17 13:38:20.629856",
+ "modified": "2024-07-19 17:40:39.224656",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Evaluation",

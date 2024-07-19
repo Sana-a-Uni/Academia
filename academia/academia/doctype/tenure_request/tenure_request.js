@@ -3,7 +3,9 @@
 
 frappe.ui.form.on("Tenure Request", {
     refresh(frm) {
-
+        if (frm.doc.faculty_member && (!frm.doc.evaluations || frm.doc.evaluations.length === 0)) {
+            frappe.throw(__("Dear {0}, there are no submitted academic evaluations associated with you.").replace("{0}", frm.doc.faculty_member_name));
+        }
     },
 
     // FN: Clearing evaluations when value of faculty_member changes
@@ -24,7 +26,7 @@ frappe.ui.form.on("Tenure Request", {
                 method: 'academia.academia.doctype.tenure_request.tenure_request.get_evaluations',
                 args: { faculty_member: faculty_member },
             }).done((r) => {
-                // frm.doc.evaluation_details = []
+                frm.doc.evaluations = []
                 $.each(r.message, function (_i, e) {
                     let entry = frm.add_child("evaluations");
                     entry.evaluation = e.name;

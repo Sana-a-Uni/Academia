@@ -3,6 +3,8 @@
 
 import frappe
 from frappe.model.document import Document
+from frappe import _
+
 
 
 class TenureRequest(Document):
@@ -18,6 +20,7 @@ class TenureRequest(Document):
 		academic_rank: DF.Link
 		amended_from: DF.Link | None
 		company: DF.Link
+		date: DF.Date | None
 		department: DF.Link | None
 		evaluations: DF.TableMultiSelect[Evaluations]
 		faculty: DF.Link | None
@@ -26,6 +29,11 @@ class TenureRequest(Document):
 		naming_series: DF.Literal["TENUREQ-.YYYY.-.faculty_member_name.-"]
 	# end: auto-generated types
 	pass
+
+	def before_submit(self):
+		faculty_member = frappe.get_doc("Faculty Member", self.faculty_member)
+		if not faculty_member.is_eligible_for_granting_tenure:
+			frappe.throw(_("Dear {0}, you are not eligible for granting tenure.").format(self.faculty_member_name))
 
 
 @frappe.whitelist()
