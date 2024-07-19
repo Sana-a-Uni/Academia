@@ -1,0 +1,41 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2024-07-16 14:45:44.833796",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "criterion",
+  "evaluation"
+ ],
+ "fields": [
+  {
+   "fieldname": "criterion",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Criterion",
+   "reqd": 1
+  },
+  {
+   "fieldname": "evaluation",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Evaluation",
+   "options": "\nExcellent\nGood\nSatisfactory\nFair\nPoor"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-07-16 15:40:41.117078",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Evaluation Detail",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

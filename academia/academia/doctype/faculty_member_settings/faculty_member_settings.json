@@ -1,0 +1,76 @@
+{
+ "actions": [],
+ "autoname": "naming_series:series",
+ "creation": "2024-07-13 07:29:39.765492",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "tenure_settings_section",
+  "naming_series",
+  "academic_rank",
+  "probation_period",
+  "valid_from",
+  "valid_upto"
+ ],
+ "fields": [
+  {
+   "fieldname": "tenure_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Tenure Settings"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "ACAD-FM-S-.YYYY.-.MM.-.####."
+  },
+  {
+   "fieldname": "academic_rank",
+   "fieldtype": "Link",
+   "label": "Academic Rank",
+   "options": "Academic Rank"
+  },
+  {
+   "fieldname": "probation_period",
+   "fieldtype": "Data",
+   "label": "Probation Period (in months)"
+  },
+  {
+   "fieldname": "valid_from",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Valid From",
+   "reqd": 1
+  },
+  {
+   "fieldname": "valid_upto",
+   "fieldtype": "Date",
+   "label": "Valid Upto"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-13 09:41:17.447443",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Faculty Member Settings",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,29 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "creation": "2024-07-18 18:44:10.078870",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Academic Evaluation",
+ "enabled": 1,
+ "event": "Submit",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "<h3>{{_(\"Academic Evaluation\")}}</h3>\n\n<p>{{_(\"Dear \") }} {{ doc.evaluatee_party_name}} {{_(\", a new submitted academic evaluation associated with you: \") }} {{ doc.name }}</p>\n\n<b>Evaluation Summary</b><br>\n\n<b>{{_(\"Evaluator Name: \") }}</b> {{ doc.evaluator_party_name }}<br>\n\n<b>{{_(\"Evaluation Template Type: \") }}</b> {{ doc.template }}<br><br>\n\n<table border=1 >\n    <tr align=\"center\">\n        <th>Criterion</th>\n        <th>Evaluation</th>\n    </tr>\n    {% for eval in doc.evaluation_details %}\n        <tr align=\"center\">\n            <td> {{ eval.criterion }} </td>\n            <td> {{ eval.evaluation }} </td>\n        </tr>\n    {% endfor %}\n</table>",
+ "modified": "2024-07-19 16:25:29.816132",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Notification for a new submitted academic evaluation",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "email"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "sender": "",
+ "sender_email": "",
+ "subject": "New academic evaluation"
+}
