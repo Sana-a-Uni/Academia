@@ -49,5 +49,27 @@ export const useAssignmentStore = defineStore("assignment", {
 				this.loading = false;
 			}
 		},
+		async submitAssignment(data) {
+			try {
+				console.log("Submitting data:", data); // Debugging line
+				const response = await axios.post(
+					"http://localhost:8080/api/method/academia.lms_api.student.assignment.create_assignment_submission",
+					data,
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: "token 209d178aa3fed8b:37cdbe81b02b42b",
+						},
+					}
+				);
+				return response.data;
+			} catch (error) {
+				console.error("Submission error:", error.response.data); // Debugging line
+				throw new Error(
+					error.response.data.message ||
+						"An error occurred while submitting the assignment."
+				);
+			}
+		},
 	},
 });
