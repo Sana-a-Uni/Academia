@@ -47,6 +47,7 @@ class Transaction(Document):
         referenced_document: DF.DynamicLink | None
         signatories: DF.Table[TransactionSignatories]
         start_date: DF.Data | None
+        start_from_employee: DF.Data | None
         start_with: DF.Link | None
         start_with_company: DF.Link | None
         start_with_department: DF.Link | None

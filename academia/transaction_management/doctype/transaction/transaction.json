@@ -33,6 +33,7 @@
   "referenced_document",
   "fromto_section",
   "start_with",
+  "start_from_employee",
   "start_with_company",
   "main_external_entity_from",
   "sub_external_entity_from",
@@ -435,12 +436,20 @@
    "fieldtype": "Link",
    "label": "Referenced Transaction",
    "options": "Transaction"
+  },
+  {
+   "depends_on": "eval: doc.start_with;",
+   "fetch_from": "start_with.employee_name",
+   "fieldname": "start_from_employee",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-18 20:48:56.316808",
+ "modified": "2024-07-19 20:57:54.928363",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
