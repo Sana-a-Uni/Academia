@@ -1,6 +1,6 @@
 <template>
 	<div class="container" v-if="assignmentDetails">
-		<form @submit.prevent="createAssignment">
+		<form @submit.prevent="handleSubmit(true)">
 			<div class="content-time">
 				<h3>{{ assignmentDetails.title }}</h3>
 				<div class="clock-time">
@@ -24,11 +24,7 @@
 				</label>
 			</div>
 			<label for="assignmentDescription">Assignment Materials:</label>
-			<QuillEditor
-				v-model="assignmentDescription"
-				:options="editorOptions"
-				class="quill-editor"
-			></QuillEditor>
+			<div ref="quillEditor" class="quill-editor"></div>
 			<label for="attachFiles">Attach Files:</label>
 			<input
 				class="uploadFiles"
@@ -56,11 +52,7 @@
 				</table>
 			</div>
 			<label for="assignmentDescription">Comment:</label>
-			<QuillEditor
-				v-model="assignmentComment"
-				:options="editorOptions"
-				class="quill-editor-comment"
-			></QuillEditor>
+			<div ref="commentEditor" class="quill-editor-comment"></div>
 			<label for="assignmentDescription">Assessment Criteria:</label>
 			<div class="assessment-list">
 				<table style="width: 100%">
@@ -83,7 +75,7 @@
 			</div>
 			<div class="button-group">
 				<button type="button" @click="cancelAssignment">Cancel</button>
-				<button type="button" @click="saveDraft">Save As Draft</button>
+				<button type="button" @click="handleSubmit(false)">Save As Draft</button>
 				<button type="submit">Submit</button>
 			</div>
 		</form>
@@ -91,18 +83,25 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
-import { useRoute } from "vue-router";
-import { useAssignmentStore } from "@/stores/studentStore/assignmentStore";
-import { QuillEditor } from "@vueup/vue-quill";
+import { ref, onMounted, nextTick } from "vue";
+import Quill from "quill";
+import { defineProps } from "vue";
+import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
-const route = useRoute();
-const store = useAssignmentStore();
-const assignmentName = "ecff4b55c2";
-// const assignmentName = route.params.assignmentName;
+const props = defineProps({
+	assignmentDetails: {
+		type: Object,
+		required: true,
+	},
+	onSubmit: {
+		type: Function,
+		required: true,
+	},
+});
 
-const assignmentDescription = ref("");
-const assignmentComment = ref("");
+const quillEditor = ref(null);
+const commentEditor = ref(null);
+
 const uploadedFiles = ref([]);
 
 const editorOptions = {
@@ -118,25 +117,50 @@ const editorOptions = {
 	},
 };
 
-const createAssignment = () => {
-	console.log("Assignment Created:", {
-		description: assignmentDescription.value,
-		comment: assignmentComment.value,
-		files: uploadedFiles.value,
-	});
-};
+onMounted(() => {
+	nextTick(() => {
+		const assignmentEditor = new Quill(quillEditor.value, editorOptions);
+		assignmentEditor.root.innerHTML = props.assignmentDetails.answer || ""; // Load existing data
+		assignmentEditor.on("text-change", () => {
+			props.assignmentDetails.answer = assignmentEditor.root.innerHTML;
+		});
 
-const saveDraft = () => {
-	console.log("Assignment Saved as Draft:", {
-		description: assignmentDescription.value,
-		comment: assignmentComment.value,
-		files: uploadedFiles.value,
+		const commentEditorInstance = new Quill(commentEditor.value, editorOptions);
+		commentEditorInstance.root.innerHTML = props.assignmentDetails.comment || ""; // Load existing data
+		commentEditorInstance.on("text-change", () => {
+			props.assignmentDetails.comment = commentEditorInstance.root.innerHTML;
+		});
 	});
+});
+
+const handleSubmit = async (isFinalSubmission) => {
+	const data = {
+		student: "EDU-STU-2024-00003", // Replace with actual student ID
+		assignment: "ecff4b55c2",
+		answer: quillEditor.value.querySelector(".ql-editor").innerHTML,
+		attachment: null, // Convert file to base64 if necessary
+		comment: commentEditor.value.querySelector(".ql-editor").innerHTML,
+		submit: isFinalSubmission,
+	};
+
+	console.log("Data being submitted:", data);
+
+	if (uploadedFiles.value.length > 0) {
+		const file = uploadedFiles.value[0];
+		const reader = new FileReader();
+		reader.onloadend = async () => {
+			data.attachment = reader.result.split(",")[1];
+			await props.onSubmit(data);
+		};
+		reader.readAsDataURL(file);
+	} else {
+		await props.onSubmit(data);
+	}
 };
 
 const cancelAssignment = () => {
-	assignmentDescription.value = "";
-	assignmentComment.value = "";
+	quillEditor.value.querySelector(".ql-editor").innerHTML = "";
+	commentEditor.value.querySelector(".ql-editor").innerHTML = "";
 	uploadedFiles.value = [];
 };
 
@@ -154,17 +178,9 @@ const removeFile = (index) => {
 const getFullFileUrl = (fileUrl) => {
 	return `http://localhost:80${fileUrl}`;
 };
-
-onMounted(() => {
-	store.fetchAssignmentDetails(assignmentName);
-});
-
-const assignmentDetails = computed(() => store.assignmentDetails);
-const loading = computed(() => store.loading);
-const error = computed(() => store.error);
 </script>
 
-<style>
+<style scoped>
 body {
 	font-family: Arial, sans-serif;
 	margin: 0;
