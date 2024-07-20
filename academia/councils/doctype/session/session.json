@@ -22,7 +22,15 @@
   "agenda_tab",
   "get_topics",
   "topics",
-  "amended_from"
+  "amended_from",
+  "print_settings_tab",
+  "general_section",
+  "minute_hash",
+  "agenda_settings_section",
+  "agenda_title",
+  "minute_settings_section",
+  "minute_title",
+  "minute_ending"
  ],
  "fields": [
   {
@@ -139,12 +147,54 @@
    "fieldname": "get_opening_template",
    "fieldtype": "Button",
    "label": "Get Opening Template"
+  },
+  {
+   "fieldname": "print_settings_tab",
+   "fieldtype": "Tab Break",
+   "label": "Print Settings"
+  },
+  {
+   "default": "000-",
+   "fieldname": "minute_hash",
+   "fieldtype": "Data",
+   "label": "Minute Hash",
+   "read_only": 1
+  },
+  {
+   "fieldname": "general_section",
+   "fieldtype": "Section Break",
+   "label": "General"
+  },
+  {
+   "fieldname": "agenda_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Agenda Settings"
+  },
+  {
+   "fieldname": "agenda_title",
+   "fieldtype": "Small Text",
+   "label": "Agenda Title"
+  },
+  {
+   "fieldname": "minute_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Minute Settings"
+  },
+  {
+   "fieldname": "minute_title",
+   "fieldtype": "Small Text",
+   "label": "Minute Title"
+  },
+  {
+   "fieldname": "minute_ending",
+   "fieldtype": "Small Text",
+   "label": "Minute Ending"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-11 22:39:35.583671",
+ "modified": "2024-07-14 21:36:07.085341",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Session",

@@ -1,6 +1,7 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
+import uuid
 from academia.councils.doctype.council.council import validate_members
 import frappe
 from frappe.model.document import Document
@@ -112,6 +113,8 @@ class Session(Document):
 
     def before_save(self):
         self.update_topics_status()
+        self.minute_hash = 'SM-'+str(uuid.uuid1())
+
 
     def process_session_topics(self):
         """
