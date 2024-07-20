@@ -239,9 +239,9 @@
    "depends_on": "eval:doc.transaction_scope==\"With External Entity\";",
    "fieldname": "type",
    "fieldtype": "Select",
-   "in_standard_filter": 1,
    "label": "Type",
-   "options": "Outgoing\nIncoming"
+   "mandatory_depends_on": "eval:doc.transaction_scope==\"With External Entity\";",
+   "options": "\nOutgoing\nIncoming"
   },
   {
    "fieldname": "transaction_scan",
@@ -449,7 +449,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-19 20:57:54.928363",
+ "modified": "2024-07-20 17:02:28.319060",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

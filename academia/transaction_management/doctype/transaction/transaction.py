@@ -62,7 +62,7 @@ class Transaction(Document):
         transaction_description: DF.TextEditor | None
         transaction_scan: DF.Attach | None
         transaction_scope: DF.Literal["In Company", "Among Companies", "With External Entity"]
-        type: DF.Literal["Outgoing", "Incoming"]
+        type: DF.Literal["", "Outgoing", "Incoming"]
     # end: auto-generated types
     def on_submit(self):
         if self.start_with:
