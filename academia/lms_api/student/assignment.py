@@ -101,47 +101,47 @@ def create_assignment_submission():
     student = data.get('student')
     assignment = data.get('assignment')
     answer = data.get('answer')
-    # attachment = data.get('attachment')  # Base64 encoded file content
     comment = data.get('comment')
     submit = data.get('submit')  # Boolean indicating if the submission is final
 
     if not student or not assignment or not answer:
         frappe.throw("Missing required parameters")
 
+    existing_submission = frappe.get_all('Assignment Submission', filters={
+        'student': student,
+        'assignment': assignment
+    }, fields=['name', 'docstatus'])
+
     submission_date = datetime.now()
 
-    # Create new assignment submission
-    submission_doc = frappe.get_doc({
-        'doctype': 'Assignment Submission',
-        'student': student,
-        'assignment': assignment,
-        'answer': answer,
-        'comment': comment,
-        'submission_date': submission_date
-    })
+    if existing_submission:
+        submission_doc = frappe.get_doc('Assignment Submission', existing_submission[0]['name'])
+        submission_doc.answer = answer
+        submission_doc.comment = comment
+        submission_doc.submission_date = submission_date
 
-    # if attachment:
-    #     # Save the attachment file
-    #     file_doc = frappe.get_doc({
-    #         "doctype": "File",
-    #         "file_name": f"{assignment}_{student}.pdf",  # You can change the file name and extension based on the actual file type
-    #         "attached_to_doctype": "Assignment Submission",
-    #         "attached_to_name": submission_doc.name,
-    #         "content": attachment,
-    #         "decode": True
-    #     })
-    #     file_doc.insert()
-    #     submission_doc.attachment = file_doc.file_url
+        if submit and submission_doc.docstatus == 0:
+            submission_doc.submit()
+        else:
+            submission_doc.save()
 
-    submission_doc.insert()
+    else:
+        submission_doc = frappe.get_doc({
+            'doctype': 'Assignment Submission',
+            'student': student,
+            'assignment': assignment,
+            'answer': answer,
+            'comment': comment,
+            'submission_date': submission_date
+        })
 
-    # Submit the document if `submit` is True
-    if submit:
-        submission_doc.submit()
+        submission_doc.insert()
+
+        if submit:
+            submission_doc.submit()
 
     frappe.db.commit()
 
-    # Return the name of the current assignment submission
     frappe.response["status_code"] = 200
     frappe.response["message"] = "Assignment saved successfully" if not submit else "Assignment submitted successfully"
     frappe.response["assignment_submission_id"] = submission_doc.name
