@@ -80,7 +80,7 @@ class FacultyMember(Document):
         if self.employee:
             exist_employee = frappe.get_value("Faculty Member", {"employee": self.employee, "name": ["!=", self.name]}, "faculty_member_name")
             if exist_employee:
-                frappe.throw(f"Employee {self.employee} is already assigned to {exist_employee}")
+                frappe.throw(_(f"Employee {self.employee} is already assigned to {exist_employee}"))
     # End of the function
 
     # FN: validate 'date_of_joining_in_university' and 'date_of_joining_in_service' fields
@@ -92,11 +92,11 @@ class FacultyMember(Document):
             date_of_joining_in_university = datetime.strptime(self.date_of_joining_in_university, "%Y-%m-%d").date()
             #  "Ensure that the date of appointment in service is before the date of appointment in the university."
             if date_of_joining_in_service >= date_of_joining_in_university:
-                frappe.throw(_("Date of Service Appointment must be before Date of University Appointment"))
+                frappe.throw(_("Date of Service Appointment must be before Date of University Appointment."))
             elif date_of_joining_in_service > today:
-                frappe.throw(_("Date of Service Appointment cannot be after today's date"))
+                frappe.throw(_("Date of Service Appointment cannot be after today's date."))
             elif date_of_joining_in_university > today:
-                frappe.throw(_("Date of University Appointment cannot be after today's date"))
+                frappe.throw(_("Date of University Appointment cannot be after today's date."))
     # End of the function
 
     # FN: validate 'google_scholar_profile_link' field
@@ -104,13 +104,13 @@ class FacultyMember(Document):
         url_pattern = re.compile(r'^(http|https|ftp)://\S+$')
         if self.google_scholar_profile_link:
             if not url_pattern.match(self.google_scholar_profile_link):
-                frappe.throw("Google Scholar Profile Link is not valid. Please enter a valid URL starting with http, https, or ftp")
+                frappe.throw(_("Google Scholar Profile Link is not valid. Please enter a valid URL starting with http, https, or ftp."))
     # End of the function
 
     # FN: validate 'decision_number' field
     def validate_decision_number(self):
         if self.decision_number and not self.decision_number.isdigit():
-            frappe.throw("Decision Number should contain only digits")
+            frappe.throw(_("Decision Number should contain only digits."))
     # End of the function
 
     # def get_probation_end_date(self):
