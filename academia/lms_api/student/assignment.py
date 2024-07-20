@@ -1,6 +1,7 @@
 from typing import Dict, Any,List
 from datetime import datetime
 import frappe
+import json
 
 @frappe.whitelist(allow_guest=True)
 def get_assignments_by_course(course_name: str="00", student_id: str="EDU-STU-2024-00001") -> Dict[str, Any]:
@@ -90,3 +91,57 @@ def get_assignment(assignment_name: str="47dfd90592"):
             "message": f"An error occurred while fetching assignment details: {str(e)}"
         })
         return frappe.response["message"]
+
+
+
+@frappe.whitelist(allow_guest=True)
+def create_assignment_submission():
+    data = json.loads(frappe.request.data)
+
+    student = data.get('student')
+    assignment = data.get('assignment')
+    answer = data.get('answer')
+    # attachment = data.get('attachment')  # Base64 encoded file content
+    comment = data.get('comment')
+    submit = data.get('submit')  # Boolean indicating if the submission is final
+
+    if not student or not assignment or not answer:
+        frappe.throw("Missing required parameters")
+
+    submission_date = datetime.now()
+
+    # Create new assignment submission
+    submission_doc = frappe.get_doc({
+        'doctype': 'Assignment Submission',
+        'student': student,
+        'assignment': assignment,
+        'answer': answer,
+        'comment': comment,
+        'submission_date': submission_date
+    })
+
+    # if attachment:
+    #     # Save the attachment file
+    #     file_doc = frappe.get_doc({
+    #         "doctype": "File",
+    #         "file_name": f"{assignment}_{student}.pdf",  # You can change the file name and extension based on the actual file type
+    #         "attached_to_doctype": "Assignment Submission",
+    #         "attached_to_name": submission_doc.name,
+    #         "content": attachment,
+    #         "decode": True
+    #     })
+    #     file_doc.insert()
+    #     submission_doc.attachment = file_doc.file_url
+
+    submission_doc.insert()
+
+    # Submit the document if `submit` is True
+    if submit:
+        submission_doc.submit()
+
+    frappe.db.commit()
+
+    # Return the name of the current assignment submission
+    frappe.response["status_code"] = 200
+    frappe.response["message"] = "Assignment saved successfully" if not submit else "Assignment submitted successfully"
+    frappe.response["assignment_submission_id"] = submission_doc.name
