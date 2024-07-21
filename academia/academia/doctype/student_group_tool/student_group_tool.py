@@ -19,7 +19,7 @@ class StudentGroupTool(Document):
 
 		based_on: DF.Literal["", "By Sex", "All"]
 		capacity: DF.Int
-		faculity: DF.Link
+		faculty: DF.Link
 		grouping_by: DF.Literal["Theoretical", "Practical", "Theoretical and Practical"]
 		practical_capacity: DF.Int
 		program: DF.Link
