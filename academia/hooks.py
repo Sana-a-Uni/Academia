@@ -258,7 +258,6 @@ export_python_type_annotations = True
 from frappe import _
 
 
-
 fixtures = [
     "Role"
 ]
