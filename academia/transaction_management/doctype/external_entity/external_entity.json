@@ -12,6 +12,7 @@
   "is_group",
   "column_break_dzaw",
   "parent_external_entity",
+  "logo",
   "section_break_hnzu",
   "designation"
  ],
@@ -74,11 +75,17 @@
    "fieldtype": "Table",
    "label": "Designation",
    "options": "External Entity Designation"
+  },
+  {
+   "depends_on": "eval: doc.is_group",
+   "fieldname": "logo",
+   "fieldtype": "Attach Image",
+   "label": "Logo"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-03 18:06:39.588975",
+ "modified": "2024-07-21 14:55:22.956216",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "External Entity",

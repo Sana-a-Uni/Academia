@@ -25,6 +25,7 @@ class TransactionAction(Document):
         from_department: DF.Data | None
         from_designation: DF.Data | None
         recipients: DF.Table[TransactionRecipients]
+        topic_status: DF.Data | None
         transaction: DF.Link | None
         type: DF.Literal["Redirected", "Approved", "Rejected", "Canceled", "Council"]
     # end: auto-generated types

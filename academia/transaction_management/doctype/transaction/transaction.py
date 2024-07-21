@@ -8,6 +8,7 @@ import os
 import frappe  # type: ignore
 from frappe.model.document import Document  # type: ignore
 import json
+from datetime import datetime
 
 from ..hijri_converter import convert_to_hijri
 
@@ -31,6 +32,7 @@ class Transaction(Document):
         category: DF.Link | None
         circular: DF.Check
         company: DF.Link | None
+        complete_time: DF.Datetime | None
         created_by: DF.Data | None
         department: DF.Link | None
         designation: DF.Link | None
@@ -60,13 +62,19 @@ class Transaction(Document):
         sub_category: DF.Link | None
         sub_external_entity_from: DF.Link | None
         sub_external_entity_to: DF.Link | None
+        submit_time: DF.Datetime | None
         through_route: DF.Check
         title: DF.Data | None
         transaction_description: DF.TextEditor | None
         transaction_scan: DF.Attach | None
         transaction_scope: DF.Literal["In Company", "Among Companies", "With External Entity"]
-        type: DF.Literal["Outgoing", "Incoming"]
+        type: DF.Literal["", "Outgoing", "Incoming"]
     # end: auto-generated types
+
+    def before_submit(self):
+        # Save the current time as the last submitted time
+        self.submit_time = datetime.now()
+
 
 
     
@@ -83,6 +91,7 @@ class Transaction(Document):
                 signatory_field.official = emp.get("official")
                 signatory_field.signatory_name = emp.get("name"),
                 signatory_field.signatory_designation = emp.get("designation")
+
 
     def on_submit(self):
         if self.start_with:
@@ -403,6 +412,7 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
                 transaction_doc.step = next_step
             else:
                 transaction_doc.status = "Completed"
+                transaction_doc.complete_time = datetime.now()
 
             transaction_doc.save()
         permissions = {"read": 1, "write": 0, "share": 0, "submit": 0}

@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class TransactionSettings(Document):
+class TransactionCompanyHead(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -14,9 +14,8 @@ class TransactionSettings(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		company: DF.Link | None
-		completion_duration: DF.Duration | None
-		department: DF.Link | None
-		duration: DF.Duration | None
+		company: DF.Link
+		head_employee: DF.Link
+		head_name: DF.Data | None
 	# end: auto-generated types
 	pass

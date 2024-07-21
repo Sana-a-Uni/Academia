@@ -653,7 +653,7 @@ function add_redirect_action(frm) {
 }
 
 function add_council_action(frm) {
-  cur_frm.page.add_action_item(__('Council'), function() {
+  cur_frm.page.add_action_item(__('Create Topic'), function() {
   });
 }
 
@@ -789,6 +789,19 @@ function get_default_template(frm){
 }
 
 function update_must_include(frm) {
+  if(frm.doc.transaction_scope === 'With External Entity'){//and outgoing
+    frm.clear_table("recipients");
+    frm.refresh_field("recipients");
+    // frappe.call({
+    //   method: "academia.transaction_management.doctype.transaction.transaction.get_all_in_company",
+    //   args: {
+    //     employee_name: frm.doc.start_with
+    //   },
+    //   callback: function(response) {
+    //     mustInclude = response.message;
+    //   }
+    // });
+  }
   if(frm.doc.start_with)
   {frappe.msgprint("start with filled")
     frm.clear_table("recipients");
