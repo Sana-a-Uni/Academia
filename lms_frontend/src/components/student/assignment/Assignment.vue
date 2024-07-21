@@ -94,6 +94,12 @@
 								<td>{{ criterion.assessment_criteria }}</td>
 								<td>{{ criterion.maximum_grade }}</td>
 							</tr>
+							<tr>
+								<td><strong>Total Grades</strong></td>
+								<td>
+									<strong>{{ assignmentDetails.total_grades }}</strong>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
