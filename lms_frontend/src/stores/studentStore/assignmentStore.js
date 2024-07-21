@@ -8,6 +8,7 @@ export const useAssignmentStore = defineStore("assignment", {
 		loading: false,
 		error: null,
 		previousSubmission: null,
+		previousSubmissionFiles: [], // أضفنا هذه الحالة لتخزين ملفات التقديم السابقة
 	}),
 	actions: {
 		async fetchAssignments(courseName, studentId) {
@@ -64,6 +65,7 @@ export const useAssignmentStore = defineStore("assignment", {
 					}
 				);
 				this.previousSubmission = response.data.previous_submission;
+				this.previousSubmissionFiles = response.data.files; // تخزين الملفات المسترجعة في الحالة
 			} catch (error) {
 				console.error("Error fetching previous submission:", error);
 				this.error = "Error fetching previous submission.";
