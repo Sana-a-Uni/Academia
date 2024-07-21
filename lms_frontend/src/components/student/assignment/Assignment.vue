@@ -195,7 +195,8 @@ const handleSubmit = async (isFinalSubmission) => {
 		student: "EDU-STU-2024-00003", // Replace with actual student ID
 		assignment: "ecff4b55c2",
 		answer: quillEditor.value.querySelector(".ql-editor").innerHTML,
-		attachment: null, // Convert file to base64 if necessary
+		attachment: null, // Initialize as null
+		attachment_name: null, // Initialize as null
 		comment: commentEditor.value.querySelector(".ql-editor").innerHTML,
 		submit: isFinalSubmission,
 	};
@@ -204,7 +205,8 @@ const handleSubmit = async (isFinalSubmission) => {
 		const file = uploadedFiles.value[0];
 		const reader = new FileReader();
 		reader.onloadend = async () => {
-			data.attachment = reader.result.split(",")[1];
+			data.attachment = reader.result.split(",")[1]; // Set the attachment as base64 string
+			data.attachment_name = file.name; // Set the original file name with extension
 			await props.onSubmit(data);
 		};
 		reader.readAsDataURL(file);
