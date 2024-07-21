@@ -300,6 +300,7 @@ frappe.ui.form.on('Transaction', {
   },
 
   through_route: function(frm){
+    frappe.msgprint("aaa")
     update_must_include(frm)
     if(frm.doc.through_route)
     {
@@ -789,11 +790,12 @@ function get_default_template(frm){
 
 function update_must_include(frm) {
   if(frm.doc.start_with)
-  {
+  {frappe.msgprint("start with filled")
     frm.clear_table("recipients");
     frm.refresh_field("recipients");
 
     if(frm.doc.through_route){
+      frappe.msgprint("call...")
       frappe.call({
         method: "academia.transaction_management.doctype.transaction.transaction.get_reports_hierarchy",
         args: {
@@ -801,6 +803,9 @@ function update_must_include(frm) {
         },
         callback: function(response) {
           mustInclude = response.message;
+          frappe.msgprint("Response...")
+
+          frappe.msgprint("must"+mustInclude)
         }
       });
     }
@@ -812,6 +817,7 @@ function update_must_include(frm) {
           },
           callback: function(response) {
               mustInclude = response.message;
+              frappe.msgprint(mustInclude)
           }
         }); 
       }
