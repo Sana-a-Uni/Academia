@@ -1,50 +1,100 @@
 import frappe
 from datetime import datetime, timedelta
 
+
+
+def format_timedelta(td):
+    """Helper function to format a timedelta object into a string"""
+    days, remainder = divmod(td.total_seconds(), 86400)
+    hours, remainder = divmod(remainder, 3600)
+    minutes, seconds = divmod(remainder, 60)
+    return f"{int(days)}d {int(hours)}h {int(minutes)}m {int(seconds)}s"
+
+
 def execute(filters=None):
     columns = [
-        "Transaction", "Recipient", "Company", "Department", "Duration Exceeded", "Time Difference (Minutes)"
+        "Transaction", "Company", "Department","Start Time", "Is Complete", "Expected Time", "Real Difference"
     ]
 
     data = []
 
-    # Fetch all relevant data
-    transactions = frappe.db.get_all("Transaction", fields=["name", "start_with", "start_with_company", "start_with_department"])
-    redirected_actions = frappe.db.get_all("Transaction Action", filters={"type": "Redirected"}, fields=["transaction", "type", "owner", "from_company", "from_department", "creation"])
-    actions = frappe.db.get_all("Transaction Action", fields=["transaction", "type", "owner", "from_company", "from_department", "creation"])
-    settings = frappe.db.get_all("Transaction Settings", fields=["company", "department", "duration"])
+    my_filters = {}
+    my_filters["circular"] = 0
+    my_filters["docstatus"] = 1
+    
+    if filters.filter_company:
+        my_filters["start_with_company"] = filters.filter_company
+    if filters.filter_department:
+        my_filters["start_with_department"] = filters.filter_department
 
-    # Create a mapping of settings
-    settings_map = {(s.company, s.department): s.duration for s in settings}
+    # Fetch all relevant data
+    transactions = frappe.db.get_all(
+        "Transaction",
+        filters=my_filters, 
+        fields=["name", "start_with", "start_with_company", "start_with_department", "creation", "submit_time", "complete_time"],
+        order_by="creation",
+    )
 
     for transaction in transactions:
-        # Fetch all actions for the current transaction
-        transaction_actions = [a for a in actions if a.transaction == transaction.name]
+        
+        if transaction.start_with_company and transaction.start_with_department:
+            try:
+                setting = frappe.get_doc(
+                    "Transaction Settings", 
+                    {"company": transaction.start_with_company, "department": transaction.start_with_department}
+                )
+                if setting:
+                    completion_duration = setting.completion_duration
+                    completion_timedelta = timedelta(seconds=float(completion_duration))
+                
+                    submit_time= transaction.submit_time
 
-        # Group actions by recipient
-        action_groups = {}
-        for action in transaction_actions:
-            if action.owner not in action_groups:
-                action_groups[action.created_by] = []
-            action_groups[action.created_by].append(action)
+                    if transaction.complete_time:
+                        transaction_complete_time = transaction.complete_time
 
-        # Process each group of actions per recipient
-        for recipient, recipient_actions in action_groups.items():
-            if recipient_actions:
-                first_action = recipient_actions[0]
-                subsequent_actions = recipient_actions[1:]
-                for subsequent_action in subsequent_actions:
-                    duration = settings_map.get((transaction.start_with_company, transaction.start_with_department), 0)
-                    time_diff = subsequent_action.creation - first_action.creation
-                    time_diff_minutes = int(time_diff.total_seconds() // 60)
-                    duration_exceeded = time_diff > timedelta(seconds=duration)
-                    data.append([
-                        transaction.name,
-                        recipient,
-                        transaction.start_with_company,
-                        transaction.start_with_department,
-                        "Yes" if duration_exceeded else "No",
-                        time_diff_minutes
-                    ])
+                        difference_time = transaction_complete_time - submit_time 
+
+                        if difference_time > completion_timedelta:
+                            duration_exceeded = difference_time - completion_timedelta
+                            expected_time = format_timedelta(completion_timedelta)
+                            real_time = format_timedelta(difference_time)
+
+                            data.append([
+                                transaction.name,
+                                transaction.start_with_company,
+                                transaction.start_with_department,
+                                transaction.submit_time.strftime("%d/%m/%y (%H:%M)"),
+                                "Yes",
+                                expected_time,
+                                real_time,
+                            ])
+                    
+                    else:
+                        time_now = datetime.now()
+                        difference_time = time_now - submit_time
+
+                        if difference_time > completion_timedelta:
+                            duration_exceeded = difference_time - completion_timedelta
+                            expected_time = format_timedelta(completion_timedelta)
+                            real_time = format_timedelta(difference_time)
+
+                            data.append([
+                                transaction.name,
+                                transaction.start_with_company,
+                                transaction.start_with_department,
+                                transaction.submit_time.strftime("%d/%m/%y (%H:%M)"),
+                                "No",
+                                expected_time,
+                                real_time,
+                            ])
+                else:
+                    continue
+
+            except frappe.DoesNotExistError:
+                # Handle the case where the Transaction Settings document is not found
+                continue
+
+        else:
+            continue
 
     return columns, data

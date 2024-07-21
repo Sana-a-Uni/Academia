@@ -9,7 +9,6 @@ frappe.query_reports["Type of Transaction"] = {
             "fieldtype": "Link",
             "options": "Company",
 			"reqd": 1,
-			// "default": get_default_company()
         },
 		{
 			"fieldname": "filter_department",

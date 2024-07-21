@@ -19,6 +19,7 @@ class ExternalEntity(Document):
 		designation: DF.Table[ExternalEntityDesignation]
 		external_entity: DF.Data | None
 		is_group: DF.Check
+		logo: DF.AttachImage | None
 		parent_external_entity: DF.Link | None
 	# end: auto-generated types
 	pass

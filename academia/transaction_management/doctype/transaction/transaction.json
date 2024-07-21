@@ -20,6 +20,8 @@
   "priority",
   "column_break_ktxa",
   "status",
+  "submit_time",
+  "complete_time",
   "transaction_scan",
   "reference_number",
   "title",
@@ -265,10 +267,11 @@
    "label": "From"
   },
   {
-   "depends_on": "eval: !(doc.transaction_scope==\"With External Entity\"&&doc.type==\"Incoming\");",
    "fieldname": "start_with",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Start From",
+   "mandatory_depends_on": "eval: doc.sub_category",
    "options": "Employee"
   },
   {
@@ -444,12 +447,25 @@
    "fieldtype": "Data",
    "label": "Employee Name",
    "read_only": 1
+  },
+  {
+   "fieldname": "submit_time",
+   "fieldtype": "Datetime",
+   "hidden": 1,
+   "label": "Submit Time"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "complete_time",
+   "fieldtype": "Datetime",
+   "hidden": 1,
+   "label": "Complete Time"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-20 17:02:28.319060",
+ "modified": "2024-07-21 14:51:58.347406",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
@@ -502,6 +518,7 @@
    "amend": 1,
    "cancel": 1,
    "if_owner": 1,
+   "read": 1,
    "role": "Transaction Manager",
    "submit": 1,
    "write": 1

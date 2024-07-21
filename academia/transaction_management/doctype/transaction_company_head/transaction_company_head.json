@@ -1,51 +1,45 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:TRA-SET-{MM}-{YY}- {####}",
- "creation": "2024-07-19 18:42:20.689990",
+ "creation": "2024-07-21 15:02:43.468915",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "company",
-  "department",
-  "duration",
-  "completion_duration"
+  "head_employee",
+  "head_name"
  ],
  "fields": [
   {
    "fieldname": "company",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Company",
-   "options": "Company"
-  },
-  {
-   "fieldname": "department",
-   "fieldtype": "Link",
-   "in_global_search": 1,
-   "label": "Department",
-   "options": "Department",
+   "options": "Company",
+   "reqd": 1,
    "unique": 1
   },
   {
-   "fieldname": "duration",
-   "fieldtype": "Duration",
-   "hide_seconds": 1,
-   "label": "Duration"
+   "fieldname": "head_employee",
+   "fieldtype": "Link",
+   "label": "Head Employee",
+   "options": "Employee",
+   "reqd": 1,
+   "unique": 1
   },
   {
-   "fieldname": "completion_duration",
-   "fieldtype": "Duration",
-   "hide_seconds": 1,
-   "label": "Completion Duration"
+   "fetch_from": "head_employee.employee_name",
+   "fieldname": "head_name",
+   "fieldtype": "Data",
+   "label": "Head Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-21 08:14:06.942032",
+ "modified": "2024-07-21 15:06:19.439096",
  "modified_by": "Administrator",
  "module": "Transaction Management",
- "name": "Transaction Settings",
- "naming_rule": "Expression",
+ "name": "Transaction Company Head",
  "owner": "Administrator",
  "permissions": [
   {

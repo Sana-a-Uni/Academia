@@ -16,6 +16,7 @@
   "from_company",
   "from_department",
   "from_designation",
+  "topic_status",
   "recipient_settings_section",
   "get_recipients",
   "clear_recipients",
@@ -105,6 +106,7 @@
    "fieldname": "recipients",
    "fieldtype": "Table",
    "label": "Recipients",
+   "mandatory_depends_on": "eval: doc.type == \"Redirected\"",
    "options": "Transaction Recipients"
   },
   {
@@ -130,12 +132,17 @@
    "fieldname": "auto_redirect",
    "fieldtype": "Int",
    "label": "Auto Redirect"
+  },
+  {
+   "fieldname": "topic_status",
+   "fieldtype": "Data",
+   "label": "Topic Status"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-18 20:39:44.389321",
+ "modified": "2024-07-21 15:39:52.930817",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Action",
