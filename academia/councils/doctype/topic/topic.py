@@ -135,7 +135,6 @@ class Topic(Document):
 			filters={"parent_topic": self.name},
 			fields=["name", "council", "is_group"],
 		)
-
 		for topic in grouped_topics:
 			if topic.council != self.council:
 				frappe.throw(
@@ -318,14 +317,19 @@ def create_topic_from_transaction(transaction_name, transaction_action, target_d
 	mappings = {
 		"Transaction": {
 			"doctype": "Topic",
-			"field_map": {"category": "category", "title": "title", "description": "description"},
+			"field_map": {
+				"category": "category",
+				"sub_category": "sub_category",
+				"title": "title",
+				"description": "description",
+			},
 			"postprocess": set_additional_values,
 		},
 		"Transaction Attachments": {
 			"doctype": "Topic Attachment",
 			"field_map": {
-				"title": "lable",
-				"attachment": "file",
+				"lable": "title",
+				"file": "attachment",
 			},
 		},
 		"Transaction Applicant": {
