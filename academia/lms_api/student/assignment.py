@@ -93,7 +93,6 @@ def get_assignment(assignment_name: str="47dfd90592"):
         return frappe.response["message"]
 
 
-
 @frappe.whitelist(allow_guest=True)
 def create_assignment_submission():
     data = json.loads(frappe.request.data)
@@ -102,6 +101,8 @@ def create_assignment_submission():
     assignment = data.get('assignment')
     answer = data.get('answer')
     comment = data.get('comment')
+    attachment = data.get('attachment')  # Base64 encoded file content
+    attachment_name = data.get('attachment_name')  # Original file name
     submit = data.get('submit')  # Boolean indicating if the submission is final
 
     if not student or not assignment or not answer:
@@ -120,6 +121,18 @@ def create_assignment_submission():
         submission_doc.comment = comment
         submission_doc.submission_date = submission_date
 
+        if attachment and attachment_name:
+            file_doc = frappe.get_doc({
+                "doctype": "File",
+                "file_name": attachment_name,
+                "attached_to_doctype": "Assignment Submission",
+                "attached_to_name": submission_doc.name,
+                "content": attachment,
+                "decode": True
+            })
+            file_doc.insert()
+            submission_doc.attachment = file_doc.file_url
+
         if submit and submission_doc.docstatus == 0:
             submission_doc.submit()
         else:
@@ -136,6 +149,18 @@ def create_assignment_submission():
         })
 
         submission_doc.insert()
+
+        if attachment and attachment_name:
+            file_doc = frappe.get_doc({
+                "doctype": "File",
+                "file_name": attachment_name,
+                "attached_to_doctype": "Assignment Submission",
+                "attached_to_name": submission_doc.name,
+                "content": attachment,
+                "decode": True
+            })
+            file_doc.insert()
+            submission_doc.attachment = file_doc.file_url
 
         if submit:
             submission_doc.submit()
