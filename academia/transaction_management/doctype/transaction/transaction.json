@@ -12,6 +12,7 @@
   "type",
   "reference_transaction",
   "start_date",
+  "hijri_date",
   "private",
   "through_route",
   "full_electronic",
@@ -431,7 +432,8 @@
    "fieldname": "signatories",
    "fieldtype": "Table",
    "label": "Signatures",
-   "options": "Transaction Signatories"
+   "options": "Transaction Signatories",
+   "read_only": 1
   },
   {
    "depends_on": "eval: doc.transaction_scope==\"With External Entity\"&&doc.type==\"Outgoing\";",
@@ -449,6 +451,7 @@
    "read_only": 1
   },
   {
+
    "fieldname": "submit_time",
    "fieldtype": "Datetime",
    "hidden": 1,
@@ -460,12 +463,22 @@
    "fieldtype": "Datetime",
    "hidden": 1,
    "label": "Complete Time"
+  },
+  {
+   "depends_on": "eval:!doc.__islocal",
+   "fieldname": "hijri_date",
+   "fieldtype": "Data",
+   "label": "Hijri Date",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
+
  "modified": "2024-07-21 14:51:58.347406",
+
+ 
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

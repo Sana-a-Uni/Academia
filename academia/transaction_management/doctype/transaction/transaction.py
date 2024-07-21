@@ -10,6 +10,8 @@ from frappe.model.document import Document  # type: ignore
 import json
 from datetime import datetime
 
+from ..hijri_converter import convert_to_hijri
+
 
 class Transaction(Document):
     # begin: auto-generated types
@@ -37,6 +39,7 @@ class Transaction(Document):
         external_entity_designation_from: DF.Link | None
         external_entity_designation_to: DF.Link | None
         full_electronic: DF.Check
+        hijri_date: DF.Data | None
         main_external_entity_from: DF.Link | None
         main_external_entity_to: DF.Link | None
         print_official_paper: DF.Check
@@ -67,9 +70,28 @@ class Transaction(Document):
         transaction_scope: DF.Literal["In Company", "Among Companies", "With External Entity"]
         type: DF.Literal["", "Outgoing", "Incoming"]
     # end: auto-generated types
+
     def before_submit(self):
         # Save the current time as the last submitted time
         self.submit_time = datetime.now()
+
+
+
+    
+    def validate(self):
+        self.hijri_date=convert_to_hijri(self.start_date)
+         # signatories
+        signatories_employee = get_signatories(self)
+
+
+        if len(signatories_employee) > 0:
+            for emp in signatories_employee:
+                
+                signatory_field = self.append("signatories", {})
+                signatory_field.official = emp.get("official")
+                signatory_field.signatory_name = emp.get("name"),
+                signatory_field.signatory_designation = emp.get("designation")
+
 
     def on_submit(self):
         if self.start_with:
@@ -117,17 +139,7 @@ class Transaction(Document):
                         share=1,
                         submit=1,
                     )
-        # signatories
-        signatories_employee = get_signatories(self)
-
-
-        if len(signatories_employee) > 0:
-            for emp in signatories_employee:
-                
-                signatory_field = self.append("signatories", {})
-                signatory_field.official = emp.get("official")
-                signatory_field.signatory_name = emp.get("name"),
-                signatory_field.signatory_designation = emp.get("designation")
+       
 
         frappe.db.commit()
 
@@ -168,6 +180,7 @@ def get_signatories(doc):
             "designation": start_with.designation,
             "official": True
         })
+        frappe.msgprint(signatories_employee[0]["name"])
 
         if doc.through_route:
             reports_to_list = get_reports_hierarchy_emp(doc.start_with)
