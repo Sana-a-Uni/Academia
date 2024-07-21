@@ -71,6 +71,17 @@ frappe.ui.form.on('Student Group Tool', {
             } else {
                 return {};
             }
+        }),
+		frm.set_query('student_group', function() {
+            if (frm.doc.student_batch) {
+                return {
+                    filters: {
+                        'batch': frm.doc.student_batch
+                    }
+                };
+            } else {
+                return {};
+            }
         });
     },
     faculty: function(frm) {
