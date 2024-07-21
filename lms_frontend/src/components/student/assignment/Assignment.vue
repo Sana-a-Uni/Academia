@@ -8,71 +8,97 @@
 					<h4 class="file-name">Time Remaining {{ countdownTime }}</h4>
 				</div>
 			</div>
+			<h4>Assignment Instructions</h4>
+			<div class="indented-content">
+				<p>
+					End time: All attempts must be completed before
+					{{ formattedEndTime }}
+				</p>
+				<p>Notes: {{ assignmentDetails.instruction }}</p>
+			</div>
 
-			<label for="assignmentTitle">Assignment content:</label>
-			<div class="assignment-content">{{ assignmentDetails.question }}</div>
-			<div class="assignment-file">
-				<label for="assignmentDescription">Assignment File:</label>
-				<label
-					v-for="file in assignmentDetails.attached_files"
-					:key="file.file_url"
-					class="file-name"
-				>
-					<a :href="getFullFileUrl(file.file_url)" target="_blank">{{
-						file.file_name
-					}}</a>
-				</label>
+			<h4>Assignment Content</h4>
+			<div class="indented-content">
+				<div class="assignment-content">{{ assignmentDetails.question }}</div>
 			</div>
-			<label for="assignmentDescription">Assignment Materials:</label>
-			<div ref="quillEditor" class="quill-editor"></div>
-			<label for="attachFiles">Attach Files:</label>
-			<input
-				class="uploadFiles"
-				type="file"
-				id="attachFiles"
-				@change="handleFileUpload"
-				multiple
-			/>
-			<div v-if="uploadedFiles.length" class="file-list">
-				<table>
-					<thead>
-						<tr>
-							<th style="width: 80%">File Name</th>
-							<th>Delete</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="(file, index) in uploadedFiles" :key="index">
-							<td>{{ file.name }}</td>
-							<td style="text-align: center">
-								<i class="mdi mdi-delete" @click="removeFile(index)"></i>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+
+			<h4>Assignment File</h4>
+			<div class="indented-content">
+				<div class="assignment-file">
+					<label
+						v-for="file in assignmentDetails.attached_files"
+						:key="file.file_url"
+						class="file-name"
+					>
+						<a :href="getFullFileUrl(file.file_url)" target="_blank">{{
+							file.file_name
+						}}</a>
+					</label>
+				</div>
 			</div>
-			<label for="assignmentDescription">Comment:</label>
-			<div ref="commentEditor" class="quill-editor-comment"></div>
-			<label for="assignmentDescription">Assessment Criteria:</label>
-			<div class="assessment-list">
-				<table style="width: 100%">
-					<thead>
-						<tr>
-							<th>Assessment Criterion</th>
-							<th>Grade</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr
-							v-for="(criterion, index) in assignmentDetails.assessment_criteria"
-							:key="index"
-						>
-							<td>{{ criterion.assessment_criteria }}</td>
-							<td>{{ criterion.maximum_grade }}</td>
-						</tr>
-					</tbody>
-				</table>
+
+			<h4>Assignment Materials</h4>
+			<div class="indented-content">
+				<div ref="quillEditor" class="quill-editor"></div>
 			</div>
+
+			<h4>Attach Files</h4>
+			<div class="indented-content">
+				<input
+					class="uploadFiles"
+					type="file"
+					id="attachFiles"
+					@change="handleFileUpload"
+					multiple
+				/>
+				<div v-if="uploadedFiles.length" class="file-list">
+					<table>
+						<thead>
+							<tr>
+								<th style="width: 80%">File Name</th>
+								<th>Delete</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="(file, index) in uploadedFiles" :key="index">
+								<td>{{ file.name }}</td>
+								<td style="text-align: center">
+									<i class="mdi mdi-delete" @click="removeFile(index)"></i>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<h4>Comment</h4>
+			<div class="indented-content">
+				<div ref="commentEditor" class="quill-editor-comment"></div>
+			</div>
+
+			<h4>Assessment Criteria</h4>
+			<div class="indented-content">
+				<div class="assessment-list">
+					<table style="width: 100%">
+						<thead>
+							<tr>
+								<th>Assessment Criterion</th>
+								<th>Grade</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr
+								v-for="(criterion, index) in assignmentDetails.assessment_criteria"
+								:key="index"
+							>
+								<td>{{ criterion.assessment_criteria }}</td>
+								<td>{{ criterion.maximum_grade }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
 			<div class="button-group">
 				<button type="button" @click="cancelAssignment">Cancel</button>
 				<button type="button" @click="handleSubmit(false)">Save As Draft</button>
@@ -218,6 +244,14 @@ const countdownTime = computed(() => {
 		.padStart(2, "0")}`;
 });
 
+const formattedEndTime = computed(() => {
+	if (props.assignmentDetails && props.assignmentDetails.to_date) {
+		const toDate = new Date(props.assignmentDetails.to_date);
+		return toDate.toISOString().slice(0, 19).replace("T", " ");
+	}
+	return "";
+});
+
 const updateTimeRemaining = () => {
 	if (props.assignmentDetails && props.assignmentDetails.to_date) {
 		const toDate = new Date(props.assignmentDetails.to_date);
@@ -272,10 +306,12 @@ body {
 .content-time {
 	display: flex;
 	justify-content: space-between;
+	align-items: center; /* Center items vertically */
 }
 
 .clock-time {
 	display: flex;
+	align-items: center; /* Center items vertically */
 }
 
 .file-name {
@@ -287,6 +323,11 @@ h1 {
 	text-align: center;
 	margin-bottom: 20px;
 	font-size: 24px;
+}
+
+h4 {
+	margin-bottom: 10px;
+	margin-top: 20px;
 }
 
 label {
@@ -450,6 +491,10 @@ button[type="button"]:hover {
 
 .file-list td button:hover {
 	background-color: #dc3545;
+}
+
+.indented-content {
+	padding-left: 20px;
 }
 
 @media (max-width: 600px) {
