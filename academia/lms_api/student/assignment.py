@@ -171,11 +171,17 @@ def create_assignment_submission():
     frappe.response["message"] = "Assignment saved successfully" if not submit else "Assignment submitted successfully"
     frappe.response["assignment_submission_id"] = submission_doc.name
 
+
 @frappe.whitelist(allow_guest=True)
 def get_assignment_and_submission_details(assignment="ecff4b55c2", student="EDU-STU-2024-00003"):
-    submissions = frappe.get_all('Assignment Submission', filters={'assignment': assignment, 'student': student}, fields=['name', 'answer', 'comment', 'submission_date'], order_by='submission_date desc')
+    submissions = frappe.get_all('Assignment Submission', filters={'assignment': assignment, 'student': student}, fields=['name', 'answer', 'comment', 'submission_date', 'attachment'], order_by='submission_date desc')
     previous_submission = submissions[0] if submissions else None
     
+    files = []
+    if previous_submission:
+        files = frappe.get_all('File', filters={'attached_to_doctype': 'Assignment Submission', 'attached_to_name': previous_submission['name']}, fields=['file_url', 'file_name'], order_by='creation desc')
+
     frappe.response["status_code"] = 200
     frappe.response["previous_submission"] = previous_submission
-  
+    frappe.response["files"] = files
+
