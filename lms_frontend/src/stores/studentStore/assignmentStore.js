@@ -7,6 +7,7 @@ export const useAssignmentStore = defineStore("assignment", {
 		assignmentDetails: null,
 		loading: false,
 		error: null,
+		previousSubmission: null,
 	}),
 	actions: {
 		async fetchAssignments(courseName, studentId) {
@@ -49,9 +50,30 @@ export const useAssignmentStore = defineStore("assignment", {
 				this.loading = false;
 			}
 		},
+		async fetchPreviousSubmission(assignmentName, studentId) {
+			this.loading = true;
+			this.error = null;
+			try {
+				const response = await axios.get(
+					`http://localhost:8080/api/method/academia.lms_api.student.assignment.get_assignment_and_submission_details`,
+					{
+						params: {
+							assignment: assignmentName,
+							student: studentId,
+						},
+					}
+				);
+				this.previousSubmission = response.data.previous_submission;
+			} catch (error) {
+				console.error("Error fetching previous submission:", error);
+				this.error = "Error fetching previous submission.";
+			} finally {
+				this.loading = false;
+			}
+		},
 		async submitAssignment(data) {
 			try {
-				console.log("Submitting data:", data); // Debugging line
+				console.log("Submitting data:", data);
 				const response = await axios.post(
 					"http://localhost:8080/api/method/academia.lms_api.student.assignment.create_assignment_submission",
 					data,
@@ -64,11 +86,17 @@ export const useAssignmentStore = defineStore("assignment", {
 				);
 				return response.data;
 			} catch (error) {
-				console.error("Submission error:", error.response.data); // Debugging line
-				throw new Error(
+				console.error("Submission error:", error.response.data);
+				let errorMessage =
 					error.response.data.message ||
-						"An error occurred while submitting the assignment."
-				);
+					"An error occurred while submitting the assignment.";
+
+				if (error.response.data.exception.includes("UpdateAfterSubmitError")) {
+					errorMessage =
+						"Cannot update a submitted assignment. Please create a new submission.";
+				}
+
+				throw new Error(errorMessage);
 			}
 		},
 	},
