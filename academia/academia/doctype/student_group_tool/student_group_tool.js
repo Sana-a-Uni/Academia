@@ -111,6 +111,20 @@ frappe.ui.form.on('Student Group Tool', {
                 return {};
             }
         });
+    },
+	student_batch: function(frm) {
+		frm.set_value('student_group', null);
+		frm.set_query('student_group', function() {
+            if (frm.doc.student_batch) {
+                return {
+                    filters: {
+                        'batch': frm.doc.student_batch
+                    }
+                };
+            } else {
+                return {};
+            }
+        });
     }
 });
 
