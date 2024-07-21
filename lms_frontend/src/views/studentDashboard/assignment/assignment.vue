@@ -3,16 +3,16 @@
 		<LoadingSpinner v-if="assignmentStore.loading" />
 		<div v-else-if="assignmentStore.error">{{ assignmentStore.error }}</div>
 		<Assignment
-			v-else-if="assignmentDetails"
+			v-else
 			:assignmentDetails="assignmentDetails"
-			:onSubmit="submitAssignment"
+			:previousSubmission="previousSubmission"
+			@submit="submitAssignment"
 		/>
-		<div v-else>Loading...</div>
 	</main-layout>
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { useRoute } from "vue-router";
 import { useAssignmentStore } from "@/stores/studentStore/assignmentStore";
 import Assignment from "@/components/student/assignment/Assignment.vue";
@@ -22,8 +22,10 @@ import LoadingSpinner from "@/components/LoadingSpinner.vue";
 const route = useRoute();
 const assignmentStore = useAssignmentStore();
 const assignmentName = ref(route.params.assignmentName || "ecff4b55c2");
+const studentId = ref("EDU-STU-2024-00003"); // استبدل هذا بمعرف الطالب الفعلي
 
-const assignmentDetails = ref(null);
+const assignmentDetails = computed(() => assignmentStore.assignmentDetails);
+const previousSubmission = computed(() => assignmentStore.previousSubmission);
 
 const submitAssignment = async (data) => {
 	try {
@@ -37,9 +39,9 @@ const submitAssignment = async (data) => {
 onMounted(async () => {
 	try {
 		await assignmentStore.fetchAssignmentDetails(assignmentName.value);
-		assignmentDetails.value = assignmentStore.assignmentDetails;
+		await assignmentStore.fetchPreviousSubmission(assignmentName.value, studentId.value);
 	} catch (error) {
-		console.error("Error fetching assignment details:", error);
+		console.error("Error fetching assignment details or previous submission:", error);
 	}
 });
 </script>

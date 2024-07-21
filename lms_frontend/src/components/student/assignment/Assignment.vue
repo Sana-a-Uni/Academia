@@ -2,7 +2,7 @@
 	<div class="container" v-if="assignmentDetails">
 		<form @submit.prevent="handleSubmit(true)">
 			<div class="content-time">
-				<h3>{{ assignmentDetails.title }}</h3>
+				<h3>{{ assignmentDetails.assignment_title }}</h3>
 				<div class="clock-time">
 					<i style="margin-top: 21px; color: #0584ae" class="mdi mdi-clock"></i>
 					<h4 class="file-name">Time Remaining 1:00:26</h4>
@@ -85,13 +85,18 @@
 <script setup>
 import { ref, onMounted, nextTick } from "vue";
 import Quill from "quill";
-import { defineProps } from "vue";
+import { defineProps, watch } from "vue";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
 const props = defineProps({
 	assignmentDetails: {
 		type: Object,
 		required: true,
+		default: () => ({}),
+	},
+	previousSubmission: {
+		type: Object,
+		default: null,
 	},
 	onSubmit: {
 		type: Function,
@@ -101,7 +106,6 @@ const props = defineProps({
 
 const quillEditor = ref(null);
 const commentEditor = ref(null);
-
 const uploadedFiles = ref([]);
 
 const editorOptions = {
@@ -117,21 +121,38 @@ const editorOptions = {
 	},
 };
 
-onMounted(() => {
-	nextTick(() => {
+const initializeQuillEditors = () => {
+	if (quillEditor.value && commentEditor.value) {
 		const assignmentEditor = new Quill(quillEditor.value, editorOptions);
-		assignmentEditor.root.innerHTML = props.assignmentDetails.answer || ""; // Load existing data
+		assignmentEditor.root.innerHTML = props.previousSubmission
+			? props.previousSubmission.answer
+			: "";
 		assignmentEditor.on("text-change", () => {
 			props.assignmentDetails.answer = assignmentEditor.root.innerHTML;
 		});
 
 		const commentEditorInstance = new Quill(commentEditor.value, editorOptions);
-		commentEditorInstance.root.innerHTML = props.assignmentDetails.comment || ""; // Load existing data
+		commentEditorInstance.root.innerHTML = props.previousSubmission
+			? props.previousSubmission.comment
+			: "";
 		commentEditorInstance.on("text-change", () => {
 			props.assignmentDetails.comment = commentEditorInstance.root.innerHTML;
 		});
-	});
+	} else {
+		console.error("Quill containers are not available");
+	}
+};
+
+onMounted(() => {
+	nextTick(initializeQuillEditors);
 });
+
+watch(
+	() => props.assignmentDetails,
+	() => {
+		nextTick(initializeQuillEditors);
+	}
+);
 
 const handleSubmit = async (isFinalSubmission) => {
 	const data = {
@@ -142,8 +163,6 @@ const handleSubmit = async (isFinalSubmission) => {
 		comment: commentEditor.value.querySelector(".ql-editor").innerHTML,
 		submit: isFinalSubmission,
 	};
-
-	console.log("Data being submitted:", data);
 
 	if (uploadedFiles.value.length > 0) {
 		const file = uploadedFiles.value[0];
@@ -159,8 +178,10 @@ const handleSubmit = async (isFinalSubmission) => {
 };
 
 const cancelAssignment = () => {
-	quillEditor.value.querySelector(".ql-editor").innerHTML = "";
-	commentEditor.value.querySelector(".ql-editor").innerHTML = "";
+	if (quillEditor.value && commentEditor.value) {
+		quillEditor.value.querySelector(".ql-editor").innerHTML = "";
+		commentEditor.value.querySelector(".ql-editor").innerHTML = "";
+	}
 	uploadedFiles.value = [];
 };
 
