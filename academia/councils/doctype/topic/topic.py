@@ -52,6 +52,9 @@ class Topic(Document):
 			# For grouped topics without a specific topic
 			self.name = frappe.model.naming.make_autoname(f"CNCL-TPC-GRP-.YY.-.MM.-.{self.council}.-.###")
 
+	def on_change(self):
+		self.track_topic_status()
+
 	def on_submit(self):
 		if self.is_group:
 			self.submit_grouped_topics()
@@ -144,6 +147,16 @@ class Topic(Document):
 				)
 			if topic.is_group:
 				frappe.throw(_("Grouped topic {0} can not be of type group.").format(topic.name))
+
+	def track_topic_status(self):
+		if self.transaction_action:
+			previous_status = frappe.db.get_value(
+				"Transaction Action", self.transaction_action, "status_in_council"
+			)
+		if previous_status and self.status != previous_status:
+			frappe.db.set_value(
+				"Transaction Action", self.transaction_action, "status_in_council", self.status
+			)
 
 
 # @frappe.whitelist()
