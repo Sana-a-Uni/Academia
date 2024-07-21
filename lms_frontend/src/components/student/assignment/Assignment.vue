@@ -51,7 +51,10 @@
 					@change="handleFileUpload"
 					multiple
 				/>
-				<div v-if="uploadedFiles.length" class="file-list">
+				<div
+					v-if="previousSubmissionFiles.length || uploadedFiles.length"
+					class="file-list"
+				>
 					<table>
 						<thead>
 							<tr>
@@ -60,6 +63,22 @@
 							</tr>
 						</thead>
 						<tbody>
+							<tr
+								v-for="(file, index) in previousSubmissionFiles"
+								:key="file.file_url"
+							>
+								<td>
+									<a :href="getFullFileUrl(file.file_url)" target="_blank">{{
+										file.file_name
+									}}</a>
+								</td>
+								<td style="text-align: center">
+									<i
+										class="mdi mdi-delete"
+										@click="removePreviousFile(index)"
+									></i>
+								</td>
+							</tr>
 							<tr v-for="(file, index) in uploadedFiles" :key="index">
 								<td>{{ file.name }}</td>
 								<td style="text-align: center">
@@ -129,6 +148,10 @@ const props = defineProps({
 	previousSubmission: {
 		type: Object,
 		default: null,
+	},
+	previousSubmissionFiles: {
+		type: Array,
+		default: () => [],
 	},
 	onSubmit: {
 		type: Function,
@@ -208,6 +231,8 @@ const handleSubmit = async (isFinalSubmission) => {
 			data.attachment = reader.result.split(",")[1]; // Set the attachment as base64 string
 			data.attachment_name = file.name; // Set the original file name with extension
 			await props.onSubmit(data);
+			// Clear the uploaded files to prevent duplicate uploads
+			uploadedFiles.value = [];
 		};
 		reader.readAsDataURL(file);
 	} else {
@@ -226,12 +251,21 @@ const cancelAssignment = () => {
 const handleFileUpload = (event) => {
 	const files = event.target.files;
 	for (let i = 0; i < files.length; i++) {
-		uploadedFiles.value.push(files[i]);
+		// Prevent duplicate files by checking if the file already exists in uploadedFiles
+		if (
+			!uploadedFiles.value.some((f) => f.name === files[i].name && f.size === files[i].size)
+		) {
+			uploadedFiles.value.push(files[i]);
+		}
 	}
 };
 
 const removeFile = (index) => {
 	uploadedFiles.value.splice(index, 1);
+};
+
+const removePreviousFile = (index) => {
+	previousSubmissionFiles.value.splice(index, 1); // إزالة الملف من قائمة الملفات السابقة
 };
 
 const getFullFileUrl = (fileUrl) => {

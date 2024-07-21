@@ -6,6 +6,7 @@
 			v-else
 			:assignmentDetails="assignmentDetails"
 			:previousSubmission="previousSubmission"
+			:previousSubmissionFiles="previousSubmissionFiles"
 			@submit="submitAssignment"
 		/>
 	</main-layout>
@@ -26,6 +27,7 @@ const studentId = ref("EDU-STU-2024-00003"); // استبدل هذا بمعرف �
 
 const assignmentDetails = computed(() => assignmentStore.assignmentDetails);
 const previousSubmission = computed(() => assignmentStore.previousSubmission);
+const previousSubmissionFiles = computed(() => assignmentStore.previousSubmissionFiles);
 
 const submitAssignment = async (data) => {
 	try {
