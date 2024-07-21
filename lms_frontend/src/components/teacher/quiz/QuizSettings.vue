@@ -2,7 +2,12 @@
 	<div class="container">
 		<h1>Quiz Settings</h1>
 		<form @submit.prevent="saveSettings">
+			<!-- Availability Section -->
 			<div class="form-section">
+				<div class="section-header">
+					<h3 class="section-title">Quiz Configuration</h3>
+					<hr class="section-divider" />
+				</div>
 				<div class="section-header">
 					<input
 						id="availability-check"
@@ -35,6 +40,7 @@
 				</div>
 			</div>
 
+			<!-- Time Bound Section -->
 			<div class="form-section">
 				<div class="section-header">
 					<input
@@ -62,6 +68,7 @@
 				</div>
 			</div>
 
+			<!-- Multiple Attempts Section -->
 			<div class="form-section">
 				<div class="section-header">
 					<input
@@ -118,7 +125,64 @@
 				</div>
 			</div>
 
+			<!-- Results Display Settings Section -->
 			<div class="form-section">
+				<div class="section-header">
+					<h3 class="section-title">Results Display Settings</h3>
+					<hr class="section-divider" />
+				</div>
+				<div class="results-display-options">
+					<div class="option">
+						<div class="section-header">
+							<input
+								id="show-question-score"
+								type="checkbox"
+								v-model="quizStore.quizData.show_question_score"
+								class="checkbox-inline"
+							/>
+							<label for="show-question-score" class="label-inline">Show Question Scores</label>
+						</div>
+					</div>
+					<div class="option">
+						<div class="section-header">
+							<input
+								id="show-correct-answer"
+								type="checkbox"
+								v-model="quizStore.quizData.show_correct_answer"
+								class="checkbox-inline"
+								style="margin-left: 20px"
+							/>
+							<label for="show-correct-answer" class="label-inline">Show Correct Answers</label>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Randomize Questions Section -->
+			<div class="form-section">
+				<div class="section-header">
+					<h3 class="section-title">Question Order Settings</h3>
+					<hr class="section-divider" />
+				</div>
+				<div class="section-header">
+					<input
+						id="randomize-questions-check"
+						type="checkbox"
+						v-model="quizStore.quizData.randomize_question_order"
+						class="checkbox-inline"
+					/>
+					<label for="randomize-questions-check" class="label-inline"
+						>Randomize Question Order</label
+					>
+				</div>
+			</div>
+
+			<!-- Student Group Section -->
+			<div class="form-section">
+				<div class="section-header">
+					<h3 class="section-title">Availability For</h3>
+					<hr class="section-divider" />
+				</div>
 				<div class="section-header">
 					<input
 						id="student-group-check"
@@ -199,6 +263,7 @@
 				</div>
 			</div>
 
+			<!-- Action Buttons -->
 			<div class="card-actions">
 				<button class="prev-btn" @click="previousPage">Previous</button>
 				<button class="save-btn" type="submit">Save</button>
@@ -258,6 +323,9 @@ const saveSettings = () => {
 		multiple_attempts: quizStore.quizData.multiple_attempts,
 		number_of_attempts: quizStore.quizData.multiple_attempts ? quizStore.quizData.number_of_attempts : 1,
 		grading_basis: quizStore.quizData.multiple_attempts ? quizStore.quizData.grading_basis : null,
+		show_question_score: quizStore.quizData.show_question_score,
+		show_correct_answer: quizStore.quizData.show_correct_answer,
+		randomize_question_order: quizStore.quizData.randomize_question_order,
 		selected_group: quizStore.quizData.selected_group,
 		selected_students: students.value
 			.filter((student) => student.selected)
@@ -302,6 +370,12 @@ h1 {
 	align-items: center;
 }
 
+.section-title {
+	margin: 0;
+	font-size: 18px;
+	font-weight: bold;
+}
+
 .inline-fields {
 	display: flex;
 	align-items: center;
@@ -324,6 +398,7 @@ h1 {
 	font-size: 17px;
 	margin-left: 10px;
 }
+
 .input-field {
 	width: 100%;
 	padding: 8px;
@@ -473,10 +548,12 @@ button {
 	margin-right: 5px;
 	vertical-align: middle;
 }
+
 .from-date {
 	display: flex;
 	width: 100%;
 }
+
 .section-header input {
 	margin-right: 5px;
 	margin-top: 20px;
@@ -486,7 +563,31 @@ button {
 	font-size: 17px;
 	margin-left: 10px;
 }
+
 .label-inline {
 	vertical-align: middle;
+}
+
+.section-divider {
+	border: none;
+	border-top: 1px solid #ddd;
+	margin-left: 10px;
+	flex-grow: 1;
+}
+
+.results-display-options {
+	display: flex;
+	align-items: center;
+	margin-top: 10px;
+}
+
+.option {
+	display: flex;
+	align-items: center;
+	margin-right: 20px;
+}
+
+.option input {
+	margin-right: 10px;
 }
 </style>

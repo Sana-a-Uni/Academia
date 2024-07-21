@@ -11,6 +11,7 @@ export const useQuizStore = defineStore("quiz", {
 		questionsWithAnswers: [],
 		loading: false,
 		error: null,
+		submitted: false, // حالة لتتبع إذا ما تم إرسال الإجابات
 	}),
 	actions: {
 		async fetchQuizzes(courseName, studentId) {
@@ -94,6 +95,7 @@ export const useQuizStore = defineStore("quiz", {
 					data
 				);
 				if (response.data.status_code === 200) {
+					this.submitted = true;
 					console.log(response.data.quiz_attempt_id);
 					return response.data.quiz_attempt_id; // Return the quiz_attempt_id
 				} else {

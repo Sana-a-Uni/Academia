@@ -21,8 +21,19 @@ fixtures = [
      }
  ]
 
+
 fixtures = [
-    "Academic Status"
+    "Academic Status",
+    "Journal Type",
+    "Workflow",
+    "Workflow State",
+    "Workflow Action Master",
+    {
+        "doctype": "Role",
+        "filters": [
+            ["name", "in", ["Academic User", "Faculty Dean", "Department Head"]]
+        ]
+    }
 ]
 
 # Includes in <head>
@@ -241,45 +252,92 @@ before_tests = "academia.tests.test_utils.before_tests"
 # ]
 export_python_type_annotations = True
 
-# Define the fixture data directly in the code
-journal_fixtures = [
-    {
-        "doctype": "Journal",
-        "field_name": "Quarter Classification",
-        "fixture_values": ["Q1", "Q2", "Q3", "Q4"]
-    }
-]
 
-def before_all(context):
-    # Load the fixtures into the context
-    context.journal_fixtures = journal_fixtures
 
-def after_all(context):
-    # Clean up any resources or state created during the test run
-    pass
 
 from frappe import _
 
+
+
 fixtures = [
-    {
-        "doctype": "Journal Type",
-        "filters": [
-            [
-                "name",
-                "in",
-                [
-                    "Internal",
-                    "Indexed",
-                    "Q4",
-                    "Q3",
-                    "Q2",
-                    "Q1"
-                ]
-            ]
-        ],
-        "fields": [
-            "journal_type",
-            "journal_weight"
-        ]
-    }
+    "Role"
 ]
+
+fixtures = [
+    {"dt": "Custom DocPerm", "filters": [
+        ["parent", "in", [
+            "Course",
+            "Student Group Tool",
+            "Lesson",
+            "Lesson Template",
+            "Student Group",
+            "Academic Year",
+            "Academic Specialty",
+            "Study Method",
+            "Program Degree",
+            "Student Category",
+            "Appreciation Type",
+            "Authority",
+            "Scientific Degree",
+            "Nationality",
+            "Consultation Type",
+            "Lecture",
+            "Study Plan",
+            "Semester",
+            "Level",
+            "Academic Term",
+            "Student State",
+            "Student",
+            "Academic Rank",
+            "Academic Publication",
+            "Building",
+            "Lab Type",
+            "Room",
+            "Scientific Article",
+            "lab",
+            "Faculty Department",
+            "Academic Program",
+            "Student Batch",
+            "Hour Type",
+            "Level And Semester Enrollment",
+            "Program Specification",
+            "Tenure Evaluation Request",
+            "Faculty Member",
+            "Faculty",
+            "Group Assignment Tool",
+            "Group Assignment",
+            "Academic Publication Type",
+            "Academic Services",
+            "Evaluation Criteria Template",
+            "Tenure Request",
+            "Evaluation Criterion",
+            "Program Enrollment",
+            "Course Specification",
+            "Facility",
+            "Schedule Template Version",
+            "University",
+            "Course Enrollment Tool",
+            "Course Study",
+            "Academic Status",
+            "Faculty Need",
+            "Degree Accreditation",
+            "Journal",
+            "Journal Type",
+            "Course Study Tool",
+            "Asset Access Request",
+            "Student Admission",
+            "Academic Attendance Tool",
+            "Course Enrollment",
+            "LMS Quiz",
+            "Lesson Attendance",
+            "Student Applicant",
+            "Question",
+            "Quiz Attempt",
+            "Quiz Result",
+            "LMS Assignment",
+            "Academic Attendance Tool",
+            "Semester Enrollment"
+            ]
+        ]
+    ]}
+]   

@@ -1,10 +1,16 @@
 import frappe
 import json
+from typing import List, Dict, Any
 
 @frappe.whitelist()
 def create_quiz():
     data = json.loads(frappe.request.data)
     try:
+        for question in data.get("quiz_question"):
+            if 'name' not in question:
+                question["course"] = data.get("course")
+                question["faculty_member"] = data.get("faculty_member")
+
         questions = create_questions(data.get("quiz_question"))
         create_quiz_doc(data, questions)
 
@@ -19,6 +25,7 @@ def create_quiz():
 def create_quiz_doc(data, questions):
     quiz_doc = frappe.new_doc("LMS Quiz")
     quiz_doc.course = data.get("course")
+    quiz_doc.faculty_member = data.get("faculty_member")
     quiz_doc.title = data.get("title")
     quiz_doc.instruction = data.get("instruction")
     quiz_doc.make_the_quiz_availability = data.get("make_the_quiz_availability")
@@ -37,6 +44,10 @@ def create_quiz_doc(data, questions):
         quiz_doc.grading_basis = data.get("grading_basis")
     else:
         quiz_doc.number_of_attempts = 1
+    
+    quiz_doc.randomize_question_order = data.get("randomize_question_order")
+    quiz_doc.show_question_score = data.get("show_question_score")
+    quiz_doc.show_correct_answer = data.get("show_correct_answer")
 
     total_grades = 0
     for question_doc in questions:
@@ -49,9 +60,15 @@ def create_quiz_doc(data, questions):
     quiz_doc.insert()
 
 def create_question(question_data):
-    question_doc = frappe.new_doc("Question")
-    question_doc.update(question_data)
-   
+    if 'name' in question_data:
+        question_doc = frappe.get_doc("Question", question_data['name'])
+        question_doc.question_grade = question_data['question_grade']
+    else:
+        question_doc = frappe.new_doc("Question")
+        question_doc.update(question_data)
+        question_doc.course = question_data.get("course")
+        question_doc.faculty_member = question_data.get("faculty_member")
+    
     question_doc.save()
     return question_doc
 
@@ -109,3 +126,91 @@ def get_question_types():
             "data": [],
             "error": str(e)
         })
+
+
+
+@frappe.whitelist(allow_guest=True)
+def get_questions_by_course_and_faculty_member(course_name: str = "00", faculty_member: str = "ACAD-FM-00001") -> Dict[str, Any]:
+    try:
+        # Fetch questions for the given course and faculty_member
+      
+        questions: List[Dict[str, Any]] = frappe.get_all(
+            "Question",
+            fields=['name', 'question', 'question_type'],
+            filters={
+                'course': course_name,
+                'faculty_member': faculty_member,
+            },
+        )
+
+        questions_data = []
+
+        for question in questions:
+            question_doc = frappe.get_doc("Question", question['name'])
+            question_details = {
+                "name": question_doc.name,
+                "question": question_doc.question,
+                "question_type": question_doc.question_type,
+                "question_options": [
+                    {"option": option.option, "is_correct": option.is_correct}
+                    for option in question_doc.question_options
+                ]
+            }
+            questions_data.append(question_details)
+
+        # Construct the response
+        frappe.response.update({
+            "status_code": 200,
+            "message": "Questions fetched successfully",
+            "data": questions_data
+        })
+        
+        return frappe.response["message"]
+    
+    # Construct the error response
+    except Exception as e:
+        frappe.response.update({
+            "status_code": 500,
+            "message": f"An error occurred while fetching questions: {str(e)}"
+        })
+        
+    return frappe.response["message"]
+
+
+
+@frappe.whitelist(allow_guest=True)
+def get_quizzes_by_course_and_faculty(course: str="00", faculty_member: str= "ACAD-FM-00001"):
+    try:
+        # Fetch all quizzes that match the given course and faculty member
+        quizzes = frappe.get_all('LMS Quiz',
+            filters={
+                'course': course,
+                'faculty_member': faculty_member
+            },
+            fields=['name', 'title', 'from_date', 'to_date', 'duration', 'number_of_attempts',  'total_grades']
+        )
+
+        # Check if quizzes were found
+        if not quizzes:
+            frappe.response.update({
+                "status_code": 404,
+                "message": "No quizzes found for the given course and faculty member."
+            })
+            return frappe.response["message"]
+
+        # Construct the success response
+        frappe.response.update({
+            "status_code": 200,
+            "message": "Quizzes fetched successfully",
+            "data": quizzes
+        })
+        return frappe.response["message"]
+
+    except Exception as e:
+        # General error handling
+        frappe.response.update({
+            "status_code": 500,
+            "message": f"An error occurred while fetching quizzes: {str(e)}"
+        })
+        return frappe.response["message"]
+

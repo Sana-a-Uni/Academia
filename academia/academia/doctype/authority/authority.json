@@ -1,4 +1,5 @@
 {
+ "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
  "autoname": "field:authority_name",
@@ -20,7 +21,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-22 15:18:25.828993",
+ "modified": "2024-07-12 20:38:11.270748",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Authority",

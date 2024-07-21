@@ -1,4 +1,5 @@
 {
+ "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
  "autoname": "field:title",
@@ -8,7 +9,7 @@
  "field_order": [
   "title",
   "apa_citation",
-  "type",
+  "publication_type",
   "published_in",
   "date_of_publish",
   "column_break_xfuu",
@@ -46,15 +47,9 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "type",
-   "fieldtype": "Link",
-   "label": "Type",
-   "options": "Academic Publication Type"
-  },
-  {
    "fieldname": "date_of_publish",
    "fieldtype": "Date",
-   "label": "Date of Publish "
+   "label": "Date of Publish"
   },
   {
    "fieldname": "publication_link",
@@ -94,11 +89,17 @@
    "fieldname": "publication_file",
    "fieldtype": "Attach",
    "label": "Publication File"
+  },
+  {
+   "fieldname": "publication_type",
+   "fieldtype": "Link",
+   "label": "Publication Type",
+   "options": "Academic Publication Type"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-24 19:30:31.419931",
+ "modified": "2024-07-12 17:00:03.510776",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Publication",

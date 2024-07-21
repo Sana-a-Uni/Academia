@@ -26,6 +26,9 @@ class LMSQuiz(Document):
 		multiple_attempts: DF.Check
 		number_of_attempts: DF.Int
 		quiz_question: DF.Table[QuizQuestion]
+		randomize_question_order: DF.Check
+		show_correct_answer: DF.Check
+		show_question_score: DF.Check
 		student_group: DF.Link | None
 		title: DF.Data
 		to_date: DF.Datetime | None

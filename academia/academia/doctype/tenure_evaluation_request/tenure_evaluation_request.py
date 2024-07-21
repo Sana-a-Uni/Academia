@@ -22,6 +22,8 @@ class TenureEvaluationRequest(Document):
 		attachment: DF.Attach | None
 		company: DF.Link
 		department: DF.Link
+		department_head: DF.Link | None
+		department_head_email: DF.Data | None
 		department_heads_notes: DF.SmallText | None
 		faculty: DF.Link | None
 		faculty_member: DF.Link
@@ -45,4 +47,8 @@ def get_evaluation_criteria(template):
 	return templates
 # End of the function
 
+@frappe.whitelist()
+def get_department_head(department):
+    department_head = frappe.db.get_value('Employee', {'department': department, 'designation': 'Department Head'}, 'name')
+    return department_head
 

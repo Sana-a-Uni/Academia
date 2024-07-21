@@ -1,0 +1,178 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2024-07-13 11:36:56.885602",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_mvbc",
+  "naming_series",
+  "faculty",
+  "faculty_department",
+  "scientific_degree",
+  "number_of_positions",
+  "column_break_gwyn",
+  "academic_specialty",
+  "specialist_field",
+  "academic_year",
+  "status",
+  "reference_to_department_need",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_mvbc",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Department Need Approval",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Series",
+   "options": "DEPTND-APPR-.department.-.academic_year.-",
+   "print_hide": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "scientific_degree",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Scientific Degree",
+   "options": "Scientific Degree",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_gwyn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "number_of_positions",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Number of Positions",
+   "reqd": 1
+  },
+  {
+   "fieldname": "specialist_field",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Specialist Field"
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Year",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Draft\nPending\nApproved\nRejected",
+   "reqd": 1
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Faculty",
+   "options": "Faculty",
+   "reqd": 1
+  },
+  {
+   "fieldname": "faculty_department",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Faculty Department",
+   "options": "Faculty Department",
+   "reqd": 1
+  },
+  {
+   "fieldname": "academic_specialty",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Specialty",
+   "options": "Academic Specialty"
+  },
+  {
+   "fieldname": "reference_to_department_need",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Reference to Department Need",
+   "options": "Department Need",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [
+  {
+   "is_child_table": 1,
+   "link_doctype": "Approved Department Need",
+   "link_fieldname": "reference_to_department_need_approval",
+   "parent_doctype": "Need Aggregation",
+   "table_fieldname": "approved_department_needs"
+  },
+  {
+   "is_child_table": 1,
+   "link_doctype": "Approved Department Need",
+   "link_fieldname": "reference_to_department_need_approval",
+   "parent_doctype": "Job Advertisement",
+   "table_fieldname": "approved_department_needs"
+  }
+ ],
+ "modified": "2024-07-15 14:17:31.428656",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Department Need Approval",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Faculty Dean",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1
+}

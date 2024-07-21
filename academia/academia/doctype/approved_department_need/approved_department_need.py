@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class FacultyNeed(Document):
+class ApprovedDepartmentNeed(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -15,10 +15,17 @@ class FacultyNeed(Document):
 		from frappe.types import DF
 
 		academic_specialty: DF.Link | None
-		academic_year: DF.Link | None
-		amended_from: DF.Link | None
-		department: DF.Link | None
-		faculty_position: DF.Int
-		scientific_degree: DF.Link | None
+		academic_year: DF.Link
+		application_requirements: DF.SmallText | None
+		faculty: DF.Link
+		faculty_department: DF.Link
+		name: DF.Int | None
+		number_of_positions: DF.Data
+		parent: DF.Data
+		parentfield: DF.Data
+		parenttype: DF.Data
+		reference_to_department_need_approval: DF.Link | None
+		scientific_degree: DF.Link
+		specialist_field: DF.Data | None
 	# end: auto-generated types
 	pass
