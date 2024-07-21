@@ -61,6 +61,20 @@ frappe.ui.form.on('Student Group Tool', {
                 return {};
             }
         });
+    },
+    faculty: function(frm) {
+        frm.set_value('program', null);
+        frm.set_query('program', function() {
+            if (frm.doc.faculty) {
+                return {
+                    filters: {
+                        'faculty': frm.doc.faculty
+                    }
+                };
+            } else {
+                return {};
+            }
+        });
     }
 });
 
