@@ -3,9 +3,9 @@
 		<form @submit.prevent="handleSubmit(true)">
 			<div class="content-time">
 				<h3>{{ assignmentDetails.assignment_title }}</h3>
-				<div class="clock-time">
+				<div class="clock-time" v-if="showCountdown">
 					<i style="margin-top: 21px; color: #0584ae" class="mdi mdi-clock"></i>
-					<h4 class="file-name">Time Remaining 1:00:26</h4>
+					<h4 class="file-name">Time Remaining {{ countdownTime }}</h4>
 				</div>
 			</div>
 
@@ -83,7 +83,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted, onUnmounted, nextTick, computed } from "vue";
 import Quill from "quill";
 import { defineProps, watch } from "vue";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
@@ -107,6 +107,7 @@ const props = defineProps({
 const quillEditor = ref(null);
 const commentEditor = ref(null);
 const uploadedFiles = ref([]);
+const timeRemaining = ref(null);
 
 const editorOptions = {
 	theme: "snow",
@@ -145,6 +146,9 @@ const initializeQuillEditors = () => {
 
 onMounted(() => {
 	nextTick(initializeQuillEditors);
+	updateTimeRemaining();
+	const interval = setInterval(updateTimeRemaining, 1000);
+	onUnmounted(() => clearInterval(interval));
 });
 
 watch(
@@ -198,6 +202,38 @@ const removeFile = (index) => {
 
 const getFullFileUrl = (fileUrl) => {
 	return `http://localhost:80${fileUrl}`;
+};
+
+const showCountdown = computed(() => {
+	return timeRemaining.value && timeRemaining.value.hours < 2;
+});
+
+const countdownTime = computed(() => {
+	if (!timeRemaining.value) {
+		return "";
+	}
+	const { hours, minutes, seconds } = timeRemaining.value;
+	return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds
+		.toString()
+		.padStart(2, "0")}`;
+});
+
+const updateTimeRemaining = () => {
+	if (props.assignmentDetails && props.assignmentDetails.to_date) {
+		const toDate = new Date(props.assignmentDetails.to_date);
+		const now = new Date();
+		const diff = toDate - now;
+
+		if (diff > 0) {
+			const hours = Math.floor(diff / 1000 / 60 / 60);
+			const minutes = Math.floor((diff / 1000 / 60) % 60);
+			const seconds = Math.floor((diff / 1000) % 60);
+
+			timeRemaining.value = { hours, minutes, seconds };
+		} else {
+			timeRemaining.value = null;
+		}
+	}
 };
 </script>
 
