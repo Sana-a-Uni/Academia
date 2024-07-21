@@ -60,6 +60,17 @@ frappe.ui.form.on('Student Group Tool', {
             } else {
                 return {};
             }
+        }),
+		frm.set_query('student_batch', function() {
+            if (frm.doc.program) {
+                return {
+                    filters: {
+                        'program_specification': frm.doc.program
+                    }
+                };
+            } else {
+                return {};
+            }
         });
     },
     faculty: function(frm) {
