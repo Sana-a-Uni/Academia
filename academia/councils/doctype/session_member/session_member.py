@@ -14,8 +14,10 @@ class SessionMember(Document):
     if TYPE_CHECKING:
         from frappe.types import DF
 
-        attendance: DF.Literal["Attend", "\u0650Absent"]
+        alternative_employee: DF.Link | None
+        attendance: DF.Literal["Attend", "Absent with Excuse", "Absent without Excuse"]
         employee: DF.Link
+        excuse: DF.Data | None
         member_name: DF.Data | None
         member_role: DF.Literal["", "Council Head", "Council Member", "Council Reporter"]
         parent: DF.Data
