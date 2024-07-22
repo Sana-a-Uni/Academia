@@ -61,5 +61,19 @@ frappe.ui.form.on('Course Enrollment Tool', {
                 }
             };
         };
+    },
+    academic_year: function(frm) {
+        frm.set_value('academic_term', null);
+        frm.set_query('academic_term', function() {
+            if (frm.doc.academic_year) {
+                return {
+                    filters: {
+                        'academic_year': frm.doc.academic_year
+                    }
+                };
+            } else {
+                return {};
+            }
+        });
     }
 });
