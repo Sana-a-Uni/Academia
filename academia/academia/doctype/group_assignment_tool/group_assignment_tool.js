@@ -113,5 +113,19 @@ frappe.ui.form.on('Group Assignment Tool', {
                 return {};
             }
         });
+    },
+    student_batch: function(frm) {
+		frm.set_value('group', null);
+		frm.set_query('group', function() {
+            if (frm.doc.student_batch) {
+                return {
+                    filters: {
+                        'batch': frm.doc.student_batch
+                    }
+                };
+            } else {
+                return {};
+            }
+        });
     }
 });
