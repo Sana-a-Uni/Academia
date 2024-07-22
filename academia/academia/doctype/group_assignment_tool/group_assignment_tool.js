@@ -88,5 +88,19 @@ frappe.ui.form.on('Group Assignment Tool', {
                 return {};
             }
         });
+    },
+    program: function(frm) {
+		frm.set_value('student_batch', null);
+		frm.set_query('student_batch', function() {
+            if (frm.doc.program) {
+                return {
+                    filters: {
+                        'program_specification': frm.doc.program
+                    }
+                };
+            } else {
+                return {};
+            }
+        });
     }
 });
