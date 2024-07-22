@@ -27,6 +27,17 @@ frappe.ui.form.on('Group Assignment Tool', {
 		});
 	},
 	refresh: function(frm) {
+        frm.set_query('academic_term', function() {
+            if (frm.doc.academic_year) {
+                return {
+                    filters: {
+                        'academic_year': frm.doc.academic_year
+                    }
+                };
+            } else {
+                return {};
+            }
+        }),
         frm.set_query('program', function() {
             if (frm.doc.faculty) {
                 return {
