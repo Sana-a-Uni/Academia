@@ -11,22 +11,18 @@
   "assignment",
   "section_break_qcjw",
   "answer",
-  "attachment",
+  "submission_date",
   "column_break_wmme",
   "comment",
-  "submission_date",
-  "amended_from"
+  "amended_from",
+  "section_break_reav",
+  "attachment_files"
  ],
  "fields": [
   {
    "fieldname": "answer",
    "fieldtype": "Text Editor",
    "label": "Answer"
-  },
-  {
-   "fieldname": "attachment",
-   "fieldtype": "Attach",
-   "label": "Attachment"
   },
   {
    "fieldname": "column_break_wmme",
@@ -75,12 +71,22 @@
    "fieldname": "comment",
    "fieldtype": "Text Editor",
    "label": "Comment"
+  },
+  {
+   "fieldname": "attachment_files",
+   "fieldtype": "Table",
+   "label": "Attachment Files",
+   "options": "Attachment Files"
+  },
+  {
+   "fieldname": "section_break_reav",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-20 02:26:51.956144",
+ "modified": "2024-07-23 01:40:07.311056",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "Assignment Submission",
