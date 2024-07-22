@@ -12,12 +12,13 @@ class AssignmentSubmission(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.lms.doctype.attachment_files.attachment_files import AttachmentFiles
 		from frappe.types import DF
 
 		amended_from: DF.Link | None
 		answer: DF.TextEditor | None
 		assignment: DF.Link | None
-		attachment: DF.Attach | None
+		attachment_files: DF.Table[AttachmentFiles]
 		comment: DF.TextEditor | None
 		student: DF.Link | None
 		submission_date: DF.Datetime | None

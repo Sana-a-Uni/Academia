@@ -63,6 +63,7 @@
 							</tr>
 						</thead>
 						<tbody>
+							<!-- عرض الملفات السابقة -->
 							<tr
 								v-for="(file, index) in previousSubmissionFiles"
 								:key="file.file_url"
@@ -79,6 +80,7 @@
 									></i>
 								</td>
 							</tr>
+							<!-- عرض الملفات الجديدة -->
 							<tr v-for="(file, index) in uploadedFiles" :key="index">
 								<td>{{ file.name }}</td>
 								<td style="text-align: center">
@@ -212,40 +214,37 @@ watch(
 		nextTick(initializeQuillEditors);
 	}
 );
-
 const handleSubmit = async (isFinalSubmission) => {
 	const data = {
 		student: "EDU-STU-2024-00003", // Replace with actual student ID
 		assignment: "ecff4b55c2",
 		answer: quillEditor.value.querySelector(".ql-editor").innerHTML,
-		attachment: null, // Initialize as null
-		attachment_name: null, // Initialize as null
 		comment: commentEditor.value.querySelector(".ql-editor").innerHTML,
 		submit: isFinalSubmission,
+		attachments: [], // List to hold attachments
 	};
 
+	// Handle file upload only if there are files to upload
 	if (uploadedFiles.value.length > 0) {
-		const file = uploadedFiles.value[0];
-		const reader = new FileReader();
-		reader.onloadend = async () => {
-			data.attachment = reader.result.split(",")[1]; // Set the attachment as base64 string
-			data.attachment_name = file.name; // Set the original file name with extension
-			await props.onSubmit(data);
-			// Clear the uploaded files to prevent duplicate uploads
-			uploadedFiles.value = [];
-		};
-		reader.readAsDataURL(file);
+		for (let file of uploadedFiles.value) {
+			const reader = new FileReader();
+			reader.onloadend = () => {
+				data.attachments.push({
+					attachment: reader.result.split(",")[1], // Set the attachment as base64 string
+					attachment_name: file.name, // Set the original file name with extension
+				});
+				if (data.attachments.length === uploadedFiles.value.length) {
+					props.onSubmit(data);
+					// Clear the uploaded files to prevent duplicate uploads
+					uploadedFiles.value = [];
+				}
+			};
+			reader.readAsDataURL(file);
+		}
 	} else {
+		// Submit without file if no file is uploaded
 		await props.onSubmit(data);
 	}
-};
-
-const cancelAssignment = () => {
-	if (quillEditor.value && commentEditor.value) {
-		quillEditor.value.querySelector(".ql-editor").innerHTML = "";
-		commentEditor.value.querySelector(".ql-editor").innerHTML = "";
-	}
-	uploadedFiles.value = [];
 };
 
 const handleFileUpload = (event) => {
@@ -258,6 +257,14 @@ const handleFileUpload = (event) => {
 			uploadedFiles.value.push(files[i]);
 		}
 	}
+};
+
+const cancelAssignment = () => {
+	if (quillEditor.value && commentEditor.value) {
+		quillEditor.value.querySelector(".ql-editor").innerHTML = "";
+		commentEditor.value.querySelector(".ql-editor").innerHTML = "";
+	}
+	uploadedFiles.value = [];
 };
 
 const removeFile = (index) => {
