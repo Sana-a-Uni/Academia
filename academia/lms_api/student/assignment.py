@@ -95,14 +95,14 @@ def get_assignment(assignment_name: str="47dfd90592"):
 
 @frappe.whitelist(allow_guest=True)
 def create_assignment_submission():
+ 
     data = json.loads(frappe.request.data)
 
     student = data.get('student')
     assignment = data.get('assignment')
     answer = data.get('answer')
     comment = data.get('comment')
-    attachment = data.get('attachment')  # Base64 encoded file content
-    attachment_name = data.get('attachment_name')  # Original file name
+    attachments = data.get('attachments')  # List of dicts with 'attachment' (base64 content) and 'attachment_name'
     submit = data.get('submit')  # Boolean indicating if the submission is final
 
     if not student or not assignment or not answer:
@@ -121,18 +121,26 @@ def create_assignment_submission():
         submission_doc.comment = comment
         submission_doc.submission_date = submission_date
 
-        if attachment and attachment_name:
-            file_doc = frappe.get_doc({
-                "doctype": "File",
-                "file_name": attachment_name,
-                "attached_to_doctype": "Assignment Submission",
-                "attached_to_name": submission_doc.name,
-                "content": attachment,
-                "decode": True
-            })
-            file_doc.insert()
-            submission_doc.attachment = file_doc.file_url
+        if attachments:
+            for attachment in attachments:
+                attachment_content = attachment.get('attachment')
+                attachment_name = attachment.get('attachment_name')
+                if attachment_content and attachment_name:
+                    file_doc = frappe.get_doc({
+                        "doctype": "File",
+                        "file_name": attachment_name,
+                        "attached_to_doctype": "Assignment Submission",
+                        "attached_to_name": submission_doc.name,
+                        "content": attachment_content,
+                        "decode": True
+                    })
+                    file_doc.insert()
+                    submission_doc.append("attachment_files", {
+                        "attachment_file": file_doc.file_url
+                    })
 
+        submission_doc.save()
+        
         if submit and submission_doc.docstatus == 0:
             submission_doc.submit()
         else:
@@ -150,18 +158,26 @@ def create_assignment_submission():
 
         submission_doc.insert()
 
-        if attachment and attachment_name:
-            file_doc = frappe.get_doc({
-                "doctype": "File",
-                "file_name": attachment_name,
-                "attached_to_doctype": "Assignment Submission",
-                "attached_to_name": submission_doc.name,
-                "content": attachment,
-                "decode": True
-            })
-            file_doc.insert()
-            submission_doc.attachment = file_doc.file_url
+        if attachments:
+            for attachment in attachments:
+                attachment_content = attachment.get('attachment')
+                attachment_name = attachment.get('attachment_name')
+                if attachment_content and attachment_name:
+                    file_doc = frappe.get_doc({
+                        "doctype": "File",
+                        "file_name": attachment_name,
+                        "attached_to_doctype": "Assignment Submission",
+                        "attached_to_name": submission_doc.name,
+                        "content": attachment_content,
+                        "decode": True
+                    })
+                    file_doc.insert()
+                    submission_doc.append("attachment_files", {
+                        "attachment_file": file_doc.file_url
+                    })
 
+        submission_doc.save()
+        
         if submit:
             submission_doc.submit()
 
@@ -171,17 +187,31 @@ def create_assignment_submission():
     frappe.response["message"] = "Assignment saved successfully" if not submit else "Assignment submitted successfully"
     frappe.response["assignment_submission_id"] = submission_doc.name
 
-
 @frappe.whitelist(allow_guest=True)
 def get_assignment_and_submission_details(assignment="ecff4b55c2", student="EDU-STU-2024-00003"):
+    # Fetch the submissions for the given assignment and student
     submissions = frappe.get_all('Assignment Submission', filters={'assignment': assignment, 'student': student}, fields=['name', 'answer', 'comment', 'submission_date', 'attachment'], order_by='submission_date desc')
     previous_submission = submissions[0] if submissions else None
     
+    # Initialize the list for files and a set to avoid duplicates
     files = []
-    if previous_submission:
-        files = frappe.get_all('File', filters={'attached_to_doctype': 'Assignment Submission', 'attached_to_name': previous_submission['name']}, fields=['file_url', 'file_name'], order_by='creation desc')
+    attached_files_set = set()
 
+    if previous_submission:
+        # Fetch the attached files for the previous submission
+        attached_files = frappe.get_all('File', filters={'attached_to_doctype': 'Assignment Submission', 'attached_to_name': previous_submission['name']}, fields=['file_url', 'file_name'], order_by='creation desc')
+        
+        # Add files to the set and the list if not already added
+        for file in attached_files:
+            file_tuple = (file.file_name, file.file_url)
+            if file_tuple not in attached_files_set:
+                attached_files_set.add(file_tuple)
+                files.append({
+                    "file_name": file.file_name,
+                    "file_url": file.file_url
+                })
+
+    # Set the response
     frappe.response["status_code"] = 200
     frappe.response["previous_submission"] = previous_submission
     frappe.response["files"] = files
-
