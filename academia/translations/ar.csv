@@ -4,6 +4,7 @@ A-,-A,
 AB+,+AB,
 AB-,-AB,
 ACAD-FM-,ACAD-FM-,
+ACAD-FM-S-.YYYY.-.MM.-.####.,أكاد-FM-S-.YYYY.-.MM.-.####.,
 ADM-SAP-.YYYY.-,ADM-SAP-.YYYY.-,
 APA Citation,نمط الاقتباس APA,
 Abbr,اسم مختصر,
@@ -17,7 +18,9 @@ Academic,أكاديمي,
 Academic Attendance,الحضور الأكاديمي,
 Academic Attendance Tool,أداة الحضور الأكاديمي,
 Academic Author,المؤلف الأكاديمي,
+Academic Evaluation,التقييم الأكاديمي,
 Academic Level,المستوى الأكاديمي,
+Academic Manager,مدير أكاديمي,
 Academic Program,برنامج اكاديمي,
 Academic Publication,المنشور الأكاديمي,
 Academic Publication Author,مؤلف المنشور الأكاديمي,
@@ -30,7 +33,9 @@ Academic Service Name,اسم الخدمة الأكاديمية,
 Academic Services,الخدمات الأكاديمية,
 Academic Specialty,التخصص الأكاديمي,
 Academic Status,الحالة الأكاديمية,
+Academic Supervisor,المشرف الأكاديمي,
 Academic Term,الفصل الدراسي,
+Academic User,المستخدم الأكاديمي,
 Academic Week,الأسبوع الأكاديمي,
 Academic Year,السنة الأكاديمية,
 Academic member,عضو أكاديمي,
@@ -40,6 +45,7 @@ Action Date,تاريخ الإجراء,
 Activities,الأنشطة,
 Activity Name,اسم النشاط,
 Add to Group,إضافة إلى المجموعة,
+Add to New Group,أضف إلى المجموعة الجديدة,
 Address,عنوان,
 Address Line 1,العنوان سطر 1,
 Address Line 2,العنوان سطر 2,
@@ -50,9 +56,12 @@ Admission End Date,تاريخ انتهاء القبول,
 Admission Start Date,تاريخ بداية القبول,
 Admitted,قُبل,
 Agenda,جدول الأعمال,
+Agenda Settings,إعدادات جدول الأعمال,
+Agenda Title,عنوان جدول الأعمال,
 All,الكل,
 All Levels,جميع المستويات,
 All Programs,كل البرامج,
+All selected topics must belong to the same council.,جميع المواضيع المختارة يجب ان تكون تابعه لنفس المجلس.,
 Alternative Member,العضو البديل,
 Amended From,معدل من,
 Among Companies,بين الشركات,
@@ -63,6 +72,7 @@ Applicant Type,نوع مقدم الطلب,
 Applicants,المتقدمين,
 Applicants Table,جدول المتقدمين,
 Application Date,تاريخ التقديم,
+Application Requirements,متطلبات الاستمارة,
 Application Status,حالة الطلب,
 Applied,طلب,
 Apply Details,تطبيق التفاصيل,
@@ -70,6 +80,8 @@ Appreciation Type,نوع التقدير,
 Approval Date,تاريخ الموافقة,
 Approve,موافقة,
 Approved,موافق عليه,
+Approved Department Need,حاجة القسم المعتمدة,
+Approved Department Needs,احتياجات القسم المعتمدة,
 Are you sure you want to delete the selected topics?,هل أنت متأكد من حذف المواضيع المحددة؟,
 Are you sure you want to reload opening field?<br>All data in the field will be lost.,هل أنت متأكد أنك تريد إعادة تحميل حقل الافتتاحية؟<br>سيتم فقدان كافة البيانات الموجودة في الحقل.,
 Article Authors,مؤلفو المقالة,
@@ -78,11 +90,13 @@ As a Trainer,كمدرب,
 Asset Access Request,طلب الوصول إلى الأصول,
 Assignment,مهمة,
 Assignment Type,نوع المهمة,
+Atleast one Topic has to be selected.,يجب اختيار موضوع واحد على الأقل.,
 Attachment,المرفق,
 Attachment Label,تسمية المرفقات,
 Attachment Name,اسم المرفق,
 Attachment for signed evaluation sheet,مرفق لورقة التقييم الموقعة,
 Attachments,المرفقات,
+Attempts taken,المحاولات المتخذة,
 Attend,يحضر,
 Attendance Date,تاريخ الحضور,
 Attendance Details,تفاصيل الحضور,
@@ -97,6 +111,7 @@ Authority Name,اسم الجهة,
 Auto Course Enrollment,التسجيل التلقائي للدورة,
 Auto Created,إنشاء تلقائي,
 Availability,توفر,
+Average of Attempts,متوسط المحاولات,
 Awards and Appreciation Certificates,الجوائز وشهادات التقدير,
 B+,B+,
 B-,B-,
@@ -112,6 +127,7 @@ Building,مبنى,
 Building Name,اسم المبنى,
 By Sex,حسب الجنس,
 CNCL-SESS-.YY.-.{council}.-.###,CL-SESS-.YY.-.{council}.-.###,
+"Can't generate more then three Practical groups, please add more capacity to continue.",لا يمكن إنشاء أكثر من ثلاث مجموعات عملية، يرجى إضافة المزيد من السعة للمتابعة.,
 Canceled,ألغيت,
 Capacity,سعة,
 Category,الفئة,
@@ -174,8 +190,11 @@ Current Academic Data,البيانات الأكاديمية الحالية,
 Current Academic Term,المدة الأكاديمية الحالية,
 Current Academic Year,السنة الدراسية الحالية,
 Current Level,المستوى الحالي,
+DEPTND-.department.-.academic_year.-,DEPTND-.department.-.academic_year.-,
+DEPTND-APPR-.department.-.academic_year.-,DEPTND-APPR-.department.-.academic_year.-,
 Dashboard,لوحة القيادة,
 Date,التاريخ,
+Date Parsing Error,خطأ في تحليل التاريخ,
 Date and Time,التاريخ و الوقت,
 Date cannot be in the future,لا يمكن أن يكون التاريخ في المستقبل,
 Date of Birth,تاريخ الميلاد,
@@ -191,6 +210,8 @@ Date of Service Appointment cannot be after today's date,لا يمكن أن يك
 Date of Service Appointment must be before Date of University Appointment,يجب أن يكون تاريخ التعيين في الخدمة قبل تاريخ التعيين في الجامعة,
 Date of University Appointment cannot be after today's date,لا يمكن أن يكون تاريخ التعيين بالجامعة بعد تاريخ اليوم,
 Date of publish must be less than or equal to today's date,يجب أن يكون تاريخ النشر أقل من أو يساوي تاريخ اليوم,
+"Dear {0}, there are no submitted academic evaluations associated with you.",عزيزي {0}، لم يتم تقديم تقييمات أكاديمية مرتبطة بك.,
+"Dear {0}, you are not eligible for granting tenure.",عزيزي {0}، أنت لست مؤهلاً لمنح الحيازة.,
 Decision,قرار,
 Decision Attachment,ملف القرار,
 Decision Number,رقم القرار,
@@ -201,7 +222,10 @@ Delete,حذف,
 Delivery Mode,وضع التوصيل,
 Department,القسم,
 Department Head,رئيس القسم,
+Department Head Email,البريد الإلكتروني لرئيس القسم,
 Department Head's Notes,ملاحظات رئيس القسم,
+Department Need,حاجة القسم,
+Department Need Approval,القسم بحاجة إلى موافقة,
 Descripting,وصف,
 Description,الوصف,
 Description ,الوصف,
@@ -219,6 +243,9 @@ Done,تم,
 Draft,مسودة,
 Duration,المدة الزمنية,
 EDU-STU-.YYYY.-,EDU-STU-.YYYY.-,
+EVAL-EMP-FM-.department.-.evaluatee_party_name.-.YYYY.-,EVAL-EMP-FM-.department.-.evaluatee_party_name.-.YYYY.-,
+EVAL-FM-EMP-.department.-.evaluatee_party_name.-.YYYY.-,EVAL-FM-EMP-.department.-.evaluatee_party_name.-.YYYY.-,
+EVAL-FM-STD-.department.-.evaluatee_party_name.-.YYYY.-,EVAL-FM-STD-.department.-.evaluatee_party_name.-.YYYY.-,
 EVALREQ-.YYYY.-.faculty_member_name.-,EVALREQ-.YYYY.-.faculty_member_name.-,
 Early Exit,الخروج المبكر,
 Early Exit Note,مذكرة الخروج المبكر,
@@ -246,18 +273,28 @@ Enter Rejection Details,أدخل تفاصيل الرفض,
 Error adding topics,حدث خطأ أثناء إضافة المواضيع,
 Error adding topics!,خطأ في إضافة المواضيع!,
 Error calling server method!,خطأ في استدعاء طريقة الخادم!,
+Error creating group or adding topics!,حدث خطأ أثناء إنشاء عملية التجميع!,
 Error fetching decision template!,حدث خطأ أثناء جلب نموذج القرار!,
 Error fetching opening template!,حدث خطأ أثناء جلب قالب الفتح!,
+Error parsing probation end date: {0},خطأ في تحليل تاريخ انتهاء الاختبار: {0},
 Error removing topics,حدث خطأ أثناء إزالة المواضيع,
 Error removing topics!,خطأ في إزالة المواضيع!,
 Error rendering template,خطأ في عرض القالب,
 Essay,مقال,
+Evaluatee,المقيم,
+Evaluatee Information,معلومات المقيّم,
 Evaluation,التقييم,
 Evaluation Criteria,معايير التقييم,
 Evaluation Criteria Template,قالب معايير التقييم,
 Evaluation Criterion,معيار التقييم,
+Evaluation Detail,تفاصيل التقييم,
+Evaluation Details,تفاصيل التقييم,
+Evaluation Form Generator Tool,أداة إنشاء نموذج التقييم,
+Evaluation Parties Information,معلومات أطراف التقييم,
 Evaluation Request,طلب التقييم,
+Evaluation Template,قالب التقييم,
 Evaluations,التقييمات,
+Evaluator,مقيم,
 Ex: 70%,على سبيل المثال: 70%,
 Excellent,ممتاز,
 Excuse,العذر,
@@ -281,11 +318,14 @@ Faculty Member Award and Appreciation Certificate,الجائزة أو شهادة
 Faculty Member Conference and Workshop,المؤتمر أو ورشة العمل الخاصة بعضو هيئة التدريس,
 Faculty Member Course,المادة الخاصة بعضو هيئة التدريس,
 Faculty Member Evaluation,التقييم الخاص بعضو هيئة التدريس,
+Faculty Member Evaluation Form,استمارة تقييم عضو هيئة التدريس,
 Faculty Member Language,اللغة الخاصة بعضو هيئة التدريس,
 Faculty Member Name,اسم عضو هيئة التدريس,
 Faculty Member Name (English),اسم عضو هيئة التدريس (بالإنجليزية),
+Faculty Member Settings,إعدادات أعضاء هيئة التدريس,
 Faculty Member Training Course,الدورة التدريبية الخاصة بعضو هيئة التدريس,
 Faculty Member University and Community Service,خدمة الجامعة أو المجتمع الخاصة بعضو هيئة التدريس,
+Faculty Members,أعضاء هيئة التدريس,
 Faculty Requirement,متطلبات الكلية,
 Faculty Vision,رؤية الكلية,
 Fair,عدل,
@@ -318,13 +358,16 @@ Full Electronic,إلكترونية كاملة,
 Fully Electronic,إلكترونية بالكامل,
 Gender,جنس,
 General,عام,
+General Application Terms,شروط التقديم العامة,
 General Field,التخصص العام,
 Generate,يولد,
+Generate Evaluation Forms,إنشاء نماذج التقييم,
 Generate groups,إنشاء مجموعات,
 Generated Successfully...,تم الإنشاء بنجاح...,
 Get Data From Transaction,جلب البيانات من المعاملة,
 Get Default Template,الحصول على القالب الافتراضي,
 Get Members,جلب الأعضاء,
+Get Needs,احصل على الاحتياجات,
 Get Opening Template,الحصول على قالب الافتتاح,
 Get Recipients,جلب المستلمين,
 Get Template,احصل على القالب,
@@ -334,6 +377,7 @@ Go To,اذهب إلى,
 Good,جيد,
 Google Scholar Profile Link,رابط الملف الشخصي في Google Scholar,
 Grade,درجة,
+Grade out of,الصف من,
 Grading Basis,أساس الدرجات,
 Granting Authority,الجهة المانحة,
 Group,مجموعة,
@@ -341,6 +385,7 @@ Group Assignment,مهمه المجموعه,
 Group Assignment Group,مجموعة مهمة المجموعة,
 Group Assignment Tool,أداة تعيين المجموعة,
 Group Based On,مجموعة على أساس,
+Group created and Topic(s) added successfully.,تم إنشاء موضوع وتجميع الموضوع (المواضيع) اليه بنجاح.,
 Grouped Topics,المواضيع المجمعة,
 Grouped topic {0} can not be of type group.,الموضوع المختار {0} لا يمكن أن يكون مجموعة.,
 Grouped topic {0} does not have the same council as the group topic.,الموضوع المختار {0} والمجموعة غير تابعًا لنفس المجلس .,
@@ -355,6 +400,7 @@ HR Manager,مدير الموارد البشرية,
 HR User,مستخدم الموارد البشرية,
 High,مستوى عالي,
 High school year,السنة الدراسية الثانوية,
+Highest Grade,أعلى درجة,
 Hour Type,نوع الساعة,
 Hours,ساعات,
 Identification Number,رقم الهوية,
@@ -370,10 +416,14 @@ Instructor Name,اسم المحاضر,
 Internal Journal,مجلة داخلية,
 International Standard Serial Number,الرقم المعياري الدولي للمجلة (ISSN),
 Introduction,مقدمة,
+Invalid Date Range,النطاق الزمني غير صالح,
 Is Active,نشط,
 Is Correct,صحيح,
+Is Eligible for Granting Tenure,مؤهلة لمنح الحيازة,
 Is Group,هل مجموعة,
 Is Research Center,هل مركز الأبحاث,
+Job Advertisement,اعلان عن وظيفة,
+Job Advertisement Journal,مجلة الإعلان عن الوظائف,
 Joining Date,تاريخ الانضمام,
 Journal,المجلة,
 Journal Name,اسم المجلة,
@@ -427,6 +477,7 @@ Mandatory field - Capacity,حقل إلزامي - القدرة,
 Mandatory field - Faculty,المجال الإلزامي - الكلية,
 Mandatory field - Group,حقل إلزامي - المجموعة,
 Mandatory field - Level,حقل إلزامي - المستوى,
+Mandatory field - Practical Capacity,المجال الإلزامي - القدرة العملية,
 Mandatory field - Program,حقل إلزامي - البرنامج,
 Mandatory field - Specific Level,حقل إلزامي - المستوى المحدد,
 Mandatory field - Specific Program,حقل إلزامي - برنامج محدد,
@@ -446,11 +497,19 @@ Members,الأعضاء,
 Middle Name,الاسم الأوسط,
 Middle Name (EN),الاسم الأوسط (بالإنكليزية),
 Minimum Research Period,الحد الأدنى لفترة البحث,
+Minute Ending,نهاية الدقيقة,
+Minute Hash,دقيقة هاش,
+Minute Settings,إعدادات الدقائق,
+Minute Title,عنوان الدقيقة,
 Minutes,الدقائق,
+Missing Probation Settings,إعدادات الاختبار المفقودة,
 Mobile Number,رقم الهاتف المحمول,
 Monday,يوم الاثنين,
 Mother,أم,
 Multi Lesson Template,قالب الدروس المتعددة,
+Multiple Answer,إجابة متعددة,
+Multiple Attempts,محاولات متعددة,
+Multiple Choice,متعدد الخيارات,
 My Profile,ملفي الشخصي,
 My Settings,إعداداتي,
 Name,الاسم,
@@ -459,21 +518,30 @@ Name in English,الاسم باللغة الإنجليزية,
 Naming Series,سلسلة التسمية,
 Nationality,الجنسية,
 Nationality Name,اسم الجنسية,
+Need Aggregation,تحتاج التجميع,
 New Council Memo,مذكرة المجلس الجديدة,
+No Council found for {0} department.,لم يتم العثور على مجلس لقسم {0}.,
 No Data,لا توجد بيانات,
+No Department Head found for the selected department,لم يتم العثور على رئيس قسم للقسم المحدد,
+No Employee record found for the current user.,لم يتم العثور على سجل موظف للمستخدم الحالي.,
 No courses Found,لم يتم العثور على دورات,
 No courses and students Found,لم يتم العثور على الدورات والطلاب,
+No data in faculty members table to generate evaluation forms.,لا توجد بيانات في جدول أعضاء هيئة التدريس لإنشاء نماذج التقييم.,
 No grouped topics added yet!,لم تتم إضافة أي مواضيع مجمعة حتى الآن!,
 No students Found,لم يتم العثور على الطلاب,
 Not permitted,غير مسموح به,
 Note,ملاحظات,
 Note Late Entry,ملاحظة الدخول المتأخر,
 Notes,ملاحظات,
+Number of Positions,عدد المناصب,
+Number of attempts,عدد المحاولات,
 Number of courses,عدد الدورات,
+Number of incorrect answers,عدد الإجابات غير الصحيحة,
 O+,O+,
 O-,O-,
 Old Parent,الحساب الأب السابق,
 On Campus,في الحرم الجامعي,
+On Probation,تحت المراقبة,
 Online,متصل بالإنترنت,
 Opening,الافتتاحية,
 Option,اختيار,
@@ -506,6 +574,7 @@ Personal Information,المعلومات الشخصية,
 Personal Skills,المهارات الشخصية,
 Phone No,رقم الهاتف,
 Place of Birth,مكان الميلاد,
+Please <strong>save your changes</strong> to generate evaluation forms.,الرجاء <strong>حفظ تغييراتك</strong> لإنشاء نماذج التقييم.,
 Please select a decision template.,الرجاء تحديد نموذج القرار.,
 Please select at least one Topic to add to a group.,يرجى تحديد موضوع واحد على الأقل لإضافته إلى المجموعة.,
 Please select the attendance status.,الرجاء تحديد حالة الحضور.,
@@ -515,6 +584,7 @@ Post-Secondary Diploma,دبلوم ما بعد الثانوي,
 Postgraduate Diploma,دبلوم الدراسات العليا,
 Postponed,مؤجل,
 Practical,عملي,
+Practical Capacity,القدرة العملية,
 Pre Requisites,المتطلبات المسبقة,
 Present,حاضر,
 Presenter,مقدم,
@@ -523,6 +593,9 @@ Print Official Paper,طباعة الورق الرسمي,
 Print Settings,إعدادات الطباعة,
 Priority,أفضلية,
 Private,خاص,
+Probation Period (in months),فترة الاختبار (بالشهور),
+Probation Period End Date,تاريخ انتهاء فترة الاختبار,
+Probation periods not found in Faculty Member Settings for <b>{}</b> from this date. Please create appropriate settings.,لم يتم العثور على فترات الاختبار في إعدادات عضو هيئة التدريس لـ <b>{}</b> اعتبارًا من هذا التاريخ. الرجاء إنشاء الإعدادات المناسبة.,
 Profile,الملف الشخصي,
 Program,برنامج,
 Program Abbreviation,اختصار برنامج,
@@ -537,7 +610,7 @@ Publication Link,رابط المنشور,
 Publication Type,نوع المنشور,
 Publish on website,نشر على الموقع,
 Published,نشرت,
-Published in,نُشرت في,
+Published in,نشرت في,
 Q1,س1,
 Q2,س2,
 Q3,س3,
@@ -547,10 +620,15 @@ Question,سؤال,
 Question Grade,درجة السؤال,
 Question Link,رابط السؤال,
 Question Options,خيارات السؤال,
+Question Order Settings,إعدادات ترتيب الأسئلة,
+Question Type,نوع السؤال,
 Quiz,لغز,
+Quiz Answer,إجابة الاختبار,
+Quiz Attempt,محاولة مسابقة,
 Quiz Configuration,مسابقة التكوين,
 Quiz Question,مسابقة السؤال,
 Quiz Result,نتيجة مسابقة,
+Randomize Question Order,ترتيب عشوائي للأسئلة,
 Reason For Leaving,سبب للمغادرة,
 Recipient,مستلم,
 Recipient Company,الشركة المتلقية,
@@ -562,6 +640,9 @@ Recipients,المستلمين,
 Redirect,إعادة توجيه,
 Redirected,إعادة التوجيه,
 Reference Number,رقم الارتباط,
+Reference to Department Need,إشارة إلى قسم الحاجة,
+Reference to Department Need Approval,الإشارة إلى القسم بحاجة إلى موافقة,
+Reference to Need Aggregation,إشارة إلى الحاجة إلى التجميع,
 Referenced Doctype,نوع المستند المشار إليه,
 Referenced Document,الوثيقة المشار إليها,
 Refresh,تحديث,
@@ -579,6 +660,7 @@ Research,ابحاث,
 Research or Thesis,بحث أو أطروحة,
 Researcher,الباحث,
 Resolved,تم الحل,
+Results Display Settings,إعدادات عرض النتائج,
 Review & Decision,المراجعة والقرار,
 Right,حق,
 Room,قاعة,
@@ -622,6 +704,8 @@ Set attendance details for the Faculty Members select above,تحديد تفاص�
 Set filters to fetch Faculty Members,قم بتعيين المرشحات لجلب أعضاء هيئة التدريس,
 Set the time,ضبط الوقت,
 Seventh,سابعا,
+Show Correct Answer,عرض الإجابة الصحيحة,
+Show Question Score,إظهار نقاط السؤال,
 Sitting number,رقم الجلوس,
 Sixth,السادس,
 Specialist Field,التخصص الدقيق,
@@ -669,11 +753,13 @@ Sub Group,المجموعة الفرعية,
 Subgroup,مجموعة فرعية,
 Subject,موضوع,
 Submit,تسجيل,
+Submitted Academic Evaluations for Faculty Member,التقييمات الأكاديمية المقدمة لعضو هيئة التدريس,
 Suitable Environment,بيئة مناسبة,
 Sunday,الأحد,
 Supervisor,مشرف,
 Supporting Document,وثيقة مساعدة,
 System Manager,مدير النظام,
+TENUREQ-.YYYY.-.faculty_member_name.-,TENUREQ-.YYYY.-.faculty_member_name.-,
 Template,القالب,
 Template Doctype,نموذج الوثيقة,
 Template Title,عنوان النموذج,
@@ -681,14 +767,18 @@ Tenure Data,بيانات التثبيت,
 Tenure Evaluation Criteria,معايير التقييم الخاصة بالتثبيت,
 Tenure Evaluation Request,طلب تقييم خاص بالتثبيت,
 Tenure Request,طلب التثبيت,
+Tenure Settings,إعدادات الحيازة,
 Tenure Status,حالة التثبيت,
+Tenured,مثبت,
 Term Name,اسم الشرط,
+The 'Valid From' date must be lesser than the 'Valid Upto' date.,"يجب أن يكون تاريخ ""صالح من"" أقل من تاريخ ""صالح حتى"".",
 The Year End Date cannot be earlier than the Year Start Date. Please correct the dates and try again.,تاريخ نهاية السنة لا يمكن أن يكون أقدم من تاريخ بداية السنة. يرجى تصحيح التواريخ وحاول مرة أخرى.,
 The category {0} does not match the parent category {1} of sub-category {2}.,الفئة {0} لا تتطابق مع الفئة الأصلية {1} للفئة الفرعية {2}.,
 The chosen parent topic is not a group topic.,الموضوع الأب المختار ليس من نوع مجموعة.,
 The chosen parent topic {0} cannot be {1}.,الموضوع الأب الذي تم اختياره {0} لا يمكن أن يكون {1}.,
 The council of the parent topic does not match the current topic's council.,مجلس الموضوع الأب لا يتطابق مع مجلس الموضوع الحالي.,
 Theoretical,نظري,
+Theoretical and Practical,نظري وعملي,
 "There are  Records are Empty, please fill them...",هناك سجلات فارغة، يرجى ملئها...,
 "There are topic outside the valid list, please check again.",هناك موضوع خارج القائمة الصالحة، يرجى التحقق مرة أخرى.,
 Thesis Title,عنوان الأطروحة,
@@ -715,6 +805,8 @@ Topic Applicant,مقدم الموضوع,
 Topic Attachment,مرفق الموضوع,
 Topic Date,تاريخ الموضوع,
 Topic Decision Template,قالب قرار الموضوع,
+Topic {0} is already in group {1}.,الموضوع {0} موجود بالفعل في المجموعة {1}.,
+Topic {0} is not in draft state and can't be grouped anymore.,الموضوع {0} ليس في حالة مسودة للذلك لايمكن تجميعه.,
 Topic(s) added successfully.,تمت إضافة الموضوع (المواضيع) بنجاح.,
 Topics,المواضيع,
 Topics can't be duplicated,لا يمكن أن تكون المواضيع مكررة,
@@ -725,6 +817,7 @@ Tracking Actions,إجراءات التتبع,
 Training Courses,الدورات التدريبية,
 Transaction,معاملة,
 Transaction Action,إجراء المعاملة,
+Transaction Action has no Department.,إجراء المعاملة لا ينتمي الى اي قسم (وحدة إدارية).,
 Transaction Applicant,طالب الصفقة,
 Transaction Attachments,مرفقات المعاملات,
 Transaction Category,فئة الصفقة,
@@ -748,6 +841,7 @@ University Email,البريد الإلكتروني الجامعي,
 University Name,اسم الجامعة,
 University Requirement,متطلبات الجامعة,
 University and Community Services,خدمات الجامعة والمجتمع,
+Unknown-,مجهول-,
 Unmarked Attendance,حضور غير محدد,
 Unscheduled,غير المجدولة,
 Upload Date,تاريخ الرفع,
