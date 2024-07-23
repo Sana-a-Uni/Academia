@@ -5998,5 +5998,29 @@
   "share": 1,
   "submit": 0,
   "write": 1
+ },
+ {
+  "amend": 0,
+  "cancel": 0,
+  "create": 1,
+  "delete": 1,
+  "docstatus": 0,
+  "doctype": "Custom DocPerm",
+  "email": 1,
+  "export": 1,
+  "if_owner": 0,
+  "import": 0,
+  "modified": "2024-07-24 01:38:27.162833",
+  "name": "ece0f181f2",
+  "parent": "Level And Semester Enrollment",
+  "permlevel": 0,
+  "print": 1,
+  "read": 1,
+  "report": 1,
+  "role": "Academic User",
+  "select": 0,
+  "share": 1,
+  "submit": 0,
+  "write": 1
  }
 ]
