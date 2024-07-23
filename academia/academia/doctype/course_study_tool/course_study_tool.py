@@ -32,11 +32,9 @@ class CourseStudyTool(Document):
 		student_batch: DF.Link | None
 	# end: auto-generated types
 	
-	child_table_data1 = []
 
 	@frappe.whitelist()
 	def get_courses(self):
-		global child_table_data1
 		child_table_data = []
 		child_data = {}
 
@@ -156,7 +154,6 @@ class CourseStudyTool(Document):
 			frappe.throw(_("Mandatory field - Based On"))	
 		
 
-		child_table_data1 = child_table_data
 
 		if child_table_data:
 			return child_table_data
@@ -170,7 +167,8 @@ class CourseStudyTool(Document):
 		elif not self.academic_term:
 			frappe.throw(_("Mandatory field - Academic term"))
 		else:	
-			for i, cour in enumerate(child_table_data1):
+
+			for cour in self.courses:
 				child_hours_data = {}
 
 				key = cour.course_code
