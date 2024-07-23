@@ -8,7 +8,7 @@ export const useAssignmentStore = defineStore("assignment", {
 		loading: false,
 		error: null,
 		previousSubmission: null,
-		previousSubmissionFiles: [], // أضفنا هذه الحالة لتخزين ملفات التقديم السابقة
+		previousSubmissionFiles: [], 
 	}),
 	actions: {
 		async fetchAssignments(courseName, studentId) {
@@ -65,12 +65,30 @@ export const useAssignmentStore = defineStore("assignment", {
 					}
 				);
 				this.previousSubmission = response.data.previous_submission;
-				this.previousSubmissionFiles = response.data.files; // تخزين الملفات المسترجعة في الحالة
+				this.previousSubmissionFiles = response.data.files; 
 			} catch (error) {
 				console.error("Error fetching previous submission:", error);
 				this.error = "Error fetching previous submission.";
 			} finally {
 				this.loading = false;
+			}
+		},
+		async deleteAttachment(fileUrl) {
+			try {
+				const response = await axios.post(
+					"http://localhost:8080/api/method/academia.lms_api.student.assignment.delete_attachment",
+					{ file_url: fileUrl },
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: "token 209d178aa3fed8b:37cdbe81b02b42b",
+						},
+					}
+				);
+				return response.data;
+			} catch (error) {
+				console.error("Error deleting file:", error);
+				throw error;
 			}
 		},
 		async submitAssignment(data) {
