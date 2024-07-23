@@ -8,6 +8,64 @@
 				<div ref="quillQuestionEditor" class="quill-editor"></div>
 			</div>
 
+			<!-- Attach Files Field -->
+			<h4>Attach Files</h4>
+			<div class="indented-content">
+				<input
+					class="uploadFiles"
+					type="file"
+					id="attachFiles"
+					@change="handleFileUpload"
+					multiple
+				/>
+				<div
+					v-if="previousSubmissionFiles.length || uploadedFiles.length"
+					class="file-list"
+				>
+					<table>
+						<thead>
+							<tr>
+								<th style="width: 80%">File Name</th>
+								<th>Delete</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!-- عرض الملفات السابقة -->
+							<tr
+								v-for="(file, index) in previousSubmissionFiles"
+								:key="file.file_url"
+							>
+								<td>
+									<a :href="getFullFileUrl(file.file_url)" target="_blank">{{
+										file.file_name
+									}}</a>
+								</td>
+								<td style="text-align: center">
+									<font-awesome-icon
+										icon="trash"
+										@click="markFileForDeletion(index)"
+										style="color: #dc3545"
+									/>
+								</td>
+							</tr>
+							<!-- عرض الملفات الجديدة -->
+							<tr v-for="(file, index) in uploadedFiles" :key="index">
+								<td>
+									<a :href="file.previewUrl" target="_blank">{{ file.name }}</a>
+								</td>
+								<td style="text-align: center">
+									<font-awesome-icon
+										icon="trash"
+										@click="removeFile(index)"
+										style="color: #dc3545"
+									/>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+
 			<!-- Assessment Criteria Fields -->
 			<div class="form-group">
 				<label for="assessment-criteria">Assessment Criteria</label>
@@ -71,7 +129,6 @@ import { ref, onMounted, nextTick } from "vue";
 import Quill from "quill";
 import { useAssignmentStore } from "@/stores/teacherStore/assignmentStore";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
-
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
@@ -81,6 +138,9 @@ library.add(faTrash);
 const emit = defineEmits(["settings", "go-back"]);
 const assignmentStore = useAssignmentStore();
 const quillQuestionEditor = ref(null);
+const uploadedFiles = ref([]);
+const previousSubmissionFiles = ref([]);
+const filesMarkedForDeletion = ref([]);
 
 const editorOptions = {
 	theme: "snow",
@@ -127,10 +187,53 @@ const validateGrade = (index) => {
 	}
 };
 
+const handleFileUpload = (event) => {
+	const files = event.target.files;
+	for (let i = 0; i < files.length; i++) {
+		if (
+			!uploadedFiles.value.some(
+				(f) => f.file.name === files[i].name && f.file.size === files[i].size
+			)
+		) {
+			const previewUrl = URL.createObjectURL(files[i]);
+			const reader = new FileReader();
+			reader.onload = (e) => {
+				uploadedFiles.value.push({
+					file: files[i],
+					previewUrl,
+					name: files[i].name,
+					content: e.target.result.split(",")[1],
+				});
+			};
+			reader.readAsDataURL(files[i]);
+		}
+	}
+};
+
+const removeFile = (index) => {
+	const file = uploadedFiles.value[index];
+	URL.revokeObjectURL(file.previewUrl);
+	uploadedFiles.value.splice(index, 1);
+};
+
+const markFileForDeletion = (index) => {
+	const file = previousSubmissionFiles.value[index];
+	previousSubmissionFiles.value.splice(index, 1);
+	filesMarkedForDeletion.value.push(file);
+};
+
+const getFullFileUrl = (fileUrl) => {
+	return `http://localhost:80${fileUrl}`;
+};
+
 const saveAssignmentDetails = () => {
 	assignmentStore.updateAssignmentData({
 		question: assignmentStore.assignmentData.question,
 		assessment_criteria: assignmentStore.assignmentData.assessment_criteria,
+		attachments: uploadedFiles.value.map((file) => ({
+			attachment: file.content,
+			attachment_name: file.name,
+		})),
 	});
 	emit("settings");
 };
@@ -187,7 +290,6 @@ const previousPage = () => {
 .criteria-table {
 	width: 100%;
 	border-collapse: collapse;
-	/* margin-bottom: 20px; */
 }
 
 .criteria-table th,
@@ -279,5 +381,41 @@ button {
 .prev-btn:hover,
 .next-btn:hover {
 	opacity: 0.9;
+}
+
+.uploadFiles {
+	width: 20%;
+}
+
+.file-list {
+	margin-bottom: 20px;
+}
+
+.file-list table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+.file-list th,
+.file-list td {
+	padding: 10px;
+	border: 1px solid #ccc;
+}
+
+.file-list th {
+	background-color: #f4f4f4;
+}
+
+.file-list td button {
+	padding: 5px 10px;
+	background-color: #dc3545;
+	color: #fff;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+.file-list td button:hover {
+	background-color: #dc3545;
 }
 </style>
