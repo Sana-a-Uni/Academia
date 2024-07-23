@@ -74,17 +74,22 @@
 									}}</a>
 								</td>
 								<td style="text-align: center">
-									<i
-										class="mdi mdi-delete"
+									<font-awesome-icon
+										icon="trash"
 										@click="removePreviousFile(index)"
-									></i>
+										style="color: #dc3545"
+									/>
 								</td>
 							</tr>
 							<!-- عرض الملفات الجديدة -->
 							<tr v-for="(file, index) in uploadedFiles" :key="index">
 								<td>{{ file.name }}</td>
 								<td style="text-align: center">
-									<i class="mdi mdi-delete" @click="removeFile(index)"></i>
+									<font-awesome-icon
+										icon="trash"
+										@click="removeFile(index)"
+										style="color: #dc3545"
+									/>
 								</td>
 							</tr>
 						</tbody>
@@ -141,6 +146,13 @@ import Quill from "quill";
 import { defineProps, watch } from "vue";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+
+// إضافة أيقونة الحذف إلى المكتبة
+library.add(faTrash);
+
 const props = defineProps({
 	assignmentDetails: {
 		type: Object,
@@ -165,6 +177,7 @@ const quillEditor = ref(null);
 const commentEditor = ref(null);
 const uploadedFiles = ref([]);
 const timeRemaining = ref(null);
+const previousSubmissionFiles = ref(props.previousSubmissionFiles);
 
 const editorOptions = {
 	theme: "snow",
@@ -214,6 +227,7 @@ watch(
 		nextTick(initializeQuillEditors);
 	}
 );
+
 const handleSubmit = async (isFinalSubmission) => {
 	const data = {
 		student: "EDU-STU-2024-00003", // Replace with actual student ID
@@ -399,12 +413,6 @@ textarea {
 	box-sizing: border-box;
 }
 
-.mdi-delete {
-	color: red;
-	font-size: 20px;
-	cursor: pointer;
-}
-
 .button-group {
 	display: flex;
 	justify-content: flex-end;
@@ -531,7 +539,7 @@ button[type="button"]:hover {
 
 .file-list td button {
 	padding: 5px 10px;
-	background-color: #c82333;
+	background-color: #dc3545;
 	color: #fff;
 	border: none;
 	border-radius: 3px;
