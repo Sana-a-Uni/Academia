@@ -204,12 +204,12 @@ def get_template(decision_template=None, topic=None, session=None):
             session_data = json.loads(session)
         else:
             return None
-        attendees, absentees = extract_session_members(session_data)
+        attendees, absenteesWE, absenteesWOE = extract_session_members(session_data) if not decision_template else [{}, {}, {}]
         session_data["weekday"] = extract_weekday_from_date(
             session_data["date"])
         # Convert the string to a datetime object
         rendered_template = render_decision_template(
-            decision_template_data, topic_info, attendees, absentees, session_data
+            decision_template_data, topic_info, attendees, absenteesWE, absenteesWOE, session_data
         )
         return rendered_template
 
@@ -241,24 +241,31 @@ def fetch_topic_info(topic):
 
 def extract_session_members(session_data):
     attendees = []
-    absentees = []
+    absenteesWE = []                                                                                                                     
+    absenteesWOE = []
     if "members" in session_data:
         for member in session_data["members"]:
             member_info = {"name": member.get(
                 "member_name", ""), "role": member.get("member_role", "")}
             if member.get("attendance") == "Attend":
                 attendees.append(member_info)
+            elif member.get("attendance") == "Absent with Excuse":
+                absenteesWE.append(member_info)
             else:
-                absentees.append(member_info)
-    return attendees, absentees
+                absenteesWOE.append(member_info)
+    return attendees, absenteesWE, absenteesWOE
 
 
-def render_decision_template(decision_template_data, topic_info, attendees, absentees, session_data):
+def render_decision_template(decision_template_data, topic_info, attendees, absenteesWE, absenteesWOE, session_data):
     template_content = decision_template_data.decision
     template = Template(template_content)
 
     return template.render(
-        topic=topic_info if topic_info else {}, attendees=attendees, absentees=absentees, session=session_data
+        topic=topic_info if topic_info else {},
+        attendees=attendees,
+        absentees=absenteesWE,
+        absenteesWOE=absenteesWOE,
+        session=session_data
     )
 
 
