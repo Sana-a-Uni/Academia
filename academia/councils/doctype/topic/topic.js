@@ -14,8 +14,7 @@ frappe.ui.form.on("Topic", {
       }
     </style>`).appendTo("head");
 
-		// frm.add_fetch("topic", "topic_main_category", "main_category");
-		// frm.add_fetch("topic", "topic_sub_category", "sub_category");
+		frm.add_fetch("transaction", "category", "category");
 	},
 
 	onload: function (frm) {
@@ -43,7 +42,6 @@ frappe.ui.form.on("Topic", {
 			// frm.set_value("sub_category", "");
 		}
 	},
-
 	refresh: function (frm) {
 		if (frm.is_new() || frm.doc.docstatus !== 0) {
 			frm.toggle_display("get_topics_to_group", false);
@@ -52,6 +50,14 @@ frappe.ui.form.on("Topic", {
 		}
 
 		show_grouped_topics(frm);
+
+		frm.set_query("sub_category", function () {
+			return {
+				filters: {
+					parent_category: frm.doc.category,
+				},
+			};
+		});
 
 		frm.set_query("parent_topic", function () {
 			return {
@@ -120,11 +126,11 @@ frappe.ui.form.on("Topic", {
 						parent_topic: "",
 						decision_type: "", //empty, not set, means topic not scheduled for session
 						docstatus: 0, // draft
-						// status:"Accepted"
+						// status:"Pending"
 					},
 				};
 			},
-			primary_action_label: "Get Topics To Group",
+			primary_action_label: __("Get Topics To Group"),
 			action: function (selections) {
 				frappe.call({
 					method: "academia.councils.doctype.topic.topic.add_topics_to_group",
@@ -136,7 +142,7 @@ frappe.ui.form.on("Topic", {
 						if (response.message === "ok") {
 							show_grouped_topics(frm);
 							frappe.show_alert({
-								message: __("Topic/s added successfully."),
+								message: __("Topic(s) added successfully."),
 								indicator: "green",
 							});
 						} else {
@@ -166,7 +172,9 @@ function show_grouped_topics(frm) {
 	container.empty(); // Clear previous data
 
 	if (frm.is_new()) {
-		$(container).html("<h3>You should save this document before adding grouped topics!</h3>");
+		$(container).html(
+			`<h3>${__("You should save this document before adding grouped topics!")}</h3>`
+		);
 		return;
 	}
 
@@ -174,7 +182,7 @@ function show_grouped_topics(frm) {
 		if (data.length > 0) {
 			create_datatable(frm, container, data);
 		} else {
-			$(container).html("<h3>No grouped topics added yet!</h3>");
+			$(container).html(`<h3> ${__("No grouped topics added yet!")}</h3>`);
 		}
 	});
 }
@@ -212,14 +220,14 @@ function create_datatable(frm, container, data) {
 	datatable.style.setStyle(".dt-cell__content", { textAlign: "left" });
 
 	const deleteButton = $("<button>")
-		.text("Delete")
+		.text(__("Delete"))
 		.addClass("btn btn-danger")
 		.css({ marginBottom: "10px", visibility: "hidden" })
 		.on("click", function () {
 			const selectedRows = get_selected_rows();
 			if (selectedRows.length > 0) {
 				frappe.confirm(
-					"Are you sure you want to delete the selected topics?",
+					__("Are you sure you want to delete the selected topics?"),
 					function () {
 						handleDeletion(frm, selectedRows);
 					}
@@ -264,10 +272,10 @@ function get_datatable_columns() {
 			editable: false,
 			sortable: false,
 		},
-		{ name: "Topic", width: 300, editable: false },
-		{ name: "Title", width: 300, editable: false },
-		{ name: "Topic Date", width: 150, editable: false },
-		{ name: "Decision Type", width: 143, editable: false },
+		{ name: __("Topic"), width: 300, editable: false },
+		{ name: __("Title"), width: 300, editable: false },
+		{ name: __("Topic Date"), width: 150, editable: false },
+		{ name: __("Decision Type"), width: 143, editable: false },
 	];
 }
 function delete_topics_from_group(frm, topic_names, callback) {

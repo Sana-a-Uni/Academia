@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"GbvsKSyRQ9\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Academia</span>\",\"col\":12}},{\"id\":\"tJ4ya2R4Kd\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"U3iXJbZ8gM\",\"type\":\"card\",\"data\":{\"card_name\":\"Faculty Students\",\"col\":4}},{\"id\":\"4vjKsxOUy-\",\"type\":\"card\",\"data\":{\"card_name\":\"Study Planning\",\"col\":4}},{\"id\":\"rlVneFbaEm\",\"type\":\"card\",\"data\":{\"card_name\":\"Admission and Enrollment\",\"col\":4}},{\"id\":\"HBTiILhO0q\",\"type\":\"card\",\"data\":{\"card_name\":\"Councils\",\"col\":4}},{\"id\":\"aqrJWFiaNx\",\"type\":\"card\",\"data\":{\"card_name\":\"LMS\",\"col\":4}}]",
+ "content": "[{\"id\":\"GbvsKSyRQ9\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Academia</span>\",\"col\":12}},{\"id\":\"tJ4ya2R4Kd\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"H0hpvVngLO\",\"type\":\"card\",\"data\":{\"card_name\":\"Faculty Members\",\"col\":4}},{\"id\":\"4vjKsxOUy-\",\"type\":\"card\",\"data\":{\"card_name\":\"Study Planning\",\"col\":4}},{\"id\":\"rlVneFbaEm\",\"type\":\"card\",\"data\":{\"card_name\":\"Admission and Enrollment\",\"col\":4}},{\"id\":\"HBTiILhO0q\",\"type\":\"card\",\"data\":{\"card_name\":\"Councils\",\"col\":4}},{\"id\":\"aqrJWFiaNx\",\"type\":\"card\",\"data\":{\"card_name\":\"LMS\",\"col\":4}}]",
  "creation": "2024-01-31 01:50:55.982047",
  "custom_blocks": [],
  "docstatus": 0,
@@ -16,17 +16,18 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Faculty Member",
-   "link_count": 4,
+   "label": "LMS",
+   "link_count": 2,
+   "link_type": "",
    "onboard": 0,
    "type": "Card Break"
   },
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Student",
+   "label": "Course",
    "link_count": 0,
-   "link_to": "Student",
+   "link_to": "Course",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -34,115 +35,9 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Student Category",
+   "label": "Lecture",
    "link_count": 0,
-   "link_to": "Student Category",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Student Batch",
-   "link_count": 0,
-   "link_to": "Student Batch",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Student Group",
-   "link_count": 0,
-   "link_to": "Student Group",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Admission and Enrollment",
-   "link_count": 4,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Student Admission",
-   "link_count": 0,
-   "link_to": "Student Admission",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Student Applicant",
-   "link_count": 0,
-   "link_to": "Student Applicant",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Level And Semester Enrollment",
-   "link_count": 0,
-   "link_to": "Level And Semester Enrollment",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Course Enrollment",
-   "link_count": 0,
-   "link_to": "Course Enrollment",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Councils",
-   "link_count": 5,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Topic",
-   "link_count": 0,
-   "link_to": "Topic",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Council",
-   "link_count": 0,
-   "link_to": "Council",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Session",
-   "link_count": 0,
-   "link_to": "Session",
+   "link_to": "Lecture",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -152,6 +47,7 @@
    "is_query_report": 0,
    "label": "Study Planning",
    "link_count": 5,
+   "link_type": "",
    "onboard": 0,
    "type": "Card Break"
   },
@@ -208,17 +104,18 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "LMS",
-   "link_count": 2,
+   "label": "Admission and Enrollment",
+   "link_count": 4,
+   "link_type": "",
    "onboard": 0,
    "type": "Card Break"
   },
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Course",
+   "label": "Student Admission",
    "link_count": 0,
-   "link_to": "Course",
+   "link_to": "Student Admission",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -226,9 +123,29 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Lecture",
+   "label": "Student Applicant",
    "link_count": 0,
-   "link_to": "Lecture",
+   "link_to": "Student Applicant",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Level And Semester Enrollment",
+   "link_count": 0,
+   "link_to": "Level And Semester Enrollment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Course Enrollment",
+   "link_count": 0,
+   "link_to": "Course Enrollment",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -237,8 +154,8 @@
    "hidden": 0,
    "is_query_report": 0,
    "label": "Masters",
-   "link_count": 4,
-   "link_type": "DocType",
+   "link_count": 5,
+   "link_type": "",
    "onboard": 0,
    "type": "Card Break"
   },
@@ -283,21 +200,69 @@
    "type": "Link"
   },
   {
-    "hidden": 0,
-    "is_query_report": 0,
-    "label": "Faculty Staff",
-    "link_count": 5,
-    "link_to": "Faculty Staff",
-    "link_type": "DocType",
-    "onboard": 0,
-    "type": "Link"
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Course Specification",
+   "link_count": 0,
+   "link_to": "Course Specification",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   },
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Course",
+   "label": "Councils",
+   "link_count": 4,
+   "link_type": "",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Topic",
    "link_count": 0,
-   "link_to": "Course",
+   "link_to": "Topic",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Topic Template",
+   "link_count": 0,
+   "link_to": "Topic Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Council",
+   "link_count": 0,
+   "link_to": "Council",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Session",
+   "link_count": 0,
+   "link_to": "Session",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Faculty Members",
+   "link_count": 4,
    "link_type": "DocType",
    "onboard": 0,
    "type": "Card Break"
@@ -333,96 +298,17 @@
    "type": "Link"
   },
   {
-    "hidden": 0,
-    "is_query_report": 0,
-    "label": "Academic Rank",
-    "link_count": 0,
-    "link_to": "Academic Rank",
-    "link_type": "DocType",
-    "onboard": 0,
-    "type": "Link"
-  },
-  {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Course",
+   "label": "Tenure Request",
    "link_count": 0,
-   "link_to": "Course",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Scientific Degree",
-   "link_count": 0,
-   "link_to": "Scientific Degree",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Masters",
-   "link_count": 5,
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Faculty",
-   "link_count": 0,
-   "link_to": "Faculty",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Faculty Department",
-   "link_count": 0,
-   "link_to": "Faculty Department",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Program Specification",
-   "link_count": 0,
-   "link_to": "Program Specification",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Academic Program",
-   "link_count": 0,
-   "link_to": "Academic Program",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Academic Year",
-   "link_count": 0,
-   "link_to": "Academic Year",
+   "link_to": "Tenure Request",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
   }
  ],
-
- "modified": "2024-04-30 17:16:47.195394",
+ "modified": "2024-07-16 12:13:07.128051",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academia",

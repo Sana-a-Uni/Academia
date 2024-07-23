@@ -25,8 +25,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Type",
-   "options": "\nSupporting Document\nMinutes\nDocument\nImage\nReport",
-   "reqd": 1
+   "options": "\nSupporting Document\nMinutes\nDocument\nImage\nReport"
   },
   {
    "fieldname": "attachment",
@@ -44,7 +43,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-07 00:02:17.816783",
+ "modified": "2024-07-22 06:24:06.238487",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic Attachment",

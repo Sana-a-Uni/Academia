@@ -1,0 +1,284 @@
+{
+ "_comments": "[{\"comment\": \"<div class=\\\"ql-editor read-mode\\\"><p><br></p></div>\", \"by\": \"admin@example.com\", \"name\": \"d4184d2933\"}]",
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2024-07-16 12:16:15.080472",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "column_break_bnin",
+  "amended_from",
+  "evaluation_parties_information_section",
+  "evaluatee",
+  "evaluatee_party_type",
+  "evaluatee_party",
+  "evaluatee_party_name",
+  "column_break_etpr",
+  "evaluator",
+  "evaluator_party_type",
+  "evaluator_party",
+  "evaluator_party_name",
+  "evaluatee_information_section",
+  "company",
+  "department",
+  "faculty",
+  "column_break_dqof",
+  "email",
+  "designation",
+  "academic_rank",
+  "other_details_section",
+  "academic_year",
+  "academic_term",
+  "column_break_rdpu",
+  "date",
+  "attachment",
+  "evaluation_tab",
+  "template",
+  "evaluation_details",
+  "section_break_xjzs",
+  "notes",
+  "connections_tab"
+ ],
+ "fields": [
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Academic Evaluation",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_etpr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "evaluatee",
+   "fieldtype": "Heading",
+   "label": "Evaluatee"
+  },
+  {
+   "fieldname": "evaluator",
+   "fieldtype": "Heading",
+   "label": "Evaluator"
+  },
+  {
+   "fieldname": "evaluatee_party_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Party Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "evaluator_party_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Party Type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "evaluatee_party",
+   "fieldtype": "Dynamic Link",
+   "label": "Party",
+   "options": "evaluatee_party_type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "evaluator_party",
+   "fieldtype": "Dynamic Link",
+   "label": "Party",
+   "options": "evaluator_party_type",
+   "reqd": 1
+  },
+  {
+   "fieldname": "evaluation_tab",
+   "fieldtype": "Tab Break",
+   "label": "Evaluation"
+  },
+  {
+   "fieldname": "template",
+   "fieldtype": "Link",
+   "label": "Template",
+   "options": "Evaluation Criteria Template"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Small Text",
+   "label": "Notes"
+  },
+  {
+   "depends_on": "eval: doc.template",
+   "fieldname": "evaluation_details",
+   "fieldtype": "Table",
+   "label": "Evaluation Details",
+   "options": "Evaluation Detail"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "Unknown-\nEVAL-EMP-FM-.department.-.evaluatee_party_name.-.YYYY.-\nEVAL-FM-EMP-.department.-.evaluatee_party_name.-.YYYY.-\nEVAL-FM-STD-.department.-.evaluatee_party_name.-.YYYY.-",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_bnin",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "evaluatee_information_section",
+   "fieldtype": "Section Break",
+   "label": "Evaluatee Information"
+  },
+  {
+   "fieldname": "academic_rank",
+   "fieldtype": "Link",
+   "label": "Academic Rank",
+   "options": "Academic Rank",
+   "read_only": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_dqof",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department",
+   "read_only": 1
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "evaluatee_party_name",
+   "fieldtype": "Data",
+   "label": "Party Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "evaluator_party_name",
+   "fieldtype": "Data",
+   "label": "Party Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "other_details_section",
+   "fieldtype": "Section Break",
+   "label": "Other Details"
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "label": "Academic Year",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "label": "Academic Term",
+   "options": "Academic Term",
+   "reqd": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_rdpu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "evaluation_parties_information_section",
+   "fieldtype": "Section Break",
+   "label": "Evaluation Parties Information"
+  },
+  {
+   "fieldname": "section_break_xjzs",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Link",
+   "label": "Designation",
+   "options": "Designation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "connections_tab",
+   "fieldtype": "Tab Break",
+   "label": "Connections",
+   "show_dashboard": 1
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [
+  {
+   "is_child_table": 1,
+   "link_doctype": "Evaluations",
+   "link_fieldname": "evaluation",
+   "parent_doctype": "Tenure Request",
+   "table_fieldname": "evaluations"
+  }
+ ],
+ "modified": "2024-07-19 17:40:39.224656",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Academic Evaluation",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1
+}
