@@ -33,7 +33,6 @@
    "label": "get courses"
   },
   {
-   "depends_on": "eval:doc.based_on == \"Batch\";",
    "fieldname": "student_batch",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -154,7 +153,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-05-22 03:15:50.450909",
+ "modified": "2024-07-23 20:28:42.327444",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Study Tool",
