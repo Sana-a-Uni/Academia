@@ -13,11 +13,12 @@ class LMSAssignment(Document):
 
 	if TYPE_CHECKING:
 		from academia.lms.doctype.assessment_criteria.assessment_criteria import AssessmentCriteria
+		from academia.lms.doctype.attachment_files.attachment_files import AttachmentFiles
 		from frappe.types import DF
 
 		assessment_criteria: DF.Table[AssessmentCriteria]
 		assignment_title: DF.Data
-		attachment: DF.Attach | None
+		attachment_file: DF.Table[AttachmentFiles]
 		course: DF.Link | None
 		faculty_member: DF.Link | None
 		from_date: DF.Datetime | None
