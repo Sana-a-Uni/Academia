@@ -190,26 +190,22 @@ def create_assignment_submission():
 @frappe.whitelist(allow_guest=True)
 def get_assignment_and_submission_details(assignment="ecff4b55c2", student="EDU-STU-2024-00003"):
     # Fetch the submissions for the given assignment and student
-    submissions = frappe.get_all('Assignment Submission', filters={'assignment': assignment, 'student': student}, fields=['name', 'answer', 'comment', 'submission_date', 'attachment'], order_by='submission_date desc')
+    submissions = frappe.get_all('Assignment Submission', filters={'assignment': assignment, 'student': student}, fields=['name', 'answer', 'comment', 'submission_date'], order_by='submission_date desc')
     previous_submission = submissions[0] if submissions else None
     
-    # Initialize the list for files and a set to avoid duplicates
+    # Initialize the list for files
     files = []
-    attached_files_set = set()
 
     if previous_submission:
-        # Fetch the attached files for the previous submission
-        attached_files = frappe.get_all('File', filters={'attached_to_doctype': 'Assignment Submission', 'attached_to_name': previous_submission['name']}, fields=['file_url', 'file_name'], order_by='creation desc')
+        # Fetch the attached files from the Attachment Files table
+        attached_files = frappe.get_all('Attachment Files', filters={'parent': previous_submission['name'], 'parenttype': 'Assignment Submission'}, fields=['attachment_file'], order_by='creation desc')
         
-        # Add files to the set and the list if not already added
+        # Add files to the list
         for file in attached_files:
-            file_tuple = (file.file_name, file.file_url)
-            if file_tuple not in attached_files_set:
-                attached_files_set.add(file_tuple)
-                files.append({
-                    "file_name": file.file_name,
-                    "file_url": file.file_url
-                })
+            files.append({
+                "file_name": file.attachment_file.split('/')[-1],
+                "file_url": file.attachment_file
+            })
 
     # Set the response
     frappe.response["status_code"] = 200
