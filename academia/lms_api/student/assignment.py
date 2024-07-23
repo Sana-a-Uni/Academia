@@ -1,5 +1,6 @@
 from typing import Dict, Any,List
 from datetime import datetime
+from frappe.utils.file_manager import remove_file
 import frappe
 import json
 
@@ -211,3 +212,22 @@ def get_assignment_and_submission_details(assignment="ecff4b55c2", student="EDU-
     frappe.response["status_code"] = 200
     frappe.response["previous_submission"] = previous_submission
     frappe.response["files"] = files
+
+@frappe.whitelist()
+def delete_attachment(file_url):
+    file_name = file_url.split("/")[-1]
+    
+    file_doc = frappe.get_all('File', filters={'file_name': file_name})
+    
+    if file_doc:
+        frappe.delete_doc('File', file_doc[0].name)
+        
+        attachment_file_doc = frappe.get_all('Attachment Files', filters={'attachment_file': file_url})
+        
+        if attachment_file_doc:
+            frappe.delete_doc('Attachment Files', attachment_file_doc[0].name)
+        
+        frappe.db.commit()
+        return {"status": "success", "message": "File deleted successfully from both File and Attachment Files"}
+    else:
+        return {"status": "error", "message": "File not found in File doctype"}
