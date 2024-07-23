@@ -112,9 +112,17 @@ class Session(Document):
         self.process_session_topics()
 
     def before_save(self):
+        self.update_workflow_state()
         self.update_topics_status()
         self.minute_hash = 'SM-'+str(uuid.uuid1())
 
+    def update_workflow_state(self):
+        if self.date and self.begin_time and self.end_time:
+            if self.workflow_state == "Unscheduled":
+                self.workflow_state = "Scheduled"
+        else:
+            if self.workflow_state == "Scheduled":
+                self.workflow_state = "Unscheduled"
 
     def process_session_topics(self):
         """
