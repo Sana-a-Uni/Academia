@@ -45,7 +45,6 @@ def create_assignment():
     try:
         # Create the assignment document
         create_assignment_doc(data)
-
     except Exception as e:
         frappe.response["status_code"] = 500
         frappe.response["message"] = f"An error occurred while creating the assignment: {str(e)}"
@@ -55,12 +54,12 @@ def create_assignment():
     frappe.response["message"] = "Assignment created successfully"
 
 def create_assignment_doc(data):
+    # Create the assignment document
     assignment_doc = frappe.new_doc("LMS Assignment")
     assignment_doc.course = data.get("course")
     assignment_doc.faculty_member = data.get("faculty_member")
     assignment_doc.assignment_title = data.get("assignment_title")
     assignment_doc.instruction = data.get("instruction")
-    assignment_doc.student_group = data.get("student_group")
     assignment_doc.make_the_assignment_availability = data.get("make_the_assignment_availability")
 
     if data.get("make_the_assignment_availability") == 1:
@@ -79,4 +78,32 @@ def create_assignment_doc(data):
             total_grades += criteria.get("maximum_grade", 0)
 
     assignment_doc.total_grades = total_grades
+
+    # Insert the assignment document to get the name (ID) for attachments
     assignment_doc.insert()
+
+    # Handling attachments
+    attachments = data.get('attachments')
+    if attachments:
+        for attachment in attachments:
+            attachment_content = attachment.get('attachment')
+            attachment_name = attachment.get('attachment_name')
+            if attachment_content and attachment_name:
+                try:
+                    file_doc = frappe.get_doc({
+                        "doctype": "File",
+                        "file_name": attachment_name,
+                        "attached_to_doctype": "LMS Assignment",
+                        "attached_to_name": assignment_doc.name,
+                        "content": attachment_content,
+                        "decode": True
+                    })
+                    file_doc.insert()
+                    assignment_doc.append("attachment_file", {
+                        "attachment_file": file_doc.file_url
+                    })
+                except Exception as e:
+                    frappe.throw(f"Failed to upload attachment {attachment_name}: {str(e)}")
+
+    # Save the document again to ensure attachments are linked
+    assignment_doc.save()
