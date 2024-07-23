@@ -83,7 +83,9 @@
 							</tr>
 							<!-- عرض الملفات الجديدة -->
 							<tr v-for="(file, index) in uploadedFiles" :key="index">
-								<td>{{ file.name }}</td>
+								<td>
+									<a :href="file.previewUrl" target="_blank">{{ file.name }}</a>
+								</td>
 								<td style="text-align: center">
 									<font-awesome-icon
 										icon="trash"
@@ -253,7 +255,7 @@ const handleSubmit = async (isFinalSubmission) => {
 					uploadedFiles.value = [];
 				}
 			};
-			reader.readAsDataURL(file);
+			reader.readAsDataURL(file.file); // تعديل هنا لقراءة الملف الصحيح
 		}
 	} else {
 		// Submit without file if no file is uploaded
@@ -279,9 +281,12 @@ const handleFileUpload = (event) => {
 	const files = event.target.files;
 	for (let i = 0; i < files.length; i++) {
 		if (
-			!uploadedFiles.value.some((f) => f.name === files[i].name && f.size === files[i].size)
+			!uploadedFiles.value.some(
+				(f) => f.file.name === files[i].name && f.file.size === files[i].size
+			)
 		) {
-			uploadedFiles.value.push(files[i]);
+			const previewUrl = URL.createObjectURL(files[i]); // Create a preview URL
+			uploadedFiles.value.push({ file: files[i], previewUrl, name: files[i].name });
 		}
 	}
 };
@@ -295,6 +300,8 @@ const cancelAssignment = () => {
 };
 
 const removeFile = (index) => {
+	const file = uploadedFiles.value[index];
+	URL.revokeObjectURL(file.previewUrl); // Revoke the object URL to release memory
 	uploadedFiles.value.splice(index, 1);
 };
 
