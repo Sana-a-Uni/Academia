@@ -82,9 +82,8 @@
    "label": "get members from other companies"
   }
  ],
- "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-07 21:23:48.007621",
+ "modified": "2024-07-22 06:18:01.384842",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Council",
@@ -102,6 +101,29 @@
    "role": "System Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Council Head",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Council Reporter"
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Council user"
   }
  ],
  "sort_field": "modified",
