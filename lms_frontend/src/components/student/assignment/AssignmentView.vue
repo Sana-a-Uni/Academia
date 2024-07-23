@@ -37,7 +37,7 @@
 						<a
 							@click.prevent="
 								assignmentIsDue(assignment.to_date)
-									? goToInstructions(assignment.name)
+									? goToAssignment(assignment.name)
 									: null
 							"
 							:class="{ disabled: !assignmentIsDue(assignment.to_date) }"
@@ -89,8 +89,8 @@ const filteredAssignments = computed(() => {
 	});
 });
 
-const goToInstructions = (assignmentName) => {
-	router.push({ name: "assignmentInstructions", params: { assignmentName } });
+const goToAssignment = (assignmentName) => {
+	router.push({ name: "assignment", params: { assignmentName } });
 };
 
 const assignmentIsDue = (toDate) => {

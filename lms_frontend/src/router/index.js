@@ -76,7 +76,7 @@ const routes = [
 		component: () => import("../views/studentDashboard/assignment/assignmentView"),
 	},
 	{
-		path: "/assignment",
+		path: "/assignment/:assignmentName",
 		name: "assignment",
 		component: () => import("../views/studentDashboard/assignment/assignment"),
 	},

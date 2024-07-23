@@ -14,12 +14,13 @@
 					End time: All attempts must be completed before
 					{{ formattedEndTime }}
 				</p>
-				<p>Notes: {{ assignmentDetails.instruction }}</p>
+				<!-- Note -->
+				<span v-html="assignmentDetails.instruction"></span>
 			</div>
 
 			<h4>Assignment Content</h4>
 			<div class="indented-content">
-				<div class="assignment-content">{{ assignmentDetails.question }}</div>
+				<div class="assignment-content" v-html="assignmentDetails.question"></div>
 			</div>
 
 			<h4>Assignment File</h4>
