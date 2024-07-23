@@ -13,6 +13,7 @@ export const useAssignmentStore = defineStore("assignment", {
 			to_date: "",
 			question: "",
 			assessment_criteria: [],
+			attachments: [],
 		},
 		assignments: [],
 		loading: false,
@@ -54,6 +55,7 @@ export const useAssignmentStore = defineStore("assignment", {
 				);
 				if (response.status === 200) {
 					console.log("Assignment created successfully");
+					console.log(this.assignmentData);
 				} else {
 					console.error("Error creating assignment");
 				}
