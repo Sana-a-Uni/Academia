@@ -76,7 +76,7 @@
 								<td style="text-align: center">
 									<font-awesome-icon
 										icon="trash"
-										@click="removePreviousFile(index)"
+										@click="markFileForDeletion(index)"
 										style="color: #dc3545"
 									/>
 								</td>
@@ -141,16 +141,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick, computed } from "vue";
+import { ref, onMounted, onUnmounted, nextTick, computed, defineProps, watch } from "vue";
+import { useAssignmentStore } from "@/stores/studentStore/assignmentStore";
 import Quill from "quill";
-import { defineProps, watch } from "vue";
-import "@vueup/vue-quill/dist/vue-quill.snow.css";
-
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
-// إضافة أيقونة الحذف إلى المكتبة
 library.add(faTrash);
 
 const props = defineProps({
@@ -173,11 +170,14 @@ const props = defineProps({
 	},
 });
 
+const assignmentStore = useAssignmentStore();
+
 const quillEditor = ref(null);
 const commentEditor = ref(null);
 const uploadedFiles = ref([]);
 const timeRemaining = ref(null);
-const previousSubmissionFiles = ref(props.previousSubmissionFiles);
+const previousSubmissionFiles = ref([...props.previousSubmissionFiles]);
+const filesMarkedForDeletion = ref([]);
 
 const editorOptions = {
 	theme: "snow",
@@ -230,12 +230,12 @@ watch(
 
 const handleSubmit = async (isFinalSubmission) => {
 	const data = {
-		student: "EDU-STU-2024-00003", // Replace with actual student ID
+		student: "EDU-STU-2024-00003",
 		assignment: "ecff4b55c2",
 		answer: quillEditor.value.querySelector(".ql-editor").innerHTML,
 		comment: commentEditor.value.querySelector(".ql-editor").innerHTML,
 		submit: isFinalSubmission,
-		attachments: [], // List to hold attachments
+		attachments: [],
 	};
 
 	// Handle file upload only if there are files to upload
@@ -245,7 +245,7 @@ const handleSubmit = async (isFinalSubmission) => {
 			reader.onloadend = () => {
 				data.attachments.push({
 					attachment: reader.result.split(",")[1], // Set the attachment as base64 string
-					attachment_name: file.name, // Set the original file name with extension
+					attachment_name: file.name,
 				});
 				if (data.attachments.length === uploadedFiles.value.length) {
 					props.onSubmit(data);
@@ -259,12 +259,25 @@ const handleSubmit = async (isFinalSubmission) => {
 		// Submit without file if no file is uploaded
 		await props.onSubmit(data);
 	}
+
+	// Handle deletion of marked files
+	for (let file of filesMarkedForDeletion.value) {
+		try {
+			const response = await assignmentStore.deleteAttachment(file.file_url);
+			if (response.status === "success") {
+				previousSubmissionFiles.value = previousSubmissionFiles.value.filter(
+					(f) => f.file_url !== file.file_url
+				);
+			}
+		} catch (error) {
+			console.error("Error deleting file:", error);
+		}
+	}
 };
 
 const handleFileUpload = (event) => {
 	const files = event.target.files;
 	for (let i = 0; i < files.length; i++) {
-		// Prevent duplicate files by checking if the file already exists in uploadedFiles
 		if (
 			!uploadedFiles.value.some((f) => f.name === files[i].name && f.size === files[i].size)
 		) {
@@ -285,8 +298,10 @@ const removeFile = (index) => {
 	uploadedFiles.value.splice(index, 1);
 };
 
-const removePreviousFile = (index) => {
-	previousSubmissionFiles.value.splice(index, 1); // إزالة الملف من قائمة الملفات السابقة
+const markFileForDeletion = (index) => {
+	const file = previousSubmissionFiles.value[index];
+	previousSubmissionFiles.value.splice(index, 1);
+	filesMarkedForDeletion.value.push(file);
 };
 
 const getFullFileUrl = (fileUrl) => {
@@ -369,12 +384,12 @@ body {
 .content-time {
 	display: flex;
 	justify-content: space-between;
-	align-items: center; /* Center items vertically */
+	align-items: center;
 }
 
 .clock-time {
 	display: flex;
-	align-items: center; /* Center items vertically */
+	align-items: center;
 }
 
 .file-name {
