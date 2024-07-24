@@ -66,7 +66,7 @@
  ],
  "fields": [
   {
-   "default": "0",
+   "default": "1",
    "fieldname": "title",
    "fieldtype": "Check",
    "label": "Enabled"
@@ -145,6 +145,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "+967",
    "fieldname": "student_mobile_number",
    "fieldtype": "Phone",
    "label": "Student Mobile Number"
@@ -351,7 +352,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-24 21:26:35.987372",
+ "modified": "2024-07-24 21:36:11.221711",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student",
