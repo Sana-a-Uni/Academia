@@ -35,6 +35,17 @@ frappe.ui.form.on('Course Study Tool', {
                 }
             };
         };
+		frm.set_query('academic_term', function() {
+            if (frm.doc.academic_year) {
+                return {
+                    filters: {
+                        'academic_year': frm.doc.academic_year
+                    }
+                };
+            } else {
+                return {};
+            }
+        });
     },
     faculty: function(frm) {
         // Clear Specific Program field when Faculty is changed
@@ -48,5 +59,19 @@ frappe.ui.form.on('Course Study Tool', {
                 }
             };
         };
+    },
+	academic_year: function(frm) {
+        frm.set_value('academic_term', null);
+        frm.set_query('academic_term', function() {
+            if (frm.doc.academic_year) {
+                return {
+                    filters: {
+                        'academic_year': frm.doc.academic_year
+                    }
+                };
+            } else {
+                return {};
+            }
+        });
     }
 });
