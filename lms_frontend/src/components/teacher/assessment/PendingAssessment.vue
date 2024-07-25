@@ -17,10 +17,10 @@
 					<td colspan="4" class="no-data">No Data</td>
 				</tr>
 				<tr v-else v-for="assignment in assignments" :key="assignment.id">
-					<td class="student-column">{{ assignment.studentName }}</td>
-					<td class="assignment-column">{{ assignment.assignmentTitle }}</td>
+					<td class="student-column">{{ assignment.student_name }}</td>
+					<td class="assignment-column">{{ assignment.assignment_title }}</td>
 					<td class="submission-date-column">
-						{{ formatDate(assignment.submissionDate) }}
+						{{ formatDate(assignment.submission_date) }}
 					</td>
 					<td class="action-column">
 						<button @click="evaluateAssignment(assignment.id)" class="evaluate-button">

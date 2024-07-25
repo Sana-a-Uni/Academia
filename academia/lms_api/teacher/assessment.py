@@ -2,7 +2,7 @@ import frappe
 from frappe import _
 
 @frappe.whitelist(allow_guest=True)
-def get_submitted_assignments_by_faculty(faculty_member_id= "ACAD-FM-00001"):
+def get_submitted_assignments_by_faculty_member(faculty_member_id= "ACAD-FM-00001"):
     if not faculty_member_id:
         frappe.throw(_("Faculty Member ID is required"))
 
