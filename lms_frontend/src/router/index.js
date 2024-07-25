@@ -80,6 +80,11 @@ const routes = [
 		name: "assignment",
 		component: () => import("../views/studentDashboard/assignment/assignment"),
 	},
+	{
+		path: "/pendingAssessment",
+		name: "pendingAssessment",
+		component: () => import("../views/teacherDashboard/assessment/pendingAssessment"),
+	},
 ];
 
 const router = createRouter({
