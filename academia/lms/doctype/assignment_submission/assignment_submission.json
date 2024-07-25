@@ -14,9 +14,10 @@
   "submission_date",
   "column_break_wmme",
   "comment",
-  "amended_from",
+  "status",
   "section_break_reav",
-  "attachment_files"
+  "attachment_files",
+  "amended_from"
  ],
  "fields": [
   {
@@ -81,12 +82,18 @@
   {
    "fieldname": "section_break_reav",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "status",
+   "options": "\nsubmitted\nassessed"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-23 01:40:07.311056",
+ "modified": "2024-07-25 22:49:51.509085",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "Assignment Submission",
