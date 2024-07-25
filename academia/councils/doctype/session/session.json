@@ -10,6 +10,7 @@
   "naming_series",
   "council",
   "title",
+  "get_opening_template",
   "opening",
   "date_and_time_tab",
   "date",
@@ -21,7 +22,15 @@
   "agenda_tab",
   "get_topics",
   "topics",
-  "amended_from"
+  "amended_from",
+  "print_settings_tab",
+  "general_section",
+  "minute_hash",
+  "agenda_settings_section",
+  "agenda_title",
+  "minute_settings_section",
+  "minute_title",
+  "minute_ending"
  ],
  "fields": [
   {
@@ -49,7 +58,7 @@
   },
   {
    "fieldname": "opening",
-   "fieldtype": "Text",
+   "fieldtype": "Text Editor",
    "in_list_view": 1,
    "label": "Opening"
   },
@@ -132,12 +141,60 @@
    "label": "Topics",
    "options": "Session Topic",
    "reqd": 1
+  },
+  {
+   "depends_on": "opening",
+   "fieldname": "get_opening_template",
+   "fieldtype": "Button",
+   "label": "Get Opening Template"
+  },
+  {
+   "fieldname": "print_settings_tab",
+   "fieldtype": "Tab Break",
+   "label": "Print Settings"
+  },
+  {
+   "default": "000-",
+   "fieldname": "minute_hash",
+   "fieldtype": "Data",
+   "label": "Minute Hash",
+   "read_only": 1
+  },
+  {
+   "fieldname": "general_section",
+   "fieldtype": "Section Break",
+   "label": "General"
+  },
+  {
+   "fieldname": "agenda_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Agenda Settings"
+  },
+  {
+   "fieldname": "agenda_title",
+   "fieldtype": "Small Text",
+   "label": "Agenda Title"
+  },
+  {
+   "fieldname": "minute_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Minute Settings"
+  },
+  {
+   "fieldname": "minute_title",
+   "fieldtype": "Small Text",
+   "label": "Minute Title"
+  },
+  {
+   "fieldname": "minute_ending",
+   "fieldtype": "Small Text",
+   "label": "Minute Ending"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-06-08 02:33:13.885554",
+ "modified": "2024-07-14 21:36:07.085341",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Session",
@@ -153,6 +210,30 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Council Head",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Council Reporter",
    "share": 1,
    "write": 1
   }

@@ -4,37 +4,8 @@ app_publisher = "SanU"
 app_description = "Academic institution management system"
 app_email = "a.alshalabi@su.edu.ye"
 app_license = "mit"
-required_apps = ["frappe/erpnext","frappe/hrms"]
+required_apps = ["frappe/erpnext", "frappe/hrms"]
 
-
-# for print format
-fixtures = [
- {
-  "doctype": "Print format",
-  "filters" : [
-                "name",
-                "in",
-                [
-     'transaction'
-                ]
-             ]
-     }
- ]
-
-
-fixtures = [
-    "Academic Status",
-    "Journal Type",
-    "Workflow",
-    "Workflow State",
-    "Workflow Action Master",
-    {
-        "doctype": "Role",
-        "filters": [
-            ["name", "in", ["Academic User", "Faculty Dean", "Department Head"]]
-        ]
-    }
-]
 
 # Includes in <head>
 # ------------------
@@ -77,7 +48,7 @@ app_include_js = "academia.bundle.js"
 
 # website user home page (by Role)
 # role_home_page = {
-#	"Role": "home_page"
+# "Role": "home_page"
 # }
 
 # Generators
@@ -91,8 +62,8 @@ app_include_js = "academia.bundle.js"
 
 # add methods and filters to jinja environment
 # jinja = {
-#	"methods": "academia.utils.jinja_methods",
-#	"filters": "academia.utils.jinja_filters"
+# "methods": "academia.utils.jinja_methods",
+# "filters": "academia.utils.jinja_filters"
 # }
 
 # Installation
@@ -134,11 +105,11 @@ app_include_js = "academia.bundle.js"
 # Permissions evaluated in scripted ways
 
 # permission_query_conditions = {
-#	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
+# "Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
 # }
 #
 # has_permission = {
-#	"Event": "frappe.desk.doctype.event.event.has_permission",
+# "Event": "frappe.desk.doctype.event.event.has_permission",
 # }
 
 # DocType Class
@@ -146,7 +117,7 @@ app_include_js = "academia.bundle.js"
 # Override standard doctype classes
 
 # override_doctype_class = {
-#	"ToDo": "custom_app.overrides.CustomToDo"
+# "ToDo": "custom_app.overrides.CustomToDo"
 # }
 
 # Document Events
@@ -154,32 +125,32 @@ app_include_js = "academia.bundle.js"
 # Hook on document methods and events
 
 # doc_events = {
-#	"*": {
-#		"on_update": "method",
-#		"on_cancel": "method",
-#		"on_trash": "method"
-#	}
+# "*": {
+# "on_update": "method",
+# "on_cancel": "method",
+# "on_trash": "method"
+# }
 # }
 
 # Scheduled Tasks
 # ---------------
 
 # scheduler_events = {
-#	"all": [
-#		"academia.tasks.all"
-#	],
-#	"daily": [
-#		"academia.tasks.daily"
-#	],
-#	"hourly": [
-#		"academia.tasks.hourly"
-#	],
-#	"weekly": [
-#		"academia.tasks.weekly"
-#	],
-#	"monthly": [
-#		"academia.tasks.monthly"
-#	],
+# "all": [
+# "academia.tasks.all"
+# ],
+# "daily": [
+# "academia.tasks.daily"
+# ],
+# "hourly": [
+# "academia.tasks.hourly"
+# ],
+# "weekly": [
+# "academia.tasks.weekly"
+# ],
+# "monthly": [
+# "academia.tasks.monthly"
+# ],
 # }
 
 # Testing
@@ -191,14 +162,14 @@ before_tests = "academia.tests.test_utils.before_tests"
 # ------------------------------
 #
 # override_whitelisted_methods = {
-#	"frappe.desk.doctype.event.event.get_events": "academia.event.get_events"
+# "frappe.desk.doctype.event.event.get_events": "academia.event.get_events"
 # }
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
 # override_doctype_dashboards = {
-#	"Task": "academia.task.get_dashboard_data"
+# "Task": "academia.task.get_dashboard_data"
 # }
 
 # exempt linked doctypes from being automatically cancelled
@@ -224,120 +195,127 @@ before_tests = "academia.tests.test_utils.before_tests"
 # --------------------
 
 # user_data_fields = [
-#	{
-#		"doctype": "{doctype_1}",
-#		"filter_by": "{filter_by}",
-#		"redact_fields": ["{field_1}", "{field_2}"],
-#		"partial": 1,
-#	},
-#	{
-#		"doctype": "{doctype_2}",
-#		"filter_by": "{filter_by}",
-#		"partial": 1,
-#	},
-#	{
-#		"doctype": "{doctype_3}",
-#		"strict": False,
-#	},
-#	{
-#		"doctype": "{doctype_4}"
-#	}
+# {
+# "doctype": "{doctype_1}",
+# "filter_by": "{filter_by}",
+# "redact_fields": ["{field_1}", "{field_2}"],
+# "partial": 1,
+# },
+# {
+# "doctype": "{doctype_2}",
+# "filter_by": "{filter_by}",
+# "partial": 1,
+# },
+# {
+# "doctype": "{doctype_3}",
+# "strict": False,
+# },
+# {
+# "doctype": "{doctype_4}"
+# }
 # ]
 
 # Authentication and authorization
 # --------------------------------
 
 # auth_hooks = [
-#	"academia.auth.validate"
+# "academia.auth.validate"
 # ]
 export_python_type_annotations = True
 
 
-
-
-from frappe import _
-
-
-
 fixtures = [
-    "Role"
+	# Print formats
+	{"doctype": "Print Format", "filters": [["name", "in", ["transaction"]]]},
+	# Standard Fixtures
+	"Academic Status",
+	"Journal Type",
+	"Workflow",
+	"Workflow State",
+	"Workflow Action Master",
+	# Roles
+	{"doctype": "Role", "filters": [["name", "in", ["Academic User", "Faculty Dean", "Department Head"]]]},
+	# Custom DocPerm Fixtures
+	{
+		"doctype": "Custom DocPerm",
+		"filters": [
+			[
+				"parent",
+				"in",
+				[
+					"Course",
+					"Student Group Tool",
+					"Lesson",
+					"Lesson Template",
+					"Student Group",
+					"Academic Year",
+					"Academic Specialty",
+					"Study Method",
+					"Program Degree",
+					"Student Category",
+					"Appreciation Type",
+					"Authority",
+					"Scientific Degree",
+					"Nationality",
+					"Consultation Type",
+					"Lecture",
+					"Study Plan",
+					"Semester",
+					"Level",
+					"Academic Term",
+					"Student State",
+					"Student",
+					"Academic Rank",
+					"Academic Publication",
+					"Building",
+					"Lab Type",
+					"Room",
+					"Scientific Article",
+					"Lab",
+					"Faculty Department",
+					"Academic Program",
+					"Student Batch",
+					"Hour Type",
+					"Level And Semester Enrollment",
+					"Program Specification",
+					"Tenure Evaluation Request",
+					"Faculty Member",
+					"Faculty",
+					"Group Assignment Tool",
+					"Group Assignment",
+					"Academic Publication Type",
+					"Academic Services",
+					"Evaluation Criteria Template",
+					"Tenure Request",
+					"Evaluation Criterion",
+					"Program Enrollment",
+					"Course Specification",
+					"Facility",
+					"Schedule Template Version",
+					"University",
+					"Course Enrollment Tool",
+					"Course Study",
+					"Academic Status",
+					"Faculty Need",
+					"Degree Accreditation",
+					"Journal",
+					"Journal Type",
+					"Course Study Tool",
+					"Asset Access Request",
+					"Student Admission",
+					"Academic Attendance Tool",
+					"Course Enrollment",
+					"LMS Quiz",
+					"Lesson Attendance",
+					"Student Applicant",
+					"Question",
+					"Quiz Attempt",
+					"Quiz Result",
+					"LMS Assignment",
+					"Academic Attendance Tool",
+					"Semester Enrollment",
+				],
+			]
+		],
+	},
 ]
-
-fixtures = [
-    {"dt": "Custom DocPerm", "filters": [
-        ["parent", "in", [
-            "Course",
-            "Student Group Tool",
-            "Lesson",
-            "Lesson Template",
-            "Student Group",
-            "Academic Year",
-            "Academic Specialty",
-            "Study Method",
-            "Program Degree",
-            "Student Category",
-            "Appreciation Type",
-            "Authority",
-            "Scientific Degree",
-            "Nationality",
-            "Consultation Type",
-            "Lecture",
-            "Study Plan",
-            "Semester",
-            "Level",
-            "Academic Term",
-            "Student State",
-            "Student",
-            "Academic Rank",
-            "Academic Publication",
-            "Building",
-            "Lab Type",
-            "Room",
-            "Scientific Article",
-            "lab",
-            "Faculty Department",
-            "Academic Program",
-            "Student Batch",
-            "Hour Type",
-            "Level And Semester Enrollment",
-            "Program Specification",
-            "Tenure Evaluation Request",
-            "Faculty Member",
-            "Faculty",
-            "Group Assignment Tool",
-            "Group Assignment",
-            "Academic Publication Type",
-            "Academic Services",
-            "Evaluation Criteria Template",
-            "Tenure Request",
-            "Evaluation Criterion",
-            "Program Enrollment",
-            "Course Specification",
-            "Facility",
-            "Schedule Template Version",
-            "University",
-            "Course Enrollment Tool",
-            "Course Study",
-            "Academic Status",
-            "Faculty Need",
-            "Degree Accreditation",
-            "Journal",
-            "Journal Type",
-            "Course Study Tool",
-            "Asset Access Request",
-            "Student Admission",
-            "Academic Attendance Tool",
-            "Course Enrollment",
-            "LMS Quiz",
-            "Lesson Attendance",
-            "Student Applicant",
-            "Question",
-            "Quiz Attempt",
-            "Quiz Result",
-            "LMS Assignment",
-            "Academic Attendance Tool",
-            "Semester Enrollment"
-            ]
-        ]
-    ]}
-]   

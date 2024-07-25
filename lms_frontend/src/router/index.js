@@ -43,7 +43,9 @@ const routes = [
 		component: () => import("../views/studentDashboard/quiz/quizReview"),
 		props: (route) => ({
 			quizAttemptId: route.params.quizAttemptId,
-			questionIndex: route.params.questionIndex ? parseInt(route.params.questionIndex, 10) : 0,
+			questionIndex: route.params.questionIndex
+				? parseInt(route.params.questionIndex, 10)
+				: 0,
 		}),
 	},
 
@@ -57,6 +59,26 @@ const routes = [
 		name: "quizList",
 		component: () => import("../views/teacherDashboard/quiz/quizView"),
 		// props: true,
+	},
+	{
+		path: "/assignments",
+		name: "assignments",
+		component: () => import("../views/teacherDashboard/assignment/assignmentView"),
+	},
+	{
+		path: "/createAssignment",
+		name: "createAssignment",
+		component: () => import("../views/teacherDashboard/assignment/createAssignment"),
+	},
+	{
+		path: "/assignmentView",
+		name: "assignmentView",
+		component: () => import("../views/studentDashboard/assignment/assignmentView"),
+	},
+	{
+		path: "/assignment/:assignmentName",
+		name: "assignment",
+		component: () => import("../views/studentDashboard/assignment/assignment"),
 	},
 ];
 

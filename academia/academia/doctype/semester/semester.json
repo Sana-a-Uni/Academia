@@ -20,7 +20,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 22:08:33.915473",
+ "modified": "2024-07-22 03:41:13.736518",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Semester",
@@ -40,6 +40,7 @@
    "write": 1
   }
  ],
+ "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

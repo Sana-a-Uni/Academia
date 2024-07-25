@@ -8,7 +8,7 @@ frappe.listview_settings["Topic"] = {
 				return;
 			}
 			const dialog = new frappe.ui.Dialog({
-				title: "Choose Group",
+				title: __("Choose Group"),
 				fields: [
 					{
 						label: "Group Topic",
@@ -25,7 +25,7 @@ frappe.listview_settings["Topic"] = {
 					},
 				],
 				size: "small",
-				primary_action_label: "Choose",
+				primary_action_label: __("Choose"),
 				primary_action(values) {
 					frappe.call({
 						method: "academia.councils.doctype.topic.topic.add_topics_to_group",
@@ -36,7 +36,7 @@ frappe.listview_settings["Topic"] = {
 						callback: function (response) {
 							if (response.message === "ok") {
 								frappe.show_alert({
-									message: __("Topic/s added successfully."),
+									message: __("Topic(s) added successfully."),
 									indicator: "green",
 								});
 								cur_list.refresh();
@@ -53,6 +53,33 @@ frappe.listview_settings["Topic"] = {
 				},
 			});
 			dialog.show();
+		});
+
+		topic.page.add_action_item(__("Add to New Group"), function () {
+			const selected_topics = topic.get_checked_items();
+
+			frappe.call({
+				method: "academia.councils.doctype.topic.topic.create_new_group",
+				freeze: true,
+				args: {
+					topics: selected_topics,
+				},
+				callback: function (r) {
+					if (r.message) {
+						frappe.show_alert({
+							message: __("Group created and Topic(s) added successfully."),
+							indicator: "green",
+						});
+						var doc = frappe.model.sync(r.message)[0];
+						frappe.set_route("Form", doc.doctype, doc.name);
+					} else {
+						frappe.show_alert({
+							message: __("Error creating group or adding topics!"),
+							indicator: "red",
+						});
+					}
+				},
+			});
 		});
 	},
 

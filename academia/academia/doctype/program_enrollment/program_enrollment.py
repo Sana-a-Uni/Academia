@@ -19,12 +19,12 @@ class ProgramEnrollment(Document):
 		enabled: DF.Check
 		enrollment_date: DF.Date | None
 		faculty: DF.Link
-		gender: DF.Data | None
+		gender: DF.ReadOnly | None
 		image: DF.AttachImage | None
 		program: DF.Link
 		status: DF.Link | None
 		student: DF.Link
 		student_batch: DF.Link | None
-		student_name: DF.Data | None
+		student_name: DF.ReadOnly | None
 	# end: auto-generated types
 	pass

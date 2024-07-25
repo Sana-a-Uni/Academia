@@ -10,7 +10,7 @@
   "program",
   "capacity",
   "column_break_gtdl",
-  "faculity",
+  "faculty",
   "student_batch",
   "student_group",
   "practical_capacity",
@@ -66,13 +66,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "faculity",
-   "fieldtype": "Link",
-   "label": "Faculity",
-   "options": "Faculty",
-   "reqd": 1
-  },
-  {
    "fieldname": "generate_groups",
    "fieldtype": "Button",
    "label": "Generate groups"
@@ -106,12 +99,19 @@
    "label": "Practical Capacity",
    "non_negative": 1,
    "reqd": 1
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-07-13 22:42:50.127588",
+ "modified": "2024-07-21 15:00:56.612921",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group Tool",

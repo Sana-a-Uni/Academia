@@ -33,7 +33,7 @@
   {
    "fetch_from": "student.first_name",
    "fieldname": "student_name",
-   "fieldtype": "Data",
+   "fieldtype": "Read Only",
    "label": "Student Name"
   },
   {
@@ -108,13 +108,13 @@
   {
    "fetch_from": "student.gender",
    "fieldname": "gender",
-   "fieldtype": "Data",
+   "fieldtype": "Read Only",
    "label": "Gender"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-23 00:33:08.783935",
+ "modified": "2024-07-22 04:42:27.506734",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Enrollment",

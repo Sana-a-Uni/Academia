@@ -1,0 +1,37 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-15 01:34:49.409182",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "assessment_criteria",
+  "maximum_grade"
+ ],
+ "fields": [
+  {
+   "fieldname": "assessment_criteria",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Assessment Criteria"
+  },
+  {
+   "fieldname": "maximum_grade",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Maximum Grade"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-07-16 02:23:33.278923",
+ "modified_by": "Administrator",
+ "module": "LMS",
+ "name": "Assessment Criteria",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
