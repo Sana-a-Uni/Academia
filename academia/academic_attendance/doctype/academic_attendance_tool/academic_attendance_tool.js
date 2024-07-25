@@ -1,7 +1,6 @@
 // Copyright (c) 2024, SanU and contributors
 // For license information, please see license.txt
 
-
 frappe.ui.form.on("Academic Attendance Tool", {
 	refresh(frm) {
 		frm.trigger("reset_attendance_fields")
@@ -139,10 +138,14 @@ frappe.ui.form.on("Academic Attendance Tool", {
 		$wrapper.empty();
 		const employee_wrapper = $(`<div class="employee_wrapper">`).appendTo($wrapper);
 		function number_of_columns(){
-			if(window.innerWidth == 338 && window.innerHeight == 635)
-				return 1;
-			else
+			if(window.innerWidth <= 1920 && window.innerWidth >= 1025)
+				return 4;
+			else if(window.innerWidth <= 1224 && window.innerWidth >= 1051)
+				return 3;
+			else if(window.innerWidth <= 1050 && window.innerWidth >= 780)
 				return 2;
+			else
+				return 1;
 		}
 		
 		function lesson_info(employee){
@@ -167,7 +170,7 @@ frappe.ui.form.on("Academic Attendance Tool", {
 				fieldname: "employees_multicheck",
 				fieldtype: "MultiCheck",
 				select_all: true,
-				columns: 1,
+				columns: number_of_columns(),
 				get_data: () => {
 					return unmarked_employees.map((lesson) => {
 						return {
