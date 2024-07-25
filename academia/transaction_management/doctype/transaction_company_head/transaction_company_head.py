@@ -15,6 +15,7 @@ class TransactionCompanyHead(Document):
 		from frappe.types import DF
 
 		company: DF.Link
+		head_designation: DF.Link | None
 		head_employee: DF.Link
 		head_name: DF.Data | None
 	# end: auto-generated types

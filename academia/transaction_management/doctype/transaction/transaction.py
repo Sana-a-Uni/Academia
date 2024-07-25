@@ -10,7 +10,7 @@ from frappe.model.document import Document  # type: ignore
 import json
 from datetime import datetime
 
-from ..hijri_converter import convert_to_hijri
+# from ..hijri_converter import convert_to_hijri
 
 
 class Transaction(Document):
@@ -79,7 +79,7 @@ class Transaction(Document):
 
     
     def validate(self):
-        self.hijri_date=convert_to_hijri(self.start_date)
+        # self.hijri_date=convert_to_hijri(self.start_date)
          # signatories
         signatories_employee = get_signatories(self)
 
@@ -166,51 +166,120 @@ class Transaction(Document):
             self.designation = employee.designation
 
 # signatories
+# def get_signatories(doc):
+#     signatories_employee = []
+
+#     if doc.start_with:
+#         start_with = frappe.get_doc("Employee",
+#                             doc.start_with,
+#                             fields=["employee_name", "designation"]
+#                             )
+        
+#         signatories_employee.append({
+#             "name": start_with.employee_name,
+#             "designation": start_with.designation,
+#             "official": True
+#         })
+#         frappe.msgprint(signatories_employee[0]["name"])
+
+#         if doc.through_route:
+#             reports_to_list = get_reports_hierarchy_emp(doc.start_with)
+#             reports_to_list.pop()
+#             signatories_employee.extend(reports_to_list)
+
+#         if doc.transaction_scope == "Among Companies" and doc.through_route:
+#             dean_emp = frappe.get_all("Employee", 
+#                                     filters={"designation": "Dean",
+#                                                 "company": doc.start_with_company
+#                                             },
+#                                     fields=["employee_name", "designation"],
+#                                     limit=1,
+#                                     )
+
+#             signatories_employee.append({
+#                 "name": dean_emp.employee_name,
+#                 "designation": dean_emp.designation,
+#                 "official": True
+#             })
+
+#         if doc.sub_category:
+#             for recipient in doc.recipients:
+#                 if recipient.has_sign:
+#                     signatories_employee.append({
+#                         "name": recipient.get("recipient_name"),
+#                         "designation": recipient.get("designation"),
+#                         "official": False
+#                     })
+#     return signatories_employee
+
+# My Updates
+
 def get_signatories(doc):
     signatories_employee = []
 
     if doc.start_with:
-        start_with = frappe.get_doc("Employee",
-                            doc.start_with,
-                            fields=["employee_name", "designation"]
-                            )
-        
-        signatories_employee.append({
-            "name": start_with.employee_name,
-            "designation": start_with.designation,
-            "official": True
-        })
-        frappe.msgprint(signatories_employee[0]["name"])
-
-        if doc.through_route:
-            reports_to_list = get_reports_hierarchy_emp(doc.start_with)
-            reports_to_list.pop()
-            signatories_employee.extend(reports_to_list)
-
         if doc.transaction_scope == "Among Companies" and doc.through_route:
-            dean_emp = frappe.get_all("Employee", 
+
+            company_head = frappe.get_doc("Transaction Company Head", {"company": doc.start_with_company})
+            if company_head:
+                name = company_head.head_name
+                designation = company_head.head_designation
+            
+            else:
+                dean_emp = frappe.get_all("Employee", 
                                     filters={"designation": "Dean",
                                                 "company": doc.start_with_company
                                             },
                                     fields=["employee_name", "designation"],
                                     limit=1,
                                     )
+                name = dean_emp.employee_name
+                designation = dean_emp.designation
 
             signatories_employee.append({
-                "name": dean_emp.employee_name,
-                "designation": dean_emp.designation,
+                "name": name,
+                "designation": designation,
+                "official": True
+            })
+        
+        else:
+            
+            start_with = frappe.get_doc("Employee",
+                            doc.start_with,
+                            fields=["employee_name", "designation"]
+                            )
+        
+            signatories_employee.append({
+                "name": start_with.employee_name,
+                "designation": start_with.designation,
                 "official": True
             })
 
-        if doc.sub_category:
-            for recipient in doc.recipients:
-                if recipient.has_sign:
-                    signatories_employee.append({
-                        "name": recipient.get("recipient_name"),
-                        "designation": recipient.get("designation"),
-                        "official": False
-                    })
+            if doc.through_route:
+                reports_to_list = get_reports_hierarchy_emp(doc.start_with)
+                recipient_name = doc.recipients[0].recipient_name
+
+                while reports_to_list:
+                    popped = reports_to_list.pop()
+                    if popped["name"] != recipient_name:
+                        continue
+                    else:
+                        break
+                signatories_employee.extend(reports_to_list)
+                # reports_to_list = get_reports_hierarchy_emp(doc.start_with)
+                # reports_to_list.pop()
+                # signatories_employee.extend(reports_to_list)
+
+            if doc.sub_category:
+                for recipient in doc.recipients:
+                    if recipient.has_sign:
+                        signatories_employee.append({
+                            "name": recipient.get("recipient_name"),
+                            "designation": recipient.get("designation"),
+                            "official": False
+                        })
     return signatories_employee
+
 
 def create_redirect_action(user, transaction_name, recipients, step=1, auto=0):
     employee = get_employee_by_user_id(user)
@@ -833,4 +902,119 @@ def change_is_received_in_action_recipients(rcipient_name):
 
 
     return action
+
+
+
+@frappe.whitelist()
+def set_company_head(user_id, employee_id):
+    if employee_id == None or employee_id == "":
+        # should to delete this after fix through route problem
+        if(user_id == "Administrator"):
+            employee = True
+            company = "Zahr Tech"
+            # company = "Alpha"
+        else:
+            employee = get_employee_by_user_id(user_id)
+            company = employee.company
+    else:
+        employee = frappe.get_doc("Employee", employee_id)
+        company = employee.company
+    if(employee):
+        head = frappe.get_doc("Transaction Company Head", {"company": company})
+        if(head):
+            return head 
+    return f"No Head for {company}"
+
+
+
+@frappe.whitelist()
+def create_transaction(priority,title, category, sub_category,refrenced_document,attachments ):
+    if(is_parent_category(category, sub_category)):
+            frappe.msgprint("ttttttt")
+
+        
+            template=get_template_by_category(sub_category)
+            #main
+            new_transaction = frappe.new_doc("Transaction")
+            new_transaction.transaction_scope = "In Company"
+            new_transaction.start_date =  datetime.now()
+            new_transaction.hijri_date =  ""#??
+            new_transaction.priority = priority
+            new_transaction.status = "Pending"
+            new_transaction.submit_time = datetime.now()
+            new_transaction.title = title
+            new_transaction.transaction_description =template.description
+            new_transaction.category = category
+            new_transaction.sub_category = sub_category
+            new_transaction.referenced_doctype = template.template_doctype
+            new_transaction.referenced_document = refrenced_document
+
+            #from
+            #creator
+
+            # Add attachments to the transaction
+            for attachment_data in attachments:
+                attachment = frappe.new_doc("Attachment")
+                attachment.file_url = attachment_data.get("file_url")
+                attachment.file_name = attachment_data.get("file_name")
+                attachment.file_size = attachment_data.get("file_size")
+                new_transaction.append("attachments", attachment)
+
+
+            # Call create_applicants to add applicants to the transaction
+            # create_applicants(new_transaction, applicants_list)
+        
+        
+            # Save the document
+            new_transaction.insert()
+
+        
+            return new_transaction.name
+
+
+
+def is_parent_category(category_name, sub_category_name):
+    # Get the parent category document
+    parent_category = frappe.get_doc("Transaction Category", {"category_name": category_name})
+    
+    # Get the sub-category document
+    sub_category = frappe.get_doc("Transaction Category", {"category_name": sub_category_name})
+    
+    # Check if the sub-category's parent category is equal to the provided parent category
+    if sub_category.parent_category == parent_category.name:
+        return True
+    else:
+        return False
+    
+
+def get_template_by_category(category_name):
+    
+    # Get the Category document based on category_name
+    category = frappe.get_doc("Transaction Category", category_name)
+    # frappe.msgprint(category)
+    
+    # # Get the Template linked to the Category
+    template = frappe.get_doc("Transaction Category Template", category.template)
+    
+    
+    return template
+
+
+def create_applicants(transaction_doc, applicants_list):
+    for applicant_data in applicants_list:
+        applicant = frappe.new_doc("Transaction Applicant")
+        applicant.applicant_type = applicant_data.get("applicant_type")
+        applicant.applicant = applicant_data.get("applicant")
+        applicant.applicant_name = applicant_data.get("applicant_name")
+        
+        # Link the applicant to the transaction
+        transaction_doc.append("Transaction Applicant", {
+            "applicant_type": applicant.applicant_type,
+            "applicant": applicant.applicant,
+            "applicant_name": applicant.applicant_name
+        })
+
+    # Save the transaction document
+    transaction_doc.save()
+
 

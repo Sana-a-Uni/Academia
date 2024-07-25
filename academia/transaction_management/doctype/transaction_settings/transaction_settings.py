@@ -17,6 +17,6 @@ class TransactionSettings(Document):
 		company: DF.Link | None
 		completion_duration: DF.Duration | None
 		department: DF.Link | None
-		duration: DF.Duration | None
+		step_duration: DF.Duration | None
 	# end: auto-generated types
 	pass

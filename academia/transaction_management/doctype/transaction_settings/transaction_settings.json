@@ -8,7 +8,7 @@
  "field_order": [
   "company",
   "department",
-  "duration",
+  "step_duration",
   "completion_duration"
  ],
  "fields": [
@@ -27,21 +27,21 @@
    "unique": 1
   },
   {
-   "fieldname": "duration",
-   "fieldtype": "Duration",
-   "hide_seconds": 1,
-   "label": "Duration"
-  },
-  {
    "fieldname": "completion_duration",
    "fieldtype": "Duration",
    "hide_seconds": 1,
    "label": "Completion Duration"
+  },
+  {
+   "fieldname": "step_duration",
+   "fieldtype": "Duration",
+   "hide_seconds": 1,
+   "label": "Step Duration"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-21 08:14:06.942032",
+ "modified": "2024-07-23 09:35:01.458222",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Settings",

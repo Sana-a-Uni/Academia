@@ -173,9 +173,11 @@ frappe.ui.form.on('Transaction', {
                           add_received_action(frm);
                         } else if((global_print_papaer == true && global_is_received == true) || (global_print_papaer == null )){
                           add_approve_action(frm);
-                          add_redirect_action(frm);
                           add_reject_action(frm);
-                          add_council_action(frm);
+                          if(!frm.doc.circular){
+                            add_redirect_action(frm);
+                            add_council_action(frm);
+                          }
                         }
                       }
                     }
@@ -258,8 +260,9 @@ frappe.ui.form.on('Transaction', {
      frm.set_query("external_entity_designation_from", function (doc, cdt, cdn) {
       return {
         "filters": {
-          "parent": main_entity
+          "external_entity": doc.main_entity
         },
+        "ignore_permissions": true
       };
     });
     }
@@ -286,7 +289,7 @@ frappe.ui.form.on('Transaction', {
       frm.set_query("external_entity_designation_to", function (doc, cdt, cdn) {
        return {
          "filters": {
-           "parent": main_entity
+           "external_entity": main_entity
          },
        };
      });
@@ -564,6 +567,33 @@ frappe.ui.form.on('Transaction', {
       let message =` Please attach the following required files before saving:\n\n${missing_attachments.join('\n')}`;
       frappe.throw(message);
   }},
+  type:function(frm){
+    if (frm.doc.type === "Incoming") {
+      // if(frappe.session.user != "Administrator"){
+        frappe.call({
+          method: "academia.transaction_management.doctype.transaction.transaction.set_company_head",
+          args: {
+              user_id: frappe.session.user,
+              employee_id: "",
+          },
+          callback: function(r) {
+              if(r.message) {
+                if (r.message) {
+                  console.log(r.message.head_employee)
+                  console.log("creation: ", frm.doc.created_by)
+                  frm.set_value('start_with', r.message.head_employee);
+                  frm.set_df_property('start_with', 'hidden', 1);
+                  frm.set_df_property('start_from_employee', 'hidden', 1);
+                }   
+              }
+            }
+        });
+      // }
+      // else{
+      //   console.log("It Is The Administrator")
+      // }
+    }
+  },
   
   start_with: function(frm) {
     update_must_include(frm)

@@ -9,7 +9,7 @@ readme = "README.md"
 dynamic = ["version"]
 dependencies = [
     # "frappe~=15.0.0" # Installed and managed by bench.
-    "hijri-converter~=2.3.1"
+    #"hijri-converter~=2.3.1"
 ]
 
 

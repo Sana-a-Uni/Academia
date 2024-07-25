@@ -7,7 +7,8 @@
  "field_order": [
   "company",
   "head_employee",
-  "head_name"
+  "head_name",
+  "head_designation"
  ],
  "fields": [
   {
@@ -32,11 +33,18 @@
    "fieldname": "head_name",
    "fieldtype": "Data",
    "label": "Head Name"
+  },
+  {
+   "fetch_from": "head_employee.designation",
+   "fieldname": "head_designation",
+   "fieldtype": "Link",
+   "label": "Head Designation",
+   "options": "Designation"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-21 15:06:19.439096",
+ "modified": "2024-07-23 09:26:48.365211",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Company Head",
