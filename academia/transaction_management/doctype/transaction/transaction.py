@@ -125,6 +125,37 @@ class Transaction(Document):
             )
             share_permission_through_route(self, employee)
 
+        ################## Among Companies ################
+        elif self.transaction_scope == "Among Companies":
+            company_head = frappe.get_doc("Transaction Company Head", {"company": self.start_with_company})
+            head_employee_id = company_head.head_employee
+            employee_user = frappe.get_doc("Employee", head_employee_id)
+            user_id = employee_user.user_id
+            recipients = [{
+                "step": 1,
+                "recipient_name": employee_user.employee_name,
+                "recipient_company": employee_user.company,
+                "recipient_department": employee_user.department,
+                "recipient_designation": employee_user.designation,
+                "recipient_email": user_id,
+                "has_sign": 0,
+                "print_paper": 0,
+                "is_received": 0
+            }]
+            create_redirect_action(self.owner, self.name, recipients, self.step, 1)
+            
+            frappe.share.add(
+                doctype="Transaction",
+                name=self.name,
+                user=user_id,
+                read=1,
+                write=1,
+                share=1,
+                submit=1,
+            )
+            frappe.db.commit()
+        ###########################  
+
         else:
             create_redirect_action(self.owner, self.name, self.recipients, self.step, 1)
             # make a read, write, share permissions for reciepents
@@ -148,10 +179,7 @@ class Transaction(Document):
             self.set_employee_details()
 
         # to avoid "Value for Signatory Name cannot be a list" error
-        self.set("signatories", [])
-        
-                
-            
+        self.set("signatories", [])        
 
     def set_employee_details(self):
         # Fetch the current employee's document
@@ -165,54 +193,6 @@ class Transaction(Document):
             self.department = employee.department
             self.designation = employee.designation
 
-# signatories
-# def get_signatories(doc):
-#     signatories_employee = []
-
-#     if doc.start_with:
-#         start_with = frappe.get_doc("Employee",
-#                             doc.start_with,
-#                             fields=["employee_name", "designation"]
-#                             )
-        
-#         signatories_employee.append({
-#             "name": start_with.employee_name,
-#             "designation": start_with.designation,
-#             "official": True
-#         })
-#         frappe.msgprint(signatories_employee[0]["name"])
-
-#         if doc.through_route:
-#             reports_to_list = get_reports_hierarchy_emp(doc.start_with)
-#             reports_to_list.pop()
-#             signatories_employee.extend(reports_to_list)
-
-#         if doc.transaction_scope == "Among Companies" and doc.through_route:
-#             dean_emp = frappe.get_all("Employee", 
-#                                     filters={"designation": "Dean",
-#                                                 "company": doc.start_with_company
-#                                             },
-#                                     fields=["employee_name", "designation"],
-#                                     limit=1,
-#                                     )
-
-#             signatories_employee.append({
-#                 "name": dean_emp.employee_name,
-#                 "designation": dean_emp.designation,
-#                 "official": True
-#             })
-
-#         if doc.sub_category:
-#             for recipient in doc.recipients:
-#                 if recipient.has_sign:
-#                     signatories_employee.append({
-#                         "name": recipient.get("recipient_name"),
-#                         "designation": recipient.get("designation"),
-#                         "official": False
-#                     })
-#     return signatories_employee
-
-# My Updates
 
 def get_signatories(doc):
     signatories_employee = []
@@ -416,104 +396,23 @@ def get_employee_by_user_id(user_id):
         return None
 
 
-# @frappe.whitelist()
-# def create_new_transaction_action(user_id, transaction_name, type, details):
-#     """
-#     Create a new document in Transaction Action and pass the relevant data from Transaction.
-#     This function will be called when a button is pressed in Transaction.
-#     """
-#     transaction_doc = frappe.get_doc("Transaction", transaction_name)
-#     is_type = type in ["Approved", "Rejected"]
-#     is_through = transaction_doc.through_route
-
-#     if is_type and is_through:
-#         current_employee = frappe.get_all(
-#             "Employee",
-#             filters={
-#                 "user_id": user_id,
-#             },
-#             fields=["reports_to"],
-#         )
-#         next_share = frappe.get_doc("Employee", current_employee[0].reports_to)
-#         is_reports_to = next_share != None
-#         is_report_not_recipient = (
-#             next_share.user_id == transaction_doc.recipients[0].recipient_email
-#         )
-
-#         if is_reports_to and is_report_not_recipient:
-#             share_permission_through_route(transaction_doc, current_employee[0])
-
-#     employee = get_employee_by_user_id(user_id)
-#     if employee:
-#         new_doc = frappe.new_doc("Transaction Action")
-#         new_doc.transaction = transaction_name
-#         new_doc.type = type
-#         new_doc.from_company = employee.company
-#         new_doc.from_department = employee.department
-#         new_doc.from_designation = employee.designation
-#         new_doc.details = details
-
-#         new_doc.submit()
-#         new_doc.save()
-
-#         check_result = check_all_recipients_action(transaction_name, user_id)
-
-#         if check_result:
-#             transaction_doc = frappe.get_doc("Transaction", transaction_name)
-
-#             next_step = transaction_doc.step + 1
-#             next_step_recipients = frappe.get_all(
-#                 "Transaction Recipients",
-#                 filters={"parent": transaction_doc.name, "step": ("=", next_step)},
-#                 fields=["recipient_email", "step"],
-#             )
-#             if len(next_step_recipients) > 0:
-#                 for recipient in next_step_recipients:
-#                     frappe.share.add(
-#                         doctype="Transaction",
-#                         name=transaction_doc.name,
-#                         user=recipient.recipient_email,
-#                         read=1,
-#                         write=1,
-#                         share=1,
-#                         submit=1,
-#                     )
-#                 transaction_doc.step = next_step
-#             else:
-#                 transaction_doc.status = "Completed"
-#                 transaction_doc.complete_time = datetime.now()
-
-#             transaction_doc.save()
-#         permissions = {"read": 1, "write": 0, "share": 0, "submit": 0}
-#         permissions_str = json.dumps(permissions)
-#         update_share_permissions(transaction_name, user_id, permissions_str)
-
-#         return "Action Success"
-#     else:
-#         return "No employee found for the given user ID."
 @frappe.whitelist()
-def create_new_transaction_action(user_id, transaction_name, type, details):
+def create_new_transaction_action(user_id, transaction_name, type, details, transaction_scope):
     """
     Create a new document in Transaction Action and pass the relevant data from Transaction.
     This function will be called when a button is pressed in Transaction.
     """
     transaction_doc = frappe.get_doc("Transaction", transaction_name)
 
-    if transaction_doc.through_route:
-        current_employee = frappe.get_all(
-            "Employee",
-            filters={
-                "user_id": user_id,
-            },
-            fields=["reports_to"],
-        )
-        if current_employee[0].reports_to:
+    ############ Among Companies ###########
+    if transaction_scope == "Among Companies":
+        
+        employee = frappe.get_doc("Employee", {"user_id": user_id})
+        company_head = frappe.get_doc("Transaction Company Head", {"company": employee.company})
+        head_employee_id = company_head.head_employee
+        head_employee = frappe.get_doc("Employee", head_employee_id)
+        head_user_id = head_employee.user_id
 
-            if current_employee[0] != transaction_doc.recipients[0].recipient_email:
-                share_permission_through_route(transaction_doc, current_employee[0])
-
-    employee = get_employee_by_user_id(user_id)
-    if employee:
         new_doc = frappe.new_doc("Transaction Action")
         new_doc.transaction = transaction_name
         new_doc.type = type
@@ -521,46 +420,113 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
         new_doc.from_department = employee.department
         new_doc.from_designation = employee.designation
         new_doc.details = details
-
         new_doc.submit()
         new_doc.save()
 
-        check_result = check_all_recipients_action(transaction_name, user_id)
-
-        if check_result:
-            transaction_doc = frappe.get_doc("Transaction", transaction_name)
-
-            next_step = transaction_doc.step + 1
-            next_step_recipients = frappe.get_all(
-                "Transaction Recipients",
-                filters={"parent": transaction_doc.name, "step": ("=", next_step)},
-                fields=["recipient_email", "step"],
-            )
-            if len(next_step_recipients) > 0:
-                for recipient in next_step_recipients:
+        if transaction_scope == "Among Companies":
+            if type == "Rejected":
+                if head_user_id == user_id:
+                    transaction_doc.status = "Rejected"
+                else:
+                    transaction_doc.status = "Completed"
+                    transaction_doc.complete_time = datetime.now()
+            elif type == "Approved":
+                if head_user_id == user_id:
+                    transaction_recipients = frappe.get_all(
+                        "Transaction Recipients",
+                        filters={"parent": transaction_doc.name},
+                        fields=["recipient_email"],
+                    )
+                    first_recipient = transaction_recipients[0]
                     frappe.share.add(
                         doctype="Transaction",
                         name=transaction_doc.name,
-                        user=recipient.recipient_email,
+                        user=first_recipient.recipient_email,
                         read=1,
                         write=1,
                         share=1,
                         submit=1,
                     )
-                transaction_doc.step = next_step
-            else:
-                transaction_doc.status = "Completed"
-                transaction_doc.complete_time = datetime.now()
+                else:
+                    transaction_doc.status = "Completed"
+                    transaction_doc.complete_time = datetime.now()
 
-            transaction_doc.save()
+        
+        transaction_doc.save()
+
         permissions = {"read": 1, "write": 0, "share": 0, "submit": 0}
         permissions_str = json.dumps(permissions)
         update_share_permissions(transaction_name, user_id, permissions_str)
 
-        return "Action Success"
-    else:
-        return "No employee found for the given user ID."
+        if type == "Rejected":
+            return "Transaction is Rejected"
+        else:
+            return "Transaction is Completed"
+    #################################
 
+    else:
+        if transaction_doc.through_route:
+            current_employee = frappe.get_all(
+                "Employee",
+                filters={
+                    "user_id": user_id,
+                },
+                fields=["user_id", "reports_to"],
+            )
+            if current_employee[0].reports_to:
+
+                if current_employee[0].user_id != transaction_doc.recipients[0].recipient_email:
+                    share_permission_through_route(transaction_doc, current_employee[0])
+
+        employee = get_employee_by_user_id(user_id)
+        if employee:
+            new_doc = frappe.new_doc("Transaction Action")
+            new_doc.transaction = transaction_name
+            new_doc.type = type
+            new_doc.from_company = employee.company
+            new_doc.from_department = employee.department
+            new_doc.from_designation = employee.designation
+            new_doc.details = details
+
+            new_doc.submit()
+            new_doc.save()
+
+            check_result = check_all_recipients_action(transaction_name, user_id)
+
+            if check_result:
+                transaction_doc = frappe.get_doc("Transaction", transaction_name)
+
+                next_step = transaction_doc.step + 1
+                next_step_recipients = frappe.get_all(
+                    "Transaction Recipients",
+                    filters={"parent": transaction_doc.name, "step": ("=", next_step)},
+                    fields=["recipient_email", "step"],
+                )
+                if len(next_step_recipients) > 0:
+                    for recipient in next_step_recipients:
+                        frappe.share.add(
+                            doctype="Transaction",
+                            name=transaction_doc.name,
+                            user=recipient.recipient_email,
+                            read=1,
+                            write=1,
+                            share=1,
+                            submit=1,
+                        )
+                    transaction_doc.step = next_step
+                else:
+                    transaction_doc.status = "Completed"
+                    transaction_doc.complete_time = datetime.now()
+
+                transaction_doc.save()
+            permissions = {"read": 1, "write": 0, "share": 0, "submit": 0}
+            permissions_str = json.dumps(permissions)
+            update_share_permissions(transaction_name, user_id, permissions_str)
+
+            return "Action Success"
+        else:
+            return "No employee found for the given user ID."
+    
 @frappe.whitelist()
 def check_all_recipients_action(docname, user_id):
     shares = frappe.get_all(

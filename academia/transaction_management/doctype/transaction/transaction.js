@@ -6,7 +6,7 @@ let mustInclude = [];
 var global_print_papaer = null;
 var global_is_received = null;
 var global_action_name = null;
-var global_recipient_docname = null; 
+var global_recipient_docname = null;  
 
 frappe.ui.form.on('Transaction', {
   setup: function (frm){
@@ -432,21 +432,10 @@ frappe.ui.form.on('Transaction', {
     
     start_with: function(frm) {
       console.log("Here Start With... ",frm.doc.start_with)
-      if (frm.doc.transaction_scope === "Among Companies") {
-        frappe.call({
-          method: "academia.transaction_management.doctype.transaction.transaction.get_all_employees_except_start_with_company",
-          args: {
-            start_with_company: frm.doc.start_with_company
-          },
-          callback: function(response) {
-            mustInclude = response.message;
-          }
-        });
-      } else {
-        update_must_include(frm)
-      }
       if(frm.doc.start_with)
         {
+          update_must_include(frm)
+    
           frappe.call({
             method: "frappe.client.get",
             args: {
@@ -459,6 +448,18 @@ frappe.ui.form.on('Transaction', {
               frm.set_value('start_with_company', employee.company);
               frm.set_value('start_with_department', employee.department);
               frm.set_value('start_with_designation', employee.designation);
+
+              if (frm.doc.transaction_scope === "Among Companies") {
+                frappe.call({
+                  method: "academia.transaction_management.doctype.transaction.transaction.get_all_employees_except_start_with_company",
+                  args: {
+                    start_with_company: frm.doc.start_with_company
+                  },
+                  callback: function(response) {
+                    mustInclude = response.message;
+                  }
+                });
+              }
             }
           });
         }
@@ -467,6 +468,7 @@ frappe.ui.form.on('Transaction', {
           frm.set_value('start_with_department', '');
           frm.set_value('start_with_designation', '');
         }
+        
     },
   
     circular: function (frm) {
@@ -798,6 +800,7 @@ function add_approve_action(frm) {
                     transaction_name: frm.doc.name,
                     type: "Approved",
                     details: values.details || "",
+                    transaction_scope: frm.doc.transaction_scope || ""
                 },
                 callback: function(r) {
                     if(r.message) {
@@ -830,6 +833,7 @@ function add_reject_action(frm) {
                     transaction_name: frm.doc.name,
                     type: "Rejected",
                     details: values.details || "",
+                    transaction_scope: frm.doc.transaction_scope || ""
                 },
                 callback: function(r) {
                     if(r.message) {
