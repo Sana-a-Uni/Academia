@@ -7,10 +7,23 @@ const routes = [
 		component: () => import("../views/login"),
 	},
 	{
+		path: "/teacherDashboard",
+		name: "teacherDashboard",
+		component: () => import("../views/teacherDashboard/dashboard"),
+	},
+	{
+		path: "/teacherDashboard/courseView",
+		name: "teacherCourseView",
+		component: () => import("../views/teacherDashboard/courseView"),
+	},
+
+	////////////////////////////
+	{
 		path: "/studentDashboard",
 		name: "studentDashboard",
 		component: () => import("../views/studentDashboard/dashboard"),
 	},
+
 	{
 		path: "/courseView",
 		name: "courseView",
