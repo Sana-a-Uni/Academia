@@ -43,10 +43,13 @@ import { useAuthStore } from "@/stores/authStore";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faUser, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "vue-router";
+import Cookies from "js-cookie";
 
 library.add(faUser, faLock, faEye, faEyeSlash);
 
 const authStore = useAuthStore();
+const router = useRouter();
 
 const username = ref("");
 const password = ref("");
@@ -62,6 +65,12 @@ const handleLogin = async () => {
 			error.value = true;
 		} else {
 			error.value = false;
+			const role = Cookies.get("role");
+			if (role === "teacher") {
+				router.push({ name: "teacherDashboard" });
+			} else if (role === "student") {
+				router.push({ name: "studentDashboard" });
+			}
 		}
 	}
 };
