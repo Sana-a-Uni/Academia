@@ -530,7 +530,7 @@ frappe.ui.form.on('Transaction', {
           requirements.forEach(function(requirement) {
             const fieldname =  requirement.name.replace(/ /g, "_").toLowerCase()+"_file";
             frm.add_child("attachments", {
-              attachment_name: fieldname,
+              // attachment_name: fieldname,
               attachment_label: requirement.name,
               fieldtype: "Attach Image",
               required: requirement.required,

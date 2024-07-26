@@ -319,6 +319,7 @@ def create_redirect_action(user, transaction_name, recipients, step=1, auto=0):
 
 @frappe.whitelist()
 def get_transaction_category_requirement(transaction_category):
+
     requirements = []
 
     # Fetch requirements for the selected transaction category
@@ -341,6 +342,7 @@ def get_transaction_category_requirement(transaction_category):
             fields=["name", "file_type", "required"],
         )
         requirements.extend(parent_category_requirements)
+
 
     return requirements
 
@@ -423,25 +425,19 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
     This function will be called when a button is pressed in Transaction.
     """
     transaction_doc = frappe.get_doc("Transaction", transaction_name)
-    is_type = type in ["Approved", "Rejected"]
-    is_through = transaction_doc.through_route
 
-    if is_type and is_through:
+    if transaction_doc.through_route:
         current_employee = frappe.get_all(
             "Employee",
             filters={
                 "user_id": user_id,
             },
-            fields=["reports_to"],
+            fields=["user_id", "reports_to"],
         )
-        next_share = frappe.get_doc("Employee", current_employee[0].reports_to)
-        is_reports_to = next_share != None
-        is_report_not_recipient = (
-            next_share.user_id == transaction_doc.recipients[0].recipient_email
-        )
+        if current_employee[0].reports_to:
 
-        if is_reports_to and is_report_not_recipient:
-            share_permission_through_route(transaction_doc, current_employee[0])
+            if current_employee[0].user_id != transaction_doc.recipients[0].recipient_email:
+                share_permission_through_route(transaction_doc, current_employee[0])
 
     employee = get_employee_by_user_id(user_id)
     if employee:
@@ -491,8 +487,6 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
         return "Action Success"
     else:
         return "No employee found for the given user ID."
-
-
 @frappe.whitelist()
 def check_all_recipients_action(docname, user_id):
     shares = frappe.get_all(
@@ -928,9 +922,11 @@ def set_company_head(user_id, employee_id):
 
 
 @frappe.whitelist()
-def create_transaction(priority,title, category, sub_category,refrenced_document,attachments ):
+def create_transaction(priority,title, category, sub_category,refrenced_document,applicants_list ):
     if(is_parent_category(category, sub_category)):
             frappe.msgprint("ttttttt")
+           
+
 
         
             template=get_template_by_category(sub_category)
@@ -949,24 +945,37 @@ def create_transaction(priority,title, category, sub_category,refrenced_document
             new_transaction.referenced_doctype = template.template_doctype
             new_transaction.referenced_document = refrenced_document
 
-            #from
-            #creator
+            #from-- empty
+            
+
+            #creator-- no need
 
             # Add attachments to the transaction
-            for attachment_data in attachments:
-                attachment = frappe.new_doc("Attachment")
-                attachment.file_url = attachment_data.get("file_url")
-                attachment.file_name = attachment_data.get("file_name")
-                attachment.file_size = attachment_data.get("file_size")
-                new_transaction.append("attachments", attachment)
+            # for attachment_data in attachments:
+            #     attachment = frappe.new_doc("Attachment")
+            #     attachment.file_url = attachment_data.get("file_url")
+            #     attachment.file_name = attachment_data.get("file_name")
+            #     attachment.file_size = attachment_data.get("file_size")
+            #     new_transaction.append("attachments", attachment)
 
+
+            # Save the document
+            frappe.msgprint("inserted") 
 
             # Call create_applicants to add applicants to the transaction
-            # create_applicants(new_transaction, applicants_list)
+            frappe.msgprint(applicants_list)
+            new_transaction.insert(ignore_permissions=True)
+
+            # frappe.msgprint(new_transaction)
+            if(applicants_list):
+                create_applicants(new_transaction, applicants_list)
+
+            # create_attachements(new_transaction, attachements_list)
+            # create_attachements(new_transaction,sub_category,attachements_list)
+
         
         
-            # Save the document
-            new_transaction.insert()
+
 
         
             return new_transaction.name
@@ -1000,21 +1009,114 @@ def get_template_by_category(category_name):
     return template
 
 
-def create_applicants(transaction_doc, applicants_list):
+def create_applicants( transaction_doc,applicants_list):
+    applicants_list = json.loads(applicants_list)
+    print(applicants_list)
     for applicant_data in applicants_list:
-        applicant = frappe.new_doc("Transaction Applicant")
-        applicant.applicant_type = applicant_data.get("applicant_type")
-        applicant.applicant = applicant_data.get("applicant")
-        applicant.applicant_name = applicant_data.get("applicant_name")
+            frappe.msgprint("--------------------------------------")
         
-        # Link the applicant to the transaction
-        transaction_doc.append("Transaction Applicant", {
-            "applicant_type": applicant.applicant_type,
-            "applicant": applicant.applicant,
-            "applicant_name": applicant.applicant_name
-        })
+            applicant = frappe.new_doc("Transaction Applicant")
+            applicant.applicant_type = applicant_data["applicant_type"]
+            applicant.applicant = applicant_data["applicant"]
+            applicant.applicant_name = applicant_data["applicant_name"]
+            # applicant.parent = transaction_doc
 
-    # Save the transaction document
+            
+            
+            # # Link the applicant to the transaction
+            transaction_doc.append("applicants_table", {
+                "applicant_type": applicant.applicant_type,
+                "applicant": applicant.applicant,
+                "applicant_name": applicant.applicant_name
+            })
+
+            
+          
+    
+        
     transaction_doc.save()
+    # frappe.db.commit()
 
 
+
+
+def create_attachements( transaction_doc,sub_category,attachements_list):
+    attachements_list = json.loads(attachements_list)
+
+    requirements=get_transaction_category_requirement(sub_category)
+    requirements_str = ', '.join(map(str, requirements))
+    frappe.msgprint("requirements:"+requirements_str)
+
+    # frappe.msgprint(requirements)
+    for requirement_data in requirements:
+        requirement=frappe.new_doc("Transaction Attachments")
+        requirement.attachment_label=requirement_data["name"]
+        requirement.required=requirement_data["required"]
+    # Link the applicant to the transaction
+        transaction_doc.append("attachments", {
+                "attachment_label": requirement.attachment_label,
+                "required": requirement.required,
+               
+            })
+        transaction_doc.save()    
+
+
+
+        #duple attachement files
+       
+      
+        # for attachement_data in attachements_list:
+            
+        #     attachement= frappe.get_doc({
+        #         'doctype':"File",
+        #         'file_name':attachement_data["file_name"],
+        #         'file_url':attachement_data["file_url"],
+        #         'attached_to_doctype':"Transaction",
+        #         'attached_to_name':transaction_doc.name
+
+
+        #     })
+        #     attachement.insert()
+
+        #     transaction_doc.attachments[row_index].attach("attach_file_docfield_name", attachement.name)
+
+        #     #  # Link the File to the target document
+        #     # target_doc = frappe.get_doc("YourDocType", target_doc_name)
+        #     # target_doc.attach("attach_file_docfield_name", file_doc.name)
+
+        #     # # Save the target document
+        #     # target_doc.save()
+
+
+        #     #   # Link the File to the specific row in the child table
+        #     # parent_doc = frappe.get_doc("ParentDocType", parent_doc_name)
+        #     # child_table = parent_doc.get(child_table_fieldname)
+            
+                
+    # attachments= frappe.get_all("File", filters={
+    #     'attached_to_doctype':"Transaction",
+    #     'attached_to_name':name
+    # },
+    # fields=['file_name','file_url'])
+
+
+
+
+    # attachements_list = json.loads(attachements_list)
+    # print(attachements_list)
+    # for attachement_data in attachements_list:
+    #         frappe.msgprint("--------------------------------------")
+        
+    #         applicant = frappe.new_doc("Transaction Applicant")
+    #         applicant.applicant_type = attachement_data["applicant_type"]
+           
+    #         # applicant.parent = transaction_doc
+
+            
+            
+          
+            
+          
+    
+        
+    

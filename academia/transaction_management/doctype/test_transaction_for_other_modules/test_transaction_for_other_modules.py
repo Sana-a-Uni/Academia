@@ -1,11 +1,11 @@
-# Copyright (c) 2024, SanU Development Team and contributors
+# Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
 # import frappe
 from frappe.model.document import Document
 
 
-class TransactionCategoryRequirement(Document):
+class TestTransactionForOtherModules_transaction_for_other_modules(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -14,11 +14,6 @@ class TransactionCategoryRequirement(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		file_type: DF.Literal["", "Image", "Document"]
-		parent: DF.Data
-		parentfield: DF.Data
-		parenttype: DF.Data
-		required: DF.Check
-		requirement_name: DF.Data
+		referenced_transaction: DF.Link | None
 	# end: auto-generated types
 	pass

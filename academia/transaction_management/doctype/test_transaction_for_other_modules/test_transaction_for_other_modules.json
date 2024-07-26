@@ -1,0 +1,48 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-24 00:22:37.186147",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "test_create_transaction",
+  "referenced_transaction"
+ ],
+ "fields": [
+  {
+   "fieldname": "test_create_transaction",
+   "fieldtype": "Button",
+   "label": "Test Create Transaction"
+  },
+  {
+   "fieldname": "referenced_transaction",
+   "fieldtype": "Link",
+   "label": "Referenced Transaction",
+   "options": "Transaction"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-26 12:11:33.732079",
+ "modified_by": "Administrator",
+ "module": "Transaction Management",
+ "name": "Test Transaction For Other Modules",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
