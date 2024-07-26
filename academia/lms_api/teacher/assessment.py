@@ -1,4 +1,5 @@
 import frappe
+import json
 from frappe import _
 
 @frappe.whitelist(allow_guest=True)
@@ -56,3 +57,47 @@ def get_assignment_details(assignment_submission_id="20817d93e8"):
         'comment': submission.comment,
         'assessment_criteria': assessment_criteria
     }
+
+
+@frappe.whitelist(allow_guest=True)
+def save_assessment():
+    try:
+        data = json.loads(frappe.request.data)
+        
+        required_fields = ["assignment_submission", "faculty_member", "feedback", "assessment_date", "criteria_grades"]
+        for field in required_fields:
+            if field not in data:
+                frappe.throw(_("Missing required field: {0}").format(field))
+        
+        assessment = frappe.get_doc({
+            "doctype": "Assignment Assessment",
+            "assignment_submission": data["assignment_submission"],
+            "faculty_member": data["faculty_member"],
+            "feedback": data["feedback"],
+            "assessment_date": data["assessment_date"]
+        })
+        
+        total_grade = 0
+        for criteria_grade in data["criteria_grades"]:
+            assessment_criteria_doc = frappe.get_doc("Assessment Criteria", criteria_grade["assessment_criteria"])
+            
+            frappe.log_error(message=f"Assessment Criteria Doc: {assessment_criteria_doc.as_dict()}", title="Criteria Debugging")
+            
+            grade = float(criteria_grade["grade"])
+            total_grade += grade
+            
+            assessment.append("assignment_assessment_details", {
+                "assessment_criteria": criteria_grade["assessment_criteria"],
+                "grade": grade
+            })
+        
+        assessment.grade = total_grade
+        
+        assessment.insert()
+        frappe.db.commit()
+        
+        return {"status": "success", "message": "Assessment saved successfully"}
+    
+    except Exception as e:
+        frappe.log_error(message=str(e), title="Save Assessment Error")
+        return {"status": "error", "message": str(e)}
