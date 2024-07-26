@@ -14,7 +14,7 @@ export const useAuthStore = defineStore("auth", {
 		async login(username, password) {
 			try {
 				const response = await axios.post(
-					"http://localhost:8080/api/method/academia.lms_api.login.login",
+					"http://localhost:8080/api/method/academia.lms_api.auth.login",
 					{ username, password }
 				);
 
@@ -40,6 +40,28 @@ export const useAuthStore = defineStore("auth", {
 				this.error = error.response?.data?.message || "An error occurred during login";
 			}
 		},
-		
+		async logout() {
+			try {
+				const response = await axios.post(
+					"http://localhost:8080/api/method/academia.lms_api.auth.logout"
+				);
+
+				if (response.data.message === true) {
+					this.user = null;
+					this.userDetails = {};
+					this.userRoles = [];
+					this.error = null;
+
+					Cookies.remove("authToken");
+					Cookies.remove("role");
+
+					router.push({ name: "login" });
+				} else {
+					this.error = "Logout failed";
+				}
+			} catch (error) {
+				this.error = error.response?.data?.message || "An error occurred during logout";
+			}
+		},
 	},
 });
