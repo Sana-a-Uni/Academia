@@ -272,7 +272,6 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Start From",
-   "mandatory_depends_on": "eval: doc.sub_category",
    "options": "Employee"
   },
   {
@@ -474,7 +473,9 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-26 08:37:43.930276",
+
+ "modified": "2024-07-26 23:29:11.522579",
+
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
