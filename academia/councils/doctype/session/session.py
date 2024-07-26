@@ -10,7 +10,7 @@ from frappe.utils import getdate
 
 from frappe import _
 import locale
-from jinja2 import Template
+from jinja2 import Template, TemplateError
 import json
 from datetime import datetime
 
@@ -201,34 +201,38 @@ class Session(Document):
 @frappe.whitelist()
 def get_template(decision_template=None, topic=None, session=None):
     try:
-        decision_template_id = get_decision_template_id(
-        ) if not decision_template else decision_template
+        decision_template_id = get_decision_template_id() if not decision_template else decision_template
+        if not decision_template_id:
+            return {"error": "Decision template not found."}
+
         decision_template_data = fetch_decision_template(decision_template_id)
         if not decision_template_data:
-            return None
+            return {"error": "Decision template data not found."}
 
         topic_info = fetch_topic_info(topic) if topic else None
         if session:
             session_data = json.loads(session)
         else:
-            return None
+            return {"error": "Session data is missing."}
+
         attendees, absenteesWE, absenteesWOE = extract_session_members(session_data) if not decision_template else [{}, {}, {}]
-        session_data["weekday"] = extract_weekday_from_date(
-            session_data["date"])
-        # Convert the string to a datetime object
+        session_data["weekday"] = extract_weekday_from_date(session_data["date"])
+
         rendered_template = render_decision_template(
             decision_template_data, topic_info, attendees, absenteesWE, absenteesWOE, session_data
         )
+
+        if "error" in rendered_template:
+            return rendered_template
+
         return rendered_template
 
     except Exception as e:
-        log_and_return_error(e)
+        return log_and_return_error(e)
 
 
 def get_decision_template_id():
-    decision_template = frappe.get_all(
-        "Topic Decision Template", filters={"subject": "افتتاحية الجلسة"}, fields=["name"]
-    )
+    decision_template = frappe.get_all("Topic Decision Template", filters={"subject": "افتتاحية الجلسة"}, fields=["name"])
     if not decision_template:
         return None
     return decision_template[0].name
@@ -249,12 +253,11 @@ def fetch_topic_info(topic):
 
 def extract_session_members(session_data):
     attendees = []
-    absenteesWE = []                                                                                                                     
+    absenteesWE = []
     absenteesWOE = []
     if "members" in session_data:
         for member in session_data["members"]:
-            member_info = {"name": member.get(
-                "member_name", ""), "role": member.get("member_role", "")}
+            member_info = {"name": member.get("member_name", ""), "role": member.get("member_role", "")}
             if member.get("attendance") == "Attend":
                 attendees.append(member_info)
             elif member.get("attendance") == "Absent with Excuse":
@@ -265,30 +268,29 @@ def extract_session_members(session_data):
 
 
 def render_decision_template(decision_template_data, topic_info, attendees, absenteesWE, absenteesWOE, session_data):
-    template_content = decision_template_data.decision
-    template = Template(template_content)
+    try:
+        template_content = decision_template_data.decision
+        template = Template(template_content)
+        rendered_template = template.render(
+            topic=topic_info if topic_info else {},
+            attendees=attendees,
+            absentees=absenteesWE,
+            absenteesWOE=absenteesWOE,
+            session=session_data
+        )
+        return rendered_template
 
-    return template.render(
-        topic=topic_info if topic_info else {},
-        attendees=attendees,
-        absentees=absenteesWE,
-        absenteesWOE=absenteesWOE,
-        session=session_data
-    )
+    except TemplateError as e:
+        frappe.log_error(frappe.get_traceback(), "Error rendering template")
+        return {"error": "An error occurred while rendering the template. Please check the template and data fields."}
 
 
 def extract_weekday_from_date(date_str):
-    # Set the locale to Arabic for Gregorian date
     locale.setlocale(locale.LC_TIME, "ar_SA.utf8")
-
     date_obj = datetime.strptime(date_str, "%Y-%m-%d")
-
     weekday = date_obj.strftime("%A")
-
     return weekday
 
-
 def log_and_return_error(exception):
-    frappe.log_error(frappe.get_traceback(),
-                     "Error fetching Decision Template")
+    frappe.log_error(frappe.get_traceback(), "Error fetching Decision Template")
     return {"error": str(exception)}

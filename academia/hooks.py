@@ -320,4 +320,5 @@ fixtures = [
 			]
 		],
 	},
+  	{"doctype": "Topic Decision Template"},
 ]
