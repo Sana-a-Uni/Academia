@@ -6,24 +6,21 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "column_break_rvko",
   "student",
   "student_name",
-  "academic_program",
-  "course",
-  "enrollment_date",
-  "column_break_nlbw",
   "faculty",
+  "column_break_clmw",
   "faculty_department",
+  "academic_program",
   "student_batch",
+  "section_break_qxhp",
   "academic_year",
-  "academic_term"
+  "course",
+  "column_break_igqx",
+  "academic_term",
+  "enrollment_date"
  ],
  "fields": [
-  {
-   "fieldname": "column_break_rvko",
-   "fieldtype": "Column Break"
-  },
   {
    "fieldname": "student",
    "fieldtype": "Link",
@@ -34,9 +31,8 @@
   {
    "fetch_from": "student.first_name",
    "fieldname": "student_name",
-   "fieldtype": "Data",
-   "label": "Student Name",
-   "read_only": 1
+   "fieldtype": "Read Only",
+   "label": "Student Name"
   },
   {
    "fieldname": "academic_program",
@@ -56,10 +52,6 @@
    "fieldtype": "Date",
    "in_list_view": 1,
    "label": "Enrollment Date"
-  },
-  {
-   "fieldname": "column_break_nlbw",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "faculty",
@@ -95,11 +87,23 @@
    "in_list_view": 1,
    "label": "Academic Term",
    "options": "Academic Term"
+  },
+  {
+   "fieldname": "section_break_qxhp",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_igqx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_clmw",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-27 01:46:57.221506",
+ "modified": "2024-07-27 02:53:16.004069",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Enrollment",
