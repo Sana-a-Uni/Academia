@@ -142,7 +142,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-21 15:39:52.930817",
+ "modified": "2024-07-26 03:55:55.402528",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Action",
@@ -162,6 +162,8 @@
    "write": 1
   },
   {
+   "amend": 1,
+   "cancel": 1,
    "create": 1,
    "delete": 1,
    "email": 1,
@@ -171,6 +173,7 @@
    "report": 1,
    "role": "Transaction Manager",
    "share": 1,
+   "submit": 1,
    "write": 1
   },
   {
@@ -193,8 +196,30 @@
   {
    "amend": 1,
    "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
    "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
    "role": "Transaction Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction User",
+   "share": 1,
    "submit": 1,
    "write": 1
   }

@@ -14,9 +14,9 @@ class TransactionSettings(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		company: DF.Link | None
-		completion_duration: DF.Duration | None
-		department: DF.Link | None
-		step_duration: DF.Duration | None
+		company: DF.Link
+		completion_duration: DF.Duration
+		department: DF.Link
+		step_duration: DF.Duration
 	# end: auto-generated types
 	pass

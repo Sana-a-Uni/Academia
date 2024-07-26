@@ -416,6 +416,81 @@ def get_employee_by_user_id(user_id):
         return None
 
 
+# @frappe.whitelist()
+# def create_new_transaction_action(user_id, transaction_name, type, details):
+#     """
+#     Create a new document in Transaction Action and pass the relevant data from Transaction.
+#     This function will be called when a button is pressed in Transaction.
+#     """
+#     transaction_doc = frappe.get_doc("Transaction", transaction_name)
+#     is_type = type in ["Approved", "Rejected"]
+#     is_through = transaction_doc.through_route
+
+#     if is_type and is_through:
+#         current_employee = frappe.get_all(
+#             "Employee",
+#             filters={
+#                 "user_id": user_id,
+#             },
+#             fields=["reports_to"],
+#         )
+#         next_share = frappe.get_doc("Employee", current_employee[0].reports_to)
+#         is_reports_to = next_share != None
+#         is_report_not_recipient = (
+#             next_share.user_id == transaction_doc.recipients[0].recipient_email
+#         )
+
+#         if is_reports_to and is_report_not_recipient:
+#             share_permission_through_route(transaction_doc, current_employee[0])
+
+#     employee = get_employee_by_user_id(user_id)
+#     if employee:
+#         new_doc = frappe.new_doc("Transaction Action")
+#         new_doc.transaction = transaction_name
+#         new_doc.type = type
+#         new_doc.from_company = employee.company
+#         new_doc.from_department = employee.department
+#         new_doc.from_designation = employee.designation
+#         new_doc.details = details
+
+#         new_doc.submit()
+#         new_doc.save()
+
+#         check_result = check_all_recipients_action(transaction_name, user_id)
+
+#         if check_result:
+#             transaction_doc = frappe.get_doc("Transaction", transaction_name)
+
+#             next_step = transaction_doc.step + 1
+#             next_step_recipients = frappe.get_all(
+#                 "Transaction Recipients",
+#                 filters={"parent": transaction_doc.name, "step": ("=", next_step)},
+#                 fields=["recipient_email", "step"],
+#             )
+#             if len(next_step_recipients) > 0:
+#                 for recipient in next_step_recipients:
+#                     frappe.share.add(
+#                         doctype="Transaction",
+#                         name=transaction_doc.name,
+#                         user=recipient.recipient_email,
+#                         read=1,
+#                         write=1,
+#                         share=1,
+#                         submit=1,
+#                     )
+#                 transaction_doc.step = next_step
+#             else:
+#                 transaction_doc.status = "Completed"
+#                 transaction_doc.complete_time = datetime.now()
+
+#             transaction_doc.save()
+#         permissions = {"read": 1, "write": 0, "share": 0, "submit": 0}
+#         permissions_str = json.dumps(permissions)
+#         update_share_permissions(transaction_name, user_id, permissions_str)
+
+#         return "Action Success"
+#     else:
+#         return "No employee found for the given user ID."
 @frappe.whitelist()
 def create_new_transaction_action(user_id, transaction_name, type, details):
     """
@@ -423,10 +498,8 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
     This function will be called when a button is pressed in Transaction.
     """
     transaction_doc = frappe.get_doc("Transaction", transaction_name)
-    is_type = type in ["Approved", "Rejected"]
-    is_through = transaction_doc.through_route
 
-    if is_type and is_through:
+    if transaction_doc.through_route:
         current_employee = frappe.get_all(
             "Employee",
             filters={
@@ -434,14 +507,10 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
             },
             fields=["reports_to"],
         )
-        next_share = frappe.get_doc("Employee", current_employee[0].reports_to)
-        is_reports_to = next_share != None
-        is_report_not_recipient = (
-            next_share.user_id == transaction_doc.recipients[0].recipient_email
-        )
+        if current_employee[0].reports_to:
 
-        if is_reports_to and is_report_not_recipient:
-            share_permission_through_route(transaction_doc, current_employee[0])
+            if current_employee[0] != transaction_doc.recipients[0].recipient_email:
+                share_permission_through_route(transaction_doc, current_employee[0])
 
     employee = get_employee_by_user_id(user_id)
     if employee:
@@ -491,7 +560,6 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
         return "Action Success"
     else:
         return "No employee found for the given user ID."
-
 
 @frappe.whitelist()
 def check_all_recipients_action(docname, user_id):
@@ -904,29 +972,6 @@ def change_is_received_in_action_recipients(rcipient_name):
     return action
 
 
-
-@frappe.whitelist()
-def set_company_head(user_id, employee_id):
-    if employee_id == None or employee_id == "":
-        # should to delete this after fix through route problem
-        if(user_id == "Administrator"):
-            employee = True
-            company = "Zahr Tech"
-            # company = "Alpha"
-        else:
-            employee = get_employee_by_user_id(user_id)
-            company = employee.company
-    else:
-        employee = frappe.get_doc("Employee", employee_id)
-        company = employee.company
-    if(employee):
-        head = frappe.get_doc("Transaction Company Head", {"company": company})
-        if(head):
-            return head 
-    return f"No Head for {company}"
-
-
-
 @frappe.whitelist()
 def create_transaction(priority,title, category, sub_category,refrenced_document,attachments ):
     if(is_parent_category(category, sub_category)):
@@ -1016,5 +1061,28 @@ def create_applicants(transaction_doc, applicants_list):
 
     # Save the transaction document
     transaction_doc.save()
+
+
+@frappe.whitelist()
+def set_company_head(user_id, company_of_creator):
+    # should to delete this after fix through route problem
+    if(user_id == "Administrator"):
+        employee = True
+        company = company_of_creator
+    else:
+        employee = get_employee_by_user_id(user_id)
+        company = employee.company
+   
+    if(employee):
+        head = frappe.get_doc("Transaction Company Head", {"company": company})
+        if(head):
+            return head 
+    return f"No Head for {company}"
+
+
+@frappe.whitelist()
+def get_all_employees_except_start_with_company(start_with_company):
+    employees = frappe.get_list("Employee", filters={"company": ["!=", start_with_company]}, fields=["user_id"])
+    return [emp.user_id for emp in employees]
 
 
