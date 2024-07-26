@@ -92,3 +92,39 @@ def login(username: str="at@gmail.com", password: str="atrab7720") -> bool:
         return True
     else:
         return False
+    
+
+@frappe.whitelist(allow_guest=True)
+def logout() -> bool:
+    """
+    Log out the current user by clearing the session and cookies.
+
+    Returns:
+        bool: True if logout is successful, False otherwise.
+    """
+    try:
+        frappe.local.login_manager = LoginManager()
+        frappe.local.login_manager.logout()
+        frappe.db.commit()
+
+        # Clear session cookies
+        frappe.local.response.cookies = {
+            'session_id': '',
+            'user_id': ''
+        }
+
+        # Ensure headers are initialized before updating them
+        if frappe.local.response.headers is None:
+            frappe.local.response.headers = {}
+
+        # Set headers to prevent caching
+        frappe.local.response.headers.update({
+            'Cache-Control': 'no-store, max-age=0',
+            'Pragma': 'no-cache',
+            'Expires': 'Thu, 01 Jan 1970 00:00:00 GMT'
+        })
+
+        return True
+    except Exception as e:
+        frappe.log_error(message=str(e), title="Logout Failed")
+        return False
