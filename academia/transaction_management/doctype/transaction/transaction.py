@@ -57,7 +57,7 @@ class Transaction(Document):
         start_with_company: DF.Link | None
         start_with_department: DF.Link | None
         start_with_designation: DF.Link | None
-        status: DF.Literal["Pending", "Completed", "Canceled", "Closed"]
+        status: DF.Literal["Pending", "Completed", "Canceled", "Closed", "Rejected"]
         step: DF.Int
         sub_category: DF.Link | None
         sub_external_entity_from: DF.Link | None
@@ -1085,4 +1085,20 @@ def get_all_employees_except_start_with_company(start_with_company):
     employees = frappe.get_list("Employee", filters={"company": ["!=", start_with_company]}, fields=["user_id"])
     return [emp.user_id for emp in employees]
 
+
+@frappe.whitelist()
+def is_there_approve_or_reject_acions(docname):
+    actions = frappe.get_all(
+        "Transaction Action", 
+        filters={"transaction":docname, "docstatus": 1, "type": not "Canceled"}, 
+        fields=["name", "transaction", "type", "owner"],
+    )
+    if actions:
+        for action in actions:
+            if action.type == "Approved" or action.type == "Rejected":
+                return True
+
+@frappe.whitelist()
+def redirect_in_coming_among_companies(recipients):
+    pass
 

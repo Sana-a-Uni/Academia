@@ -6,7 +6,7 @@ let mustInclude = [];
 var global_print_papaer = null;
 var global_is_received = null;
 var global_action_name = null;
-var global_recipient_docname = null;
+var global_recipient_docname = null; 
 
 frappe.ui.form.on('Transaction', {
   setup: function (frm){
@@ -33,6 +33,30 @@ frappe.ui.form.on('Transaction', {
   },
 
   onload: function(frm){
+    if(frm.doc.docstatus === 1){
+      if (frm.doc.status === "Completed") {
+        $(".btn-secondary").filter(function() {
+          return $(this).text().trim() === "Cancel";
+        }).hide();
+      }
+  
+      frappe.call({
+        method: "academia.transaction_management.doctype.transaction.transaction.is_there_approve_or_reject_acions",
+        args: {
+            docname: frm.doc.name
+        },
+        callback: function(r) {
+            if(r.message) {
+              if (r.message) {
+                $(".btn-secondary").filter(function() {
+                  return $(this).text().trim() === "Cancel";
+                }).hide();
+              }   
+            }
+          }
+      });
+    }
+
    if(frm.doc.docstatus === 0)
      {
       global_print_papaer = null;
@@ -355,7 +379,7 @@ frappe.ui.form.on('Transaction', {
     transaction_scope:function(frm){
       if (frm.doc.transaction_scope === "Among Companies") {
         // Set the 'through_route' field to checked and make it read-only
-        frm.set_value("through_route", 1);
+        frm.set_value("through_route", 0);
   
         frm.toggle_display("through_route", true);
         frm.toggle_reqd("through_route", true);
