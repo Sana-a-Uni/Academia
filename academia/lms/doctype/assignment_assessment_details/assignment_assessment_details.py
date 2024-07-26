@@ -15,6 +15,7 @@ class AssignmentAssessmentDetails(Document):
 		from frappe.types import DF
 
 		assessment_criteria: DF.Link | None
+		criteria: DF.Data | None
 		grade: DF.Float
 		maximum__grade: DF.Int
 		parent: DF.Data
