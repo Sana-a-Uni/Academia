@@ -4,7 +4,9 @@
 			<img src="@/assets/images/logo.png" alt="Logo" class="logo" />
 			<h3>Login to LMS</h3>
 			<form @submit.prevent="handleLogin">
-				<div :class="['input-group', { 'input-group-error': error }]">
+				<div
+					:class="['input-group', { 'input-group-error': error || authStore.roleError }]"
+				>
 					<font-awesome-icon :icon="['fas', 'user']" class="icon" />
 					<input
 						id="email"
@@ -14,7 +16,9 @@
 						placeholder="Enter your student ID"
 					/>
 				</div>
-				<div :class="['input-group', { 'input-group-error': error }]">
+				<div
+					:class="['input-group', { 'input-group-error': error || authStore.roleError }]"
+				>
 					<font-awesome-icon :icon="['fas', 'lock']" class="icon" />
 					<input
 						id="password"
@@ -30,7 +34,13 @@
 					/>
 				</div>
 				<button class="login-button" type="submit">
-					{{ error ? "Invalid login, try again" : "LOGIN" }}
+					{{
+						authStore.roleError
+							? "You do not have access"
+							: error
+							? "Invalid login, try again"
+							: "LOGIN"
+					}}
 				</button>
 			</form>
 		</div>
@@ -70,6 +80,15 @@ const handleLogin = async () => {
 				router.push({ name: "teacherDashboard" });
 			} else if (role === "student") {
 				router.push({ name: "studentDashboard" });
+			} else {
+				authStore.roleError = true;
+				Object.keys(Cookies.get()).forEach(function (cookieName) {
+					const allCookies = Cookies.get();
+					for (let cookie in allCookies) {
+						Cookies.remove(cookie, { path: "/" });
+						Cookies.remove(cookie);
+					}
+				});
 			}
 		}
 	}
@@ -167,7 +186,7 @@ const togglePasswordVisibility = () => {
 	justify-content: center;
 }
 
-.login-button font-awesome-icon {
+.login-button.font-awesome-icon {
 	margin-right: 8px;
 }
 </style>
