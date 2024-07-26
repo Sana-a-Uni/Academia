@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"GbvsKSyRQ9\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Academia</span>\",\"col\":12}},{\"id\":\"tJ4ya2R4Kd\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"4vjKsxOUy-\",\"type\":\"card\",\"data\":{\"card_name\":\"Programs\",\"col\":4}},{\"id\":\"H0hpvVngLO\",\"type\":\"card\",\"data\":{\"card_name\":\"Faculty Members\",\"col\":4}},{\"id\":\"uKVuspJSuI\",\"type\":\"card\",\"data\":{\"card_name\":\"Enrollment\",\"col\":4}},{\"id\":\"rYcX8Inu4R\",\"type\":\"card\",\"data\":{\"card_name\":\"Student Group\",\"col\":4}},{\"id\":\"rlVneFbaEm\",\"type\":\"card\",\"data\":{\"card_name\":\"Admission and Enrollment\",\"col\":4}},{\"id\":\"HBTiILhO0q\",\"type\":\"card\",\"data\":{\"card_name\":\"Councils\",\"col\":4}},{\"id\":\"aqrJWFiaNx\",\"type\":\"card\",\"data\":{\"card_name\":\"LMS\",\"col\":4}}]",
+ "content": "[{\"id\":\"GbvsKSyRQ9\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Academia</span>\",\"col\":12}},{\"id\":\"tJ4ya2R4Kd\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"H0hpvVngLO\",\"type\":\"card\",\"data\":{\"card_name\":\"Faculty Members\",\"col\":4}},{\"id\":\"4vjKsxOUy-\",\"type\":\"card\",\"data\":{\"card_name\":\"Programs\",\"col\":4}},{\"id\":\"uKVuspJSuI\",\"type\":\"card\",\"data\":{\"card_name\":\"Enrollment\",\"col\":4}},{\"id\":\"rYcX8Inu4R\",\"type\":\"card\",\"data\":{\"card_name\":\"Student Group\",\"col\":4}},{\"id\":\"rlVneFbaEm\",\"type\":\"card\",\"data\":{\"card_name\":\"Admission and Enrollment\",\"col\":4}},{\"id\":\"HBTiILhO0q\",\"type\":\"card\",\"data\":{\"card_name\":\"Councils\",\"col\":4}},{\"id\":\"aqrJWFiaNx\",\"type\":\"card\",\"data\":{\"card_name\":\"LMS\",\"col\":4}}]",
  "creation": "2024-01-31 01:50:55.982047",
  "custom_blocks": [],
  "docstatus": 0,
@@ -320,35 +320,6 @@
   {
    "hidden": 0,
    "is_query_report": 0,
-   "label": "Enrollment",
-   "link_count": 2,
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Program Enrollment",
-   "link_count": 0,
-   "link_to": "Program Enrollment",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Course Enrollment Tool",
-   "link_count": 0,
-   "link_to": "Course Enrollment Tool",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
    "label": "Student Group",
    "link_count": 4,
    "link_type": "DocType",
@@ -394,9 +365,48 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Enrollment",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Program Enrollment",
+   "link_count": 0,
+   "link_to": "Program Enrollment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Course Enrollment",
+   "link_count": 0,
+   "link_to": "Course Enrollment",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Course Enrollment Tool",
+   "link_count": 0,
+   "link_to": "Course Enrollment Tool",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2024-07-27 01:59:54.923368",
+ "modified": "2024-07-27 02:12:40.472600",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academia",
