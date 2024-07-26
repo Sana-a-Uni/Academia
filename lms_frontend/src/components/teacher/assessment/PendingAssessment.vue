@@ -35,6 +35,7 @@
 
 <script setup>
 import { defineProps } from "vue";
+import { useRouter } from 'vue-router';
 
 const props = defineProps({
 	assignments: {
@@ -42,6 +43,8 @@ const props = defineProps({
 		required: true,
 	},
 });
+
+const router = useRouter();
 
 function formatDate(dateString) {
 	const date = new Date(dateString);
@@ -54,8 +57,7 @@ function formatDate(dateString) {
 }
 
 function evaluateAssignment(assignmentId) {
-	alert(`Evaluating assignment with ID: ${assignmentId}`);
-	// يمكنك استبدال alert بأي منطق آخر لفتح نموذج التقييم أو الانتقال إلى صفحة التقييم
+	router.push({ name: 'assessmentAssignment', params: { id: "20817d93e8" } });
 }
 </script>
 

@@ -85,6 +85,11 @@ const routes = [
 		name: "pendingAssessment",
 		component: () => import("../views/teacherDashboard/assessment/pendingAssessment"),
 	},
+	{
+		path: "/assessmentAssignment/:id",
+		name: "assessmentAssignment",
+		component: () => import("../views/teacherDashboard/assessment/assessmentAssignment"),
+	},
 ];
 
 const router = createRouter({
