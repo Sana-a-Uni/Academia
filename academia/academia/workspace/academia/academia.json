@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"GbvsKSyRQ9\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Academia</span>\",\"col\":12}},{\"id\":\"tJ4ya2R4Kd\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"H0hpvVngLO\",\"type\":\"card\",\"data\":{\"card_name\":\"Faculty Members\",\"col\":4}},{\"id\":\"4vjKsxOUy-\",\"type\":\"card\",\"data\":{\"card_name\":\"Study Planning\",\"col\":4}},{\"id\":\"rlVneFbaEm\",\"type\":\"card\",\"data\":{\"card_name\":\"Admission and Enrollment\",\"col\":4}},{\"id\":\"HBTiILhO0q\",\"type\":\"card\",\"data\":{\"card_name\":\"Councils\",\"col\":4}},{\"id\":\"aqrJWFiaNx\",\"type\":\"card\",\"data\":{\"card_name\":\"LMS\",\"col\":4}}]",
+ "content": "[{\"id\":\"GbvsKSyRQ9\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Academia</span>\",\"col\":12}},{\"id\":\"tJ4ya2R4Kd\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"4vjKsxOUy-\",\"type\":\"card\",\"data\":{\"card_name\":\"Programs\",\"col\":4}},{\"id\":\"H0hpvVngLO\",\"type\":\"card\",\"data\":{\"card_name\":\"Faculty Members\",\"col\":4}},{\"id\":\"rlVneFbaEm\",\"type\":\"card\",\"data\":{\"card_name\":\"Admission and Enrollment\",\"col\":4}},{\"id\":\"HBTiILhO0q\",\"type\":\"card\",\"data\":{\"card_name\":\"Councils\",\"col\":4}},{\"id\":\"aqrJWFiaNx\",\"type\":\"card\",\"data\":{\"card_name\":\"LMS\",\"col\":4}}]",
  "creation": "2024-01-31 01:50:55.982047",
  "custom_blocks": [],
  "docstatus": 0,
@@ -38,65 +38,6 @@
    "label": "Lecture",
    "link_count": 0,
    "link_to": "Lecture",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Study Planning",
-   "link_count": 5,
-   "link_type": "",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Study Plan",
-   "link_count": 0,
-   "link_to": "Study Plan",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Study Method",
-   "link_count": 0,
-   "link_to": "Study Method",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Course",
-   "link_count": 0,
-   "link_to": "Course",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Level",
-   "link_count": 0,
-   "link_to": "Level",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Semester",
-   "link_count": 0,
-   "link_to": "Semester",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -146,65 +87,6 @@
    "label": "Course Enrollment",
    "link_count": 0,
    "link_to": "Course Enrollment",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Masters",
-   "link_count": 5,
-   "link_type": "",
-   "onboard": 0,
-   "type": "Card Break"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Faculty",
-   "link_count": 0,
-   "link_to": "Faculty",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Faculty Department",
-   "link_count": 0,
-   "link_to": "Faculty Department",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Academic Program",
-   "link_count": 0,
-   "link_to": "Academic Program",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Academic Year",
-   "link_count": 0,
-   "link_to": "Academic Year",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
-  },
-  {
-   "hidden": 0,
-   "is_query_report": 0,
-   "label": "Course Specification",
-   "link_count": 0,
-   "link_to": "Course Specification",
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
@@ -306,9 +188,137 @@
    "link_type": "DocType",
    "onboard": 0,
    "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Masters",
+   "link_count": 5,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Faculty",
+   "link_count": 0,
+   "link_to": "Faculty",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Faculty Department",
+   "link_count": 0,
+   "link_to": "Faculty Department",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Academic Program",
+   "link_count": 0,
+   "link_to": "Academic Program",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Course ",
+   "link_count": 0,
+   "link_to": "Course",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Academic Year",
+   "link_count": 0,
+   "link_to": "Academic Year",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Programs",
+   "link_count": 6,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Academic Program",
+   "link_count": 0,
+   "link_to": "Academic Program",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Program Specification",
+   "link_count": 0,
+   "link_to": "Program Specification",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Course",
+   "link_count": 0,
+   "link_to": "Course",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Course Specification",
+   "link_count": 0,
+   "link_to": "Course Specification",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Level",
+   "link_count": 0,
+   "link_to": "Level",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Semester",
+   "link_count": 0,
+   "link_to": "Semester",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
   }
  ],
- "modified": "2024-07-16 12:13:07.128051",
+ "modified": "2024-07-27 01:34:10.253655",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academia",
