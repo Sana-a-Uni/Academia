@@ -15,11 +15,13 @@ class SessionTopic(Document):
 		from frappe.types import DF
 
 		decision: DF.TextEditor | None
-		decision_type: DF.Literal["", "Postponed", "Resolved", "Transferred"]
+		decision_type: DF.Literal["Other", "Accepted", "Rejected"]
 		description: DF.TextEditor | None
+		get_template: DF.Link | None
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
+		status: DF.Literal["", "Postponed", "Resolved"]
 		title: DF.Data | None
 		topic: DF.Link
 	# end: auto-generated types

@@ -20,12 +20,17 @@
   {
    "fieldname": "description",
    "fieldtype": "Text",
-   "label": "Description "
+   "label": "Description"
   }
  ],
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2024-04-24 15:17:51.638560",
+ "links": [
+  {
+   "link_doctype": "Faculty Member",
+   "link_fieldname": "academic_rank"
+  }
+ ],
+ "modified": "2024-07-12 20:24:28.488172",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Rank",

@@ -8,6 +8,27 @@ import re
 
 
 class AcademicPublication(Document):
+    # begin: auto-generated types
+    # This code is auto-generated. Do not modify anything in this block.
+
+    from typing import TYPE_CHECKING
+
+    if TYPE_CHECKING:
+        from academia.academia.doctype.academic_author.academic_author import AcademicAuthor
+        from frappe.types import DF
+
+        academic_publication_author: DF.Table[AcademicAuthor]
+        apa_citation: DF.SmallText
+        date_of_publish: DF.Date | None
+        from_page: DF.Data | None
+        page_numbers: DF.Data | None
+        publication_file: DF.Attach | None
+        publication_link: DF.Data | None
+        publication_type: DF.Link | None
+        published_in: DF.Link | None
+        title: DF.Data
+        to_page: DF.Data | None
+    # end: auto-generated types
     # Start of validate controller hook
     def validate(self):
         # Calling functions

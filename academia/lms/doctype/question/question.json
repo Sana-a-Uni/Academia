@@ -5,15 +5,14 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "course",
+  "faculty_member",
+  "section_break_hqny",
   "question",
-  "attachment",
-  "quiz_type",
-  "question_grade",
+  "question_type",
   "section_break_hexy",
   "option_column",
-  "answer",
-  "upload_file",
-  "option"
+  "question_options"
  ],
  "fields": [
   {
@@ -22,55 +21,47 @@
    "label": "Question"
   },
   {
-   "fieldname": "attachment",
-   "fieldtype": "Attach",
-   "label": "Attachment"
-  },
-  {
-   "fieldname": "quiz_type",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Quiz Type",
-   "options": "\nMultiple-Choice with single correct answer\nMultiple-Choice with multiple correct answer\nEssay\nFile Upload",
-   "reqd": 1
-  },
-  {
    "fieldname": "section_break_hexy",
    "fieldtype": "Section Break"
-  },
-  {
-   "depends_on": "eval:doc.quiz_type == \"Essay\"",
-   "fieldname": "answer",
-   "fieldtype": "Text Editor",
-   "label": "Answer"
-  },
-  {
-   "depends_on": "eval:doc.quiz_type == \"File Upload\"",
-   "fieldname": "upload_file",
-   "fieldtype": "Attach",
-   "label": "Upload File"
   },
   {
    "fieldname": "option_column",
    "fieldtype": "Column Break"
   },
   {
-   "depends_on": "eval: (doc.quiz_type==\"Multiple-Choice with single correct answer\" || doc.quiz_type==\"Multiple-Choice with multiple correct answer\")",
-   "fieldname": "option",
+   "fieldname": "question_options",
    "fieldtype": "Table",
-   "label": "Option",
-   "mandatory_depends_on": "eval: (doc.quiz_type==\"Multiple-Choice with single correct answer\" || doc.quiz_type==\"Multiple-Choice with multiple correct answer\")",
+   "label": "Question Options",
    "options": "Question Options"
   },
   {
-   "fieldname": "question_grade",
-   "fieldtype": "Float",
-   "label": "Question Grade"
+   "fieldname": "question_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Question Type",
+   "options": "\nMultiple Choice\nMultiple Answer",
+   "reqd": 1
+  },
+  {
+   "fieldname": "course",
+   "fieldtype": "Link",
+   "label": "Course",
+   "options": "Course"
+  },
+  {
+   "fieldname": "section_break_hqny",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "faculty_member",
+   "fieldtype": "Link",
+   "label": "Faculty Member",
+   "options": "Faculty Member"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-02-11 18:01:25.167589",
+ "modified": "2024-07-11 19:37:59.578654",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "Question",

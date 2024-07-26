@@ -1,0 +1,87 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:NDAGGR-{YYYY}-{####}",
+ "creation": "2024-07-13 19:53:15.321331",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_jqic",
+  "get_needs",
+  "approved_department_needs",
+  "section_break_fadq",
+  "general_application_terms",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_jqic",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Need Aggregation",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "approved_department_needs",
+   "fieldtype": "Table",
+   "label": "Approved Department Needs",
+   "options": "Approved Department Need",
+   "reqd": 1
+  },
+  {
+   "fieldname": "get_needs",
+   "fieldtype": "Button",
+   "label": "Get Needs"
+  },
+  {
+   "fieldname": "general_application_terms",
+   "fieldtype": "Text",
+   "label": "General Application Terms"
+  },
+  {
+   "fieldname": "section_break_fadq",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [
+  {
+   "link_doctype": "Job Advertisement",
+   "link_fieldname": "reference_to_need_aggregation"
+  }
+ ],
+ "modified": "2024-07-15 14:13:30.932848",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Need Aggregation",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1
+}

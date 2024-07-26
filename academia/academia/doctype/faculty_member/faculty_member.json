@@ -14,11 +14,12 @@
   "employee",
   "faculty_member_name",
   "faculty_member_name_english",
-  "nationality",
+  "email",
   "column_break_hagf",
   "company",
   "department",
   "faculty",
+  "nationality",
   "column_break_zcxq",
   "date_of_joining_in_service",
   "date_of_joining_in_university",
@@ -29,20 +30,24 @@
   "column_break_fxmn",
   "courses",
   "current_academic_data_section",
+  "scientific_degree",
   "academic_rank",
-  "employment_type",
-  "column_break_gcym",
   "general_field",
   "specialist_field",
-  "academic_services_section",
-  "academic_services",
-  "column_break_pkbw",
-  "from_another_university",
-  "granting_tenure_data_section",
+  "column_break_gcym",
+  "employment_type",
+  "tenure_status",
+  "probation_period_end_date",
+  "is_eligible_for_granting_tenure",
+  "tenure_data_section",
   "decision_number",
   "date",
   "column_break_pkgt",
   "decision_attachment",
+  "academic_services_section",
+  "academic_services",
+  "column_break_pkbw",
+  "from_another_university",
   "profile_tab",
   "academic_ranking_section",
   "faculty_member_academic_ranking",
@@ -55,7 +60,8 @@
   "activities_section",
   "faculty_member_activity",
   "awards_and_appreciation_certificates_section",
-  "faculty_member_award_and_appreciation_certificate"
+  "faculty_member_award_and_appreciation_certificate",
+  "connections_tab"
  ],
  "fields": [
   {
@@ -141,7 +147,7 @@
   {
    "fieldname": "faculty_member_name_english",
    "fieldtype": "Data",
-   "label": "Faculty Member Name  (English)"
+   "label": "Faculty Member Name (English)"
   },
   {
    "fieldname": "courses",
@@ -223,8 +229,9 @@
   },
   {
    "fieldname": "decision_number",
-   "fieldtype": "Int",
-   "label": "Decision Number"
+   "fieldtype": "Data",
+   "label": "Decision Number",
+   "mandatory_depends_on": "eval: doc.tenure_status == \"Tenured\""
   },
   {
    "fieldname": "date",
@@ -260,21 +267,16 @@
    "options": "Faculty Member Academic Services"
   },
   {
-   "fieldname": "granting_tenure_data_section",
-   "fieldtype": "Section Break",
-   "label": "Granting Tenure Data"
-  },
-  {
    "fieldname": "personal_information_section",
    "fieldtype": "Section Break",
-   "label": "Personal Information "
+   "label": "Personal Information"
   },
   {
    "fetch_from": "employee.department",
    "fetch_if_empty": 1,
    "fieldname": "department",
    "fieldtype": "Link",
-   "label": "Department ",
+   "label": "Department",
    "options": "Department"
   },
   {
@@ -285,8 +287,9 @@
   {
    "fetch_from": "employee.employment_type",
    "fieldname": "employment_type",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "label": "Employment Type",
+   "options": "Employment Type",
    "read_only": 1
   },
   {
@@ -314,18 +317,14 @@
    "options": "University"
   },
   {
+   "depends_on": "eval: doc.employee && doc.employment_type != \"Official\"",
    "fieldname": "academic_services_section",
    "fieldtype": "Section Break",
    "label": "Academic Services"
   },
   {
-   "fieldname": "faculty",
-   "fieldtype": "Link",
-   "label": "Faculty",
-   "options": "Faculty"
-  },
-  {
    "collapsible": 1,
+   "default": "0",
    "fieldname": "academic_ranking_section",
    "fieldtype": "Section Break",
    "label": "Academic Ranking"
@@ -335,12 +334,95 @@
    "fieldtype": "Table",
    "label": "Faculty Member Academic Ranking",
    "options": "Faculty Member Academic Ranking"
+  },
+  {
+   "depends_on": "eval: doc.employee && doc.employment_type == \"Official\"",
+   "fieldname": "tenure_status",
+   "fieldtype": "Select",
+   "label": "Tenure Status",
+   "mandatory_depends_on": "eval: doc.employment_type == \"Official\"",
+   "options": "\nOn Probation\nTenured"
+  },
+  {
+   "depends_on": "eval: doc.employee && doc.employment_type == \"Official\" && doc.tenure_status == \"Tenured\"",
+   "fieldname": "tenure_data_section",
+   "fieldtype": "Section Break",
+   "label": "Tenure Data"
+  },
+  {
+   "fetch_from": ".",
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "connections_tab",
+   "fieldtype": "Tab Break",
+   "label": "Connections",
+   "show_dashboard": 1
+  },
+  {
+   "fieldname": "scientific_degree",
+   "fieldtype": "Link",
+   "label": "Scientific Degree",
+   "options": "Scientific Degree",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval: doc.tenure_status == \"On Probation\"",
+   "fieldname": "probation_period_end_date",
+   "fieldtype": "Date",
+   "label": "Probation Period End Date",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_eligible_for_granting_tenure",
+   "fieldtype": "Check",
+   "label": "Is Eligible for Granting Tenure",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee.user_id",
+   "fetch_if_empty": 1,
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2024-07-04 14:35:37.674595",
+ "links": [
+  {
+   "group": "Publication",
+   "is_child_table": 1,
+   "link_doctype": "Academic Author",
+   "link_fieldname": "author_name",
+   "parent_doctype": "Academic Publication",
+   "table_fieldname": "academic_publication_author"
+  },
+  {
+   "group": "Publication",
+   "is_child_table": 1,
+   "link_doctype": "Academic Author",
+   "link_fieldname": "author_name",
+   "parent_doctype": "Scientific Article",
+   "table_fieldname": "scientific_article_author"
+  },
+  {
+   "group": "Tenure",
+   "link_doctype": "Tenure Evaluation Request",
+   "link_fieldname": "faculty_member"
+  },
+  {
+   "group": "Tenure",
+   "link_doctype": "Tenure Request",
+   "link_fieldname": "faculty_member"
+  }
+ ],
+ "modified": "2024-07-17 15:37:37.334341",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",
@@ -361,10 +443,6 @@
    "write": 1
   },
   {
-   "read": 1,
-   "role": "Faculty Member"
-  },
-  {
    "create": 1,
    "delete": 1,
    "email": 1,
@@ -375,11 +453,54 @@
    "role": "HR User",
    "share": 1,
    "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Academic User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Faculty Dean",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Department Head",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Faculty Member",
+   "write": 1
   }
  ],
  "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "faculty_member_name"
+ "title_field": "faculty_member_name",
+ "track_changes": 1
 }

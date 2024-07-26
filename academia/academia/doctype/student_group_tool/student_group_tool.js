@@ -17,7 +17,7 @@ frappe.ui.form.on('Student Group Tool', {
 	"generate_groups": function(frm) {
 		//frm.set_value("courses",[]);
 		frappe.call({
-			method: "generate_groups",
+			method: "generate_groups_ultra",
 			doc:frm.doc,
 			callback: function(r) {
 				if(r.message) {
@@ -48,6 +48,83 @@ frappe.ui.form.on('Student Group Tool', {
 		   frm.set_value('grouping_by', grouping_by);
 	   }
 		
-	}
+	},
+	refresh: function(frm) {
+        frm.set_query('program', function() {
+            if (frm.doc.faculty) {
+                return {
+                    filters: {
+                        'faculty': frm.doc.faculty
+                    }
+                };
+            } else {
+                return {};
+            }
+        }),
+		frm.set_query('student_batch', function() {
+            if (frm.doc.program) {
+                return {
+                    filters: {
+                        'program_specification': frm.doc.program
+                    }
+                };
+            } else {
+                return {};
+            }
+        }),
+		frm.set_query('student_group', function() {
+            if (frm.doc.student_batch) {
+                return {
+                    filters: {
+                        'batch': frm.doc.student_batch
+                    }
+                };
+            } else {
+                return {};
+            }
+        });
+    },
+    faculty: function(frm) {
+        frm.set_value('program', null);
+        frm.set_query('program', function() {
+            if (frm.doc.faculty) {
+                return {
+                    filters: {
+                        'faculty': frm.doc.faculty
+                    }
+                };
+            } else {
+                return {};
+            }
+        });
+    },
+	program: function(frm) {
+		frm.set_value('student_batch', null);
+		frm.set_query('student_batch', function() {
+            if (frm.doc.program) {
+                return {
+                    filters: {
+                        'program_specification': frm.doc.program
+                    }
+                };
+            } else {
+                return {};
+            }
+        });
+    },
+	student_batch: function(frm) {
+		frm.set_value('student_group', null);
+		frm.set_query('student_group', function() {
+            if (frm.doc.student_batch) {
+                return {
+                    filters: {
+                        'batch': frm.doc.student_batch
+                    }
+                };
+            } else {
+                return {};
+            }
+        });
+    }
 });
 

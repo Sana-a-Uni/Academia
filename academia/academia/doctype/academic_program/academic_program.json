@@ -127,8 +127,13 @@
   }
  ],
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2024-04-30 17:59:57.904449",
+ "links": [
+  {
+   "link_doctype": "Program Specification",
+   "link_fieldname": "program_name"
+  }
+ ],
+ "modified": "2024-07-22 02:51:20.294747",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Program",

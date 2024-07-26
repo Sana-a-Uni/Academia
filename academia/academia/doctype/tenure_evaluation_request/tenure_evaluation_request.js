@@ -6,6 +6,13 @@ frappe.ui.form.on("Tenure Evaluation Request", {
 
     },
 
+    // Start of onload event
+    onload(frm) {
+        // Calling functions
+        frm.events.filtering_academic_term(frm);
+    },
+    // End of onload event
+
     // FN: validate 'attachment' extensions
     attachment: function (frm) {
         var attachment = frm.doc.attachment;
@@ -43,21 +50,47 @@ frappe.ui.form.on("Tenure Evaluation Request", {
     },
     // End of the function
 
-
-    // FN: Filtering Academic Term field by Academic Year field
+    // FN: Clearing academic_term field when value of academic_year changes
     academic_year: function (frm) {
-        var academic_year = frm.doc.academic_year;
         if (frm.doc.academic_term) {
             frm.set_value('academic_term', '');
         }
+        // Calling function
+        frm.events.filtering_academic_term(frm);
+    },
+    // End of the function
+
+    // FN: Filtering Academic Term field by Academic Year field
+    filtering_academic_term: function (frm) {
         frm.set_query("academic_term", function () {
             return {
                 filters: {
-                    "academic_year": academic_year
+                    "academic_year": frm.doc.academic_year
                 }
             };
         });
     },
     // End of the function
+
+
+    department: function (frm) {
+        if (frm.doc.department) {
+            frappe.call({
+                method: 'academia.academia.doctype.tenure_evaluation_request.tenure_evaluation_request.get_department_head',
+                args: {
+                    department: frm.doc.department
+                },
+                callback: function (r) {
+                    if (r.message) {
+                        frm.set_value('department_head', r.message);
+                    } else {
+                        frm.set_value('department_head', 'None');
+                        frm.set_value('department_head_email', '');
+                        frappe.msgprint(__('No Department Head found for the selected department'));
+                    }
+                }
+            });
+        }
+    }
 
 });
