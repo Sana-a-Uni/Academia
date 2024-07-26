@@ -1,7 +1,6 @@
 Academia
 Councils
 Admission
-Student Enrollment
 LMS
 Transaction Management
 Academic Attendance
