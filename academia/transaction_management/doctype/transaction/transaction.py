@@ -57,7 +57,7 @@ class Transaction(Document):
         start_with_company: DF.Link | None
         start_with_department: DF.Link | None
         start_with_designation: DF.Link | None
-        status: DF.Literal["Pending", "Completed", "Canceled", "Closed"]
+        status: DF.Literal["Pending", "Completed", "Canceled", "Closed", "Rejected"]
         step: DF.Int
         sub_category: DF.Link | None
         sub_external_entity_from: DF.Link | None
@@ -125,6 +125,37 @@ class Transaction(Document):
             )
             share_permission_through_route(self, employee)
 
+        ################## Among Companies ################
+        elif self.transaction_scope == "Among Companies":
+            company_head = frappe.get_doc("Transaction Company Head", {"company": self.start_with_company})
+            head_employee_id = company_head.head_employee
+            employee_user = frappe.get_doc("Employee", head_employee_id)
+            user_id = employee_user.user_id
+            recipients = [{
+                "step": 1,
+                "recipient_name": employee_user.employee_name,
+                "recipient_company": employee_user.company,
+                "recipient_department": employee_user.department,
+                "recipient_designation": employee_user.designation,
+                "recipient_email": user_id,
+                "has_sign": 0,
+                "print_paper": 0,
+                "is_received": 0
+            }]
+            create_redirect_action(self.owner, self.name, recipients, self.step, 1)
+            
+            frappe.share.add(
+                doctype="Transaction",
+                name=self.name,
+                user=user_id,
+                read=1,
+                write=1,
+                share=1,
+                submit=1,
+            )
+            frappe.db.commit()
+        ###########################  
+
         else:
             create_redirect_action(self.owner, self.name, self.recipients, self.step, 1)
             # make a read, write, share permissions for reciepents
@@ -148,10 +179,7 @@ class Transaction(Document):
             self.set_employee_details()
 
         # to avoid "Value for Signatory Name cannot be a list" error
-        self.set("signatories", [])
-        
-                
-            
+        self.set("signatories", [])        
 
     def set_employee_details(self):
         # Fetch the current employee's document
@@ -165,54 +193,6 @@ class Transaction(Document):
             self.department = employee.department
             self.designation = employee.designation
 
-# signatories
-# def get_signatories(doc):
-#     signatories_employee = []
-
-#     if doc.start_with:
-#         start_with = frappe.get_doc("Employee",
-#                             doc.start_with,
-#                             fields=["employee_name", "designation"]
-#                             )
-        
-#         signatories_employee.append({
-#             "name": start_with.employee_name,
-#             "designation": start_with.designation,
-#             "official": True
-#         })
-#         frappe.msgprint(signatories_employee[0]["name"])
-
-#         if doc.through_route:
-#             reports_to_list = get_reports_hierarchy_emp(doc.start_with)
-#             reports_to_list.pop()
-#             signatories_employee.extend(reports_to_list)
-
-#         if doc.transaction_scope == "Among Companies" and doc.through_route:
-#             dean_emp = frappe.get_all("Employee", 
-#                                     filters={"designation": "Dean",
-#                                                 "company": doc.start_with_company
-#                                             },
-#                                     fields=["employee_name", "designation"],
-#                                     limit=1,
-#                                     )
-
-#             signatories_employee.append({
-#                 "name": dean_emp.employee_name,
-#                 "designation": dean_emp.designation,
-#                 "official": True
-#             })
-
-#         if doc.sub_category:
-#             for recipient in doc.recipients:
-#                 if recipient.has_sign:
-#                     signatories_employee.append({
-#                         "name": recipient.get("recipient_name"),
-#                         "designation": recipient.get("designation"),
-#                         "official": False
-#                     })
-#     return signatories_employee
-
-# My Updates
 
 def get_signatories(doc):
     signatories_employee = []
@@ -416,7 +396,6 @@ def get_employee_by_user_id(user_id):
         return employee[0]
     else:
         return None
-
 
 @frappe.whitelist()
 def create_new_transaction_action(user_id, transaction_name, type, details):
@@ -898,29 +877,6 @@ def change_is_received_in_action_recipients(rcipient_name):
     return action
 
 
-
-@frappe.whitelist()
-def set_company_head(user_id, employee_id):
-    if employee_id == None or employee_id == "":
-        # should to delete this after fix through route problem
-        if(user_id == "Administrator"):
-            employee = True
-            company = "Zahr Tech"
-            # company = "Alpha"
-        else:
-            employee = get_employee_by_user_id(user_id)
-            company = employee.company
-    else:
-        employee = frappe.get_doc("Employee", employee_id)
-        company = employee.company
-    if(employee):
-        head = frappe.get_doc("Transaction Company Head", {"company": company})
-        if(head):
-            return head 
-    return f"No Head for {company}"
-
-
-
 @frappe.whitelist()
 def create_transaction(priority,title, category, sub_category,refrenced_document,applicants_list ):
     if(is_parent_category(category, sub_category)):
@@ -1046,8 +1002,8 @@ def create_attachements( transaction_doc,sub_category,attachements_list):
     requirements=get_transaction_category_requirement(sub_category)
     requirements_str = ', '.join(map(str, requirements))
     frappe.msgprint("requirements:"+requirements_str)
-
-    # frappe.msgprint(requirements)
+    
+     # frappe.msgprint(requirements)
     for requirement_data in requirements:
         requirement=frappe.new_doc("Transaction Attachments")
         requirement.attachment_label=requirement_data["name"]
@@ -1062,61 +1018,55 @@ def create_attachements( transaction_doc,sub_category,attachements_list):
 
 
 
-        #duple attachement files
-       
-      
-        # for attachement_data in attachements_list:
-            
-        #     attachement= frappe.get_doc({
-        #         'doctype':"File",
-        #         'file_name':attachement_data["file_name"],
-        #         'file_url':attachement_data["file_url"],
-        #         'attached_to_doctype':"Transaction",
-        #         'attached_to_name':transaction_doc.name
-
-
-        #     })
-        #     attachement.insert()
-
-        #     transaction_doc.attachments[row_index].attach("attach_file_docfield_name", attachement.name)
-
-        #     #  # Link the File to the target document
-        #     # target_doc = frappe.get_doc("YourDocType", target_doc_name)
-        #     # target_doc.attach("attach_file_docfield_name", file_doc.name)
-
-        #     # # Save the target document
-        #     # target_doc.save()
-
-
-        #     #   # Link the File to the specific row in the child table
-        #     # parent_doc = frappe.get_doc("ParentDocType", parent_doc_name)
-        #     # child_table = parent_doc.get(child_table_fieldname)
-            
-                
-    # attachments= frappe.get_all("File", filters={
-    #     'attached_to_doctype':"Transaction",
-    #     'attached_to_name':name
-    # },
-    # fields=['file_name','file_url'])
-
-
-
-
-    # attachements_list = json.loads(attachements_list)
-    # print(attachements_list)
-    # for attachement_data in attachements_list:
-    #         frappe.msgprint("--------------------------------------")
-        
-    #         applicant = frappe.new_doc("Transaction Applicant")
-    #         applicant.applicant_type = attachement_data["applicant_type"]
-           
-    #         # applicant.parent = transaction_doc
-
             
             
+
+
+@frappe.whitelist()
+def set_company_head(user_id, company_of_creator):
+    # should to delete this after fix through route problem
+    if(user_id == "Administrator"):
+        employee = True
+        company = company_of_creator
+    else:
+        employee = get_employee_by_user_id(user_id)
+        company = employee.company
+   
+    if(employee):
+        head = frappe.get_doc("Transaction Company Head", {"company": company})
+        if(head):
+            return head 
+    return f"No Head for {company}"
+
+
+@frappe.whitelist()
+def get_all_employees_except_start_with_company(start_with_company):
+    employees = frappe.get_list("Employee", filters={"company": ["!=", start_with_company]}, fields=["user_id"])
+    return [emp.user_id for emp in employees]
+
+
+@frappe.whitelist()
+def is_there_approve_or_reject_acions(docname):
+    actions = frappe.get_all(
+        "Transaction Action", 
+        filters={"transaction":docname, "docstatus": 1, "type": not "Canceled"}, 
+        fields=["name", "transaction", "type", "owner"],
+    )
+    if actions:
+        for action in actions:
+            if action.type == "Approved" or action.type == "Rejected":
+                return True
+
+@frappe.whitelist()
+def redirect_in_coming_among_companies(recipients):
+    pass
+
+
+   
           
             
           
     
         
     
+

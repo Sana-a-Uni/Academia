@@ -140,7 +140,7 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Pending\nCompleted\nCanceled\nClosed",
+   "options": "Pending\nCompleted\nCanceled\nClosed\nRejected",
    "read_only": 1
   },
   {
@@ -473,7 +473,9 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
+
  "modified": "2024-07-26 23:29:11.522579",
+
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
@@ -546,6 +548,14 @@
   {
    "color": "Red",
    "title": "Canceled"
+  },
+  {
+   "color": "Orange",
+   "title": "Closed"
+  },
+  {
+   "color": "Purple",
+   "title": "Rejected"
   }
  ]
 }

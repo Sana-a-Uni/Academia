@@ -16,6 +16,6 @@ frappe.query_reports["Late Transactions"] = {
             "fieldtype": "Link",
             "options": "Department",
 			// "reqd": 1,
-		},
+		}, 
 	]
 };

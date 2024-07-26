@@ -6,7 +6,7 @@ let mustInclude = [];
 var global_print_papaer = null;
 var global_is_received = null;
 var global_action_name = null;
-var global_recipient_docname = null;
+var global_recipient_docname = null;  
 
 frappe.ui.form.on('Transaction', {
   setup: function (frm){
@@ -33,6 +33,30 @@ frappe.ui.form.on('Transaction', {
   },
 
   onload: function(frm){
+    if(frm.doc.docstatus === 1){
+      if (frm.doc.status === "Completed") {
+        $(".btn-secondary").filter(function() {
+          return $(this).text().trim() === "Cancel";
+        }).hide();
+      }
+  
+      frappe.call({
+        method: "academia.transaction_management.doctype.transaction.transaction.is_there_approve_or_reject_acions",
+        args: {
+            docname: frm.doc.name
+        },
+        callback: function(r) {
+            if(r.message) {
+              if (r.message) {
+                $(".btn-secondary").filter(function() {
+                  return $(this).text().trim() === "Cancel";
+                }).hide();
+              }   
+            }
+          }
+      });
+    }
+
    if(frm.doc.docstatus === 0)
      {
       global_print_papaer = null;
@@ -164,7 +188,7 @@ frappe.ui.form.on('Transaction', {
                     },
                     callback: function(response) {
                       var docshare = response.message;
-                      if (docshare && docshare.share === 1) {
+                      if (docshare && docshare.share === 1 && frm.status != "Closed") {
                         
                         console.log("print_paper_checked2: ", global_print_papaer);
                         console.log("is_received2: ", global_is_received);
@@ -176,7 +200,9 @@ frappe.ui.form.on('Transaction', {
                           add_reject_action(frm);
                           if(!frm.doc.circular){
                             add_redirect_action(frm);
-                            add_council_action(frm);
+                            if(frappe.user_roles.includes("Council Head")){
+                              add_council_action(frm);
+                            }
                           }
                         }
                       }
@@ -229,7 +255,7 @@ frappe.ui.form.on('Transaction', {
           filters: {
             transaction_scope: "With External Entity",
             type:"Incoming",
-            // status: "Completed",
+            status: "Completed",
           }
         };
        });
@@ -303,7 +329,6 @@ frappe.ui.form.on('Transaction', {
   },
 
   through_route: function(frm){
-    frappe.msgprint("aaa")
     update_must_include(frm)
     if(frm.doc.through_route)
     {
@@ -332,6 +357,129 @@ frappe.ui.form.on('Transaction', {
       }
       });
   },
+
+
+  // Validate function
+  before_save: function(frm) {
+    // Check if any required attachment is missing
+    let missing_attachments = [];
+    if (frm.doc.attachments && frm.doc.attachments.length > 0) {
+        frm.doc.attachments.forEach(attachment => {
+            if (attachment.required && !attachment.file) {
+                missing_attachments.push(attachment.attachment_label);
+            }
+        });
+    }
+  
+    if (missing_attachments.length > 0) {
+        let message =` Please attach the following required files before saving:\n\n${missing_attachments.join('\n')}`;
+        frappe.throw(message);
+    }},
+  
+    transaction_scope:function(frm){
+      if (frm.doc.transaction_scope === "Among Companies") {
+        // Set the 'through_route' field to checked and make it read-only
+        frm.set_value("through_route", 0);
+  
+        frm.toggle_display("through_route", true);
+        frm.toggle_reqd("through_route", true);
+        frm.toggle_enable("through_route", false);
+      } else {
+        // Reset the 'through_route' field and make it editable
+        frm.set_value("through_route", 0);
+        
+        frm.toggle_display("through_route", true);
+        frm.toggle_reqd("through_route", false);
+        frm.toggle_enable("through_route", true);
+      }
+    },
+  
+    type:function(frm){
+      if (frm.doc.type === "Incoming") {
+        // if(frappe.session.user != "Administrator"){
+          frappe.call({
+            method: "academia.transaction_management.doctype.transaction.transaction.set_company_head",
+            args: {
+                user_id: frappe.session.user,
+                company_of_creator: frm.doc.company
+            },
+            callback: function(r) {
+                if(r.message) {
+                  if (r.message) {
+                    console.log(r.message.head_employee)
+                    console.log("creation: ", frm.doc.created_by)
+                    frm.set_value('start_with', r.message.head_employee);
+                    frm.set_df_property('start_with', 'hidden', 1);
+                    frm.set_df_property('start_from_employee', 'hidden', 1);
+                  }   
+                }
+              }
+          });
+          frm.toggle_display("through_route", true);
+          frm.toggle_reqd("through_route", true);
+          frm.toggle_enable("through_route", false);
+        // }
+        // else{
+        //   console.log("It Is The Administrator")
+        // }
+      }
+      else{
+        frm.toggle_display("through_route", true);
+        frm.toggle_reqd("through_route", false);
+        frm.toggle_enable("through_route", true);
+      }
+    },
+    
+    start_with: function(frm) {
+      console.log("Here Start With... ",frm.doc.start_with)
+      if(frm.doc.start_with)
+        {
+          update_must_include(frm)
+    
+          frappe.call({
+            method: "frappe.client.get",
+            args: {
+            doctype: "Employee",
+            filters: { name: frm.doc.start_with },
+            fields: ["designation", "department", "company"]
+          },
+          callback: (response) => {
+              employee = response.message
+              frm.set_value('start_with_company', employee.company);
+              frm.set_value('start_with_department', employee.department);
+              frm.set_value('start_with_designation', employee.designation);
+
+              if (frm.doc.transaction_scope === "Among Companies") {
+                frappe.call({
+                  method: "academia.transaction_management.doctype.transaction.transaction.get_all_employees_except_start_with_company",
+                  args: {
+                    start_with_company: frm.doc.start_with_company
+                  },
+                  callback: function(response) {
+                    mustInclude = response.message;
+                  }
+                });
+              }
+            }
+          });
+        }
+        else{
+          frm.set_value('start_with_company', '');
+          frm.set_value('start_with_department', '');
+          frm.set_value('start_with_designation', '');
+        }
+        
+    },
+  
+    circular: function (frm) {
+      update_must_include(frm)
+      if(frm.doc.circular)
+      {
+        frm.doc.through_route = false
+        frm.refresh_field("through_route");
+      }
+  
+    },
 
   get_default_template_button:function(frm){
     if (frm.doc.transaction_description && frm.doc.referenced_document) {
@@ -551,85 +699,6 @@ frappe.ui.form.on('Transaction', {
     }
   },
 
-  // Validate function
-  before_save: function(frm) {
-  // Check if any required attachment is missing
-  let missing_attachments = [];
-  if (frm.doc.attachments && frm.doc.attachments.length > 0) {
-      frm.doc.attachments.forEach(attachment => {
-          if (attachment.required && !attachment.file) {
-              missing_attachments.push(attachment.attachment_label);
-          }
-      });
-  }
-
-  if (missing_attachments.length > 0) {
-      let message =` Please attach the following required files before saving:\n\n${missing_attachments.join('\n')}`;
-      frappe.throw(message);
-  }},
-  type:function(frm){
-    if (frm.doc.type === "Incoming") {
-      // if(frappe.session.user != "Administrator"){
-        frappe.call({
-          method: "academia.transaction_management.doctype.transaction.transaction.set_company_head",
-          args: {
-              user_id: frappe.session.user,
-              employee_id: "",
-          },
-          callback: function(r) {
-              if(r.message) {
-                if (r.message) {
-                  console.log(r.message.head_employee)
-                  console.log("creation: ", frm.doc.created_by)
-                  frm.set_value('start_with', r.message.head_employee);
-                  frm.set_df_property('start_with', 'hidden', 1);
-                  frm.set_df_property('start_from_employee', 'hidden', 1);
-                }   
-              }
-            }
-        });
-      // }
-      // else{
-      //   console.log("It Is The Administrator")
-      // }
-    }
-  },
-  
-  start_with: function(frm) {
-    update_must_include(frm)
-    if(frm.doc.start_with)
-      {
-        frappe.call({
-          method: "frappe.client.get",
-          args: {
-          doctype: "Employee",
-          filters: { name: frm.doc.start_with },
-          fields: ["designation", "department", "company"]
-        },
-        callback: (response) => {
-            employee = response.message
-            frm.set_value('start_with_company', employee.company);
-            frm.set_value('start_with_department', employee.department);
-            frm.set_value('start_with_designation', employee.designation);
-          }
-        });
-      }
-      else{
-        frm.set_value('start_with_company', '');
-        frm.set_value('start_with_department', '');
-        frm.set_value('start_with_designation', '');
-      }
-  },
-
-  circular: function (frm) {
-    update_must_include(frm)
-    if(frm.doc.circular)
-    {
-      frm.doc.through_route = false
-      frm.refresh_field("through_route");
-    }
-
-  },
 });
 
 
@@ -731,6 +800,7 @@ function add_approve_action(frm) {
                     transaction_name: frm.doc.name,
                     type: "Approved",
                     details: values.details || "",
+                    transaction_scope: frm.doc.transaction_scope || ""
                 },
                 callback: function(r) {
                     if(r.message) {
@@ -763,6 +833,7 @@ function add_reject_action(frm) {
                     transaction_name: frm.doc.name,
                     type: "Rejected",
                     details: values.details || "",
+                    transaction_scope: frm.doc.transaction_scope || ""
                 },
                 callback: function(r) {
                     if(r.message) {
@@ -819,36 +890,21 @@ function get_default_template(frm){
 }
 
 function update_must_include(frm) {
-  if(frm.doc.transaction_scope === 'With External Entity'){//and outgoing
-    frm.clear_table("recipients");
-    frm.refresh_field("recipients");
-    // frappe.call({
-    //   method: "academia.transaction_management.doctype.transaction.transaction.get_all_in_company",
-    //   args: {
-    //     employee_name: frm.doc.start_with
-    //   },
-    //   callback: function(response) {
-    //     mustInclude = response.message;
-    //   }
-    // });
-  }
   if(frm.doc.start_with)
-  {frappe.msgprint("start with filled")
+  {
     frm.clear_table("recipients");
     frm.refresh_field("recipients");
 
     if(frm.doc.through_route){
-      frappe.msgprint("call...")
       frappe.call({
         method: "academia.transaction_management.doctype.transaction.transaction.get_reports_hierarchy",
         args: {
           employee_name: frm.doc.start_with
         },
         callback: function(response) {
+          
           mustInclude = response.message;
-          frappe.msgprint("Response...")
-
-          frappe.msgprint("must"+mustInclude)
+          
         }
       });
     }
@@ -860,7 +916,6 @@ function update_must_include(frm) {
           },
           callback: function(response) {
               mustInclude = response.message;
-              frappe.msgprint(mustInclude)
           }
         }); 
       }
