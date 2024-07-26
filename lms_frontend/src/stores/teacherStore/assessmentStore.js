@@ -48,5 +48,31 @@ export const useAssessmentStore = defineStore("assessmentStore", {
 				this.loading = false;
 			}
 		},
+		async saveAssessment(payload) {
+			this.loading = true;
+			this.error = null;
+			try {
+				const response = await axios.post(
+					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.save_assessment",
+					payload,
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: "token 0b88a69d4861506:a0640c80d24119a",
+						},
+					}
+				);
+				if (response.data.message.status=== "success") {
+					alert("Assessment saved successfully!");
+				} else {
+					alert(`Error: ${response.data.message}`);
+				}
+			} catch (error) {
+				this.error = error.message || "An error occurred while saving the assessment.";
+				alert(this.error);
+			} finally {
+				this.loading = false;
+			}
+		},
 	},
 });
