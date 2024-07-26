@@ -1,8 +1,5 @@
 <template>
-	<div class="container" v-if="!details">
-		<div class="loading">Loading...</div>
-	</div>
-	<div class="container" v-else>
+	<div class="container" >
 		<div class="assignment-panel">
 			<div :class="['panel-header', { 'grey-background': !showDetails }]">
 				<h4>Assignment Details</h4>
@@ -95,7 +92,7 @@
 
 <script setup>
 import { ref } from "vue";
-import { defineProps } from "vue";
+import { useAssessmentStore } from "@/stores/teacherStore/assessmentStore";
 
 const props = defineProps({
 	details: {
@@ -104,6 +101,7 @@ const props = defineProps({
 	},
 });
 
+const store = useAssessmentStore();
 const criteriaGrades = ref(props.details.assessment_criteria.map(() => 0));
 const feedback = ref("");
 const showDetails = ref(false);
@@ -117,15 +115,33 @@ const saveDraft = () => {
 		criteriaGrades: criteriaGrades.value,
 		feedback: feedback.value,
 	});
-	// Add logic to save the draft
 };
 
-const submitEvaluation = () => {
-	console.log("Evaluation submitted:", {
-		criteriaGrades: criteriaGrades.value,
+const formatDateTime = (date) => {
+	const d = new Date(date);
+	const year = d.getFullYear();
+	const month = String(d.getMonth() + 1).padStart(2, "0");
+	const day = String(d.getDate()).padStart(2, "0");
+	const hours = String(d.getHours()).padStart(2, "0");
+	const minutes = String(d.getMinutes()).padStart(2, "0");
+	const seconds = String(d.getSeconds()).padStart(2, "0");
+	return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+};
+
+const submitEvaluation = async () => {
+	const payload = {
+		assignment_submission:"20817d93e8-1",
+		faculty_member: "ACAD-FM-00001",
 		feedback: feedback.value,
-	});
-	// Add logic to submit the evaluation
+		assessment_date: formatDateTime(new Date()),
+		criteria_grades: props.details.assessment_criteria.map((criteria, index) => ({
+			assessment_criteria: criteria.name,
+			grade: criteriaGrades.value[index],
+		})),
+	};
+
+	console.log("Payload to be sent:", payload);
+	await store.saveAssessment(payload);
 };
 </script>
 
