@@ -4,17 +4,17 @@
 			<img src="@/assets/images/logo.png" alt="Logo" class="logo" />
 			<h3>Login to LMS</h3>
 			<form @submit.prevent="handleLogin">
-				<div class="input-group">
+				<div :class="['input-group', { 'input-group-error': error }]">
 					<font-awesome-icon :icon="['fas', 'user']" class="icon" />
 					<input
 						id="email"
-						v-model="email"
+						v-model="username"
 						type="text"
 						required
-						placeholder="Enter your email"
+						placeholder="Enter your student ID"
 					/>
 				</div>
-				<div class="input-group">
+				<div :class="['input-group', { 'input-group-error': error }]">
 					<font-awesome-icon :icon="['fas', 'lock']" class="icon" />
 					<input
 						id="password"
@@ -29,7 +29,9 @@
 						@click="togglePasswordVisibility"
 					/>
 				</div>
-				<button type="submit" class="login-button">LOGIN</button>
+				<button class="login-button" type="submit">
+					{{ error ? "Invalid login, try again" : "LOGIN" }}
+				</button>
 			</form>
 		</div>
 	</div>
@@ -37,21 +39,30 @@
 
 <script setup>
 import { ref } from "vue";
+import { useAuthStore } from "@/stores/authStore";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faUser, faLock, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 library.add(faUser, faLock, faEye, faEyeSlash);
 
-const email = ref("");
+const authStore = useAuthStore();
+
+const username = ref("");
 const password = ref("");
 const passwordVisible = ref(false);
+const error = ref(false);
 
-const handleLogin = () => {
-	if (!email.value || !password.value) {
-		alert("Please fill in both the student ID and password.");
+const handleLogin = async () => {
+	if (!username.value || !password.value) {
+		error.value = true;
 	} else {
-		alert(`Logging in with student ID: ${email.value}`);
+		await authStore.login(username.value, password.value);
+		if (authStore.error) {
+			error.value = true;
+		} else {
+			error.value = false;
+		}
 	}
 };
 
@@ -100,6 +111,10 @@ const togglePasswordVisibility = () => {
 	margin-bottom: 15px;
 }
 
+.input-group-error input {
+	border: 2px solid red;
+}
+
 .input-group .icon {
 	position: absolute;
 	left: 10px;
@@ -115,6 +130,10 @@ const togglePasswordVisibility = () => {
 	border-radius: 4px;
 	box-sizing: border-box;
 	background: #f0f0f0;
+}
+
+.input-group-error input {
+	border: 1px solid #ff3d4f;
 }
 
 .toggle-password-icon {
