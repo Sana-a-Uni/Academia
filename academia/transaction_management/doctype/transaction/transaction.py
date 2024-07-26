@@ -405,7 +405,7 @@ def create_new_transaction_action(user_id, transaction_name, type, details, tran
     transaction_doc = frappe.get_doc("Transaction", transaction_name)
 
     ############ Among Companies ###########
-    if transaction_scope == "Among Companies":
+    if (transaction_scope == "Among Companies" and type == "Approved") or (transaction_scope == "Among Companies" and type == "Rejected"):
         
         employee = frappe.get_doc("Employee", {"user_id": user_id})
         company_head = frappe.get_doc("Transaction Company Head", {"company": employee.company})
