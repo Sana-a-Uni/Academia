@@ -7,11 +7,12 @@
  "engine": "InnoDB",
  "field_order": [
   "batch_name",
-  "status",
-  "column_break_apun",
+  "faculty",
   "program",
+  "column_break_apun",
   "program_specification",
-  "current_level"
+  "current_level",
+  "status"
  ],
  "fields": [
   {
@@ -51,12 +52,20 @@
    "fieldname": "current_level",
    "fieldtype": "Link",
    "label": "Current Level",
-   "options": "Level"
+   "options": "Level",
+   "reqd": 1
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-05 20:51:35.196272",
+ "modified": "2024-07-27 03:17:41.411447",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Batch",
