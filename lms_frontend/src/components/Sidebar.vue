@@ -3,23 +3,36 @@
 		<nav>
 			<ul>
 				<li>
-					<a href="#"><font-awesome-icon icon="tachometer-alt" class="menu-icon" /> Dashboard</a>
+					<a href="#"
+						><font-awesome-icon icon="tachometer-alt" class="menu-icon" /> Dashboard</a
+					>
 				</li>
 				<li>
 					<a href="#"><font-awesome-icon icon="book" class="menu-icon" /> Study Plan</a>
 				</li>
 				<li>
-					<a href="#"><font-awesome-icon icon="folder-open" class="menu-icon" /> Course Content</a>
+					<a href="#"
+						><font-awesome-icon icon="folder-open" class="menu-icon" /> Course
+						Content</a
+					>
 				</li>
 				<li>
-					<a href="#"><font-awesome-icon icon="bullhorn" class="menu-icon" /> Announcements</a>
+					<a href="#"
+						><font-awesome-icon icon="bullhorn" class="menu-icon" /> Announcements</a
+					>
 				</li>
 				<li>
-					<a href="#"><font-awesome-icon icon="tasks" class="menu-icon" /> Assignments</a>
+					<router-link :to="{ name: 'assignmentView' }" class="menu-link"
+						><font-awesome-icon icon="tasks" class="menu-icon" /> Assignments
+					</router-link>
 				</li>
+
 				<li>
 					<router-link
-						:to="{ name: 'quizView', params: { courseName: courseName, studentId: studentId } }"
+						:to="{
+							name: 'quizView',
+							params: { courseName: courseName, studentId: studentId },
+						}"
 						class="menu-link"
 					>
 						<font-awesome-icon icon="question-circle" class="menu-icon" /> Quiz
@@ -48,7 +61,15 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 // Add the icons to the library
-library.add(faTachometerAlt, faBook, faFolderOpen, faBullhorn, faTasks, faQuestionCircle, faChartBar);
+library.add(
+	faTachometerAlt,
+	faBook,
+	faFolderOpen,
+	faBullhorn,
+	faTasks,
+	faQuestionCircle,
+	faChartBar
+);
 
 const props = defineProps({
 	isOpen: Boolean,

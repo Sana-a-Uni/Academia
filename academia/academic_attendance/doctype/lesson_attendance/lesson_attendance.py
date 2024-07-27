@@ -18,16 +18,16 @@ class LessonAttendance(Document):
 		academic_term: DF.Link
 		academic_year: DF.Link
 		amended_from: DF.Link | None
-		attendance_date: DF.Date | None
-		course: DF.Link | None
+		attendance_date: DF.Date
+		course: DF.Link
 		course_type: DF.Literal["", "Theoretical", "Practical"]
 		early_exit: DF.Check
 		early_exit_note: DF.SmallText | None
 		early_exit_time: DF.Time | None
 		faculty: DF.Link
-		faculty_member: DF.Link | None
+		faculty_member: DF.Link
 		faculty_member_name: DF.ReadOnly | None
-		from_time: DF.Time | None
+		from_time: DF.Time
 		group: DF.Link | None
 		is_multi_group: DF.Check
 		late_entry: DF.Check
@@ -37,12 +37,13 @@ class LessonAttendance(Document):
 		lesson_type: DF.Literal["", "Ordinary Lesson", "Compensatory Lesson"]
 		level: DF.Link | None
 		multi_groups: DF.Table[MultiLessonTemplate]
-		program: DF.Link
-		room: DF.Link | None
-		schedule_template: DF.Link | None
-		schedule_template_version: DF.Link | None
+		program: DF.Link | None
+		room: DF.Link
+		schedule_template: DF.Link
+		schedule_template_version: DF.Link
 		status: DF.Literal["", "Present", "Absent"]
 		subgroup: DF.Data | None
-		to_time: DF.Time | None
+		teaching_hours: DF.Float
+		to_time: DF.Time
 	# end: auto-generated types
 	pass

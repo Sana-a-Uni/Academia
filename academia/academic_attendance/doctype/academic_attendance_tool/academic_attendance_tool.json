@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_copy": 1,
- "creation": "2024-07-07 22:17:48.532658",
+ "creation": "2024-07-21 16:33:49.435591",
  "default_view": "List",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -135,6 +135,7 @@
    "label": "Set Attendance Details"
   },
   {
+   "default": "Present",
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
@@ -154,6 +155,7 @@
    "fieldname": "late_entry_time",
    "fieldtype": "Time",
    "label": "Late Entry Time",
+   "mandatory_depends_on": "late_entry",
    "non_negative": 1
   },
   {
@@ -180,7 +182,7 @@
  "hide_toolbar": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-07-08 11:29:08.199277",
+ "modified": "2024-07-21 16:33:49.435591",
  "modified_by": "Administrator",
  "module": "Academic Attendance",
  "name": "Academic Attendance Tool",
