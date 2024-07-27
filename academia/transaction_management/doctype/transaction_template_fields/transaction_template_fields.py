@@ -14,10 +14,10 @@ class TransactionTemplateFields(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		docfield_name: DF.Data | None
-		docfield_title: DF.Data | None
-		doctype_name: DF.Link | None
-		link_field: DF.Data | None
+		docfield_name: DF.Data
+		docfield_title: DF.Data
+		doctype_name: DF.Link
+		link_field: DF.Data
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data

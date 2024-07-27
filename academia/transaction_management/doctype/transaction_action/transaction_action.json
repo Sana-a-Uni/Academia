@@ -16,12 +16,14 @@
   "from_company",
   "from_department",
   "from_designation",
+  "topic_status",
   "recipient_settings_section",
   "get_recipients",
   "clear_recipients",
   "recipients",
   "section_break_hgwa",
-  "amended_from"
+  "amended_from",
+  "auto_redirect"
  ],
  "fields": [
   {
@@ -104,6 +106,7 @@
    "fieldname": "recipients",
    "fieldtype": "Table",
    "label": "Recipients",
+   "mandatory_depends_on": "eval: doc.type == \"Redirected\"",
    "options": "Transaction Recipients"
   },
   {
@@ -123,18 +126,104 @@
    "fieldname": "clear_recipients",
    "fieldtype": "Button",
    "label": "Clear Recipients"
+  },
+  {
+   "default": "0",
+   "fieldname": "auto_redirect",
+   "fieldtype": "Int",
+   "label": "Auto Redirect"
+  },
+  {
+   "fieldname": "topic_status",
+   "fieldtype": "Data",
+   "label": "Topic Status"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-07 11:51:27.838074",
+ "modified": "2024-07-26 03:55:55.402528",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Action",
  "naming_rule": "Expression",
  "owner": "Administrator",
- "permissions": [],
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction User",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction User",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],

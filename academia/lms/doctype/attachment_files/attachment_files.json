@@ -1,0 +1,30 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-23 01:26:49.488448",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "attachment_file"
+ ],
+ "fields": [
+  {
+   "fieldname": "attachment_file",
+   "fieldtype": "Attach",
+   "in_list_view": 1,
+   "label": "Attachment File"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-07-23 01:40:56.922955",
+ "modified_by": "Administrator",
+ "module": "LMS",
+ "name": "Attachment Files",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

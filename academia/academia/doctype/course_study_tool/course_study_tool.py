@@ -32,44 +32,24 @@ class CourseStudyTool(Document):
 		student_batch: DF.Link | None
 	# end: auto-generated types
 	
-	child_table_data1 = []
 
 	@frappe.whitelist()
 	def get_courses(self):
-		global child_table_data1
 		child_table_data = []
 		child_data = {}
 
 		if self.based_on == "Program":
 			#by Program
-			if self.academic_program == "All Programs":
-				if self.level == "All Levels":
-					#code for get all prpgrams with all levels
-					program_specifications = frappe.get_list('Program Specification', fields='*')
-					for program in program_specifications:
-						program_specification_doc = frappe.get_doc("Program Specification", program.name)
-						for child in program_specification_doc.table_ytno:
-							child_data = child.as_dict()
-			
-							course_exists_in_course_study = frappe.db.exists('Course Study', {'course_name': child_data['course_name']})
-							if not course_exists_in_course_study:
-								student_batch = frappe.get_list("Student Batch", fields='*')
-								for batch in student_batch:
-									if batch.program_specification == child_data['parent']:
-										child_data['batch'] = batch.name
-								
-								child_table_data.append(child_data)
-					frappe.msgprint(str(child_table_data))
-
-				elif self.level == "Specific Level":
-					if self.specific_level:
-						#code for get all programs with a specific level
+			if not self.student_batch:
+				if self.academic_program == "All Programs":
+					if self.level == "All Levels":
+						#code for get all prpgrams with all levels
 						program_specifications = frappe.get_list('Program Specification', fields='*')
 						for program in program_specifications:
 							program_specification_doc = frappe.get_doc("Program Specification", program.name)
 							for child in program_specification_doc.table_ytno:
 								child_data = child.as_dict()
-			
+
 								course_exists_in_course_study = frappe.db.exists('Course Study', {'course_name': child_data['course_name']})
 								if not course_exists_in_course_study:
 									student_batch = frappe.get_list("Student Batch", fields='*')
@@ -78,48 +58,25 @@ class CourseStudyTool(Document):
 											child_data['batch'] = batch.name
 
 									child_table_data.append(child_data)
-						filterd_data_by_specific_level = [d for d in child_table_data if d.get("study_level") == self.specific_level]
-						child_table_data  = filterd_data_by_specific_level
-
-					else:
-						frappe.throw(_("Mandatory field - Specific Level"))
-				else:
-					frappe.throw(_("Mandatory field - Level"))
-
-			elif self.academic_program == "Specific Program":
-				if self.specific_program:
-					if self.level == "All Levels":
-						#code for get specific program with all levels
-						#frappe.throw(_("Mandatory field -0000000000Specific Level"))
-						program_specification_doc = frappe.get_doc("Program Specification", self.specific_program)
-						for child in program_specification_doc.table_ytno:
-							child_data = child.as_dict()
-			
-							course_exists_in_course_study = frappe.db.exists('Course Study', {'course_name': child_data['course_name']})
-							if not course_exists_in_course_study:
-								student_batch = frappe.get_list("Student Batch", fields='*')
-								for batch in student_batch:
-									if batch.program_specification == child_data['parent']:
-										child_data['batch'] = batch.name
-
-								child_table_data.append(child_data)
+						frappe.msgprint(str(child_table_data))
 
 					elif self.level == "Specific Level":
 						if self.specific_level:
-							#code for get specific program with specific level
-							program_specification_doc = frappe.get_doc("Program Specification", self.specific_program)
-							for child in program_specification_doc.table_ytno:
-								child_data = child.as_dict()
-			
-								course_exists_in_course_study = frappe.db.exists('Course Study', {'course_name': child_data['course_name']})
-								if not course_exists_in_course_study:
-									student_batch = frappe.get_list("Student Batch", fields='*')
-									for batch in student_batch:
-										if batch.program_specification == child_data['parent']:
-											child_data['batch'] = batch.name
+							#code for get all programs with a specific level
+							program_specifications = frappe.get_list('Program Specification', fields='*')
+							for program in program_specifications:
+								program_specification_doc = frappe.get_doc("Program Specification", program.name)
+								for child in program_specification_doc.table_ytno:
+									child_data = child.as_dict()
 
-									child_table_data.append(child_data)
-							
+									course_exists_in_course_study = frappe.db.exists('Course Study', {'course_name': child_data['course_name']})
+									if not course_exists_in_course_study:
+										student_batch = frappe.get_list("Student Batch", fields='*')
+										for batch in student_batch:
+											if batch.program_specification == child_data['parent']:
+												child_data['batch'] = batch.name
+
+										child_table_data.append(child_data)
 							filterd_data_by_specific_level = [d for d in child_table_data if d.get("study_level") == self.specific_level]
 							child_table_data  = filterd_data_by_specific_level
 
@@ -127,11 +84,54 @@ class CourseStudyTool(Document):
 							frappe.throw(_("Mandatory field - Specific Level"))
 					else:
 						frappe.throw(_("Mandatory field - Level"))
-				else:
-					frappe.throw(_("Mandatory field - Specific Program"))
-			else:
-				frappe.throw(_("Mandatory field - Academic Program"))
 
+				elif self.academic_program == "Specific Program":
+					if self.specific_program:
+						if self.level == "All Levels":
+							#code for get specific program with all levels
+							#frappe.throw(_("Mandatory field -0000000000Specific Level"))
+							program_specification_doc = frappe.get_doc("Program Specification", self.specific_program)
+							for child in program_specification_doc.table_ytno:
+								child_data = child.as_dict()
+
+								course_exists_in_course_study = frappe.db.exists('Course Study', {'course_name': child_data['course_name']})
+								if not course_exists_in_course_study:
+									student_batch = frappe.get_list("Student Batch", fields='*')
+									for batch in student_batch:
+										if batch.program_specification == child_data['parent']:
+											child_data['batch'] = batch.name
+
+									child_table_data.append(child_data)
+
+						elif self.level == "Specific Level":
+							if self.specific_level:
+								#code for get specific program with specific level
+								program_specification_doc = frappe.get_doc("Program Specification", self.specific_program)
+								for child in program_specification_doc.table_ytno:
+									child_data = child.as_dict()
+
+									course_exists_in_course_study = frappe.db.exists('Course Study', {'course_name': child_data['course_name']})
+									if not course_exists_in_course_study:
+										student_batch = frappe.get_list("Student Batch", fields='*')
+										for batch in student_batch:
+											if batch.program_specification == child_data['parent']:
+												child_data['batch'] = batch.name
+
+										child_table_data.append(child_data)
+
+								filterd_data_by_specific_level = [d for d in child_table_data if d.get("study_level") == self.specific_level]
+								child_table_data  = filterd_data_by_specific_level
+
+							else:
+								frappe.throw(_("Mandatory field - Specific Level"))
+						else:
+							frappe.throw(_("Mandatory field - Level"))
+					else:
+						frappe.throw(_("Mandatory field - Specific Program"))
+				else:
+					frappe.throw(_("Mandatory field - Academic Program"))
+			else:
+				frappe.throw(_("Mandatory field - Student Batch"))
 		elif self.based_on == "Batch":
 			#by Batch
 			if self.student_batch:
@@ -154,7 +154,6 @@ class CourseStudyTool(Document):
 			frappe.throw(_("Mandatory field - Based On"))	
 		
 
-		child_table_data1 = child_table_data
 
 		if child_table_data:
 			return child_table_data
@@ -168,7 +167,8 @@ class CourseStudyTool(Document):
 		elif not self.academic_term:
 			frappe.throw(_("Mandatory field - Academic term"))
 		else:	
-			for i, cour in enumerate(child_table_data1):
+
+			for cour in self.courses:
 				child_hours_data = {}
 
 				key = cour.course_code
@@ -188,7 +188,7 @@ class CourseStudyTool(Document):
 							frappe.msgprint(_("This course {0} already generated...").format(cour.course_name +' '+ hour_table['hour_type']))
 						else:
 							course_study = frappe.new_doc("Course Study")
-							course_study.course_code = cour.course_code
+							course_study.course_code = cour.course_code + " " + hour_table['hour_type']
 							course_study.student_batch = cour.batch
 							course_study.program = cour.parent
 							course_study.academic_year = self.academic_year

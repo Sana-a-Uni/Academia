@@ -3,8 +3,9 @@
 
 import datetime
 import json
-
 import frappe
+
+from frappe.utils import time_diff_in_hours
 from frappe.model.document import Document
 from frappe.utils import getdate
 
@@ -109,6 +110,11 @@ def mark_employee_attendance(
 	
 	for employee in employee_list:	
 		lesson = frappe.get_doc('Lesson', employee)
+		if status == "Present":
+			teaching_hours = time_diff_in_hours(lesson.to_time, lesson.from_time)
+		else :
+			teaching_hours = 0
+		
 		attendance = frappe.get_doc(
 			dict(
 				doctype="Lesson Attendance",
@@ -136,6 +142,7 @@ def mark_employee_attendance(
 				early_exit=early_exit,
 				early_exit_time=early_exit_time,
 				late_entry_note=note,
+				teaching_hours = teaching_hours,
 				lesson=employee
 			)
 		)
@@ -161,4 +168,3 @@ def mark_employee_attendance(
 				)
 				multi_group.insert()
 				multi_group.submit()
-
