@@ -114,15 +114,15 @@ class Transaction(Document):
                 user=appicant_user_id,
                 read=1,
             )
-        
-        if self.transaction_scope == "In Company":
-            if self.through_route == 1:
-                employee = frappe.get_doc(
-                    "Employee", self.start_with, fields=["reports_to", "user_id"]
-                )
-                share_permission_through_route(self, employee)
 
-            else:
+        if self.through_route == 1:
+
+            employee = frappe.get_doc(
+                "Employee", self.start_with, fields=["reports_to", "user_id"]
+            )
+            share_permission_through_route(self, employee)
+
+            if self.transaction_scope == "Among Companies":
                 create_redirect_action(self.owner, self.name, self.recipients, self.step, 1)
                 # make a read, write, share permissions for reciepents
                 for row in self.recipients:
@@ -138,14 +138,6 @@ class Transaction(Document):
                         )
                 frappe.db.commit()
 
-        ################## Among Companies ################
-        elif self.transaction_scope == "Among Companies":
-            if self.through_route == 1:
-                employee = frappe.get_doc(
-                    "Employee", self.start_with, fields=["reports_to", "user_id"]
-                )
-                share_permission_through_route(self, employee)
-            else:
                 company_head = frappe.get_doc("Transaction Company Head", {"company": self.start_with_company})
                 head_employee_id = company_head.head_employee
                 employee_user = frappe.get_doc("Employee", head_employee_id)
@@ -173,6 +165,23 @@ class Transaction(Document):
                     submit=1,
                 )
                 frappe.db.commit()
+
+        else:
+            create_redirect_action(self.owner, self.name, self.recipients, self.step, 1)
+            # make a read, write, share permissions for reciepents
+            for row in self.recipients:
+                if row.step == 1:
+                    frappe.share.add(
+                        doctype="Transaction",
+                        name=self.name,
+                        user=row.recipient_email,
+                        read=1,
+                        write=1,
+                        share=1,
+                        submit=1,
+                    )
+            frappe.db.commit()
+
         ###########################  
 
     def before_save(self):
