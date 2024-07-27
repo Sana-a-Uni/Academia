@@ -16,30 +16,35 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Doctype Name",
-   "options": "DocType"
+   "options": "DocType",
+   "reqd": 1
   },
   {
    "fieldname": "docfield_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Docfield Name"
+   "label": "Docfield Name",
+   "reqd": 1
   },
   {
    "fieldname": "docfield_title",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Docfield Title"
+   "label": "Docfield Title",
+   "reqd": 1
   },
   {
    "fieldname": "link_field",
    "fieldtype": "Data",
-   "label": "Link Field"
+   "in_list_view": 1,
+   "label": "Link Field",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-07 13:11:48.901542",
+ "modified": "2024-07-26 03:57:09.766873",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Template Fields",

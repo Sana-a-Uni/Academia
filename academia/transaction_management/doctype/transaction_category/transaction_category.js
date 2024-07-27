@@ -39,7 +39,7 @@ frappe.ui.form.on('Transaction Category', {
                 filters: [
                     ["Transaction Category", "is_group", "=", 1],
                     ['Transaction Category', 'parent_category', '=', ''],  // Only show parties without a parent
-                    // ['Transaction Category', 'name', '!=', doc.name]  // Exclude the current item
+                    ['Transaction Category', 'company', '=', doc.company],
                 ]
             };
         };
