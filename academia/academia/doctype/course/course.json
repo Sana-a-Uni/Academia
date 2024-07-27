@@ -12,8 +12,8 @@
   "elective_template",
   "section_break_khvb",
   "course_name",
-  "course_type",
   "faculty",
+  "course_type",
   "program",
   "column_break_fqwr",
   "course_name_english",
@@ -55,7 +55,7 @@
   {
    "fieldname": "course_name_english",
    "fieldtype": "Data",
-   "label": "Course Name in English",
+   "label": "Course Name (English)",
    "reqd": 1
   },
   {
@@ -76,12 +76,11 @@
    "reqd": 1
   },
   {
-   "depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
    "fieldname": "faculty",
    "fieldtype": "Link",
    "label": "Faculty",
-   "mandatory_depends_on": "eval:doc.course_type == \"Faculty Requirement\";",
-   "options": "Faculty"
+   "options": "Faculty",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_hhlw",
@@ -108,7 +107,7 @@
    "link_fieldname": "course_code"
   }
  ],
- "modified": "2024-05-08 02:43:01.267994",
+ "modified": "2024-07-27 04:05:10.563784",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",
