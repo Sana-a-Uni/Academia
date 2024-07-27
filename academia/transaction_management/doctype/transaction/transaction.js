@@ -379,23 +379,23 @@ frappe.ui.form.on('Transaction', {
         frappe.throw(message);
     }},
   
-    // transaction_scope:function(frm){
-    //   if (frm.doc.transaction_scope === "Among Companies") {
-    //     // Set the 'through_route' field to checked and make it read-only
-    //     frm.set_value("through_route", 0);
+    transaction_scope:function(frm){
+      if (frm.doc.transaction_scope === "Among Companies") {
+        // Set the 'through_route' field to checked and make it read-only
+        frm.set_value("through_route", 1);
   
-    //     frm.toggle_display("through_route", true);
-    //     frm.toggle_reqd("through_route", true);
-    //     frm.toggle_enable("through_route", false);
-    //   } else {
-    //     // Reset the 'through_route' field and make it editable
-    //     frm.set_value("through_route", 0);
+        frm.toggle_display("through_route", true);
+        frm.toggle_reqd("through_route", true);
+        frm.toggle_enable("through_route", false);
+      } else {
+        // Reset the 'through_route' field and make it editable
+        frm.set_value("through_route", 0);
         
-    //     frm.toggle_display("through_route", true);
-    //     frm.toggle_reqd("through_route", false);
-    //     frm.toggle_enable("through_route", true);
-    //   }
-    // },
+        frm.toggle_display("through_route", true);
+        frm.toggle_reqd("through_route", false);
+        frm.toggle_enable("through_route", true);
+      }
+    },
   
     type:function(frm){
       if (frm.doc.type === "Incoming") {
