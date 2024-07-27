@@ -189,7 +189,6 @@
    "in_standard_filter": 1,
    "label": "Category",
    "options": "Transaction Category",
-   "read_only_depends_on": "eval:(!doc.is_group);",
    "reqd": 1
   },
   {
@@ -230,7 +229,6 @@
    "in_standard_filter": 1,
    "label": "Sub Category",
    "options": "Transaction Category",
-   "read_only_depends_on": "eval:(!doc.is_group);",
    "reqd": 1
   }
  ],
