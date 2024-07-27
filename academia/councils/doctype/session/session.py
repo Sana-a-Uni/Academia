@@ -150,7 +150,8 @@ class Session(Document):
             session_topic_doc.status = session_topic.status
             session_topic_doc.decision_type = session_topic.decision_type
             session_topic_doc.save()
-            session_topic_doc.submit()
+            if session_topic.status != "Postponed":
+                session_topic_doc.submit()
 
     # def process_council_memo(self, session_assignment):
     # 	if session_assignment.council_memo:
@@ -191,7 +192,7 @@ class Session(Document):
             if not (
                     topic.docstatus == 0
                     and topic.council == self.council
-                    and topic.status == "Pending"
+                    and topic.status in ["Pending", "Postponed"]
                     and not topic.parent_topic
             ):
                 frappe.throw(
@@ -201,7 +202,8 @@ class Session(Document):
 @frappe.whitelist()
 def get_template(decision_template=None, topic=None, session=None):
     try:
-        decision_template_id = get_decision_template_id() if not decision_template else decision_template
+        decision_template_id = get_decision_template_id(
+        ) if not decision_template else decision_template
         if not decision_template_id:
             return {"error": "Decision template not found."}
 
@@ -215,8 +217,10 @@ def get_template(decision_template=None, topic=None, session=None):
         else:
             return {"error": "Session data is missing."}
 
-        attendees, absenteesWE, absenteesWOE = extract_session_members(session_data) if not decision_template else [{}, {}, {}]
-        session_data["weekday"] = extract_weekday_from_date(session_data["date"])
+        attendees, absenteesWE, absenteesWOE = extract_session_members(
+            session_data) if not decision_template else [{}, {}, {}]
+        session_data["weekday"] = extract_weekday_from_date(
+            session_data["date"])
 
         rendered_template = render_decision_template(
             decision_template_data, topic_info, attendees, absenteesWE, absenteesWOE, session_data
@@ -232,7 +236,8 @@ def get_template(decision_template=None, topic=None, session=None):
 
 
 def get_decision_template_id():
-    decision_template = frappe.get_all("Topic Decision Template", filters={"subject": "افتتاحية الجلسة"}, fields=["name"])
+    decision_template = frappe.get_all("Topic Decision Template", filters={
+                                       "subject": "افتتاحية الجلسة"}, fields=["name"])
     if not decision_template:
         return None
     return decision_template[0].name
@@ -257,7 +262,8 @@ def extract_session_members(session_data):
     absenteesWOE = []
     if "members" in session_data:
         for member in session_data["members"]:
-            member_info = {"name": member.get("member_name", ""), "role": member.get("member_role", "")}
+            member_info = {"name": member.get(
+                "member_name", ""), "role": member.get("member_role", "")}
             if member.get("attendance") == "Attend":
                 attendees.append(member_info)
             elif member.get("attendance") == "Absent with Excuse":
@@ -291,6 +297,8 @@ def extract_weekday_from_date(date_str):
     weekday = date_obj.strftime("%A")
     return weekday
 
+
 def log_and_return_error(exception):
-    frappe.log_error(frappe.get_traceback(), "Error fetching Decision Template")
+    frappe.log_error(frappe.get_traceback(),
+                     "Error fetching Decision Template")
     return {"error": str(exception)}
