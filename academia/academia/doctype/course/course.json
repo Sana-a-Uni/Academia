@@ -71,7 +71,7 @@
   {
    "fieldname": "course_type",
    "fieldtype": "Select",
-   "label": "Course Type",
+   "label": "Course Categorie",
    "options": "\nUniversity Requirement\nFaculty Requirement\nProgram Requirement",
    "reqd": 1
   },
@@ -107,7 +107,7 @@
    "link_fieldname": "course_code"
   }
  ],
- "modified": "2024-07-27 04:05:10.563784",
+ "modified": "2024-07-27 04:48:00.173634",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",

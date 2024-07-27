@@ -51,7 +51,7 @@
    "fetch_from": "course_code.course_type",
    "fieldname": "course_type",
    "fieldtype": "Read Only",
-   "label": "Course Type",
+   "label": "Course Categorie",
    "read_only": 1
   },
   {
@@ -158,7 +158,7 @@
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-27 04:05:49.757507",
+ "modified": "2024-07-27 04:48:14.122410",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Specification",
