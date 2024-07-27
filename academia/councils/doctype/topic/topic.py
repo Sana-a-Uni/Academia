@@ -52,8 +52,8 @@ class Topic(Document):
 			# For grouped topics without a specific topic
 			self.name = frappe.model.naming.make_autoname(f"CNCL-TPC-GRP-.YY.-.MM.-.{self.council}.-.###")
 
-	def on_change(self):
-		self.track_topic_status()
+	# def on_change(self):
+	# self.track_topic_status()
 
 	def on_submit(self):
 		if self.is_group:
@@ -179,6 +179,39 @@ class Topic(Document):
 # 		},
 # 		as_list=True,
 # 	)
+
+
+def copy_attachments_to_topic(source_doctype, source_name, destination_doctype, destination_name):
+	# Retrieve all attachments related to the source document
+	attachments = frappe.get_all(
+		"File",
+		filters={"attached_to_doctype": source_doctype, "attached_to_name": source_name},
+		fields=["file_name", "file_url"],
+	)
+
+	for attach in attachments:
+		already_attached = frappe.db.exists(
+			"File",
+			{
+				"file_url": attach["file_url"],
+				"attached_to_doctype": destination_doctype,
+				"attached_to_name": destination_name,
+			},
+		)
+
+		if not already_attached:
+			destination_attachment = frappe.get_doc(
+				{
+					"doctype": "File",
+					"file_name": attach["file_name"],
+					"file_url": attach["file_url"],
+					"attached_to_doctype": destination_doctype,
+					"attached_to_name": destination_name,
+				}
+			)
+			destination_attachment.insert()
+
+	frappe.db.commit()
 
 
 @frappe.whitelist()
