@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class StudentBatch(Document):
+class CourseEnrollment(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -14,11 +14,15 @@ class StudentBatch(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		batch_name: DF.Data
-		current_level: DF.Link
+		academic_program: DF.Link
+		academic_term: DF.Link
+		academic_year: DF.Link
+		course: DF.Link
+		enrollment_date: DF.Date
 		faculty: DF.Link
-		program: DF.Link
-		program_specification: DF.Link
-		status: DF.Literal["", "Continue", "Finished"]
+		faculty_department: DF.Link
+		student: DF.Link
+		student_batch: DF.Link
+		student_name: DF.ReadOnly | None
 	# end: auto-generated types
 	pass

@@ -11,6 +11,6 @@ frappe.ui.form.on("Program Enrollment", {
                 }
             };
         });
+        frm.set_value('program', '');
     },
-   
 });

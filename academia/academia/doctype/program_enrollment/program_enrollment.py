@@ -14,7 +14,7 @@ class ProgramEnrollment(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		academic_term: DF.Link | None
+		academic_term: DF.Link
 		academic_year: DF.Link
 		enabled: DF.Check
 		enrollment_date: DF.Date | None
@@ -24,7 +24,7 @@ class ProgramEnrollment(Document):
 		program: DF.Link
 		status: DF.Link | None
 		student: DF.Link
-		student_batch: DF.Link | None
+		student_batch: DF.Link
 		student_name: DF.ReadOnly | None
 	# end: auto-generated types
 	pass
