@@ -45,26 +45,30 @@
    "fieldname": "course",
    "fieldtype": "Link",
    "label": "Course",
-   "options": "Course Study"
+   "options": "Course Study",
+   "reqd": 1
   },
   {
    "fieldname": "enrollment_date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Enrollment Date"
+   "label": "Enrollment Date",
+   "reqd": 1
   },
   {
    "fieldname": "faculty",
    "fieldtype": "Link",
    "label": "Faculty",
-   "options": "Faculty"
+   "options": "Faculty",
+   "reqd": 1
   },
   {
    "fieldname": "faculty_department",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Faculty Department",
-   "options": "Faculty Department"
+   "options": "Faculty Department",
+   "reqd": 1
   },
   {
    "fieldname": "student_batch",
@@ -86,7 +90,8 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Academic Term",
-   "options": "Academic Term"
+   "options": "Academic Term",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_qxhp",
@@ -103,7 +108,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-27 02:53:16.004069",
+ "modified": "2024-07-27 03:43:36.920955",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Enrollment",
@@ -122,7 +127,6 @@
    "write": 1
   }
  ],
- "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

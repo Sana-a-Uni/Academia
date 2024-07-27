@@ -4,8 +4,6 @@
 frappe.ui.form.on("Course Enrollment", {
 	faculty: function(frm) {
         var faculty = frm.doc.faculty;
-        var department = frm.doc.faculty_department;
-        var program = frm.doc.academic_program;
         frm.set_query("faculty_department", function() {
             return {
                 "filters": {
