@@ -4,6 +4,8 @@
 frappe.ui.form.on("Course Enrollment", {
 	faculty: function(frm) {
         var faculty = frm.doc.faculty;
+        var department = frm.doc.faculty_department;
+        var program = frm.doc.academic_program;
         frm.set_query("faculty_department", function() {
             return {
                 "filters": {
@@ -11,7 +13,6 @@ frappe.ui.form.on("Course Enrollment", {
                 }
             };
         });
-        
         frm.set_query("academic_program", function(){
             return {
                 "filters":{
@@ -19,9 +20,15 @@ frappe.ui.form.on("Course Enrollment", {
                 }
             };
         });
-
+        frm.set_query("student_batch", function(){
+            return {
+                "filters":{
+                    "faculty": faculty
+                }
+            };
+        });
         frm.set_value('faculty_department', '');
         frm.set_value('academic_program', '');
         frm.set_value('student_batch', '');
-    },
+    }
 });
