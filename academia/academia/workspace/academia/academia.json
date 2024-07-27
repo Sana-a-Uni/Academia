@@ -1,6 +1,7 @@
 {
  "charts": [],
  "content": "[{\"id\":\"GbvsKSyRQ9\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Academia</span>\",\"col\":12}},{\"id\":\"tJ4ya2R4Kd\",\"type\":\"card\",\"data\":{\"card_name\":\"Masters\",\"col\":4}},{\"id\":\"H0hpvVngLO\",\"type\":\"card\",\"data\":{\"card_name\":\"Faculty Members\",\"col\":4}},{\"id\":\"4vjKsxOUy-\",\"type\":\"card\",\"data\":{\"card_name\":\"Programs\",\"col\":4}},{\"id\":\"rYcX8Inu4R\",\"type\":\"card\",\"data\":{\"card_name\":\"Student Group\",\"col\":4}},{\"id\":\"uKVuspJSuI\",\"type\":\"card\",\"data\":{\"card_name\":\"Enrollment\",\"col\":4}},{\"id\":\"p4gVG4fDeA\",\"type\":\"card\",\"data\":{\"card_name\":\"Course Study\",\"col\":4}},{\"id\":\"8saZFzApaK\",\"type\":\"card\",\"data\":{\"card_name\":\"Group Assignment \",\"col\":4}},{\"id\":\"1k19m7tVNc\",\"type\":\"card\",\"data\":{\"card_name\":\"Tools\",\"col\":4}},{\"id\":\"rlVneFbaEm\",\"type\":\"card\",\"data\":{\"card_name\":\"Admission\",\"col\":4}},{\"id\":\"HBTiILhO0q\",\"type\":\"card\",\"data\":{\"card_name\":\"Councils\",\"col\":4}},{\"id\":\"aqrJWFiaNx\",\"type\":\"card\",\"data\":{\"card_name\":\"LMS\",\"col\":4}}]",
+
  "creation": "2024-01-31 01:50:55.982047",
  "custom_blocks": [],
  "docstatus": 0,
@@ -523,7 +524,10 @@
    "type": "Link"
   }
  ],
+ "modified": "2024-07-27 08:14:45.196728",
+
  "modified": "2024-07-27 05:03:19.589688",
+
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academia",
@@ -534,6 +538,16 @@
  "quick_lists": [],
  "roles": [],
  "sequence_id": 15.0,
- "shortcuts": [],
+ "shortcuts": [
+  {
+   "color": "Green",
+   "doc_view": "List",
+   "format": "{} Publiced",
+   "label": "Academic Publication",
+   "link_to": "Academic Publication",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
  "title": "Academia"
 }

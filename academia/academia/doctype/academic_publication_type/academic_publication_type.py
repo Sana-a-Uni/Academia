@@ -4,6 +4,7 @@
 import frappe
 from frappe.model.document import Document
 import re
+from frappe import _
 
 class AcademicPublicationType(Document):
     # begin: auto-generated types
@@ -20,6 +21,6 @@ class AcademicPublicationType(Document):
 
     def validate(self):
         if not re.match("^[a-zA-Z ]*$", self.publication_type):
-            frappe.throw("Publication type should only contain letters")
+            frappe.throw(_("Publication type should only contain letters."))
 
 

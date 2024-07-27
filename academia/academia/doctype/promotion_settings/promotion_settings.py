@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class AcademicAuthor(Document):
+class PromotionSettings(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -14,11 +14,11 @@ class AcademicAuthor(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		author_name: DF.Link
-		author_order: DF.Literal["First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh"]
-		name: DF.Int | None
-		parent: DF.Data
-		parentfield: DF.Data
-		parenttype: DF.Data
+		academic_rank: DF.Link | None
+		naming_series: DF.Literal["ACAD-FM-S-.YYYY.-.MM.-.####."]
+		next_academic_rank: DF.Link | None
+		publications_count: DF.Int
+		required_period_for_promotion: DF.Data | None
+		required_scientific_degree: DF.Link | None
 	# end: auto-generated types
 	pass

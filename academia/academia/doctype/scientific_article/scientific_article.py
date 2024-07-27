@@ -4,7 +4,7 @@
 import frappe
 from frappe.model.document import Document
 import re
-
+from frappe import _
 
 class ScientificArticle(Document):
     # Start of validate controller hook
@@ -18,14 +18,14 @@ class ScientificArticle(Document):
     # FN: validate 'title' field
     def validate_string(self):
         if not re.match("^[a-zA-Z ]*$", str(self.title)):
-            frappe.throw("Article Title should only contain letters and spaces")
+            frappe.throw(_("Article Title should only contain letters."))
     # End of the function
 
     # FN: validate 'date_of_publish' field
     def validate_date(self):
         if self.date_of_publish:
             if self.date_of_publish > frappe.utils.today():
-                frappe.throw("Date of publish cannot be in the future")
+                frappe.throw(_("Date of publish cannot be in the future."))
     # End of the function
 
 
@@ -36,7 +36,7 @@ class ScientificArticle(Document):
         # Verifying that article_link matches the URL pattern
         if self.article_link:
             if not url_pattern.match(self.article_link):
-                frappe.throw("Article Link is not valid. Please enter a valid URL starting with http, https, or ftp")
+                frappe.throw(_("Article Link is not valid. Please enter a valid URL starting with http, https, or ftp."))
     # End of the function
 
     

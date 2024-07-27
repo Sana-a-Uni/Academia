@@ -71,7 +71,7 @@ frappe.ui.form.on("Academic Evaluation", {
             if (!allowed_extensions.includes('.' + attachment_extension)) {
                 frm.doc.attachment = null; // Clear the attachment field
                 frm.refresh_field('attachment');
-                frappe.throw("Attachment File has an invalid extension. Only files with extensions " + allowed_extensions.join(', ') + " are allowed.");
+                frappe.throw(__("Attachment File has an invalid extension. Only files with extensions {0} are allowed.", [allowed_extensions.join(', ')]));
                 frappe.validated = false;
             } else {
                 frappe.validated = true;
@@ -165,7 +165,7 @@ function check_conditions_and_fetch_department_head(frm) {
                     } else {
                         frm.set_value('evaluator_party', 'None');
                         frm.set_df_property('evaluator_party', 'read_only', 0);
-                        frappe.msgprint(__('No Department Head found for the selected department'));
+                        frappe.msgprint(__("No Department Head found for the selected department."));
                     }
                 }
             });

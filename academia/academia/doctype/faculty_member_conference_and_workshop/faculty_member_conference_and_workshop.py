@@ -10,9 +10,9 @@ class FacultyMemberConferenceandWorkshop(Document):
     def validate(self):
         if self.starts_on and self.ends_on:
             if self.ends_on <= self.starts_on:
-                frappe.throw(_("Date of End must be after Date of Start"))
+                frappe.throw(_("Date of End must be after Date of Start."))
 
 
         if not re.match("^[a-zA-Z ]*$", self.name1):
-            frappe.throw("Name should only contain letters")
+            frappe.throw(_("Name should only contain letters."))
 

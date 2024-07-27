@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class AcademicAuthor(Document):
+class AcademicArbitrators(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -14,11 +14,14 @@ class AcademicAuthor(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		author_name: DF.Link
-		author_order: DF.Literal["First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh"]
-		name: DF.Int | None
+		academic_rank: DF.Data | None
+		arbitrator_name: DF.Link
+		country: DF.Data | None
+		faculty: DF.Data | None
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
+		scientific_degree: DF.Data | None
+		university: DF.Link
 	# end: auto-generated types
 	pass
