@@ -29,7 +29,7 @@ frappe.ui.form.on("Session", {
 				filters: {
 					docstatus: ["=", 0],
 					council: frm.doc.council,
-					status: "Pending",
+					status: ["in", ["Pending", "Postponed"]],
 					parent_topic: "",
 				},
 			};
@@ -156,7 +156,7 @@ frappe.ui.form.on("Session", {
 					filters: {
 						docstatus: ["=", 0],
 						council: frm.doc.council,
-						status: "Pending",
+						status: ["in", ["Pending", "Postponed"]],
 						parent_topic: "",
 					},
 				};
@@ -197,12 +197,14 @@ frappe.ui.form.on("Session Topic", {
 		if (row.topic) {
 			// Call the check_topic_duplicate function to check for duplicate topics
 			check_topic_duplicate(frm, row);
-			frappe.db.get_value("Topic", row.topic, ["title", "description"], (topic) => {
+			frappe.db.get_value("Topic", row.topic, ["title", "description", "decision"], (topic) => {
 				if (topic) {
 					let title = topic.title;
 					let description = topic.description;
+					let decision = topic.decision;
 					frappe.model.set_value(cdt, cdn, "title", title);
 					frappe.model.set_value(cdt, cdn, "description", description);
+					frappe.model.set_value(cdt, cdn, "decision", decision);
 				}
 			});
 			frm.refresh_field("topics");
@@ -355,8 +357,8 @@ validate_topic = function (frm, row) {
 				!(
 					topic_doc.docstatus == 0 &&
 					topic_doc.council == frm.doc.council &&
-					topic_doc.status == "Pending" &&
-					topic_doc.parent_topic == ""
+					(topic_doc.status === "Pending" || topic_doc.status === "Postponed") &&
+					!topic_doc.parent_topic
 				)
 			) {
 				// Clear the topic value in the current row
