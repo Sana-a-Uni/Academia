@@ -2,6 +2,11 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
 	{
+		path: "/",
+		name: "login",
+		component: () => import("../views/login"),
+	},
+	{
 		path: "/studentDashboard",
 		name: "studentDashboard",
 		component: () => import("../views/studentDashboard/dashboard"),
@@ -79,6 +84,16 @@ const routes = [
 		path: "/assignment/:assignmentName",
 		name: "assignment",
 		component: () => import("../views/studentDashboard/assignment/assignment"),
+	},
+	{
+		path: "/pendingAssessment",
+		name: "pendingAssessment",
+		component: () => import("../views/teacherDashboard/assessment/pendingAssessment"),
+	},
+	{
+		path: "/assessmentAssignment/:id",
+		name: "assessmentAssignment",
+		component: () => import("../views/teacherDashboard/assessment/assessmentAssignment"),
 	},
 ];
 
