@@ -26,12 +26,16 @@ class Session(Document):
         from academia.councils.doctype.session_topic.session_topic import SessionTopic
         from frappe.types import DF
 
+        agenda_title: DF.SmallText | None
         amended_from: DF.Link | None
         begin_time: DF.Time | None
         council: DF.Link
         date: DF.Date | None
         end_time: DF.Time | None
         members: DF.Table[SessionMember]
+        minute_ending: DF.SmallText | None
+        minute_hash: DF.Data | None
+        minute_title: DF.SmallText | None
         naming_series: DF.Literal["CNCL-SESS-.YY.-.{council}.-.###"]
         opening: DF.TextEditor | None
         title: DF.Data
@@ -197,6 +201,58 @@ class Session(Document):
             ):
                 frappe.throw(
                     _("There are topic outside the valid list, please check again."))
+    def get_members_emails(self):
+        emails = []
+        for member in self.members:
+            email = frappe.db.get_value("Employee", member.employee, "prefered_email")
+            if email:
+                emails.append(email)
+        return emails
+    @frappe.whitelist()
+    def send_topics_to_members_emails(self):
+        print(self.get_html_email_body())
+        # frappe.sendmail(
+        #     recipients=self.get_members_emails(),
+        #     subject=self.agenda_title,
+        #     message=self.get_html_email_body(),
+        # )
+        frappe.msgprint(_("Emails are sent"))
+    def get_html_email_body(self):
+        # Prepare the HTML table
+        html_table = f"""
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">{_("Topic ID")}</th>
+                    <th scope="col">{_("Topic Title")}</th>
+                </tr>
+            </thead>
+            <tbody>
+        """
+        for topic in self.topics:
+            html_table += f"""
+            <tr>
+                <td scope="row">{topic.idx}</td>
+                <td>{topic.title}</td>
+            </tr>
+            """
+        html_table += """
+            </tbody>
+        </table>
+        """
+
+        # Wrap the HTML table in a basic email template
+        html_body = f"""
+        <html>
+            <body>
+                <h2>{self.agenda_title}</h2>
+                {html_table}
+                
+            </body>
+        </html>
+        """
+
+        return html_body
 
 
 @frappe.whitelist()

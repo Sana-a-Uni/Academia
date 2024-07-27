@@ -21,6 +21,14 @@ frappe.ui.form.on("Session", {
         background-color: #171710 !important;/* Slightly darker gray for interaction states */
         color: white !important;
       }
+		.btn[data-fieldname="send_to_members"] {
+        background-color: #171717; /* Custom dark gray */
+        color: white;
+      }
+      .btn[data-fieldname="send_to_members"]:hover {
+        background-color: #171710 !important;/* Slightly darker gray for interaction states */
+        color: white !important;
+      }
         </style>`).appendTo("head");
 	},
 	onload(frm) {
@@ -35,7 +43,11 @@ frappe.ui.form.on("Session", {
 			};
 		});
 	},
-
+	send_to_members(frm) {
+		frappe.call({
+			method: "send_topics_to_members_emails",
+			doc: frm.doc});
+	},
 	get_opening_template: function (frm) {
 		frappe.confirm(
 			__(
