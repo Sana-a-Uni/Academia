@@ -34,7 +34,6 @@ class Topic(Document):
 		topic_date: DF.Date
 		transaction: DF.Link
 		transaction_action: DF.Link
-
 	# end: auto-generated types
 	def validate(self):
 		if not self.get("__islocal") and self.is_group:
@@ -339,7 +338,8 @@ def create_topic_from_transaction(transaction_name, transaction_action, target_d
 	from frappe.utils import today
 
 	def set_additional_values(source_doc, target_doc, source_parent_doc):
-		target_doc.topic_date = today()
+		action_date = frappe.db.get_value("Transaction Action", transaction_action, "action_date")
+		target_doc.topic_date = action_date if action_date else today()
 		target_doc.transaction = transaction_name
 		target_doc.transaction_action = transaction_action
 		target_doc.council = get_council_for_topic(transaction_action)
