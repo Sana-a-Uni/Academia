@@ -5,15 +5,48 @@
 			<button class="question-type" @click="goToReuseQuestion">REUSE QUESTION</button>
 		</div>
 		<div class="scrollable-card">
+			<div class="summary-container">
+				<div class="summary-right">
+					<div class="summary-item">
+						<span>Number of Questions: {{ allQuestions.length }}</span>
+					</div>
+					<div class="summary-item">
+						<span>Total Grades: {{ totalGrades }}</span>
+					</div>
+				</div>
+				<div class="summary-left">
+					<label class="grade-word">Grade:</label>
+					<input
+						type="number"
+						placeholder="Enter Grade"
+						v-model="newGrade"
+						class="new-grade-input"
+					/>
+					<button class="update-grade-button" @click="updateAllGrades">Update</button>
+				</div>
+			</div>
 			<div class="question" v-for="(question, index) in allQuestions" :key="index">
 				<div class="question-grade">
 					<h2>Question {{ index + 1 }}</h2>
 					<input
+						v-if="question"
 						type="number"
 						placeholder="Enter the Grade"
 						class="grade"
 						v-model="question.question_grade"
+						:min="0"
 					/>
+					<span
+						v-if="
+							errors &&
+							errors.questions &&
+							errors.questions.find((e) => e.index === index) &&
+							errors.questions.find((e) => e.index === index).errors.question_grade
+						"
+						class="error-message"
+					>
+						{{ errors.questions.find((e) => e.index === index).errors.question_grade }}
+					</span>
 				</div>
 				<p v-html="question.question"></p>
 				<ul class="options-list">
@@ -44,6 +77,44 @@
 				<div class="delete-button-container">
 					<button class="delete-button" @click="deleteQuestion(index)">Delete</button>
 				</div>
+				<div
+					class="error-message"
+					v-if="
+						errors &&
+						errors.questions &&
+						errors.questions.find((e) => e.index === index) &&
+						errors.questions.find((e) => e.index === index).errors
+					"
+				>
+					<div v-if="errors.questions.find((e) => e.index === index).errors.question">
+						{{ errors.questions.find((e) => e.index === index).errors.question }}
+					</div>
+					<div
+						v-if="errors.questions.find((e) => e.index === index).errors.question_type"
+					>
+						{{ errors.questions.find((e) => e.index === index).errors.question_type }}
+					</div>
+					<div
+						v-if="
+							errors.questions.find((e) => e.index === index).errors.question_options
+						"
+					>
+						{{
+							errors.questions.find((e) => e.index === index).errors.question_options
+						}}
+					</div>
+				</div>
+			</div>
+			<div
+				class="error-message"
+				v-if="
+					errors &&
+					errors.questions &&
+					errors.questions.length > 0 &&
+					errors.questions[0].question
+				"
+			>
+				{{ errors.questions[0].question }}
 			</div>
 		</div>
 		<div class="card-actions">
@@ -60,7 +131,11 @@ const props = defineProps({
 	questions: {
 		type: Array,
 		required: true,
-		default: () => [], // إضافة قيمة افتراضية
+		default: () => [],
+	},
+	errors: {
+		type: Object,
+		default: () => ({}),
 	},
 });
 const emit = defineEmits([
@@ -69,15 +144,24 @@ const emit = defineEmits([
 	"addQuestion",
 	"reuseQuestion",
 	"deleteQuestion",
+	"on-add-question",
+	"on-add-questions",
 ]);
 
 const selectedAnswers = ref([]);
 const additionalQuestions = ref([]);
+const newGrade = ref(0);
 
 const allQuestions = computed(() => {
 	return props.questions && Array.isArray(props.questions)
 		? [...props.questions, ...additionalQuestions.value]
 		: [...additionalQuestions.value];
+});
+
+const totalGrades = computed(() => {
+	return allQuestions.value.reduce((total, question) => {
+		return total + (parseInt(question.question_grade) || 0);
+	}, 0);
 });
 
 const goToAddQuestion = () => {
@@ -102,18 +186,25 @@ const selectAnswer = (questionIndex, optionIndex) => {
 
 const deleteQuestion = (index) => {
 	if (index < props.questions.length) {
-		props.questions.splice(index, 1);
+		const updatedQuestions = [...props.questions];
+		updatedQuestions.splice(index, 1);
+		emit("deleteQuestion", updatedQuestions);
 	} else {
-		additionalQuestions.value.splice(index - props.questions.length, 1);
+		const additionalIndex = index - props.questions.length;
+		additionalQuestions.value.splice(additionalIndex, 1);
 	}
-	emit("deleteQuestion", index);
+};
+
+const updateAllGrades = () => {
+	allQuestions.value.forEach((question) => {
+		question.question_grade = newGrade.value;
+	});
 };
 
 const addQuestions = (newQuestions) => {
 	additionalQuestions.value.push(...newQuestions);
 };
 
-// استقبال الأسئلة المضافة
 const onAddQuestion = (question) => {
 	additionalQuestions.value.push(question);
 };
@@ -122,7 +213,6 @@ const onAddQuestions = (questions) => {
 	additionalQuestions.value.push(...questions);
 };
 
-// الاستماع للأسئلة المضافة من صفحة إعادة الاستخدام
 emit("on-add-question", onAddQuestion);
 emit("on-add-questions", onAddQuestions);
 </script>
@@ -133,6 +223,60 @@ body {
 	background-color: #f9f9f9;
 	margin: 0;
 	padding: 0;
+}
+
+.summary-container {
+	display: flex;
+	justify-content: space-between;
+	margin: 20px 0;
+	padding: 0 20px;
+	align-items: center;
+}
+
+.summary-right {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+
+.summary-left {
+	display: flex;
+	align-items: center;
+}
+
+.summary-item {
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+.grade-word {
+	margin-bottom: 28px;
+}
+.new-grade-input {
+	width: 80px;
+	padding: 5px;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	font-size: 14px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.update-grade-button {
+	background-color: #0584ae;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	padding: 5px 10px;
+	font-size: 14px;
+	margin-bottom: 21px;
+	width: 80px;
+	text-align: center;
+}
+
+.update-grade-button:hover {
+	opacity: 0.9;
 }
 
 .select-button {
@@ -162,7 +306,6 @@ button:hover {
 	background-color: #f4f4f4;
 	padding-left: 20px;
 	padding-right: 20px;
-	padding-top: 20px;
 	width: 96%;
 	border: 1px solid #ddd;
 	height: calc(78vh - 80px);
@@ -214,8 +357,8 @@ button:hover {
 	margin: -20px 0;
 	padding: 5px;
 	display: flex;
-	align-items: center; /* لضمان أن الخيارات والنصوص تكون في نفس السطر */
-	justify-content: flex-start; /* محاذاة العناصر إلى اليسار */
+	align-items: center; 
+	justify-content: flex-start; 
 }
 
 .options-list li.selected {
@@ -224,7 +367,7 @@ button:hover {
 }
 
 .options-list li.correct .option-text {
-	color: green; /* تغيير لون النص للخيار الصحيح */
+	color: green; 
 	font-weight: bold;
 }
 
@@ -233,15 +376,15 @@ button:hover {
 	align-items: center;
 }
 .options-list li .option-text {
-	white-space: nowrap; /* منع النص من الالتفاف */
-	color: inherit; /* للحفاظ على لون النص الأصلي */
+	white-space: nowrap;
+	color: inherit; 
 }
 
 .option-input {
 	margin-right: 10px;
-	transform: scale(1.2); /* تكبير حجم الراديو أو الشيكبوكس */
+	transform: scale(1.2); 
 	position: relative;
-	top: 8px; /* رفع الراديو أو الشيكبوكس قليلاً */
+	top: 8px; 
 }
 
 .delete-button-container {
@@ -290,37 +433,10 @@ button:hover {
 	margin-right: 10px;
 }
 
-@media (max-width: 768px) {
-	.select-button {
-		flex-direction: column;
-	}
-
-	.question-type,
-	.reuse-question {
-		width: 100%;
-		margin-bottom: 10px;
-	}
-
-	.question-grade {
-		flex-direction: column;
-		align-items: flex-start;
-	}
-
-	.card-actions {
-		flex-direction: column;
-		align-items: stretch;
-	}
-
-	.card-actions button {
-		width: 90%;
-		margin: 10px 0;
-	}
-}
-
-@media (max-width: 576px) {
-	.scrollable-card {
-		height: calc(100vh - 100px);
-		padding: 10px;
-	}
+.error-message {
+	color: red;
+	font-size: 14px;
+	margin-top: 10px;
+	text-align: center;
 }
 </style>

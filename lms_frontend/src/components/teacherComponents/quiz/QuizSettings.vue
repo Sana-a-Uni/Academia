@@ -15,7 +15,9 @@
 						v-model="quizStore.quizData.make_the_quiz_availability"
 						class="checkbox-inline"
 					/>
-					<label for="availability-check" class="label-inline">Make the quiz availability</label>
+					<label for="availability-check" class="label-inline"
+						>Make the quiz availability</label
+					>
 				</div>
 				<div
 					:class="[
@@ -32,10 +34,14 @@
 							<h4 style="margin-top: 6px; margin-right: 15px">From</h4>
 							<DatetimePicker v-model="quizStore.quizData.from_date" />
 						</div>
+						<div class="error-message" v-if="errors.from_date">
+							{{ errors.from_date }}
+						</div>
 						<div class="from-date">
 							<h4 style="margin-top: 6px; margin-right: 15px">To</h4>
 							<DatetimePicker v-model="quizStore.quizData.to_date" />
 						</div>
+						<div class="error-message" v-if="errors.to_date">{{ errors.to_date }}</div>
 					</div>
 				</div>
 			</div>
@@ -65,6 +71,7 @@
 						v-model="quizStore.quizData.duration"
 						@update:seconds="updateDurationInSeconds"
 					/>
+					<div class="error-message" v-if="errors.duration">{{ errors.duration }}</div>
 				</div>
 			</div>
 
@@ -77,7 +84,9 @@
 						v-model="quizStore.quizData.multiple_attempts"
 						class="checkbox-inline"
 					/>
-					<label for="multiple-attempt-check" class="label-inline">Multiple Attempts</label>
+					<label for="multiple-attempt-check" class="label-inline"
+						>Multiple Attempts</label
+					>
 				</div>
 				<div
 					:class="[
@@ -103,6 +112,10 @@
 						class="input-field"
 						v-model="quizStore.quizData.number_of_attempts"
 					/>
+					<div class="error-message" v-if="errors.number_of_attempts">
+						{{ errors.number_of_attempts }}
+					</div>
+
 					<label
 						for="grading_basis"
 						class="label-inline"
@@ -118,10 +131,17 @@
 						v-if="quizStore.quizData.multiple_attempts"
 						v-model="quizStore.quizData.grading_basis"
 					>
-						<option v-for="option in quizStore.gradingBasisOptions" :key="option" :value="option">
+						<option
+							v-for="option in quizStore.gradingBasisOptions"
+							:key="option"
+							:value="option"
+						>
 							{{ option }}
 						</option>
 					</select>
+					<div class="error-message" v-if="errors.grading_basis">
+						{{ errors.grading_basis }}
+					</div>
 				</div>
 			</div>
 
@@ -140,7 +160,9 @@
 								v-model="quizStore.quizData.show_question_score"
 								class="checkbox-inline"
 							/>
-							<label for="show-question-score" class="label-inline">Show Question Scores</label>
+							<label for="show-question-score" class="label-inline"
+								>Show Question Scores</label
+							>
 						</div>
 					</div>
 					<div class="option">
@@ -152,7 +174,9 @@
 								class="checkbox-inline"
 								style="margin-left: 20px"
 							/>
-							<label for="show-correct-answer" class="label-inline">Show Correct Answers</label>
+							<label for="show-correct-answer" class="label-inline"
+								>Show Correct Answers</label
+							>
 						</div>
 					</div>
 				</div>
@@ -193,7 +217,10 @@
 					<label for="student-group-check" class="label-inline">Student Group</label>
 				</div>
 				<div
-					:class="['group-input', { active: studentGroupActive, faded: !studentGroupActive }]"
+					:class="[
+						'group-input',
+						{ active: studentGroupActive, faded: !studentGroupActive },
+					]"
 					id="group-input"
 				>
 					<select class="input-field" v-model="selected_group">
@@ -273,15 +300,15 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, defineEmits } from "vue";
+import { ref, onMounted, computed, defineEmits, toRefs } from "vue";
 import { useQuizStore } from "@/stores/teacherStore/quizStore";
 import moment from "moment";
 import DurationInput from "@/components/teacher/DurationInput.vue";
 import DatetimePicker from "@/components/teacher/DatetimePicker.vue";
 
 const emit = defineEmits(["go-back", "save-settings"]);
-
 const quizStore = useQuizStore();
+const { errors } = toRefs(quizStore);
 
 const make_the_quiz_availability = ref(false);
 const studentGroupActive = ref(false);
@@ -321,8 +348,12 @@ const saveSettings = () => {
 		is_time_bound: quizStore.quizData.is_time_bound,
 		duration: quizStore.quizData.is_time_bound ? quizStore.quizData.duration : null,
 		multiple_attempts: quizStore.quizData.multiple_attempts,
-		number_of_attempts: quizStore.quizData.multiple_attempts ? quizStore.quizData.number_of_attempts : 1,
-		grading_basis: quizStore.quizData.multiple_attempts ? quizStore.quizData.grading_basis : null,
+		number_of_attempts: quizStore.quizData.multiple_attempts
+			? quizStore.quizData.number_of_attempts
+			: 1,
+		grading_basis: quizStore.quizData.multiple_attempts
+			? quizStore.quizData.grading_basis
+			: null,
 		show_question_score: quizStore.quizData.show_question_score,
 		show_correct_answer: quizStore.quizData.show_correct_answer,
 		randomize_question_order: quizStore.quizData.randomize_question_order,
@@ -429,7 +460,7 @@ h1 {
 .date-input.active,
 .time-input.active,
 .attempt-input.active,
-.group-input.active {
+group-input.active {
 	opacity: 1;
 	pointer-events: auto;
 }
@@ -589,5 +620,11 @@ button {
 
 .option input {
 	margin-right: 10px;
+}
+
+.error-message {
+	color: red;
+	font-size: 12px;
+	margin-top: 5px;
 }
 </style>
