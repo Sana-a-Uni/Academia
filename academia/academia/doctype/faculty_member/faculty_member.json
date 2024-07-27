@@ -32,6 +32,7 @@
   "current_academic_data_section",
   "scientific_degree",
   "academic_rank",
+  "date_of_obtaining_the_academic_rank",
   "general_field",
   "specialist_field",
   "column_break_gcym",
@@ -390,6 +391,12 @@
    "fieldtype": "Data",
    "label": "Email",
    "options": "Email"
+  },
+  {
+   "fieldname": "date_of_obtaining_the_academic_rank",
+   "fieldtype": "Date",
+   "label": "Date of Obtaining the Academic Rank",
+   "reqd": 1
   }
  ],
  "image_field": "image",
@@ -422,7 +429,7 @@
    "link_fieldname": "faculty_member"
   }
  ],
- "modified": "2024-07-17 15:37:37.334341",
+ "modified": "2024-07-27 04:11:23.323871",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",

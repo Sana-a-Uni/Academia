@@ -35,6 +35,7 @@ class FacultyMember(Document):
         date: DF.Date | None
         date_of_joining_in_service: DF.Date | None
         date_of_joining_in_university: DF.Date | None
+        date_of_obtaining_the_academic_rank: DF.Date
         decision_attachment: DF.Attach | None
         decision_number: DF.Data | None
         department: DF.Link | None

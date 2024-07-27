@@ -25,6 +25,7 @@ fixtures = [
 fixtures = [
     "Academic Status",
     "Journal Type",
+    "Scientific Degree",
     "Workflow",
     "Workflow State",
     "Workflow Action Master",

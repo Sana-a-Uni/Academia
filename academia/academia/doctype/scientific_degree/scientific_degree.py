@@ -1,6 +1,3 @@
-# Copyright (c) 2024, SanU and contributors
-# For license information, please see license.txt
-
 import frappe
 from frappe.model.document import Document
 import re
@@ -20,7 +17,11 @@ class ScientificDegree(Document):
     # end: auto-generated types
 
     def validate(self):
-        if not re.match("^[a-zA-Z ']*$", self.scientific_degree_name):
-            frappe.throw(_("Scientific degree should only contain letters and single quotes."))
+        # Debugging: Print the value of the scientific degree field
+        # frappe.msgprint(f"Validating scientific degree: {self.scientific_degree_name}")
 
+        # Updated pattern to include both types of single quotes
+        pattern = r"^[a-zA-Z\s\-\(\)\'’\u00C0-\u00FF\u0600-\u06FF]+$"
 
+        if not re.match(pattern, self.scientific_degree_name):
+            frappe.throw(_("Scientific degree should only contain letters, spaces, hyphens, parentheses, and single quotes."))
