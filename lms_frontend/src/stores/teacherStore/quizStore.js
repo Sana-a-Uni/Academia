@@ -22,6 +22,7 @@ export const useQuizStore = defineStore("quiz", {
 		questionTypes: [],
 		questions: [],
 		quizzes: [],
+		errors: {},
 	}),
 	actions: {
 		async fetchQuizzes(courseName, facultyMember) {
@@ -53,7 +54,7 @@ export const useQuizStore = defineStore("quiz", {
 						params: { course_name: courseName, faculty_member: facultyMember },
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: "token 0b88a69d4861506:a0640c80d24119a",
+							Authorization: "token 0b88a69d4861506:d076dc7e0aebf2c",
 						},
 					}
 				);
@@ -78,7 +79,7 @@ export const useQuizStore = defineStore("quiz", {
 					{
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: "token 0b88a69d4861506:a0640c80d24119a",
+							Authorization: "token 0b88a69d4861506:d076dc7e0aebf2c",
 						},
 					}
 				);
@@ -117,29 +118,63 @@ export const useQuizStore = defineStore("quiz", {
 				);
 			}
 		},
+		async fetchQuestionTypes() {
+			try {
+				const response = await axios.get(
+					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.get_question_types",
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: "token 0b88a69d4861506:d076dc7e0aebf2c",
+						},
+					}
+				);
+				if (response.data.status_code === 200) {
+					this.questionTypes = response.data.data;
+				} else {
+					console.error("Error fetching question types");
+				}
+			} catch (error) {
+				console.error(
+					"Error fetching question types:",
+					error.response ? error.response.data : error
+				);
+			}
+		},
 		async createQuiz() {
 			try {
+				this.errors = {};
 				const response = await axios.post(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.create_quiz",
 					this.quizData,
 					{
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: "token 0b88a69d4861506:a0640c80d24119a",
+							Authorization: "token 0b88a69d4861506:d076dc7e0aebf2c",
 						},
 					}
 				);
-				if (response.status === 200) {
+				if (response.data.status_code === 200) {
 					console.log("Quiz created successfully");
 					console.log(this.quizData);
+					return true;
 				} else {
-					console.error("Error creating quiz");
+					if (response.data.status_code == 400) {
+						this.errors = response.data.errors;
+					}
+					console.error(response.data.errors);
+					return false;
 				}
 			} catch (error) {
-				console.error(
-					"Error creating quiz:",
-					error.response ? error.response.data : error
-				);
+				if (error.response && error.response.data && error.response.data.message) {
+					this.errors = error.response.data.message;
+				} else {
+					console.error(
+						"Error creating quiz:",
+						error.response ? error.response.data : error
+					);
+				}
+				return false;
 			}
 		},
 
