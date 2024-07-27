@@ -2,7 +2,7 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "format:AAT-LAT-{YYYY}-{#####}",
- "creation": "2024-07-08 10:20:07.345832",
+ "creation": "2024-07-21 16:21:51.428326",
  "default_view": "List",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -45,6 +45,7 @@
   "early_exit",
   "early_exit_time",
   "early_exit_note",
+  "teaching_hours",
   "lesson",
   "amended_from"
  ],
@@ -58,7 +59,8 @@
    "fieldname": "schedule_template_version",
    "fieldtype": "Link",
    "label": "Schedule Template Version",
-   "options": "Schedule Template Version"
+   "options": "Schedule Template Version",
+   "reqd": 1
   },
   {
    "default": "0",
@@ -71,10 +73,12 @@
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "schedule_template_version.schedule_template",
    "fieldname": "schedule_template",
    "fieldtype": "Link",
    "label": "Schedule Template",
-   "options": "Schedule Template"
+   "options": "Schedule Template",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_ljia",
@@ -123,14 +127,14 @@
    "fieldtype": "Link",
    "label": "Program",
    "mandatory_depends_on": "eval:doc.is_multi_group == 0;",
-   "options": "Program Specification",
-   "reqd": 1
+   "options": "Program Specification"
   },
   {
    "fieldname": "lesson_type",
    "fieldtype": "Select",
    "label": "Lesson Type",
-   "options": "\nOrdinary Lesson\nCompensatory Lesson"
+   "options": "\nOrdinary Lesson\nCompensatory Lesson",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_aepe",
@@ -140,7 +144,8 @@
    "fieldname": "faculty_member",
    "fieldtype": "Link",
    "label": "Instructor",
-   "options": "Faculty Member"
+   "options": "Faculty Member",
+   "reqd": 1
   },
   {
    "fetch_from": "faculty_member.faculty_member_name",
@@ -154,7 +159,8 @@
    "fieldtype": "Link",
    "in_standard_filter": 1,
    "label": "Room",
-   "options": "Room"
+   "options": "Room",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_unje",
@@ -164,7 +170,8 @@
    "fieldname": "course",
    "fieldtype": "Link",
    "label": "Course",
-   "options": "Course Study"
+   "options": "Course Study",
+   "reqd": 1
   },
   {
    "depends_on": "eval:doc.is_multi_group == 0;",
@@ -178,12 +185,15 @@
    "fieldname": "course_type",
    "fieldtype": "Select",
    "label": "Course Type",
-   "options": "\nTheoretical\nPractical"
+   "options": "\nTheoretical\nPractical",
+   "reqd": 1
   },
   {
+   "depends_on": "eval:doc.course_type == \"Practical\";",
    "fieldname": "subgroup",
    "fieldtype": "Data",
-   "label": "Subgroup"
+   "label": "Subgroup",
+   "mandatory_depends_on": "eval:doc.course_type == \"Practical\";"
   },
   {
    "fieldname": "section_break_tdbj",
@@ -192,7 +202,8 @@
   {
    "fieldname": "attendance_date",
    "fieldtype": "Date",
-   "label": "Attendance Date"
+   "label": "Attendance Date",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_bihq",
@@ -201,12 +212,14 @@
   {
    "fieldname": "from_time",
    "fieldtype": "Time",
-   "label": "From Time"
+   "label": "From Time",
+   "reqd": 1
   },
   {
    "fieldname": "to_time",
    "fieldtype": "Time",
-   "label": "To Time"
+   "label": "To Time",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_pmyj",
@@ -269,6 +282,7 @@
    "fieldname": "early_exit_time",
    "fieldtype": "Time",
    "label": "Early Exit Time",
+   "mandatory_depends_on": "early_exit",
    "permlevel": 1
   },
   {
@@ -304,12 +318,24 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "teaching_hours",
+   "fieldtype": "Float",
+   "label": "Teaching Hours",
+   "precision": "1",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
- "links": [],
- "modified": "2024-07-08 13:25:17.656979",
+ "links": [
+  {
+   "link_doctype": "Compensatory Lesson 3",
+   "link_fieldname": "lesson_attendance"
+  }
+ ],
+ "modified": "2024-07-21 23:09:38.448354",
  "modified_by": "Administrator",
  "module": "Academic Attendance",
  "name": "Lesson Attendance",
