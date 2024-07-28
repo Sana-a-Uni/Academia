@@ -17,7 +17,7 @@
   "category",
   "sub_category",
   "section_break_eouh",
-  "get_data_from_transaction",
+  "reset_title_and_description",
   "title",
   "description",
   "amended_from",
@@ -175,14 +175,6 @@
    "label": "Grouping"
   },
   {
-   "fieldname": "get_data_from_transaction",
-   "fieldtype": "Button",
-   "is_virtual": 1,
-   "label": "Get Data From Transaction",
-   "print_hide": 1,
-   "report_hide": 1
-  },
-  {
    "fieldname": "category",
    "fieldtype": "Link",
    "in_filter": 1,
@@ -203,7 +195,7 @@
   },
   {
    "bold": 1,
-   "depends_on": "transaction;",
+   "depends_on": "eval:doc.transaction;",
    "fieldname": "transaction_action",
    "fieldtype": "Link",
    "in_standard_filter": 1,
@@ -230,11 +222,19 @@
    "label": "Sub Category",
    "options": "Transaction Category",
    "reqd": 1
+  },
+  {
+   "fieldname": "reset_title_and_description",
+   "fieldtype": "Button",
+   "is_virtual": 1,
+   "label": "Reset Title & Description",
+   "print_hide": 1,
+   "report_hide": 1
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-27 17:23:48.664587",
+ "modified": "2024-07-28 23:52:57.716282",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic",
