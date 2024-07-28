@@ -24,6 +24,8 @@
 
 <script setup>
 import { ref, onMounted, nextTick, watch } from "vue";
+import { useRouter } from "vue-router";
+
 import Quill from "quill";
 import { useQuizStore } from "@/stores/teacherStore/quizStore";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
@@ -34,6 +36,7 @@ const props = defineProps(["errors"]);
 const quizStore = useQuizStore();
 const quillEditor = ref(null);
 const localErrors = ref({ ...props.errors });
+const router = useRouter();
 
 const editorOptions = {
 	theme: "snow",
@@ -51,7 +54,7 @@ const editorOptions = {
 onMounted(() => {
 	nextTick(() => {
 		const editor = new Quill(quillEditor.value, editorOptions);
-		editor.root.innerHTML = quizStore.quizData.instruction; 
+		editor.root.innerHTML = quizStore.quizData.instruction;
 		editor.on("text-change", () => {
 			quizStore.quizData.instruction = editor.root.innerHTML;
 		});
@@ -74,6 +77,7 @@ const cancelQuiz = () => {
 	quizStore.quizData.title = "";
 	quizStore.quizData.instruction = "";
 	localErrors.value = {};
+	router.push({ path: "/teacherDashboard/courseView/quizList" });
 };
 </script>
 

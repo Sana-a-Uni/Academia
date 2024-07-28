@@ -27,11 +27,13 @@
 			@questions="handleReuseQuestion"
 			@cancel="currentView = 'questions'"
 		/>
+
+		<SuccessDialog v-if="showDialog" :message="dialogMessage" @close="showDialog = false" />
 	</mainLayout>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { useQuizStore } from "@/stores/teacherStore/quizStore";
 import { useRouter } from "vue-router";
 import QuizInformation from "@/components/teacherComponents/quiz/QuizInformation.vue";
@@ -40,15 +42,14 @@ import QuizSettings from "@/components/teacherComponents/quiz/QuizSettings.vue";
 import AddQuestion from "@/components/teacherComponents/quiz/AddQuestion.vue";
 import ReuseQuestion from "@/components/teacherComponents/quiz/ReuseQuestion.vue";
 import mainLayout from "@/components/teacherComponents/layout/MainLayout.vue";
+import SuccessDialog from "@/components/teacherComponents/SuccessDialog.vue";
 
 const currentView = ref("information");
 const quizStore = useQuizStore();
 const router = useRouter();
 const errors = ref({});
-
-watch(errors, (newErrors) => {
-	console.log("Errors updated:", newErrors);
-});
+const showDialog = ref(false);
+const dialogMessage = ref("");
 
 const handleQuizCreated = () => {
 	currentView.value = "questions";
@@ -59,13 +60,16 @@ const handleSaveSettings = async (settingsData) => {
 	try {
 		const success = await quizStore.createQuiz();
 		if (success) {
+			dialogMessage.value = "Your quiz has been created successfully.";
+			showDialog.value = true;
 			resetFields();
-			router.push({ name: "quizList" });
+			setTimeout(() => {
+				showDialog.value = false;
+				router.push({ path: "/teacherDashboard/courseView/quizList" });
+			}, 2000); 
 		} else {
 			if (quizStore.errors) {
 				errors.value = quizStore.errors;
-				console.log(errors.value);
-
 				if (errors.value.title || errors.value.instruction) {
 					currentView.value = "information";
 				} else if (errors.value.questions) {
@@ -76,14 +80,11 @@ const handleSaveSettings = async (settingsData) => {
 	} catch (err) {
 		if (err.response && err.response.data && err.response.data.errors) {
 			errors.value = err.response.data.errors;
-			console.log(errors.value);
 			if (errors.value.title || errors.value.instruction) {
 				currentView.value = "information";
 			} else if (errors.value.questions) {
 				currentView.value = "questions";
 			}
-		} else {
-			alert("An unexpected error occurred.");
 		}
 	}
 };

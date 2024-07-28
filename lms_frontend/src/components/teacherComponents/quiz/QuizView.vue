@@ -81,7 +81,7 @@ const filteredQuizzes = computed(() => {
 });
 
 const goToCreateQuiz = () => {
-	router.push({ name: "createQuiz" });
+	router.push({ path: "/teacherDashboard/courseView/quizList/createQuiz" });
 };
 
 function formatDuration(seconds) {
@@ -106,7 +106,7 @@ function formatDuration(seconds) {
 function formatDate(dateString) {
 	const date = new Date(dateString);
 	const day = date.getDate().toString().padStart(2, "0");
-	const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-indexed
+	const month = (date.getMonth() + 1).toString().padStart(2, "0");
 	const year = date.getFullYear();
 	return `${day}/${month}/${year}`;
 }
@@ -117,7 +117,7 @@ function formatTime(dateString) {
 	const minutes = date.getMinutes();
 	const ampm = hours >= 12 ? "PM" : "AM";
 	hours = hours % 12;
-	hours = hours ? hours : 12; // the hour '0' should be '12'
+	hours = hours ? hours : 12;
 	const strMinutes = minutes < 10 ? "0" + minutes : minutes;
 	return hours + ":" + strMinutes + " " + ampm;
 }

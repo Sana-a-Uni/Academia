@@ -25,83 +25,101 @@
 					<button class="update-grade-button" @click="updateAllGrades">Update</button>
 				</div>
 			</div>
-			<div class="question" v-for="(question, index) in allQuestions" :key="index">
-				<div class="question-grade">
-					<h2>Question {{ index + 1 }}</h2>
-					<input
-						v-if="question"
-						type="number"
-						placeholder="Enter the Grade"
-						class="grade"
-						v-model="question.question_grade"
-						:min="0"
-					/>
-					<span
+			<div v-if="allQuestions.length > 0">
+				<div class="question" v-for="(question, index) in allQuestions" :key="index">
+					<div class="question-grade">
+						<h2>Question {{ index + 1 }}</h2>
+						<input
+							v-if="question"
+							type="number"
+							placeholder="Enter the Grade"
+							class="grade"
+							v-model="question.question_grade"
+							:min="0"
+						/>
+						<span
+							v-if="
+								errors &&
+								errors.questions &&
+								errors.questions.find((e) => e.index === index) &&
+								errors.questions.find((e) => e.index === index).errors
+									.question_grade
+							"
+							class="error-message"
+						>
+							{{
+								errors.questions.find((e) => e.index === index).errors
+									.question_grade
+							}}
+						</span>
+					</div>
+					<p v-if="question && question.question" v-html="question.question"></p>
+					<ul v-if="question && question.question_options" class="options-list">
+						<li
+							v-for="(option, optIndex) in question.question_options"
+							:key="optIndex"
+							:class="{
+								selected: selectedAnswers[index] === optIndex,
+								correct: option.is_correct,
+							}"
+						>
+							<label class="option-label">
+								<input
+									:type="
+										question.question_type === 'Multiple Choice'
+											? 'radio'
+											: 'checkbox'
+									"
+									:name="'question-' + index"
+									:v-model="selectedAnswers[index]"
+									:value="optIndex"
+									class="option-input"
+								/>
+								<span class="option-text">{{ option.option }}</span>
+							</label>
+						</li>
+					</ul>
+					<div class="delete-button-container">
+						<button class="delete-button" @click="deleteQuestion(index)">
+							Delete
+						</button>
+					</div>
+					<div
+						class="error-message"
 						v-if="
 							errors &&
 							errors.questions &&
 							errors.questions.find((e) => e.index === index) &&
-							errors.questions.find((e) => e.index === index).errors.question_grade
-						"
-						class="error-message"
-					>
-						{{ errors.questions.find((e) => e.index === index).errors.question_grade }}
-					</span>
-				</div>
-				<p v-html="question.question"></p>
-				<ul class="options-list">
-					<li
-						v-for="(option, optIndex) in question.question_options"
-						:key="optIndex"
-						:class="{
-							selected: selectedAnswers[index] === optIndex,
-							correct: option.is_correct,
-						}"
-					>
-						<label class="option-label">
-							<input
-								:type="
-									question.question_type === 'Multiple Choice'
-										? 'radio'
-										: 'checkbox'
-								"
-								:name="'question-' + index"
-								:v-model="selectedAnswers[index]"
-								:value="optIndex"
-								class="option-input"
-							/>
-							<span class="option-text">{{ option.option }}</span>
-						</label>
-					</li>
-				</ul>
-				<div class="delete-button-container">
-					<button class="delete-button" @click="deleteQuestion(index)">Delete</button>
-				</div>
-				<div
-					class="error-message"
-					v-if="
-						errors &&
-						errors.questions &&
-						errors.questions.find((e) => e.index === index) &&
-						errors.questions.find((e) => e.index === index).errors
-					"
-				>
-					<div v-if="errors.questions.find((e) => e.index === index).errors.question">
-						{{ errors.questions.find((e) => e.index === index).errors.question }}
-					</div>
-					<div
-						v-if="errors.questions.find((e) => e.index === index).errors.question_type"
-					>
-						{{ errors.questions.find((e) => e.index === index).errors.question_type }}
-					</div>
-					<div
-						v-if="
-							errors.questions.find((e) => e.index === index).errors.question_options
+							errors.questions.find((e) => e.index === index).errors
 						"
 					>
-						{{
-							errors.questions.find((e) => e.index === index).errors.question_options
-						}}
+						<div
+							v-if="errors.questions.find((e) => e.index === index).errors.question"
+						>
+							{{ errors.questions.find((e) => e.index === index).errors.question }}
+						</div>
+						<div
+							v-if="
+								errors.questions.find((e) => e.index === index).errors
+									.question_type
+							"
+						>
+							{{
+								errors.questions.find((e) => e.index === index).errors
+									.question_type
+							}}
+						</div>
+						<div
+							v-if="
+								errors.questions.find((e) => e.index === index).errors
+									.question_options
+							"
+						>
+							{{
+								errors.questions.find((e) => e.index === index).errors
+									.question_options
+							}}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -152,15 +170,25 @@ const selectedAnswers = ref([]);
 const additionalQuestions = ref([]);
 const newGrade = ref(0);
 
+const isValidQuestion = (question) => {
+	return (
+		question &&
+		question.question &&
+		question.question_options &&
+		question.question_options.length > 0
+	);
+};
+
 const allQuestions = computed(() => {
-	return props.questions && Array.isArray(props.questions)
-		? [...props.questions, ...additionalQuestions.value]
-		: [...additionalQuestions.value];
+	const validQuestions = props.questions.filter(isValidQuestion);
+	const validAdditionalQuestions = additionalQuestions.value.filter(isValidQuestion);
+	return [...validQuestions, ...validAdditionalQuestions];
 });
 
 const totalGrades = computed(() => {
 	return allQuestions.value.reduce((total, question) => {
-		return total + (parseInt(question.question_grade) || 0);
+		const grade = question?.question_grade ?? 0;
+		return total + (parseInt(grade) || 0);
 	}, 0);
 });
 
@@ -206,11 +234,14 @@ const addQuestions = (newQuestions) => {
 };
 
 const onAddQuestion = (question) => {
-	additionalQuestions.value.push(question);
+	if (isValidQuestion(question)) {
+		additionalQuestions.value.push(question);
+	}
 };
 
 const onAddQuestions = (questions) => {
-	additionalQuestions.value.push(...questions);
+	const validQuestions = questions.filter(isValidQuestion);
+	additionalQuestions.value.push(...validQuestions);
 };
 
 emit("on-add-question", onAddQuestion);
@@ -357,8 +388,8 @@ button:hover {
 	margin: -20px 0;
 	padding: 5px;
 	display: flex;
-	align-items: center; 
-	justify-content: flex-start; 
+	align-items: center;
+	justify-content: flex-start;
 }
 
 .options-list li.selected {
@@ -367,7 +398,7 @@ button:hover {
 }
 
 .options-list li.correct .option-text {
-	color: green; 
+	color: green;
 	font-weight: bold;
 }
 
@@ -377,14 +408,14 @@ button:hover {
 }
 .options-list li .option-text {
 	white-space: nowrap;
-	color: inherit; 
+	color: inherit;
 }
 
 .option-input {
 	margin-right: 10px;
-	transform: scale(1.2); 
+	transform: scale(1.2);
 	position: relative;
-	top: 8px; 
+	top: 8px;
 }
 
 .delete-button-container {
