@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export const useQuizStore = defineStore("quiz", {
 	state: () => ({
 		quizData: {
 			title: "",
 			course: "00",
-			faculty_member: "ACAD-FM-00001",
 			instruction: "",
 			make_the_quiz_availability: 0,
 			from_date: "",
@@ -29,12 +29,17 @@ export const useQuizStore = defineStore("quiz", {
 			this.loading = true;
 			this.error = null;
 			try {
+				const token = Cookies.get("authToken");
 				const response = await axios.get(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.get_quizzes_by_course_and_faculty",
 					{
 						params: {
 							course: courseName,
 							faculty_member: facultyMember,
+						},
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: `token ${token}`,
 						},
 					}
 				);
@@ -48,13 +53,14 @@ export const useQuizStore = defineStore("quiz", {
 
 		async fetchQuestionsByCourse(courseName, facultyMember) {
 			try {
+				const token = Cookies.get("authToken");
 				const response = await axios.get(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.get_questions_by_course_and_faculty_member",
 					{
 						params: { course_name: courseName, faculty_member: facultyMember },
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: "token 0b88a69d4861506:d076dc7e0aebf2c",
+							Authorization: `token ${token}`,
 						},
 					}
 				);
@@ -74,12 +80,13 @@ export const useQuizStore = defineStore("quiz", {
 
 		async fetchGradingBasisOptions() {
 			try {
+				const token = Cookies.get("authToken");
 				const response = await axios.get(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.get_grading_basis_options",
 					{
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: "token 0b88a69d4861506:d076dc7e0aebf2c",
+							Authorization: `token ${token}`,
 						},
 					}
 				);
@@ -97,35 +104,13 @@ export const useQuizStore = defineStore("quiz", {
 		},
 		async fetchQuestionTypes() {
 			try {
+				const token = Cookies.get("authToken");
 				const response = await axios.get(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.get_question_types",
 					{
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: "token 0b88a69d4861506:a0640c80d24119a",
-						},
-					}
-				);
-				if (response.data.status_code === 200) {
-					this.questionTypes = response.data.data;
-				} else {
-					console.error("Error fetching question types");
-				}
-			} catch (error) {
-				console.error(
-					"Error fetching question types:",
-					error.response ? error.response.data : error
-				);
-			}
-		},
-		async fetchQuestionTypes() {
-			try {
-				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.get_question_types",
-					{
-						headers: {
-							"Content-Type": "application/json",
-							Authorization: "token 0b88a69d4861506:d076dc7e0aebf2c",
+							Authorization: `token ${token}`,
 						},
 					}
 				);
@@ -144,13 +129,14 @@ export const useQuizStore = defineStore("quiz", {
 		async createQuiz() {
 			try {
 				this.errors = {};
+				const token = Cookies.get("authToken");
 				const response = await axios.post(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.create_quiz",
 					this.quizData,
 					{
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: "token 0b88a69d4861506:d076dc7e0aebf2c",
+							Authorization: `token ${token}`,
 						},
 					}
 				);
@@ -162,12 +148,13 @@ export const useQuizStore = defineStore("quiz", {
 					if (response.data.status_code == 400) {
 						this.errors = response.data.errors;
 					}
-					console.error(response.data.errors);
+					console.error(response.data);
 					return false;
 				}
 			} catch (error) {
 				if (error.response && error.response.data && error.response.data.message) {
 					this.errors = error.response.data.message;
+					console.log("mmmmmmm");
 				} else {
 					console.error(
 						"Error creating quiz:",
