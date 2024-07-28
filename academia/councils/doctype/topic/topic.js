@@ -4,11 +4,11 @@
 frappe.ui.form.on("Topic", {
 	setup: function (frm) {
 		$(`<style>
-      .btn[data-fieldname="get_data_from_topic"] {
+      .btn[data-fieldname="reset_title_and_description"] {
         background-color: #171717; /* Custom dark gray */
         color: white;
       }
-      .btn[data-fieldname="get_data_from_topic"]:hover {
+      .btn[data-fieldname="reset_title_and_description"]:hover {
         background-color: #171710 !important; /* Slightly darker gray for interaction states */
         color: white !important;
       }
@@ -17,23 +17,6 @@ frappe.ui.form.on("Topic", {
 		frm.add_fetch("transaction", "category", "category");
 	},
 
-	onload: function (frm) {
-		// frm.events.topic_filters(frm);
-		// frm.set_df_property("topic", "placeholder", "Council must be filled");
-	},
-
-	// topic_filters: function (frm) {
-	// 	frm.set_query("topic", function () {
-	// 		return {
-	// 			query: "academia.councils.doctype.topic.topic.get_available_topics",
-	// 			filters: {
-	// 				council: frm.doc.council,
-	// 				docstatus: 1,
-	// 				status: ["Complete", "In Progress"],
-	// 			},
-	// 		};
-	// 	});
-	// },
 	is_group: function (frm) {
 		if (frm.doc.is_group) {
 			// frm.events.clear_topic(frm); // clear topic field which will also clear the main and sub category fields if user enable is_group checkbox
@@ -50,6 +33,7 @@ frappe.ui.form.on("Topic", {
 		}
 
 		show_grouped_topics(frm);
+		if (!frm.is_new()) reset_topic_from_transaction(frm); //retrieve the orginal data from the transaction
 
 		frm.set_query("sub_category", function () {
 			return {
@@ -75,36 +59,21 @@ frappe.ui.form.on("Topic", {
 		// frm.events.clear_topic(frm);
 	},
 
-	// main_category(frm) {
-	// 	// Update the options for the sub-category field based on the selected main category
-	// 	frm.set_query("sub_category", function () {
-	// 		return {
-	// 			filters: {
-	// 				main_category: frm.doc.main_category,
-	// 			},
-	// 		};
-	// 	});
-	// },
-
-	// get_data_from_topic: function (frm) {
-	// 	if (frm.doc.topic) {
-	// 		// Manually fetch the title and description from the "Topic" DocType
-	// 		frappe.db
-	// 			.get_value("Topic", { name: frm.doc.topic }, ["title", "description"])
-	// 			.then((r) => {
-	// 				if (r.message) {
-	// 					// Manually set the fetched values to the form fields
-	// 					frm.set_value("title", r.message.title);
-	// 					frm.set_value("description", r.message.description);
-	// 				}
-	// 			});
-	// 	}
-	// },
-
-	// clear_topic: function (frm) {
-	// 	frm.set_value("topic", "");
-	// 	frm.refresh_field("topic");
-	// },
+	reset_title_and_description: function (frm) {
+		if (frm.doc.transaction) {
+			frappe.db
+				.get_value("Transaction", { name: frm.doc.transaction }, [
+					"title",
+					"transaction_description",
+				])
+				.then((r) => {
+					if (r.message) {
+						frm.set_value("title", r.message.title);
+						frm.set_value("description", r.message.transaction_description);
+					}
+				});
+		}
+	},
 
 	get_topics_to_group: function (frm) {
 		new frappe.ui.form.MultiSelectDialog({
@@ -166,6 +135,32 @@ frappe.ui.form.on("Topic", {
 		});
 	},
 });
+
+function reset_topic_from_transaction(frm) {
+	frm.add_custom_button(__("Reset to Original Values"), function () {
+		frappe.confirm(
+			__(
+				"Are you sure you want to reset the topic to the original values from the transaction document?"
+			),
+			() => {
+				frm.call({
+					method: "create_topic_from_transaction",
+					args: {
+						transaction_name: frm.doc.transaction,
+						transaction_action: frm.doc.transaction_action,
+						target_doc: frm.doc,
+						create_or_update: "update",
+					},
+					callback: function (r) {
+						if (r.message) {
+							frm.reload_doc(); // Reload the form to reflect the changes
+						}
+					},
+				});
+			}
+		);
+	});
+}
 
 function show_grouped_topics(frm) {
 	const container = $(frm.fields_dict.grouped_topics.wrapper);
