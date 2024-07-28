@@ -210,12 +210,11 @@ class Session(Document):
         return emails
     @frappe.whitelist()
     def send_topics_to_members_emails(self):
-        print(self.get_html_email_body())
-        # frappe.sendmail(
-        #     recipients=self.get_members_emails(),
-        #     subject=self.agenda_title,
-        #     message=self.get_html_email_body(),
-        # )
+        frappe.sendmail(
+            recipients=self.get_members_emails(),
+            subject=self.agenda_title,
+            message=self.get_html_email_body(),
+        )
         frappe.msgprint(_("Emails are sent"))
     def get_html_email_body(self):
         # Prepare the HTML table
