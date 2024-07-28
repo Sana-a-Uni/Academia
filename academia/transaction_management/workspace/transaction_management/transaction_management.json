@@ -1,0 +1,126 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"bN60kFdT2v\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Transaction Settings</span>\",\"col\":12}},{\"id\":\"uoP6avSES3\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transaction\",\"col\":4}},{\"id\":\"4Xc8SMVTsN\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transaction Action\",\"col\":4}},{\"id\":\"1urkJJImIi\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transaction Settings\",\"col\":4}},{\"id\":\"rVZoCtl9Zv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transaction Company Head\",\"col\":4}},{\"id\":\"qIFX1D3672\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"XZO_wrG1-8\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Category</b></span>\",\"col\":12}},{\"id\":\"1bDJruFVZF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transaction Category Template\",\"col\":4}},{\"id\":\"1xEPf1PZOS\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Transaction Category\",\"col\":4}},{\"id\":\"GcdObDzzXc\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"dWx8mnFjBw\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>External Entities</b></span>\",\"col\":12}},{\"id\":\"Nud-gqOaaI\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"External Entity\",\"col\":4}},{\"id\":\"YT3O5F8Agd\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"External Entity Designation\",\"col\":4}},{\"id\":\"7IjNO5zYWT\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"717NDt1HfQ\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Reports</b></span>\",\"col\":12}},{\"id\":\"uYUcH41t_0\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Late Transaction Actions\",\"col\":4}},{\"id\":\"0t7xW5CRST\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Late Transactions\",\"col\":4}},{\"id\":\"M_7zK3F3jR\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Type Of Transaction\",\"col\":4}},{\"id\":\"g-_pe37-1t\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"External Transactions By Type\",\"col\":4}}]",
+ "creation": "2024-07-28 16:52:30.994727",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "file",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Transaction Management",
+ "links": [],
+ "modified": "2024-07-28 17:34:57.643409",
+ "modified_by": "Administrator",
+ "module": "Transaction Management",
+ "name": "Transaction Management",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [
+  {
+   "role": "Transaction Manager"
+  }
+ ],
+ "sequence_id": 39.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Transaction Category Template",
+   "link_to": "Transaction Category Template",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Transaction",
+   "link_to": "Transaction",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Transaction Action",
+   "link_to": "Transaction Action",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Late Transaction Actions",
+   "link_to": "Late Transaction Actions",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Late Transactions",
+   "link_to": "Late Transactions",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Transaction Category",
+   "link_to": "Transaction Category Template",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Transaction Settings",
+   "link_to": "Transaction Settings",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Transaction Company Head",
+   "link_to": "Transaction Company Head",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Type Of Transaction",
+   "link_to": "Type of Transaction",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "External Transactions By Type",
+   "link_to": "External Transactions By Type",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "External Entity",
+   "link_to": "External Entity",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "External Entity Designation",
+   "link_to": "External Entity Designation",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Transaction Management"
+}
