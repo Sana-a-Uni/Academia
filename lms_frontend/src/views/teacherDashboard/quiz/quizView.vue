@@ -19,10 +19,9 @@ const route = useRoute();
 const quizStore = useQuizStore();
 // const courseName = ref(route.params.courseName);
 const courseName = ref("00");
-const facultyMember = ref("ACAD-FM-00001");
 
 onMounted(() => {
-	quizStore.fetchQuizzes(courseName.value, facultyMember.value);
+	quizStore.fetchQuizzes(courseName.value);
 });
 
 const quizzes = ref([]);

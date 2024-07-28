@@ -58,7 +58,7 @@ const emit = defineEmits(["questions", "cancel"]);
 const questions = computed(() => store.questions);
 
 onMounted(async () => {
-	await store.fetchQuestionsByCourse("00", "ACAD-FM-00001");
+	await store.fetchCourseQuestions("00");
 });
 
 const reuseQuestions = () => {

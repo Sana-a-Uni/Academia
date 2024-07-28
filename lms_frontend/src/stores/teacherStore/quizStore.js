@@ -25,17 +25,16 @@ export const useQuizStore = defineStore("quiz", {
 		errors: {},
 	}),
 	actions: {
-		async fetchQuizzes(courseName, facultyMember) {
+		async fetchQuizzes(courseName) {
 			this.loading = true;
 			this.error = null;
 			try {
 				const token = Cookies.get("authToken");
 				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.get_quizzes_by_course_and_faculty",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.fetch_quizzes_for_course",
 					{
 						params: {
 							course: courseName,
-							faculty_member: facultyMember,
 						},
 						headers: {
 							"Content-Type": "application/json",
