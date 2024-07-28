@@ -81,7 +81,7 @@ export const useQuizStore = defineStore("quiz", {
 			try {
 				const token = Cookies.get("authToken");
 				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.get_grading_basis_options",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.fetch_grading_basis_options",
 					{
 						headers: {
 							"Content-Type": "application/json",
@@ -105,7 +105,7 @@ export const useQuizStore = defineStore("quiz", {
 			try {
 				const token = Cookies.get("authToken");
 				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.get_question_types",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.fetch_question_types",
 					{
 						headers: {
 							"Content-Type": "application/json",
@@ -141,7 +141,6 @@ export const useQuizStore = defineStore("quiz", {
 				);
 				if (response.data.status_code === 200) {
 					console.log("Quiz created successfully");
-					console.log(this.quizData);
 					return true;
 				} else {
 					if (response.data.status_code == 400) {
@@ -153,7 +152,6 @@ export const useQuizStore = defineStore("quiz", {
 			} catch (error) {
 				if (error.response && error.response.data && error.response.data.message) {
 					this.errors = error.response.data.message;
-					console.log("mmmmmmm");
 				} else {
 					console.error(
 						"Error creating quiz:",

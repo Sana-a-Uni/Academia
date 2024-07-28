@@ -335,7 +335,12 @@ def handle_general_error(e):
 
 
 @frappe.whitelist()
-def get_grading_basis_options():
+def fetch_grading_basis_options():
+    """
+    Fetch grading basis options from the 'grading_basis' field in 'LMS Quiz' Doctype.
+
+    :return: A response message with the status and fetched grading basis options.
+    """
     try:
         # Fetch grading basis options from the 'grading_basis' field in 'LMS Quiz' Doctype
         grading_basis_options = frappe.get_meta('LMS Quiz').get_field('grading_basis').options
@@ -355,18 +360,25 @@ def get_grading_basis_options():
         frappe.response.update({
             "status_code": 500,
             "data": [],
-            "error": str(e)
+            "error": e
         })
 
 @frappe.whitelist()
-def get_question_types():
+def fetch_question_types():
+    """
+    Fetch question types from the 'question_type' field in 'Question' Doctype.
+
+    :return: A response message with the status and fetched question types.
+    """
     try:
+        # Fetch question types from the 'question_type' field in 'Question' Doctype
         question_types = frappe.get_meta('Question').get_field('question_type').options
         if question_types:
+            # Split options into a list, strip any extra whitespace, and remove empty options
             question_types = [option.strip() for option in question_types.split('\n') if option.strip()]
         else:
             question_types = []
-            
+
         # Update response with options and success status
         frappe.response.update({
             "status_code": 200,
@@ -378,9 +390,8 @@ def get_question_types():
         frappe.response.update({
             "status_code": 500,
             "data": [],
-            "error": str(e)
+            "error": e
         })
-
 
 @frappe.whitelist(allow_guest=True)
 def fetch_course_questions(course_name):
