@@ -3,14 +3,54 @@ import frappe
 from datetime import datetime
 from typing import List, Dict, Any
 
-def validate_general_data(data: Dict[str, Any]) -> Dict[str, str]:
+@frappe.whitelist()
+def create_quiz():
+    data = json.loads(frappe.request.data)
+
+    # Perform validation
+    errors = {}
+    errors.update(validate_general_data(data))
+    errors.update(validate_date_fields(data))
+    
+    quiz_questions = data.get("quiz_question", [])  
+    question_errors = validate_quiz_questions(quiz_questions)
+
+    if question_errors:
+        errors["questions"] = question_errors
+
+    if errors:
+        frappe.response["status_code"] = 400
+        frappe.response["errors"] = errors
+        return
+
+    try:
+        user_id = frappe.session.user
+        faculty_member = get_faculty_member_from_user(user_id)
+        if not faculty_member:
+            raise frappe.ValidationError("Faculty member not found for the user.")
+    
+        prepare_questions_for_creation(data, faculty_member)
+        questions = create_quiz_questions(quiz_questions)
+
+        create_quiz_document(data, questions, faculty_member)
+    except frappe.ValidationError as e:
+        handle_validation_error(e)
+        return
+    except Exception as e:
+        handle_general_error(e)
+        return
+
+    frappe.response["status_code"] = 200
+    frappe.response["message"] = "Quiz created successfully"
+
+def validate_general_data(data):
     """
     Validate general data fields for the quiz.
 
     :param data: The input data for the quiz
     :return: A dictionary containing error messages for invalid fields
     """
-    errors: Dict[str, str] = {}
+    errors = {}
 
     if not data.get("title"):
         errors["title"] = "Title is required."
@@ -23,14 +63,14 @@ def validate_general_data(data: Dict[str, Any]) -> Dict[str, str]:
     
     return errors
 
-def validate_date_fields(data: Dict[str, Any]) -> Dict[str, str]:
+def validate_date_fields(data):
     """
     Validate date fields for the quiz availability.
 
     :param data: The input data for the quiz
     :return: A dictionary containing error messages for invalid date fields
     """
-    errors: Dict[str, str] = {}
+    errors = {}
 
     if data.get("make_the_quiz_availability") == 1:
         from_date = data.get("from_date")
@@ -44,7 +84,7 @@ def validate_date_fields(data: Dict[str, Any]) -> Dict[str, str]:
     
     return errors
 
-def validate_dates_order_and_future(from_date: str, to_date: str, errors: Dict[str, str]) -> None:
+def validate_dates_order_and_future(from_date, to_date, errors):
     """
     Validate the from_date and to_date fields.
 
@@ -59,21 +99,21 @@ def validate_dates_order_and_future(from_date: str, to_date: str, errors: Dict[s
     if from_date_dt <= datetime.now():
         errors["from_date"] = "From date must be in the future."
 
-def validate_quiz_questions(questions: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+def validate_quiz_questions(questions):
     """
     Validate the list of questions for the quiz.
 
     :param questions: The list of questions to validate
     :return: A list of error messages for invalid questions
     """
-    errors: List[Dict[str, Any]] = []
+    errors = []
     seen_questions = set()
 
     if not questions or len(questions) == 0:
         errors.append({"question": "At least one question is required."})
 
     for i, question in enumerate(questions):
-        question_errors: Dict[str, str] = {}
+        question_errors = {}
         question_text = question.get("question")
         question_type = question.get("question_type")
         question_options = tuple(sorted((opt.get("option"), opt.get("is_correct")) for opt in question.get("question_options", [])))
@@ -95,7 +135,7 @@ def validate_quiz_questions(questions: List[Dict[str, Any]]) -> List[Dict[str, A
 
     return errors
 
-def validate_question_grade(question: Dict[str, Any], question_errors: Dict[str, str]) -> bool:
+def validate_question_grade(question, question_errors):
     """
     Validate the grade of a question.
 
@@ -111,7 +151,7 @@ def validate_question_grade(question: Dict[str, Any], question_errors: Dict[str,
         return False
     return True
 
-def validate_question_fields(question: Dict[str, Any], question_errors: Dict[str, str], i: int) -> None:
+def validate_question_fields(question, question_errors, i):
     """
     Validate the required fields of a question.
 
@@ -125,7 +165,7 @@ def validate_question_fields(question: Dict[str, Any], question_errors: Dict[str
         question_errors["question"] = "Question text is required."
     question_errors.update(validate_question_options(question, i))
 
-def validate_question_options(question: Dict[str, Any], question_index: int) -> Dict[str, str]:
+def validate_question_options(question, question_index):
     """
     Validate the options of a question.
 
@@ -133,7 +173,7 @@ def validate_question_options(question: Dict[str, Any], question_index: int) -> 
     :param question_index: The index of the question in the list
     :return: A dictionary containing error messages for invalid options
     """
-    errors: Dict[str, str] = {}
+    errors = {}
     options = question.get("question_options", [])
 
     if question.get("question_type") in ["Multiple Choice", "Multiple Answer"]:
@@ -148,7 +188,7 @@ def validate_question_options(question: Dict[str, Any], question_index: int) -> 
     check_duplicate_question_options(options, errors, question_index)
     return errors
 
-def check_duplicate_question_options(options: List[Dict[str, Any]], errors: Dict[str, str], question_index: int) -> None:
+def check_duplicate_question_options(options, errors, question_index):
     """
     Check for duplicate options in a question.
 
@@ -164,27 +204,29 @@ def check_duplicate_question_options(options: List[Dict[str, Any]], errors: Dict
             break
         seen_options.add(option_text)
 
-def prepare_questions_for_creation(data: Dict[str, Any]) -> None:
+def prepare_questions_for_creation(data, faculty_member):
     """
     Prepare questions by adding necessary fields before creation.
 
     :param data: The input data for the quiz
+    :param faculty_member: The faculty member linked to the quiz
     """
-    for question in data.get("quiz_questions"):
+    for question in data.get("quiz_question"):
         if 'name' not in question:
             question["course"] = data.get("course")
-            question["faculty_member"] = data.get("faculty_member")
+            question["faculty_member"] = faculty_member
 
-def create_quiz_document(data: Dict[str, Any], questions: List[frappe.Document]) -> None:
+def create_quiz_document(data, questions, faculty_member):
     """
     Create the quiz document with associated questions.
 
     :param data: The input data for the quiz
     :param questions: The list of created question documents
+    :param faculty_member: The faculty member linked to the quiz
     """
     quiz_doc = frappe.new_doc("LMS Quiz")
     quiz_doc.course = data.get("course")
-    quiz_doc.faculty_member = data.get("faculty_member")
+    quiz_doc.faculty_member = faculty_member
     quiz_doc.title = data.get("title")
     quiz_doc.instruction = data.get("instruction")
     quiz_doc.make_the_quiz_availability = data.get("make_the_quiz_availability")
@@ -218,7 +260,7 @@ def create_quiz_document(data: Dict[str, Any], questions: List[frappe.Document])
     quiz_doc.total_grades = total_grades
     quiz_doc.insert()
 
-def create_question_document(question_data: Dict[str, Any]) -> frappe.Document:
+def create_question_document(question_data):
     """
     Create or update a question document.
 
@@ -240,20 +282,37 @@ def create_question_document(question_data: Dict[str, Any]) -> frappe.Document:
     question_doc.save()
     return question_doc
 
-def create_quiz_questions(questions_data: List[Dict[str, Any]]) -> List[frappe.Document]:
+def create_quiz_questions(questions_data):
     """
     Create question documents for the quiz.
 
     :param questions_data: The list of question data
     :return: The list of created question documents
     """
-    questions: List[frappe.Document] = []
+    questions = []
     for question_data in questions_data:
         question_doc = create_question_document(question_data)
         questions.append(question_doc)
     return questions
 
-def handle_validation_error(e: frappe.ValidationError) -> None:
+def get_faculty_member_from_user(user_id):
+    """
+    Retrieve the faculty member linked to a user ID.
+
+    :param user_id: The user ID to retrieve the faculty member for
+    :return: The faculty member ID
+    """
+    employee = frappe.get_value("Employee", {"user_id": user_id}, "name")
+    if not employee:
+        raise frappe.ValidationError("Employee not found for the user.")
+    
+    faculty_member = frappe.get_value("Faculty Member", {"employee": employee}, "name")
+    if not faculty_member:
+        raise frappe.ValidationError("Faculty member not found for the employee.")
+    
+    return faculty_member
+
+def handle_validation_error(e):
     """
     Handle validation errors during quiz creation.
 
@@ -262,7 +321,7 @@ def handle_validation_error(e: frappe.ValidationError) -> None:
     frappe.response["status_code"] = 400
     frappe.response["errors"] = {"general": str(e)}
 
-def handle_general_error(e: Exception) -> None:
+def handle_general_error(e):
     """
     Handle general errors during quiz creation.
 
@@ -271,38 +330,6 @@ def handle_general_error(e: Exception) -> None:
     frappe.response["status_code"] = 500
     frappe.response["message"] = "An error occurred while creating the quiz."
     frappe.log_error(frappe.get_traceback(), "Quiz Creation Error")
-
-@frappe.whitelist()
-def create_quiz() -> None:
-    data = json.loads(frappe.request.data)
-
-    # Perform validation
-    errors: Dict[str, Any] = {}
-    errors.update(validate_general_data(data))
-    errors.update(validate_date_fields(data))
-    question_errors = validate_quiz_questions(data.get("quiz_questions", []))
-
-    if question_errors:
-        errors["questions"] = question_errors
-
-    if errors:
-        frappe.response["status_code"] = 400
-        frappe.response["errors"] = errors
-        return
-
-    try:
-        prepare_questions_for_creation(data)
-        questions = create_quiz_questions(data.get("quiz_questions"))
-        create_quiz_document(data, questions)
-    except frappe.ValidationError as e:
-        handle_validation_error(e)
-        return
-    except Exception as e:
-        handle_general_error(e)
-        return
-
-    frappe.response["status_code"] = 200
-    frappe.response["message"] = "Quiz created successfully"
 
 
 @frappe.whitelist()
