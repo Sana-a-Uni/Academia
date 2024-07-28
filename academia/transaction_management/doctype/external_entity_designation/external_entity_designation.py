@@ -16,5 +16,8 @@ class ExternalEntityDesignation(Document):
 
 		designation_name: DF.Data
 		external_entity: DF.Link
+		parent: DF.Data
+		parentfield: DF.Data
+		parenttype: DF.Data
 	# end: auto-generated types
 	pass
