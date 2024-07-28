@@ -1,0 +1,151 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{decision_number}-{title}",
+ "creation": "2024-06-10 22:21:55.794871",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "decision_source_section",
+  "column_break_hbjs",
+  "source_party",
+  "source_company",
+  "designation",
+  "employee",
+  "column_break_zvzi",
+  "target_party",
+  "dest_company",
+  "section_break_qwbo",
+  "main_decision_category",
+  "sub_decision_category",
+  "title",
+  "description",
+  "column_break_qwtl",
+  "date",
+  "decision_number",
+  "decision_attachment"
+ ],
+ "fields": [
+  {
+   "fieldname": "decision_source_section",
+   "fieldtype": "Section Break",
+   "label": "Decision Parties"
+  },
+  {
+   "fieldname": "column_break_hbjs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "source_party",
+   "fieldtype": "Heading",
+   "label": "Source Party "
+  },
+  {
+   "fieldname": "source_company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Link",
+   "label": "Designation",
+   "options": "Designation",
+   "reqd": 1
+  },
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "label": "Employee",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "column_break_zvzi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "target_party",
+   "fieldtype": "Heading",
+   "label": "Target Party"
+  },
+  {
+   "fieldname": "dest_company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "section_break_qwbo",
+   "fieldtype": "Section Break",
+   "label": "Decision Details"
+  },
+  {
+   "fieldname": "main_decision_category",
+   "fieldtype": "Link",
+   "label": "Main Decision Category",
+   "options": "Main Decision Category"
+  },
+  {
+   "fieldname": "sub_decision_category",
+   "fieldtype": "Link",
+   "label": "Sub Decision Category",
+   "options": "Sub Decision Category"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "column_break_qwtl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Decision Date"
+  },
+  {
+   "fieldname": "decision_number",
+   "fieldtype": "Int",
+   "label": "Decision Number"
+  },
+  {
+   "fieldname": "decision_attachment",
+   "fieldtype": "Attach",
+   "label": "Decision Attachment"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-28 23:36:18.925709",
+ "modified_by": "Administrator",
+ "module": "Decisions",
+ "name": "Decision",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
