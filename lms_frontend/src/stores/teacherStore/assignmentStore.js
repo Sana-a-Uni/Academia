@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export const useAssignmentStore = defineStore("assignment", {
 	state: () => ({
 		assignmentData: {
 			assignment_title: "",
 			course: "00",
-			faculty_member: "ACAD-FM-00001",
 			instruction: "",
 			make_the_assignment_availability: false,
 			from_date: "",
@@ -20,16 +20,21 @@ export const useAssignmentStore = defineStore("assignment", {
 		error: null,
 	}),
 	actions: {
-		async fetchAssignments(courseName, facultyMember) {
+		async fetchAssignments(courseName) {
 			this.loading = true;
 			this.error = null;
 			try {
 				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.assignment.get_assignments_by_course_and_faculty",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.assignment.fetch_assignments_for_course",
 					{
 						params: {
 							course: courseName,
-							faculty_member: facultyMember,
+						},
+					},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
@@ -49,7 +54,7 @@ export const useAssignmentStore = defineStore("assignment", {
 					{
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: "token 0b88a69d4861506:a0640c80d24119a",
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
