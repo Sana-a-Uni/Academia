@@ -131,7 +131,6 @@ const formatDateTime = (date) => {
 const submitEvaluation = async () => {
 	const payload = {
 		assignment_submission:"20817d93e8-1",
-		faculty_member: "ACAD-FM-00001",
 		feedback: feedback.value,
 		assessment_date: formatDateTime(new Date()),
 		criteria_grades: props.details.assessment_criteria.map((criteria, index) => ({

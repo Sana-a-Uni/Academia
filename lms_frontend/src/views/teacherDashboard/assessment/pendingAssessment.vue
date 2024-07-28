@@ -14,9 +14,7 @@ const assessmentStore = useAssessmentStore();
 const assignments = ref([]);
 
 onMounted(async () => {
-	const facultyMemberId = "ACAD-FM-00001";
-
-	await assessmentStore.fetchAssignments(facultyMemberId);
+	await assessmentStore.fetchAssignments();
 	assignments.value = assessmentStore.assignments;
 });
 </script>

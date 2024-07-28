@@ -19,8 +19,7 @@ const loading = ref(true);
 const error = ref(null);
 
 onMounted(async () => {
-	const facultyMemberId = "ACAD-FM-00001";
-	await store.fetchAssignments(facultyMemberId);
+	await store.fetchAssignments();
 	await store.fetchAssignmentDetails(route.params.id);
 	loading.value = store.loading;
 	error.value = store.error;

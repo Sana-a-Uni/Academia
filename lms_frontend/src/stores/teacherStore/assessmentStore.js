@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export const useAssessmentStore = defineStore("assessmentStore", {
 	state: () => ({
@@ -9,15 +10,16 @@ export const useAssessmentStore = defineStore("assessmentStore", {
 		error: null,
 	}),
 	actions: {
-		async fetchAssignments(facultyMemberId) {
+		async fetchAssignments() {
 			this.loading = true;
 			this.error = null;
 			try {
 				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.get_submitted_assignments_by_faculty_member",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.fetch_submitted_assignments_for_faculty_member",
 					{
-						params: {
-							faculty_member_id: facultyMemberId,
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
@@ -33,10 +35,16 @@ export const useAssessmentStore = defineStore("assessmentStore", {
 			this.error = null;
 			try {
 				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.get_assignment_details",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.fetch_assignment_details",
 					{
 						params: {
 							assignment_submission_id: assignmentSubmissionId,
+						},
+					},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
@@ -53,16 +61,17 @@ export const useAssessmentStore = defineStore("assessmentStore", {
 			this.error = null;
 			try {
 				const response = await axios.post(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.save_assessment",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.save_assignment_assessment",
 					payload,
 					{
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: "token 0b88a69d4861506:a0640c80d24119a",
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
-				if (response.data.message.status=== "success") {
+				console.log(response.data );
+				if (response.data.message.status === "success") {
 					alert("Assessment saved successfully!");
 				} else {
 					alert(`Error: ${response.data.message}`);
