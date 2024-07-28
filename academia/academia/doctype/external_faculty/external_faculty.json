@@ -1,50 +1,34 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:university_name",
- "creation": "2024-05-28 04:59:56.032491",
+ "autoname": "field:faculty",
+ "creation": "2024-07-28 03:03:56.212858",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "university_name",
-  "country",
-  "city",
-  "private"
+  "faculty",
+  "university"
  ],
  "fields": [
   {
-   "fieldname": "university_name",
+   "fieldname": "faculty",
    "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "University Name",
-   "reqd": 1,
+   "label": "Faculty",
    "unique": 1
   },
   {
-   "fieldname": "country",
+   "fieldname": "university",
    "fieldtype": "Link",
-   "label": "Country",
-   "options": "Country",
-   "reqd": 1
-  },
-  {
-   "fieldname": "city",
-   "fieldtype": "Data",
-   "label": "City"
-  },
-  {
-   "default": "0",
-   "fieldname": "private",
-   "fieldtype": "Check",
-   "label": "Private"
+   "label": "University",
+   "options": "University"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-28 12:36:47.474897",
+ "modified": "2024-07-28 12:38:58.666989",
  "modified_by": "Administrator",
  "module": "Academia",
- "name": "University",
+ "name": "External Faculty",
  "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
