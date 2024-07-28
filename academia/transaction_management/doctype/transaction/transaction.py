@@ -9,6 +9,7 @@ import frappe  # type: ignore
 from frappe.model.document import Document  # type: ignore
 import json
 from datetime import datetime
+from frappe import _
 
 # from ..hijri_converter import convert_to_hijri
 
@@ -63,16 +64,12 @@ class Transaction(Document):
         sub_external_entity_to: DF.Link | None
         submit_time: DF.Datetime | None
         through_route: DF.Check
-        title: DF.Data | None
+        title: DF.Data
         transaction_description: DF.TextEditor | None
         transaction_scan: DF.Attach | None
         transaction_scope: DF.Literal["In Company", "Among Companies", "With External Entity"]
         type: DF.Literal["", "Outgoing", "Incoming"]
-    # end: auto-generated types
-
-    def before_submit(self):
-        # Save the current time as the last submitted time
-        self.submit_time = datetime.now()
+    # end: auto-generated types   
 
     def validate(self):
         # self.hijri_date=convert_to_hijri(self.start_date)
@@ -87,6 +84,15 @@ class Transaction(Document):
                 signatory_field.official = emp.get("official")
                 signatory_field.signatory_name = emp.get("name"),
                 signatory_field.signatory_designation = emp.get("designation")
+
+    def before_submit(self):
+         # Save the current time as the last submitted time
+        self.submit_time = datetime.now()
+
+        # Check if there are any recipients in the child table
+        if not self.recipients:
+            raise ValueError("There must be at least one recipient to submit the transaction.")
+
 
     def on_submit(self):
         if self.start_with:
@@ -165,6 +171,7 @@ class Transaction(Document):
                         submit=1,
                     )
             frappe.db.commit()
+
 
         ###########################  
 

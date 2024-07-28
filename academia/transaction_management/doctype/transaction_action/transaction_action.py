@@ -26,7 +26,7 @@ class TransactionAction(Document):
         from_designation: DF.Data | None
         recipients: DF.Table[TransactionRecipients]
         topic_status: DF.Literal["Incomplete", "Complete"]
-        transaction: DF.Link | None
+        transaction: DF.Link
         type: DF.Literal["Redirected", "Approved", "Rejected", "Canceled", "Topic"]
     # end: auto-generated types
     def on_submit(self):
