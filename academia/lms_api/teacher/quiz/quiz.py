@@ -302,10 +302,12 @@ def get_faculty_member_from_user(user_id):
     :param user_id: The user ID to retrieve the faculty member for
     :return: The faculty member ID
     """
+    # Get the employee ID linked to the user
     employee = frappe.get_value("Employee", {"user_id": user_id}, "name")
     if not employee:
         raise frappe.ValidationError("Employee not found for the user.")
     
+    # Get the faculty member ID linked to the employee
     faculty_member = frappe.get_value("Faculty Member", {"employee": employee}, "name")
     if not faculty_member:
         raise frappe.ValidationError("Faculty member not found for the employee.")
@@ -382,11 +384,22 @@ def get_question_types():
 
 
 @frappe.whitelist(allow_guest=True)
-def get_questions_by_course_and_faculty_member(course_name: str = "00", faculty_member: str = "ACAD-FM-00001") -> Dict[str, Any]:
+def fetch_course_questions(course_name):
+    """
+    Fetch questions for a specific course and the faculty member linked to the current session user.
+
+    :param course_name: The name of the course to fetch questions for. Default is "00".
+    :return: A response message with the status and fetched questions data.
+    """
     try:
-        # Fetch questions for the given course and faculty_member
-      
-        questions: List[Dict[str, Any]] = frappe.get_all(
+        # Get the current session user ID
+        user_id = frappe.session.user
+
+        # Get the faculty member ID linked to the user
+        faculty_member = get_faculty_member_from_user(user_id)
+
+        # Fetch questions for the given course and faculty member
+        questions = frappe.get_all(
             "Question",
             fields=['name', 'question', 'question_type'],
             filters={
@@ -395,8 +408,10 @@ def get_questions_by_course_and_faculty_member(course_name: str = "00", faculty_
             },
         )
 
+        # Prepare a list to store question details
         questions_data = []
 
+        # Process each question and fetch its details
         for question in questions:
             question_doc = frappe.get_doc("Question", question['name'])
             question_details = {
@@ -419,16 +434,21 @@ def get_questions_by_course_and_faculty_member(course_name: str = "00", faculty_
         
         return frappe.response["message"]
     
-    # Construct the error response
+    except frappe.ValidationError as ve:
+        # Handle validation errors
+        frappe.response.update({
+            "status_code": 400,
+            "message": f"Validation error: {str(ve)}"
+        })
+    
     except Exception as e:
+        # Handle general errors
         frappe.response.update({
             "status_code": 500,
             "message": f"An error occurred while fetching questions: {str(e)}"
         })
         
     return frappe.response["message"]
-
-
 
 @frappe.whitelist(allow_guest=True)
 def get_quizzes_by_course_and_faculty(course: str="00", faculty_member: str= "ACAD-FM-00001"):
