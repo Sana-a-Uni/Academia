@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:faculty",
  "creation": "2024-07-28 03:03:56.212858",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -12,7 +13,8 @@
   {
    "fieldname": "faculty",
    "fieldtype": "Data",
-   "label": "Faculty"
+   "label": "Faculty",
+   "unique": 1
   },
   {
    "fieldname": "university",
@@ -23,10 +25,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-28 03:04:44.741103",
+ "modified": "2024-07-28 12:38:58.666989",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "External Faculty",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
