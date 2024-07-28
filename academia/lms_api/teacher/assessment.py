@@ -2,11 +2,33 @@ import frappe
 import json
 from frappe import _
 
-@frappe.whitelist(allow_guest=True)
-def get_submitted_assignments_by_faculty_member(faculty_member_id= "ACAD-FM-00001"):
-    if not faculty_member_id:
-        frappe.throw(_("Faculty Member ID is required"))
+def get_faculty_member_from_user(user_id):
+    """
+    Retrieve the faculty member ID linked to a user ID.
 
+    :param user_id: The user ID to retrieve the faculty member for
+    :return: The faculty member ID
+    """
+    employee_id = frappe.get_value("Employee", {"user_id": user_id}, "name")
+    if not employee_id:
+        raise frappe.ValidationError("Employee not found for the user.")
+    
+    faculty_member_id = frappe.get_value("Faculty Member", {"employee": employee_id}, "name")
+    if not faculty_member_id:
+        raise frappe.ValidationError("Faculty member not found for the employee.")
+    
+    return faculty_member_id
+
+@frappe.whitelist(allow_guest=True)
+def fetch_submitted_assignments_for_faculty_member():
+    """
+    Retrieve submitted assignments for the current faculty member.
+    """
+    user_id = frappe.session.user  # Get the current user ID from the session
+    faculty_member_id = get_faculty_member_from_user(user_id)  # Retrieve faculty member ID
+    if not faculty_member_id:
+        raise frappe.ValidationError("Faculty member not found for the user.")
+        
     submitted_assignments = frappe.db.sql("""
         SELECT
             student.name as student_name,
@@ -25,29 +47,25 @@ def get_submitted_assignments_by_faculty_member(faculty_member_id= "ACAD-FM-0000
             assignment_submission.submission_date DESC
     """, faculty_member_id, as_dict=True)
 
-    # إعداد الاستجابة
     frappe.response["status_code"] = 200
     frappe.response["submitted_assignments"] = submitted_assignments
 
-
 @frappe.whitelist(allow_guest=True)
-def get_assignment_details(assignment_submission_id="20817d93e8"):
+def fetch_assignment_details(assignment_submission_id):
+    """
+    Retrieve detailed information for a specific assignment submission.
+    """
     if not assignment_submission_id:
         frappe.throw(_("Assignment Submission ID is required"))
 
     submission = frappe.get_doc('Assignment Submission', assignment_submission_id)
-    
     assignment = frappe.get_doc('LMS Assignment', submission.assignment)
-    
     student = frappe.get_doc('Student', submission.student)
 
     attached_files = frappe.get_all('File', filters={'attached_to_doctype': 'LMS Assignment', 'attached_to_name': assignment.name}, fields=['file_name', 'file_url'])
-
     student_files = frappe.get_all('File', filters={'attached_to_doctype': 'Assignment Submission', 'attached_to_name': submission.name}, fields=['file_name', 'file_url'])
 
-    assessment_criteria = []
-    if hasattr(assignment, 'assessment_criteria'):
-        assessment_criteria = assignment.get('assessment_criteria')
+    assessment_criteria = assignment.get('assessment_criteria', [])
 
     return {
         'question_text': assignment.question,
@@ -58,21 +76,32 @@ def get_assignment_details(assignment_submission_id="20817d93e8"):
         'assessment_criteria': assessment_criteria
     }
 
-
 @frappe.whitelist(allow_guest=True)
-def save_assessment():
+def save_assignment_assessment():
+    """
+    Save an assessment for an assignment submission.
+    """
     try:
+        # Ensure the request is authenticated
+        if frappe.session.user == "Guest":
+            frappe.throw(_("You need to be logged in to access this resource."), frappe.AuthenticationError)
+        
         data = json.loads(frappe.request.data)
         
-        required_fields = ["assignment_submission", "faculty_member", "feedback", "assessment_date", "criteria_grades"]
+        required_fields = ["assignment_submission", "feedback", "assessment_date", "criteria_grades"]
         for field in required_fields:
             if field not in data:
                 frappe.throw(_("Missing required field: {0}").format(field))
         
+        user_id = frappe.session.user  # Get the current user ID from the session
+        faculty_member_id = get_faculty_member_from_user(user_id)  # Retrieve faculty member ID
+        if not faculty_member_id:
+            raise frappe.ValidationError("Faculty member not found for the user.")
+        
         assessment = frappe.get_doc({
             "doctype": "Assignment Assessment",
             "assignment_submission": data["assignment_submission"],
-            "faculty_member": data["faculty_member"],
+            "faculty_member": faculty_member_id,
             "feedback": data["feedback"],
             "assessment_date": data["assessment_date"]
         })
@@ -80,9 +109,6 @@ def save_assessment():
         total_grade = 0
         for criteria_grade in data["criteria_grades"]:
             assessment_criteria_doc = frappe.get_doc("Assessment Criteria", criteria_grade["assessment_criteria"])
-            
-            frappe.log_error(message=f"Assessment Criteria Doc: {assessment_criteria_doc.as_dict()}", title="Criteria Debugging")
-            
             grade = float(criteria_grade["grade"])
             total_grade += grade
             
@@ -92,11 +118,24 @@ def save_assessment():
             })
         
         assessment.grade = total_grade
-        
         assessment.insert()
+        
+        try:
+            # Update the status of the assignment submission to 'assessed' with ignore_permissions
+            assignment_submission = frappe.get_doc("Assignment Submission", data["assignment_submission"])
+            assignment_submission.db_set("status", "assessed", update_modified=True)
+        except Exception as save_error:
+            frappe.log_error(message=str(save_error), title="Update Assignment Submission Status Error")
+            return {"status": "error", "message": _("Failed to update assignment submission status.")}
+        
+        frappe.db.commit()
         frappe.db.commit()
         
         return {"status": "success", "message": "Assessment saved successfully"}
+    
+    except frappe.AuthenticationError as e:
+        frappe.log_error(message=str(e), title="Authentication Error")
+        return {"status": "error", "message": _("Authentication failed. Please login to continue.")}
     
     except Exception as e:
         frappe.log_error(message=str(e), title="Save Assessment Error")
