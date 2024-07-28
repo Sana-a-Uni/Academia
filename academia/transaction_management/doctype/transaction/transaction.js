@@ -201,7 +201,19 @@ frappe.ui.form.on('Transaction', {
                           if(!frm.doc.circular){
                             add_redirect_action(frm);
                             if(frappe.user_roles.includes("Council Head")){
-                              add_council_action(frm);
+                              frappe.call({
+                                method: "academia.transaction_management.doctype.transaction.transaction.get_last_topic_action",
+                                args: {
+                                  docname: frm.doc.name
+                                },
+                                callback: function(r) {
+                                  console.log("council action: ", r.message)  
+                                    if(r.message) {
+                                      add_council_action(frm);
+                                    }
+                                  }
+                              });
+                              
                             }
                           }
                         }
@@ -379,23 +391,23 @@ frappe.ui.form.on('Transaction', {
         frappe.throw(message);
     }},
   
-    transaction_scope:function(frm){
-      if (frm.doc.transaction_scope === "Among Companies") {
-        // Set the 'through_route' field to checked and make it read-only
-        frm.set_value("through_route", 1);
+    // transaction_scope:function(frm){
+    //   if (frm.doc.transaction_scope === "Among Companies") {
+    //     // Set the 'through_route' field to checked and make it read-only
+    //     frm.set_value("through_route", 1);
   
-        frm.toggle_display("through_route", true);
-        frm.toggle_reqd("through_route", true);
-        frm.toggle_enable("through_route", false);
-      } else {
-        // Reset the 'through_route' field and make it editable
-        frm.set_value("through_route", 0);
+    //     frm.toggle_display("through_route", true);
+    //     frm.toggle_reqd("through_route", true);
+    //     frm.toggle_enable("through_route", false);
+    //   } else {
+    //     // Reset the 'through_route' field and make it editable
+    //     frm.set_value("through_route", 0);
         
-        frm.toggle_display("through_route", true);
-        frm.toggle_reqd("through_route", false);
-        frm.toggle_enable("through_route", true);
-      }
-    },
+    //     frm.toggle_display("through_route", true);
+    //     frm.toggle_reqd("through_route", false);
+    //     frm.toggle_enable("through_route", true);
+    //   }
+    // },
   
     type:function(frm){
       if (frm.doc.type === "Incoming") {
@@ -749,6 +761,27 @@ function add_redirect_action(frm) {
 
 function add_council_action(frm) {
   cur_frm.page.add_action_item(__('Create Topic'), function() {
+
+    frappe.call({
+      method: "academia.transaction_management.doctype.transaction.transaction.create_new_transaction_action",
+      args: {
+          user_id: frappe.session.user,
+          transaction_name: frm.doc.name,
+          type: "Topic",
+          details: "",
+          transaction_scope: frm.doc.transaction_scope || ""
+      },
+      callback: function(r) {
+          if(r.message) {
+            // console.log(r.message);
+            if (r.message) {
+                location.reload();
+            }
+              // frappe.db.set_value('Transaction', frm.docname, 'status', 'Approved');     
+            }
+      }
+  });
+
   });
 }
 

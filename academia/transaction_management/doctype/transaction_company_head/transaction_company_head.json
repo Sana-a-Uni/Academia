@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:HEAD-{company}",
  "creation": "2024-07-21 15:02:43.468915",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -44,10 +45,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-23 09:26:48.365211",
+ "modified": "2024-07-28 04:26:37.371640",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Company Head",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

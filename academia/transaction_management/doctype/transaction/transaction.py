@@ -44,7 +44,6 @@ class Transaction(Document):
         main_external_entity_to: DF.Link | None
         print_official_paper: DF.Check
         priority: DF.Literal["", "Low", "Medium", "High", "Urgent"]
-        private: DF.Check
         recipients: DF.Table[TransactionRecipients]
         reference_number: DF.Data | None
         reference_transaction: DF.Link | None
@@ -122,50 +121,35 @@ class Transaction(Document):
             )
             share_permission_through_route(self, employee)
 
-            if self.transaction_scope == "Among Companies":
-                create_redirect_action(self.owner, self.name, self.recipients, self.step, 1)
-                # make a read, write, share permissions for reciepents
-                for row in self.recipients:
-                    if row.step == 1:
-                        frappe.share.add(
-                            doctype="Transaction",
-                            name=self.name,
-                            user=row.recipient_email,
-                            read=1,
-                            write=1,
-                            share=1,
-                            submit=1,
-                        )
-                frappe.db.commit()
+        elif self.transaction_scope == "Among Companies":
 
-                company_head = frappe.get_doc("Transaction Company Head", {"company": self.start_with_company})
-                head_employee_id = company_head.head_employee
-                employee_user = frappe.get_doc("Employee", head_employee_id)
-                user_id = employee_user.user_id
-                recipients = [{
-                    "step": 1,
-                    "recipient_name": employee_user.employee_name,
-                    "recipient_company": employee_user.company,
-                    "recipient_department": employee_user.department,
-                    "recipient_designation": employee_user.designation,
-                    "recipient_email": user_id,
-                    "has_sign": 0,
-                    "print_paper": 0,
-                    "is_received": 0
-                }]
-                create_redirect_action(self.owner, self.name, recipients, self.step, 1)
-                
-                frappe.share.add(
-                    doctype="Transaction",
-                    name=self.name,
-                    user=user_id,
-                    read=1,
-                    write=1,
-                    share=1,
-                    submit=1,
-                )
-                frappe.db.commit()
-
+            company_head = frappe.get_doc("Transaction Company Head", {"company": self.start_with_company})
+            head_employee_id = company_head.head_employee
+            employee_user = frappe.get_doc("Employee", head_employee_id)
+            user_id = employee_user.user_id
+            recipients = [{
+                "step": 1,
+                "recipient_name": employee_user.employee_name,
+                "recipient_company": employee_user.company,
+                "recipient_department": employee_user.department,
+                "recipient_designation": employee_user.designation,
+                "recipient_email": user_id,
+                "has_sign": 0,
+                "print_paper": 0,
+                "is_received": 0
+            }]
+            create_redirect_action(self.owner, self.name, recipients, self.step, 1)
+            
+            frappe.share.add(
+                doctype="Transaction",
+                name=self.name,
+                user=user_id,
+                read=1,
+                write=1,
+                share=1,
+                submit=1,
+            )
+            frappe.db.commit()
         else:
             create_redirect_action(self.owner, self.name, self.recipients, self.step, 1)
             # make a read, write, share permissions for reciepents
@@ -220,7 +204,7 @@ def get_signatories(doc):
             "official": False
         })
 
-        if doc.transaction_scope == "Among Companies" and doc.through_route:
+        if doc.transaction_scope == "Among Companies":
 
             company_head = frappe.get_doc("Transaction Company Head", {"company": doc.start_with_company})
             if company_head:
@@ -412,6 +396,38 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
             fields=["user_id", "reports_to"],
         )
         share_permission_through_route(transaction_doc, current_employee[0])
+    
+    elif transaction_doc.transaction_scope == "Among Companies":
+        company_head = frappe.get_doc("Transaction Company Head", {"company": transaction_doc.start_with_company})
+        head_emp = frappe.get_doc("Employee", company_head.head_employee)
+        if head_emp.user_id == user_id:
+            end_recipient = transaction_doc.recipients[0]
+            frappe.share.add(
+                    doctype="Transaction",
+                    name=transaction_doc.name,
+                    user=end_recipient.recipient_email,
+                    read=1,
+                    write=1,
+                    share=1,
+                    submit=1,
+                )
+            recipient = {
+                "step": 1,
+                "recipient_name": end_recipient.recipient_name,
+                "recipient_company": end_recipient.recipient_company,
+                "recipient_department": end_recipient.recipient_department,
+                "recipient_designation": end_recipient.recipient_designation,
+                "recipient_email": end_recipient.recipient_email,
+            }
+            recipients = [recipient]
+
+            create_redirect_action(
+                user=user_id,
+                transaction_name=transaction_doc.name,
+                recipients=recipients,
+                step=1,
+                auto=1,
+            )
 
     employee = get_employee_by_user_id(user_id)
     if employee:
@@ -1091,10 +1107,44 @@ def redirect_in_coming_among_companies(recipients):
 
 
    
-          
-            
-          
-    
-        
-    
+@frappe.whitelist()
+def create_new_topic(docname, user):
+    employee = get_employee_by_user_id(user)
 
+    new_doc = frappe.new_doc("Transaction Action")
+    new_doc.transaction = docname
+    new_doc.type = "Topic"
+
+    if employee:
+        new_doc.from_company = employee.company
+        new_doc.from_department = employee.department
+        new_doc.from_designation = employee.designation
+    
+    new_doc.insert(ignore_permissions=True)
+    frappe.db.commit()
+    new_doc.save()
+
+    # Call the create_topic_from_transaction function from the other module
+    from academia.councils.doctype.topic.topic import create_topic_from_transaction
+    create_topic_from_transaction(docname, new_doc.name, None)
+
+    new_doc.submit()
+
+@frappe.whitelist()
+def get_last_topic_action(docname):
+    actions = frappe.get_all(
+        "Transaction Action",
+        filters={
+            "transaction": docname,
+            "docstatus": 1,
+            "type": "Topic",
+        },
+        fields=["name", "type", "topic_status"],
+    )   
+
+    if actions[0].topic_status == "Complete":
+        return True
+         
+    return False
+          
+   

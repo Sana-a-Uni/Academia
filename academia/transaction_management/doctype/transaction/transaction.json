@@ -13,7 +13,6 @@
   "reference_transaction",
   "start_date",
   "hijri_date",
-  "private",
   "through_route",
   "full_electronic",
   "circular",
@@ -252,12 +251,6 @@
    "label": "Transaction Scan"
   },
   {
-   "default": "0",
-   "fieldname": "private",
-   "fieldtype": "Check",
-   "label": "Private"
-  },
-  {
    "fieldname": "refresh_button",
    "fieldtype": "Button",
    "label": "Refresh"
@@ -473,7 +466,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-27 20:33:30.252849",
+ "modified": "2024-07-28 09:52:37.115003",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
