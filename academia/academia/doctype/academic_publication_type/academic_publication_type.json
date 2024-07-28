@@ -11,6 +11,7 @@
  ],
  "fields": [
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "publication_type",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -21,12 +22,17 @@
   {
    "fieldname": "description",
    "fieldtype": "Text",
-   "label": "Description "
+   "label": "Description"
   }
  ],
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2024-04-24 15:50:57.602572",
+ "links": [
+  {
+   "link_doctype": "Academic Publication",
+   "link_fieldname": "publication_type"
+  }
+ ],
+ "modified": "2024-07-16 19:24:53.672294",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Publication Type",
@@ -46,6 +52,7 @@
    "write": 1
   }
  ],
+ "show_name_in_global_search": 1,
  "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",

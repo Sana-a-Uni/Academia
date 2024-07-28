@@ -1,0 +1,304 @@
+{
+ "_liked_by": "[\"Administrator\"]",
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2024-06-23 11:57:23.936366",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "details_tab",
+  "personal_information_section",
+  "naming_series",
+  "faculty_member",
+  "faculty_member_name",
+  "academic_rank",
+  "column_break_iplf",
+  "company",
+  "department",
+  "faculty",
+  "other_details_section",
+  "academic_year",
+  "academic_term",
+  "attachment",
+  "column_break_yehg",
+  "department_head",
+  "department_head_email",
+  "amended_from",
+  "evaluation_tab",
+  "template",
+  "tenure_evaluation_criteria",
+  "department_heads_notes"
+ ],
+ "fields": [
+  {
+   "fetch_from": "faculty_member.company",
+   "fetch_if_empty": 1,
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "evaluation_tab",
+   "fieldtype": "Tab Break",
+   "label": "Evaluation"
+  },
+  {
+   "depends_on": "eval: doc.template",
+   "fieldname": "tenure_evaluation_criteria",
+   "fieldtype": "Table",
+   "label": "Tenure Evaluation Criteria",
+   "options": "Tenure Evaluation Criteria",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "template",
+   "fieldtype": "Link",
+   "label": "Template",
+   "options": "Evaluation Criteria Template",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "label": "Academic Year",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "label": "Academic Term",
+   "options": "Academic Term",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "faculty_member.department",
+   "fetch_if_empty": 1,
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "faculty_member.academic_rank",
+   "fetch_if_empty": 1,
+   "fieldname": "academic_rank",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Rank",
+   "options": "Academic Rank",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_iplf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_on_submit": 1,
+   "description": "Attachment for signed evaluation sheet",
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment"
+  },
+  {
+   "fieldname": "details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Details"
+  },
+  {
+   "fetch_from": "faculty_member.faculty",
+   "fetch_if_empty": 1,
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Tenure Evaluation Request",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "faculty_member",
+   "fieldtype": "Link",
+   "label": "Faculty Member",
+   "options": "Faculty Member",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fetch_from": "faculty_member.faculty_member_name",
+   "fieldname": "faculty_member_name",
+   "fieldtype": "Data",
+   "label": "Faculty Member Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "other_details_section",
+   "fieldtype": "Section Break",
+   "label": "Other Details"
+  },
+  {
+   "fieldname": "column_break_yehg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "personal_information_section",
+   "fieldtype": "Section Break",
+   "label": "Personal Information"
+  },
+  {
+   "fieldname": "department_heads_notes",
+   "fieldtype": "Small Text",
+   "label": "Department Head's Notes",
+   "permlevel": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "EVALREQ-.YYYY.-.faculty_member_name.-",
+   "print_hide": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "department_head",
+   "fieldtype": "Link",
+   "label": "Department Head",
+   "options": "Employee",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "department_head.user_id",
+   "fieldname": "department_head_email",
+   "fieldtype": "Data",
+   "label": "Department Head Email",
+   "options": "Email",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-07-16 14:45:28.262974",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Tenure Evaluation Request",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Faculty Dean",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Faculty Dean",
+   "share": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Department Head",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Department Head",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Faculty Member",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Faculty Member",
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1
+}

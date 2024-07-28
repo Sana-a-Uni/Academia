@@ -1,0 +1,53 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-05-28 19:37:08.776391",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "question",
+  "selected_option",
+  "grade",
+  "is_correct"
+ ],
+ "fields": [
+  {
+   "fieldname": "question",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Question",
+   "options": "Question"
+  },
+  {
+   "fieldname": "selected_option",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Selected Option"
+  },
+  {
+   "fieldname": "grade",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Grade"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_correct",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Is Correct"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-05-28 19:42:08.534688",
+ "modified_by": "Administrator",
+ "module": "LMS",
+ "name": "Quiz Answer",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

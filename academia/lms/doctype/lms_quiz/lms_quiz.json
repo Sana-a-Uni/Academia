@@ -8,9 +8,10 @@
   "details_section",
   "course",
   "title",
-  "student_group",
-  "column_break_jsvl",
   "instruction",
+  "column_break_jsvl",
+  "faculty_member",
+  "student_group",
   "section_break_mpgl",
   "make_the_quiz_availability",
   "from_date",
@@ -19,12 +20,20 @@
   "section_break_qksq",
   "is_time_bound",
   "duration",
-  "grading_basis",
-  "column_break_feab",
-  "max_attempts",
   "total_grades",
+  "column_break_feab",
+  "multiple_attempts",
+  "number_of_attempts",
+  "grading_basis",
+  "section_break_ynry",
+  "question_order_settings_column",
+  "randomize_question_order",
+  "results_display_settings_section",
+  "show_question_score",
+  "column_break_bwos",
+  "show_correct_answer",
   "section_break_euqq",
-  "question"
+  "quiz_question"
  ],
  "fields": [
   {
@@ -57,7 +66,7 @@
   },
   {
    "fieldname": "instruction",
-   "fieldtype": "Small Text",
+   "fieldtype": "Text Editor",
    "label": "Instruction"
   },
   {
@@ -105,21 +114,15 @@
    "label": "Duration"
   },
   {
+   "depends_on": "multiple_attempts",
    "fieldname": "grading_basis",
    "fieldtype": "Select",
    "label": "Grading Basis",
-   "options": "Latest Highest Score\nLastest Attempt"
+   "options": "Highest Grade\nLatest Attempt\nAverage of Attempts"
   },
   {
    "fieldname": "column_break_feab",
    "fieldtype": "Column Break"
-  },
-  {
-   "default": "1",
-   "fieldname": "max_attempts",
-   "fieldtype": "Int",
-   "label": "Max Attempts",
-   "reqd": 1
   },
   {
    "fieldname": "total_grades",
@@ -131,16 +134,70 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "question",
+   "fieldname": "faculty_member",
+   "fieldtype": "Link",
+   "label": "Faculty Member",
+   "options": "Faculty Member"
+  },
+  {
+   "default": "0",
+   "fieldname": "multiple_attempts",
+   "fieldtype": "Check",
+   "label": "Multiple Attempts"
+  },
+  {
+   "fieldname": "quiz_question",
    "fieldtype": "Table",
-   "label": "Question",
-   "options": "Quiz Question",
-   "reqd": 1
+   "label": "Quiz Question",
+   "options": "Quiz Question"
+  },
+  {
+   "default": "1",
+   "depends_on": "multiple_attempts",
+   "fieldname": "number_of_attempts",
+   "fieldtype": "Int",
+   "label": "Number of attempts"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_question_score",
+   "fieldtype": "Check",
+   "label": "Show Question Score"
+  },
+  {
+   "default": "0",
+   "fieldname": "show_correct_answer",
+   "fieldtype": "Check",
+   "label": "Show Correct Answer"
+  },
+  {
+   "fieldname": "results_display_settings_section",
+   "fieldtype": "Section Break",
+   "label": "Results Display Settings"
+  },
+  {
+   "fieldname": "column_break_bwos",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_ynry",
+   "fieldtype": "Section Break",
+   "label": "Question Order Settings"
+  },
+  {
+   "fieldname": "question_order_settings_column",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "randomize_question_order",
+   "fieldtype": "Check",
+   "label": "Randomize Question Order"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-02-11 18:14:40.940782",
+ "modified": "2024-07-10 23:44:36.523018",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "LMS Quiz",

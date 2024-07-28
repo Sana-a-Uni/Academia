@@ -6,103 +6,45 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "student",
-  "student_name",
-  "academic_program",
-  "course",
-  "enrollment_date",
-  "column_break_helk",
-  "faculty",
-  "faculty_department",
-  "student_batch",
-  "academic_year",
-  "semester"
+  "course_code",
+  "course_type",
+  "program",
+  "level"
  ],
  "fields": [
   {
-   "fieldname": "student",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Student",
-   "options": "Student",
-   "reqd": 1
-  },
-  {
-   "fieldname": "student_name",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Student Name"
-  },
-  {
-   "fieldname": "academic_program",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Academic Program",
-   "options": "Program Specification",
-   "reqd": 1
-  },
-  {
-   "fieldname": "course",
+   "fieldname": "course_code",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Course",
-   "options": "Course Study"
-  },
-  {
-   "fieldname": "enrollment_date",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "label": "Enrollment Date",
+   "options": "Course Study",
    "reqd": 1
   },
   {
-   "fieldname": "column_break_helk",
-   "fieldtype": "Column Break"
+   "fetch_from": "course_code.course_type",
+   "fieldname": "course_type",
+   "fieldtype": "Data",
+   "label": "Course Type",
+   "read_only": 1
   },
   {
-   "fieldname": "faculty",
-   "fieldtype": "Link",
+   "fetch_from": "course_code.program",
+   "fieldname": "program",
+   "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Faculty",
-   "options": "Faculty",
-   "reqd": 1
+   "label": "Program",
+   "read_only": 1
   },
   {
-   "fieldname": "faculty_department",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Faculty Department",
-   "options": "Faculty Department",
-   "reqd": 1
-  },
-  {
-   "fieldname": "student_batch",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Student Batch",
-   "options": "Student Batch",
-   "reqd": 1
-  },
-  {
-   "fieldname": "academic_year",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Academic Year",
-   "options": "Academic Year",
-   "reqd": 1
-  },
-  {
-   "fieldname": "semester",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Semester",
-   "options": "Semester"
+   "fieldname": "level",
+   "fieldtype": "Data",
+   "label": "Level"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-22 01:00:30.277008",
+ "modified": "2024-06-19 21:05:31.219549",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Enrollment Course",

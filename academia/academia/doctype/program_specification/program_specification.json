@@ -20,7 +20,7 @@
   "research_or_thesis",
   "section_break_koic",
   "total_hours_required_to_award_degree",
-  "study_language",
+  "course_language",
   "column_break_zw7h",
   "delivery_mode",
   "study_methods",
@@ -85,12 +85,6 @@
    "label": "Total Hours Required to Award Degree"
   },
   {
-   "fieldname": "study_language",
-   "fieldtype": "Table MultiSelect",
-   "label": "Study Language",
-   "options": "Course Language"
-  },
-  {
    "fieldname": "column_break_zw7h",
    "fieldtype": "Column Break"
   },
@@ -124,7 +118,8 @@
   {
    "fieldname": "date_of_programe_development",
    "fieldtype": "Date",
-   "label": "Date of Programe Development"
+   "label": "Date of Programe Development",
+   "reqd": 1
   },
   {
    "fetch_from": "program_name.faculty",
@@ -176,6 +171,7 @@
   {
    "fieldname": "table_ytno",
    "fieldtype": "Table",
+   "label": "Courses",
    "options": "Study Plan Course",
    "read_only_depends_on": "eval:doc.research_or_thesis == 1 && doc.courses == 0;"
   },
@@ -240,11 +236,17 @@
    "label": "Maximum Research Period",
    "mandatory_depends_on": "eval:doc.research_or_thesis === 1 && doc.courses === 1 ;",
    "read_only": 1
+  },
+  {
+   "fieldname": "course_language",
+   "fieldtype": "Table MultiSelect",
+   "label": "Course Language",
+   "options": "Course Language"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-22 03:13:25.250887",
+ "modified": "2024-07-14 01:24:36.981086",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Specification",

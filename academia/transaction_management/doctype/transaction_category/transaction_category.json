@@ -6,19 +6,21 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "requirements_tab",
-  "category_parent",
+  "details_tab",
+  "company",
   "category_name",
-  "requirements",
+  "template",
+  "is_group",
   "column_break_nqbz",
-  "text_editor_uzrj"
+  "parent_category",
+  "section_break_oqso",
+  "recipients",
+  "get_recipients",
+  "clear_recipients",
+  "requirements_tab",
+  "requirements"
  ],
  "fields": [
-  {
-   "fieldname": "text_editor_uzrj",
-   "fieldtype": "Text Editor",
-   "label": "Description"
-  },
   {
    "fieldname": "requirements",
    "fieldtype": "Table",
@@ -28,7 +30,7 @@
   {
    "fieldname": "requirements_tab",
    "fieldtype": "Tab Break",
-   "label": "Requirements "
+   "label": "Requirements"
   },
   {
    "fieldname": "category_name",
@@ -43,15 +45,63 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "category_parent",
+   "default": "0",
+   "fieldname": "is_group",
+   "fieldtype": "Check",
+   "label": "Is Group"
+  },
+  {
+   "fieldname": "company",
    "fieldtype": "Link",
-   "label": "Category Parent",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Details"
+  },
+  {
+   "depends_on": "eval:!doc.is_group;",
+   "fieldname": "parent_category",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": " Parent Category",
    "options": "Transaction Category"
+  },
+  {
+   "depends_on": "eval:!doc.is_group;",
+   "fieldname": "template",
+   "fieldtype": "Link",
+   "label": "Template",
+   "options": "Transaction Category Template"
+  },
+  {
+   "depends_on": "eval:!doc.is_group;",
+   "fieldname": "section_break_oqso",
+   "fieldtype": "Section Break",
+   "label": "Transaction Path"
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "Recipients",
+   "options": "Transaction Recipients"
+  },
+  {
+   "fieldname": "get_recipients",
+   "fieldtype": "Button",
+   "label": "Get Recipients"
+  },
+  {
+   "fieldname": "clear_recipients",
+   "fieldtype": "Button",
+   "label": "Clear Recipients"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-28 22:34:45.814847",
+ "modified": "2024-07-07 21:50:23.886258",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Category",
@@ -67,6 +117,39 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Employee",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "report": 1,
+   "role": "Transaction User",
+   "select": 1,
+   "share": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction Manager",
    "share": 1,
    "write": 1
   }

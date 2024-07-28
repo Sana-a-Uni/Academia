@@ -1,0 +1,53 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:designation_name",
+ "creation": "2024-06-03 09:35:03.992172",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "external_entity",
+  "designation_name"
+ ],
+ "fields": [
+  {
+   "fieldname": "designation_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Designation Name",
+   "unique": 1
+  },
+  {
+   "fieldname": "external_entity",
+   "fieldtype": "Link",
+   "label": "External Entity",
+   "options": "External Entity"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-23 21:50:33.410199",
+ "modified_by": "Administrator",
+ "module": "Transaction Management",
+ "name": "External Entity Designation",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

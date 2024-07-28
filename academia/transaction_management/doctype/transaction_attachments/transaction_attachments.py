@@ -15,10 +15,10 @@ class TransactionAttachments(Document):
 		from frappe.types import DF
 
 		attachment_label: DF.Data | None
-		attachment_name: DF.Data | None
 		file: DF.AttachImage | None
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
+		required: DF.Check
 	# end: auto-generated types
 	pass

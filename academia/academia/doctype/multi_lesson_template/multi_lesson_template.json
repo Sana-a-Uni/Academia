@@ -1,0 +1,48 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-06-30 02:40:38.620293",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "program",
+  "level",
+  "group"
+ ],
+ "fields": [
+  {
+   "fieldname": "group",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Group",
+   "options": "Student Group"
+  },
+  {
+   "fieldname": "program",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Program",
+   "options": "Program Specification"
+  },
+  {
+   "fieldname": "level",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Level",
+   "options": "Level"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-07-03 17:54:15.586354",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Multi Lesson Template",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

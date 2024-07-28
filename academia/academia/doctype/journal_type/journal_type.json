@@ -1,0 +1,62 @@
+{
+ "_liked_by": "[\"Administrator\"]",
+ "actions": [],
+ "autoname": "field:journal_type",
+ "creation": "2024-05-28 21:25:17.385338",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "journal_type",
+  "journal_weight"
+ ],
+ "fields": [
+  {
+   "fieldname": "journal_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Journal Type",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "description": "Journal with higher type should get higher weight. For instance, indexed journals have a weight of 2, while Q4 journals have a weight of 3.",
+   "fieldname": "journal_weight",
+   "fieldtype": "Int",
+   "label": "Journal Weight"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [
+  {
+   "link_doctype": "Journal",
+   "link_fieldname": "journal_type"
+  }
+ ],
+ "modified": "2024-07-12 20:26:18.817099",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Journal Type",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "journal_type",
+ "show_name_in_global_search": 1,
+ "show_title_field_in_link": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "journal_type"
+}

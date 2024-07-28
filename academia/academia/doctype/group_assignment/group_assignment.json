@@ -78,8 +78,9 @@
   },
   {
    "fieldname": "group",
-   "fieldtype": "Data",
-   "label": "Group"
+   "fieldtype": "Link",
+   "label": "Group",
+   "options": "Student Group"
   },
   {
    "fieldname": "course",
@@ -91,7 +92,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-03 07:36:30.289703",
+ "modified": "2024-07-01 04:06:00.267335",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Group Assignment",

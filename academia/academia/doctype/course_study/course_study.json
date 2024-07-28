@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:{course_code}",
  "creation": "2024-05-03 20:04:24.958531",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -33,7 +34,8 @@
    "in_list_view": 1,
    "label": "Course Code",
    "options": "Course Specification",
-   "reqd": 1
+   "reqd": 1,
+   "unique": 1
   },
   {
    "fieldname": "column_break_ooda",
@@ -149,10 +151,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-03 02:42:23.366255",
+ "modified": "2024-07-24 18:41:28.431054",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Study",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

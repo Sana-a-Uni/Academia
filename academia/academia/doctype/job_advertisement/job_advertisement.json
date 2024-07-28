@@ -1,0 +1,108 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:JOB-ADV-{YYYY}-{####}",
+ "creation": "2024-07-14 16:09:51.894458",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "get_needs",
+  "approved_department_needs",
+  "section_break_keju",
+  "general_application_terms",
+  "section_break_oyeg",
+  "start_date",
+  "column_break_uasq",
+  "end_date",
+  "section_break_lchl",
+  "job_advertisement_journal",
+  "reference_to_need_aggregation"
+ ],
+ "fields": [
+  {
+   "fieldname": "get_needs",
+   "fieldtype": "Button",
+   "label": "Get Needs"
+  },
+  {
+   "fieldname": "section_break_keju",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "general_application_terms",
+   "fieldtype": "Text",
+   "label": "General Application Terms"
+  },
+  {
+   "fieldname": "section_break_lchl",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "job_advertisement_journal",
+   "fieldtype": "Table",
+   "label": "Job Advertisement Journal",
+   "options": "Job Advertisement Journal",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_oyeg",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Datetime",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "column_break_uasq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Datetime",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "approved_department_needs",
+   "fieldtype": "Table",
+   "label": "Approved Department Needs",
+   "options": "Approved Department Need",
+   "reqd": 1
+  },
+  {
+   "fieldname": "reference_to_need_aggregation",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Reference to Need Aggregation",
+   "options": "Need Aggregation",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-15 14:13:24.899461",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Job Advertisement",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1
+}

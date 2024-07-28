@@ -1,0 +1,79 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2024-06-21 23:04:38.560469",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "academic_rank",
+  "granting_authority",
+  "country",
+  "general_field",
+  "specialist_field",
+  "thesis_title",
+  "attachment"
+ ],
+ "fields": [
+  {
+   "fieldname": "academic_rank",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Rank",
+   "options": "Academic Rank",
+   "reqd": 1
+  },
+  {
+   "fieldname": "granting_authority",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Granting Authority",
+   "options": "Authority"
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "general_field",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "General Field"
+  },
+  {
+   "fieldname": "specialist_field",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Specialist Field"
+  },
+  {
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "in_list_view": 1,
+   "label": "Attachment"
+  },
+  {
+   "description": "Master's or Doctoral Thesis Title",
+   "fieldname": "thesis_title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Thesis Title"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-07-04 13:36:52.961178",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Faculty Member Academic Ranking",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

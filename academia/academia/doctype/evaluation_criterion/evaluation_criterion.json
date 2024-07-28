@@ -1,0 +1,46 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:criterion",
+ "creation": "2024-06-23 13:03:42.542685",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "criterion"
+ ],
+ "fields": [
+  {
+   "fieldname": "criterion",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Criterion",
+   "reqd": 1,
+   "unique": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-06-23 14:08:45.230699",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Evaluation Criterion",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

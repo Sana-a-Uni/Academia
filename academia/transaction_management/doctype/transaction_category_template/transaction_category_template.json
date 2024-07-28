@@ -1,0 +1,84 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "prompt",
+ "creation": "2024-06-03 18:00:35.886972",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "template_title",
+  "template_doctype",
+  "description",
+  "fields_from_different_doctypes_section",
+  "linked_fields"
+ ],
+ "fields": [
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description",
+   "reqd": 1
+  },
+  {
+   "fieldname": "template_title",
+   "fieldtype": "Data",
+   "label": "Template Title"
+  },
+  {
+   "fieldname": "fields_from_different_doctypes_section",
+   "fieldtype": "Section Break",
+   "label": "Fields From Different Doctypes"
+  },
+  {
+   "fieldname": "linked_fields",
+   "fieldtype": "Table",
+   "label": "Linked Fields",
+   "options": "Transaction Template Fields"
+  },
+  {
+   "fieldname": "template_doctype",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Template Doctype",
+   "options": "DocType",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-26 03:57:28.096548",
+ "modified_by": "Administrator",
+ "module": "Transaction Management",
+ "name": "Transaction Category Template",
+ "naming_rule": "Set by user",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

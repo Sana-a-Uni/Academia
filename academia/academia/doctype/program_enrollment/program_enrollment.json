@@ -1,7 +1,6 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "prompt",
  "creation": "2024-04-27 05:29:51.231754",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -10,6 +9,7 @@
   "section_break_gnoe",
   "student",
   "student_name",
+  "gender",
   "enrollment_date",
   "image",
   "column_break_hxtm",
@@ -19,6 +19,7 @@
   "section_break_pkqr",
   "student_batch",
   "academic_year",
+  "column_break_tagc",
   "academic_term"
  ],
  "fields": [
@@ -31,11 +32,10 @@
    "reqd": 1
   },
   {
-   "fetch_from": "student.student_name",
+   "fetch_from": "student.first_name",
    "fieldname": "student_name",
-   "fieldtype": "Data",
-   "label": "Student Name",
-   "read_only": 1
+   "fieldtype": "Read Only",
+   "label": "Student Name"
   },
   {
    "fieldname": "enrollment_date",
@@ -57,7 +57,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Program",
-   "options": "Academic Program",
+   "options": "Program Specification",
    "reqd": 1
   },
   {
@@ -77,7 +77,8 @@
    "fieldname": "academic_term",
    "fieldtype": "Link",
    "label": "Current Academic Term",
-   "options": "Academic Term"
+   "options": "Academic Term",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_pkqr",
@@ -87,7 +88,8 @@
    "fieldname": "student_batch",
    "fieldtype": "Link",
    "label": "Student Batch",
-   "options": "Student Batch"
+   "options": "Student Batch",
+   "reqd": 1
   },
   {
    "fieldname": "faculty",
@@ -97,7 +99,7 @@
    "reqd": 1
   },
   {
-   "default": "0",
+   "default": "1",
    "fieldname": "enabled",
    "fieldtype": "Check",
    "label": "Enabled"
@@ -105,15 +107,24 @@
   {
    "fieldname": "section_break_gnoe",
    "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "student.gender",
+   "fieldname": "gender",
+   "fieldtype": "Read Only",
+   "label": "Gender"
+  },
+  {
+   "fieldname": "column_break_tagc",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-27 22:28:03.314732",
+ "modified": "2024-07-24 21:46:33.460894",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Enrollment",
- "naming_rule": "Set by user",
  "owner": "Administrator",
  "permissions": [
   {

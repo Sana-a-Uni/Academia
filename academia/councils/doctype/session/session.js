@@ -29,13 +29,35 @@ frappe.ui.form.on("Session", {
 				filters: {
 					docstatus: ["=", 0],
 					council: frm.doc.council,
-					status: "Accepted",
+					status: "Pending",
 					parent_topic: "",
 				},
 			};
 		});
 	},
 
+	get_opening_template: function (frm) {
+		frappe.confirm(
+			__(
+				"Are you sure you want to reload opening field?<br>All data in the field will be lost."
+			),
+			function () {
+				get_opening_template(frm, (reload = true));
+			}
+		);
+	},
+	refresh: function (frm) {
+		get_opening_template(frm);
+	},
+	begin_time: function (frm) {
+		get_opening_template(frm);
+	},
+	council: function (frm) {
+		// get_opening_template(frm);          did not work
+	},
+	date: function (frm) {
+		get_opening_template(frm);
+	},
 	validate(frm) {
 		frm.events.validate_time(frm);
 		academia.councils.utils.validate_head_exist(frm.doc.members);
@@ -94,7 +116,7 @@ frappe.ui.form.on("Session", {
 					filters: { docstatus: ["!=", 2], company: this.setters.company },
 				};
 			},
-			primary_action_label: "Get Members",
+			primary_action_label: __("Get Members"),
 			action(selections) {
 				// console.log(d.dialog.get_value("company"));
 				// emptying Council members
@@ -134,12 +156,12 @@ frappe.ui.form.on("Session", {
 					filters: {
 						docstatus: ["=", 0],
 						council: frm.doc.council,
-						status: "Accepted",
+						status: "Pending",
 						parent_topic: "",
 					},
 				};
 			},
-			primary_action_label: "Get Topic",
+			primary_action_label: __("Get Topic"),
 			action(topics) {
 				// Clear any existing topics in the child table:
 				frm.doc.topics = "";
@@ -186,6 +208,48 @@ frappe.ui.form.on("Session Topic", {
 			frm.refresh_field("topics");
 		}
 	},
+	get_template: function (frm, cdt, cdn) {
+		let row = locals[cdt][cdn];
+		if (!row.get_template) {
+			frappe.show_alert({
+				message: __("Please select a decision template."),
+				indicator: "orange",
+			});
+			return;
+		}
+		frappe.call({
+			method: "academia.councils.doctype.session.session.get_template",
+			args: {
+				decision_template: row.get_template,
+				topic: row.topic,
+				session: JSON.stringify(frm.doc),
+			},
+			callback: function (response) {
+				if (response.message && !response.error) {
+					const decision = response.message;
+					frappe.model.set_value(cdt, cdn, "decision", decision);
+					frappe.show_alert({
+						message: __("Decision template applied successfully!"),
+						indicator: "green",
+					});
+				} else {
+					frappe.show_alert({
+						message: __("Error fetching decision template!"),
+						indicator: "red",
+					});
+					console.error(response.error || "Error fetching decision template!");
+				}
+			},
+			error: function (error) {
+				console.error(error);
+				frappe.show_alert({
+					message: __("Error calling server method!"),
+					indicator: "red",
+				});
+			},
+		});
+	},
+
 	// create_memo(frm, cdt, cdn) {
 	//     let row = locals[cdt][cdn];
 	//     let dialog = new frappe.ui.Dialog({
@@ -246,6 +310,15 @@ frappe.ui.form.on("Session Member", {
 		// Call the check_council_head_and_reporter_duplication function to check for duplicate members Council Heads and Reporters
 		academia.councils.utils.check_council_head_and_reporter_duplication(frm, row);
 	},
+	members_remove: function (frm) {
+		get_opening_template(frm);
+	},
+	attendance: function (frm) {
+		get_opening_template(frm);
+	},
+	member_role: function (frm) {
+		get_opening_template(frm);
+	},
 });
 // Function to check for duplicate topics
 check_topic_duplicate = function (frm, row) {
@@ -260,7 +333,7 @@ check_topic_duplicate = function (frm, row) {
 				// Refresh the topics field in the form to reflect the changes
 				frm.refresh_field("topics");
 				// message indicating that the topic already exists in a specific row
-				msgprint(__(`${row.topic} already exists in row ${topic_doc.idx}`));
+				msgprint(__("{0} already exists in row {1}", [row.topic, topic_doc.idx]));
 				// stop loop
 				return;
 			}
@@ -274,7 +347,7 @@ validate_topic = function (frm, row) {
 				!(
 					topic_doc.docstatus == 0 &&
 					topic_doc.council == frm.doc.council &&
-					topic_doc.status == "Accepted" &&
+					topic_doc.status == "Pending" &&
 					topic_doc.parent_topic == ""
 				)
 			) {
@@ -282,7 +355,44 @@ validate_topic = function (frm, row) {
 				row.topic = "";
 				// Refresh the topics field in the form to reflect the changes
 				frm.refresh_field("topics");
-				msgprint(__(`You cannot use ${topic_doc.name}, please select from the list`));
+				msgprint(__("You cannot use {0}, please select from the list", [topic_doc.name]));
 			}
 		});
 };
+
+function get_opening_template(frm, reload = false) {
+	if (reload) {
+		frm.doc.opening = null;
+	}
+	if (frm.doc.opening == null && frm.doc.date && frm.doc.begin_time && frm.doc.council) {
+		frappe.call({
+			method: "academia.councils.doctype.session.session.get_template",
+			args: {
+				session: JSON.stringify(frm.doc),
+			},
+			callback: function (response) {
+				if (response.message && !response.error) {
+					const opening = response.message;
+					frm.set_value("opening", opening);
+					frappe.show_alert({
+						message: __("opening template applied successfully!"),
+						indicator: "green",
+					});
+				} else {
+					frappe.show_alert({
+						message: __("Error fetching opening template!"),
+						indicator: "red",
+					});
+					console.error(response.error || "Error fetching opening template!");
+				}
+			},
+			error: function (error) {
+				console.error(error);
+				frappe.show_alert({
+					message: __("Error calling server method!"),
+					indicator: "red",
+				});
+			},
+		});
+	}
+}
