@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vertical Path Template</title>
+  <style>
+    .recipient {
+      font-weight: bold;
+    }
+    .redirected{
+      margin-left: 40px;
+    }
+
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 5px; /* Adjust the margin as per your preference */
+    }
+    
+    /* Custom dot styles based on action.type */
+    .dot.approved {
+      background-color: green;
+    }
+    
+    .dot.redirect {
+      background-color: orange;
+    }
+    
+    .dot.reject {
+      background-color: red;
+    }
+    
+    .dot.pending {
+      background-color: grey;
+    }
+
+  </style>
+</head>
+<body>
+  {% macro render_recipient(recipient_dict) %}
+  <div>
+    {% if recipient_dict.action %}
+      <a href="{{ recipient_dict.link }}">
+        <div class="dot 
+          {% if recipient_dict.action.type == 'Approved' %}approved
+          {% elif recipient_dict.action.type == 'Redirected' %}redirect
+          {% elif recipient_dict.action.type == 'Rejected' %}reject
+          {% else %}pending
+          {% endif %}"></div>
+        <span class="recipient">{{ recipient_dict.recipient }} - {{ recipient_dict.action.type }} </span>
+      </a>
+    {% else %}
+      <div class="dot pending"></div>
+      <span>{{ recipient_dict.recipient }} - Pending</span>
+    {% endif %}
+  </div>
+    {% for redirected_recipient in recipient_dict.redirected %}
+      <div class="redirected">
+        {{ render_recipient(redirected_recipient) }}
+      </div>
+    {% endfor %}
+{% endmacro %}
+
+{% for recipient_dict in recipient_actions %}
+  {{ render_recipient(recipient_dict) }}
+{% endfor %}
+</body>
+</html>

@@ -4,8 +4,9 @@
 import frappe
 from frappe.model.document import Document
 import re
+from frappe import _
 
 class AppreciationType(Document):
     def validate(self):
         if not re.match("^[a-zA-Z ]*$", self.appreciation_type):
-            frappe.throw("Appreciation type should only contain letters")
+            frappe.throw(_("Appreciation type should only contain letters."))

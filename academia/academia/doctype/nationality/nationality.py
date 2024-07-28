@@ -4,8 +4,9 @@
 import frappe
 from frappe.model.document import Document
 import re
+from frappe import _
 
 class Nationality(Document):
     def validate(self):
         if not re.match("^[a-zA-Z ]*$", self.nationality_name):
-            frappe.throw("Nationality name should only contain letters")
+            frappe.throw(_("Nationality name should only contain letters."))

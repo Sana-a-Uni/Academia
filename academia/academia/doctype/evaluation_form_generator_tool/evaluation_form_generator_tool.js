@@ -124,7 +124,7 @@ function generate_evaluation_forms(frm) {
                     faculty_member_names.push(row.faculty_member_name);
                     completed_requests++;
                     if (completed_requests === total_requests) {
-                        frappe.msgprint(__('Academic Evaluation created successfully for: ' + faculty_member_names.join(', ')));
+                        frappe.msgprint(__('Academic Evaluation created successfully for: ') + faculty_member_names.join(', '));
                     }
                 }
             }

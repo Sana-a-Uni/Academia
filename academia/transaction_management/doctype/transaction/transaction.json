@@ -10,14 +10,19 @@
   "additional_details_section",
   "transaction_scope",
   "type",
+  "reference_transaction",
   "start_date",
+  "hijri_date",
   "private",
-  "print_official_paper",
   "through_route",
   "full_electronic",
+  "circular",
+  "print_official_paper",
   "priority",
   "column_break_ktxa",
   "status",
+  "submit_time",
+  "complete_time",
   "transaction_scan",
   "reference_number",
   "title",
@@ -31,6 +36,7 @@
   "referenced_document",
   "fromto_section",
   "start_with",
+  "start_from_employee",
   "start_with_company",
   "main_external_entity_from",
   "sub_external_entity_from",
@@ -54,6 +60,7 @@
   "section_break_pgsu",
   "amended_from",
   "step",
+  "signatories",
   "applicants_tab",
   "applicants_table",
   "attachments_tab",
@@ -133,7 +140,7 @@
    "fieldname": "status",
    "fieldtype": "Select",
    "label": "Status",
-   "options": "Pending\nCompleted\nCanceled",
+   "options": "Pending\nCompleted\nCanceled\nClosed\nRejected",
    "read_only": 1
   },
   {
@@ -236,7 +243,8 @@
    "fieldname": "type",
    "fieldtype": "Select",
    "label": "Type",
-   "options": "Outgoing\nIncoming"
+   "mandatory_depends_on": "eval:doc.transaction_scope==\"With External Entity\";",
+   "options": "\nOutgoing\nIncoming"
   },
   {
    "fieldname": "transaction_scan",
@@ -260,9 +268,9 @@
    "label": "From"
   },
   {
-   "depends_on": "eval: !(doc.transaction_scope==\"With External Entity\"&&doc.type==\"Incoming\");",
    "fieldname": "start_with",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Start From",
    "options": "Employee"
   },
@@ -341,6 +349,7 @@
    "read_only": 1
   },
   {
+   "depends_on": "eval: !doc.circular && !doc.through_route;",
    "fieldname": "category_information_section",
    "fieldtype": "Section Break",
    "label": "Category Information"
@@ -401,19 +410,72 @@
    "default": "1",
    "fieldname": "step",
    "fieldtype": "Int",
+   "hidden": 1,
    "label": "Step",
    "non_negative": 1
   },
   {
+   "depends_on": "eval: doc.docstatus === 0",
    "fieldname": "get_default_template_button",
    "fieldtype": "Button",
    "label": "Get Default Template"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval:doc.transaction_scope == 'In Company';",
+   "fieldname": "circular",
+   "fieldtype": "Check",
+   "label": "Circular"
+  },
+  {
+   "fieldname": "signatories",
+   "fieldtype": "Table",
+   "label": "Signatures",
+   "options": "Transaction Signatories",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval: doc.transaction_scope==\"With External Entity\"&&doc.type==\"Outgoing\";",
+   "fieldname": "reference_transaction",
+   "fieldtype": "Link",
+   "label": "Referenced Transaction",
+   "options": "Transaction"
+  },
+  {
+   "depends_on": "eval: doc.start_with;",
+   "fetch_from": "start_with.employee_name",
+   "fieldname": "start_from_employee",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "submit_time",
+   "fieldtype": "Datetime",
+   "hidden": 1,
+   "label": "Submit Time"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "complete_time",
+   "fieldtype": "Datetime",
+   "hidden": 1,
+   "label": "Complete Time"
+  },
+  {
+   "depends_on": "eval:!doc.__islocal",
+   "fieldname": "hijri_date",
+   "fieldtype": "Data",
+   "label": "Hijri Date",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-07 21:13:04.901107",
+
+ "modified": "2024-07-26 23:29:11.522579",
+
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
@@ -429,7 +491,24 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "select": 1,
    "share": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "if_owner": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction User",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
    "write": 1
   },
   {
@@ -440,8 +519,17 @@
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Transaction User",
+   "role": "Transaction Manager",
+   "select": 1,
    "share": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "if_owner": 1,
+   "read": 1,
+   "role": "Transaction Manager",
    "submit": 1,
    "write": 1
   }
@@ -460,6 +548,14 @@
   {
    "color": "Red",
    "title": "Canceled"
+  },
+  {
+   "color": "Orange",
+   "title": "Closed"
+  },
+  {
+   "color": "Purple",
+   "title": "Rejected"
   }
  ]
 }

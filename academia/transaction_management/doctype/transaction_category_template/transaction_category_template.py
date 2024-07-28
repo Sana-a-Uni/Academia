@@ -15,9 +15,9 @@ class TransactionCategoryTemplate(Document):
 		from academia.transaction_management.doctype.transaction_template_fields.transaction_template_fields import TransactionTemplateFields
 		from frappe.types import DF
 
-		description: DF.TextEditor | None
+		description: DF.TextEditor
 		linked_fields: DF.Table[TransactionTemplateFields]
-		template_doctype: DF.Link | None
+		template_doctype: DF.Link
 		template_title: DF.Data | None
 	# end: auto-generated types
 	pass

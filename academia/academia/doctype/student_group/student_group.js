@@ -2,7 +2,26 @@
 // For license information, please see license.txt
 
    frappe.ui.form.on("Student Group", {
-   	refresh: function(frm) {
+	faculty: function(frm) {
+        var faculty = frm.doc.faculty;
+        frm.set_query("program", function(){
+            return {
+                "filters":{
+                    "faculty": faculty
+                }
+            };
+        });
+        frm.set_query("batch", function(){
+            return {
+                "filters":{
+                    "faculty": faculty
+                }
+            };
+        });
+        frm.set_value('program', '');
+        frm.set_value('batch', '');
+    },
+	refresh: function(frm) {
    		if (frm.fields_dict.go_to) {
 	    	    frm.fields_dict.go_to.$input.on('click', function() {
 					const student_group_name = frm.doc.student_group_name;

@@ -32,7 +32,7 @@ frappe.ui.form.on("Academic Publication", {
             var allowed_extensions = ['.pdf', '.txt', '.doc', '.docx', '.ppt', '.pptx', '.png', '.jpg', '.jpeg'];
             var publication_file_extension = publication_file.split('.').pop().toLowerCase();
             if (!allowed_extensions.includes('.' + publication_file_extension)) {
-                frappe.throw("Publication File has an invalid extension. Only files with extensions " + allowed_extensions.join(', ') + " are allowed.");
+                frappe.throw(__("Publication File has an invalid extension. Only files with extensions {0} are allowed.", [allowed_extensions.join(', ')]));
                 frappe.validated = false;
             }
         }
@@ -47,7 +47,7 @@ frappe.ui.form.on("Academic Publication", {
         });
         var name_set = new Set(academic_publication_author);
         if (academic_publication_author.length != name_set.size) {
-            frappe.throw(("Author name cannot be duplicated"));
+            frappe.throw(__("Author name cannot be duplicated."));
         }
     },
     // End of the function
@@ -60,7 +60,7 @@ frappe.ui.form.on("Academic Publication", {
         });
         var order_set = new Set(academic_publication_author);
         if (academic_publication_author.length != order_set.size) {
-            frappe.throw(("Author order cannot be duplicated"));
+            frappe.throw(__("Author order cannot be duplicated."));
         }
     },
     // End of the function

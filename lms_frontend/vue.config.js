@@ -5,10 +5,10 @@ module.exports = defineConfig({
 	lintOnSave: false,
 	devServer: {
 		proxy: {
-			"^/private/files": {
+			"^/api": {
 				target: "http://localhost:80",
 				changeOrigin: true,
-				pathRewrite: { "^/private/files": "/private/files" },
+				pathRewrite: { "^/api": "/api" },
 			},
 		},
 	},
