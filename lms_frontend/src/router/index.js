@@ -36,6 +36,17 @@ const routes = [
 		name: "createAssignment",
 		component: () => import("../views/teacherDashboard/assignment/createAssignment"),
 	},
+	
+	{
+		path: "/teacherDashboard/courseView/pendingAssessment",
+		name: "pendingAssessment",
+		component: () => import("../views/teacherDashboard/assessment/pendingAssessment"),
+	},
+	{
+		path: "/teacherDashboard/courseView/pendingAssessment/assignmentAssessment/:id",
+		name: "assessmentAssignment",
+		component: () => import("../views/teacherDashboard/assessment/assignmentAssessment"),
+	},
 
 	////////////////////////////
 	{
@@ -99,16 +110,7 @@ const routes = [
 		name: "assignment",
 		component: () => import("../views/studentDashboard/assignment/assignment"),
 	},
-	{
-		path: "/pendingAssessment",
-		name: "pendingAssessment",
-		component: () => import("../views/teacherDashboard/assessment/pendingAssessment"),
-	},
-	{
-		path: "/assessmentAssignment/:id",
-		name: "assessmentAssignment",
-		component: () => import("../views/teacherDashboard/assessment/assessmentAssignment"),
-	},
+	
 ];
 
 const router = createRouter({

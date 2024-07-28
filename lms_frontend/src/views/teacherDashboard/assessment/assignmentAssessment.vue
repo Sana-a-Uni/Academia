@@ -2,16 +2,16 @@
 	<Navbar></Navbar>
 	<LoadingSpinner v-if="loading" />
 	<div v-else-if="error">{{ error }}</div>
-	<AssessmentAssignment v-else :details="assignmentDetails" />
+	<AssignmentAssessment v-else :details="assignmentDetails" />
 </template>
 
 <script setup>
 import { ref, onMounted, watch, computed } from "vue";
 import { useRoute } from "vue-router";
 import { useAssessmentStore } from "@/stores/teacherStore/assessmentStore";
-import Navbar from "@/components/teacher/layout/Navbar.vue";
+import Navbar from "@/components/teacherComponents/layout/Navbar.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
-import AssessmentAssignment from "@/components/teacher/assessment/AssessmentAssignment";
+import AssignmentAssessment from "@/components/teacherComponents/assessment/AssignmentAssessment";
 
 const route = useRoute();
 const store = useAssessmentStore();
