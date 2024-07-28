@@ -20,6 +20,7 @@ class AssignmentSubmission(Document):
 		assignment: DF.Link | None
 		attachment_files: DF.Table[AttachmentFiles]
 		comment: DF.TextEditor | None
+		status: DF.Literal["", "submitted", "assessed"]
 		student: DF.Link | None
 		submission_date: DF.Datetime | None
 	# end: auto-generated types

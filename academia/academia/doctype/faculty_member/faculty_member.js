@@ -33,7 +33,7 @@ frappe.ui.form.on("Faculty Member", {
             var allowed_extensions = ['.pdf', '.png', '.jpg', '.jpeg'];
             var decision_attachment_extension = decision_attachment.split('.').pop().toLowerCase();
             if (!allowed_extensions.includes('.' + decision_attachment_extension)) {
-                frappe.throw("Decision Attachment File has an invalid extension. Only files with extensions " + allowed_extensions.join(', ') + " are allowed.");
+                frappe.throw(__("Decision File has an invalid extension. Only files with extensions {0} are allowed.", [allowed_extensions.join(', ')]));
                 frappe.validated = false;
             }
         }

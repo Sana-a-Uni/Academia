@@ -16,7 +16,8 @@
   {
    "fieldname": "description",
    "fieldtype": "Text Editor",
-   "label": "Description"
+   "label": "Description",
+   "reqd": 1
   },
   {
    "fieldname": "template_title",
@@ -39,12 +40,13 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Template Doctype",
-   "options": "DocType"
+   "options": "DocType",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-07 21:51:49.097008",
+ "modified": "2024-07-26 03:57:28.096548",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Category Template",

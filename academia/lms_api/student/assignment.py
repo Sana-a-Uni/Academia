@@ -96,7 +96,7 @@ def get_assignment(assignment_name: str="47dfd90592"):
 
 @frappe.whitelist(allow_guest=True)
 def create_assignment_submission():
- 
+
     data = json.loads(frappe.request.data)
 
     student = data.get('student')
@@ -121,6 +121,11 @@ def create_assignment_submission():
         submission_doc.answer = answer
         submission_doc.comment = comment
         submission_doc.submission_date = submission_date
+
+        if submit:
+            submission_doc.status = "submitted"  # تحديث حالة التكليف إلى "submitted" عند الإرسال
+        else:
+            submission_doc.status = ""  # اترك الحقل فارغًا عند الحفظ فقط
 
         if attachments:
             for attachment in attachments:
@@ -154,7 +159,8 @@ def create_assignment_submission():
             'assignment': assignment,
             'answer': answer,
             'comment': comment,
-            'submission_date': submission_date
+            'submission_date': submission_date,
+            'status': 'submitted' if submit else ''  # تعيين حالة التكليف إلى "submitted" عند الإرسال فقط
         })
 
         submission_doc.insert()

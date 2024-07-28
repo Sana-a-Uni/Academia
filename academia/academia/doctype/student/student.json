@@ -66,7 +66,7 @@
  ],
  "fields": [
   {
-   "default": "0",
+   "default": "1",
    "fieldname": "title",
    "fieldtype": "Check",
    "label": "Enabled"
@@ -145,6 +145,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "+967",
    "fieldname": "student_mobile_number",
    "fieldtype": "Phone",
    "label": "Student Mobile Number"
@@ -153,7 +154,8 @@
    "fieldname": "gender",
    "fieldtype": "Select",
    "label": "Gender",
-   "options": "\nMale\nFemale\nMale & Female"
+   "options": "\nMale\nFemale\nMale & Female",
+   "reqd": 1
   },
   {
    "fieldname": "nationality",
@@ -350,7 +352,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-24 14:25:16.629797",
+ "modified": "2024-07-24 21:36:11.221711",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student",

@@ -7,6 +7,38 @@ app_license = "mit"
 required_apps = ["frappe/erpnext", "frappe/hrms"]
 
 
+
+# for print format
+fixtures = [
+ {
+  "doctype": "Print format",
+  "filters" : [
+                "name",
+                "in",
+                [
+     'transaction'
+                ]
+             ]
+     }
+ ]
+
+
+fixtures = [
+    "Academic Status",
+    "Journal Type",
+    "Scientific Degree",
+    "Workflow",
+    "Workflow State",
+    "Workflow Action Master",
+    {
+        "doctype": "Role",
+        "filters": [
+            ["name", "in", ["Academic User", "Faculty Dean", "Department Head"]]
+        ]
+    }
+]
+
+
 # Includes in <head>
 # ------------------
 

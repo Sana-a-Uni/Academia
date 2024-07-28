@@ -14,10 +14,12 @@ class TransactionRecipients(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		fully_electronic: DF.Check
+		has_sign: DF.Check
+		is_received: DF.Check
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
+		print_paper: DF.Check
 		recipient_company: DF.Link | None
 		recipient_department: DF.Link | None
 		recipient_designation: DF.Link | None
