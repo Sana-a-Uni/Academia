@@ -40,7 +40,8 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Type",
-   "options": "Redirected\nApproved\nRejected\nCanceled\nCouncil"
+   "options": "Redirected\nApproved\nRejected\nCanceled\nTopic",
+   "reqd": 1
   },
   {
    "allow_on_submit": 1,
@@ -89,7 +90,8 @@
    "fieldname": "transaction",
    "fieldtype": "Link",
    "label": "Transaction",
-   "options": "Transaction"
+   "options": "Transaction",
+   "reqd": 1
   },
   {
    "depends_on": "eval:doc.type == \"Redirected\";",
@@ -134,15 +136,17 @@
    "label": "Auto Redirect"
   },
   {
+   "depends_on": "eval: doc.type === \"Topic\"",
    "fieldname": "topic_status",
-   "fieldtype": "Data",
-   "label": "Topic Status"
+   "fieldtype": "Select",
+   "label": "Topic Status",
+   "options": "Incomplete\nComplete"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-26 03:55:55.402528",
+ "modified": "2024-07-28 19:39:33.023240",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Action",

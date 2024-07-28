@@ -20,10 +20,10 @@ class TransactionRecipients(Document):
 		parentfield: DF.Data
 		parenttype: DF.Data
 		print_paper: DF.Check
-		recipient_company: DF.Link | None
+		recipient_company: DF.Link
 		recipient_department: DF.Link | None
 		recipient_designation: DF.Link | None
-		recipient_email: DF.Link | None
+		recipient_email: DF.Link
 		recipient_name: DF.Data | None
 		step: DF.Int
 	# end: auto-generated types
