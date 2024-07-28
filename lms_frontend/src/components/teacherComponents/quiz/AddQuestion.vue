@@ -14,7 +14,12 @@
 			</div>
 			<div class="question-content">
 				<label for="quizDescription">Question Content:</label>
-				<div ref="quillEditor" class="quill-editor" style="height: 150px"></div>
+				<div
+					v-if="showQuillEditor"
+					ref="quillEditor"
+					class="quill-editor"
+					style="height: 150px"
+				></div>
 				<span v-if="errors.question" class="error">{{ errors.question }}</span>
 				<div class="options-section">
 					<label>Options:</label>
@@ -41,7 +46,10 @@
 				</div>
 				<div class="card-actions">
 					<button class="cancel-btn" @click="cancel">Cancel</button>
-					<button class="next-btn" @click="addQuestion">Add</button>
+					<button class="next-btn" @click="() => handleAddQuestion(true)">
+						Save and Add Another
+					</button>
+					<button class="next-btn" @click="() => handleAddQuestion(false)">Save</button>
 				</div>
 			</div>
 		</div>
@@ -49,7 +57,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted, nextTick, onBeforeUnmount } from "vue";
 import { useQuizStore } from "@/stores/teacherStore/quizStore";
 import Quill from "quill";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -58,7 +66,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 
 library.add(faTrashAlt);
 
-const emit = defineEmits(["questions"]);
+const emit = defineEmits(["questions", "cancel"]);
 
 const quizStore = useQuizStore();
 const questionContent = ref("");
@@ -68,7 +76,9 @@ const options = ref([
 	{ option: "", is_correct: false },
 ]);
 const quillEditor = ref(null);
+let editor = null;
 const errors = ref({});
+const showQuillEditor = ref(true);
 
 const editorOptions = {
 	theme: "snow",
@@ -83,15 +93,32 @@ const editorOptions = {
 	},
 };
 
-onMounted(() => {
-	nextTick(() => {
-		const editor = new Quill(quillEditor.value, editorOptions);
+const initializeQuill = () => {
+	if (editor) {
+		editor.off("text-change");
+		editor = null;
+	}
+	if (quillEditor.value) {
+		editor = new Quill(quillEditor.value, editorOptions);
 		editor.on("text-change", () => {
 			questionContent.value = editor.root.innerHTML;
 		});
+	}
+};
+
+onMounted(() => {
+	nextTick(() => {
+		initializeQuill();
 	});
 
 	quizStore.fetchQuestionTypes();
+});
+
+onBeforeUnmount(() => {
+	if (editor) {
+		editor.off("text-change");
+		editor = null;
+	}
 });
 
 const hasDuplicateOptions = (options) => {
@@ -99,7 +126,7 @@ const hasDuplicateOptions = (options) => {
 	return new Set(optionTexts).size !== optionTexts.length;
 };
 
-const addQuestion = () => {
+const handleAddQuestion = (stayOnPage) => {
 	errors.value = {};
 	let valid = true;
 
@@ -137,18 +164,25 @@ const addQuestion = () => {
 			question_type: questionType.value,
 			question_options: options.value,
 		};
-		emit("questions", questionData);
-		questionContent.value = "";
-		questionType.value = "";
-		options.value = [
-			{ option: "", is_correct: false },
-			{ option: "", is_correct: false },
-		];
+		emit("questions", { questionData, stayOnPage });
+
+		if (stayOnPage) {
+			questionContent.value = "";
+			questionType.value = "";
+			options.value = [
+				{ option: "", is_correct: false },
+				{ option: "", is_correct: false },
+			];
+
+			nextTick(() => {
+				editor.setText("");
+			});
+		}
 	}
 };
 
 const cancel = () => {
-	emit("questions");
+	emit("cancel");
 };
 
 const addOption = () => {

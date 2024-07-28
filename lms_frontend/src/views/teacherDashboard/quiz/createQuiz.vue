@@ -21,13 +21,16 @@
 			@go-back="currentView = 'questions'"
 			@save-settings="handleSaveSettings"
 		/>
-		<AddQuestion v-if="currentView === 'addQuestion'" @questions="handleAddQuestion" />
+		<AddQuestion
+			v-if="currentView === 'addQuestion'"
+			@questions="handleAddQuestion"
+			@cancel="currentView = 'questions'"
+		/>
 		<ReuseQuestion
 			v-if="currentView === 'reuseQuestion'"
 			@questions="handleReuseQuestion"
 			@cancel="currentView = 'questions'"
 		/>
-
 		<SuccessDialog v-if="showDialog" :message="dialogMessage" @close="showDialog = false" />
 	</mainLayout>
 </template>
@@ -66,7 +69,7 @@ const handleSaveSettings = async (settingsData) => {
 			setTimeout(() => {
 				showDialog.value = false;
 				router.push({ path: "/teacherDashboard/courseView/quizList" });
-			}, 2000); 
+			}, 2000);
 		} else {
 			if (quizStore.errors) {
 				errors.value = quizStore.errors;
@@ -89,9 +92,11 @@ const handleSaveSettings = async (settingsData) => {
 	}
 };
 
-const handleAddQuestion = (questionData) => {
+const handleAddQuestion = ({ questionData, stayOnPage }) => {
 	quizStore.addQuestion(questionData);
-	currentView.value = "questions";
+	if (!stayOnPage) {
+		currentView.value = "questions";
+	}
 	errors.value = {};
 };
 
