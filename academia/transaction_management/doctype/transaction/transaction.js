@@ -423,6 +423,7 @@ frappe.ui.form.on('Transaction', {
                   if (r.message) {
                     console.log(r.message.head_employee)
                     console.log("creation: ", frm.doc.created_by)
+                    
                     frm.set_value('start_with', r.message.head_employee);
                     frm.set_df_property('start_with', 'hidden', 1);
                     frm.set_df_property('start_from_employee', 'hidden', 1);
