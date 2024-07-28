@@ -47,7 +47,7 @@ const editorOptions = {
 onMounted(() => {
 	nextTick(() => {
 		const editor = new Quill(quillEditor.value, editorOptions);
-		editor.root.innerHTML = assignmentStore.assignmentData.instruction; // Load existing data
+		editor.root.innerHTML = assignmentStore.assignmentData.instruction; 
 		editor.on("text-change", () => {
 			assignmentStore.assignmentData.instruction = editor.root.innerHTML;
 		});

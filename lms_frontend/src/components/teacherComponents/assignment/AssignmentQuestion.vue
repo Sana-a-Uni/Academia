@@ -30,7 +30,6 @@
 							</tr>
 						</thead>
 						<tbody>
-							<!-- عرض الملفات السابقة -->
 							<tr
 								v-for="(file, index) in previousSubmissionFiles"
 								:key="file.file_url"
@@ -48,7 +47,6 @@
 									/>
 								</td>
 							</tr>
-							<!-- عرض الملفات الجديدة -->
 							<tr v-for="(file, index) in uploadedFiles" :key="index">
 								<td>
 									<a :href="file.previewUrl" target="_blank">{{ file.name }}</a>
@@ -158,12 +156,11 @@ const editorOptions = {
 onMounted(() => {
 	nextTick(() => {
 		const editor = new Quill(quillQuestionEditor.value, editorOptions);
-		editor.root.innerHTML = assignmentStore.assignmentData.question; // Load existing data
+		editor.root.innerHTML = assignmentStore.assignmentData.question;
 		editor.on("text-change", () => {
 			assignmentStore.assignmentData.question = editor.root.innerHTML;
 		});
 
-		// Ensure at least one criteria is present
 		if (assignmentStore.assignmentData.assessment_criteria.length === 0) {
 			addCriteria();
 		}

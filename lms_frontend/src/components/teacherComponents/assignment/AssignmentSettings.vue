@@ -197,7 +197,6 @@ const previousPage = () => {
 </script>
 
 <style scoped>
-/* إضافة CSS المخصص هنا */
 .container {
 	max-width: 100%;
 	margin: 0 auto;
@@ -232,13 +231,13 @@ h1 {
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	margin-top: 10px; /* تعديل لخفض الحقول */
+	margin-top: 10px; 
 }
 
 .date-label {
 	margin: 0;
 	font-size: 14px;
-	line-height: 1.2; /* تعديل المحاذاة الرأسية للنص */
+	line-height: 1.2; 
 }
 
 .section-header input {

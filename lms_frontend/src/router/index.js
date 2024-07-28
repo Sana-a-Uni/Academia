@@ -26,6 +26,16 @@ const routes = [
 		name: "createQuiz",
 		component: () => import("../views/teacherDashboard/quiz/createQuiz"),
 	},
+	{
+		path: "/teacherDashboard/courseView/assignments",
+		name: "assignments",
+		component: () => import("../views/teacherDashboard/assignment/assignmentView"),
+	},
+	{
+		path: "/teacherDashboard/courseView/assignments/createAssignment",
+		name: "createAssignment",
+		component: () => import("../views/teacherDashboard/assignment/createAssignment"),
+	},
 
 	////////////////////////////
 	{
@@ -77,16 +87,8 @@ const routes = [
 		}),
 	},
 
-	{
-		path: "/assignments",
-		name: "assignments",
-		component: () => import("../views/teacherDashboard/assignment/assignmentView"),
-	},
-	{
-		path: "/createAssignment",
-		name: "createAssignment",
-		component: () => import("../views/teacherDashboard/assignment/createAssignment"),
-	},
+	
+	
 	{
 		path: "/assignmentView",
 		name: "assignmentView",

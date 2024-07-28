@@ -10,20 +10,18 @@
 import { ref, onMounted, watch } from "vue";
 import { useAssignmentStore } from "@/stores/teacherStore/assignmentStore";
 import { useRoute } from "vue-router";
-import AssignmentList from "@/components/teacher/assignment/AssignmentView.vue";
-import mainLayout from "@/components/teacher/layout/MainLayout.vue";
+import AssignmentList from "@/components/teacherComponents/assignment/AssignmentView.vue";
+import mainLayout from "@/components/teacherComponents/layout/MainLayout.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 const route = useRoute();
 
 const assignmentStore = useAssignmentStore();
 // const courseName = ref(route.params.courseName);
-// const facultyMember = ref(route.params.facultyMember);
 const courseName = ref("00");
-const facultyMember = ref("ACAD-FM-00001");
 
 onMounted(() => {
-	assignmentStore.fetchAssignments(courseName.value, facultyMember.value);
+	assignmentStore.fetchAssignments(courseName.value);
 });
 
 const assignments = ref([]);

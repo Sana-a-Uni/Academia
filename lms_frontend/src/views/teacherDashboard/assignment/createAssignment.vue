@@ -23,10 +23,10 @@
 import { ref } from "vue";
 import { useAssignmentStore } from "@/stores/teacherStore/assignmentStore";
 import { useRouter } from "vue-router";
-import AssignmentInformation from "@/components/teacher/assignment/AssignmentInformation.vue";
-import AssignmentQuestion from "@/components/teacher/assignment/AssignmentQuestion.vue";
-import AssignmentSettings from "@/components/teacher/assignment/AssignmentSettings.vue";
-import mainLayout from "@/components/teacher/layout/MainLayout.vue";
+import AssignmentInformation from "@/components/teacherComponents/assignment/AssignmentInformation.vue";
+import AssignmentQuestion from "@/components/teacherComponents/assignment/AssignmentQuestion.vue";
+import AssignmentSettings from "@/components/teacherComponents/assignment/AssignmentSettings.vue";
+import mainLayout from "@/components/teacherComponents/layout/MainLayout.vue";
 
 const currentView = ref("information");
 const assignmentStore = useAssignmentStore();
@@ -39,8 +39,8 @@ const handleAssignmentCreated = () => {
 const handleSaveSettings = (settingsData) => {
 	assignmentStore.updateAssignmentData(settingsData);
 	assignmentStore.createAssignment().then(() => {
-		resetFields(); // Call resetFields after creating the assignment
-		router.push({ name: "assignments" }); // Redirect to assignmentList after creating the assignment
+		resetFields();
+		router.push({ name: "assignments" }); 
 	});
 };
 
@@ -52,7 +52,6 @@ const resetFields = () => {
 	assignmentStore.assignmentData = {
 		assignment_title: "",
 		course: "00",
-		faculty_member: "ACAD-FM-00001",
 		instruction: "",
 		make_the_assignment_availability: false,
 		from_date: "",
