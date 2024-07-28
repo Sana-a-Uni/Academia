@@ -34,6 +34,7 @@ class Topic(Document):
 		topic_date: DF.Date
 		transaction: DF.Link
 		transaction_action: DF.Link
+
 	# end: auto-generated types
 	def validate(self):
 		if not self.get("__islocal") and self.is_group:
@@ -333,7 +334,9 @@ def delete_topics_from_group(topic_names):
 
 
 @frappe.whitelist()
-def create_topic_from_transaction(transaction_name, transaction_action, target_doc=None):
+def create_topic_from_transaction(
+	transaction_name, transaction_action, target_doc=None, create_or_update="create"
+):
 	from frappe.model.mapper import get_mapped_doc
 	from frappe.utils import today
 
@@ -342,17 +345,17 @@ def create_topic_from_transaction(transaction_name, transaction_action, target_d
 		target_doc.topic_date = action_date if action_date else today()
 		target_doc.transaction = transaction_name
 		target_doc.transaction_action = transaction_action
-		target_doc.council = get_council_for_topic(transaction_action)
+		target_doc.council = get_council_for_topic()
 
 	def get_council_for_topic():
 		department = frappe.db.get_value(
-			"Transaction Action", {"name": transaction_action}, "department"
+			"Transaction Action", {"name": transaction_action}, "from_department"
 		)  # Fetch the linked employee
 
 		if not department:
 			frappe.throw(_("Transaction Action has no Department."))
 		else:
-			council = frappe.db.get_value("Council", {"department": department}, "name")
+			council = frappe.db.get_value("Council", {"administrative_body": department}, "name")
 
 		if not council:
 			frappe.throw(_("No Council found for {0} department.").format(department))
@@ -367,14 +370,14 @@ def create_topic_from_transaction(transaction_name, transaction_action, target_d
 				"category": "category",
 				"sub_category": "sub_category",
 				"title": "title",
-				"description": "description",
+				"transaction_description": "description",
 			},
 			"postprocess": set_additional_values,
 		},
 		"Transaction Attachments": {
 			"doctype": "Topic Attachment",
 			"field_map": {
-				"lable": "title",
+				"attachment_label": "title",
 				"file": "attachment",
 			},
 		},
@@ -389,13 +392,16 @@ def create_topic_from_transaction(transaction_name, transaction_action, target_d
 	}
 
 	# Create the Topic document based on the mappings from the Transaction
-	topic_doc = get_mapped_doc("Transaction", transaction_name, mappings, target_doc)
+	target_doc = get_mapped_doc("Transaction", transaction_name, mappings, target_doc)
 
 	try:
 		# topic_doc.flags.ignore_permissions = True     #get_mapped_doc does check create permission so we can ignore them in insert to reduce checking time
-		topic_doc.insert()  # No longer ignoring permissions, ensuring enforcement
+		if create_or_update == "create":
+			target_doc.insert()  # No longer ignoring permissions, ensuring enforcement
+		else:
+			target_doc.save()
 		frappe.db.commit()
 	except frappe.PermissionError:
 		frappe.throw(_("Not permitted"), frappe.PermissionError)
 
-		return topic_doc.name
+	return target_doc.name
