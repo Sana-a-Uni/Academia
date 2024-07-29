@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class TransactionPaperReceiver(Document):
+class ExternalFaculty(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -14,8 +14,7 @@ class TransactionPaperReceiver(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		company: DF.Link | None
-		department: DF.Link | None
-		secretary: DF.Link | None
+		faculty: DF.Data | None
+		university: DF.Link | None
 	# end: auto-generated types
 	pass

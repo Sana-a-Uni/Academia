@@ -7,15 +7,22 @@ from frappe import _
 import re
 
 class FacultyMemberActivity(Document):
-    def validate(self):
-        if self.date:
-            if self.date > frappe.utils.today():
-                frappe.throw(_("Date cannot be in the future."))
+    # begin: auto-generated types
+    # This code is auto-generated. Do not modify anything in this block.
 
+    from typing import TYPE_CHECKING
 
-        if not re.match("^[a-zA-Z ]*$", self.activity_name):
-            frappe.throw(_("Activity name should only contain letters."))
+    if TYPE_CHECKING:
+        from frappe.types import DF
 
-        if not re.match("^[a-zA-Z ]*$", self.organization_name):
-            frappe.throw(_("Organization name should only contain letters."))
-
+        activity_name: DF.Data
+        date: DF.Date | None
+        description: DF.Text | None
+        location: DF.Data | None
+        name: DF.Int | None
+        organization_name: DF.Data | None
+        parent: DF.Data
+        parentfield: DF.Data
+        parenttype: DF.Data
+    # end: auto-generated types
+    pass

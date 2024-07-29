@@ -17,8 +17,8 @@
   "email",
   "column_break_hagf",
   "company",
-  "department",
   "faculty",
+  "department",
   "nationality",
   "column_break_zcxq",
   "date_of_joining_in_service",
@@ -49,6 +49,7 @@
   "academic_services",
   "column_break_pkbw",
   "from_another_university",
+  "external_faculty",
   "profile_tab",
   "academic_ranking_section",
   "faculty_member_academic_ranking",
@@ -355,7 +356,8 @@
    "fieldname": "faculty",
    "fieldtype": "Link",
    "label": "Faculty",
-   "options": "Faculty"
+   "options": "Faculty",
+   "reqd": 1
   },
   {
    "fieldname": "connections_tab",
@@ -397,6 +399,12 @@
    "fieldtype": "Date",
    "label": "Date of Obtaining the Academic Rank",
    "reqd": 1
+  },
+  {
+   "fieldname": "external_faculty",
+   "fieldtype": "Link",
+   "label": "External Faculty",
+   "options": "External Faculty"
   }
  ],
  "image_field": "image",
@@ -429,7 +437,7 @@
    "link_fieldname": "faculty_member"
   }
  ],
- "modified": "2024-07-27 04:11:23.323871",
+ "modified": "2024-07-28 12:15:40.044501",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",

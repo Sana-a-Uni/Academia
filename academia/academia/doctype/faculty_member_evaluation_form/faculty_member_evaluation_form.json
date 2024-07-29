@@ -10,8 +10,8 @@
   "faculty_member_name",
   "academic_rank",
   "company",
-  "department",
   "faculty",
+  "department",
   "email"
  ],
  "fields": [
@@ -78,7 +78,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-19 00:05:02.874158",
+ "modified": "2024-07-28 21:30:32.168473",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member Evaluation Form",
