@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:term_name",
+ "autoname": "format:{term_name} - {academic_year}",
  "creation": "2024-04-23 21:32:12.966215",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -10,14 +10,19 @@
   "faculty",
   "disabled",
   "academic_year",
-  "auto_created"
+  "auto_created",
+  "column_break_obzq",
+  "study_start",
+  "study_end",
+  "exam_start",
+  "exam_end"
  ],
  "fields": [
   {
    "fieldname": "term_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Term Name",
+   "label": "Academic Term Name",
    "reqd": 1,
    "unique": 1
   },
@@ -47,15 +52,39 @@
    "fieldname": "auto_created",
    "fieldtype": "Check",
    "label": "Auto Created"
+  },
+  {
+   "fieldname": "column_break_obzq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "study_start",
+   "fieldtype": "Date",
+   "label": "Study Start Date"
+  },
+  {
+   "fieldname": "study_end",
+   "fieldtype": "Date",
+   "label": "Study End Date"
+  },
+  {
+   "fieldname": "exam_start",
+   "fieldtype": "Date",
+   "label": "Exam Start Date"
+  },
+  {
+   "fieldname": "exam_end",
+   "fieldtype": "Date",
+   "label": "Exam End Date"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-14 01:28:59.524534",
+ "modified": "2024-07-29 23:06:05.475327",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Term",
- "naming_rule": "By fieldname",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
