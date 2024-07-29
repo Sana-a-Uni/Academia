@@ -32,6 +32,7 @@
    "fieldname": "parent_external_entity",
    "fieldtype": "Link",
    "ignore_user_permissions": 1,
+   "in_standard_filter": 1,
    "label": "Parent External Entity",
    "options": "External Entity"
   },
@@ -39,12 +40,14 @@
    "fieldname": "external_entity",
    "fieldtype": "Data",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "External Entity",
    "unique": 1
   },
   {
    "fieldname": "company",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Company",
    "options": "Company"
   },
@@ -63,6 +66,7 @@
    "fieldname": "parent_external_entity",
    "fieldtype": "Link",
    "ignore_user_permissions": 1,
+   "in_standard_filter": 1,
    "label": "Parent External Entity",
    "options": "External Entity"
   },
@@ -86,7 +90,7 @@
  "image_field": "logo",
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-29 00:12:13.137101",
+ "modified": "2024-07-29 09:25:11.310341",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "External Entity",

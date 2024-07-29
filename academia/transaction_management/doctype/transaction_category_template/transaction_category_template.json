@@ -22,6 +22,7 @@
   {
    "fieldname": "template_title",
    "fieldtype": "Data",
+   "in_standard_filter": 1,
    "label": "Template Title"
   },
   {
@@ -39,6 +40,7 @@
    "fieldname": "template_doctype",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Template Doctype",
    "options": "DocType",
    "reqd": 1
@@ -46,7 +48,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-26 03:57:28.096548",
+ "modified": "2024-07-29 09:25:53.107782",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Category Template",
