@@ -43,10 +43,11 @@ const routes = [
 		component: () => import("../views/teacherDashboard/assessment/pendingAssessment"),
 	},
 	{
-		path: "/teacherDashboard/courseView/pendingAssessment/assignmentAssessment/:id",
+		path: "/teacherDashboard/courseView/pendingAssessment/assignmentAssessment/:submission_name",
 		name: "assessmentAssignment",
 		component: () => import("../views/teacherDashboard/assessment/assignmentAssessment"),
-	},
+	}
+,	
 
 	////////////////////////////
 	{
