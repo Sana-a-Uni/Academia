@@ -151,12 +151,10 @@ class Topic(Document):
 	def track_topic_status(self):
 		if self.transaction_action:
 			previous_status = frappe.db.get_value(
-				"Transaction Action", self.transaction_action, "status_in_council"
+				"Transaction Action", self.transaction_action, "topic_status"
 			)
 		if previous_status and self.status != previous_status:
-			frappe.db.set_value(
-				"Transaction Action", self.transaction_action, "status_in_council", self.status
-			)
+			frappe.db.set_value("Transaction Action", self.transaction_action, "topic_status", self.status)
 
 
 # @frappe.whitelist()
