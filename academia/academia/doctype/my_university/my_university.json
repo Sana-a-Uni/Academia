@@ -1,35 +1,34 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2024-07-30 00:16:55.366580",
+ "creation": "2024-07-30 00:58:51.353689",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "private",
-  "section_break_yzvg",
+  "section_break_yuho",
   "university_name",
   "university_name_english",
-  "column_break_qnth",
+  "column_break_uibx",
   "abbr",
   "date_of_establishment",
-  "section_break_rjyb",
+  "section_break_xxkv",
   "country",
-  "column_break_zidr",
+  "column_break_xecv",
   "city",
-  "section_break_kznw",
+  "section_break_elhw",
   "university_vision",
   "university__mission",
-  "column_break_vvxu",
+  "column_break_ojeu",
   "university_goals",
   "address_and_contact_tab",
   "university_logo",
   "phone_no",
   "description",
-  "column_break_kfbg",
+  "column_break_dcqe",
   "fax",
   "website",
-  "email",
-  "html_okxf"
+  "email"
  ],
  "fields": [
   {
@@ -39,7 +38,7 @@
    "label": "Private"
   },
   {
-   "fieldname": "section_break_yzvg",
+   "fieldname": "section_break_yuho",
    "fieldtype": "Section Break"
   },
   {
@@ -57,7 +56,7 @@
    "reqd": 1
   },
   {
-   "fieldname": "column_break_qnth",
+   "fieldname": "column_break_uibx",
    "fieldtype": "Column Break"
   },
   {
@@ -70,22 +69,23 @@
   {
    "fieldname": "date_of_establishment",
    "fieldtype": "Date",
-   "label": "Date of Establishment"
+   "in_list_view": 1,
+   "label": "Date of Establishment",
+   "reqd": 1
   },
   {
-   "fieldname": "section_break_rjyb",
+   "fieldname": "section_break_xxkv",
    "fieldtype": "Section Break"
   },
   {
    "fieldname": "country",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Country",
    "options": "Country",
    "reqd": 1
   },
   {
-   "fieldname": "column_break_zidr",
+   "fieldname": "column_break_xecv",
    "fieldtype": "Column Break"
   },
   {
@@ -95,13 +95,13 @@
    "reqd": 1
   },
   {
-   "fieldname": "section_break_kznw",
+   "fieldname": "section_break_elhw",
    "fieldtype": "Section Break"
   },
   {
    "fieldname": "university_vision",
    "fieldtype": "Text Editor",
-   "label": "University Vision"
+   "label": " University Vision"
   },
   {
    "fieldname": "university__mission",
@@ -109,13 +109,13 @@
    "label": "University  Mission"
   },
   {
-   "fieldname": "column_break_vvxu",
+   "fieldname": "column_break_ojeu",
    "fieldtype": "Column Break"
   },
   {
    "fieldname": "university_goals",
    "fieldtype": "Text Editor",
-   "label": "University Goals"
+   "label": " University Goals"
   },
   {
    "fieldname": "address_and_contact_tab",
@@ -139,7 +139,7 @@
    "label": "Description"
   },
   {
-   "fieldname": "column_break_kfbg",
+   "fieldname": "column_break_dcqe",
    "fieldtype": "Column Break"
   },
   {
@@ -156,16 +156,13 @@
    "fieldname": "email",
    "fieldtype": "Data",
    "label": "Email"
-  },
-  {
-   "fieldname": "html_okxf",
-   "fieldtype": "HTML"
   }
  ],
  "image_field": "university_logo",
  "index_web_pages_for_search": 1,
+ "issingle": 1,
  "links": [],
- "modified": "2024-07-30 00:32:22.385992",
+ "modified": "2024-07-30 01:04:54.313831",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "My University",
@@ -175,10 +172,8 @@
    "create": 1,
    "delete": 1,
    "email": 1,
-   "export": 1,
    "print": 1,
    "read": 1,
-   "report": 1,
    "role": "System Manager",
    "share": 1,
    "write": 1

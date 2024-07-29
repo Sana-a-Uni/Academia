@@ -17,7 +17,7 @@ class MyUniversity(Document):
 		abbr: DF.Data
 		city: DF.Data
 		country: DF.Link
-		date_of_establishment: DF.Date | None
+		date_of_establishment: DF.Date
 		description: DF.TextEditor | None
 		email: DF.Data | None
 		fax: DF.Data | None
