@@ -15,6 +15,7 @@ class AssignmentAssessment(Document):
 		from academia.lms.doctype.assignment_assessment_details.assignment_assessment_details import AssignmentAssessmentDetails
 		from frappe.types import DF
 
+		amended_from: DF.Link | None
 		assessment_date: DF.Datetime | None
 		assignment_assessment_details: DF.Table[AssignmentAssessmentDetails]
 		assignment_submission: DF.Link | None
