@@ -401,7 +401,7 @@ def create_topic_from_transaction(
 		else:
 			target_doc.save()
 		frappe.db.commit()
-		copy_attachments_to_topic("Transaction", transaction_name, "Topoc", target_doc.name)
+		copy_attachments_to_topic("Transaction", transaction_name, "Topic", target_doc.name)
 	except frappe.PermissionError:
 		frappe.throw(_("Not permitted"), frappe.PermissionError)
 
