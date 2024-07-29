@@ -36,7 +36,23 @@ frappe.ui.form.on("Tenure Request", {
             });
         }
     },
+    // End of the function
 
+    // FN: validate 'attachment' extensions
+    attachment: function (frm) {
+        var attachment = frm.doc.attachment;
+        if (attachment) {
+            var allowed_extensions = ['.pdf', '.png', '.jpg', '.jpeg'];
+            var attachment_extension = attachment.split('.').pop().toLowerCase();
+            if (!allowed_extensions.includes('.' + attachment_extension)) {
+                frm.doc.attachment = null; // Clear the attachment field
+                frm.refresh_field('attachment');
+                frappe.throw(__("Attachment File has an invalid extension. Only files with extensions {0} are allowed.", [allowed_extensions.join(', ')])); frappe.validated = false;
+            } else {
+                frappe.validated = true;
+            }
+        }
+    },
     // End of the function
 
 });

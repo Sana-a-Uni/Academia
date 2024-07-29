@@ -19,9 +19,11 @@ class TenureRequest(Document):
 
 		academic_rank: DF.Link
 		amended_from: DF.Link | None
+		attachment: DF.Attach | None
 		company: DF.Link
 		date: DF.Date | None
 		department: DF.Link | None
+		email: DF.Data
 		evaluations: DF.TableMultiSelect[Evaluations]
 		faculty: DF.Link
 		faculty_member: DF.Link

@@ -77,9 +77,10 @@ class AcademicPublication(Document):
 
     # FN: validate 'date_of_publish' field
     def validate_date(self):
+            today = frappe.utils.today()
             if self.date_of_publish:
-                if self.date_of_publish > frappe.utils.today():
-                    frappe.throw(_("Date of publish must be less than or equal to today's date."))
+                if self.date_of_publish > today:
+                    frappe.throw(_("Date of publish cannot be in the future."))
     # End of the function
 
 

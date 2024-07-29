@@ -29,7 +29,7 @@ frappe.ui.form.on("Faculty Member", {
         frm.events.validate_extension(frm);
         frm.events.validate_child_extension(frm, 'faculty_member_academic_ranking', 'attachment', "Attachment File");
         frm.events.validate_child_extension(frm, 'faculty_member_training_course', 'certification', "Certification File");
-
+        frm.events.validate_date(frm);
     },
     // End of validate event
 
@@ -64,6 +64,70 @@ frappe.ui.form.on("Faculty Member", {
     },
     // End of the function
 
+    // FN: validate dates of child tables
+    validate_date: function (frm) {
+        const today = frappe.datetime.get_today();
+        frm.doc['faculty_member_training_course'].forEach(function (row) {
+            if (row.starts_on) {
+                if (row.starts_on > today) {
+                    frappe.throw(__('Start date in training courses table cannot be in the future.'));
+                }
+            }
+            if (row.ends_on) {
+                if (row.ends_on > today) {
+                    frappe.throw(__('End date in training courses table cannot be in the future.'));
+                }
+            }
+            if (row.starts_on && row.ends_on) {
+                if (row.ends_on < row.starts_on) {
+                    frappe.throw(__('End date in training courses table must be after the start date.'));
+                }
+            }
+        });
+
+        frm.doc['faculty_member_conference_and_workshop'].forEach(function (row) {
+            if (row.starts_on) {
+                if (row.starts_on > today) {
+                    frappe.throw(__('Start date in conferences and workshops table cannot be in the future.'));
+                }
+            }
+            if (row.ends_on) {
+                if (row.ends_on > today) {
+                    frappe.throw(__('End date in conferences and workshops table cannot be in the future.'));
+                }
+            }
+            if (row.starts_on && row.ends_on) {
+                if (row.ends_on < row.starts_on) {
+                    frappe.throw(__('End date in conferences and workshops table must be after the start date.'));
+                }
+            }
+        });
+
+        frm.doc['faculty_member_university_and_community_service'].forEach(function (row) {
+            if (row.date) {
+                if (row.date > today) {
+                    frappe.throw(__('Date in university and community services table cannot be in the future.'));
+                }
+            }
+        });
+
+        frm.doc['faculty_member_activity'].forEach(function (row) {
+            if (row.date) {
+                if (row.date > today) {
+                    frappe.throw(__('Date in activities table cannot be in the future.'));
+                }
+            }
+        });
+
+        frm.doc['faculty_member_award_and_appreciation_certificate'].forEach(function (row) {
+            if (row.date) {
+                if (row.date > today) {
+                    frappe.throw(__('Date in awards and appreciation certificates table cannot be in the future.'));
+                }
+            }
+        });
+    },
+    // End of the function
 
     // FN: Clearing faculty field when value of company changes
     company: function (frm) {
@@ -87,20 +151,23 @@ frappe.ui.form.on("Faculty Member", {
     },
     // End of the function
 
+
+
+
 });
 // // End of standard form scripts
 
 frappe.ui.form.on('Faculty Member', {
-    refresh: function(frm) {
+    refresh: function (frm) {
 
     },
-    from_another_university: function(frm) {
+    from_another_university: function (frm) {
 
         // Get the selected university
         let selected_university = frm.doc.from_another_university;
 
         // Set filter for the external faculty field based on the selected university
-        frm.set_query('external_faculty', function() {
+        frm.set_query('external_faculty', function () {
             return {
                 filters: {
                     university: selected_university
