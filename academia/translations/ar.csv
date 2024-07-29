@@ -1,248 +1,39 @@
-
-Faculty Member, عضو هيئة التدريس,
-Personal Information, المعلومات الشخصية,
-Series, التسلسل,
-Employee, الموظف,
-Faculty Member Name, اسم عضو هيئة التدريس,
-Faculty Member Name (English), اسم عضو هيئة التدريس (بالإنجليزية),
-Nationality, الجنسية,
-Company, الشركة,
-Department, القسم,
-Faculty, الكلية,
-Date of Joining in Service, تاريخ التعيين في الخدمة,
-Date of Joining in University, تاريخ التعيين في الجامعة,
-Google Scholar Profile Link, رابط الملف الشخصي في Google Scholar,
-Image, الصورة,
-Personal Skills, المهارات الشخصية,
-Languages, اللغات,
-Courses, المواد,
-Current Academic Data, البيانات الأكاديمية الحالية,
-Academic Rank, الرتبة الأكاديمية,
-Employment Type, نوع التوظيف,
-Tenure Status, حالة التثبيت,
-General Field, التخصص العام,
-Specialist Field, التخصص الدقيق,
-Tenure Data, بيانات التثبيت,
-Decision Number, رقم القرار,
-Date, التاريخ,
-Decision Attachment, ملف القرار,
-Academic Services, الخدمات الأكاديمية,
-From Another University, من جامعة أخرى,
-Overview, نظرة عامة,
-Profile, الملف الشخصي,
-Academic Ranking, الرتب الأكاديمية,
-Training Courses, الدورات التدريبية,
-Conferences and Workshops, المؤتمرات وورش العمل,
-University and Community Services, خدمات الجامعة والمجتمع,
-Activities, الأنشطة,
-Awards and Appreciation Certificates, الجوائز وشهادات التقدير,
-Faculty Member Academic Ranking, الرتب الأكاديمية الخاصة بعضو هيئة التدريس,
-Granting Authority, الجهة المانحة,
-Country, البلد,
-Thesis Title, عنوان الأطروحة,
-Master's or Doctoral Thesis Title, عنوان الأطروحة للماجستير أو الدكتوراه,
-Attachment, المرفق,
-Faculty Member Academic Services, الخدمات الأكاديمية الخاصة بعضو هيئة التدريس,
-Academic Service, الخدمة الأكاديمية,
-Academic Services, الخدمات الأكاديمية,
-Academic Service Name, اسم الخدمة الأكاديمية,
-Description, الوصف,
-Faculty Member Training Course, الدورة التدريبية الخاصة بعضو هيئة التدريس,
-Course Name, اسم الدورة,
-Location, الموقع,
-Starts on, تاريخ البداية,
-Ends on, تاريخ النهاية,
-As a Trainer, كمدرب,
-Certification, الشهادة,
-Faculty Member Conference and Workshop, المؤتمر أو ورشة العمل الخاصة بعضو هيئة التدريس,
-Name, الاسم,
-Participation Type, نوع المشاركة,
-Faculty Member Award and Appreciation Certificate, الجائزة أو شهادة التقدير الخاصة بعضو هيئة التدريس,
-Appreciation Type, نوع التقدير,
-Faculty Member University and Community Service, خدمة الجامعة أو المجتمع الخاصة بعضو هيئة التدريس,
-Consultation Type, نوع الاستشارة,
-Benefiting Authority, الجهة المستفيدة,
-Faculty Member Activity, النشاط الخاص بعضو هيئة التدريس,
-Activity Name, اسم النشاط,
-Organization Name, اسم المنظمة,
-Faculty Member Language, اللغة الخاصة بعضو هيئة التدريس,
-Language, اللغة,
-Faculty Member Course, المادة الخاصة بعضو هيئة التدريس,
-Course, المادة,
-Tenure Evaluation Request, طلب تقييم خاص بالتثبيت,
-Details, التفاصيل,
-Evaluation, التقييم,
-Other Details, تفاصيل أخرى,
-Academic Year, السنة الأكاديمية,
-Academic Term, الفصل الدراسي,
-Attachment for signed evaluation sheet, مرفق لورقة التقييم الموقعة,
-Amended From, معدل من,
-Template, القالب,
-Department Head's Notes, ملاحظات رئيس القسم,
-Tenure Evaluation Criteria, معايير التقييم الخاصة بالتثبيت,
-Criterion, المعيار,
-Tenure Request, طلب التثبيت,
-Evaluations, التقييمات,
-Academic Publication Type, نوع المنشور الأكاديمي,
-Publication Type, نوع المنشور,
-Evaluation Criteria, معايير التقييم,
-Faculty Member Evaluation, التقييم الخاص بعضو هيئة التدريس,
-Evaluation Request, طلب التقييم,
-Evaluation Criteria Template, قالب معايير التقييم,
-Criteria, المعايير,
-Evaluation Criterion, معيار التقييم,
-Journal, المجلة,
-Journal Name, اسم المجلة,
-H-Index, مؤشر H-Index,
-ISSN, الرقم المعياري للمجلة,
-International Standard Serial Number,  الرقم المعياري الدولي للمجلة (ISSN),
-Website Link, رابط الموقع الإلكتروني,
-Quarter Classification, تصنيف الربع,
-Impact Factor, عامل التأثير,
-Journal Type, نوع المجلة,
-Internal Journal, مجلة داخلية,
-Check if journal belongs to the university, تحقق مما إذا كانت المجلة تنتمي إلى الجامعة,
-Journal Weight, وزن المجلة,
-"Journal with higher type should get higher weight. For instance, indexed journals have a weight of 2, while Q4 journals have a weight of 3.", المجلات ذات النوع الأعلى يجب أن تحصل على وزن أعلى. على سبيل المثال، المجلات المفهرسة لها وزن 2، بينما المجلات من فئة Q4 لها وزن 3.,
-Academic Author, المؤلف الأكاديمي,
-Author Name, اسم المؤلف,
-Author Order, ترتيب المؤلف,
-Scientific Article, المقالة العلمية,
-Title, العنوان,
-Published in, نُشرت في,
-Date of Publish, تاريخ النشر,
-Article Link, رابط المقالة,
-Article Authors, مؤلفو المقالة,
-Scientific Article Author, مؤلف المقالة العلمية,
-Academic Publication, المنشور الأكاديمي,
-APA Citation, نمط الاقتباس APA,
-From Page, من الصفحة,
-To Page, إلى الصفحة,
-Page Numbers, أرقام الصفحات,
-Publication Link, رابط المنشور,
-Publication File, ملف المنشور,
-Publication Authors, مؤلفو المنشور,
-Academic Publication Author, مؤلف المنشور الأكاديمي,
-Academic Rank Name, اسم الرتبة الأكاديمية,
-Nationality Name, اسم الجنسية,
-Scientific Degree, الدرجة العلمية,
-Scientific Degree Name, اسم الدرجة العلمية,
-Authority, الجهة,
-Authority Name, اسم الجهة,
-Academia, أكاديمي,
-New Journal , مجلة جديدة,
-New Scientific Article , مقال علمي جديد,
-New Academic Publication , منشور أكاديمي جديد,
-New Tenure Evaluation Request , طلب تقييم خاص بالتثبيت جديد,
-New Evaluation Criterion , معيار تقييم جديد,
-New Evaluation Criteria Template , قالب معايير تقييم جديد,
-New Academic Rank , رتبة أكاديمية جديدة,
-New Tenure Request , طلب تثبيت جديد,
-New Faculty Member , عضو هيئة تدريس جديد,
-New Authority , جهة جديدة,
-New Consultation Type , نوع استشارة جديد,
-New Appreciation Type , نوع تقدير جديد,
-New Academic Publication Type , نوع منشور أكاديمي جديد,
-New Nationality , جنسية جديدة,
-New Journal Type , نوع مجلة جديد,
-New Scientific Degree , درجة علمية جديدة,
-My Profile, ملفي الشخصي,
-My Settings, إعداداتي,
-Toggle Full Width, تبديل العرض الكامل,
-Toggle Theme, تبديل السمة,
-Log out, تسجيل الخروج,
-Edit Full Form, تحرير النموذج الكامل,
-Documentation, التوثيق,
-User Forum, منتدى المستخدمين,
-Frappe School, مدرسة فرابي,
-Report an Issue, الإبلاغ عن مشكلة,
-About, حول,
-Frappe Support, دعم فرابي,
-List View, عرض القائمة,
-Copy to Clipboard, نسخ إلى الحافظة,
-Remind Me, ذكرني,
-Undo, تراجع,
-Redo, إعادة,
-Previous Document, المستند السابق,
-Next Document, المستند التالي,
-No., الرقم,
-Draft, مسودة,
-Send Request, إرسال الطلب,
-Pending Evaluation, في انتظار التقييم,
-Send Evaluation, إرسال التقييم,
-Pending Approval, في انتظار الموافقة,
-Approve, موافقة,
-Connections, الارتباطات,
-Publication, النشر,
-Tenure, التثبيت,
-Submitted, تم تقديمه,
-Attachment File has an invalid extension. Only files with extensions {0} are allowed., امتداد الملف المرفق غير صالح. يُسمح فقط بالملفات التي تحمل الامتدادات التالية {0},
-No Department Head found for the selected department., لم يتم العثور على رئيس قسم للقسم المحدد.,
-Evaluation Parties Information, معلومات أطراف التقييم,
-Evaluatee, المُقيَّم,
-Evaluator, المُقيِّم,
-Evaluatee Information, معلومات المُقيَّم,
-Publication File has an invalid extension. Only files with extensions {0} are allowed., امتداد ملف النشر غير صالح. يُسمح فقط بالملفات التي تحمل الامتدادات التالية {0},
-Author name cannot be duplicated., لا يمكن تكرار اسم المؤلف.,
-Author order cannot be duplicated., لا يمكن تكرار ترتيب المؤلف.,
-Please fill both 'From Page' and 'To Page' fields., يُرجى تعبئة كلا الحقلين 'من الصفحة' و'إلى الصفحة'.,
-Page numbers must be integer., يجب أن تكون أرقام الصفحات أعداد صحيحة.,
-Page numbers must be positive., يجب أن تكون أرقام الصفحات موجبة.,
-First page number must be less than last page number., يجب أن يكون رقم الصفحة الأولى أصغر من رقم الصفحة الأخيرة.,
-"Publication Link is not valid. Please enter a valid URL starting with http, https, or ftp.",  رابط النشر غير صحيح. يُرجى إدخال عنوان URL صحيح يبدأ بـ http أو https أو ftp.,
-Date of publish must be less than or equal to today's date., تاريخ النشر يجب أن يكون أصغر من أو يساوي تاريخ اليوم.,
-First, الأول,
-Second, الثاني,
-Third, الثالث,
-Fourth, الرابع,
-Fifth, الخامس,
-Sixth, السادس,
-Seventh, السابع,
-Publication type should only contain letters., نوع النشر يجب أن يحتوي على أحرف فقط.,
-Academic rank name should only contain letters., اسم الرتبة الأكاديمية يجب أن يحتوي على أحرف فقط.,
-Appreciation type should only contain letters., نوع التقدير يجب أن يحتوي على أحرف فقط.,
-Authority name should only contain letters., اسم الجهة يجب أن يحتوي على أحرف فقط.,
-Generate Evaluation Forms, إنشاء نماذج التقييم,
-"Please <strong>save your changes</strong> to generate evaluation forms.","يُرجى <strong>حفظ التغييرات</strong> لإنشاء نماذج التقييم."
-No data in faculty members table to generate evaluation forms., لا توجد بيانات في جدول أعضاء هيئة التدريس لإنشاء نماذج التقييم.,
-Academic Evaluation created successfully for: , تم إنشاء التقييم الأكاديمي بنجاح لـ: ,
-Faculty Members, أعضاء هيئة التدريس,
-Evaluation Template, قالب التقييم,
-Evaluation Form Generator Tool, أداة إنشاء نماذج التقييم,
-On Probation, تحت فترة التجربة,
-Tenured, مثبّت,
-Employee {0} is already assigned to {1}, الموظف {0} تم تعيينه بالفعل إلى {1},
-Date of Service Appointment must be before Date of University Appointment., يجب أن يكون تاريخ التعين بالخدمة قبل تاريخ التعيين بالجامعة,
-Date of Service Appointment cannot be after today's date., تاريخ التعيين بالخدمة لا يمكن أن يكون بعد تاريخ اليوم,
-Date of University Appointment cannot be after today's date., تاريخ التعيين بالجامعة لا يمكن أن يكون بعد تاريخ اليوم,
-"Google Scholar Profile Link is not valid. Please enter a valid URL starting with http, https, or ftp.", رابط ملف Google Scholar غير صالح. يُرجى إدخال عنوان URL صالح يبدأ بـ http أو https أو ftp,
-Decision Number should contain only digits., يجب أن يحتوي رقم القرار على أرقام فقط.,
-Probation periods not found in Faculty Member Settings for <b>{0}</b> from this date. Please create appropriate settings., لم يتم العثور على فترات التجربة في إعدادات أعضاء هيئة التدريس لـ <b>{0}</b> من هذا التاريخ. يُرجى إنشاء الإعدادات المناسبة.,
-Missing Probation Settings, إعدادات التجربة المفقودة,
-Error parsing probation end date: {0}, خطأ في تحليل تاريخ نهاية التجربة: {0},
-Date Parsing Error, خطأ في تحليل التاريخ,
-Decision File has an invalid extension. Only files with extensions {0} are allowed., امتداد ملف القرار غير صالح. يُسمح فقط بالملفات التي تحمل الامتدادات التالية {0},
-Date cannot be in the future., لا يمكن أن يكون التاريخ في المستقبل.,
-Activity name should only contain letters., اسم النشاط يجب أن يحتوي على حروف فقط.,
-Organization name should only contain letters., اسم المنظمة يجب أن يحتوي على حروف فقط.,
-Date of End must be after Date of Start., تاريخ الانتهاء يجب أن يكون بعد تاريخ البداية.,
-Name should only contain letters., الاسم يجب أن يحتوي على حروف فقط.,
-Course name should only contain letters., اسم الدورة يجب أن يحتوي على حروف فقط.,
-Journal name should only contain letters., اسم السجل يجب أن يحتوي على حروف فقط.,
-H-Index should only contain numbers., H-Index يجب أن يحتوي على أرقام فقط.,
-ISSN should be in the format XXXX-XXXX or XXXX XXXX, where X represents a digit., يجب أن يكون رقم ISSN بالصيغة XXXX-XXXX أو XXXX XXXX، حيث يمثل X رقمًا.,
-"Website Link is not valid. Please enter a valid URL starting with http, https, or ftp.", رابط الموقع غير صالح. يرجى إدخال عنوان URL صالح يبدأ بـ http أو https أو ftp.,
-Journal Type Name should only contain letters and numbers., اسم نوع المجلة يجب أن يحتوي على الأحرف والأرقام فقط.,
-Journal Weight should only contain numbers., وزن المجلة يجب أن يحتوي على أرقام فقط.,
-Nationality name should only contain letters., اسم الجنسية يجب أن يحتوي على أحرف فقط.,
-Article Title should only contain letters., عنوان المقال يجب أن يحتوي على الأحرف فقط.,
-Date of publish cannot be in the future., تاريخ النشر لا يمكن أن يكون في المستقبل.,
-"Article Link is not valid. Please enter a valid URL starting with http, https, or ftp.", رابط المقال غير صالح. يرجى إدخال عنوان URL صالح يبدأ بـ http أو https أو ftp.,
-Scientific degree should only contain letters and single quotes., الدرجة العلمية يجب أن تحتوي على الأحرف وعلامات الاقتباس المفردة فقط.,
-"Dear {0}, you are not eligible for granting tenure.", عزيزي {0}، أنت غير مؤهل لمنح الترقية.,
-"Dear {0}, there are no submitted academic evaluations associated with you.", عزيزي {0}، لا توجد تقييمات أكاديمية قد تم تقديمها مرتبطة بك.,
-
 /app/student-group-tool?student_group={0}&based_on={1}&grouping_by={2},/app/student-group-tool?student_group={0}&based_on={1}&grouping_by={2},
+"<h4>How to Access Data</h4>
+<p>You can access the data using the following codes:</p>
+<pre dir=""rtl"">- Topic Title: {{ topic.title }}
+- Topic Status: {{ topic.status }}
+- Decision Type: {{ topic.decision_type }}
+- Topic Date: {{ topic.topic_date }}
+- Main Category Type: {{ topic.category }}
+- Sub Catygory Type: {{ topic.sub_category }}
+- Council: {{ session.council }}
+- Session Date: {{ session.date }}
+- Session Start Time: {{ session.begin_time }}
+- Session End Time: {{ session.end_time }}
+- Applicant (Single Person): {{topic.applicants[0][""applicant_name""]}}
+- Applicants (Multiple Persons):{% for applicant in topic.applicants %}
+                            {{ applicant[""applicant_name""] }}
+                            {% endfor %}
+</pre>
+<h4 dir=""rtl"">Templates are implemented using Jinja language. To learn more about Jinja, <a class=""strong"" href=""https://jinja.palletsprojects.com/en/3.1.x/"">read this documentation.</a></h4>","<h4>كيفية الوصول إلى البيانات</h4>
+<p>يمكنك الوصول إلى البيانات باستخدام الرموز التالية:</p>
+<pre dir=""rtl"">- عنوان الموضوع: {{ topic.title }}
+- حالة الموضوع: {{ topic.status }}
+- نوع القرار: {{ topic.decision_type }}
+- تاريخ الموضوع: {{ topic.topic_date }}
+- نوع الفئة الرئيسية: {{ topic.category }}
+- نوع الفئة الفرعية: {{ topic.sub_category }}
+- المجلس: {{ session.council }}
+- تاريخ الجلسة: {{ session.date }}
+- وقت بدء الجلسة: {{ session.begin_time }}
+- وقت انتهاء الجلسة: {{ session.end_time }}
+- مقدم الطلب (شخص واحد): {{topic.applicants[0][""applicant_name""]}}
+- المتقدمون (أشخاص متعددون):{% for advance in topic.applicants %}
+ {{ apply[""applicant_name""] }}
+ {% endfor %}
+</pre>
+<h4 dir=""rtl"">يتم تنفيذ القوالب باستخدام لغة Jinja. لمعرفة المزيد عن Jinja، <a class=""strong"" href=""https://jinja.palletsprojects.com/en/3.1.x/"">اقرأ هذه الوثائق.</a></h4>",
 A+,+A,
 A-,-A,
 AB+,+AB,
@@ -259,16 +50,19 @@ Absent with Excuse,غائب بعذر,
 Absent without Excuse,غائب بدون عذر,
 Academia,أكاديمي,
 Academic,أكاديمي,
+Academic Arbitrators,المحكمون الأكاديميون,
 Academic Attendance,الحضور الأكاديمي,
 Academic Attendance Tool,أداة الحضور الأكاديمي,
 Academic Author,المؤلف الأكاديمي,
 Academic Evaluation,التقييم الأكاديمي,
+Academic Evaluation created successfully for: ,تم إنشاء التقييم الأكاديمي بنجاح لـ:,
 Academic Level,المستوى الأكاديمي,
 Academic Manager,مدير أكاديمي,
 Academic Program,برنامج اكاديمي,
 Academic Publication,المنشور الأكاديمي,
 Academic Publication Author,مؤلف المنشور الأكاديمي,
 Academic Publication Type,نوع المنشور الأكاديمي,
+Academic Publications,المنشورات الأكاديمية,
 Academic Rank,الرتبة الأكاديمية,
 Academic Rank Name,اسم الرتبة الأكاديمية,
 Academic Ranking,الرتب الأكاديمية,
@@ -283,14 +77,16 @@ Academic User,المستخدم الأكاديمي,
 Academic Week,الأسبوع الأكاديمي,
 Academic Year,السنة الأكاديمية,
 Academic member,عضو أكاديمي,
+Academic rank name should only contain letters.,اسم الرتبة الأكاديمية يجب أن يحتوي على أحرف فقط.,
 Acceptable increase,زيادة مقبولة,
 Accepted,مقبول,
 Action Date,تاريخ الإجراء,
 Activities,الأنشطة,
 Activity Name,اسم النشاط,
+Activity name should only contain letters.,اسم النشاط يجب أن يحتوي على حروف فقط.,
 Add to Group,إضافة إلى المجموعة,
 Add to New Group,أضف إلى المجموعة الجديدة,
-Address,عنوان,
+Address,العنوان,
 Address Line 1,العنوان سطر 1,
 Address Line 2,العنوان سطر 2,
 Address and Contact,العناوين و التواصل,
@@ -321,23 +117,36 @@ Application Status,حالة الطلب,
 Applied,طلب,
 Apply Details,تطبيق التفاصيل,
 Appreciation Type,نوع التقدير,
+Appreciation type should only contain letters.,نوع التقدير يجب أن يحتوي على أحرف فقط.,
 Approval Date,تاريخ الموافقة,
 Approve,موافقة,
 Approved,موافق عليه,
 Approved Department Need,حاجة القسم المعتمدة,
 Approved Department Needs,احتياجات القسم المعتمدة,
+Arbitrator Name,اسم المحكم,
 Are you sure you want to delete the selected topics?,هل أنت متأكد من حذف المواضيع المحددة؟,
 Are you sure you want to reload opening field?<br>All data in the field will be lost.,هل أنت متأكد أنك تريد إعادة تحميل حقل الافتتاحية؟<br>سيتم فقدان كافة البيانات الموجودة في الحقل.,
+Are you sure you want to reset the topic to the original values from the transaction document?,هل أنت متأكد من أنك تريد إعادة تعيين الموضوع إلى القيم الأصلية من وثيقة المعاملة؟,
 Article Authors,مؤلفو المقالة,
 Article Link,رابط المقالة,
+"Article Link is not valid. Please enter a valid URL starting with http, https, or ftp.",رابط المقال غير صالح. يرجى إدخال عنوان URL صالح يبدأ بـ http أو https أو ftp.,
+Article Title should only contain letters.,عنوان المقال يجب أن يحتوي على الأحرف فقط.,
 As a Trainer,كمدرب,
+Assessment Criteria,معايير التقييم,
+Assessment Date,تاريخ التقييم,
 Asset Access Request,طلب الوصول إلى الأصول,
 Assignment,مهمة,
-Assignment Type,نوع المهمة,
+Assignment Assessment,تقييم الواجبات,
+Assignment Assessment Details,تفاصيل تقييم الواجبات,
+Assignment Submission,تقديم الواجبات,
+Assignment Submission ID is required,معرف تقديم الواجبات مطلوب,
+Assignment Title,عنوان الواجبات,
 Atleast one Topic has to be selected.,يجب اختيار موضوع واحد على الأقل.,
 Attachment,المرفق,
+Attachment File,ملف المرفقات,
+Attachment File has an invalid extension. Only files with extensions {0} are allowed.,امتداد الملف المرفق غير صالح. يُسمح فقط بالملفات التي تحمل الامتدادات التالية {0},
+Attachment Files,ملفات المرفقات,
 Attachment Label,تسمية المرفقات,
-Attachment Name,اسم المرفق,
 Attachment for signed evaluation sheet,مرفق لورقة التقييم الموقعة,
 Attachments,المرفقات,
 Attempts taken,المحاولات المتخذة,
@@ -350,10 +159,14 @@ Attendance marked successfully,تم تسجيل الحضور بنجاح,
 Attendee (Guest),الحضور (ضيف),
 Author Name,اسم المؤلف,
 Author Order,ترتيب المؤلف,
+Author name cannot be duplicated.,لا يمكن تكرار اسم المؤلف.,
+Author order cannot be duplicated.,لا يمكن تكرار ترتيب المؤلف.,
 Authority,الجهة,
 Authority Name,اسم الجهة,
+Authority name should only contain letters.,اسم الجهة يجب أن يحتوي على أحرف فقط.,
 Auto Course Enrollment,التسجيل التلقائي للدورة,
 Auto Created,إنشاء تلقائي,
+Auto Redirect,إعادة التوجيه التلقائية,
 Availability,توفر,
 Average of Attempts,متوسط المحاولات,
 Awards and Appreciation Certificates,الجوائز وشهادات التقدير,
@@ -383,13 +196,18 @@ Check if journal belongs to the university,تحقق مما إذا كانت ال�
 Check it if it is a research center.,التحقق من ذلك إذا كان مركز أبحاث.,
 Choose,يختار,
 Choose Group,اختر المجموعة,
+Circular,التعميم,
 City,مدينة,
 Clear Recipients,مسح المستلمين,
+Closed,مغلق,
 Co Requisites,متطلبات الشركة,
 Color,اللون,
+Comment,تعليق,
 Company,الشركة,
 Compensatory Lesson,الدرس التعويضي,
+Complete Time,وقت الإكمال,
 Completed,أكتمل,
+Completion Duration,مدة الإكمال,
 Conferences and Workshops,المؤتمرات وورش العمل,
 Connections,الارتباطات,
 Consultation Type,نوع الاستشارة,
@@ -418,19 +236,22 @@ Course Hours,ساعات الدورة,
 Course Image,صورة الدورة,
 Course Language,لغة الدورة,
 Course Name,اسم الدورة,
-Course Name in English,اسم الدورة باللغة الانجليزية,
+Course Name (English),اسم الدورة (باللغة الإنجليزية),
 Course Specification,مواصفات الدورة,
 Course Study,دراسة الدورة,
 Course Study Course,دورة دراسة الدورة,
 Course Study Tool,أداة دراسة الدورة,
 Course Type,دورة كتابية,
+Course name should only contain letters.,اسم الدورة يجب أن يحتوي على حروف فقط.,
 Courses,المواد,
 Create,انشاء,
+Create Topic,إنشاء موضوع,
 Created By,منشئه بواسطه,
 Credit Hours,الساعات المعتمدة,
 Criteria,المعايير,
 Criterion,المعيار,
 Current Academic Data,البيانات الأكاديمية الحالية,
+Current Academic Rank,الرتبة الأكاديمية الحالية,
 Current Academic Term,المدة الأكاديمية الحالية,
 Current Academic Year,السنة الدراسية الحالية,
 Current Level,المستوى الحالي,
@@ -440,25 +261,32 @@ Dashboard,لوحة القيادة,
 Date,التاريخ,
 Date Parsing Error,خطأ في تحليل التاريخ,
 Date and Time,التاريخ و الوقت,
-Date cannot be in the future,لا يمكن أن يكون التاريخ في المستقبل,
+Date cannot be in the future.,لا يمكن أن يكون التاريخ في المستقبل.,
 Date of Birth,تاريخ الميلاد,
 Date of Course Development,تاريخ تطوير الدورة,
-Date of End must be after Date of Start,يجب أن يكون تاريخ الانتهاء بعد تاريخ البدء,
+Date of End must be after Date of Start.,تاريخ الانتهاء يجب أن يكون بعد تاريخ البداية.,
 Date of Establishment,تاريخ التأسيس,
 Date of Joining in Service,تاريخ التعيين في الخدمة,
 Date of Joining in University,تاريخ التعيين في الجامعة,
 Date of Leaving,تاريخ المغادرة,
+Date of Obtaining the Academic Rank,تاريخ الحصول على الرتبة الأكاديمية,
+Date of Obtaining the Certificate,تاريخ الحصول على الشهادة,
+Date of Obtaining the Current Academic Rank,تاريخ الحصول على الرتبة الأكاديمية الحالية,
 Date of Programe Development,تاريخ تطوير البرنامج,
 Date of Publish,تاريخ النشر,
-Date of Service Appointment cannot be after today's date,لا يمكن أن يكون تاريخ تعيين الخدمة بعد تاريخ اليوم,
-Date of Service Appointment must be before Date of University Appointment,يجب أن يكون تاريخ التعيين في الخدمة قبل تاريخ التعيين في الجامعة,
-Date of University Appointment cannot be after today's date,لا يمكن أن يكون تاريخ التعيين بالجامعة بعد تاريخ اليوم,
-Date of publish must be less than or equal to today's date,يجب أن يكون تاريخ النشر أقل من أو يساوي تاريخ اليوم,
+Date of Service Appointment cannot be after today's date.,تاريخ التعيين بالخدمة لا يمكن أن يكون بعد تاريخ اليوم,
+Date of Service Appointment must be before Date of University Appointment.,يجب أن يكون تاريخ التعين بالخدمة قبل تاريخ التعيين بالجامعة,
+Date of University Appointment cannot be after today's date.,تاريخ التعيين بالجامعة لا يمكن أن يكون بعد تاريخ اليوم,
+Date of obtaining the current academic rank is not set.,تاريخ الحصول على الرتبة الأكاديمية الحالية غير محدد.,
+Date of publish cannot be in the future.,تاريخ النشر لا يمكن أن يكون في المستقبل.,
+Date of publish must be less than or equal to today's date.,تاريخ النشر يجب أن يكون أصغر من أو يساوي تاريخ اليوم.,
 "Dear {0}, there are no submitted academic evaluations associated with you.",عزيزي {0}، لم يتم تقديم تقييمات أكاديمية مرتبطة بك.,
 "Dear {0}, you are not eligible for granting tenure.",عزيزي {0}، أنت لست مؤهلاً لمنح الحيازة.,
-Decision,قرار,
+Decision,القرار,
 Decision Attachment,ملف القرار,
+Decision File has an invalid extension. Only files with extensions {0} are allowed.,امتداد ملف القرار غير صالح. يُسمح فقط بالملفات التي تحمل الامتدادات التالية {0},
 Decision Number,رقم القرار,
+Decision Number should contain only digits.,يجب أن يحتوي رقم القرار على أرقام فقط.,
 Decision Type,نوع القرار,
 Decision template applied successfully!,تم تطبيق نموذج القرار بنجاح!,
 Default Holiday List,قائمة العطل الافتراضية,
@@ -500,6 +328,7 @@ Effective Year,سنة النفاذ,
 Elective,اختياري,
 Eligibility and Details,الأهلية والتفاصيل,
 Email,البريد الإلكتروني,
+Emails are sent,تم إرسال رسائل البريد الإلكتروني,
 Employee,الموظف,
 Employee ,موظف,
 Employee Name,اسم الموظف,
@@ -518,13 +347,12 @@ Error adding topics,حدث خطأ أثناء إضافة المواضيع,
 Error adding topics!,خطأ في إضافة المواضيع!,
 Error calling server method!,خطأ في استدعاء طريقة الخادم!,
 Error creating group or adding topics!,حدث خطأ أثناء إنشاء عملية التجميع!,
-Error fetching decision template!,حدث خطأ أثناء جلب نموذج القرار!,
-Error fetching opening template!,حدث خطأ أثناء جلب قالب الفتح!,
 Error parsing probation end date: {0},خطأ في تحليل تاريخ انتهاء الاختبار: {0},
 Error removing topics,حدث خطأ أثناء إزالة المواضيع,
 Error removing topics!,خطأ في إزالة المواضيع!,
 Error rendering template,خطأ في عرض القالب,
-Essay,مقال,
+Error updating received status,خطأ في تحديث حالة الاستلام,
+"Error!, Please check the template and data fields.",خطأ!، يرجى التحقق من القالب وحقول البيانات.,
 Evaluatee,المقيم,
 Evaluatee Information,معلومات المقيّم,
 Evaluation,التقييم,
@@ -545,8 +373,8 @@ Excuse,العذر,
 Exit,خروج,
 External Entity,كيان خارجي,
 External Entity Designation,تعيين الكيان الخارجي,
+External Transactions By Type,المعاملات الخارجية حسب النوع,
 Facility,منشأة,
-Faculity,الكلية,
 Faculty,الكلية,
 Faculty Dean,عميد الكلية,
 Faculty Department,هيئة التدريس بالقسم,
@@ -555,6 +383,7 @@ Faculty Department Mission,رسالة قسم الكلية,
 Faculty Department Vision,رؤية قسم الكلية,
 Faculty Logo,شعار الكلية,
 Faculty Member,عضو هيئة التدريس,
+Faculty Member Academic Publications,المنشورات الأكاديمية لعضو هيئة التدريس,
 Faculty Member Academic Ranking,الرتب الأكاديمية الخاصة بعضو هيئة التدريس,
 Faculty Member Academic Services,الخدمات الأكاديمية الخاصة بعضو هيئة التدريس,
 Faculty Member Activity,النشاط الخاص بعضو هيئة التدريس,
@@ -563,6 +392,7 @@ Faculty Member Conference and Workshop,المؤتمر أو ورشة العمل �
 Faculty Member Course,المادة الخاصة بعضو هيئة التدريس,
 Faculty Member Evaluation,التقييم الخاص بعضو هيئة التدريس,
 Faculty Member Evaluation Form,استمارة تقييم عضو هيئة التدريس,
+Faculty Member ID is required,مطلوب معرف عضو هيئة التدريس,
 Faculty Member Language,اللغة الخاصة بعضو هيئة التدريس,
 Faculty Member Name,اسم عضو هيئة التدريس,
 Faculty Member Name (English),اسم عضو هيئة التدريس (بالإنجليزية),
@@ -575,19 +405,20 @@ Faculty Vision,رؤية الكلية,
 Fair,عدل,
 Father,الآب,
 Fax,فاكس,
+Feedback,Feedback,
 Female,أنثى,
 Field,حقل,
 Fields From Different Doctypes,الحقول من أنواع مختلفة,
 Fifth,الخامس,
 File,ملف,
 File Type,نوع الملف,
-File Upload,تحميل الملف,
 Filters,فلاتر,
 Finished,تم الانتهاء من,
 First,أول,
 First Name,الاسم الأول,
 First Name (EN),الاسم الأول (بالإنكليزية),
-Forth,رابعا,
+First page number must be less than last page number.,يجب أن يكون رقم الصفحة الأولى أصغر من رقم الصفحة الأخيرة.,
+Fourth,الرابع,
 Frappe School,مدرسة فرابي,
 Frappe Support,دعم فرابي,
 From,من,
@@ -599,7 +430,6 @@ From Designation,من التعيين,
 From Page,من الصفحة,
 From Time,من وقت,
 Full Electronic,إلكترونية كاملة,
-Fully Electronic,إلكترونية بالكامل,
 Gender,جنس,
 General,عام,
 General Application Terms,شروط التقديم العامة,
@@ -608,7 +438,6 @@ Generate,يولد,
 Generate Evaluation Forms,إنشاء نماذج التقييم,
 Generate groups,إنشاء مجموعات,
 Generated Successfully...,تم الإنشاء بنجاح...,
-Get Data From Transaction,جلب البيانات من المعاملة,
 Get Default Template,الحصول على القالب الافتراضي,
 Get Members,جلب الأعضاء,
 Get Needs,احصل على الاحتياجات,
@@ -620,6 +449,7 @@ Get Topics To Group,جلب المواضيع للمجموعة,
 Go To,اذهب إلى,
 Good,جيد,
 Google Scholar Profile Link,رابط الملف الشخصي في Google Scholar,
+"Google Scholar Profile Link is not valid. Please enter a valid URL starting with http, https, or ftp.",رابط ملف Google Scholar غير صالح. يُرجى إدخال عنوان URL صالح يبدأ بـ http أو https أو ftp,
 Grade,درجة,
 Grade out of,الصف من,
 Grading Basis,أساس الدرجات,
@@ -640,13 +470,21 @@ Guardian Details,تفاصيل الوصي,
 Guardian Name,اسم ولي الأمر,
 Guardians,أولياء الأمور,
 H-Index,مؤشر H-Index,
+H-Index should only contain numbers.,H-Index يجب أن يحتوي على أرقام فقط.,
 HR Manager,مدير الموارد البشرية,
 HR User,مستخدم الموارد البشرية,
+Has Sign,يحتوي على علامة,
+Head Designation,مسمى الوظيفة,
+Head Employee,الموظف الرئيسي,
+Head Name,اسم الرئيس,
+Help,مساعدة,
 High,مستوى عالي,
 High school year,السنة الدراسية الثانوية,
 Highest Grade,أعلى درجة,
+Hijri Date,التاريخ الهجري,
 Hour Type,نوع الساعة,
 Hours,ساعات,
+"ISSN should be in the format XXXX-XXXX or XXXX XXXX, where X represents a digit.",يجب أن يكون ISSN بتنسيق XXXX-XXXX أو XXXX XXXX، حيث يمثل X رقمًا.,
 Identification Number,رقم الهوية,
 Image,الصورة,
 Impact Factor,عامل التأثير,
@@ -657,6 +495,8 @@ Incoming,الوارد,
 Instruction,تعليمات,
 Instructor,المحاضر,
 Instructor Name,اسم المحاضر,
+Insufficient Publications,منشورات غير كافية,
+Insufficient Scientific Degree,درجة علمية غير كافية,
 Internal Journal,مجلة داخلية,
 International Standard Serial Number,الرقم المعياري الدولي للمجلة (ISSN),
 Introduction,مقدمة,
@@ -665,6 +505,7 @@ Is Active,نشط,
 Is Correct,صحيح,
 Is Eligible for Granting Tenure,مؤهلة لمنح الحيازة,
 Is Group,هل مجموعة,
+Is Received,تم الاستلام,
 Is Research Center,هل مركز الأبحاث,
 Job Advertisement,اعلان عن وظيفة,
 Job Advertisement Journal,مجلة الإعلان عن الوظائف,
@@ -672,7 +513,10 @@ Joining Date,تاريخ الانضمام,
 Journal,المجلة,
 Journal Name,اسم المجلة,
 Journal Type,نوع المجلة,
+Journal Type Name should only contain letters and numbers.,اسم نوع المجلة يجب أن يحتوي على الأحرف والأرقام فقط.,
 Journal Weight,وزن المجلة,
+Journal Weight should only contain numbers.,وزن المجلة يجب أن يحتوي على أرقام فقط.,
+Journal name should only contain letters.,اسم السجل يجب أن يحتوي على حروف فقط.,
 "Journal with higher type should get higher weight. For instance, indexed journals have a weight of 2, while Q4 journals have a weight of 3.",المجلات ذات النوع الأعلى يجب أن تحصل على وزن أعلى. على سبيل المثال، المجلات المفهرسة لها وزن 2، بينما المجلات من فئة Q4 لها وزن 3.,
 Keyboard Shortcuts,اختصارات لوحة المفاتيح,
 LMS,نظام إدارة التعلم,
@@ -687,6 +531,8 @@ Last Name,اسم العائلة,
 Last Name (EN),الاسم الأخير (بالإنكليزية),
 Late Entry,تأخر الدخول,
 Late Entry Time,وقت الدخول المتأخر,
+Late Transaction Actions,إجراءات المعاملات المتأخرة,
+Late Transactions,المعاملات المتأخرة,
 Latest Attempt,آخر محاولة,
 Leaving Certificate Number,ترك رقم الشهادة,
 Lecture,محاضرة,
@@ -704,6 +550,7 @@ Link Field,حقل الارتباط,
 Linked Fields,الحقول المرتبطة,
 Location,الموقع,
 Log out,تسجيل الخروج,
+Logo,شعار,
 Low,منخفض,
 Made By,مصنوع بواسطة,
 Main External Entity,الجهة الخارجية الرئيسية,
@@ -733,6 +580,8 @@ Marked Attendance HTML,HTML الحضور المميز,
 Marking Attendance,بمناسبة الحضور,
 Master Degree,درجة الماجستير,
 Master's or Doctoral Thesis Title,عنوان الأطروحة للماجستير أو الدكتوراه,
+Maximum  Grade,الدرجة القصوى,
+Maximum Grade,الدرجة القصوى,
 Maximum Research Period,الحد الأقصى لفترة البحث,
 Medium,متوسط,
 Member Name,اسم العضو,
@@ -746,7 +595,10 @@ Minute Hash,دقيقة هاش,
 Minute Settings,إعدادات الدقائق,
 Minute Title,عنوان الدقيقة,
 Minutes,الدقائق,
+Missing Date,تاريخ مفقود,
 Missing Probation Settings,إعدادات الاختبار المفقودة,
+Missing Promotion Settings,إعدادات الترقية مفقودة,
+Missing required field: {0},حقل مطلوب مفقود: {0},
 Mobile Number,رقم الهاتف المحمول,
 Monday,يوم الاثنين,
 Mother,أم,
@@ -759,14 +611,18 @@ My Settings,إعداداتي,
 Name,الاسم,
 Name Not Set,الاسم غير محدد,
 Name in English,الاسم باللغة الإنجليزية,
+Name should only contain letters.,الاسم يجب أن يحتوي على حروف فقط.,
 Naming Series,سلسلة التسمية,
 Nationality,الجنسية,
 Nationality Name,اسم الجنسية,
+Nationality name should only contain letters.,اسم الجنسية يجب أن يحتوي على أحرف فقط.,
 Need Aggregation,تحتاج التجميع,
 New Council Memo,مذكرة المجلس الجديدة,
+Next Academic Rank,الرتبة الأكاديمية التالية,
 No Council found for {0} department.,لم يتم العثور على مجلس لقسم {0}.,
 No Data,لا توجد بيانات,
 No Department Head found for the selected department,لم يتم العثور على رئيس قسم للقسم المحدد,
+No Department Head found for the selected department.,لم يتم العثور على رئيس قسم للقسم المحدد.,
 No Employee record found for the current user.,لم يتم العثور على سجل موظف للمستخدم الحالي.,
 No courses Found,لم يتم العثور على دورات,
 No courses and students Found,لم يتم العثور على الدورات والطلاب,
@@ -783,14 +639,17 @@ Number of courses,عدد الدورات,
 Number of incorrect answers,عدد الإجابات غير الصحيحة,
 O+,O+,
 O-,O-,
+Official,رسمي,
 Old Parent,الحساب الأب السابق,
 On Campus,في الحرم الجامعي,
 On Probation,تحت المراقبة,
 Online,متصل بالإنترنت,
 Opening,الافتتاحية,
+Opening template applied successfully!,تم تطبيق قالب الافتتاح بنجاح!,
 Option,اختيار,
 Ordinary Lesson,الدرس العادي,
 Organization Name,اسم المنظمة,
+Organization name should only contain letters.,اسم المنظمة يجب أن يحتوي على حروف فقط.,
 Other,آخر,
 Other Details,تفاصيل أخرى,
 Others,بدلات أخرى,
@@ -798,7 +657,10 @@ Outgoing,الصادر,
 Overdue,تأخير,
 Overview,نظرة عامة,
 PHD Degree,درجة الدكتوراه,
+PROMREQ-.YYYY.-.faculty_member_name.-,PROMREQ-.YYYY.-.faculty_member_name.-,
 Page Numbers,أرقام الصفحات,
+Page numbers must be integer.,يجب أن تكون أرقام الصفحات أعداد صحيحة.,
+Page numbers must be positive.,يجب أن تكون أرقام الصفحات موجبة.,
 Paid,مدفوع,
 Parent Category is mandatory if 'Is Group' is not checked.,"تعتبر الفئة الأصلية إلزامية إذا لم يتم تحديد ""هل المجموعة"".",
 Parent External Entity,الكيان الخارجي الأصلي,
@@ -811,7 +673,9 @@ Party Name,اسم الطرف,
 Party Type,نوع الطرف,
 Pending,معلق,
 Pending Approval,في انتظار الموافقة,
+Pending Approved,في انتظار الموافقة,
 Pending Evaluation,في انتظار التقييم,
+Pending Modified,في انتظار التعديل,
 Personal Details,تفاصيل شخصي,
 Personal Email,البريد الالكتروني الشخصية,
 Personal Information,المعلومات الشخصية,
@@ -819,6 +683,7 @@ Personal Skills,المهارات الشخصية,
 Phone No,رقم الهاتف,
 Place of Birth,مكان الميلاد,
 Please <strong>save your changes</strong> to generate evaluation forms.,الرجاء <strong>حفظ تغييراتك</strong> لإنشاء نماذج التقييم.,
+Please fill both 'From Page' and 'To Page' fields.,يُرجى تعبئة كلا الحقلين 'من الصفحة' و'إلى الصفحة'.,
 Please select a decision template.,الرجاء تحديد نموذج القرار.,
 Please select at least one Topic to add to a group.,يرجى تحديد موضوع واحد على الأقل لإضافته إلى المجموعة.,
 Please select the attendance status.,الرجاء تحديد حالة الحضور.,
@@ -848,13 +713,21 @@ Program Enrollment,ادراج البرنامج,
 Program Name,إسم البرنامج,
 Program Requirement,متطلبات البرنامج,
 Program Specification,مواصفات البرنامج,
+Promotion Not Eligible,الترقية غير مؤهلة,
+Promotion Request,طلب ترقية,
+Promotion Settings,إعدادات الترقية,
+Promotion settings not found for <b>{}</b>. Please create appropriate settings.,لم يتم العثور على إعدادات الترقية لـ <b>{}</b>. يرجى إنشاء الإعدادات المناسبة.,
 Publication Authors,مؤلفو المنشور,
 Publication File,ملف المنشور,
+Publication File has an invalid extension. Only files with extensions {0} are allowed.,امتداد ملف النشر غير صالح. يُسمح فقط بالملفات التي تحمل الامتدادات التالية {0},
 Publication Link,رابط المنشور,
+"Publication Link is not valid. Please enter a valid URL starting with http, https, or ftp.",رابط النشر غير صحيح. يُرجى إدخال عنوان URL صحيح يبدأ بـ http أو https أو ftp.,
 Publication Type,نوع المنشور,
+Publication type should only contain letters.,نوع النشر يجب أن يحتوي على أحرف فقط.,
+Publications Count,عدد المنشورات,
 Publish on website,نشر على الموقع,
 Published,نشرت,
-Published in,نشرت في,
+Published in,تم النشر في,
 Q1,س1,
 Q2,س2,
 Q3,س3,
@@ -874,6 +747,7 @@ Quiz Question,مسابقة السؤال,
 Quiz Result,نتيجة مسابقة,
 Randomize Question Order,ترتيب عشوائي للأسئلة,
 Reason For Leaving,سبب للمغادرة,
+Received,تلقيت,
 Recipient,مستلم,
 Recipient Company,الشركة المتلقية,
 Recipient Department,قسم المستفيدين,
@@ -889,6 +763,7 @@ Reference to Department Need Approval,الإشارة إلى القسم بحاج�
 Reference to Need Aggregation,إشارة إلى الحاجة إلى التجميع,
 Referenced Doctype,نوع المستند المشار إليه,
 Referenced Document,الوثيقة المشار إليها,
+Referenced Transaction,المعاملة المشار إليها,
 Refresh,تحديث,
 Reject,رفض,
 Rejected,مرفوض,
@@ -897,12 +772,18 @@ Relations,علاقات,
 Reload,تحديث,
 Report,تقرير,
 Report an Issue,الإبلاغ عن مشكلة,
+Request Approval,طلب الموافقة,
+Request Modification,طلب التعديل,
 Required,مطلوب,
+Required Period for  Promotion,الفترة المطلوبة للترقية,
+Required Scientific Degree,الدرجة العلمية المطلوبة,
 Requirement Name,اسم المطلب,
 Requirements,متطلبات,
 Research,ابحاث,
 Research or Thesis,بحث أو أطروحة,
 Researcher,الباحث,
+Reset Title & Description,إعادة تعيين العنوان والوصف,
+Reset to Original Values,إعادة التعيين إلى القيم الأصلية,
 Resolved,تم الحل,
 Results Display Settings,إعدادات عرض النتائج,
 Review & Decision,المراجعة والقرار,
@@ -923,6 +804,7 @@ Scientific Article,المقالة العلمية,
 Scientific Article Author,مؤلف المقالة العلمية,
 Scientific Degree,الدرجة العلمية,
 Scientific Degree Name,اسم الدرجة العلمية,
+"Scientific degree should only contain letters, spaces, hyphens, parentheses, and single quotes.",يجب أن تحتوي الدرجة العلمية فقط على أحرف ومسافات وواصلات وأقواس وعلامات اقتباس مفردة.,
 Seating Capacity,عدد المقاعد,
 Second,ثانية,
 Secondary Directorate,المديرية الثانوية,
@@ -938,6 +820,7 @@ Semester,نصف السنة,
 Semester Enrollment,التسجيل في الفصل الدراسي,
 Send Evaluation,إرسال التقييم,
 Send Request,إرسال الطلب,
+Send To Members,إرسال إلى الأعضاء,
 Series,التسلسل,
 Session,جلسة,
 Session Defaults,الجلسة الافتراضية,
@@ -950,6 +833,9 @@ Set the time,ضبط الوقت,
 Seventh,سابعا,
 Show Correct Answer,عرض الإجابة الصحيحة,
 Show Question Score,إظهار نقاط السؤال,
+Signatory Designation,تعيين الموقِّع,
+Signatory Name,اسم الموقِّع,
+Signatures,التوقيعات,
 Sitting number,رقم الجلوس,
 Sixth,السادس,
 Specialist Field,التخصص الدقيق,
@@ -965,6 +851,7 @@ Starts on,تاريخ البداية,
 State,حالة,
 Status,الحالة,
 Step,خطوة,
+Step Duration,مدة الخطوة,
 Student,طالب,
 Student Admission,قبول الطلاب,
 Student Admission Program,برنامج قبول الطالب,
@@ -972,7 +859,6 @@ Student Applicant,مقدم الطلب طالب,
 Student Batch,دفعة طالب,
 Student Category,طالب الفئة,
 Student Email Address,عنوان البريد الإلكتروني للطالب,
-Student Enrollment,تسجيل الطلاب,
 Student Group,المجموعة الطلابية,
 Student Group Instructor,مجموعة الطالب,
 Student Group Name,اسم المجموعة الطلابية,
@@ -996,7 +882,9 @@ Sub External Entity,الكيان الخارجي الفرعي,
 Sub Group,المجموعة الفرعية,
 Subgroup,مجموعة فرعية,
 Subject,موضوع,
+Submission Date,تاريخ الإرسال,
 Submit,تسجيل,
+Submit Time,وقت الإرسال,
 Submitted Academic Evaluations for Faculty Member,التقييمات الأكاديمية المقدمة لعضو هيئة التدريس,
 Suitable Environment,بيئة مناسبة,
 Sunday,الأحد,
@@ -1004,6 +892,7 @@ Supervisor,مشرف,
 Supporting Document,وثيقة مساعدة,
 System Manager,مدير النظام,
 TENUREQ-.YYYY.-.faculty_member_name.-,TENUREQ-.YYYY.-.faculty_member_name.-,
+Teaching Hours,ساعات التدريس,
 Template,القالب,
 Template Doctype,نموذج الوثيقة,
 Template Title,عنوان النموذج,
@@ -1049,6 +938,7 @@ Topic Applicant,مقدم الموضوع,
 Topic Attachment,مرفق الموضوع,
 Topic Date,تاريخ الموضوع,
 Topic Decision Template,قالب قرار الموضوع,
+Topic Status,حالة الموضوع,
 Topic {0} is already in group {1}.,الموضوع {0} موجود بالفعل في المجموعة {1}.,
 Topic {0} is not in draft state and can't be grouped anymore.,الموضوع {0} ليس في حالة مسودة للذلك لايمكن تجميعه.,
 Topic(s) added successfully.,تمت إضافة الموضوع (المواضيع) بنجاح.,
@@ -1067,6 +957,7 @@ Transaction Attachments,مرفقات المعاملات,
 Transaction Category,فئة الصفقة,
 Transaction Category  Requirement,متطلبات فئة المعاملة,
 Transaction Category Template,قالب فئة المعاملة,
+Transaction Company Head,رئيس شركة المعاملات,
 Transaction Creator Information,معلومات منشئ المعاملة,
 Transaction Description,عملية الوصف,
 Transaction Management,ادارة العمليات التجارية,
@@ -1076,10 +967,14 @@ Transaction Path,مسار المعاملات,
 Transaction Recipients,مستلمو المعاملات,
 Transaction Scan,مسح المعاملات,
 Transaction Scope,نطاق الصفقة,
+Transaction Settings,إعدادات المعاملات,
+Transaction Signatories,موقعو المعاملات,
 Transaction Template Fields,حقول قالب المعاملات,
 Transaction User,مستخدم المعاملة,
 Tuesday,الثلاثاء,
 Type,النوع,
+Type of Transaction,نوع المعاملة,
+Unexpected response from the server.,استجابة غير متوقعة من الخادم.,
 University,جامعة,
 University Email,البريد الإلكتروني الجامعي,
 University Name,اسم الجامعة,
@@ -1099,15 +994,21 @@ Video,فيديو,
 View Website,مشاهدة الموقع,
 Website,الموقع,
 Website Link,رابط الموقع الإلكتروني,
+"Website Link is not valid. Please enter a valid URL starting with http, https, or ftp.",رابط الموقع غير صالح. يرجى إدخال عنوان URL صالح يبدأ بـ http أو https أو ftp.,
 Wednesday,الأربعاء,
+Will Print Paper,سيتم طباعة ورقة,
 With External Entity,مع كيان خارجي,
 Workflow State,حالة سير العمل,
 Year End Date,تاريخ نهاية العام,
 Year Name,اسم العام,
 Year Start Date,تاريخ بدء العام,
+You cannot request a promotion yet. The required period of {0} months has not passed since {1}.,لا يمكنك طلب ترقية حتى الآن. لم تمر الفترة المطلوبة وهي {0} شهرًا منذ {1}.,
 "You cannot use {0}, please select from the list",لا يمكنك استخدام {0}، يرجى الاختيار من القائمة,
 You have to add at least one row for the credit hours table in {0} course specification...,يجب عليك إضافة صف واحد على الأقل لجدول الساعات المعتمدة في {0} مواصفات المقرر...,
+You need a {0} for Promotion. You currently have {2}.,تحتاج إلى {0} للترقية. لديك حاليًا {2}.,
+You need at least {0} publications for the rank of {1}. You currently have {2}.,تحتاج إلى {0} منشور على الأقل لرتبة {1}. لديك حاليًا {2}.,
 You should save this document before adding grouped topics!,يجب عليك حفظ هذه الوثيقة قبل إضافة المواضيع المجمعة!,
+assessed,تم التقييم,
 course,دورة,
 faculty,كلية,
 get courses,الحصول على دورات,
@@ -1116,7 +1017,7 @@ get students and courses,الحصول على الطلاب والدورات,
 is Multi Group,هي مجموعة متعددة,
 is Time-Bound,محدد زمنيا,
 lab,مختبر,
-opening template applied successfully!,تم تطبيق قالب الافتتاحية بنجاح!,
 state,حالة,
+status,الحالة,
+submitted,مُرسَل,
 {0} already exists in row {1},{0} موجود بالفعل في الصف {1},
-

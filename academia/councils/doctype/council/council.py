@@ -27,7 +27,7 @@ class Council(Document):
     def validate(self):
         validate_members(self.members)
     
-    def before_save(self):
+    def on_update(self):
         self.update_permissions()
 
     def update_permissions(self):
