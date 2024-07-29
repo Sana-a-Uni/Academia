@@ -27,14 +27,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick, watch } from "vue";
+import { ref, onMounted, nextTick } from "vue";
 import Quill from "quill";
 import { useAssignmentStore } from "@/stores/teacherStore/assignmentStore";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
 const emit = defineEmits(["assignment-created"]);
 const props = defineProps(["errors"]);
-
 const assignmentStore = useAssignmentStore();
 const quillEditor = ref(null);
 
@@ -60,15 +59,6 @@ onMounted(() => {
 		});
 	});
 });
-
-watch(
-	() => props.errors,
-	(newErrors) => {
-		if (newErrors.assignment_title || newErrors.instruction) {
-			console.log("Errors detected in assignment information:", newErrors);
-		}
-	}
-);
 
 const createAssignment = () => {
 	emit("assignment-created");

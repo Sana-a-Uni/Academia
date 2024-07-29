@@ -18,6 +18,7 @@ export const useAssignmentStore = defineStore("assignment", {
 		assignments: [],
 		loading: false,
 		error: null,
+		errors: {}, // For holding validation errors
 	}),
 	actions: {
 		async fetchAssignments(courseName) {
@@ -27,11 +28,7 @@ export const useAssignmentStore = defineStore("assignment", {
 				const response = await axios.get(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.assignment.fetch_assignments_for_course",
 					{
-						params: {
-							course: courseName,
-						},
-					},
-					{
+						params: { course: courseName },
 						headers: {
 							"Content-Type": "application/json",
 							Authorization: Cookies.get("authToken"),
@@ -47,6 +44,7 @@ export const useAssignmentStore = defineStore("assignment", {
 		},
 
 		async createAssignment() {
+			this.errors = {};
 			try {
 				const response = await axios.post(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.assignment.create_assignment",
@@ -58,19 +56,24 @@ export const useAssignmentStore = defineStore("assignment", {
 						},
 					}
 				);
-				if (response.status === 200) {
-					console.log("Assignment created successfully");
-					console.log(this.assignmentData);
+				if (response.data.status_code === 200) {
+					return { success: true };
 				} else {
-					console.error("Error creating assignment");
+					if (response.data.status_code === 400) {
+						this.errors = response.data.errors;
+					}
+					return { success: false };
 				}
 			} catch (error) {
-				console.error(
-					"Error creating assignment:",
-					error.response ? error.response.data : error
-				);
+				if (error.response && error.response.data && error.response.data.errors) {
+					this.errors = error.response.data.errors;
+				} else {
+					this.error = error.message || "An error occurred while creating assignment.";
+				}
+				return { success: false };
 			}
 		},
+
 		updateAssignmentData(partialData) {
 			this.assignmentData = { ...this.assignmentData, ...partialData };
 		},

@@ -7,16 +7,19 @@
 		/>
 		<AssignmentQuestion
 			v-if="currentView === 'questions'"
-			@go-back="currentView = 'information'"
-			@settings="handleSettings"
+			:questions="assignmentStore.assignmentData.assessment_criteria"
 			:errors="errors"
+			@go-back="currentView = 'information'"
+			@settings="currentView = 'settings'"
 		/>
 		<AssignmentSettings
 			v-if="currentView === 'settings'"
+			:errors="errors"
 			@go-back="currentView = 'questions'"
 			@save-settings="handleSaveSettings"
-			:errors="errors"
+			@files-uploaded="handleFilesUploaded"
 		/>
+		<SuccessDialog v-if="showDialog" :message="dialogMessage" @close="showDialog = false" />
 	</main-layout>
 </template>
 
@@ -27,12 +30,15 @@ import { useRouter } from "vue-router";
 import AssignmentInformation from "@/components/teacherComponents/assignment/AssignmentInformation.vue";
 import AssignmentQuestion from "@/components/teacherComponents/assignment/AssignmentQuestion.vue";
 import AssignmentSettings from "@/components/teacherComponents/assignment/AssignmentSettings.vue";
-import mainLayout from "@/components/MainLayout.vue";
+import mainLayout from "@/components/teacherComponents/layout/MainLayout.vue";
+import SuccessDialog from "@/components/teacherComponents/SuccessDialog.vue";
 
 const currentView = ref("information");
 const assignmentStore = useAssignmentStore();
 const router = useRouter();
 const errors = ref({});
+const showDialog = ref(false);
+const dialogMessage = ref("");
 
 const handleAssignmentCreated = () => {
 	currentView.value = "questions";
@@ -40,24 +46,32 @@ const handleAssignmentCreated = () => {
 
 const handleSaveSettings = async (settingsData) => {
 	assignmentStore.updateAssignmentData(settingsData);
-	await assignmentStore.createAssignment();
-	if (Object.keys(assignmentStore.errors).length === 0) {
-		resetFields();
-		router.push({ name: "assignments" });
-	} else {
-		errors.value = assignmentStore.errors;
-		if (errors.value.assignment_title || errors.value.instruction) {
-			currentView.value = "information";
-		} else if (errors.value.question_or_attachment || errors.value.assessment_criteria) {
-			currentView.value = "questions";
-		} else if (errors.value.from_date || errors.value.to_date) {
-			currentView.value = "settings";
+	try {
+		const response = await assignmentStore.createAssignment();
+		if (response.success) {
+			dialogMessage.value = "Your assignment has been created successfully.";
+			showDialog.value = true;
+			setTimeout(() => {
+				showDialog.value = false;
+				resetFields();
+				router.push({ name: "assignments" });
+			}, 1000); // Display the dialog for 1 second
+		} else {
+			errors.value = assignmentStore.errors;
+			// Redirect to the view where the error is
+			if (errors.value.assignment_title || errors.value.instruction) {
+				currentView.value = "information";
+			} else if (errors.value.questions || errors.value.assessment_criteria) {
+				currentView.value = "questions";
+			}
 		}
+	} catch (err) {
+		errors.value = { general: err.message || "An error occurred" };
 	}
 };
 
-const handleSettings = () => {
-	currentView.value = "settings";
+const handleFilesUploaded = (files) => {
+	assignmentStore.updateAssignmentData({ attachments: files });
 };
 
 const resetFields = () => {
@@ -72,5 +86,6 @@ const resetFields = () => {
 		assessment_criteria: [],
 		attachments: [],
 	};
+	errors.value = {};
 };
 </script>
