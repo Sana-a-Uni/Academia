@@ -29,7 +29,6 @@ frappe.query_reports["Faculty Member Details Report"] = {
 			label: __("Date of Joining"),
 			fieldname: "date_of_joining_in_university",
 			fieldtype: "Date",
-			options: "Date of Joining",
 		},
 		{
 			label: __("Employment Type"),
@@ -55,13 +54,6 @@ frappe.query_reports["Faculty Member Details Report"] = {
 				{ "value": "Left", "label": __("Left") },
 			],
 			default: "Active",
-		},
-		// {
-		// 	fieldname: "consolidate_leave_types",
-		// 	label: __("Consolidate Leave Types"),
-		// 	fieldtype: "Check",
-		// 	default: 1,
-		// 	depends_on: "eval: !doc.employee",
-		// }
+		}
 	],
 };
