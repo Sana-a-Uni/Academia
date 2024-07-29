@@ -50,8 +50,7 @@
    "in_list_view": 1,
    "label": "Level",
    "mandatory_depends_on": "eval:doc.is_multi_group == 0;",
-   "options": "Level",
-   "reqd": 1
+   "options": "Level"
   },
   {
    "fieldname": "column_break_jdfp",
@@ -72,7 +71,7 @@
    "in_list_view": 1,
    "label": "Program",
    "mandatory_depends_on": "eval:doc.is_multi_group == 0;",
-   "options": "Program Specification"
+   "options": "Academic Program"
   },
   {
    "fieldname": "section_break_stfq",
@@ -108,8 +107,8 @@
    "fieldname": "group",
    "fieldtype": "Link",
    "label": "Group",
-   "options": "Student Group",
-   "reqd": 1
+   "mandatory_depends_on": "eval:doc.is_multi_group == 0;",
+   "options": "Student Group"
   },
   {
    "fieldname": "faculty",
@@ -184,6 +183,7 @@
    "depends_on": "eval:doc.is_multi_group == 1;",
    "fieldname": "table_hfgk",
    "fieldtype": "Table",
+   "mandatory_depends_on": "eval:doc.is_multi_group == 1;",
    "options": "Multi Lesson Template"
   },
   {
@@ -209,7 +209,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-30 01:33:27.346472",
+ "modified": "2024-07-30 01:41:12.252880",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lesson",
