@@ -36,6 +36,7 @@
    "fieldname": "category_name",
    "fieldtype": "Data",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Category Name",
    "reqd": 1,
    "unique": 1
@@ -53,6 +54,7 @@
   {
    "fieldname": "company",
    "fieldtype": "Link",
+   "in_standard_filter": 1,
    "label": "Company",
    "options": "Company"
   },
@@ -66,6 +68,7 @@
    "fieldname": "parent_category",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": " Parent Category",
    "options": "Transaction Category"
   },
@@ -101,7 +104,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-07 21:50:23.886258",
+ "modified": "2024-07-29 09:23:17.404248",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Category",
