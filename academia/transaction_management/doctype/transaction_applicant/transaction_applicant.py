@@ -16,7 +16,7 @@ class TransactionApplicant(Document):
 
 		applicant: DF.DynamicLink
 		applicant_name: DF.Data
-		applicant_type: DF.Literal["", "Student", "Academic", "Employee", "User"]
+		applicant_type: DF.Literal["", "Student", "Employee", "User"]
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
