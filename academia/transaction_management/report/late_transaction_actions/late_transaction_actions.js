@@ -23,7 +23,7 @@ frappe.query_reports["Late Transaction Actions"] = {
 		},
         {
 			"fieldname": "filter_category",
-            "label": "Category",
+            "label": "Category",    
             "fieldtype": "Link",
             "options": "Transaction Category",
 		},
