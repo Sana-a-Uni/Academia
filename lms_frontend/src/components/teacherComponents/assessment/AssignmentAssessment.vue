@@ -1,5 +1,5 @@
 <template>
-	<div class="container" >
+	<div class="container">
 		<div class="assignment-panel">
 			<div :class="['panel-header', { 'grey-background': !showDetails }]">
 				<h4>Assignment Details</h4>
@@ -83,38 +83,151 @@
 				<textarea id="feedback" v-model="feedback" rows="10"></textarea>
 			</div>
 			<div class="buttons-section">
+				<button @click="cancel">Cancel</button>
 				<button @click="saveDraft">Save Draft</button>
 				<button @click="submitEvaluation">Submit</button>
 			</div>
+			<div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
 		</div>
+		<SuccessDialog v-if="showDialog" :message="dialogMessage" />
 	</div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
+import { useRoute, useRouter } from "vue-router";
 import { useAssessmentStore } from "@/stores/teacherStore/assessmentStore";
+import SuccessDialog from "@/components/teacherComponents/SuccessDialog.vue"; // تأكد من تعديل المسار حسب هيكل المشروع
 
 const props = defineProps({
 	details: {
 		type: Object,
 		required: true,
 	},
+	errors: {
+		type: Object,
+		default: () => ({}),
+	},
 });
 
 const store = useAssessmentStore();
-const criteriaGrades = ref(props.details.assessment_criteria.map(() => 0));
+const route = useRoute();
+const router = useRouter();
+const criteriaGrades = ref([]);
 const feedback = ref("");
 const showDetails = ref(false);
+const errorMessage = computed(() => store.error);
+const showDialog = ref(false);
+const dialogMessage = ref("");
 
 const toggleDetails = () => {
 	showDetails.value = !showDetails.value;
 };
 
-const saveDraft = () => {
-	console.log("Draft saved:", {
-		criteriaGrades: criteriaGrades.value,
-		feedback: feedback.value,
-	});
+const cancel = () => {
+	router.push({ name: "pendingAssessment" });
+};
+
+onMounted(async () => {
+	try {
+		const response = await fetchAssessmentDetails(route.params.submission_name);
+		if (response && response.error) {
+			throw new Error(response.error);
+		}
+	} catch (e) {
+		console.error("Error fetching assessment details:", e);
+		errorMessage.value = e.message;
+	}
+});
+
+const fetchAssessmentDetails = async (assignmentSubmissionName) => {
+	try {
+		const response = await store.fetchAssignmentAssessment(assignmentSubmissionName);
+		if (response && response.assignment_assessment_details) {
+			const assessmentData = response;
+			feedback.value = assessmentData.feedback || "";
+
+			criteriaGrades.value = props.details.assessment_criteria.map((criteria) => {
+				const detail = assessmentData.assignment_assessment_details.find(
+					(detail) => detail.assessment_criteria === criteria.name
+				);
+				return detail ? detail.grade : 0;
+			});
+		} else {
+			feedback.value = "";
+			if (props.details && props.details.assessment_criteria) {
+				criteriaGrades.value = props.details.assessment_criteria.map(() => 0);
+			}
+		}
+		return response;
+	} catch (e) {
+		console.error("Error in fetchAssessmentDetails:", e);
+		errorMessage.value = e.message;
+		return { error: e.message };
+	}
+};
+
+const saveDraft = async () => {
+	try {
+		if (props.details && props.details.assessment_criteria) {
+			const payload = {
+				assignment_submission: route.params.submission_name,
+				feedback: feedback.value,
+				assessment_date: formatDateTime(new Date()),
+				criteria_grades: props.details.assessment_criteria.map((criteria, index) => ({
+					assessment_criteria: criteria.name,
+					grade: criteriaGrades.value[index],
+				})),
+				status: "draft",
+			};
+
+			const response = await store.saveAssessment(payload);
+			if (response && response.status === "success") {
+				dialogMessage.value = "Draft saved successfully.";
+				showDialog.value = true;
+				setTimeout(handleDialogClose, 1000);
+			} else {
+				throw new Error(response.message);
+			}
+		}
+	} catch (e) {
+		console.error("Error saving draft:", e);
+		errorMessage.value = e.message;
+	}
+};
+
+const submitEvaluation = async () => {
+	try {
+		if (props.details && props.details.assessment_criteria) {
+			const payload = {
+				assignment_submission: route.params.submission_name,
+				feedback: feedback.value,
+				assessment_date: formatDateTime(new Date()),
+				criteria_grades: props.details.assessment_criteria.map((criteria, index) => ({
+					assessment_criteria: criteria.name,
+					grade: criteriaGrades.value[index],
+				})),
+				status: "submitted",
+			};
+
+			const response = await store.saveAssessment(payload);
+			if (response && response.status === "success") {
+				dialogMessage.value = "Evaluation submitted successfully.";
+				showDialog.value = true;
+				setTimeout(handleDialogClose, 1000); 
+			} else {
+				throw new Error(response.message);
+			}
+		}
+	} catch (e) {
+		console.error("Error submitting evaluation:", e);
+		errorMessage.value = e.message;
+	}
+};
+
+const handleDialogClose = () => {
+	showDialog.value = false;
+	router.push({ name: "pendingAssessment" });
 };
 
 const formatDateTime = (date) => {
@@ -127,21 +240,6 @@ const formatDateTime = (date) => {
 	const seconds = String(d.getSeconds()).padStart(2, "0");
 	return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 };
-
-const submitEvaluation = async () => {
-	const payload = {
-		assignment_submission:"20817d93e8-1",
-		feedback: feedback.value,
-		assessment_date: formatDateTime(new Date()),
-		criteria_grades: props.details.assessment_criteria.map((criteria, index) => ({
-			assessment_criteria: criteria.name,
-			grade: criteriaGrades.value[index],
-		})),
-	};
-
-	console.log("Payload to be sent:", payload);
-	await store.saveAssessment(payload);
-};
 </script>
 
 <style scoped>
@@ -150,7 +248,10 @@ body {
 	margin: 0;
 	padding: 0;
 }
-
+.error-message {
+	color: red;
+	margin-top: 10px;
+}
 .container {
 	display: flex;
 	width: 100%;
@@ -184,7 +285,7 @@ body {
 
 .panel-header h1 {
 	margin: 0;
-	font-size: 20px; /* تصغير حجم العنوان */
+	font-size: 20px;
 	display: flex;
 	align-items: center;
 }
@@ -250,6 +351,12 @@ body {
 .buttons-section button:first-of-type {
 	background-color: #f4f4f4;
 	color: #333;
+}
+
+.buttons-section button:nth-of-type(2) {
+	background-color: #007bff;
+	color: #fff;
+	margin-bottom: 10px;
 }
 
 .buttons-section button:last-of-type {

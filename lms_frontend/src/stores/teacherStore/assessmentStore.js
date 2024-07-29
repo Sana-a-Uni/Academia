@@ -8,6 +8,7 @@ export const useAssessmentStore = defineStore("assessmentStore", {
 		assignmentDetails: null,
 		loading: false,
 		error: null,
+		fieldErrors: {},
 	}),
 	actions: {
 		async fetchAssignments() {
@@ -56,9 +57,37 @@ export const useAssessmentStore = defineStore("assessmentStore", {
 				this.loading = false;
 			}
 		},
+		async fetchAssignmentAssessment(assignmentSubmissionId) {
+			this.loading = true;
+			this.error = null;
+			try {
+				const response = await axios.get(
+					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.get_assignment_assessment",
+					{
+						params: {
+							assignment_submission_id: assignmentSubmissionId,
+						},
+					},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
+						},
+					}
+				);
+				return response.data.message.data;
+			} catch (error) {
+				this.error =
+					error.message || "An error occurred while fetching assignment assessment.";
+				return { status: "error", message: this.error };
+			} finally {
+				this.loading = false;
+			}
+		},
 		async saveAssessment(payload) {
 			this.loading = true;
 			this.error = null;
+			this.fieldErrors = {};
 			try {
 				const response = await axios.post(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.save_assignment_assessment",
@@ -70,15 +99,20 @@ export const useAssessmentStore = defineStore("assessmentStore", {
 						},
 					}
 				);
-				console.log(response.data );
 				if (response.data.message.status === "success") {
-					alert("Assessment saved successfully!");
-				} else {
-					alert(`Error: ${response.data.message}`);
+					return { status: "success" };
+				} else if (response.data.message.status === "error") {
+					throw new Error(response.data.message.message);
 				}
 			} catch (error) {
-				this.error = error.message || "An error occurred while saving the assessment.";
-				alert(this.error);
+				if (error.response && error.response.status === 400) {
+					this.error = error.response.data.message;
+					this.fieldErrors.general = error.response.data.message;
+				} else {
+					this.error = error.message || "An error occurred while saving the assessment.";
+					this.fieldErrors.general = this.error;
+				}
+				return { status: "error", message: this.error };
 			} finally {
 				this.loading = false;
 			}
