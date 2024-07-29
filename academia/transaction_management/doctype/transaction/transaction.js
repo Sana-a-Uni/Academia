@@ -113,12 +113,19 @@ frappe.ui.form.on('Transaction', {
     global_action_name = null;
     global_recipient_docname = null;
 
-    frm.fields_dict.recipients.grid.wrapper.find(".grid-add-row")
-    .toggle(!frm.doc.through_route);
+    // Hide 'add row' button
+    frm.get_field("recipients").grid.cannot_add_rows = true;
+    // Stop 'add below' & 'add above' options
+    frm.get_field("recipients").grid.only_sortable();
+    frm.refresh_field("recipients");
 
-    // Disable the "Add New" button when through_route is checked
-    frm.fields_dict.recipients.grid.wrapper.find(".grid-add-row")
-      .prop("disabled", frm.doc.through_route);
+
+    // frm.fields_dict.recipients.grid.wrapper.find(".grid-add-row")
+    // .toggle(!frm.doc.through_route);
+
+    // // Disable the "Add New" button when through_route is checked
+    // frm.fields_dict.recipients.grid.wrapper.find(".grid-add-row")
+    //   .prop("disabled", frm.doc.through_route);
       
     // Disable the "Get Recipients" button when through_route is checked and there is at least one recipient
     frm.set_df_property("get_recipients", "hidden", frm.doc.through_route && frm.doc.recipients.length > 0);
@@ -614,8 +621,9 @@ frappe.ui.form.on('Transaction', {
   
             frm.refresh_field("recipients");
 
-            // Hide the "Add" button for the recipients table if through_route is checked and there's a recipient
-            frm.get_field("recipients").grid.grid_buttons.find(".grid-add-row").toggle(!frm.doc.through_route || existingRecipients.length === 0);
+            // // Hide the "Add" button for the recipients table if through_route is checked and there's a recipient
+            // frm.get_field("recipients").grid.grid_buttons.find(".grid-add-row").toggle(!frm.doc.through_route || existingRecipients.length === 0);
+
           }
         });
         }

@@ -18,12 +18,13 @@
   "from_designation",
   "topic_status",
   "recipient_settings_section",
+  "recipients",
   "get_recipients",
   "clear_recipients",
-  "recipients",
   "section_break_hgwa",
   "amended_from",
-  "auto_redirect"
+  "auto_redirect",
+  "notified_user"
  ],
  "fields": [
   {
@@ -56,7 +57,8 @@
    "fieldname": "details",
    "fieldtype": "Text",
    "in_list_view": 1,
-   "label": "Details"
+   "label": "Details",
+   "mandatory_depends_on": "eval: doc.type === \"Rejected\";"
   },
   {
    "fieldname": "amended_from",
@@ -141,12 +143,18 @@
    "fieldtype": "Select",
    "label": "Topic Status",
    "options": "Incomplete\nComplete"
+  },
+  {
+   "fieldname": "notified_user",
+   "fieldtype": "Link",
+   "label": "Notified User",
+   "options": "User"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-28 19:39:33.023240",
+ "modified": "2024-07-29 06:36:09.414344",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Action",

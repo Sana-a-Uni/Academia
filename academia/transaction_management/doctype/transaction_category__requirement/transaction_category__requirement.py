@@ -14,7 +14,6 @@ class TransactionCategoryRequirement(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		file_type: DF.Literal["", "Image", "Document"]
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data

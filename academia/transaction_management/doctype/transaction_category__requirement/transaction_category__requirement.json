@@ -8,7 +8,6 @@
  "field_order": [
   "file_type_section",
   "requirement_name",
-  "file_type",
   "required",
   "column_break_suor"
  ],
@@ -27,14 +26,6 @@
    "unique": 1
   },
   {
-   "fieldname": "file_type",
-   "fieldtype": "Select",
-   "hidden": 1,
-   "in_list_view": 1,
-   "label": "File Type",
-   "options": "\nImage\nDocument"
-  },
-  {
    "fieldname": "column_break_suor",
    "fieldtype": "Column Break"
   },
@@ -49,7 +40,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-25 22:00:02.221024",
+ "modified": "2024-07-29 06:25:32.823969",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Category  Requirement",
