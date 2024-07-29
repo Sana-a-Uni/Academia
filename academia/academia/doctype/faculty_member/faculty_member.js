@@ -16,6 +16,13 @@ frappe.ui.form.on("Faculty Member", {
     },
     // End of refresh event
 
+    // Start of onload event
+    onload(frm) {
+        // Calling functions
+        frm.events.filtering_faculty(frm);
+    },
+    // End of onload event
+
     // Start of validate event
     validate: function (frm) {
         // Calling functions
@@ -54,6 +61,29 @@ frappe.ui.form.on("Faculty Member", {
                 }
             });
         }
+    },
+    // End of the function
+
+
+    // FN: Clearing faculty field when value of company changes
+    company: function (frm) {
+        if (frm.doc.faculty) {
+            frm.set_value('faculty', '');
+        }
+        // Calling function
+        frm.events.filtering_faculty(frm);
+    },
+    // End of the function
+
+    // FN: Filtering faculty field by company field
+    filtering_faculty: function (frm) {
+        frm.set_query("faculty", function () {
+            return {
+                filters: {
+                    "company": frm.doc.company
+                }
+            };
+        });
     },
     // End of the function
 
