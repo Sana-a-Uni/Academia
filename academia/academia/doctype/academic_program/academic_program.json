@@ -7,12 +7,13 @@
  "engine": "InnoDB",
  "field_order": [
   "program_name",
+  "program_name_english",
   "faculty",
   "faculty_department",
   "column_break_fnia",
   "program_abbreviation",
-  "program_degree",
-  "starrting_year_of_program",
+  "academic_degree",
+  "date_of_starting_the_program",
   "section_break_ljrb",
   "courses",
   "column_break_cash",
@@ -27,7 +28,7 @@
    "fieldname": "program_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Program Name",
+   "label": "Program Name ",
    "reqd": 1,
    "translatable": 1,
    "unique": 1
@@ -56,22 +57,9 @@
    "fieldname": "program_abbreviation",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Program Abbreviation",
+   "label": "Abbr",
    "reqd": 1,
    "unique": 1
-  },
-  {
-   "fieldname": "program_degree",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Program Degree",
-   "options": "\nPost-Secondary Diploma\nBachelor's Degree\nPostgraduate Diploma\nMaster Degree\nPHD Degree",
-   "reqd": 1
-  },
-  {
-   "fieldname": "starrting_year_of_program",
-   "fieldtype": "Date",
-   "label": "Starrting Year of Program"
   },
   {
    "fieldname": "section_break_ljrb",
@@ -124,6 +112,28 @@
    "fieldtype": "Data",
    "label": "Minimum Course Average to Start Research ",
    "mandatory_depends_on": "eval:doc.research_or_thesis === 1 && doc.courses === 1 ;"
+  },
+  {
+   "fieldname": "program_name_english",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Program Name (English)",
+   "reqd": 1,
+   "translatable": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "academic_degree",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Academic Degree",
+   "options": "\nPost-Secondary Diploma\nBachelor's Degree\nPostgraduate Diploma\nMaster Degree\nPHD Degree",
+   "reqd": 1
+  },
+  {
+   "fieldname": "date_of_starting_the_program",
+   "fieldtype": "Date",
+   "label": "Date of Starting the Program"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -133,7 +143,7 @@
    "link_fieldname": "program_name"
   }
  ],
- "modified": "2024-07-22 02:51:20.294747",
+ "modified": "2024-07-29 23:15:41.010511",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Program",
