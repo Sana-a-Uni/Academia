@@ -61,6 +61,13 @@ def create_assignment():
         # Add the faculty member to the data dictionary
         data["faculty_member"] = faculty_member_id
 
+        # Perform validation
+        errors = validate_assignment_data(data)
+        if errors:
+            frappe.response["status_code"] = 400
+            frappe.response["errors"] = errors
+            return
+
         # Create the assignment document
         create_assignment_document(data)
     except Exception as e:
@@ -71,6 +78,50 @@ def create_assignment():
     frappe.response["status_code"] = 200
     frappe.response["message"] = "Assignment created successfully"
 
+def validate_assignment_data(data):
+    errors = {}
+    
+    # Validate assignment title
+    if not data.get("assignment_title"):
+        errors["assignment_title"] = "Assignment title is required."
+    
+    # Validate question or attachment presence
+    if not data.get("question") and not data.get("attachments"):
+        errors["question_or_attachment"] = "Either question text or attachment is required."
+    
+    # Validate assessment criteria
+    assessment_criteria_list = data.get("assessment_criteria")
+    if not assessment_criteria_list or len(assessment_criteria_list) == 0:
+        errors["assessment_criteria"] = "At least one assessment criteria is required."
+    else:
+        for index, criteria in enumerate(assessment_criteria_list):
+            if not criteria.get("assessment_criteria"):
+                if "assessment_criteria" not in errors:
+                    errors["assessment_criteria"] = []
+                errors["assessment_criteria"].append({ "index": index, "field": "assessment_criteria", "message": "Assessment criteria is required." })
+            if not criteria.get("maximum_grade"):
+                if "assessment_criteria" not in errors:
+                    errors["assessment_criteria"] = []
+                errors["assessment_criteria"].append({ "index": index, "field": "maximum_grade", "message": "Maximum grade is required." })
+    
+    # Validate dates if the assignment is available
+    if data.get("make_the_assignment_availability") == 1:
+        from_date = data.get("from_date")
+        to_date = data.get("to_date")
+        if not from_date:
+            errors["from_date"] = "From date is required when assignment availability is set."
+        if not to_date:
+            errors["to_date"] = "To date is required when assignment availability is set."
+        if from_date and to_date:
+            from_date_dt = datetime.strptime(from_date, '%Y-%m-%d %H:%M:%S')
+            to_date_dt = datetime.strptime(to_date, '%Y-%m-%d %H:%M:%S')
+            if from_date_dt >= to_date_dt:
+                errors["from_date"] = "From date must be earlier than To date."
+            if from_date_dt <= datetime.now():
+                errors["from_date"] = "From date must be in the future."
+    
+    return errors
+
 def create_assignment_document(data):
     # Create the assignment document
     assignment_doc = frappe.new_doc("LMS Assignment")
@@ -78,9 +129,9 @@ def create_assignment_document(data):
     assignment_doc.faculty_member = data.get("faculty_member")
     assignment_doc.assignment_title = data.get("assignment_title")
     assignment_doc.instruction = data.get("instruction")
-    assignment_doc.is_assignment_available = data.get("is_assignment_available")
+    assignment_doc.make_the_assignment_availability = data.get("make_the_assignment_availability")
 
-    if data.get("is_assignment_available") == 1:
+    if data.get("make_the_assignment_availability") == 1:
         assignment_doc.from_date = data.get("from_date")
         assignment_doc.to_date = data.get("to_date")
 
@@ -128,19 +179,20 @@ def create_assignment_document(data):
 
 def get_faculty_member_from_user(user_id):
     """
-    Retrieve the faculty member ID linked to a user ID.
+    Retrieve the faculty member linked to a user ID.
 
     :param user_id: The user ID to retrieve the faculty member for
     :return: The faculty member ID
     """
     # Get the employee ID linked to the user
-    employee_id = frappe.get_value("Employee", {"user_id": user_id}, "name")
-    if not employee_id:
+    employee = frappe.get_value("Employee", {"user_id": user_id}, "name")
+    if not employee:
         raise frappe.ValidationError("Employee not found for the user.")
     
     # Get the faculty member ID linked to the employee
-    faculty_member_id = frappe.get_value("Faculty Member", {"employee": employee_id}, "name")
-    if not faculty_member_id:
+    faculty_member = frappe.get_value("Faculty Member", {"employee": employee}, "name")
+    if not faculty_member:
         raise frappe.ValidationError("Faculty member not found for the employee.")
     
-    return faculty_member_id
+    return faculty_member
+
