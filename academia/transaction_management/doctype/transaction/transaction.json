@@ -16,7 +16,6 @@
   "through_route",
   "full_electronic",
   "circular",
-  "print_official_paper",
   "priority",
   "column_break_ktxa",
   "status",
@@ -248,6 +247,7 @@
    "options": "\nOutgoing\nIncoming"
   },
   {
+   "depends_on": "eval: doc.transaction_scope === \"With External Entity\";",
    "fieldname": "transaction_scan",
    "fieldtype": "Attach",
    "label": "Transaction Scan"
@@ -281,13 +281,6 @@
    "fieldname": "through_route",
    "fieldtype": "Check",
    "label": "Through Route"
-  },
-  {
-   "default": "0",
-   "depends_on": "eval:doc.transaction_scope!=\"In Company\";",
-   "fieldname": "print_official_paper",
-   "fieldtype": "Check",
-   "label": "Print Official Paper"
   },
   {
    "depends_on": "eval: !(doc.transaction_scope==\"With External Entity\"&&doc.type==\"Incoming\");",
@@ -428,6 +421,7 @@
   {
    "fieldname": "signatories",
    "fieldtype": "Table",
+   "hidden": 1,
    "label": "Signatures",
    "options": "Transaction Signatories",
    "read_only": 1
@@ -468,10 +462,11 @@
    "read_only": 1
   }
  ],
+ "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-29 03:22:20.253943",
+ "modified": "2024-07-29 06:21:49.614691",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
