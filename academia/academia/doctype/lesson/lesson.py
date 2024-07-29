@@ -22,12 +22,12 @@ class Lesson(Document):
 		date: DF.Date
 		faculty: DF.Link
 		from_time: DF.Time
-		group: DF.Link | None
+		group: DF.Link
 		instructor: DF.Link
 		is_multi_group: DF.Check
 		lesson_type: DF.Literal["", "Ordinary Lesson", "Compensatory Lesson"]
 		level: DF.Link
-		program: DF.Link
+		program: DF.Link | None
 		room: DF.Link
 		schedule_template: DF.ReadOnly | None
 		schedule_template_version: DF.Link
