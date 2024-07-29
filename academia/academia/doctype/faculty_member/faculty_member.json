@@ -17,8 +17,8 @@
   "email",
   "column_break_hagf",
   "company",
-  "department",
   "faculty",
+  "department",
   "nationality",
   "column_break_zcxq",
   "date_of_joining_in_service",
@@ -356,7 +356,8 @@
    "fieldname": "faculty",
    "fieldtype": "Link",
    "label": "Faculty",
-   "options": "Faculty"
+   "options": "Faculty",
+   "reqd": 1
   },
   {
    "fieldname": "connections_tab",

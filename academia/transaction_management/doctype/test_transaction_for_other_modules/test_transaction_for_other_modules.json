@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2024-07-24 00:22:37.186147",
+ "creation": "2024-07-27 21:26:40.164633",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -23,7 +23,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-26 12:11:33.732079",
+ "modified": "2024-07-27 21:26:40.164633",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Test Transaction For Other Modules",

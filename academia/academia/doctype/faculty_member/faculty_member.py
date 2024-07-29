@@ -1,8 +1,8 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
-from frappe.model.document import Document
 import frappe
+from frappe.model.document import Document
 from frappe import _
 import re
 from datetime import datetime, timedelta
@@ -42,8 +42,7 @@ class FacultyMember(Document):
         email: DF.Data | None
         employee: DF.Link
         employment_type: DF.Link | None
-        external_faculty: DF.Link | None
-        faculty: DF.Link | None
+        faculty: DF.Link
         faculty_member_academic_ranking: DF.Table[FacultyMemberAcademicRanking]
         faculty_member_activity: DF.Table[FacultyMemberActivity]
         faculty_member_award_and_appreciation_certificate: DF.Table[FacultyMemberAwardandAppreciationCertificate]
@@ -85,20 +84,26 @@ class FacultyMember(Document):
                 frappe.throw(_(f"Employee {self.employee} is already assigned to {exist_employee}"))
     # End of the function
 
-    # FN: validate 'date_of_joining_in_university' and 'date_of_joining_in_service' fields
+    # FN: validate 'date_of_joining_in_university' and 'date_of_joining_in_service' and 'date in tenure data' fields
     def validate_date(self):
-        today = datetime.now().date()
-        if self.date_of_joining_in_university and self.date_of_joining_in_service:
-            # "Converting the date of appointment in service to a date "
-            date_of_joining_in_service = datetime.strptime(self.date_of_joining_in_service, "%Y-%m-%d").date()
-            date_of_joining_in_university = datetime.strptime(self.date_of_joining_in_university, "%Y-%m-%d").date()
-            #  "Ensure that the date of appointment in service is before the date of appointment in the university."
-            if date_of_joining_in_service >= date_of_joining_in_university:
-                frappe.throw(_("Date of Service Appointment must be before Date of University Appointment."))
-            elif date_of_joining_in_service > today:
-                frappe.throw(_("Date of Service Appointment cannot be after today's date."))
-            elif date_of_joining_in_university > today:
-                frappe.throw(_("Date of University Appointment cannot be after today's date."))
+        today = frappe.utils.today()
+        
+        if self.date_of_joining_in_service:
+            if self.date_of_joining_in_service > today:
+                frappe.throw(_("Date of joining in service cannot be in the future."))
+        
+        if self.date_of_joining_in_university:
+            if self.date_of_joining_in_university > today:
+                frappe.throw(_("Date of joining in university cannot be in the future."))
+        
+        if self.date_of_joining_in_service and self.date_of_joining_in_university:
+            if self.date_of_joining_in_service > self.date_of_joining_in_university:
+                frappe.throw(_("Date of joining in service must be before the date of joining in university."))
+
+        if self.date:
+            if self.date > today:
+                frappe.throw(_("Date in tenure data section cannot be in the future."))
+
     # End of the function
 
     # FN: validate 'google_scholar_profile_link' field
