@@ -135,6 +135,7 @@
    "default": "0",
    "fieldname": "auto_redirect",
    "fieldtype": "Int",
+   "hidden": 1,
    "label": "Auto Redirect"
   },
   {
@@ -154,7 +155,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-29 06:36:09.414344",
+ "modified": "2024-07-29 08:36:02.273825",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Action",

@@ -268,7 +268,8 @@
    "in_list_view": 1,
    "label": "Start From",
    "mandatory_depends_on": "eval:!(doc.transaction_scope==\"With External Entity\" && doc.type==\"Incoming\");",
-   "options": "Employee"
+   "options": "Employee",
+   "read_only": 1
   },
   {
    "depends_on": "eval: !(doc.transaction_scope==\"With External Entity\"&&doc.type==\"Outgoing\");",
@@ -466,7 +467,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-29 06:49:23.542437",
+ "modified": "2024-07-29 08:24:18.006644",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
