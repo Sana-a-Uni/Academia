@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Table Data</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 30px;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<h1><center>{{_(Cancelled Compensatory Lessons)}}</center></h1>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>{{_(Compensatory Lesson)}}</th>
+                <th>{{_(Instructor)}}</th>
+                <th>{{_(Date)}}</th>
+            </tr>
+        </thead>
+        <tbody> 
+            {% for row in data %}
+            <tr>
+                <td>{{ row.name }}</td>
+                <td>{{ row.instructor_name }}</td>
+                <td>{{ row.date }}</td>
+            </tr>
+            {% endfor %}
+         </tbody>
+    </table>
+</body>
+</html>
