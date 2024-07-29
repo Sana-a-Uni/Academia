@@ -22,6 +22,15 @@ fixtures = [
      }
  ]
 
+fixtures = [
+    {
+        "doctype": "Custom Field",
+        "filters": [
+               #["dt", "in", [ "Doctype1", "Doctype12"]]
+               ["module", "=", "academia"]
+        ]
+    }
+]
 
 fixtures = [
     "Academic Status",
