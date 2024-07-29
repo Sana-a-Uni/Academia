@@ -6,6 +6,9 @@
 			<div class="form-group">
 				<label for="question">Question</label>
 				<div ref="quillQuestionEditor" class="quill-editor"></div>
+				<div class="error-message" v-if="errors.question_or_attachment">
+					{{ errors.question_or_attachment }}
+				</div>
 			</div>
 
 			<!-- Attach Files Field -->
@@ -84,6 +87,12 @@
 							>
 								<td class="criteria-column">
 									<input type="text" v-model="criteria.assessment_criteria" />
+									<div
+										class="error-message"
+										v-if="getCriteriaError(index, 'assessment_criteria')"
+									>
+										{{ getCriteriaError(index, "assessment_criteria") }}
+									</div>
 								</td>
 								<td class="grade-column">
 									<input
@@ -91,6 +100,12 @@
 										v-model="criteria.maximum_grade"
 										@input="validateGrade(index)"
 									/>
+									<div
+										class="error-message"
+										v-if="getCriteriaError(index, 'maximum_grade')"
+									>
+										{{ getCriteriaError(index, "maximum_grade") }}
+									</div>
 								</td>
 								<td class="trash-column">
 									<button
@@ -111,6 +126,12 @@
 						Add New Criteria
 					</button>
 				</div>
+				<div
+					class="error-message"
+					v-if="errors.assessment_criteria && !Array.isArray(errors.assessment_criteria)"
+				>
+					{{ errors.assessment_criteria }}
+				</div>
 			</div>
 
 			<!-- Form Actions -->
@@ -123,7 +144,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted, nextTick, watch } from "vue";
 import Quill from "quill";
 import { useAssignmentStore } from "@/stores/teacherStore/assignmentStore";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
@@ -134,6 +155,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 library.add(faTrash);
 
 const emit = defineEmits(["settings", "go-back"]);
+const props = defineProps(["errors"]);
 const assignmentStore = useAssignmentStore();
 const quillQuestionEditor = ref(null);
 const uploadedFiles = ref([]);
@@ -167,10 +189,28 @@ onMounted(() => {
 	});
 });
 
+const getCriteriaError = (index, field) => {
+	const criteriaErrors = props.errors.assessment_criteria;
+	if (criteriaErrors) {
+		const error = criteriaErrors.find((err) => err.index === index && err.field === field);
+		return error ? error.message : null;
+	}
+	return null;
+};
+
+watch(
+	() => props.errors,
+	(newErrors) => {
+		if (newErrors.question_or_attachment || newErrors.assessment_criteria) {
+			console.log("Errors detected in assignment details:", newErrors);
+		}
+	}
+);
+
 const addCriteria = () => {
 	assignmentStore.assignmentData.assessment_criteria.push({
 		assessment_criteria: "",
-		maximum_grade: 0,
+		maximum_grade: "",
 	});
 };
 
@@ -260,6 +300,13 @@ const previousPage = () => {
 	display: block;
 	margin-bottom: 5px;
 	font-weight: bold;
+}
+
+.error-message {
+	color: red;
+	font-size: 12px;
+	margin-top: 5px;
+	display: block;
 }
 
 .form-group input,

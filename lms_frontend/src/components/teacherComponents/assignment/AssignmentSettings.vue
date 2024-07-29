@@ -36,9 +36,15 @@
 							<h4 style="margin-top: 6px; margin-right: 15px">From</h4>
 							<DatetimePicker v-model="assignmentStore.assignmentData.from_date" />
 						</div>
+						<div class="error-message" v-if="assignmentStore.errors.from_date">
+							{{ assignmentStore.errors.from_date }}
+						</div>
 						<div class="from-date">
 							<h4 style="margin-top: 6px; margin-right: 15px">To</h4>
 							<DatetimePicker v-model="assignmentStore.assignmentData.to_date" />
+						</div>
+						<div class="error-message" v-if="assignmentStore.errors.to_date" >
+							{{ assignmentStore.errors.to_date }}
 						</div>
 					</div>
 				</div>
@@ -211,7 +217,12 @@ h1 {
 	margin-bottom: 0px;
 	font-size: 24px;
 }
-
+.error-message {
+	color: red;
+	font-size: 12px;
+	margin-top: 5px;
+	display: block;
+}
 .form-section {
 	margin-bottom: 20px;
 }
@@ -231,13 +242,13 @@ h1 {
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	margin-top: 10px; 
+	margin-top: 10px;
 }
 
 .date-label {
 	margin: 0;
 	font-size: 14px;
-	line-height: 1.2; 
+	line-height: 1.2;
 }
 
 .section-header input {

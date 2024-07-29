@@ -8,9 +8,15 @@
 				id="assignmentTitle"
 				v-model="assignmentStore.assignmentData.assignment_title"
 			/>
+			<div class="error-message" v-if="errors.assignment_title">
+				{{ errors.assignment_title }}
+			</div>
 
 			<label for="assignmentInstruction">Assignment Instruction:</label>
 			<div ref="quillEditor" class="quill-editor"></div>
+			<div class="error-message" v-if="errors.instruction">
+				{{ errors.instruction }}
+			</div>
 
 			<div class="button-group">
 				<button type="button" @click="cancelAssignment">Cancel</button>
@@ -21,12 +27,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted, nextTick, watch } from "vue";
 import Quill from "quill";
 import { useAssignmentStore } from "@/stores/teacherStore/assignmentStore";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
 const emit = defineEmits(["assignment-created"]);
+const props = defineProps(["errors"]);
 
 const assignmentStore = useAssignmentStore();
 const quillEditor = ref(null);
@@ -47,12 +54,21 @@ const editorOptions = {
 onMounted(() => {
 	nextTick(() => {
 		const editor = new Quill(quillEditor.value, editorOptions);
-		editor.root.innerHTML = assignmentStore.assignmentData.instruction; 
+		editor.root.innerHTML = assignmentStore.assignmentData.instruction;
 		editor.on("text-change", () => {
 			assignmentStore.assignmentData.instruction = editor.root.innerHTML;
 		});
 	});
 });
+
+watch(
+	() => props.errors,
+	(newErrors) => {
+		if (newErrors.assignment_title || newErrors.instruction) {
+			console.log("Errors detected in assignment information:", newErrors);
+		}
+	}
+);
 
 const createAssignment = () => {
 	emit("assignment-created");
@@ -82,6 +98,12 @@ h1 {
 	text-align: center;
 	margin-bottom: 20px;
 	font-size: 24px;
+}
+.error-message {
+	color: red;
+	font-size: 12px;
+	margin-top: 5px;
+	display: block;
 }
 
 label {

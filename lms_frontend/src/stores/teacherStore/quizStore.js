@@ -29,7 +29,6 @@ export const useQuizStore = defineStore("quiz", {
 			this.loading = true;
 			this.error = null;
 			try {
-				const token = Cookies.get("authToken");
 				const response = await axios.get(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.fetch_quizzes_for_course",
 					{
@@ -38,7 +37,7 @@ export const useQuizStore = defineStore("quiz", {
 						},
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: `token ${token}`,
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
@@ -52,20 +51,18 @@ export const useQuizStore = defineStore("quiz", {
 
 		async fetchCourseQuestions(courseName) {
 			try {
-				const token = Cookies.get("authToken");
 				const response = await axios.get(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.fetch_course_questions",
 					{
 						params: { course_name: courseName },
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: `token ${token}`,
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
 				if (response.data.status_code === 200) {
 					this.questions = response.data.data;
-					console.log(this.questions);
 				} else {
 					console.error("Error fetching questions");
 				}
@@ -79,13 +76,12 @@ export const useQuizStore = defineStore("quiz", {
 
 		async fetchGradingBasisOptions() {
 			try {
-				const token = Cookies.get("authToken");
 				const response = await axios.get(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.fetch_grading_basis_options",
 					{
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: `token ${token}`,
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
@@ -103,13 +99,12 @@ export const useQuizStore = defineStore("quiz", {
 		},
 		async fetchQuestionTypes() {
 			try {
-				const token = Cookies.get("authToken");
 				const response = await axios.get(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.fetch_question_types",
 					{
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: `token ${token}`,
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
@@ -128,14 +123,13 @@ export const useQuizStore = defineStore("quiz", {
 		async createQuiz() {
 			try {
 				this.errors = {};
-				const token = Cookies.get("authToken");
 				const response = await axios.post(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.create_quiz",
 					this.quizData,
 					{
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: `token ${token}`,
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
@@ -146,7 +140,6 @@ export const useQuizStore = defineStore("quiz", {
 					if (response.data.status_code == 400) {
 						this.errors = response.data.errors;
 					}
-					console.error(response.data);
 					return false;
 				}
 			} catch (error) {

@@ -97,7 +97,7 @@
 import { ref, onMounted, watch, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useAssessmentStore } from "@/stores/teacherStore/assessmentStore";
-import SuccessDialog from "@/components/teacherComponents/SuccessDialog.vue"; // تأكد من تعديل المسار حسب هيكل المشروع
+import SuccessDialog from "@/components/teacherComponents/SuccessDialog.vue"; 
 
 const props = defineProps({
 	details: {
