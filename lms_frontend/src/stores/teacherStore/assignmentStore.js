@@ -1,3 +1,4 @@
+// store.js
 import { defineStore } from "pinia";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -13,12 +14,13 @@ export const useAssignmentStore = defineStore("assignment", {
 			to_date: "",
 			question: "",
 			assessment_criteria: [],
-			attachments: [],
+			uploadedFiles: [],
+			previousSubmissionFiles: [],
 		},
 		assignments: [],
 		loading: false,
 		error: null,
-		errors: {}, // For holding validation errors
+		errors: {},
 	}),
 	actions: {
 		async fetchAssignments(courseName) {
@@ -76,6 +78,22 @@ export const useAssignmentStore = defineStore("assignment", {
 
 		updateAssignmentData(partialData) {
 			this.assignmentData = { ...this.assignmentData, ...partialData };
+		},
+
+		addUploadedFile(file) {
+			this.assignmentData.uploadedFiles.push(file);
+		},
+
+		addPreviousSubmissionFile(file) {
+			this.assignmentData.previousSubmissionFiles.push(file);
+		},
+
+		removeUploadedFile(index) {
+			this.assignmentData.uploadedFiles.splice(index, 1);
+		},
+
+		removePreviousSubmissionFile(index) {
+			this.assignmentData.previousSubmissionFiles.splice(index, 1);
 		},
 	},
 });

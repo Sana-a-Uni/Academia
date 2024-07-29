@@ -22,7 +22,12 @@
 					multiple
 				/>
 				<div
-					v-if="previousSubmissionFiles.length || uploadedFiles.length"
+					v-if="
+						(assignmentStore.assignmentData.previousSubmissionFiles &&
+							assignmentStore.assignmentData.previousSubmissionFiles.length) ||
+						(assignmentStore.assignmentData.uploadedFiles &&
+							assignmentStore.assignmentData.uploadedFiles.length)
+					"
 					class="file-list"
 				>
 					<table>
@@ -34,7 +39,8 @@
 						</thead>
 						<tbody>
 							<tr
-								v-for="(file, index) in previousSubmissionFiles"
+								v-for="(file, index) in assignmentStore.assignmentData
+									.previousSubmissionFiles"
 								:key="file.file_url"
 							>
 								<td>
@@ -50,7 +56,11 @@
 									/>
 								</td>
 							</tr>
-							<tr v-for="(file, index) in uploadedFiles" :key="index">
+							<tr
+								v-for="(file, index) in assignmentStore.assignmentData
+									.uploadedFiles"
+								:key="index"
+							>
 								<td>
 									<a :href="file.previewUrl" target="_blank">{{ file.name }}</a>
 								</td>
@@ -158,8 +168,6 @@ const emit = defineEmits(["settings", "go-back"]);
 const props = defineProps(["errors"]);
 const assignmentStore = useAssignmentStore();
 const quillQuestionEditor = ref(null);
-const uploadedFiles = ref([]);
-const previousSubmissionFiles = ref([]);
 const filesMarkedForDeletion = ref([]);
 
 const editorOptions = {
@@ -228,14 +236,14 @@ const handleFileUpload = (event) => {
 	const files = event.target.files;
 	for (let i = 0; i < files.length; i++) {
 		if (
-			!uploadedFiles.value.some(
+			!assignmentStore.assignmentData.uploadedFiles.some(
 				(f) => f.file.name === files[i].name && f.file.size === files[i].size
 			)
 		) {
 			const previewUrl = URL.createObjectURL(files[i]);
 			const reader = new FileReader();
 			reader.onload = (e) => {
-				uploadedFiles.value.push({
+				assignmentStore.addUploadedFile({
 					file: files[i],
 					previewUrl,
 					name: files[i].name,
@@ -248,14 +256,14 @@ const handleFileUpload = (event) => {
 };
 
 const removeFile = (index) => {
-	const file = uploadedFiles.value[index];
+	const file = assignmentStore.assignmentData.uploadedFiles[index];
 	URL.revokeObjectURL(file.previewUrl);
-	uploadedFiles.value.splice(index, 1);
+	assignmentStore.removeUploadedFile(index);
 };
 
 const markFileForDeletion = (index) => {
-	const file = previousSubmissionFiles.value[index];
-	previousSubmissionFiles.value.splice(index, 1);
+	const file = assignmentStore.assignmentData.previousSubmissionFiles[index];
+	assignmentStore.removePreviousSubmissionFile(index);
 	filesMarkedForDeletion.value.push(file);
 };
 
@@ -267,7 +275,7 @@ const saveAssignmentDetails = () => {
 	assignmentStore.updateAssignmentData({
 		question: assignmentStore.assignmentData.question,
 		assessment_criteria: assignmentStore.assignmentData.assessment_criteria,
-		attachments: uploadedFiles.value.map((file) => ({
+		attachments: assignmentStore.assignmentData.uploadedFiles.map((file) => ({
 			attachment: file.content,
 			attachment_name: file.name,
 		})),
