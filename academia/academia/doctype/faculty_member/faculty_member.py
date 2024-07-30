@@ -42,6 +42,7 @@ class FacultyMember(Document):
         email: DF.Data | None
         employee: DF.Link
         employment_type: DF.Link | None
+        external_faculty: DF.Link | None
         faculty: DF.Link
         faculty_member_academic_ranking: DF.Table[FacultyMemberAcademicRanking]
         faculty_member_activity: DF.Table[FacultyMemberActivity]

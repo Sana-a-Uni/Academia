@@ -3,20 +3,20 @@
 
 frappe.query_reports["Faculty Member Details Report"] = {
 	filters: [
-		{
-			fieldname: "from_date",
-			label: __("From Date"),
-			fieldtype: "Date",
-			reqd: 1,
-			default: frappe.defaults.get_default("year_start_date")
-		},
-		{
-			fieldname: "to_date",
-			label: __("To Date"),
-			fieldtype: "Date",
-			reqd: 1,
-			default: frappe.defaults.get_default("year_end_date")
-		},
+	// 	{
+	// 		fieldname: "from_date",
+	// 		label: __("From Date"),
+	// 		fieldtype: "Date",
+	// 		reqd: 1,
+	// 		default: frappe.defaults.get_default("year_start_date")
+	// 	},
+	// 	{
+	// 		fieldname: "to_date",
+	// 		label: __("To Date"),
+	// 		fieldtype: "Date",
+	// 		reqd: 1,
+	// 		default: frappe.defaults.get_default("year_end_date")
+	// 	},
 		{
 			label: __("Faculty"),
 			fieldname: "faculty",
@@ -26,22 +26,23 @@ frappe.query_reports["Faculty Member Details Report"] = {
 			default: frappe.defaults.get_user_default("Company")
 		},
 		{
-			label: __("Date of Joining"),
-			fieldname: "date_of_joining_in_university",
-			fieldtype: "Date",
-		},
-		{
-			label: __("Employment Type"),
-			fieldname: "employment_type",
+			label: __("Employee"),
+			fieldname: "employee",
 			fieldtype: "Link",
-			options: "Employment Type",
+			options: "Employee",
 		},
-		{
-			fieldname: "academic_rank",
-			label: __("Academic Rank"),
-			fieldtype: "Link",
-			options: "Academic Rank",
-		},
+		// {
+		// 	label: __("Employment Type"),
+		// 	fieldname: "employment_type",
+		// 	fieldtype: "Link",
+		// 	options: "Employment Type",
+		// },
+		// {
+		// 	fieldname: "academic_rank",
+		// 	label: __("Academic Rank"),
+		// 	fieldtype: "Link",
+		// 	options: "Academic Rank",
+		// },
 		{
 			fieldname: "employee_status",
 			label: __("Employee Status"),
@@ -54,6 +55,13 @@ frappe.query_reports["Faculty Member Details Report"] = {
 				{ "value": "Left", "label": __("Left") },
 			],
 			default: "Active",
-		}
+		},
+		// {
+		// 	fieldname: "consolidate_leave_types",
+		// 	label: __("Consolidate Leave Types"),
+		// 	fieldtype: "Check",
+		// 	default: 1,
+		// 	depends_on: "eval: !doc.employee",
+		// }
 	],
 };
