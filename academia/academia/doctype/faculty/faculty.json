@@ -10,6 +10,7 @@
  "field_order": [
   "company",
   "faculty_name",
+  "faculty_name_english",
   "abbr",
   "is_research_center",
   "is_group",
@@ -43,7 +44,7 @@
    "fieldname": "faculty_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Faculty",
+   "label": "Faculty Name",
    "reqd": 1,
    "unique": 1
   },
@@ -210,6 +211,14 @@
    "fieldname": "is_research_center",
    "fieldtype": "Check",
    "label": "Is Research Center"
+  },
+  {
+   "fieldname": "faculty_name_english",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Faculty Name (English)",
+   "reqd": 1,
+   "unique": 1
   }
  ],
  "image_field": "faculty_logo",
@@ -224,7 +233,7 @@
    "link_fieldname": "faculty"
   }
  ],
- "modified": "2024-05-31 00:33:17.795561",
+ "modified": "2024-07-29 22:40:28.872241",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty",
@@ -249,5 +258,5 @@
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "abbr"
+ "title_field": "faculty_name"
 }
