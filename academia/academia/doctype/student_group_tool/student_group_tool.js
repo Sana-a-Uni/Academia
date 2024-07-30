@@ -125,6 +125,9 @@ frappe.ui.form.on('Student Group Tool', {
                 return {};
             }
         });
+    },
+    grouping_by: function(frm){
+        frm.set_value('practical_capacity', 0);
     }
 });
 

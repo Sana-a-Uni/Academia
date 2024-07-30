@@ -48,8 +48,7 @@
    "fieldname": "faculty",
    "fieldtype": "Link",
    "label": "Faculty",
-   "options": "Faculty",
-   "reqd": 1
+   "options": "Faculty"
   },
   {
    "fieldname": "batch",
@@ -128,7 +127,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-27 05:00:15.731785",
+ "modified": "2024-07-30 18:05:05.377522",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group",
