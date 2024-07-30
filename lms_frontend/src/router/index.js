@@ -46,8 +46,12 @@ const routes = [
 		path: "/teacherDashboard/courseView/pendingAssessment/assignmentAssessment/:submission_name",
 		name: "assessmentAssignment",
 		component: () => import("../views/teacherDashboard/assessment/assignmentAssessment"),
-	}
-,	
+	},
+	{
+		path: '/completedAssessment',
+		name: 'completedAssessment',
+		component: () => import("../views/teacherDashboard/assessment/completedAssessment"),
+	  },
 
 	////////////////////////////
 	{
@@ -102,12 +106,12 @@ const routes = [
 	
 	
 	{
-		path: "/assignmentView",
+		path: "/studentDashboard/assignmentView",
 		name: "assignmentView",
 		component: () => import("../views/studentDashboard/assignment/assignmentView"),
 	},
 	{
-		path: "/assignment/:assignmentName",
+		path: "/studentDashboard/assignmentView/assignment/:assignmentName",
 		name: "assignment",
 		component: () => import("../views/studentDashboard/assignment/assignment"),
 	},

@@ -60,8 +60,8 @@ import { ref, watch, onMounted, onBeforeUnmount } from "vue";
 
 const props = defineProps({
 	modelValue: {
-		type: String,
-		default: "",
+		type: [String, Number],
+		default: "0",
 	},
 });
 
@@ -107,10 +107,10 @@ const convertToSeconds = () => {
 };
 
 const checkForNegative = (field) => {
-	if (field === 'days' && days.value < 0) days.value = 0;
-	if (field === 'hours' && hours.value < 0) hours.value = 0;
-	if (field === 'minutes' && minutes.value < 0) minutes.value = 0;
-	if (field === 'seconds' && seconds.value < 0) seconds.value = 0;
+	if (field === "days" && days.value < 0) days.value = 0;
+	if (field === "hours" && hours.value < 0) hours.value = 0;
+	if (field === "minutes" && minutes.value < 0) minutes.value = 0;
+	if (field === "seconds" && seconds.value < 0) seconds.value = 0;
 	updateFormattedDuration();
 };
 
@@ -122,7 +122,7 @@ const handleClickOutside = (event) => {
 
 onMounted(() => {
 	document.addEventListener("click", handleClickOutside);
-	parseDuration(props.modelValue); // Parse the initial modelValue
+	parseDuration(props.modelValue); 
 });
 
 onBeforeUnmount(() => {
@@ -156,7 +156,7 @@ watch(
 
 .inline-fields {
 	display: flex;
-	align-items: flex-end; /* Adjusted alignment */
+	align-items: flex-end;
 	gap: 10px;
 }
 

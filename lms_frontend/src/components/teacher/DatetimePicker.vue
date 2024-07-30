@@ -34,10 +34,15 @@ const formattedDatetime = ref("");
 const pickerContainer = ref(null);
 
 const parseDatetime = (datetime) => {
-	const [d, t] = datetime.split(" ");
-	date.value = d || "";
-	time.value = t || "";
-	updateFormattedDatetime();
+	if (datetime) {
+		const [d, t] = datetime.split(" ");
+		date.value = d || "";
+		time.value = t || "";
+		updateFormattedDatetime();
+	} else {
+		date.value = "";
+		time.value = "";
+	}
 };
 
 const updateFormattedDatetime = () => {
@@ -66,7 +71,7 @@ onBeforeUnmount(() => {
 watch(
 	() => props.modelValue,
 	(newVal) => {
-		parseDatetime(newVal);
+		parseDatetime(newVal || "");
 	},
 	{ immediate: true }
 );
