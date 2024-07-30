@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export const useQuizStore = defineStore("quiz", {
 	state: () => ({
@@ -11,7 +12,7 @@ export const useQuizStore = defineStore("quiz", {
 		questionsWithAnswers: [],
 		loading: false,
 		error: null,
-		submitted: false, // حالة لتتبع إذا ما تم إرسال الإجابات
+		submitted: false,
 	}),
 	actions: {
 		async fetchQuizzes(courseName, studentId) {
@@ -45,16 +46,24 @@ export const useQuizStore = defineStore("quiz", {
 						params: {
 							quiz_name: quizName,
 						},
+					},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
+						},
 					}
 				);
 				if (response.data.status_code !== 200) {
 					this.error =
-						response.data.message || "An error occurred while fetching quiz instructions.";
+						response.data.message ||
+						"An error occurred while fetching quiz instructions.";
 				} else {
 					this.quizInstructions = response.data.data;
 				}
 			} catch (error) {
-				this.error = error.message || "An error occurred while fetching quiz instructions.";
+				this.error =
+					error.message || "An error occurred while fetching quiz instructions.";
 			} finally {
 				this.loading = false;
 			}
@@ -71,11 +80,18 @@ export const useQuizStore = defineStore("quiz", {
 							quiz_name: quizName,
 							student_id: studentId,
 						},
+					},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
+						},
 					}
 				);
 				console.log(response.data);
 				if (response.data.status_code !== 200) {
-					this.error = response.data.message || "An error occurred while fetching quiz .";
+					this.error =
+						response.data.message || "An error occurred while fetching quiz .";
 				} else {
 					this.quiz = response.data.data;
 				}
@@ -92,14 +108,21 @@ export const useQuizStore = defineStore("quiz", {
 			try {
 				const response = await axios.post(
 					`http://localhost:8080/api/method/academia.lms_api.student.quiz.quiz.create_quiz_attempt`,
-					data
+					data,
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
+						},
+					}
 				);
 				if (response.data.status_code === 200) {
 					this.submitted = true;
 					console.log(response.data.quiz_attempt_id);
 					return response.data.quiz_attempt_id; // Return the quiz_attempt_id
 				} else {
-					this.error = response.data.message || "An error occurred while submitting the quiz.";
+					this.error =
+						response.data.message || "An error occurred while submitting the quiz.";
 					return null;
 				}
 			} catch (error) {
@@ -118,6 +141,12 @@ export const useQuizStore = defineStore("quiz", {
 					`http://localhost:8080/api/method/academia.lms_api.student.quiz.quiz.get_quiz_result`,
 					{
 						params: { quiz_attempt_id: quizAttemptId },
+					},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
+						},
 					}
 				);
 				this.quizResult = response.data.data;
@@ -139,6 +168,12 @@ export const useQuizStore = defineStore("quiz", {
 							course_name: courseName,
 							student_id: studentId,
 						},
+					},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
+						},
 					}
 				);
 				this.quizzesResult = response.data.data;
@@ -158,12 +193,19 @@ export const useQuizStore = defineStore("quiz", {
 						params: {
 							quiz_attempt_id: quizAttemptId,
 						},
+					},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
+						},
 					}
 				);
 				if (response.data.status_code === 200) {
 					this.questionsWithAnswers = response.data.questions_with_answers;
 				} else {
-					this.error = response.data.message || "An error occurred while fetching quiz details.";
+					this.error =
+						response.data.message || "An error occurred while fetching quiz details.";
 				}
 			} catch (error) {
 				this.error = error.message || "An error occurred while fetching quiz details.";

@@ -79,7 +79,6 @@ def fetch_assignment_details(assignment_submission_id):
 
 
 from frappe.utils import getdate
-from frappe.model.document import Document
 
 @frappe.whitelist(allow_guest=True)
 def save_assignment_assessment():
@@ -217,3 +216,41 @@ def get_assignment_assessment(assignment_submission_id):
     except Exception as e:
         frappe.log_error(message=str(e), title="Get Assessment Error")
         return {"status": "error", "message": str(e)}
+
+
+@frappe.whitelist(allow_guest=True)
+def get_quiz_and_assignment_grades(faculty_member="ACAD-FM-00001", course="00"):
+    quizzes = frappe.db.sql("""
+        SELECT
+            q.title AS quiz_title,
+            qr.student AS student_name,
+            qr.grade AS quiz_grade
+        FROM
+            `tabLMS Quiz` q
+        JOIN
+            `tabQuiz Result` qr ON q.name = qr.quiz
+        WHERE
+            q.faculty_member = %s AND q.course = %s
+    """, (faculty_member, course), as_dict=True)
+
+    assignments = frappe.db.sql("""
+        SELECT
+            a.assignment_title AS assignment_title,
+            aa.student AS student_name,
+            aa.grade AS assignment_grade
+        FROM
+            `tabLMS Assignment` a
+        JOIN
+            `tabAssignment Assessment` aa ON a.name = aa.assignment
+        WHERE
+            a.faculty_member = %s AND a.course = %s
+    """, (faculty_member, course), as_dict=True)
+
+    results = {
+        "quizzes": quizzes,
+        "assignments": assignments
+    }
+
+    return results
+
+

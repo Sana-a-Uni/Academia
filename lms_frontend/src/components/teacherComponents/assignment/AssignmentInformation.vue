@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="container" v-if="assignmentStore.assignmentData">
 		<h1>Create a New Assignment</h1>
 		<form @submit.prevent="createAssignment">
 			<label for="assignmentType">Assignment Type:</label>
@@ -29,9 +29,7 @@
 
 			<label for="assignmentInstruction">Assignment Instruction:</label>
 			<div ref="quillEditor" class="quill-editor"></div>
-			<div class="error-message" v-if="errors.instruction">
-				{{ errors.instruction }}
-			</div>
+			<div class="error-message" v-if="errors.instruction">{{ errors.instruction }}</div>
 
 			<div class="button-group">
 				<button type="button" @click="cancelAssignment">Cancel</button>
@@ -67,11 +65,13 @@ const editorOptions = {
 
 onMounted(() => {
 	nextTick(() => {
-		const editor = new Quill(quillEditor.value, editorOptions);
-		editor.root.innerHTML = assignmentStore.assignmentData.instruction;
-		editor.on("text-change", () => {
-			assignmentStore.assignmentData.instruction = editor.root.innerHTML;
-		});
+		if (quillEditor.value) {
+			const editor = new Quill(quillEditor.value, editorOptions);
+			editor.root.innerHTML = assignmentStore.assignmentData.instruction;
+			editor.on("text-change", () => {
+				assignmentStore.assignmentData.instruction = editor.root.innerHTML;
+			});
+		}
 		assignmentStore.fetchAssignmentTypeOptions(); // جلب خيارات أنواع التكليف عند تحميل المكون
 	});
 });

@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 export const useAssignmentStore = defineStore("assignment", {
 	state: () => ({
 		assignmentData: {
+			assignment_type: "",
 			assignment_title: "",
 			course: "00",
 			instruction: "",
@@ -15,13 +16,12 @@ export const useAssignmentStore = defineStore("assignment", {
 			assessment_criteria: [],
 			uploadedFiles: [],
 			previousSubmissionFiles: [],
-			assignment_type: "", // إضافة نوع التكليف
 		},
 		assignments: [],
 		loading: false,
 		error: null,
 		errors: {},
-		assignmentTypeOptions: [], // خيارات أنواع التكليف
+		assignmentTypeOptions: [],
 	}),
 	actions: {
 		async fetchAssignments(courseName) {
