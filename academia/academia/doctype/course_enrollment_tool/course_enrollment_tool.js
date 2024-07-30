@@ -75,5 +75,11 @@ frappe.ui.form.on('Course Enrollment Tool', {
                 return {};
             }
         });
+    },
+    academic_program: function(frm){
+        frm.set_value('specific_program', null);
+    },
+    level: function(frm){
+        frm.set_value('specific_level', null);
     }
 });
