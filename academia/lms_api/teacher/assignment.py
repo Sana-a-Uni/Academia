@@ -5,15 +5,11 @@ from datetime import datetime
 @frappe.whitelist(allow_guest=True)
 def fetch_assignments_for_course(course):
     try:
-        # Get the current user ID from the session
         user_id = frappe.session.user
-        
-        # Retrieve the faculty member ID linked to the user ID
         faculty_member_id = get_faculty_member_from_user(user_id)
         if not faculty_member_id:
             raise frappe.ValidationError("Faculty member not found for the user.")
 
-        # Fetch all assignments that match the given course and faculty member
         assignments = frappe.get_all('LMS Assignment',
             filters={
                 'course': course,
@@ -22,7 +18,6 @@ def fetch_assignments_for_course(course):
             fields=['name', 'assignment_title', 'from_date', 'to_date', 'total_grades']
         )
 
-        # Check if assignments were found
         if not assignments:
             frappe.response.update({
                 "status_code": 404,
@@ -30,7 +25,6 @@ def fetch_assignments_for_course(course):
             })
             return frappe.response["message"]
 
-        # Construct the success response
         frappe.response.update({
             "status_code": 200,
             "message": "Assignments fetched successfully",
@@ -39,7 +33,6 @@ def fetch_assignments_for_course(course):
         return frappe.response["message"]
 
     except Exception as e:
-        # General error handling
         frappe.response.update({
             "status_code": 500,
             "message": f"An error occurred while fetching assignments: {str(e)}"
@@ -50,46 +43,43 @@ def fetch_assignments_for_course(course):
 def create_assignment():
     data = json.loads(frappe.request.data)
     try:
-        # Get the current user ID from the session
         user_id = frappe.session.user
-        
-        # Retrieve the faculty member ID linked to the user ID
         faculty_member_id = get_faculty_member_from_user(user_id)
         if not faculty_member_id:
             raise frappe.ValidationError("Faculty member not found for the user.")
         
-        # Add the faculty member to the data dictionary
         data["faculty_member"] = faculty_member_id
 
-        # Perform validation
         errors = validate_assignment_data(data)
         if errors:
-            frappe.response["status_code"] = 400
-            frappe.response["errors"] = errors
+            frappe.response.update({
+                "status_code": 400,
+                "errors": errors
+            })
             return
 
-        # Create the assignment document
         create_assignment_document(data)
     except Exception as e:
-        frappe.response["status_code"] = 500
-        frappe.response["message"] = f"An error occurred while creating the assignment: {str(e)}"
+        frappe.response.update({
+            "status_code": 500,
+            "message": f"An error occurred while creating the assignment: {str(e)}"
+        })
         return
 
-    frappe.response["status_code"] = 200
-    frappe.response["message"] = "Assignment created successfully"
+    frappe.response.update({
+        "status_code": 200,
+        "message": "Assignment created successfully"
+    })
 
 def validate_assignment_data(data):
     errors = {}
     
-    # Validate assignment title
     if not data.get("assignment_title"):
         errors["assignment_title"] = "Assignment title is required."
     
-    # Validate question or attachment presence
     if not data.get("question") and not data.get("attachments"):
         errors["question_or_attachment"] = "Either question text or attachment is required."
     
-    # Validate assessment criteria
     assessment_criteria_list = data.get("assessment_criteria")
     if not assessment_criteria_list or len(assessment_criteria_list) == 0:
         errors["assessment_criteria"] = "At least one assessment criteria is required."
@@ -104,7 +94,6 @@ def validate_assignment_data(data):
                     errors["assessment_criteria"] = []
                 errors["assessment_criteria"].append({ "index": index, "field": "maximum_grade", "message": "Maximum grade is required." })
     
-    # Validate dates if the assignment is available
     if data.get("make_the_assignment_availability") == 1:
         from_date = data.get("from_date")
         to_date = data.get("to_date")
@@ -123,11 +112,11 @@ def validate_assignment_data(data):
     return errors
 
 def create_assignment_document(data):
-    # Create the assignment document
     assignment_doc = frappe.new_doc("LMS Assignment")
     assignment_doc.course = data.get("course")
     assignment_doc.faculty_member = data.get("faculty_member")
     assignment_doc.assignment_title = data.get("assignment_title")
+    assignment_doc.assignment_type = data.get("assignment_type")
     assignment_doc.instruction = data.get("instruction")
     assignment_doc.make_the_assignment_availability = data.get("make_the_assignment_availability")
 
@@ -148,10 +137,8 @@ def create_assignment_document(data):
 
     assignment_doc.total_grades = total_grades
 
-    # Insert the assignment document to get the name (ID) for attachments
     assignment_doc.insert()
 
-    # Handling attachments
     attachments = data.get('attachments')
     if attachments:
         for attachment in attachments:
@@ -174,25 +161,35 @@ def create_assignment_document(data):
                 except Exception as e:
                     frappe.throw(f"Failed to upload attachment {attachment_name}: {str(e)}")
 
-    # Save the document again to ensure attachments are linked
     assignment_doc.save()
 
 def get_faculty_member_from_user(user_id):
-    """
-    Retrieve the faculty member linked to a user ID.
-
-    :param user_id: The user ID to retrieve the faculty member for
-    :return: The faculty member ID
-    """
-    # Get the employee ID linked to the user
     employee = frappe.get_value("Employee", {"user_id": user_id}, "name")
     if not employee:
         raise frappe.ValidationError("Employee not found for the user.")
     
-    # Get the faculty member ID linked to the employee
     faculty_member = frappe.get_value("Faculty Member", {"employee": employee}, "name")
     if not faculty_member:
         raise frappe.ValidationError("Faculty member not found for the employee.")
     
     return faculty_member
 
+@frappe.whitelist()
+def fetch_assignment_type_options():
+    try:
+        assignment_type_options = frappe.get_meta('LMS Assignment').get_field('assignment_type').options
+        if assignment_type_options:
+            assignment_type_options = [option.strip() for option in assignment_type_options.split('\n')]
+        else:
+            assignment_type_options = []
+
+        frappe.response.update({
+            "status_code": 200,
+            "data": assignment_type_options
+        })
+    except Exception as e:
+        frappe.response.update({
+            "status_code": 500,
+            "data": [],
+            "error": str(e)
+        })

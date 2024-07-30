@@ -1,4 +1,3 @@
-// store.js
 import { defineStore } from "pinia";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -16,11 +15,13 @@ export const useAssignmentStore = defineStore("assignment", {
 			assessment_criteria: [],
 			uploadedFiles: [],
 			previousSubmissionFiles: [],
+			assignment_type: "", // إضافة نوع التكليف
 		},
 		assignments: [],
 		loading: false,
 		error: null,
 		errors: {},
+		assignmentTypeOptions: [], // خيارات أنواع التكليف
 	}),
 	actions: {
 		async fetchAssignments(courseName) {
@@ -73,6 +74,30 @@ export const useAssignmentStore = defineStore("assignment", {
 					this.error = error.message || "An error occurred while creating assignment.";
 				}
 				return { success: false };
+			}
+		},
+
+		async fetchAssignmentTypeOptions() {
+			try {
+				const response = await axios.get(
+					"http://localhost:8080/api/method/academia.lms_api.teacher.assignment.fetch_assignment_type_options",
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
+						},
+					}
+				);
+				if (response.data.status_code === 200) {
+					this.assignmentTypeOptions = response.data.data;
+				} else {
+					console.error("Error fetching assignment type options");
+				}
+			} catch (error) {
+				console.error(
+					"Error fetching assignment type options:",
+					error.response ? error.response.data : error
+				);
 			}
 		},
 

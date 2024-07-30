@@ -2,6 +2,21 @@
 	<div class="container">
 		<h1>Create a New Assignment</h1>
 		<form @submit.prevent="createAssignment">
+			<label for="assignmentType">Assignment Type:</label>
+			<select id="assignmentType" v-model="assignmentStore.assignmentData.assignment_type">
+				<option value="" disabled selected>Select Assignment Type</option>
+				<option
+					v-for="option in assignmentStore.assignmentTypeOptions"
+					:key="option"
+					:value="option"
+				>
+					{{ option }}
+				</option>
+			</select>
+			<div class="error-message" v-if="errors.assignment_type">
+				{{ errors.assignment_type }}
+			</div>
+
 			<label for="assignmentTitle">Assignment Title:</label>
 			<input
 				type="text"
@@ -57,6 +72,7 @@ onMounted(() => {
 		editor.on("text-change", () => {
 			assignmentStore.assignmentData.instruction = editor.root.innerHTML;
 		});
+		assignmentStore.fetchAssignmentTypeOptions(); // جلب خيارات أنواع التكليف عند تحميل المكون
 	});
 });
 
@@ -67,10 +83,12 @@ const createAssignment = () => {
 const cancelAssignment = () => {
 	assignmentStore.assignmentData.assignment_title = "";
 	assignmentStore.assignmentData.instruction = "";
+	assignmentStore.assignmentData.assignment_type = ""; // إعادة تعيين نوع التكليف
 };
 </script>
 
 <style>
+/* إضافات التنسيق */
 body {
 	font-family: Arial, sans-serif;
 	margin: 0;
