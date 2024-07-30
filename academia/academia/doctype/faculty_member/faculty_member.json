@@ -125,7 +125,7 @@
   {
    "fieldname": "employee",
    "fieldtype": "Link",
-   "label": "Employee ",
+   "label": "Employee",
    "options": "Employee",
    "reqd": 1
   },
@@ -437,7 +437,7 @@
    "link_fieldname": "faculty_member"
   }
  ],
- "modified": "2024-07-28 12:15:40.044501",
+ "modified": "2024-07-30 11:41:28.722731",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",

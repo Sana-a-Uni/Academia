@@ -180,6 +180,19 @@ frappe.ui.form.on('Faculty Member', {
     }
 });
 
+frappe.ui.form.on('Faculty Member Academic Ranking', {
+    academic_rank: function(frm, cdt, cdn) {
+        frappe.call({
+            method: 'academia.academia.doctype.faculty_member.faculty_member.update_academic_rank',
+            args: {
+                doc: frm.doc
+            },
+            callback: function(response) {
+                frm.refresh_field('academic_rank');
+            }
+        });
+    }
+});
 
 
 
