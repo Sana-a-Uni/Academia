@@ -9,6 +9,7 @@
   "course",
   "assignment_title",
   "student_group",
+  "assignment_type",
   "column_break_bsqh",
   "faculty_member",
   "instruction",
@@ -120,11 +121,17 @@
    "fieldtype": "Table",
    "label": "Attachment File",
    "options": "Attachment Files"
+  },
+  {
+   "fieldname": "assignment_type",
+   "fieldtype": "Select",
+   "label": "Assignment type",
+   "options": "Assignment\nProject"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-26 00:00:04.621136",
+ "modified": "2024-07-30 01:54:30.740994",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "LMS Assignment",
