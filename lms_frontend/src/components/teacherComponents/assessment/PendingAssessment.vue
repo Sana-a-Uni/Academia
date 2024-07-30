@@ -16,14 +16,21 @@
 				<tr v-if="assignments.length === 0">
 					<td colspan="4" class="no-data">No Data</td>
 				</tr>
-				<tr v-else v-for="assignment in assignments" :key="assignment.id">
+				<tr
+					v-else
+					v-for="assignment in assignments"
+					:key="assignment.assignment_submission_name"
+				>
 					<td class="student-column">{{ assignment.student_name }}</td>
 					<td class="assignment-column">{{ assignment.assignment_title }}</td>
 					<td class="submission-date-column">
 						{{ formatDate(assignment.submission_date) }}
 					</td>
 					<td class="action-column">
-						<button @click="evaluateAssignment(assignment.id)" class="evaluate-button">
+						<button
+							@click="evaluateAssignment(assignment.assignment_submission_name)"
+							class="evaluate-button"
+						>
 							Evaluate
 						</button>
 					</td>
@@ -35,7 +42,7 @@
 
 <script setup>
 import { defineProps } from "vue";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 
 const props = defineProps({
 	assignments: {
@@ -56,9 +63,13 @@ function formatDate(dateString) {
 	return `${day}/${month}/${year} ${hours}:${minutes}`;
 }
 
-function evaluateAssignment(assignmentId) {
-	router.push({ name: 'assessmentAssignment', params: { id: "20817d93e8" } });
+function evaluateAssignment(submissionName) {
+	router.push({
+		name: "assessmentAssignment",
+		params: { submission_name: submissionName },
+	});
 }
+
 </script>
 
 <style scoped>

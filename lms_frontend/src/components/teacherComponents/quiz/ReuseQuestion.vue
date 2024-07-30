@@ -58,7 +58,7 @@ const emit = defineEmits(["questions", "cancel"]);
 const questions = computed(() => store.questions);
 
 onMounted(async () => {
-	await store.fetchQuestionsByCourse("00", "ACAD-FM-00001");
+	await store.fetchCourseQuestions("00");
 });
 
 const reuseQuestions = () => {
@@ -71,13 +71,12 @@ const cancel = () => {
 </script>
 
 <style scoped>
-/* أضف تنسيقات CSS الخاصة بـ QuestionList هنا */
 .grade {
-	width: 130px; /* تعديل العرض ليكون متناسقاً */
+	width: 130px;
 	padding: 5px;
 	border: 1px solid #ccc;
 	border-radius: 5px;
-	font-size: 0.9rem; /* تصغير حجم الخط */
+	font-size: 0.9rem;
 }
 .add-question {
 	flex: 1;
@@ -115,7 +114,7 @@ h1 {
 	padding: 20px;
 	width: 96%;
 	border: 1px solid #ddd;
-	height: calc(80vh - 160px); /* تعديل ارتفاع البطاقة بحيث تكون الأزرار مرئية */
+	height: calc(80vh - 160px);
 	overflow-y: auto;
 	border-radius: 10px;
 }
@@ -162,33 +161,32 @@ h1 {
 }
 
 .options-list {
-	padding-left: 0; /* إزالة الحشوة الافتراضية لقائمة ul */
-	display: block; /* تعديل العرض */
-	gap: px; /* مسافة بين العناصر */
+	padding-left: 0;
+	display: block;
 }
 
 .options-list li {
-	margin: 5px 0; /* تقليل الهامش بين العناصر */
+	margin: 5px 0;
 	display: flex;
-	align-items: center; /* لضمان أن الخيارات والنصوص تكون في نفس السطر */
-	justify-content: flex-start; /* محاذاة العناصر إلى اليسار */
+	align-items: center;
+	justify-content: flex-start;
 }
 
 .options-list li .option-input {
-	margin-right: 10px; /* مسافة بين الراديو والنص */
-	transform: scale(1.2); /* تعديل حجم الراديو ليكون مناسب */
+	margin-right: 10px;
+	transform: scale(1.2);
 	position: relative;
-	top: 8px; /* رفع الراديو قليلاً */
+	top: 8px;
 }
 
 .options-list li .option-label {
 	display: flex;
-	align-items: center; /* لضمان أن الخيارات والنصوص تكون في نفس السطر */
+	align-items: center;
 }
 
 .options-list li .option-text {
-	white-space: nowrap; /* منع النص من الالتفاف */
-	color: inherit; /* للحفاظ على لون النص الأصلي */
+	white-space: nowrap;
+	color: inherit;
 }
 
 .question ul li a {
@@ -242,9 +240,9 @@ select {
 	font-size: 16px;
 	background-color: #fff;
 	color: #333;
-	width: 50%; /* اجعل العرض 100% للتوافق مع الشاشات الصغيرة */
+	width: 50%;
 	cursor: pointer;
-	appearance: none; /* لإزالة شكل السهم الافتراضي في بعض المتصفحات */
+	appearance: none;
 }
 
 select:focus {
@@ -263,7 +261,6 @@ select:focus {
 	width: 20%;
 }
 
-/* استعلامات الوسائط للتكيف مع أحجام الشاشات المختلفة */
 @media (max-width: 768px) {
 	.big-card {
 		width: 100%;
@@ -328,25 +325,23 @@ select:focus {
 	}
 }
 
-/*reuse*/
 .check {
 	display: flex;
-	align-items: center; /* لجعل العناصر تتماشى أفقياً */
+	align-items: center;
 }
 .checkbox {
 	width: 12px;
 	height: 12px;
 	transform: scale(1.5);
 	margin-right: 14px;
-	margin-top: 0; /* إزالة الهوامش العلوية */
+	margin-top: 0;
 }
 .question-text {
-	margin: 0; /* إزالة الهوامش العلوية والسفلية */
+	margin: 0;
 	position: relative;
-	top: -10px; /* رفع النص قليلاً */
+	top: -10px;
 }
 
-/* إضافة نمط للنص الصحيح */
 .correct .option-text {
 	color: green;
 	font-weight: bold;

@@ -18,6 +18,7 @@ class LMSAssignment(Document):
 
 		assessment_criteria: DF.Table[AssessmentCriteria]
 		assignment_title: DF.Data
+		assignment_type: DF.Literal["Assignment", "Project"]
 		attachment_file: DF.Table[AttachmentFiles]
 		course: DF.Link | None
 		faculty_member: DF.Link | None

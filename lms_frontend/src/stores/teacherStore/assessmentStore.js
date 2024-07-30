@@ -1,23 +1,27 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export const useAssessmentStore = defineStore("assessmentStore", {
 	state: () => ({
+		quizzes: [],
 		assignments: [],
 		assignmentDetails: null,
 		loading: false,
 		error: null,
+		fieldErrors: {},
 	}),
 	actions: {
-		async fetchAssignments(facultyMemberId) {
+		async fetchAssignments() {
 			this.loading = true;
 			this.error = null;
 			try {
 				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.get_submitted_assignments_by_faculty_member",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.fetch_submitted_assignments_for_faculty_member",
 					{
-						params: {
-							faculty_member_id: facultyMemberId,
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
@@ -33,10 +37,16 @@ export const useAssessmentStore = defineStore("assessmentStore", {
 			this.error = null;
 			try {
 				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.get_assignment_details",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.fetch_assignment_details",
 					{
 						params: {
 							assignment_submission_id: assignmentSubmissionId,
+						},
+					},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
@@ -48,28 +58,90 @@ export const useAssessmentStore = defineStore("assessmentStore", {
 				this.loading = false;
 			}
 		},
-		async saveAssessment(payload) {
+		async fetchAssignmentAssessment(assignmentSubmissionId) {
 			this.loading = true;
 			this.error = null;
 			try {
+				const response = await axios.get(
+					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.get_assignment_assessment",
+					{
+						params: {
+							assignment_submission_id: assignmentSubmissionId,
+						},
+					},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
+						},
+					}
+				);
+				return response.data.message.data;
+			} catch (error) {
+				this.error =
+					error.message || "An error occurred while fetching assignment assessment.";
+				return { status: "error", message: this.error };
+			} finally {
+				this.loading = false;
+			}
+		},
+		async saveAssessment(payload) {
+			this.loading = true;
+			this.error = null;
+			this.fieldErrors = {};
+			try {
 				const response = await axios.post(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.save_assessment",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.save_assignment_assessment",
 					payload,
 					{
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: "token 0b88a69d4861506:a0640c80d24119a",
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
-				if (response.data.message.status=== "success") {
-					alert("Assessment saved successfully!");
-				} else {
-					alert(`Error: ${response.data.message}`);
+				if (response.data.message.status === "success") {
+					return { status: "success" };
+				} else if (response.data.message.status === "error") {
+					throw new Error(response.data.message.message);
 				}
 			} catch (error) {
-				this.error = error.message || "An error occurred while saving the assessment.";
-				alert(this.error);
+				if (error.response && error.response.status === 400) {
+					this.error = error.response.data.message;
+					this.fieldErrors.general = error.response.data.message;
+				} else {
+					this.error = error.message || "An error occurred while saving the assessment.";
+					this.fieldErrors.general = this.error;
+				}
+				return { status: "error", message: this.error };
+			} finally {
+				this.loading = false;
+			}
+		},
+		async fetchQuizAndAssignmentGrades(facultyMember, course) {
+			this.loading = true;
+			this.error = null;
+			try {
+				const response = await axios.get(
+					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.get_quiz_and_assignment_grades",
+					{
+						params: {
+							faculty_member: facultyMember,
+							course: course,
+						},
+					},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
+						},
+					}
+				);
+				console.log(response);
+				this.quizzes = response.data.message.quizzes;
+				this.assignments = response.data.message.assignments;
+			} catch (error) {
+				this.error = error.message || "An error occurred while fetching grades.";
 			} finally {
 				this.loading = false;
 			}

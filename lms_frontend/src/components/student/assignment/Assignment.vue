@@ -1,40 +1,60 @@
 <template>
 	<div class="container" v-if="assignmentDetails">
+		<div v-if="alert.message" :class="`alert ${alert.type}`">
+			{{ alert.message }}
+		</div>
+		<div v-if="isSubmitted && !alert.message" class="alert alert-success">
+			The assignment has been submitted. You cannot edit or resubmit it.
+		</div>
+		<div v-else-if="!isTimeRemaining && !alert.message" class="alert alert-danger">
+			The submission period has ended. You can no longer edit your answers.
+		</div>
+
 		<form @submit.prevent="handleSubmit(true)">
 			<div class="content-time">
-				<h3>{{ assignmentDetails.assignment_title }}</h3>
-				<div class="clock-time" v-if="showCountdown">
-					<i style="margin-top: 21px; color: #0584ae" class="mdi mdi-clock"></i>
-					<h4 class="file-name">Time Remaining {{ countdownTime }}</h4>
+				<h3>
+					{{ assignmentDetails.assignment_title }} ({{
+						assignmentDetails.assignment_type
+					}})
+				</h3>
+				<div v-if="!isSubmitted">
+					<div class="clock-time" v-if="showCountdown">
+						<i style="margin-top: 21px; color: #0584ae" class="mdi mdi-clock"></i>
+						<h4 class="file-name">Time Remaining {{ countdownTime }}</h4>
+					</div>
 				</div>
 			</div>
 			<h4>Assignment Instructions</h4>
 			<div class="indented-content">
-				<p>
-					End time: All attempts must be completed before
-					{{ formattedEndTime }}
-				</p>
-				<!-- Note -->
+				<p>End time: All attempts must be completed before {{ formattedEndTime }}</p>
 				<span v-html="assignmentDetails.instruction"></span>
 			</div>
 
-			<h4>Assignment Content</h4>
-			<div class="indented-content">
-				<div class="assignment-content" v-html="assignmentDetails.question"></div>
+			<div v-if="assignmentDetails.question">
+				<h4>Assignment Content</h4>
+				<div class="indented-content">
+					<div class="assignment-content" v-html="assignmentDetails.question"></div>
+				</div>
 			</div>
 
-			<h4>Assignment File</h4>
-			<div class="indented-content">
-				<div class="assignment-file">
-					<label
-						v-for="file in assignmentDetails.attached_files"
-						:key="file.file_url"
-						class="file-name"
-					>
-						<a :href="getFullFileUrl(file.file_url)" target="_blank">{{
-							file.file_name
-						}}</a>
-					</label>
+			<div
+				v-if="
+					assignmentDetails.attached_files && assignmentDetails.attached_files.length > 0
+				"
+			>
+				<h4>Assignment File</h4>
+				<div class="indented-content">
+					<div class="assignment-file">
+						<label
+							v-for="file in assignmentDetails.attached_files"
+							:key="file.file_url"
+							class="file-name"
+						>
+							<a :href="getFullFileUrl(file.file_url)" target="_blank">{{
+								file.file_name
+							}}</a>
+						</label>
+					</div>
 				</div>
 			</div>
 
@@ -50,6 +70,7 @@
 					type="file"
 					id="attachFiles"
 					@change="handleFileUpload"
+					:disabled="!isTimeRemaining || isSubmitted"
 					multiple
 				/>
 				<div
@@ -64,7 +85,6 @@
 							</tr>
 						</thead>
 						<tbody>
-							<!-- عرض الملفات السابقة -->
 							<tr
 								v-for="(file, index) in previousSubmissionFiles"
 								:key="file.file_url"
@@ -77,12 +97,12 @@
 								<td style="text-align: center">
 									<font-awesome-icon
 										icon="trash"
-										@click="markFileForDeletion(index)"
+										@click="markFileForDeletion(index, file.file_url)"
 										style="color: #dc3545"
+										v-if="isTimeRemaining && !isSubmitted"
 									/>
 								</td>
 							</tr>
-							<!-- عرض الملفات الجديدة -->
 							<tr v-for="(file, index) in uploadedFiles" :key="index">
 								<td>
 									<a :href="file.previewUrl" target="_blank">{{ file.name }}</a>
@@ -92,6 +112,7 @@
 										icon="trash"
 										@click="removeFile(index)"
 										style="color: #dc3545"
+										v-if="isTimeRemaining && !isSubmitted"
 									/>
 								</td>
 							</tr>
@@ -136,8 +157,10 @@
 
 			<div class="button-group">
 				<button type="button" @click="cancelAssignment">Cancel</button>
-				<button type="button" @click="handleSubmit(false)">Save As Draft</button>
-				<button type="submit">Submit</button>
+				<template v-if="isTimeRemaining && !isSubmitted">
+					<button type="button" @click="handleSubmit(false)">Save As Draft</button>
+					<button type="submit">Submit</button>
+				</template>
 			</div>
 		</form>
 	</div>
@@ -150,6 +173,7 @@ import Quill from "quill";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useRoute, useRouter } from "vue-router";
 
 library.add(faTrash);
 
@@ -174,6 +198,8 @@ const props = defineProps({
 });
 
 const assignmentStore = useAssignmentStore();
+const router = useRouter();
+const route = useRoute();
 
 const quillEditor = ref(null);
 const commentEditor = ref(null);
@@ -181,6 +207,9 @@ const uploadedFiles = ref([]);
 const timeRemaining = ref(null);
 const previousSubmissionFiles = ref([...props.previousSubmissionFiles]);
 const filesMarkedForDeletion = ref([]);
+const isSubmitted = computed(() => assignmentStore.isSubmitted);
+const isTimeRemaining = computed(() => timeRemaining.value !== null);
+const alert = ref({ message: "", type: "" });
 
 const editorOptions = {
 	theme: "snow",
@@ -193,22 +222,25 @@ const editorOptions = {
 			["clean"],
 		],
 	},
+	readOnly: !isTimeRemaining.value || isSubmitted.value,
 };
 
 const initializeQuillEditors = () => {
 	if (quillEditor.value && commentEditor.value) {
 		const assignmentEditor = new Quill(quillEditor.value, editorOptions);
-		assignmentEditor.root.innerHTML = props.previousSubmission
-			? props.previousSubmission.answer
-			: "";
+		const commentEditorInstance = new Quill(commentEditor.value, editorOptions);
+
+		if (props.previousSubmission) {
+			assignmentEditor.root.innerHTML = props.previousSubmission.answer || "";
+			commentEditorInstance.root.innerHTML = props.previousSubmission.comment || "";
+		}
+
+		assignmentEditor.enable(isTimeRemaining.value && !isSubmitted.value);
 		assignmentEditor.on("text-change", () => {
 			props.assignmentDetails.answer = assignmentEditor.root.innerHTML;
 		});
 
-		const commentEditorInstance = new Quill(commentEditor.value, editorOptions);
-		commentEditorInstance.root.innerHTML = props.previousSubmission
-			? props.previousSubmission.comment
-			: "";
+		commentEditorInstance.enable(isTimeRemaining.value && !isSubmitted.value);
 		commentEditorInstance.on("text-change", () => {
 			props.assignmentDetails.comment = commentEditorInstance.root.innerHTML;
 		});
@@ -218,6 +250,7 @@ const initializeQuillEditors = () => {
 };
 
 onMounted(() => {
+	console.log("Assignment Details in Component: ", props.assignmentDetails); // عرض البيانات في وحدة التحكم
 	nextTick(initializeQuillEditors);
 	updateTimeRemaining();
 	const interval = setInterval(updateTimeRemaining, 1000);
@@ -226,55 +259,77 @@ onMounted(() => {
 
 watch(
 	() => props.assignmentDetails,
-	() => {
-		nextTick(initializeQuillEditors);
+	(newVal) => {
+		console.log("Updated Assignment Details:", newVal);
+		if (newVal) {
+			nextTick(initializeQuillEditors);
+		} else {
+			alert.value = { message: "Assignment details are missing", type: "alert-danger" };
+		}
 	}
 );
 
+const showAlert = (message) => {
+	return confirm(message);
+};
+
 const handleSubmit = async (isFinalSubmission) => {
+	const confirmMessage = isFinalSubmission
+		? "Are you sure you want to submit the assignment?"
+		: "Are you sure you want to save the draft?";
+	if (!showAlert(confirmMessage)) {
+		return;
+	}
+
 	const data = {
-		student: "EDU-STU-2024-00003",
-		assignment: "ecff4b55c2",
+		assignment: route.params.assignmentName,
 		answer: quillEditor.value.querySelector(".ql-editor").innerHTML,
 		comment: commentEditor.value.querySelector(".ql-editor").innerHTML,
 		submit: isFinalSubmission,
 		attachments: [],
 	};
 
-	// Handle file upload only if there are files to upload
 	if (uploadedFiles.value.length > 0) {
 		for (let file of uploadedFiles.value) {
 			const reader = new FileReader();
-			reader.onloadend = () => {
+			reader.onloadend = async () => {
 				data.attachments.push({
-					attachment: reader.result.split(",")[1], // Set the attachment as base64 string
+					attachment: reader.result.split(",")[1],
 					attachment_name: file.name,
 				});
 				if (data.attachments.length === uploadedFiles.value.length) {
-					props.onSubmit(data);
-					// Clear the uploaded files to prevent duplicate uploads
-					uploadedFiles.value = [];
+					await submitData(data, isFinalSubmission);
 				}
 			};
-			reader.readAsDataURL(file.file); // تعديل هنا لقراءة الملف الصحيح
+			reader.readAsDataURL(file.file);
 		}
 	} else {
-		// Submit without file if no file is uploaded
-		await props.onSubmit(data);
+		await submitData(data, isFinalSubmission);
 	}
+};
 
-	// Handle deletion of marked files
-	for (let file of filesMarkedForDeletion.value) {
-		try {
-			const response = await assignmentStore.deleteAttachment(file.file_url);
-			if (response.status === "success") {
-				previousSubmissionFiles.value = previousSubmissionFiles.value.filter(
-					(f) => f.file_url !== file.file_url
-				);
-			}
-		} catch (error) {
-			console.error("Error deleting file:", error);
+const submitData = async (data, isFinalSubmission) => {
+	try {
+		const response = await props.onSubmit(data);
+		if (response && response.hasOwnProperty("is_submitted")) {
+			isSubmitted.value = response.is_submitted;
+		} else {
+			alert.value = { message: "Unexpected response format", type: "alert-danger" };
+			return;
 		}
+		uploadedFiles.value = [];
+		await assignmentStore.fetchPreviousSubmission(route.params.assignmentName);
+
+		if (isFinalSubmission) {
+			alert.value = { message: "Assignment submitted successfully!", type: "alert-success" };
+		} else {
+			alert.value = { message: "Draft saved successfully!", type: "alert-success" };
+		}
+
+		router.push({ path: "/studentDashboard/assignmentView" });
+	} catch (error) {
+		console.error("Error submitting data:", error);
+		alert.value = { message: "Error submitting data: " + error.message, type: "alert-danger" };
 	}
 };
 
@@ -286,7 +341,7 @@ const handleFileUpload = (event) => {
 				(f) => f.file.name === files[i].name && f.file.size === files[i].size
 			)
 		) {
-			const previewUrl = URL.createObjectURL(files[i]); // Create a preview URL
+			const previewUrl = URL.createObjectURL(files[i]);
 			uploadedFiles.value.push({ file: files[i], previewUrl, name: files[i].name });
 		}
 	}
@@ -298,18 +353,24 @@ const cancelAssignment = () => {
 		commentEditor.value.querySelector(".ql-editor").innerHTML = "";
 	}
 	uploadedFiles.value = [];
+	router.push({ path: "/studentDashboard/assignmentView" });
 };
 
 const removeFile = (index) => {
 	const file = uploadedFiles.value[index];
-	URL.revokeObjectURL(file.previewUrl); // Revoke the object URL to release memory
+	URL.revokeObjectURL(file.previewUrl);
 	uploadedFiles.value.splice(index, 1);
 };
 
-const markFileForDeletion = (index) => {
-	const file = previousSubmissionFiles.value[index];
-	previousSubmissionFiles.value.splice(index, 1);
-	filesMarkedForDeletion.value.push(file);
+const markFileForDeletion = async (index, fileUrl) => {
+	try {
+		await assignmentStore.deleteAttachment(fileUrl);
+		previousSubmissionFiles.value.splice(index, 1);
+		console.log("File marked for deletion successfully");
+	} catch (error) {
+		console.error("Error deleting file:", error);
+		alert("Error deleting file: " + error.message);
+	}
 };
 
 const getFullFileUrl = (fileUrl) => {
@@ -325,10 +386,14 @@ const countdownTime = computed(() => {
 		return "";
 	}
 	const { hours, minutes, seconds } = timeRemaining.value;
+	return formatTimeRemaining(hours, minutes, seconds);
+});
+
+const formatTimeRemaining = (hours, minutes, seconds) => {
 	return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds
 		.toString()
 		.padStart(2, "0")}`;
-});
+};
 
 const formattedEndTime = computed(() => {
 	if (props.assignmentDetails && props.assignmentDetails.to_date) {
@@ -370,6 +435,26 @@ body {
 	margin-left: 10px;
 	box-shadow: 0 0 rgba(0, 0, 0, 0.1);
 	box-sizing: border-box;
+}
+
+.alert {
+	width: 100%;
+	padding: 10px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+}
+
+.alert-danger {
+	color: #a94442;
+	background-color: #f2dede;
+	border-color: #ebccd1;
+}
+
+.alert-success {
+	color: #3c763d;
+	background-color: #dff0d8;
+	border-color: #d6e9c6;
 }
 
 .container table {

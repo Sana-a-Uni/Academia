@@ -1,32 +1,30 @@
 <template>
 	<div class="container">
-		<h1>Assignment Settings</h1>
+		<h1>Quiz Settings</h1>
 		<form @submit.prevent="saveSettings">
 			<!-- Availability Section -->
 			<div class="form-section">
 				<div class="section-header">
-					<h3 class="section-title">Assignment Configuration</h3>
+					<h3 class="section-title">Quiz Configuration</h3>
 					<hr class="section-divider" />
 				</div>
 				<div class="section-header">
 					<input
 						id="availability-check"
 						type="checkbox"
-						v-model="assignmentStore.assignmentData.make_the_assignment_availability"
+						v-model="quizStore.quizData.make_the_quiz_availability"
 						class="checkbox-inline"
 					/>
 					<label for="availability-check" class="label-inline"
-						>Make the assignment availability</label
+						>Make the quiz availability</label
 					>
 				</div>
 				<div
 					:class="[
 						'date-input',
 						{
-							active: assignmentStore.assignmentData
-								.make_the_assignment_availability,
-							faded: !assignmentStore.assignmentData
-								.make_the_assignment_availability,
+							active: quizStore.quizData.make_the_quiz_availability,
+							faded: !quizStore.quizData.make_the_quiz_availability,
 						},
 					]"
 					id="date-inputs"
@@ -34,11 +32,188 @@
 					<div class="inline-fields">
 						<div class="from-date">
 							<h4 style="margin-top: 6px; margin-right: 15px">From</h4>
-							<DatetimePicker v-model="assignmentStore.assignmentData.from_date" />
+							<DatetimePicker v-model="quizStore.quizData.from_date" />
+						</div>
+						<div class="error-message" v-if="errors.from_date">
+							{{ errors.from_date }}
 						</div>
 						<div class="from-date">
 							<h4 style="margin-top: 6px; margin-right: 15px">To</h4>
-							<DatetimePicker v-model="assignmentStore.assignmentData.to_date" />
+							<DatetimePicker v-model="quizStore.quizData.to_date" />
+						</div>
+						<div class="error-message" v-if="errors.to_date">{{ errors.to_date }}</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Time Bound Section -->
+			<div class="form-section">
+				<div class="section-header">
+					<input
+						id="time-limit-check"
+						type="checkbox"
+						v-model="quizStore.quizData.is_time_bound"
+						class="checkbox-inline"
+					/>
+					<label for="time-limit-check" class="label-inline">is Time-Bound</label>
+				</div>
+				<div
+					:class="[
+						'time-input',
+						{
+							active: quizStore.quizData.is_time_bound,
+							faded: !quizStore.quizData.is_time_bound,
+						},
+					]"
+					id="time-input"
+				>
+					<DurationInput
+						v-model="quizStore.quizData.duration"
+						@update:seconds="updateDurationInSeconds"
+					/>
+					<div class="error-message" v-if="errors.duration">{{ errors.duration }}</div>
+				</div>
+			</div>
+
+			<!-- Multiple Attempts Section -->
+			<div class="form-section">
+				<div class="section-header">
+					<input
+						id="multiple-attempt-check"
+						type="checkbox"
+						v-model="quizStore.quizData.multiple_attempts"
+						class="checkbox-inline"
+					/>
+					<label for="multiple-attempt-check" class="label-inline"
+						>Multiple Attempts</label
+					>
+				</div>
+				<div
+					:class="[
+						'attempt-input',
+						{
+							active: quizStore.quizData.multiple_attempts,
+							faded: !quizStore.quizData.multiple_attempts,
+						},
+					]"
+					id="attempt-input"
+				>
+					<label
+						for="number_of_attempts"
+						class="label-inline"
+						v-if="quizStore.quizData.multiple_attempts"
+					>
+						Number of attempts
+					</label>
+					<input
+						id="number_of_attempts"
+						type="number"
+						placeholder="Enter the number of attempts"
+						class="input-field"
+						v-model="quizStore.quizData.number_of_attempts"
+					/>
+					<div class="error-message" v-if="errors.number_of_attempts">
+						{{ errors.number_of_attempts }}
+					</div>
+
+					<label
+						for="grading_basis"
+						class="label-inline"
+						v-if="quizStore.quizData.multiple_attempts"
+					>
+						Grading Basis
+					</label>
+
+					<select
+						id="grading_basis"
+						placeholder="Select grading basis"
+						class="input-field"
+						v-if="quizStore.quizData.multiple_attempts"
+						v-model="quizStore.quizData.grading_basis"
+					>
+						<option
+							v-for="option in quizStore.gradingBasisOptions"
+							:key="option"
+							:value="option"
+						>
+							{{ option }}
+						</option>
+					</select>
+					<div class="error-message" v-if="errors.grading_basis">
+						{{ errors.grading_basis }}
+					</div>
+				</div>
+			</div>
+
+			<!-- Results Display Settings Section -->
+			<div class="form-section">
+				<div class="section-header">
+					<h3 class="section-title">Results Display Settings</h3>
+					<hr class="section-divider" />
+				</div>
+				<div class="results-display-options">
+					<div class="option">
+						<div class="section-header">
+							<input
+								id="show-question-score"
+								type="checkbox"
+								v-model="quizStore.quizData.show_question_score"
+								class="checkbox-inline"
+							/>
+							<label for="show-question-score" class="label-inline"
+								>Show Question Scores</label
+							>
+						</div>
+					</div>
+					<div class="option">
+						<div class="section-header">
+							<input
+								id="show-correct-answer"
+								type="checkbox"
+								v-model="quizStore.quizData.show_correct_answer"
+								class="checkbox-inline"
+								style="margin-left: 20px"
+							/>
+							<label for="show-correct-answer" class="label-inline"
+								>Show Correct Answers</label
+							>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Randomize Questions Section -->
+			<div class="form-section">
+				<div class="section-header">
+					<h3 class="section-title">Question Order Settings</h3>
+					<hr class="section-divider" />
+				</div>
+				<div class="results-display-options">
+					<div class="option">
+						<div class="section-header">
+							<input
+								id="randomize-questions-check"
+								type="checkbox"
+								v-model="quizStore.quizData.randomize_question_order"
+								class="checkbox-inline"
+							/>
+							<label for="randomize-questions-check" class="label-inline"
+								>Randomize Question Order</label
+							>
+						</div>
+					</div>
+					<div class="option">
+						<div class="section-header">
+							<input
+								id="randomize-options-check"
+								type="checkbox"
+								v-model="quizStore.quizData.randomize_option_order"
+								class="checkbox-inline"
+								style="margin-left: 20px"
+							/>
+							<label for="randomize-options-check" class="label-inline"
+								>Randomize Option Order</label
+							>
 						</div>
 					</div>
 				</div>
@@ -143,15 +318,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, defineEmits } from "vue";
-import { useAssignmentStore } from "@/stores/teacherStore/assignmentStore";
+import { ref, onMounted, computed, defineEmits, toRefs } from "vue";
+import { useQuizStore } from "@/stores/teacherStore/quizStore";
 import moment from "moment";
+import DurationInput from "@/components/teacher/DurationInput.vue";
 import DatetimePicker from "@/components/teacher/DatetimePicker.vue";
 
 const emit = defineEmits(["go-back", "save-settings"]);
+const quizStore = useQuizStore();
+const { errors } = toRefs(quizStore);
 
-const assignmentStore = useAssignmentStore();
-
+const make_the_quiz_availability = ref(false);
 const studentGroupActive = ref(false);
 const studentActive = ref(false);
 
@@ -173,17 +350,33 @@ const filteredItems = computed(() => {
 	});
 });
 
+const updateDurationInSeconds = (seconds) => {
+	quizStore.quizData.duration = seconds;
+};
+
 const saveSettings = () => {
 	const settingsData = {
-		make_the_assignment_availability:
-			assignmentStore.assignmentData.make_the_assignment_availability,
-		from_date: assignmentStore.assignmentData.from_date
-			? moment(assignmentStore.assignmentData.from_date).format("YYYY-MM-DD HH:mm:ss")
+		make_the_quiz_availability: quizStore.quizData.make_the_quiz_availability,
+		from_date: quizStore.quizData.from_date
+			? moment(quizStore.quizData.from_date).format("YYYY-MM-DD HH:mm:ss")
 			: null,
-		to_date: assignmentStore.assignmentData.to_date
-			? moment(assignmentStore.assignmentData.to_date).format("YYYY-MM-DD HH:mm:ss")
+		to_date: quizStore.quizData.to_date
+			? moment(quizStore.quizData.to_date).format("YYYY-MM-DD HH:mm:ss")
 			: null,
-		selected_group: assignmentStore.assignmentData.selected_group,
+		is_time_bound: quizStore.quizData.is_time_bound,
+		duration: quizStore.quizData.is_time_bound ? quizStore.quizData.duration : null,
+		multiple_attempts: quizStore.quizData.multiple_attempts,
+		number_of_attempts: quizStore.quizData.multiple_attempts
+			? quizStore.quizData.number_of_attempts
+			: 1,
+		grading_basis: quizStore.quizData.multiple_attempts
+			? quizStore.quizData.grading_basis
+			: null,
+		show_question_score: quizStore.quizData.show_question_score,
+		show_correct_answer: quizStore.quizData.show_correct_answer,
+		randomize_question_order: quizStore.quizData.randomize_question_order,
+		randomize_option_order: quizStore.quizData.randomize_option_order,
+		selected_group: quizStore.quizData.selected_group,
 		selected_students: students.value
 			.filter((student) => student.selected)
 			.map((student) => student.studentname),
@@ -194,10 +387,14 @@ const saveSettings = () => {
 const previousPage = () => {
 	emit("go-back");
 };
+
+// جلب خيارات "grading_basis" عند تحميل المكون
+onMounted(() => {
+	quizStore.fetchGradingBasisOptions();
+});
 </script>
 
 <style scoped>
-/* إضافة CSS المخصص هنا */
 .container {
 	max-width: 100%;
 	margin: 0 auto;
@@ -281,7 +478,7 @@ h1 {
 .date-input.active,
 .time-input.active,
 .attempt-input.active,
-.group-input.active {
+group-input.active {
 	opacity: 1;
 	pointer-events: auto;
 }
@@ -441,5 +638,11 @@ button {
 
 .option input {
 	margin-right: 10px;
+}
+
+.error-message {
+	color: red;
+	font-size: 12px;
+	margin-top: 5px;
 }
 </style>

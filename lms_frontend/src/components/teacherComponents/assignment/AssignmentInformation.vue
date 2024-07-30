@@ -2,15 +2,36 @@
 	<div class="container">
 		<h1>Create a New Assignment</h1>
 		<form @submit.prevent="createAssignment">
+			<label for="assignmentType">Assignment Type:</label>
+			<select id="assignmentType" v-model="assignmentStore.assignmentData.assignment_type">
+				<option value="" disabled selected>Select Assignment Type</option>
+				<option
+					v-for="option in assignmentStore.assignmentTypeOptions"
+					:key="option"
+					:value="option"
+				>
+					{{ option }}
+				</option>
+			</select>
+			<div class="error-message" v-if="errors.assignment_type">
+				{{ errors.assignment_type }}
+			</div>
+
 			<label for="assignmentTitle">Assignment Title:</label>
 			<input
 				type="text"
 				id="assignmentTitle"
 				v-model="assignmentStore.assignmentData.assignment_title"
 			/>
+			<div class="error-message" v-if="errors.assignment_title">
+				{{ errors.assignment_title }}
+			</div>
 
 			<label for="assignmentInstruction">Assignment Instruction:</label>
 			<div ref="quillEditor" class="quill-editor"></div>
+			<div class="error-message" v-if="errors.instruction">
+				{{ errors.instruction }}
+			</div>
 
 			<div class="button-group">
 				<button type="button" @click="cancelAssignment">Cancel</button>
@@ -27,7 +48,7 @@ import { useAssignmentStore } from "@/stores/teacherStore/assignmentStore";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
 const emit = defineEmits(["assignment-created"]);
-
+const props = defineProps(["errors"]);
 const assignmentStore = useAssignmentStore();
 const quillEditor = ref(null);
 
@@ -47,10 +68,11 @@ const editorOptions = {
 onMounted(() => {
 	nextTick(() => {
 		const editor = new Quill(quillEditor.value, editorOptions);
-		editor.root.innerHTML = assignmentStore.assignmentData.instruction; // Load existing data
+		editor.root.innerHTML = assignmentStore.assignmentData.instruction;
 		editor.on("text-change", () => {
 			assignmentStore.assignmentData.instruction = editor.root.innerHTML;
 		});
+		assignmentStore.fetchAssignmentTypeOptions(); // جلب خيارات أنواع التكليف عند تحميل المكون
 	});
 });
 
@@ -61,10 +83,12 @@ const createAssignment = () => {
 const cancelAssignment = () => {
 	assignmentStore.assignmentData.assignment_title = "";
 	assignmentStore.assignmentData.instruction = "";
+	assignmentStore.assignmentData.assignment_type = ""; // إعادة تعيين نوع التكليف
 };
 </script>
 
 <style>
+/* إضافات التنسيق */
 body {
 	font-family: Arial, sans-serif;
 	margin: 0;
@@ -82,6 +106,12 @@ h1 {
 	text-align: center;
 	margin-bottom: 20px;
 	font-size: 24px;
+}
+.error-message {
+	color: red;
+	font-size: 12px;
+	margin-top: 5px;
+	display: block;
 }
 
 label {

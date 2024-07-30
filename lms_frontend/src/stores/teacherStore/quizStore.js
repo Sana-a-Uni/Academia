@@ -1,39 +1,47 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export const useQuizStore = defineStore("quiz", {
 	state: () => ({
 		quizData: {
 			title: "",
 			course: "00",
-			faculty_member: "ACAD-FM-00001",
 			instruction: "",
-			make_the_quiz_availability: 0,
+			make_the_quiz_availability: false,
 			from_date: "",
 			to_date: "",
-			is_time_bound: 0,
-			duration: "",
-			multiple_attempts: 0,
-			number_of_attempts: "",
+			is_time_bound: false,
+			duration: 0,
+			multiple_attempts: false,
+			number_of_attempts: 1,
 			grading_basis: "",
 			quiz_question: [],
+			show_question_score: false,
+			show_correct_answer: false,
+			randomize_question_order: false,
+			randomize_option_order: false,
 		},
 		gradingBasisOptions: [],
 		questionTypes: [],
 		questions: [],
 		quizzes: [],
+		errors: {},
 	}),
 	actions: {
-		async fetchQuizzes(courseName, facultyMember) {
+		async fetchQuizzes(courseName) {
 			this.loading = true;
 			this.error = null;
 			try {
 				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.get_quizzes_by_course_and_faculty",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.fetch_quizzes_for_course",
 					{
 						params: {
 							course: courseName,
-							faculty_member: facultyMember,
+						},
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
@@ -45,21 +53,20 @@ export const useQuizStore = defineStore("quiz", {
 			}
 		},
 
-		async fetchQuestionsByCourse(courseName, facultyMember) {
+		async fetchCourseQuestions(courseName) {
 			try {
 				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.get_questions_by_course_and_faculty_member",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.fetch_course_questions",
 					{
-						params: { course_name: courseName, faculty_member: facultyMember },
+						params: { course_name: courseName },
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: "token 0b88a69d4861506:a0640c80d24119a",
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
 				if (response.data.status_code === 200) {
 					this.questions = response.data.data;
-					console.log(this.questions);
 				} else {
 					console.error("Error fetching questions");
 				}
@@ -74,11 +81,11 @@ export const useQuizStore = defineStore("quiz", {
 		async fetchGradingBasisOptions() {
 			try {
 				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.get_grading_basis_options",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.fetch_grading_basis_options",
 					{
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: "token 0b88a69d4861506:a0640c80d24119a",
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
@@ -97,11 +104,11 @@ export const useQuizStore = defineStore("quiz", {
 		async fetchQuestionTypes() {
 			try {
 				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.get_question_types",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.fetch_question_types",
 					{
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: "token 0b88a69d4861506:a0640c80d24119a",
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
@@ -119,27 +126,36 @@ export const useQuizStore = defineStore("quiz", {
 		},
 		async createQuiz() {
 			try {
+				this.errors = {};
 				const response = await axios.post(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.create_quiz",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.create_quiz",
 					this.quizData,
 					{
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: "token 0b88a69d4861506:a0640c80d24119a",
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
-				if (response.status === 200) {
+				if (response.data.status_code === 200) {
 					console.log("Quiz created successfully");
-					console.log(this.quizData);
+					return true;
 				} else {
-					console.error("Error creating quiz");
+					if (response.data.status_code == 400) {
+						this.errors = response.data.errors;
+					}
+					return false;
 				}
 			} catch (error) {
-				console.error(
-					"Error creating quiz:",
-					error.response ? error.response.data : error
-				);
+				if (error.response && error.response.data && error.response.data.message) {
+					this.errors = error.response.data.message;
+				} else {
+					console.error(
+						"Error creating quiz:",
+						error.response ? error.response.data : error
+					);
+				}
+				return false;
 			}
 		},
 

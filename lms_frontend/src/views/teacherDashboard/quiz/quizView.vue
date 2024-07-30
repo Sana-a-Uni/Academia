@@ -10,20 +10,18 @@
 import { ref, onMounted, watch } from "vue";
 import { useQuizStore } from "@/stores/teacherStore/quizStore";
 import { useRoute } from "vue-router";
-import QuizList from "@/components/teacher/quiz/QuizView.vue";
-import mainLayout from "@/components/teacher/layout/MainLayout.vue";
+import QuizList from "@/components/teacherComponents/quiz/QuizView.vue";
+import mainLayout from "@/components/teacherComponents/layout/MainLayout.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 const route = useRoute();
 
 const quizStore = useQuizStore();
 // const courseName = ref(route.params.courseName);
-// const facultyMember = ref(route.params.facultyMember);
 const courseName = ref("00");
-const facultyMember = ref("ACAD-FM-00001");
 
 onMounted(() => {
-	quizStore.fetchQuizzes(courseName.value, facultyMember.value);
+	quizStore.fetchQuizzes(courseName.value);
 });
 
 const quizzes = ref([]);

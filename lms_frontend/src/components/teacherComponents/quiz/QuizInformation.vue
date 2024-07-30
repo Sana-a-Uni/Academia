@@ -4,9 +4,15 @@
 		<form @submit.prevent="createQuiz">
 			<label for="quizTitle">Quiz Title:</label>
 			<input type="text" id="quizTitle" v-model="quizStore.quizData.title" />
+			<div class="error-message" v-if="localErrors && localErrors.title">
+				{{ localErrors.title }}
+			</div>
 
 			<label for="quizInstruction">Quiz Instruction:</label>
 			<div ref="quillEditor" class="quill-editor"></div>
+			<div class="error-message" v-if="localErrors && localErrors.instruction">
+				{{ localErrors.instruction }}
+			</div>
 
 			<div class="button-group">
 				<button type="button" @click="cancelQuiz">Cancel</button>
@@ -17,15 +23,20 @@
 </template>
 
 <script setup>
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted, nextTick, watch } from "vue";
+import { useRouter } from "vue-router";
+
 import Quill from "quill";
 import { useQuizStore } from "@/stores/teacherStore/quizStore";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
 const emit = defineEmits(["quiz-created"]);
+const props = defineProps(["errors"]);
 
 const quizStore = useQuizStore();
 const quillEditor = ref(null);
+const localErrors = ref({ ...props.errors });
+const router = useRouter();
 
 const editorOptions = {
 	theme: "snow",
@@ -43,12 +54,20 @@ const editorOptions = {
 onMounted(() => {
 	nextTick(() => {
 		const editor = new Quill(quillEditor.value, editorOptions);
-		editor.root.innerHTML = quizStore.quizData.instruction; // Load existing data
+		editor.root.innerHTML = quizStore.quizData.instruction;
 		editor.on("text-change", () => {
 			quizStore.quizData.instruction = editor.root.innerHTML;
 		});
 	});
 });
+
+watch(
+	() => quizStore.quizData,
+	() => {
+		localErrors.value = { ...props.errors };
+	},
+	{ deep: true }
+);
 
 const createQuiz = () => {
 	emit("quiz-created");
@@ -57,6 +76,8 @@ const createQuiz = () => {
 const cancelQuiz = () => {
 	quizStore.quizData.title = "";
 	quizStore.quizData.instruction = "";
+	localErrors.value = {};
+	router.push({ path: "/teacherDashboard/courseView/quizList" });
 };
 </script>
 
@@ -129,6 +150,13 @@ button[type="button"]:hover {
 .quill-editor {
 	height: 300px;
 	margin-bottom: 20px;
+}
+
+.error-message {
+	color: red;
+	font-size: 12px;
+	margin-top: -15px;
+	margin-bottom: 10px;
 }
 
 @media (max-width: 600px) {

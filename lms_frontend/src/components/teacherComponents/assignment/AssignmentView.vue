@@ -1,52 +1,54 @@
 <template>
-	<div class="quiz-list">
+	<div class="assignment-list">
 		<div class="header">
-			<h2>All Quizzes</h2>
+			<h2>All Assignments</h2>
 			<div class="actions">
 				<div class="filters">
-					<select v-model="selectedQuiz" class="custom-select">
-						<option value="all">All Quizzes</option>
+					<select v-model="selectedAssignment" class="custom-select">
+						<option value="all">All Assignments</option>
 						<option value="available">Available</option>
 						<option value="expired">Expired</option>
 					</select>
 				</div>
-				<button class="create-quiz-btn" @click="goToCreateQuiz">Create Quiz</button>
+				<button class="create-assignment-btn" @click="goToCreateAssignment">
+					Create Assignment
+				</button>
 			</div>
 		</div>
-		<table v-if="quizzes && quizzes.length > 0">
+		<table>
 			<thead>
 				<tr>
 					<th class="number-column">#</th>
-					<th class="quiz-column">Quiz Title</th>
+					<th class="assignment-column">Assignment Title</th>
 					<th class="due-column">Start Date</th>
 					<th class="due-column">End Date</th>
-					<th class="time-limit-column">Duration</th>
-					<th class="attempts-column">Attempts</th>
 					<th class="grade-column">Total Grades</th>
 				</tr>
 			</thead>
-			<tbody>
-				<tr v-if="filteredQuizzes.length === 0">
-					<td colspan="7" class="no-data">No Data</td>
+			<tbody v-if="assignments && assignments.length > 0">
+				<tr v-if="filteredAssignments.length === 0">
+					<td colspan="5" class="no-data">No Data</td>
 				</tr>
-				<tr v-else v-for="(quiz, index) in filteredQuizzes" :key="quiz.name">
+				<tr
+					v-else
+					v-for="(assignment, index) in filteredAssignments"
+					:key="assignment.name"
+				>
 					<td class="number-column">{{ index + 1 }}</td>
-					<td class="quiz-column">{{ quiz.title }}</td>
+					<td class="assignment-column">{{ assignment.assignment_title }}</td>
 					<td class="due-column">
-						<div>{{ formatDate(quiz.from_date) }}</div>
-						<div>{{ formatTime(quiz.from_date) }}</div>
+						<div>{{ formatDate(assignment.from_date) }}</div>
+						<div>{{ formatTime(assignment.from_date) }}</div>
 					</td>
 					<td class="due-column">
-						<div>{{ formatDate(quiz.to_date) }}</div>
-						<div>{{ formatTime(quiz.to_date) }}</div>
+						<div>{{ formatDate(assignment.to_date) }}</div>
+						<div>{{ formatTime(assignment.to_date) }}</div>
 					</td>
-					<td class="time-limit-column">{{ formatDuration(quiz.duration) }}</td>
-					<td class="attempts-column">{{ quiz.number_of_attempts }}</td>
-					<td class="grade-column">{{ quiz.total_grades }}</td>
+					<td class="grade-column">{{ assignment.total_grades }}</td>
 				</tr>
 			</tbody>
 		</table>
-		<div v-else class="no-data">No Data</div>
+		<div v-show="!(assignments && assignments.length > 0)" class="no-data">No Data</div>
 	</div>
 </template>
 
@@ -55,21 +57,21 @@ import { ref, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const props = defineProps({
-	quizzes: {
+	assignments: {
 		type: Array,
 		required: true,
 	},
 });
 
-const selectedQuiz = ref("all");
+const selectedAssignment = ref("all");
 const router = useRouter();
 
-const filteredQuizzes = computed(() => {
-	if (!props.quizzes) return [];
+const filteredAssignments = computed(() => {
+	if (!props.assignments) return [];
 	const now = new Date();
-	return props.quizzes.filter((quiz) => {
-		const dueDate = new Date(quiz.to_date);
-		switch (selectedQuiz.value) {
+	return props.assignments.filter((assignment) => {
+		const dueDate = new Date(assignment.to_date);
+		switch (selectedAssignment.value) {
 			case "available":
 				return now <= dueDate;
 			case "expired":
@@ -80,33 +82,14 @@ const filteredQuizzes = computed(() => {
 	});
 });
 
-const goToCreateQuiz = () => {
-	router.push({ name: "createQuiz" });
+const goToCreateAssignment = () => {
+	router.push({ path: "/teacherDashboard/courseView/assignments/createAssignment" });
 };
-
-function formatDuration(seconds) {
-	if (typeof seconds !== "number") {
-		return "";
-	}
-
-	const days = Math.floor(seconds / (24 * 3600));
-	const remainingSecondsAfterDays = seconds % (24 * 3600);
-	const hours = Math.floor(remainingSecondsAfterDays / 3600);
-	const remainingSecondsAfterHours = remainingSecondsAfterDays % 3600;
-	const minutes = Math.floor(remainingSecondsAfterHours / 60);
-
-	const parts = [];
-	if (days > 0) parts.push(`${days}d`);
-	if (hours > 0) parts.push(`${hours}h`);
-	if (minutes > 0) parts.push(`${minutes}m`);
-
-	return parts.join(" ");
-}
 
 function formatDate(dateString) {
 	const date = new Date(dateString);
 	const day = date.getDate().toString().padStart(2, "0");
-	const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-indexed
+	const month = (date.getMonth() + 1).toString().padStart(2, "0");
 	const year = date.getFullYear();
 	return `${day}/${month}/${year}`;
 }
@@ -117,14 +100,14 @@ function formatTime(dateString) {
 	const minutes = date.getMinutes();
 	const ampm = hours >= 12 ? "PM" : "AM";
 	hours = hours % 12;
-	hours = hours ? hours : 12; // the hour '0' should be '12'
+	hours = hours ? hours : 12;
 	const strMinutes = minutes < 10 ? "0" + minutes : minutes;
 	return hours + ":" + strMinutes + " " + ampm;
 }
 </script>
 
 <style scoped>
-.quiz-list {
+.assignment-list {
 	width: 90%;
 	border-collapse: collapse;
 }
@@ -145,7 +128,7 @@ function formatTime(dateString) {
 	width: 100%;
 }
 
-.create-quiz-btn {
+.create-assignment-btn {
 	background-color: #4caf50;
 	color: white;
 	border: none;
@@ -155,7 +138,7 @@ function formatTime(dateString) {
 	font-size: 16px;
 }
 
-.create-quiz-btn:hover {
+.create-assignment-btn:hover {
 	background-color: #45a049;
 }
 
@@ -167,11 +150,11 @@ function formatTime(dateString) {
 .filters select {
 	margin-left: 20px;
 	padding: 8px;
-	padding-right: 32px; /* Add space for arrow */
+	padding-right: 32px;
 	border: 1px solid #ddd;
 	border-radius: 4px;
 	font-size: 16px;
-	appearance: none; /* Remove default arrow */
+	appearance: none;
 	background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>')
 		no-repeat right 8px center;
 	background-size: 16px 16px;
@@ -208,7 +191,7 @@ th {
 	text-align: center;
 }
 
-.quiz-column {
+.assignment-column {
 	width: 15%;
 	text-align: center;
 }
@@ -218,8 +201,6 @@ th {
 	text-align: center;
 }
 
-.time-limit-column,
-.attempts-column,
 .grade-column {
 	width: 10%;
 	text-align: center;
@@ -259,7 +240,7 @@ a:hover:not(.disabled) {
 	transition: opacity 0.2s ease-in-out;
 }
 
-.quiz-column:hover .tooltip {
+.assignment-column:hover .tooltip {
 	opacity: 1;
 }
 
@@ -307,13 +288,11 @@ a:hover:not(.disabled) {
 	}
 
 	.due-column,
-	.time-limit-column,
-	.attempts-column,
 	.grade-column {
 		width: auto;
 	}
 
-	.quiz-column {
+	.assignment-column {
 		width: auto;
 	}
 }

@@ -15,11 +15,14 @@ class AssignmentAssessment(Document):
 		from academia.lms.doctype.assignment_assessment_details.assignment_assessment_details import AssignmentAssessmentDetails
 		from frappe.types import DF
 
+		amended_from: DF.Link | None
 		assessment_date: DF.Datetime | None
+		assignment: DF.Link | None
 		assignment_assessment_details: DF.Table[AssignmentAssessmentDetails]
 		assignment_submission: DF.Link | None
 		faculty_member: DF.Link | None
 		feedback: DF.TextEditor | None
 		grade: DF.Float
+		student: DF.Link | None
 	# end: auto-generated types
 	pass
