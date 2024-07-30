@@ -1,13 +1,12 @@
 import frappe
 from frappe.auth import LoginManager
-from typing import List, Dict, Any
 
-def generate_key(user: str) -> Dict[str, str]:
+def generate_key(user):
     """
     Generate API key and secret for a given user if they don't already exist.
 
     Args:
-        user (str): The user ID for which to generate the keys.
+        user: The user ID for which to generate the keys.
 
     Returns:
         dict: A dictionary containing the API key and secret.
@@ -27,24 +26,24 @@ def generate_key(user: str) -> Dict[str, str]:
 
     return {"api_secret": api_secret, "api_key": api_key}
 
-def get_user_details(user: str) -> List[Dict[str, Any]]:
+def get_user_details(user):
     """
     Fetch user details for a given user.
 
     Args:
-        user (str): The user ID for which to fetch the details.
+        user: The user ID for which to fetch the details.
 
     Returns:
         list: A list of user details dictionaries.
     """
     return frappe.get_all("User", filters={"name": user}, fields=["first_name", "last_name"])
 
-def get_user_role(user: str) -> List[str]:
+def get_user_role(user):
     """
     Fetch roles for a given user.
 
     Args:
-        user (str): The user ID for which to fetch the roles.
+        user: The user ID for which to fetch the roles.
 
     Returns:
         list: A list of roles assigned to the user.
@@ -52,13 +51,13 @@ def get_user_role(user: str) -> List[str]:
     return frappe.get_roles(user)
 
 @frappe.whitelist(allow_guest=True)
-def login(username: str="at@gmail.com", password: str="atrab7720") -> bool:
+def login(username="at@gmail.com", password="atrab7720"):
     """
     Authenticate and log in a user.
 
     Args:
-        username (str): The username of the user.
-        password (str): The password of the user.
+        username: The username of the user.
+        password: The password of the user.
 
     Returns:
         bool: True if login is successful, False otherwise.
@@ -95,7 +94,7 @@ def login(username: str="at@gmail.com", password: str="atrab7720") -> bool:
     
 
 @frappe.whitelist(allow_guest=True)
-def logout() -> bool:
+def logout():
     """
     Log out the current user by clearing the session and cookies.
 
