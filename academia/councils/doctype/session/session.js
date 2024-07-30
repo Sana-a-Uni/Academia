@@ -21,6 +21,14 @@ frappe.ui.form.on("Session", {
         background-color: #171710 !important;/* Slightly darker gray for interaction states */
         color: white !important;
       }
+		.btn[data-fieldname="send_to_members"] {
+        background-color: #171717; /* Custom dark gray */
+        color: white;
+      }
+      .btn[data-fieldname="send_to_members"]:hover {
+        background-color: #171710 !important;/* Slightly darker gray for interaction states */
+        color: white !important;
+      }
         </style>`).appendTo("head");
 	},
 	onload(frm) {
@@ -29,13 +37,17 @@ frappe.ui.form.on("Session", {
 				filters: {
 					docstatus: ["=", 0],
 					council: frm.doc.council,
-					status: "Pending",
+					status: ["in", ["Pending", "Postponed"]],
 					parent_topic: "",
 				},
 			};
 		});
 	},
-
+	send_to_members(frm) {
+		frappe.call({
+			method: "send_topics_to_members_emails",
+			doc: frm.doc});
+	},
 	get_opening_template: function (frm) {
 		frappe.confirm(
 			__(
@@ -156,7 +168,7 @@ frappe.ui.form.on("Session", {
 					filters: {
 						docstatus: ["=", 0],
 						council: frm.doc.council,
-						status: "Pending",
+						status: ["in", ["Pending", "Postponed"]],
 						parent_topic: "",
 					},
 				};
@@ -197,58 +209,68 @@ frappe.ui.form.on("Session Topic", {
 		if (row.topic) {
 			// Call the check_topic_duplicate function to check for duplicate topics
 			check_topic_duplicate(frm, row);
-			frappe.db.get_value("Topic", row.topic, ["title", "description"], (topic) => {
+			frappe.db.get_value("Topic", row.topic, ["title", "description", "decision"], (topic) => {
 				if (topic) {
 					let title = topic.title;
 					let description = topic.description;
+					let decision = topic.decision;
 					frappe.model.set_value(cdt, cdn, "title", title);
 					frappe.model.set_value(cdt, cdn, "description", description);
+					frappe.model.set_value(cdt, cdn, "decision", decision);
 				}
 			});
 			frm.refresh_field("topics");
 		}
 	},
-	get_template: function (frm, cdt, cdn) {
-		let row = locals[cdt][cdn];
-		if (!row.get_template) {
-			frappe.show_alert({
-				message: __("Please select a decision template."),
-				indicator: "orange",
-			});
-			return;
-		}
-		frappe.call({
-			method: "academia.councils.doctype.session.session.get_template",
-			args: {
-				decision_template: row.get_template,
-				topic: row.topic,
-				session: JSON.stringify(frm.doc),
-			},
-			callback: function (response) {
-				if (response.message && !response.error) {
-					const decision = response.message;
-					frappe.model.set_value(cdt, cdn, "decision", decision);
-					frappe.show_alert({
-						message: __("Decision template applied successfully!"),
-						indicator: "green",
-					});
-				} else {
-					frappe.show_alert({
-						message: __("Error fetching decision template!"),
-						indicator: "red",
-					});
-					console.error(response.error || "Error fetching decision template!");
-				}
-			},
-			error: function (error) {
-				console.error(error);
-				frappe.show_alert({
-					message: __("Error calling server method!"),
-					indicator: "red",
-				});
-			},
-		});
-	},
+	get_template: function(frm, cdt, cdn) {
+        let row = locals[cdt][cdn];
+        if (!row.get_template) {
+            frappe.show_alert({
+                message: __("Please select a decision template."),
+                indicator: "orange",
+            });
+            return;
+        }
+        frappe.call({
+            method: "academia.councils.doctype.session.session.get_template",
+            args: {
+                decision_template: row.get_template,
+                topic: row.topic,
+                session: JSON.stringify(frm.doc),
+            },
+            callback: function(response) {
+                if (response.message) {
+                    if (response.message.error) {
+                        frappe.show_alert({
+                            message: response.message.error,
+                            indicator: "red",
+                        });
+                        console.error(response.message.error);
+                    } else {
+                        const decision = response.message;
+                        frappe.model.set_value(cdt, cdn, "decision", decision);
+                        frappe.show_alert({
+                            message: __("Decision template applied successfully!"),
+                            indicator: "green",
+                        });
+                    }
+                } else {
+                    frappe.show_alert({
+                        message: __("Unexpected response from the server."),
+                        indicator: "red",
+                    });
+                    console.error("Unexpected response from the server:", response);
+                }
+            },
+            error: function(error) {
+                console.error(error);
+                frappe.show_alert({
+                    message: __("Error!, Please check the template and data fields."),
+                    indicator: "red",
+                });
+            },
+        });
+    },
 
 	// create_memo(frm, cdt, cdn) {
 	//     let row = locals[cdt][cdn];
@@ -347,8 +369,8 @@ validate_topic = function (frm, row) {
 				!(
 					topic_doc.docstatus == 0 &&
 					topic_doc.council == frm.doc.council &&
-					topic_doc.status == "Pending" &&
-					topic_doc.parent_topic == ""
+					(topic_doc.status === "Pending" || topic_doc.status === "Postponed") &&
+					!topic_doc.parent_topic
 				)
 			) {
 				// Clear the topic value in the current row
@@ -361,38 +383,46 @@ validate_topic = function (frm, row) {
 };
 
 function get_opening_template(frm, reload = false) {
-	if (reload) {
-		frm.doc.opening = null;
-	}
-	if (frm.doc.opening == null && frm.doc.date && frm.doc.begin_time && frm.doc.council) {
-		frappe.call({
-			method: "academia.councils.doctype.session.session.get_template",
-			args: {
-				session: JSON.stringify(frm.doc),
-			},
-			callback: function (response) {
-				if (response.message && !response.error) {
-					const opening = response.message;
-					frm.set_value("opening", opening);
-					frappe.show_alert({
-						message: __("opening template applied successfully!"),
-						indicator: "green",
-					});
-				} else {
-					frappe.show_alert({
-						message: __("Error fetching opening template!"),
-						indicator: "red",
-					});
-					console.error(response.error || "Error fetching opening template!");
-				}
-			},
-			error: function (error) {
-				console.error(error);
-				frappe.show_alert({
-					message: __("Error calling server method!"),
-					indicator: "red",
-				});
-			},
-		});
-	}
+    if (reload) {
+        frm.doc.opening = null;
+    }
+    if (frm.doc.opening == null && frm.doc.date && frm.doc.begin_time && frm.doc.council) {
+        frappe.call({
+            method: "academia.councils.doctype.session.session.get_template",
+            args: {
+                session: JSON.stringify(frm.doc),
+            },
+            callback: function(response) {
+                if (response.message) {
+                    if (response.message.error) {
+                        frappe.show_alert({
+                            message: response.message.error,
+                            indicator: "red",
+                        });
+                        console.error(response.message.error);
+                    } else {
+                        const opening = response.message;
+                        frm.set_value("opening", opening);
+                        frappe.show_alert({
+                            message: __("Opening template applied successfully!"),
+                            indicator: "green",
+                        });
+                    }
+                } else {
+                    frappe.show_alert({
+                        message: __("Unexpected response from the server."),
+                        indicator: "red",
+                    });
+                    console.error("Unexpected response from the server:", response);
+                }
+            },
+            error: function(error) {
+                console.error(error);
+                frappe.show_alert({
+                    message: __("Error calling server method!"),
+                    indicator: "red",
+                });
+            },
+        });
+    }
 }

@@ -1,9 +1,19 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
-# import frappe
+import frappe
+from frappe import _
 from frappe.model.document import Document
-
+from frappe.utils import (
+	add_days,
+	cint,
+	cstr,
+	format_date,
+	get_datetime,
+	get_link_to_form,
+	getdate,
+	nowdate,
+)
 
 class LessonAttendance(Document):
 	# begin: auto-generated types
@@ -46,4 +56,11 @@ class LessonAttendance(Document):
 		teaching_hours: DF.Float
 		to_time: DF.Time
 	# end: auto-generated types
-	pass
+	
+	def validate(self):
+		if (getdate(self.attendance_date) > getdate(nowdate())):
+			frappe.throw(
+				_("Attendance can not be marked for future dates: {0}").format(
+					frappe.bold(format_date(self.attendance_date)),
+				)
+			)

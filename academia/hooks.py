@@ -259,6 +259,8 @@ export_python_type_annotations = True
 fixtures = [
 	# Print formats
 	{"doctype": "Print Format", "filters": [["name", "in", ["transaction"]]]},
+    # letter heads
+    "Letter Head",
 	# Standard Fixtures
 	"Academic Status",
 	"Journal Type",
@@ -350,4 +352,5 @@ fixtures = [
 			]
 		],
 	},
+  	{"doctype": "Topic Decision Template"},
 ]

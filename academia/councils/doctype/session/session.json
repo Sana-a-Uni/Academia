@@ -21,6 +21,9 @@
   "members",
   "agenda_tab",
   "get_topics",
+  "column_break_omnf",
+  "send_to_members",
+  "section_break_ggys",
   "topics",
   "amended_from",
   "print_settings_tab",
@@ -189,12 +192,25 @@
    "fieldname": "minute_ending",
    "fieldtype": "Small Text",
    "label": "Minute Ending"
+  },
+  {
+   "fieldname": "send_to_members",
+   "fieldtype": "Button",
+   "label": "Send To Members"
+  },
+  {
+   "fieldname": "column_break_omnf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_ggys",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-14 21:36:07.085341",
+ "modified": "2024-07-28 00:49:00.433225",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Session",
