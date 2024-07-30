@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 
 export const useAssessmentStore = defineStore("assessmentStore", {
 	state: () => ({
+		quizzes: [],
 		assignments: [],
 		assignmentDetails: null,
 		loading: false,
@@ -113,6 +114,34 @@ export const useAssessmentStore = defineStore("assessmentStore", {
 					this.fieldErrors.general = this.error;
 				}
 				return { status: "error", message: this.error };
+			} finally {
+				this.loading = false;
+			}
+		},
+		async fetchQuizAndAssignmentGrades(facultyMember, course) {
+			this.loading = true;
+			this.error = null;
+			try {
+				const response = await axios.get(
+					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.get_quiz_and_assignment_grades",
+					{
+						params: {
+							faculty_member: facultyMember,
+							course: course,
+						},
+					},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
+						},
+					}
+				);
+				console.log(response);
+				this.quizzes = response.data.message.quizzes;
+				this.assignments = response.data.message.assignments;
+			} catch (error) {
+				this.error = error.message || "An error occurred while fetching grades.";
 			} finally {
 				this.loading = false;
 			}
