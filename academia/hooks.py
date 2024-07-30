@@ -351,3 +351,10 @@ fixtures = [
 		],
 	},
 ]
+
+
+doc_events = {
+    "Faculty Member": {
+        "on_update": "academia.academia.doctype.faculty_member.faculty_member.update_academic_rank"
+    }
+}
