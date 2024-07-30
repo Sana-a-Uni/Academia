@@ -8,15 +8,19 @@ export const useQuizStore = defineStore("quiz", {
 			title: "",
 			course: "00",
 			instruction: "",
-			make_the_quiz_availability: 0,
+			make_the_quiz_availability: false,
 			from_date: "",
 			to_date: "",
-			is_time_bound: 0,
-			duration: "",
-			multiple_attempts: 0,
-			number_of_attempts: "",
+			is_time_bound: false,
+			duration: 0,
+			multiple_attempts: false,
+			number_of_attempts: 1,
 			grading_basis: "",
 			quiz_question: [],
+			show_question_score: false,
+			show_correct_answer: false,
+			randomize_question_order: false,
+			randomize_option_order: false,
 		},
 		gradingBasisOptions: [],
 		questionTypes: [],
@@ -30,7 +34,7 @@ export const useQuizStore = defineStore("quiz", {
 			this.error = null;
 			try {
 				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.fetch_quizzes_for_course",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.fetch_quizzes_for_course",
 					{
 						params: {
 							course: courseName,
@@ -52,7 +56,7 @@ export const useQuizStore = defineStore("quiz", {
 		async fetchCourseQuestions(courseName) {
 			try {
 				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.fetch_course_questions",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.fetch_course_questions",
 					{
 						params: { course_name: courseName },
 						headers: {
@@ -77,7 +81,7 @@ export const useQuizStore = defineStore("quiz", {
 		async fetchGradingBasisOptions() {
 			try {
 				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.fetch_grading_basis_options",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.fetch_grading_basis_options",
 					{
 						headers: {
 							"Content-Type": "application/json",
@@ -100,7 +104,7 @@ export const useQuizStore = defineStore("quiz", {
 		async fetchQuestionTypes() {
 			try {
 				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.fetch_question_types",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.fetch_question_types",
 					{
 						headers: {
 							"Content-Type": "application/json",
@@ -124,7 +128,7 @@ export const useQuizStore = defineStore("quiz", {
 			try {
 				this.errors = {};
 				const response = await axios.post(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.quiz.create_quiz",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.create_quiz",
 					this.quizData,
 					{
 						headers: {
