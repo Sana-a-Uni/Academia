@@ -10,7 +10,6 @@ from frappe import _
 from frappe.model.document import Document
 from frappe.utils import add_days, getdate
 from frappe.utils.pdf import get_pdf
-from education.education.utils import OverlapError
 
 
 class LessonSchedulingTool(Document):
@@ -250,16 +249,13 @@ class LessonSchedulingTool(Document):
 		while date < self.lesson_end_date:
 			if calendar.day_name[getdate(date).weekday()] in days:
 				course_schedule = self.make_course_schedule(date, lesson_template)
-				try:
-					course_schedule.save()
-				except OverlapError:
-					course_schedules_errors.append(date)
-				else:
-					group = self.create_multi_group(lesson_template, course_schedule.name)
-					if group:
-						groups.append(group)
-	
-					course_schedules.append(course_schedule)
+				course_schedule.save()
+				course_schedules_errors.append(date)
+				group = self.create_multi_group(lesson_template, course_schedule.name)
+				if group:
+					groups.append(group)
+
+				course_schedules.append(course_schedule)
 
 			date = add_days(date, 1)
 
