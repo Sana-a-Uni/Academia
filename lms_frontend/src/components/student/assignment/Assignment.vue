@@ -10,32 +10,13 @@
 			</div>
 			<h4>Assignment Instructions</h4>
 			<div class="indented-content">
-				<p>
-					End time: All attempts must be completed before
-					{{ formattedEndTime }}
-				</p>
-				<!-- Note -->
+				<p>End time: All attempts must be completed before {{ formattedEndTime }}</p>
 				<span v-html="assignmentDetails.instruction"></span>
 			</div>
 
 			<h4>Assignment Content</h4>
 			<div class="indented-content">
 				<div class="assignment-content" v-html="assignmentDetails.question"></div>
-			</div>
-
-			<h4>Assignment File</h4>
-			<div class="indented-content">
-				<div class="assignment-file">
-					<label
-						v-for="file in assignmentDetails.attached_files"
-						:key="file.file_url"
-						class="file-name"
-					>
-						<a :href="getFullFileUrl(file.file_url)" target="_blank">{{
-							file.file_name
-						}}</a>
-					</label>
-				</div>
 			</div>
 
 			<h4>Assignment Materials</h4>
@@ -64,7 +45,6 @@
 							</tr>
 						</thead>
 						<tbody>
-							<!-- عرض الملفات السابقة -->
 							<tr
 								v-for="(file, index) in previousSubmissionFiles"
 								:key="file.file_url"
@@ -77,12 +57,11 @@
 								<td style="text-align: center">
 									<font-awesome-icon
 										icon="trash"
-										@click="markFileForDeletion(index)"
+										@click="markFileForDeletion(index, file.file_url)"
 										style="color: #dc3545"
 									/>
 								</td>
 							</tr>
-							<!-- عرض الملفات الجديدة -->
 							<tr v-for="(file, index) in uploadedFiles" :key="index">
 								<td>
 									<a :href="file.previewUrl" target="_blank">{{ file.name }}</a>
@@ -150,6 +129,7 @@ import Quill from "quill";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { useRoute } from "vue-router";
 
 library.add(faTrash);
 
@@ -181,6 +161,7 @@ const uploadedFiles = ref([]);
 const timeRemaining = ref(null);
 const previousSubmissionFiles = ref([...props.previousSubmissionFiles]);
 const filesMarkedForDeletion = ref([]);
+const route = useRoute();
 
 const editorOptions = {
 	theme: "snow",
@@ -233,48 +214,39 @@ watch(
 
 const handleSubmit = async (isFinalSubmission) => {
 	const data = {
-		student: "EDU-STU-2024-00003",
-		assignment: "ecff4b55c2",
+		assignment: route.params.assignmentName,
 		answer: quillEditor.value.querySelector(".ql-editor").innerHTML,
 		comment: commentEditor.value.querySelector(".ql-editor").innerHTML,
 		submit: isFinalSubmission,
 		attachments: [],
 	};
 
-	// Handle file upload only if there are files to upload
 	if (uploadedFiles.value.length > 0) {
 		for (let file of uploadedFiles.value) {
 			const reader = new FileReader();
-			reader.onloadend = () => {
+			reader.onloadend = async () => {
 				data.attachments.push({
-					attachment: reader.result.split(",")[1], // Set the attachment as base64 string
+					attachment: reader.result.split(",")[1],
 					attachment_name: file.name,
 				});
 				if (data.attachments.length === uploadedFiles.value.length) {
-					props.onSubmit(data);
-					// Clear the uploaded files to prevent duplicate uploads
-					uploadedFiles.value = [];
+					await submitData(data);
 				}
 			};
-			reader.readAsDataURL(file.file); // تعديل هنا لقراءة الملف الصحيح
+			reader.readAsDataURL(file.file);
 		}
 	} else {
-		// Submit without file if no file is uploaded
-		await props.onSubmit(data);
+		await submitData(data);
 	}
+};
 
-	// Handle deletion of marked files
-	for (let file of filesMarkedForDeletion.value) {
-		try {
-			const response = await assignmentStore.deleteAttachment(file.file_url);
-			if (response.status === "success") {
-				previousSubmissionFiles.value = previousSubmissionFiles.value.filter(
-					(f) => f.file_url !== file.file_url
-				);
-			}
-		} catch (error) {
-			console.error("Error deleting file:", error);
-		}
+const submitData = async (data) => {
+	try {
+		await props.onSubmit(data);
+		uploadedFiles.value = [];
+		await assignmentStore.fetchPreviousSubmission(route.params.assignmentName);
+	} catch (error) {
+		console.error("Error submitting data:", error);
 	}
 };
 
@@ -286,7 +258,7 @@ const handleFileUpload = (event) => {
 				(f) => f.file.name === files[i].name && f.file.size === files[i].size
 			)
 		) {
-			const previewUrl = URL.createObjectURL(files[i]); // Create a preview URL
+			const previewUrl = URL.createObjectURL(files[i]);
 			uploadedFiles.value.push({ file: files[i], previewUrl, name: files[i].name });
 		}
 	}
@@ -302,14 +274,19 @@ const cancelAssignment = () => {
 
 const removeFile = (index) => {
 	const file = uploadedFiles.value[index];
-	URL.revokeObjectURL(file.previewUrl); // Revoke the object URL to release memory
+	URL.revokeObjectURL(file.previewUrl);
 	uploadedFiles.value.splice(index, 1);
 };
 
-const markFileForDeletion = (index) => {
-	const file = previousSubmissionFiles.value[index];
-	previousSubmissionFiles.value.splice(index, 1);
-	filesMarkedForDeletion.value.push(file);
+const markFileForDeletion = async (index, fileUrl) => {
+	try {
+		await assignmentStore.deleteAttachment(fileUrl);
+		previousSubmissionFiles.value.splice(index, 1);
+		console.log("File marked for deletion successfully");
+	} catch (error) {
+		console.error("Error deleting file:", error);
+		alert("Error deleting file: " + error.message);
+	}
 };
 
 const getFullFileUrl = (fileUrl) => {

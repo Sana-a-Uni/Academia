@@ -60,6 +60,7 @@ const props = defineProps({
 	assignments: {
 		type: Array,
 		required: true,
+		default: () => [], // Ensure it defaults to an empty array if not provided
 	},
 });
 
@@ -68,6 +69,11 @@ const showTooltip = ref(false);
 const router = useRouter();
 
 const filteredAssignments = computed(() => {
+	// Ensure props.assignments is defined and is an array before filtering
+	if (!Array.isArray(props.assignments)) {
+		return [];
+	}
+
 	return props.assignments.filter((assignment) => {
 		const now = new Date();
 		const dueDate = new Date(assignment.to_date);
@@ -112,7 +118,7 @@ const hideMessage = () => {
 function formatDate(dateString) {
 	const date = new Date(dateString);
 	const day = date.getDate().toString().padStart(2, "0");
-	const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-indexed
+	const month = (date.getMonth() + 1).toString().padStart(2, "0");
 	const year = date.getFullYear();
 	return `${day}/${month}/${year}`;
 }
