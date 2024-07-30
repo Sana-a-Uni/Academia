@@ -140,6 +140,7 @@ const resetFields = () => {
 	quizStore.quizData.show_question_score = false;
 	quizStore.quizData.show_correct_answer = false;
 	quizStore.quizData.randomize_question_order = false;
+	quizStore.quizData.randomize_option_order = false;
 	errors.value = {};
 };
 </script>

@@ -188,16 +188,34 @@
 					<h3 class="section-title">Question Order Settings</h3>
 					<hr class="section-divider" />
 				</div>
-				<div class="section-header">
-					<input
-						id="randomize-questions-check"
-						type="checkbox"
-						v-model="quizStore.quizData.randomize_question_order"
-						class="checkbox-inline"
-					/>
-					<label for="randomize-questions-check" class="label-inline"
-						>Randomize Question Order</label
-					>
+				<div class="results-display-options">
+					<div class="option">
+						<div class="section-header">
+							<input
+								id="randomize-questions-check"
+								type="checkbox"
+								v-model="quizStore.quizData.randomize_question_order"
+								class="checkbox-inline"
+							/>
+							<label for="randomize-questions-check" class="label-inline"
+								>Randomize Question Order</label
+							>
+						</div>
+					</div>
+					<div class="option">
+						<div class="section-header">
+							<input
+								id="randomize-options-check"
+								type="checkbox"
+								v-model="quizStore.quizData.randomize_option_order"
+								class="checkbox-inline"
+								style="margin-left: 20px"
+							/>
+							<label for="randomize-options-check" class="label-inline"
+								>Randomize Option Order</label
+							>
+						</div>
+					</div>
 				</div>
 			</div>
 
@@ -357,6 +375,7 @@ const saveSettings = () => {
 		show_question_score: quizStore.quizData.show_question_score,
 		show_correct_answer: quizStore.quizData.show_correct_answer,
 		randomize_question_order: quizStore.quizData.randomize_question_order,
+		randomize_option_order: quizStore.quizData.randomize_option_order,
 		selected_group: quizStore.quizData.selected_group,
 		selected_students: students.value
 			.filter((student) => student.selected)
@@ -376,7 +395,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* إضافة CSS المخصص هنا */
 .container {
 	max-width: 100%;
 	margin: 0 auto;
