@@ -17,34 +17,31 @@
 			<thead>
 				<tr>
 					<th class="due-column">Due</th>
+					<th class="type-column">Type</th>
 					<th class="assignment-column">Assignment</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr v-if="filteredAssignments.length === 0">
-					<td colspan="2" class="no-data">No Data</td>
+					<td colspan="3" class="no-data">No Data</td>
 				</tr>
-				<tr v-else v-for="assignment in filteredAssignments" :key="assignment.id">
+				<tr
+					v-else
+					v-for="assignment in filteredAssignments"
+					:key="assignment.id"
+					:class="{ 'project-row': assignment.assignment_type === 'Project' }"
+				>
 					<td class="due-column">
 						<div>{{ formatDate(assignment.to_date) }}</div>
 						<div>{{ formatTime(assignment.to_date) }}</div>
 					</td>
-					<td
-						class="assignment-column"
-						@mouseenter="showMessage($event, !assignmentIsDue(assignment.to_date))"
-						@mouseleave="hideMessage"
-					>
-						<a
-							@click.prevent="
-								assignmentIsDue(assignment.to_date)
-									? goToAssignment(assignment.name)
-									: null
-							"
-							:class="{ disabled: !assignmentIsDue(assignment.to_date) }"
-						>
+					<td class="type-column">
+						{{ assignment.assignment_type }}
+					</td>
+					<td class="assignment-column">
+						<a @click.prevent="goToAssignment(assignment.name)">
 							{{ assignment.assignment_title }}
 						</a>
-						<span v-show="showTooltip" class="tooltip">not available</span>
 					</td>
 				</tr>
 			</tbody>
@@ -65,7 +62,6 @@ const props = defineProps({
 });
 
 const selectedAssignment = ref("all");
-const showTooltip = ref(false);
 const router = useRouter();
 
 const filteredAssignments = computed(() => {
@@ -97,22 +93,6 @@ const filteredAssignments = computed(() => {
 
 const goToAssignment = (assignmentName) => {
 	router.push({ name: "assignment", params: { assignmentName } });
-};
-
-const assignmentIsDue = (toDate) => {
-	const now = new Date();
-	const dueDate = new Date(toDate);
-	return now <= dueDate;
-};
-
-const showMessage = (event, isDisabled) => {
-	if (isDisabled) {
-		showTooltip.value = true;
-	}
-};
-
-const hideMessage = () => {
-	showTooltip.value = false;
 };
 
 function formatDate(dateString) {
@@ -202,39 +182,12 @@ a {
 	position: relative;
 }
 
-a.disabled {
-	color: #000000;
-	cursor: not-allowed;
-	pointer-events: none;
-}
-
-a:hover:not(.disabled) {
+a:hover {
 	text-decoration: underline;
 }
 
-.tooltip {
-	position: absolute;
-	background-color: #f4f4f4;
-	color: #000;
-	font-weight: bold;
-	padding: 5px;
-	border-radius: 3px;
-	white-space: nowrap;
-	z-index: 10;
-	font-size: 12px;
-	top: 70%;
-	left: 10%;
-	transform: translateY(-50%);
-	opacity: 0;
-	transition: opacity 0.2s ease-in-out;
-}
-
-.assignment-column:hover .tooltip {
-	opacity: 1;
-}
-
 .due-column {
-	width: 15%;
+	width: 10%;
 }
 
 .due-column div {
@@ -242,8 +195,21 @@ a:hover:not(.disabled) {
 }
 
 .assignment-column {
-	width: 85%;
+	width: 50%;
 	position: relative;
+}
+
+.type-column {
+	width: 10%;
+	text-align: center;
+}
+
+.project-type {
+	background-color: #ffe5e5;
+}
+
+.project-row {
+	background-color: #fff0f0;
 }
 
 .no-data {
@@ -284,7 +250,8 @@ a:hover:not(.disabled) {
 	}
 
 	.due-column,
-	.assignment-column {
+	.assignment-column,
+	.type-column {
 		width: auto;
 	}
 }
