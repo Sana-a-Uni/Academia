@@ -14,7 +14,7 @@ def get_assignments_by_course(course_name="00"):
         # Fetch assignments for the given course that are available to the student
         assignments = frappe.get_all(
             "LMS Assignment",
-            fields=['name', 'assignment_title', 'to_date'],
+            fields=['name', 'assignment_title', 'to_date','assignment_type'],
             filters={
                 'course': course_name,
                 'make_the_assignment_availability': 1,
@@ -43,7 +43,7 @@ def get_assignments_by_course(course_name="00"):
         return frappe.response["message"]
 
 @frappe.whitelist(allow_guest=True)
-def get_assignment(assignment_name="47dfd90592"):
+def get_assignment(assignment_name="8e82ccda9e"):
     try:
         # Fetch the assignment document
         assignment_doc = frappe.get_doc("LMS Assignment", assignment_name)
@@ -51,6 +51,7 @@ def get_assignment(assignment_name="47dfd90592"):
         # Prepare the assignment details
         assignment = {
             "assignment_title": assignment_doc.assignment_title,
+            "assignment_type":assignment_doc.assignment_type,
             "course": assignment_doc.course,
             "instruction": assignment_doc.instruction,
             "to_date": assignment_doc.to_date.strftime('%Y-%m-%d %H:%M:%S'),
@@ -60,17 +61,14 @@ def get_assignment(assignment_name="47dfd90592"):
             "assessment_criteria": []
         }
 
-        # Fetch attached files and use a set to avoid duplicates
-        attached_files_set = set()
+        # Fetch attached files from the 'attachment_file' field
         attached_files = frappe.get_all('File', filters={'attached_to_doctype': 'LMS Assignment', 'attached_to_name': assignment_name}, fields=['file_name', 'file_url'])
+
         for file in attached_files:
-            file_tuple = (file.file_name, file.file_url)
-            if file_tuple not in attached_files_set:
-                attached_files_set.add(file_tuple)
-                assignment["attached_files"].append({
-                    "file_name": file.file_name,
-                    "file_url": file.file_url
-                })
+            assignment["attached_files"].append({
+                "file_name": file['file_name'],
+                "file_url": file['file_url']
+            })
 
         # Fetch assessment criteria
         for criteria in assignment_doc.assessment_criteria:
@@ -79,20 +77,44 @@ def get_assignment(assignment_name="47dfd90592"):
                 "maximum_grade": criteria.maximum_grade
             })
 
+        # Check if the current user has submitted this assignment
+        user_id = frappe.session.user
+        student = frappe.get_value("Student", {"user_id": user_id}, "name")
+        if student:
+            submission = frappe.get_all('Assignment Submission', filters={
+                'student': student,
+                'assignment': assignment_name,
+                'status': 'submitted'
+            }, fields=['name'])
+            is_submitted = bool(submission)
+        else:
+            is_submitted = False
+
         # Construct the success response
         frappe.response.update({
             "status_code": 200,
             "message": "Assignment details fetched successfully",
-            "data": assignment
+            "data": assignment,
+            "is_submitted": is_submitted
         })
         return frappe.response["message"]
 
     except Exception as e:
+        log_error("Assignment Fetch Error", f"An error occurred while fetching assignment details: {str(e)}")
         frappe.response.update({
             "status_code": 500,
             "message": f"An error occurred while fetching assignment details: {str(e)}"
         })
         return frappe.response["message"]
+
+def log_error(title, message):
+    try:
+        if len(title) > 140:
+            title = title[:140]
+        frappe.log_error(message, title)
+    except Exception as log_error:
+        # Handle any errors that occur during logging to avoid infinite loop
+        frappe.errprint(f"Error logging failed: {str(log_error)}")
 
 @frappe.whitelist(allow_guest=True)
 def create_assignment_submission():
@@ -199,7 +221,6 @@ def delete_attachment(file_url="/files/lms_assignment.json"):
     file_name = file_url.split("/")[-1]
     frappe.msgprint(f"Deleting file with URL: {file_url} and name: {file_name}")
 
-    # البحث عن الوثيقة في دوك تايب File
     file_doc = frappe.get_all('File', filters={'file_url': file_url})
     frappe.msgprint(f"File Doc: {file_doc}")
 
