@@ -67,65 +67,81 @@ frappe.ui.form.on("Faculty Member", {
     // FN: validate dates of child tables
     validate_date: function (frm) {
         const today = frappe.datetime.get_today();
-        frm.doc['faculty_member_training_course'].forEach(function (row) {
-            if (row.starts_on) {
-                if (row.starts_on > today) {
-                    frappe.throw(__('Start date in training courses table cannot be in the future.'));
-                }
-            }
-            if (row.ends_on) {
-                if (row.ends_on > today) {
-                    frappe.throw(__('End date in training courses table cannot be in the future.'));
-                }
-            }
-            if (row.starts_on && row.ends_on) {
-                if (row.ends_on < row.starts_on) {
-                    frappe.throw(__('End date in training courses table must be after the start date.'));
-                }
-            }
-        });
 
-        frm.doc['faculty_member_conference_and_workshop'].forEach(function (row) {
-            if (row.starts_on) {
-                if (row.starts_on > today) {
-                    frappe.throw(__('Start date in conferences and workshops table cannot be in the future.'));
+        // Validate dates for 'faculty_member_training_course' table
+        if (frm.doc['faculty_member_training_course']) {
+            frm.doc['faculty_member_training_course'].forEach(function (row) {
+                if (row.starts_on) {
+                    if (row.starts_on > today) {
+                        frappe.throw(__('Start date in training courses table cannot be in the future.'));
+                    }
                 }
-            }
-            if (row.ends_on) {
-                if (row.ends_on > today) {
-                    frappe.throw(__('End date in conferences and workshops table cannot be in the future.'));
+                if (row.ends_on) {
+                    if (row.ends_on > today) {
+                        frappe.throw(__('End date in training courses table cannot be in the future.'));
+                    }
                 }
-            }
-            if (row.starts_on && row.ends_on) {
-                if (row.ends_on < row.starts_on) {
-                    frappe.throw(__('End date in conferences and workshops table must be after the start date.'));
+                if (row.starts_on && row.ends_on) {
+                    if (row.ends_on < row.starts_on) {
+                        frappe.throw(__('End date in training courses table must be after the start date.'));
+                    }
                 }
-            }
-        });
+            });
+        }
 
-        frm.doc['faculty_member_university_and_community_service'].forEach(function (row) {
-            if (row.date) {
-                if (row.date > today) {
-                    frappe.throw(__('Date in university and community services table cannot be in the future.'));
+        // Validate dates for 'faculty_member_conference_and_workshop' table
+        if (frm.doc['faculty_member_conference_and_workshop']) {
+            frm.doc['faculty_member_conference_and_workshop'].forEach(function (row) {
+                if (row.starts_on) {
+                    if (row.starts_on > today) {
+                        frappe.throw(__('Start date in conferences and workshops table cannot be in the future.'));
+                    }
                 }
-            }
-        });
+                if (row.ends_on) {
+                    if (row.ends_on > today) {
+                        frappe.throw(__('End date in conferences and workshops table cannot be in the future.'));
+                    }
+                }
+                if (row.starts_on && row.ends_on) {
+                    if (row.ends_on < row.starts_on) {
+                        frappe.throw(__('End date in conferences and workshops table must be after the start date.'));
+                    }
+                }
+            });
+        }
 
-        frm.doc['faculty_member_activity'].forEach(function (row) {
-            if (row.date) {
-                if (row.date > today) {
-                    frappe.throw(__('Date in activities table cannot be in the future.'));
+        // Validate dates for 'faculty_member_university_and_community_service' table
+        if (frm.doc['faculty_member_university_and_community_service']) {
+            frm.doc['faculty_member_university_and_community_service'].forEach(function (row) {
+                if (row.date) {
+                    if (row.date > today) {
+                        frappe.throw(__('Date in university and community services table cannot be in the future.'));
+                    }
                 }
-            }
-        });
+            });
+        }
 
-        frm.doc['faculty_member_award_and_appreciation_certificate'].forEach(function (row) {
-            if (row.date) {
-                if (row.date > today) {
-                    frappe.throw(__('Date in awards and appreciation certificates table cannot be in the future.'));
+        // Validate dates for 'faculty_member_activity' table
+        if (frm.doc['faculty_member_activity']) {
+            frm.doc['faculty_member_activity'].forEach(function (row) {
+                if (row.date) {
+                    if (row.date > today) {
+                        frappe.throw(__('Date in activities table cannot be in the future.'));
+                    }
                 }
-            }
-        });
+            });
+        }
+
+        // Validate dates for 'faculty_member_award_and_appreciation_certificate' table
+        if (frm.doc['faculty_member_award_and_appreciation_certificate']) {
+            frm.doc['faculty_member_award_and_appreciation_certificate'].forEach(function (row) {
+                if (row.date) {
+                    if (row.date > today) {
+                        frappe.throw(__('Date in awards and appreciation certificates table cannot be in the future.'));
+                    }
+                }
+            });
+        }
     },
     // End of the function
 
@@ -181,13 +197,13 @@ frappe.ui.form.on('Faculty Member', {
 });
 
 frappe.ui.form.on('Faculty Member Academic Ranking', {
-    academic_rank: function(frm, cdt, cdn) {
+    academic_rank: function (frm, cdt, cdn) {
         frappe.call({
             method: 'academia.academia.doctype.faculty_member.faculty_member.update_academic_rank',
             args: {
                 doc: frm.doc
             },
-            callback: function(response) {
+            callback: function (response) {
                 frm.refresh_field('academic_rank');
             }
         });
