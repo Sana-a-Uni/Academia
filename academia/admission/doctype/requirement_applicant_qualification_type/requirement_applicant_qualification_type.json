@@ -1,0 +1,32 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-13 19:14:21.526534",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "qualification_type"
+ ],
+ "fields": [
+  {
+   "fieldname": "qualification_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Program Degree",
+   "options": "Program Degree"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-07-16 03:28:22.067779",
+ "modified_by": "Administrator",
+ "module": "Admission",
+ "name": "Requirement Applicant Qualification Type",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

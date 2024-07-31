@@ -1,0 +1,66 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-07 16:26:22.292481",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "name_series",
+  "name1",
+  "country",
+  "issuer",
+  "issuance_date",
+  "file"
+ ],
+ "fields": [
+  {
+   "fieldname": "name_series",
+   "fieldtype": "Select",
+   "label": "Name Series"
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Country"
+  },
+  {
+   "fieldname": "issuer",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Issuer"
+  },
+  {
+   "fieldname": "issuance_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Issuance Date"
+  },
+  {
+   "fieldname": "file",
+   "fieldtype": "Attach",
+   "in_list_view": 1,
+   "label": "File"
+  },
+  {
+   "fieldname": "name1",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Name ",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-07-16 04:14:41.351214",
+ "modified_by": "Administrator",
+ "module": "Admission",
+ "name": "Document",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

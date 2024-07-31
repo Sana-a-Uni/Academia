@@ -1,8 +1,13 @@
+import frappe
+from frappe.model.document import Document
+
+def get_context(context):
+	# do your magic here
+	pass
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
-import frappe
-from frappe.model.document import Document
+
 
 
 class StudentApplicant(Document):
@@ -54,69 +59,52 @@ class StudentApplicant(Document):
 @frappe.whitelist()
 def select_data(condition_value):
     try:
-        # Construct your SQL query
         sql_query = """
-            select * from `tabRequirement Applicant Qualification Type` where parent = %s
+            SELECT * FROM `tabRequirement Applicant Qualification Type` WHERE parent = %s
         """
-        # Execute the query
         data = frappe.db.sql(sql_query, (condition_value,), as_dict=True)
-    
-        # Return the fetched data
         return data
-        
     except Exception as e:
         frappe.log_error(f"Error in selecting data: {str(e)}")
         return None
+
 @frappe.whitelist()
 def get_document(condition_value):
     try:
-        # Construct your SQL query
         sql_query = """
-            select * from `tabRequirement Applicant Document Type` where parent = %s
+            SELECT * FROM `tabRequirement Applicant Document Type` WHERE parent = %s
         """
-        # Execute the query
         data = frappe.db.sql(sql_query, (condition_value,), as_dict=True)
-    
-        # Return the fetched data
         return data
-        
     except Exception as e:
         frappe.log_error(f"Error in selecting data: {str(e)}")
         return None
 	
-	 
 @frappe.whitelist()
-def update_statues(condition_value,status):
-	try:
-		# Construct your SQL query
-		sql_query = """
-			update `tabStudent Applicant` set status = %s where name = %s
-		"""
-		# Execute the query
-		data = frappe.db.sql(sql_query, (status,condition_value,), as_dict=True)
-	
-		# Return the fetched data
-		return data
-		
-	except Exception as e:
-		frappe.log_error(f"Error in selecting data: {str(e)}")
-		return None
+def update_status(condition_value, status):
+    try:
+        sql_query = """
+            UPDATE `tabStudent Applicant` SET status = %s WHERE name = %s
+        """
+        frappe.db.sql(sql_query, (status, condition_value,))
+        frappe.db.commit()
+        return True
+    except Exception as e:
+        frappe.log_error(f"Error in updating status: {str(e)}")
+        return None
 
 @frappe.whitelist()
 def reject_student_application(docname, rejection_reason, email_subject, email_message):
     try:
-        # Get the document
         doc = frappe.get_doc('Student Applicant', docname)
         doc.status = 'Rejected'
         doc.reject_reason = rejection_reason
         doc.save()
 
-        # Get the student's email address
         recipient = doc.student_email_address
         if not recipient:
             frappe.throw(_("Student email address is not set for the applicant."))
 
-        # Prepare the email message
         message = f"""
         Dear {doc.first_name},
 
@@ -128,7 +116,6 @@ def reject_student_application(docname, rejection_reason, email_subject, email_m
         Admissions Team
         """
 
-        # Send the email
         frappe.sendmail(
             recipients=[recipient],
             subject=email_subject,
