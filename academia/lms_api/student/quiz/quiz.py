@@ -6,7 +6,14 @@ import random
 
 
 @frappe.whitelist(allow_guest=True)
-def get_quizzes_by_course(course_name: str , student_id: str ) -> Dict[str, Any]:
+def get_quizzes_by_course(course_name) :
+    user_id = frappe.session.user
+    
+    student_id = frappe.get_value("Student", {"user_id": user_id}, "name")
+    if not student_id:
+        return {"error": "Student not found"}
+    
+    frappe.logger().info(f"Student: {student_id}, Course: {course_name}")
     try:
         today = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         
@@ -64,7 +71,7 @@ def get_quizzes_by_course(course_name: str , student_id: str ) -> Dict[str, Any]
     return frappe.response["message"]
 
 @frappe.whitelist(allow_guest=True)
-def get_quiz_instruction(quiz_name: str) -> Dict[str, Any]:
+def get_quiz_instruction(quiz_name) :
     try:
         quiz_doc = frappe.get_doc("LMS Quiz", quiz_name)
 
@@ -98,7 +105,14 @@ def get_quiz_instruction(quiz_name: str) -> Dict[str, Any]:
 
 
 @frappe.whitelist(allow_guest=True)
-def get_quiz(quiz_name: str ="2874210861", student_id: str="EDU-STU-2024-00001"):
+def get_quiz(quiz_name: str ="2874210861"):
+    user_id = frappe.session.user
+    
+    student_id = frappe.get_value("Student", {"user_id": user_id}, "name")
+    if not student_id:
+        return {"error": "Student not found"}
+    
+    frappe.logger().info(f"Student: {student_id}")
     try:
         # Fetch the quiz document
         quiz_doc = frappe.get_doc("LMS Quiz", quiz_name)
@@ -174,12 +188,18 @@ def get_quiz(quiz_name: str ="2874210861", student_id: str="EDU-STU-2024-00001")
 def create_quiz_attempt():
     data = json.loads(frappe.request.data)
 
-    student = data.get('student')
+    user_id = frappe.session.user
+    
+    student_id = frappe.get_value("Student", {"user_id": user_id}, "name")
+    if not student_id:
+        return {"error": "Student not found"}
+    
+    frappe.logger().info(f"Student: {student_id}") 
     quiz = data.get('quiz')
     start_time = data.get('start_time')
     answers = data.get('answers')
 
-    if not student or not quiz or not start_time or not answers:
+    if not student_id or not quiz or not start_time or not answers:
         frappe.throw("Missing required parameters")
 
     start_time = datetime.strptime(start_time, '%Y-%m-%d %H:%M:%S')
@@ -233,7 +253,7 @@ def create_quiz_attempt():
     # Create new quiz attempt
     quiz_attempt = frappe.get_doc({
         'doctype': 'Quiz Attempt',
-        'student': student,
+        'student': student_id,
         'quiz': quiz,
         'grade': total_grade,
         'number_of_correct_answers': correct_answers,
@@ -252,7 +272,7 @@ def create_quiz_attempt():
         final_score = total_grade
         attempts_taken = 1
     else:
-        attempts = frappe.get_all('Quiz Attempt', filters={'student': student, 'quiz': quiz}, fields=['grade'])
+        attempts = frappe.get_all('Quiz Attempt', filters={'student': student_id, 'quiz': quiz}, fields=['grade'])
         attempts.append({'grade': total_grade})  # Include the current attempt
 
         grading_basis = quiz_doc.grading_basis
@@ -266,7 +286,7 @@ def create_quiz_attempt():
         attempts_taken = len(attempts)
 
     # Create or update Quiz Result
-    existing_result = frappe.get_all('Quiz Result', filters={'student': student, 'quiz': quiz}, fields=['name'])
+    existing_result = frappe.get_all('Quiz Result', filters={'student': student_id, 'quiz': quiz}, fields=['name'])
     if existing_result:
         quiz_result = frappe.get_doc('Quiz Result', existing_result[0]['name'])
         quiz_result.grade = final_score
@@ -275,7 +295,7 @@ def create_quiz_attempt():
     else:
         quiz_result = frappe.get_doc({
             'doctype': 'Quiz Result',
-            'student': student,
+            'student': student_id,
             'quiz': quiz,
             'grade': final_score,
             'attempts_taken': attempts_taken
@@ -358,7 +378,14 @@ def get_quiz_result(quiz_attempt_id):
         return {'error': str(e)}
 
 @frappe.whitelist(allow_guest=True)
-def get_all_quiz_attempts(course_name: str = "00", student_id: str = "EDU-STU-2024-00001") -> Dict[str, Any]:
+def get_all_quiz_attempts(course_name ,student_id):
+    user_id = frappe.session.user
+    
+    student_id = frappe.get_value("Student", {"user_id": user_id}, "name")
+    if not student_id:
+        return {"error": "Student not found"}
+    
+    frappe.logger().info(f"Student: {student_id}, Course: {course_name}")
     try:
         # Get all quiz attempts for the specified student in the specified course
         quiz_attempts = frappe.get_all(
