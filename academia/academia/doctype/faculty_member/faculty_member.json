@@ -279,7 +279,8 @@
    "fieldname": "department",
    "fieldtype": "Link",
    "label": "Department",
-   "options": "Department"
+   "options": "Department",
+   "reqd": 1
   },
   {
    "fieldname": "current_academic_data_section",
@@ -319,7 +320,7 @@
    "options": "University"
   },
   {
-   "depends_on": "eval: doc.employee && doc.employment_type != \"Official\"",
+   "depends_on": "eval: doc.employee && doc.employment_type && doc.employment_type != \"Official\"",
    "fieldname": "academic_services_section",
    "fieldtype": "Section Break",
    "label": "Academic Services"
@@ -392,7 +393,8 @@
    "fieldname": "email",
    "fieldtype": "Data",
    "label": "Email",
-   "options": "Email"
+   "options": "Email",
+   "reqd": 1
   },
   {
    "fieldname": "date_of_obtaining_the_academic_rank",
@@ -437,7 +439,7 @@
    "link_fieldname": "faculty_member"
   }
  ],
- "modified": "2024-07-30 11:41:28.722731",
+ "modified": "2024-08-01 17:23:30.503685",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",

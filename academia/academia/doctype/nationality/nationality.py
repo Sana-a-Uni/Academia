@@ -7,6 +7,7 @@ import re
 from frappe import _
 
 class Nationality(Document):
-    def validate(self):
-        if not re.match("^[a-zA-Z ]*$", self.nationality_name):
-            frappe.throw(_("Nationality name should only contain letters."))
+    pass
+    # def validate(self):
+    #     if not re.match("^[a-zA-Z ]*$", self.nationality_name):
+    #         frappe.throw(_("Nationality name should only contain letters."))
