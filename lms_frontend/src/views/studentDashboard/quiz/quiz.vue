@@ -80,7 +80,6 @@ const currentQuestion = ref(0);
 const route = useRoute();
 const router = useRouter();
 const quizName = ref(route.params.quizName);
-const studentId = ref("EDU-STU-2024-00001");
 
 const quizStore = useQuizStore();
 const { quiz, loading, error } = storeToRefs(quizStore);
@@ -219,7 +218,6 @@ const submitAnswers = async () => {
 	});
 
 	const quizAttemptId = await quizStore.submitQuiz({
-		student: "EDU-STU-2024-00001",
 		quiz: quizName.value,
 		start_time: startTime,
 		answers: answers,
@@ -242,7 +240,7 @@ const goBack = () => {
 };
 
 onMounted(() => {
-	quizStore.fetchQuiz(quizName.value, studentId.value).then(() => {
+	quizStore.fetchQuiz(quizName.value).then(() => {
 		if (quizStore.error && quizStore.error.includes("403")) {
 			alert(quizStore.error);
 			router.push({ name: "quizView" });

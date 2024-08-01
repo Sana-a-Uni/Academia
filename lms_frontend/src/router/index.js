@@ -66,7 +66,7 @@ const routes = [
 		component: () => import("../views/studentDashboard/courseView"),
 	},
 	{
-		path: "/quizView/:courseName/:studentId",
+		path: "/quizView/:courseName",
 		name: "quizView",
 		component: () => import("../views/studentDashboard/quiz/quizView"),
 		props: true,

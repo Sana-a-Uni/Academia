@@ -14,9 +14,8 @@ import { useQuizStore } from "@/stores/quizStore";
 
 const quizStore = useQuizStore();
 const courseName = ref("00");
-const studentId = ref("EDU-STU-2024-00001");
 
 onMounted(() => {
-	quizStore.fetchQuizzesResult(courseName.value, studentId.value);
+	quizStore.fetchQuizzesResult(courseName.value);
 });
 </script>

@@ -31,7 +31,7 @@
 					<router-link
 						:to="{
 							name: 'quizView',
-							params: { courseName: courseName, studentId: studentId },
+							params: { courseName: courseName },
 						}"
 						class="menu-link"
 					>
@@ -39,7 +39,8 @@
 					</router-link>
 				</li>
 				<li>
-					<a href="#"><font-awesome-icon icon="chart-bar" class="menu-icon" /> Grades</a>
+					<router-link :to="{ name: 'grades' }">
+					<font-awesome-icon icon="chart-bar" class="menu-icon" /> Grades</router-link>
 				</li>
 			</ul>
 		</nav>
@@ -75,8 +76,7 @@ const props = defineProps({
 	isOpen: Boolean,
 });
 
-const courseName = ref("DS");
-const studentId = ref("EDU-STU-2024-00001");
+const courseName = ref("00");
 </script>
 
 <style scoped>

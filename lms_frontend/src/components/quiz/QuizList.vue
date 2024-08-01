@@ -38,7 +38,9 @@
 						@mouseleave="hideMessage"
 					>
 						<a
-							@click.prevent="quizIsDue(quiz.to_date) ? goToInstructions(quiz.name) : null"
+							@click.prevent="
+								quizIsDue(quiz.to_date) ? goToInstructions(quiz.name) : null
+							"
 							:class="{ disabled: !quizIsDue(quiz.to_date) }"
 						>
 							{{ quiz.title }}
@@ -74,6 +76,9 @@ const showTooltip = ref(false);
 const router = useRouter();
 
 const filteredQuizzes = computed(() => {
+	if (!props.quizzes) {
+		return [];
+	}
 	return props.quizzes.filter((quiz) => {
 		const now = new Date();
 		const dueDate = new Date(quiz.to_date);
@@ -174,7 +179,7 @@ function formatTime(dateString) {
 	flex: 1;
 	display: flex;
 	justify-content: flex-start;
-	margin:0px;
+	margin: 0px;
 }
 
 .filters select {

@@ -17,10 +17,9 @@ const route = useRoute();
 
 const quizStore = useQuizStore();
 const courseName = ref(route.params.courseName);
-const studentId = ref(route.params.studentId);
 
 onMounted(() => {
-	quizStore.fetchQuizzes(courseName.value, studentId.value);
+	quizStore.fetchQuizzes(courseName.value);
 });
 
 const quizzes = ref([]);

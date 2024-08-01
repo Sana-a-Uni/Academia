@@ -15,7 +15,7 @@ export const useQuizStore = defineStore("quiz", {
 		submitted: false,
 	}),
 	actions: {
-		async fetchQuizzes(courseName, studentId) {
+		async fetchQuizzes(courseName) {
 			this.loading = true;
 			this.error = null;
 			try {
@@ -24,10 +24,16 @@ export const useQuizStore = defineStore("quiz", {
 					{
 						params: {
 							course_name: courseName,
-							student_id: studentId,
+						},
+					},
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
+				console.log(response);
 				this.quizzes = response.data.data;
 			} catch (error) {
 				this.error = error.message || "An error occurred while fetching quizzes.";
@@ -69,7 +75,7 @@ export const useQuizStore = defineStore("quiz", {
 			}
 		},
 
-		async fetchQuiz(quizName, studentId) {
+		async fetchQuiz(quizName) {
 			this.loading = true;
 			this.error = null;
 			try {
@@ -78,7 +84,6 @@ export const useQuizStore = defineStore("quiz", {
 					{
 						params: {
 							quiz_name: quizName,
-							student_id: studentId,
 						},
 					},
 					{
@@ -119,7 +124,7 @@ export const useQuizStore = defineStore("quiz", {
 				if (response.data.status_code === 200) {
 					this.submitted = true;
 					console.log(response.data.quiz_attempt_id);
-					return response.data.quiz_attempt_id; // Return the quiz_attempt_id
+					return response.data.quiz_attempt_id; 
 				} else {
 					this.error =
 						response.data.message || "An error occurred while submitting the quiz.";
@@ -157,7 +162,7 @@ export const useQuizStore = defineStore("quiz", {
 			}
 		},
 
-		async fetchQuizzesResult(courseName, studentId) {
+		async fetchQuizzesResult(courseName) {
 			this.loading = true;
 			this.error = null;
 			try {
@@ -166,7 +171,6 @@ export const useQuizStore = defineStore("quiz", {
 					{
 						params: {
 							course_name: courseName,
-							student_id: studentId,
 						},
 					},
 					{
