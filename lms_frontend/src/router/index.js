@@ -36,7 +36,7 @@ const routes = [
 		name: "createAssignment",
 		component: () => import("../views/teacherDashboard/assignment/createAssignment"),
 	},
-	
+
 	{
 		path: "/teacherDashboard/courseView/pendingAssessment",
 		name: "pendingAssessment",
@@ -48,10 +48,10 @@ const routes = [
 		component: () => import("../views/teacherDashboard/assessment/assignmentAssessment"),
 	},
 	{
-		path: '/completedAssessment',
-		name: 'completedAssessment',
+		path: "/completedAssessment",
+		name: "completedAssessment",
 		component: () => import("../views/teacherDashboard/assessment/completedAssessment"),
-	  },
+	},
 
 	////////////////////////////
 	{
@@ -103,8 +103,6 @@ const routes = [
 		}),
 	},
 
-	
-	
 	{
 		path: "/studentDashboard/assignmentView",
 		name: "assignmentView",
@@ -115,7 +113,21 @@ const routes = [
 		name: "assignment",
 		component: () => import("../views/studentDashboard/assignment/assignment"),
 	},
-	
+	{
+		path: "/studentDashboard/grades",
+		name: "grades",
+		component: () => import("../views/studentDashboard/grade/grades"),
+	},
+	{
+		path: "/studentDashboard/grades/quizDetails/:quiz_name",
+		name: "quizDetails",
+		component: () => import("../views/studentDashboard/grade/quizDetails"),
+	},
+	{
+		path: "/studentDashboard/grades/assignmentDetails/:assignment_name",
+		name: "assignmentDetails",
+		component: () => import("../views/studentDashboard/grade/assignmentDetails"),
+	},
 ];
 
 const router = createRouter({
