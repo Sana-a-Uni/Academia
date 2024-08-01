@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import Cookies from "js-cookie";
 
 const routes = [
 	{
@@ -10,6 +11,7 @@ const routes = [
 		path: "/teacherDashboard",
 		name: "teacherDashboard",
 		component: () => import("../views/teacherDashboard/dashboard"),
+		meta: { requiresAuth: true, requiresInstructor: true },
 	},
 	{
 		path: "/teacherDashboard/courseView",
@@ -58,6 +60,7 @@ const routes = [
 		path: "/studentDashboard",
 		name: "studentDashboard",
 		component: () => import("../views/studentDashboard/dashboard"),
+		meta: { requiresAuth: true, requiresStudent: true },
 	},
 
 	{
@@ -128,11 +131,37 @@ const routes = [
 		name: "assignmentDetails",
 		component: () => import("../views/studentDashboard/grade/assignmentDetails"),
 	},
+	{
+		path: "/unauthorized",
+		name: "unauthorized",
+		component: () => import("../views/Unauthorized.vue"),
+	},
 ];
 
 const router = createRouter({
 	history: createWebHistory(),
 	routes,
 });
+router.beforeEach((to, from, next) => {
+	const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+	const requiresStudent = to.matched.some((record) => record.meta.requiresStudent);
+	const requiresInstructor = to.matched.some((record) => record.meta.requiresInstructor);
 
+	const token = Cookies.get("authToken");
+	const role = Cookies.get("role");
+
+	const isLoggedIn = !!token;
+	const isStudent = role === "Student";
+	const isInstructor = role === "teacher";
+
+	if (requiresAuth && !isLoggedIn) {
+		next({ name: "login" }); 
+	} else if (requiresAuth && requiresStudent && !isStudent) {
+		next({ name: "unauthorized" }); 
+	} else if (requiresAuth && requiresInstructor && !isInstructor) {
+		next({ name: "unauthorized" }); 
+	} else {
+		next(); 
+	}
+});
 export default router;
