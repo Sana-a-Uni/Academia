@@ -154,16 +154,16 @@ class FacultyMember(Document):
                 frappe.msgprint(_("Error parsing probation end date: {0}").format(e), title=_("Date Parsing Error"), indicator="red")
                 self.is_eligible_for_granting_tenure = 0
 
-    @frappe.whitelist()
-    def update_academic_rank(doc):
-        logging.debug(f"Updating academic rank for document: {doc}")
-        doc = frappe.parse_json(doc)
-        logging.debug(f"Parsed document: {doc}")
-        if 'faculty_member_academic_ranking' in doc and doc['faculty_member_academic_ranking']:
-            last_ranking = doc['faculty_member_academic_ranking'][-1]
-            logging.debug(f"Last academic ranking: {last_ranking}")
-            if 'academic_rank' in last_ranking:
-                frappe.db.set_value("Faculty Member", doc['name'], "academic_rank", last_ranking['academic_rank'])
-                logging.info(f"Updated academic rank to {last_ranking['academic_rank']} for Faculty Member {doc['name']}")
-                return last_ranking['academic_rank']
-        return None
+    # @frappe.whitelist()
+    # def update_academic_rank(doc):
+    #     logging.debug(f"Updating academic rank for document: {doc}")
+    #     doc = frappe.parse_json(doc)
+    #     logging.debug(f"Parsed document: {doc}")
+    #     if 'faculty_member_academic_ranking' in doc and doc['faculty_member_academic_ranking']:
+    #         last_ranking = doc['faculty_member_academic_ranking'][-1]
+    #         logging.debug(f"Last academic ranking: {last_ranking}")
+    #         if 'academic_rank' in last_ranking:
+    #             frappe.db.set_value("Faculty Member", doc['name'], "academic_rank", last_ranking['academic_rank'])
+    #             logging.info(f"Updated academic rank to {last_ranking['academic_rank']} for Faculty Member {doc['name']}")
+    #             return last_ranking['academic_rank']
+    #     return None
