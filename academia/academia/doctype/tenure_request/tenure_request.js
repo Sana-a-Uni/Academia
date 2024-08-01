@@ -55,4 +55,44 @@ frappe.ui.form.on("Tenure Request", {
     },
     // End of the function
 
+    on_submit: function (frm) {
+        //applicant_type: "Student","Employee","User","Academic"
+        applicants = [
+            { applicant_type: "Faculty Member", applicant: frm.doc.faculty_member, applicant_name: frm.doc.faculty_member_name }
+        ];
+        applicants = JSON.stringify(applicants);
+        frappe.call({
+            method: "academia.transaction_management.doctype.transaction.transaction.create_transaction",
+            args: {
+                priority: "",
+                title: "Tenure Request",
+                category: "Faculty Member",
+                sub_category: "Tenure Request",
+                refrenced_document: frm.doc.name,
+                applicants_list: applicants,
+
+
+            },
+            callback: function (r) {
+                console.log(r); // Log the response object to the console for debugging
+
+                // Check if the response contains the 'message' property
+                if (r && r.message) {
+                    // Access the transaction ID from the response
+                    const transactionId = r.message;
+                    // frappe.msgprint("Transaction ID: " + transactionId);
+
+                    frm.set_value("referenced_transaction", transactionId);
+                    go_to_transaction(transactionId, applicants, frm)
+
+                } else {
+                    console.error("Unexpected response format");
+                }
+            }
+        });
+
+
+
+    }
+
 });
