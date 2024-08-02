@@ -50,15 +50,28 @@
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useQuizStore } from "@/stores/teacherStore/quizStore";
+import { useCourseStore } from "@/stores/teacherStore/courseStore";
+import { useRoute } from "vue-router";
 
 const selectedQuestions = ref([]);
-const store = useQuizStore();
+const quizStore = useQuizStore();
+const courseStore = useCourseStore();
 const emit = defineEmits(["questions", "cancel"]);
+const route = useRoute();
 
-const questions = computed(() => store.questions);
+const questions = computed(() => quizStore.questions);
 
 onMounted(async () => {
-	await store.fetchCourseQuestions("00");
+	const courseId = route.params.courseId;
+	await courseStore.fetchCourses();
+	const course = courseStore.courses.find((course) => course.id === courseId);
+	if (course) {
+		courseStore.selectCourse(course);
+		await quizStore.fetchCourseQuestions(course.course);
+	} else {
+		console.error("Course information is missing.");
+		alert("An error occurred: Course information is missing.");
+	}
 });
 
 const reuseQuestions = () => {
@@ -69,6 +82,10 @@ const cancel = () => {
 	emit("cancel");
 };
 </script>
+
+<style scoped>
+/* CSS Code remains the same */
+</style>
 
 <style scoped>
 .grade {

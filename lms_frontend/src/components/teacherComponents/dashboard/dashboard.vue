@@ -3,10 +3,6 @@
 		<div class="courses">
 			<div class="scrollable-card">
 				<h3 style="padding-left: 20px">Courses</h3>
-				<!-- <div class="tabs">
-					<div class="tab">Active</div>
-					<div class="tab">Completed</div>
-				</div> -->
 				<div class="courses-grid">
 					<div
 						class="card"
@@ -15,10 +11,10 @@
 						@click="navigateToCourseView(course)"
 					>
 						<img src="@/assets/images/book1.jpeg" alt="course image" />
-						<h3>{{ course.title }}</h3>
+						<h3>{{ course.course_name }}</h3>
 						<div class="info">
-							<p>{{ course.instructor }}</p>
-							<p>{{ course.type }}</p>
+							<p>{{ course.faculty }}</p>
+							<p>{{ course.course_type }}</p>
 						</div>
 					</div>
 				</div>
@@ -47,100 +43,22 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
 import { useRouter } from "vue-router";
+import { onMounted, computed } from "vue";
+import { useCourseStore } from "@/stores/teacherStore/courseStore";
 
 const router = useRouter();
+const courseStore = useCourseStore();
 
-const courses = ref([
-	{
-		image: "images/book1.jpeg",
-		title: "DataBase",
-		instructor: "Ebrahim Alhadad",
-		type: "Lab",
-	},
-	{
-		image: "images/book1.jpeg",
-		title: "DataBase",
-		instructor: "Ebrahim Alhadad",
-		type: "Lab",
-	},
-	{
-		image: "images/book1.jpeg",
-		title: "DataBase",
-		instructor: "Ebrahim Alhadad",
-		type: "Lab",
-	},
-	{
-		image: "images/book1.jpeg",
-		title: "DataBase",
-		instructor: "Ebrahim Alhadad",
-		type: "Lab",
-	},
-	{
-		image: "images/book1.jpeg",
-		title: "DataBase",
-		instructor: "Ebrahim Alhadad",
-		type: "Lab",
-	},
-	{
-		image: "images/book1.jpeg",
-		title: "DataBase",
-		instructor: "Ebrahim Alhadad",
-		type: "Lab",
-	},
-	{
-		image: "images/book1.jpeg",
-		title: "DataBase",
-		instructor: "Ebrahim Alhadad",
-		type: "Lab",
-	},
-]);
+onMounted(() => {
+	courseStore.fetchCourses();
+});
 
-const notifications = ref([
-	{
-		date: "22 Jan",
-		title: "Algorithm",
-		description: "3 hour .Dr\\Ghallib",
-	},
-	{
-		date: "22 Jan",
-		title: "Algorithm",
-		description: "3 hour .Dr\\Ghallib",
-	},
-	{
-		date: "22 Jan",
-		title: "Algorithm",
-		description: "3 hour .Dr\\Ghallib",
-	},
-	{
-		date: "22 Jan",
-		title: "Algorithm",
-		description: "3 hour .Dr\\Ghallib",
-	},
-	{
-		date: "22 Jan",
-		title: "Algorithm",
-		description: "3 hour .Dr\\Ghallib",
-	},
-	{
-		date: "22 Jan",
-		title: "Algorithm",
-		description: "3 hour .Dr\\Ghallib",
-	},
-	{
-		date: "22 Jan",
-		title: "Algorithm",
-		description: "3 hour .Dr\\Ghallib",
-	},
-	{
-		date: "22 Jan",
-		title: "Algorithm",
-		description: "3 hour .Dr\\Ghallib",
-	},
-]);
+const courses = computed(() => courseStore.courses);
+const notifications = computed(() => courseStore.notifications);
 
 const navigateToCourseView = (course) => {
+	courseStore.selectCourse(course);
 	router.push(`/teacherDashboard/courseView`);
 };
 </script>

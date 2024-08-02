@@ -16,17 +16,15 @@
 						class="checkbox-inline"
 					/>
 					<label for="availability-check" class="label-inline"
-						>Make the assignment availability</label
+						>Make the assignment available</label
 					>
 				</div>
 				<div
 					:class="[
 						'date-input',
 						{
-							active: assignmentStore.assignmentData
-								.make_the_assignment_availability,
-							faded: !assignmentStore.assignmentData
-								.make_the_assignment_availability,
+							active: assignmentStore.assignmentData.make_the_assignment_availability,
+							faded: !assignmentStore.assignmentData.make_the_assignment_availability,
 						},
 					]"
 					id="date-inputs"
@@ -43,7 +41,7 @@
 							<h4 style="margin-top: 6px; margin-right: 15px">To</h4>
 							<DatetimePicker v-model="assignmentStore.assignmentData.to_date" />
 						</div>
-						<div class="error-message" v-if="assignmentStore.errors.to_date" >
+						<div class="error-message" v-if="assignmentStore.errors.to_date">
 							{{ assignmentStore.errors.to_date }}
 						</div>
 					</div>
@@ -72,70 +70,16 @@
 					]"
 					id="group-input"
 				>
-					<select class="input-field" v-model="selected_group">
-						<option value="" disabled selected>Select Group</option>
-						<option value="group1">Group 1</option>
-						<option value="group2">Group 2</option>
-						<option value="group3">Group 3</option>
+					<select class="input-field" v-model="selectedGroups" multiple>
+						<option value="" disabled>Select Group(s)</option>
+						<option
+							v-for="item in selectedCourse.program_student_batch_group"
+							:key="`${item.program}-${item.student_batch}-${item.group}`"
+							:value="item"
+						>
+							{{ item.program }} - {{ item.student_batch }} - {{ item.group }}
+						</option>
 					</select>
-				</div>
-			</div>
-
-			<div class="form-section">
-				<div class="section-header">
-					<input
-						id="student-check"
-						type="checkbox"
-						v-model="studentActive"
-						class="checkbox-inline"
-					/>
-					<label for="student-check" class="label-inline">Student</label>
-				</div>
-				<div
-					:class="['main-content', { active: studentActive, faded: !studentActive }]"
-					id="student-section"
-				>
-					<div style="margin-left: 20px" class="header">
-						<div class="search-bar">
-							<input
-								type="text"
-								id="search"
-								placeholder="Search"
-								v-model="searchTerm"
-								class="input-field"
-							/>
-							<select class="input-field2" v-model="selectedGroupForSearch">
-								<option value="" disabled selected>Select Group</option>
-								<option value="group1">Group 1</option>
-								<option value="group2">Group 2</option>
-								<option value="group3">Group 3</option>
-							</select>
-						</div>
-					</div>
-					<div class="table-container">
-						<table>
-							<thead>
-								<tr>
-									<th style="font-size: 14px">Select</th>
-									<th style="font-size: 14px">Student Name</th>
-									<th style="font-size: 14px">Group Name</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="item in filteredItems" :key="item.studentname">
-									<td>
-										<input
-											style="width: 18px; height: 18px"
-											type="checkbox"
-											v-model="item.selected"
-										/>
-									</td>
-									<td style="font-size: 13px">{{ item.studentname }}</td>
-									<td style="font-size: 13px">{{ item.groupname }}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
 				</div>
 			</div>
 
@@ -149,52 +93,46 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, defineEmits } from "vue";
+import { ref, computed, defineEmits } from "vue";
 import { useAssignmentStore } from "@/stores/teacherStore/assignmentStore";
+import { useCourseStore } from "@/stores/teacherStore/courseStore";
 import moment from "moment";
 import DatetimePicker from "@/components/teacher/DatetimePicker.vue";
 
 const emit = defineEmits(["go-back", "save-settings"]);
 
 const assignmentStore = useAssignmentStore();
+const courseStore = useCourseStore();
+const selectedCourse = computed(() => courseStore.selectedCourse);
 
 const studentGroupActive = ref(false);
-const studentActive = ref(false);
+const selectedGroups = ref([]);
 
-const searchTerm = ref("");
-const selectedGroupForSearch = ref("");
+const saveSettings = async () => {
+	try {
+		if (selectedGroups.value.length === 0) {
+			throw new Error("Please select at least one student group.");
+		}
 
-const students = ref([
-	{ studentname: "Student 1", groupname: "Group 1", selected: false },
-	{ studentname: "Student 2", groupname: "Group 2", selected: false },
-	{ studentname: "Student 3", groupname: "Group 3", selected: false },
-]);
+		const settingsData = {
+			make_the_assignment_availability:
+				assignmentStore.assignmentData.make_the_assignment_availability,
+			from_date: assignmentStore.assignmentData.from_date
+				? moment(assignmentStore.assignmentData.from_date).format("YYYY-MM-DD HH:mm:ss")
+				: null,
+			to_date: assignmentStore.assignmentData.to_date
+				? moment(assignmentStore.assignmentData.to_date).format("YYYY-MM-DD HH:mm:ss")
+				: null,
+			program_student_batch_group: selectedGroups.value,
+		};
 
-const filteredItems = computed(() => {
-	return students.value.filter((item) => {
-		return (
-			(item.groupname === selectedGroupForSearch.value || !selectedGroupForSearch.value) &&
-			item.studentname.toLowerCase().includes(searchTerm.value.toLowerCase())
-		);
-	});
-});
-
-const saveSettings = () => {
-	const settingsData = {
-		make_the_assignment_availability:
-			assignmentStore.assignmentData.make_the_assignment_availability,
-		from_date: assignmentStore.assignmentData.from_date
-			? moment(assignmentStore.assignmentData.from_date).format("YYYY-MM-DD HH:mm:ss")
-			: null,
-		to_date: assignmentStore.assignmentData.to_date
-			? moment(assignmentStore.assignmentData.to_date).format("YYYY-MM-DD HH:mm:ss")
-			: null,
-		selected_group: assignmentStore.assignmentData.selected_group,
-		selected_students: students.value
-			.filter((student) => student.selected)
-			.map((student) => student.studentname),
-	};
-	emit("save-settings", settingsData);
+		assignmentStore.updateAssignmentData(settingsData);
+		await assignmentStore.createAssignment();
+		emit("save-settings", settingsData);
+	} catch (error) {
+		console.error("Failed to save settings:", error);
+		alert("An error occurred while creating the assignment: " + error.message);
+	}
 };
 
 const previousPage = () => {
@@ -214,15 +152,17 @@ const previousPage = () => {
 
 h1 {
 	text-align: center;
-	margin-bottom: 0px;
+	margin-bottom: 20px;
 	font-size: 24px;
 }
+
 .error-message {
 	color: red;
 	font-size: 12px;
 	margin-top: 5px;
 	display: block;
 }
+
 .form-section {
 	margin-bottom: 20px;
 }
@@ -270,17 +210,7 @@ h1 {
 	font-size: 12px;
 }
 
-.input-field2 {
-	padding: 8px;
-	border: 1px solid #ccc;
-	border-radius: 5px;
-	box-sizing: border-box;
-	font-size: 12px;
-}
-
 .date-input,
-.time-input,
-.attempt-input,
 .group-input {
 	opacity: 0.5;
 	display: block;
@@ -289,8 +219,6 @@ h1 {
 }
 
 .date-input.active,
-.time-input.active,
-.attempt-input.active,
 .group-input.active {
 	opacity: 1;
 	pointer-events: auto;
@@ -348,12 +276,13 @@ button {
 	background-color: #f0f5f9;
 	border-radius: 10px;
 	overflow: hidden;
+	font-size: 16px;
 }
 
 .main-content table thead th,
 .main-content table tbody td {
 	padding: 8px;
-	font-size: 12px;
+	font-size: 16px;
 	text-align: left;
 	border-bottom: 1px solid #ddd;
 }
@@ -451,5 +380,15 @@ button {
 
 .option input {
 	margin-right: 10px;
+}
+
+.card-actions {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 20px;
+	width: 100%;
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
 }
 </style>

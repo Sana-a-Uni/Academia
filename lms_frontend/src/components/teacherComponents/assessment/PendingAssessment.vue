@@ -69,7 +69,6 @@ function evaluateAssignment(submissionName) {
 		params: { submission_name: submissionName },
 	});
 }
-
 </script>
 
 <style scoped>

@@ -16,7 +16,7 @@
 						class="checkbox-inline"
 					/>
 					<label for="availability-check" class="label-inline"
-						>Make the quiz availability</label
+						>Make the quiz available</label
 					>
 				</div>
 				<div
@@ -241,70 +241,16 @@
 					]"
 					id="group-input"
 				>
-					<select class="input-field" v-model="selected_group">
-						<option value="" disabled selected>Select Group</option>
-						<option value="group1">Group 1</option>
-						<option value="group2">Group 2</option>
-						<option value="group3">Group 3</option>
+					<select class="input-field" v-model="selectedGroups" multiple>
+						<option value="" disabled>Select Group(s)</option>
+						<option
+							v-for="item in selectedCourse.program_student_batch_group"
+							:key="`${item.program}-${item.student_batch}-${item.group}`"
+							:value="item"
+						>
+							{{ item.program }} - {{ item.student_batch }} - {{ item.group }}
+						</option>
 					</select>
-				</div>
-			</div>
-
-			<div class="form-section">
-				<div class="section-header">
-					<input
-						id="student-check"
-						type="checkbox"
-						v-model="studentActive"
-						class="checkbox-inline"
-					/>
-					<label for="student-check" class="label-inline">Student</label>
-				</div>
-				<div
-					:class="['main-content', { active: studentActive, faded: !studentActive }]"
-					id="student-section"
-				>
-					<div style="margin-left: 20px" class="header">
-						<div class="search-bar">
-							<input
-								type="text"
-								id="search"
-								placeholder="Search"
-								v-model="searchTerm"
-								class="input-field"
-							/>
-							<select class="input-field2" v-model="selectedGroupForSearch">
-								<option value="" disabled selected>Select Group</option>
-								<option value="group1">Group 1</option>
-								<option value="group2">Group 2</option>
-								<option value="group3">Group 3</option>
-							</select>
-						</div>
-					</div>
-					<div class="table-container">
-						<table>
-							<thead>
-								<tr>
-									<th style="font-size: 14px">Select</th>
-									<th style="font-size: 14px">Student Name</th>
-									<th style="font-size: 14px">Group Name</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="item in filteredItems" :key="item.studentname">
-									<td>
-										<input
-											style="width: 18px; height: 18px"
-											type="checkbox"
-											v-model="item.selected"
-										/>
-									</td>
-									<td style="font-size: 13px">{{ item.studentname }}</td>
-									<td style="font-size: 13px">{{ item.groupname }}</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
 				</div>
 			</div>
 
@@ -323,72 +269,63 @@ import { useQuizStore } from "@/stores/teacherStore/quizStore";
 import moment from "moment";
 import DurationInput from "@/components/teacher/DurationInput.vue";
 import DatetimePicker from "@/components/teacher/DatetimePicker.vue";
+import { useCourseStore } from "@/stores/teacherStore/courseStore";
 
 const emit = defineEmits(["go-back", "save-settings"]);
 const quizStore = useQuizStore();
+const courseStore = useCourseStore();
 const { errors } = toRefs(quizStore);
+const selectedCourse = computed(() => courseStore.selectedCourse);
 
 const make_the_quiz_availability = ref(false);
 const studentGroupActive = ref(false);
-const studentActive = ref(false);
-
-const searchTerm = ref("");
-const selectedGroupForSearch = ref("");
-
-const students = ref([
-	{ studentname: "Student 1", groupname: "Group 1", selected: false },
-	{ studentname: "Student 2", groupname: "Group 2", selected: false },
-	{ studentname: "Student 3", groupname: "Group 3", selected: false },
-]);
-
-const filteredItems = computed(() => {
-	return students.value.filter((item) => {
-		return (
-			(item.groupname === selectedGroupForSearch.value || !selectedGroupForSearch.value) &&
-			item.studentname.toLowerCase().includes(searchTerm.value.toLowerCase())
-		);
-	});
-});
+const selectedGroups = ref([]);
 
 const updateDurationInSeconds = (seconds) => {
 	quizStore.quizData.duration = seconds;
 };
 
-const saveSettings = () => {
-	const settingsData = {
-		make_the_quiz_availability: quizStore.quizData.make_the_quiz_availability,
-		from_date: quizStore.quizData.from_date
-			? moment(quizStore.quizData.from_date).format("YYYY-MM-DD HH:mm:ss")
-			: null,
-		to_date: quizStore.quizData.to_date
-			? moment(quizStore.quizData.to_date).format("YYYY-MM-DD HH:mm:ss")
-			: null,
-		is_time_bound: quizStore.quizData.is_time_bound,
-		duration: quizStore.quizData.is_time_bound ? quizStore.quizData.duration : null,
-		multiple_attempts: quizStore.quizData.multiple_attempts,
-		number_of_attempts: quizStore.quizData.multiple_attempts
-			? quizStore.quizData.number_of_attempts
-			: 1,
-		grading_basis: quizStore.quizData.multiple_attempts
-			? quizStore.quizData.grading_basis
-			: null,
-		show_question_score: quizStore.quizData.show_question_score,
-		show_correct_answer: quizStore.quizData.show_correct_answer,
-		randomize_question_order: quizStore.quizData.randomize_question_order,
-		randomize_option_order: quizStore.quizData.randomize_option_order,
-		selected_group: quizStore.quizData.selected_group,
-		selected_students: students.value
-			.filter((student) => student.selected)
-			.map((student) => student.studentname),
-	};
-	emit("save-settings", settingsData);
+const saveSettings = async () => {
+	try {
+		if (studentGroupActive.value && selectedGroups.value.length === 0) {
+			throw new Error("Please select at least one student group.");
+		}
+
+		const settingsData = {
+			make_the_quiz_availability: quizStore.quizData.make_the_quiz_availability,
+			from_date: quizStore.quizData.from_date
+				? moment(quizStore.quizData.from_date).format("YYYY-MM-DD HH:mm:ss")
+				: null,
+			to_date: quizStore.quizData.to_date
+				? moment(quizStore.quizData.to_date).format("YYYY-MM-DD HH:mm:ss")
+				: null,
+			is_time_bound: quizStore.quizData.is_time_bound,
+			duration: quizStore.quizData.is_time_bound ? quizStore.quizData.duration : null,
+			multiple_attempts: quizStore.quizData.multiple_attempts,
+			number_of_attempts: quizStore.quizData.multiple_attempts
+				? quizStore.quizData.number_of_attempts
+				: 1,
+			grading_basis: quizStore.quizData.multiple_attempts
+				? quizStore.quizData.grading_basis
+				: null,
+			show_question_score: quizStore.quizData.show_question_score,
+			show_correct_answer: quizStore.quizData.show_correct_answer,
+			randomize_question_order: quizStore.quizData.randomize_question_order,
+			randomize_option_order: quizStore.quizData.randomize_option_order,
+			selected_group: studentGroupActive.value ? selectedGroups.value : null,
+		};
+		emit("save-settings", settingsData);
+	} catch (error) {
+		console.error("Failed to save settings:", error);
+		alert("An error occurred while saving the quiz settings: " + error.message);
+	}
 };
 
 const previousPage = () => {
 	emit("go-back");
 };
 
-// جلب خيارات "grading_basis" عند تحميل المكون
+// Fetch grading basis options on component mount
 onMounted(() => {
 	quizStore.fetchGradingBasisOptions();
 });
@@ -478,7 +415,7 @@ h1 {
 .date-input.active,
 .time-input.active,
 .attempt-input.active,
-group-input.active {
+.group-input.active {
 	opacity: 1;
 	pointer-events: auto;
 }
@@ -532,6 +469,9 @@ button {
 .main-content table {
 	width: 100%;
 	border-collapse: collapse;
+	background-color: #f0f5f9;
+	border-radius: 10px;
+	overflow: hidden;
 	background-color: #f0f5f9;
 	border-radius: 10px;
 	overflow: hidden;
