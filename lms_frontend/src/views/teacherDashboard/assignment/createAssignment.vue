@@ -24,8 +24,9 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useAssignmentStore } from "@/stores/teacherStore/assignmentStore";
+import { useCourseStore } from "@/stores/teacherStore/courseStore";
 import { useRouter } from "vue-router";
 import AssignmentInformation from "@/components/teacherComponents/assignment/AssignmentInformation.vue";
 import AssignmentQuestion from "@/components/teacherComponents/assignment/AssignmentQuestion.vue";
@@ -35,6 +36,8 @@ import SuccessDialog from "@/components/teacherComponents/SuccessDialog.vue";
 
 const currentView = ref("information");
 const assignmentStore = useAssignmentStore();
+const courseStore = useCourseStore();
+const selectedCourse = computed(() => courseStore.selectedCourse);
 const router = useRouter();
 const errors = ref({});
 const showDialog = ref(false);
@@ -42,9 +45,11 @@ const dialogMessage = ref("");
 
 const handleAssignmentCreated = () => {
 	currentView.value = "questions";
+	assignmentStore.updateAssignmentData({ course: selectedCourse.value.course });
 };
 
 const handleSaveSettings = async (settingsData) => {
+	settingsData.course = selectedCourse.value.course;
 	assignmentStore.updateAssignmentData(settingsData);
 	try {
 		const response = await assignmentStore.createAssignment();
@@ -77,7 +82,6 @@ const handleFilesUploaded = (files) => {
 const resetFields = () => {
 	assignmentStore.assignmentData = {
 		assignment_title: "",
-		course: "00",
 		instruction: "",
 		make_the_assignment_availability: false,
 		from_date: "",

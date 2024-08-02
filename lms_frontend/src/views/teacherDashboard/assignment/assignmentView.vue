@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import { useAssignmentStore } from "@/stores/teacherStore/assignmentStore";
 import { useRoute } from "vue-router";
 import AssignmentList from "@/components/teacherComponents/assignment/AssignmentView.vue";
@@ -17,11 +17,14 @@ import LoadingSpinner from "@/components/LoadingSpinner.vue";
 const route = useRoute();
 
 const assignmentStore = useAssignmentStore();
-// const courseName = ref(route.params.courseName);
-const courseName = ref("00");
+import { useCourseStore } from "@/stores/teacherStore/courseStore";
+const courseStore = useCourseStore();
+const selectedCourse = computed(() => courseStore.selectedCourse);
 
 onMounted(() => {
-	assignmentStore.fetchAssignments(courseName.value);
+	if (selectedCourse.value) {
+		assignmentStore.fetchAssignments(selectedCourse.value.course);
+	}
 });
 
 const assignments = ref([]);

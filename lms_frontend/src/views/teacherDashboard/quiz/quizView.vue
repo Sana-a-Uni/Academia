@@ -7,23 +7,23 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch , computed} from "vue";
 import { useQuizStore } from "@/stores/teacherStore/quizStore";
-import { useRoute } from "vue-router";
 import QuizList from "@/components/teacherComponents/quiz/QuizView.vue";
 import mainLayout from "@/components/teacherComponents/layout/MainLayout.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
-const route = useRoute();
+import { useCourseStore } from "@/stores/teacherStore/courseStore";
+const courseStore = useCourseStore();
+const selectedCourse = computed(() => courseStore.selectedCourse);
 
 const quizStore = useQuizStore();
-// const courseName = ref(route.params.courseName);
-const courseName = ref("00");
-
+console.log(selectedCourse.value);
 onMounted(() => {
-	quizStore.fetchQuizzes(courseName.value);
+	if (selectedCourse.value) {
+		quizStore.fetchQuizzes(selectedCourse.value.course);
+	}
 });
-
 const quizzes = ref([]);
 quizzes.value = quizStore.quizzes;
 

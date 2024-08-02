@@ -1,20 +1,26 @@
 <template>
-	<div>
+	<main-layout>
 		<CompletedAssessment :students="students" :quizzes="quizzes" :assignments="assignments" />
-	</div>
+	</main-layout>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
 import { useAssessmentStore } from "@/stores/teacherStore/assessmentStore";
+import { useCourseStore } from "@/stores/teacherStore/courseStore";
 import CompletedAssessment from "@/components/teacherComponents/assessment/CompletedAssessment.vue";
+import mainLayout from "@/components/teacherComponents/layout/MainLayout.vue";
 
 const assessmentStore = useAssessmentStore();
-const facultyMember = ref("ACAD-FM-00001");
-const course = ref("00");
+const courseStore = useCourseStore();
 
-const loadGrades = () => {
-	assessmentStore.fetchQuizAndAssignmentGrades(facultyMember.value, course.value);
+const selectedCourse = computed(() => courseStore.selectedCourse);
+
+const loadGrades = async () => {
+	if (selectedCourse.value) {
+		await assessmentStore.fetchQuizAndAssignmentGrades(selectedCourse.value.course);
+		console.log(selectedCourse.value.course);
+	}
 };
 
 onMounted(() => {
@@ -23,14 +29,14 @@ onMounted(() => {
 
 const quizzes = computed(() => {
 	const quizTitles = assessmentStore.quizzes.map((quiz) => quiz.quiz_title);
-	return Array.from(new Set(quizTitles)); // إزالة التكرارات
+	return Array.from(new Set(quizTitles));
 });
 
 const assignments = computed(() => {
 	const assignmentTitles = assessmentStore.assignments.map(
 		(assignment) => assignment.assignment_title
 	);
-	return Array.from(new Set(assignmentTitles)); // إزالة التكرارات
+	return Array.from(new Set(assignmentTitles));
 });
 
 const students = computed(() => {
