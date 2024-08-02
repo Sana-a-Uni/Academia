@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<Navbar @toggle-drawer="toggleDrawer" />
-		<Subheader />
+		<!-- <Subheader /> -->
 		<div class="content">
 			<Sidebar :isOpen="isDrawerOpen" />
 			<main class="main-content">

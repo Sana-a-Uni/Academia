@@ -40,7 +40,9 @@
 				</li>
 				<li>
 					<router-link :to="{ name: 'grades' }">
-					<font-awesome-icon icon="chart-bar" class="menu-icon" /> Grades</router-link>
+						<font-awesome-icon icon="chart-bar" class="menu-icon" />
+						Grades</router-link
+					>
 				</li>
 			</ul>
 		</nav>

@@ -154,32 +154,7 @@ export default {
 					title: "Algorithm",
 					description: "3 hour .Dr\\Ghallib",
 				},
-				// {
-				// 	date: "22 Jan",
-				// 	title: "Algorithm",
-				// 	description: "3 hour .Dr\\Ghallib",
-				// },
-				// {
-				// 	date: "22 Jan",
-				// 	title: "Algorithm",
-				// 	description: "3 hour .Dr\\Ghallib",
-				// },
-				// {
-				// 	date: "22 Jan",
-				// 	title: "Algorithm",
-				// 	description: "3 hour .Dr\\Ghallib",
-				// },
-				// {
-				// 	date: "22 Jan",
-				// 	title: "Algorithm",
-				// 	description: "3 hour .Dr\\Ghallib",
-				// },
-				// {
-				// 	date: "22 Jan",
-				// 	title: "Algorithm",
-				// 	description: "3 hour .Dr\\Ghallib",
-				// },
-				// Add more notification objects as needed
+			
 			],
 		};
 	},
