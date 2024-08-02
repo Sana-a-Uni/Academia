@@ -50,7 +50,7 @@ const routes = [
 		component: () => import("../views/teacherDashboard/assessment/assignmentAssessment"),
 	},
 	{
-		path: "/completedAssessment",
+		path: "/teacherDashboard/courseView/completedAssessment",
 		name: "completedAssessment",
 		component: () => import("../views/teacherDashboard/assessment/completedAssessment"),
 	},
@@ -131,6 +131,7 @@ const routes = [
 		name: "assignmentDetails",
 		component: () => import("../views/studentDashboard/grade/assignmentDetails"),
 	},
+
 	{
 		path: "/unauthorized",
 		name: "unauthorized",
