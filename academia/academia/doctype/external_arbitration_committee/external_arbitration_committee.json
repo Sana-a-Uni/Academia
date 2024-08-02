@@ -2,22 +2,30 @@
  "actions": [],
  "allow_rename": 1,
  "autoname": "prompt",
- "creation": "2024-08-02 00:27:17.412004",
+ "creation": "2024-08-02 09:13:07.428269",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "faculty",
+  "university",
+  "external_faculty",
   "academic_rank",
   "faculty_member"
  ],
  "fields": [
   {
-   "fieldname": "faculty",
+   "fieldname": "university",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Faculty",
-   "options": "Faculty"
+   "label": "University",
+   "options": "University"
+  },
+  {
+   "fieldname": "external_faculty",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "External Faculty",
+   "options": "External Faculty"
   },
   {
    "fieldname": "academic_rank",
@@ -37,10 +45,10 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-08-02 00:31:37.993635",
+ "modified": "2024-08-02 09:13:07.428269",
  "modified_by": "Administrator",
  "module": "Academia",
- "name": "Internal Discussion Committee",
+ "name": "External Arbitration Committee",
  "naming_rule": "Set by user",
  "owner": "Administrator",
  "permissions": [],

@@ -45,6 +45,11 @@
   "date",
   "column_break_pkgt",
   "decision_attachment",
+  "commencement_of_work_data_section",
+  "commencement_of_work_decision_number",
+  "commencement_of_work_date",
+  "column_break_lbxn",
+  "commencement_of_work_attachment",
   "academic_services_section",
   "academic_services",
   "column_break_pkbw",
@@ -407,6 +412,30 @@
    "fieldtype": "Link",
    "label": "External Faculty",
    "options": "External Faculty"
+  },
+  {
+   "fieldname": "commencement_of_work_data_section",
+   "fieldtype": "Section Break",
+   "label": "Commencement of Work Data"
+  },
+  {
+   "fieldname": "commencement_of_work_decision_number",
+   "fieldtype": "Data",
+   "label": "Commencement of Work Decision Number"
+  },
+  {
+   "fieldname": "commencement_of_work_date",
+   "fieldtype": "Date",
+   "label": "Commencement of Work Date"
+  },
+  {
+   "fieldname": "column_break_lbxn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "commencement_of_work_attachment",
+   "fieldtype": "Attach",
+   "label": "Commencement of Work Attachment"
   }
  ],
  "image_field": "image",
@@ -444,7 +473,7 @@
    "link_fieldname": "evaluatee_party"
   }
  ],
- "modified": "2024-08-02 08:25:34.099226",
+ "modified": "2024-08-02 16:41:41.245912",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",

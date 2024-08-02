@@ -27,6 +27,9 @@ class FacultyMember(Document):
 
         academic_rank: DF.Link
         academic_services: DF.TableMultiSelect[FacultyMemberAcademicServices]
+        commencement_of_work_attachment: DF.Attach | None
+        commencement_of_work_date: DF.Date | None
+        commencement_of_work_decision_number: DF.Data | None
         company: DF.Link
         courses: DF.TableMultiSelect[FacultyMemberCourse]
         date: DF.Date | None
@@ -167,12 +170,12 @@ class FacultyMember(Document):
 
     # Fetch and set probation end date
     def get_probation_end_date(self):
-        if self.date_of_joining_in_university and self.tenure_status == "On Probation":
+        if self.commencement_of_work_date and self.tenure_status == "On Probation":
             faculty_member_settings = frappe.get_all(
                 "Faculty Member Settings",
                 filters=[
                     ["academic_rank", "=", self.academic_rank],
-                    ["valid_from", "<=", self.date_of_joining_in_university],
+                    ["valid_from", "<=", self.commencement_of_work_date],
                 ],
                 fields=["name", "probation_period"],
                 order_by="valid_from desc",
@@ -181,7 +184,7 @@ class FacultyMember(Document):
             if faculty_member_settings:
                 faculty_member_settings = faculty_member_settings[0]
                 self.probation_period_end_date = add_months(
-                    self.date_of_joining_in_university,
+                    self.commencement_of_work_date,
                     int(faculty_member_settings.probation_period),
                 )
             else:

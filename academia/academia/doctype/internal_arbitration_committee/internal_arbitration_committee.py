@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class ExternalDiscussionCommittee(Document):
+class InternalArbitrationCommittee(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -15,11 +15,10 @@ class ExternalDiscussionCommittee(Document):
 		from frappe.types import DF
 
 		academic_rank: DF.Link | None
-		external_faculty: DF.Link | None
+		faculty: DF.Link | None
 		faculty_member: DF.Link | None
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
-		university: DF.Link | None
 	# end: auto-generated types
 	pass

@@ -15,14 +15,15 @@ def get_columns():
 	columns = [
 		{
 			"label": _("Faculty Member Name"),
-			"fieldtype": "Data",
-			"fieldname": "faculty_member_name",
+			"fieldtype": "Link",
+			"fieldname": "employee",
+			"options": "Employee",
 			"width": 200,
 		},
 		{
-			"label": _("Faculty"),
+			"label": _("Company"),
 			"fieldtype": "Link",
-			"fieldname": "faculty",
+			"fieldname": "company",
 			"width": 150,
 			"options": "Company",
 		},
@@ -76,10 +77,10 @@ def get_columns():
 		},
 		{
 			"label": _("Languages"),
-			"fieldtype": "Link",
+			"fieldtype": "TableMultiSelect",
 			"fieldname": "languages",
 			"width": 150,
-			"options": "Languages",
+			"options": "Faculty Member Language",
 		},
 		
 	]
@@ -176,9 +177,9 @@ def get_data(filters):
     return frappe.db.sql(
         """
         SELECT
-            `tabFaculty Member`.faculty_member_name,
+            `tabFaculty Member`.employee,
             `tabFaculty Member`.academic_rank,
-            `tabFaculty Member`.company as faculty,
+            `tabFaculty Member`.company,
             `tabFaculty Member`.email,
             `tabFaculty Member`.scientific_degree,
             `tabFaculty Member`.date_of_joining_in_university,
@@ -205,6 +206,8 @@ def get_conditions(filters):
 	if filters.get("employee"):
 		conditions.append(" and `tabFaculty Member`.employee=%(employee)s")
 
+	if filters.get("company"):
+		conditions.append(" and `tabFaculty Member`.company=%(company)s")
 
 	if filters.get("department"):
 		conditions.append(" and `tabFaculty Member`.department=%(department)s")
