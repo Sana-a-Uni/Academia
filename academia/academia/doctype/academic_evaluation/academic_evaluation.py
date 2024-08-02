@@ -22,7 +22,7 @@ class AcademicEvaluation(Document):
 		attachment: DF.Attach | None
 		company: DF.Link | None
 		date: DF.Date | None
-		department: DF.Link | None
+		department: DF.Link
 		designation: DF.Link | None
 		email: DF.Data
 		evaluatee_party: DF.DynamicLink

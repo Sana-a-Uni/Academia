@@ -161,7 +161,8 @@
    "fieldtype": "Link",
    "label": "Department",
    "options": "Department",
-   "read_only": 1
+   "read_only": 1,
+   "reqd": 1
   },
   {
    "fieldname": "faculty",
@@ -259,7 +260,7 @@
    "table_fieldname": "evaluations"
   }
  ],
- "modified": "2024-07-31 21:43:23.572334",
+ "modified": "2024-08-02 08:48:01.624842",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Evaluation",

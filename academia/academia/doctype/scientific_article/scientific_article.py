@@ -7,19 +7,28 @@ import re
 from frappe import _
 
 class ScientificArticle(Document):
+    # begin: auto-generated types
+    # This code is auto-generated. Do not modify anything in this block.
+
+    from typing import TYPE_CHECKING
+
+    if TYPE_CHECKING:
+        from academia.academia.doctype.academic_author.academic_author import AcademicAuthor
+        from frappe.types import DF
+
+        article_file: DF.Attach | None
+        article_link: DF.Data | None
+        date_of_publish: DF.Date | None
+        published_in: DF.Link | None
+        scientific_article_author: DF.Table[AcademicAuthor]
+        title: DF.Data
+    # end: auto-generated types
     # Start of validate controller hook
     def validate(self):
         # Calling functions
-        self.validate_string()
         self.validate_date()
         self.validate_url()
     # End of validate controller hook
-
-    # FN: validate 'title' field
-    def validate_string(self):
-        if not re.match("^[a-zA-Z ]*$", str(self.title)):
-            frappe.throw(_("Article Title should only contain letters."))
-    # End of the function
 
     # FN: validate 'date_of_publish' field
     def validate_date(self):

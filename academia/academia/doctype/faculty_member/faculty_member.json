@@ -139,11 +139,11 @@
   },
   {
    "fetch_from": "employee.company",
-   "fetch_if_empty": 1,
    "fieldname": "company",
    "fieldtype": "Link",
    "label": "Company",
    "options": "Company",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -413,7 +413,7 @@
  "index_web_pages_for_search": 1,
  "links": [
   {
-   "group": "Publication",
+   "group": "Publications",
    "is_child_table": 1,
    "link_doctype": "Academic Author",
    "link_fieldname": "author_name",
@@ -421,7 +421,7 @@
    "table_fieldname": "academic_publication_author"
   },
   {
-   "group": "Publication",
+   "group": "Publications",
    "is_child_table": 1,
    "link_doctype": "Academic Author",
    "link_fieldname": "author_name",
@@ -429,17 +429,22 @@
    "table_fieldname": "scientific_article_author"
   },
   {
-   "group": "Tenure",
-   "link_doctype": "Tenure Evaluation Request",
+   "group": "Academic Requests",
+   "link_doctype": "Tenure Request",
    "link_fieldname": "faculty_member"
   },
   {
-   "group": "Tenure",
-   "link_doctype": "Tenure Request",
+   "group": "Academic Requests",
+   "link_doctype": "Promotion Request",
    "link_fieldname": "faculty_member"
+  },
+  {
+   "group": "Academic Evaluations",
+   "link_doctype": "Academic Evaluation",
+   "link_fieldname": "evaluatee_party"
   }
  ],
- "modified": "2024-08-01 17:23:30.503685",
+ "modified": "2024-08-02 08:25:34.099226",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",

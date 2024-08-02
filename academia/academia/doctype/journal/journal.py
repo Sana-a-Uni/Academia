@@ -28,9 +28,6 @@ class Journal(Document):
         # Calling functions
         self.validate_url()
 
-        if not re.match("^[A-Za-z\s\-']+$", self.journal_name):
-            frappe.throw(_("Journal name should only contain letters."))
-
         if self.hindex and not re.match("^[0-9]+$", str(self.hindex)):
             frappe.throw(_("H-Index should only contain numbers."))
 
