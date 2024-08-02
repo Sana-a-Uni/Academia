@@ -10,9 +10,11 @@ class PromotionRequest(Document):
     from typing import TYPE_CHECKING
 
     if TYPE_CHECKING:
+        from academia.academia.doctype.academic_arbitrators.academic_arbitrators import AcademicArbitrators
         from academia.academia.doctype.faculty_member_academic_publications.faculty_member_academic_publications import FacultyMemberAcademicPublications
         from frappe.types import DF
 
+        academic_arbitrators: DF.Table[AcademicArbitrators]
         academic_publications: DF.TableMultiSelect[FacultyMemberAcademicPublications]
         amended_from: DF.Link | None
         company: DF.Link | None

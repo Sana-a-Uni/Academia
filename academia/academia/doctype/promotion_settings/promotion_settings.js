@@ -7,3 +7,11 @@
 // 	},
 // });
 
+frappe.ui.form.on("Publication Condition", {
+    journal_type(frm, cdt, cdn) {
+        // let row = locals[cdt][cdn];
+        frappe.model.set_value(cdt, cdn, "journal", null);
+        frappe.model.set_value(cdt, cdn, "requirement", "");
+        frm.refresh_field("conditions");
+	},
+});

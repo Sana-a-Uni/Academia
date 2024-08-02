@@ -10,7 +10,9 @@
   "publications_count",
   "required_scientific_degree",
   "required_period_for_promotion",
-  "next_academic_rank"
+  "next_academic_rank",
+  "section_break_ivmk",
+  "publication_condition"
  ],
  "fields": [
   {
@@ -47,11 +49,21 @@
    "fieldtype": "Link",
    "label": "Required Scientific Degree",
    "options": "Scientific Degree"
+  },
+  {
+   "fieldname": "publication_condition",
+   "fieldtype": "Table",
+   "label": "Publication Condition",
+   "options": "Publication Condition"
+  },
+  {
+   "fieldname": "section_break_ivmk",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-27 07:44:02.959474",
+ "modified": "2024-08-02 02:44:26.058198",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Promotion Settings",
