@@ -46,7 +46,7 @@
    "fieldname": "course",
    "fieldtype": "Link",
    "label": "Course",
-   "options": "Course"
+   "options": "Course Specification"
   },
   {
    "fieldname": "section_break_hqny",
@@ -61,7 +61,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-11 19:37:59.578654",
+ "modified": "2024-08-02 14:24:55.976427",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "Question",

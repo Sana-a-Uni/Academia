@@ -8,10 +8,10 @@
   "details_section",
   "course",
   "assignment_title",
-  "student_group",
-  "assignment_type",
   "column_break_bsqh",
   "faculty_member",
+  "assignment_type",
+  "section_break_ohfh",
   "instruction",
   "section_break_gimj",
   "make_the_assignment_availability",
@@ -21,6 +21,8 @@
   "section_break_ytru",
   "question",
   "attachment_file",
+  "section_break_qxpu",
+  "assigned_student_group",
   "section_break_erkf",
   "assessment_criteria",
   "total_grades"
@@ -35,13 +37,7 @@
    "fieldname": "course",
    "fieldtype": "Link",
    "label": "Course",
-   "options": "Course"
-  },
-  {
-   "fieldname": "student_group",
-   "fieldtype": "Link",
-   "label": "Student Group",
-   "options": "Student Group"
+   "options": "Course Specification"
   },
   {
    "fieldname": "column_break_bsqh",
@@ -49,7 +45,7 @@
   },
   {
    "fieldname": "instruction",
-   "fieldtype": "Small Text",
+   "fieldtype": "Text Editor",
    "label": "Instruction"
   },
   {
@@ -127,11 +123,25 @@
    "fieldtype": "Select",
    "label": "Assignment type",
    "options": "Assignment\nProject"
+  },
+  {
+   "fieldname": "section_break_qxpu",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "assigned_student_group",
+   "fieldtype": "Table",
+   "label": "Assigned Student Group",
+   "options": "Assigned Student Group"
+  },
+  {
+   "fieldname": "section_break_ohfh",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-30 01:54:30.740994",
+ "modified": "2024-08-02 04:33:44.887165",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "LMS Assignment",

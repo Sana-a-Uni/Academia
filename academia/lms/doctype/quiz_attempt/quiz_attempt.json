@@ -41,7 +41,7 @@
    "fieldname": "course",
    "fieldtype": "Link",
    "label": "Course",
-   "options": "Course"
+   "options": "Course Specification"
   },
   {
    "fieldname": "section_break_a5jj",
@@ -123,7 +123,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-24 00:20:00.139484",
+ "modified": "2024-08-02 02:26:48.578003",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "Quiz Attempt",

@@ -13,20 +13,21 @@ class LMSAssignment(Document):
 
 	if TYPE_CHECKING:
 		from academia.lms.doctype.assessment_criteria.assessment_criteria import AssessmentCriteria
+		from academia.lms.doctype.assigned_student_group.assigned_student_group import AssignedStudentGroup
 		from academia.lms.doctype.attachment_files.attachment_files import AttachmentFiles
 		from frappe.types import DF
 
 		assessment_criteria: DF.Table[AssessmentCriteria]
+		assigned_student_group: DF.Table[AssignedStudentGroup]
 		assignment_title: DF.Data
 		assignment_type: DF.Literal["Assignment", "Project"]
 		attachment_file: DF.Table[AttachmentFiles]
 		course: DF.Link | None
 		faculty_member: DF.Link | None
 		from_date: DF.Datetime | None
-		instruction: DF.SmallText | None
+		instruction: DF.TextEditor | None
 		make_the_assignment_availability: DF.Check
 		question: DF.TextEditor | None
-		student_group: DF.Link | None
 		to_date: DF.Datetime | None
 		total_grades: DF.Float
 	# end: auto-generated types

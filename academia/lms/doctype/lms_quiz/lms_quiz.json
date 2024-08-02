@@ -8,10 +8,10 @@
   "details_section",
   "course",
   "title",
-  "instruction",
   "column_break_jsvl",
   "faculty_member",
-  "student_group",
+  "section_break_jyzq",
+  "instruction",
   "section_break_mpgl",
   "make_the_quiz_availability",
   "from_date",
@@ -35,7 +35,8 @@
   "column_break_bwos",
   "show_correct_answer",
   "section_break_euqq",
-  "quiz_question"
+  "quiz_question",
+  "assigned_student_group"
  ],
  "fields": [
   {
@@ -47,7 +48,7 @@
    "fieldname": "course",
    "fieldtype": "Link",
    "label": "Course",
-   "options": "Course"
+   "options": "Course Specification"
   },
   {
    "fieldname": "title",
@@ -55,12 +56,6 @@
    "in_list_view": 1,
    "label": "Title",
    "reqd": 1
-  },
-  {
-   "fieldname": "student_group",
-   "fieldtype": "Link",
-   "label": "Student Group",
-   "options": "Student Group"
   },
   {
    "fieldname": "column_break_jsvl",
@@ -205,11 +200,21 @@
   {
    "fieldname": "column_break_dmhf",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_jyzq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "assigned_student_group",
+   "fieldtype": "Table",
+   "label": "Assigned Student Group",
+   "options": "Assigned Student Group"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-30 01:13:56.822985",
+ "modified": "2024-08-02 14:12:39.143809",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "LMS Quiz",

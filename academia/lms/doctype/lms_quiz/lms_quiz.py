@@ -12,9 +12,11 @@ class LMSQuiz(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.lms.doctype.assigned_student_group.assigned_student_group import AssignedStudentGroup
 		from academia.lms.doctype.quiz_question.quiz_question import QuizQuestion
 		from frappe.types import DF
 
+		assigned_student_group: DF.Table[AssignedStudentGroup]
 		course: DF.Link | None
 		duration: DF.Duration | None
 		faculty_member: DF.Link | None
@@ -30,7 +32,6 @@ class LMSQuiz(Document):
 		randomize_question_order: DF.Check
 		show_correct_answer: DF.Check
 		show_question_score: DF.Check
-		student_group: DF.Link | None
 		title: DF.Data
 		to_date: DF.Datetime | None
 		total_grades: DF.Float
