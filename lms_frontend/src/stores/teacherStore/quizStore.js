@@ -6,7 +6,7 @@ export const useQuizStore = defineStore("quiz", {
 	state: () => ({
 		quizData: {
 			title: "",
-			course: "00",
+			course: "",
 			instruction: "",
 			make_the_quiz_availability: false,
 			from_date: "",
@@ -21,6 +21,7 @@ export const useQuizStore = defineStore("quiz", {
 			show_correct_answer: false,
 			randomize_question_order: false,
 			randomize_option_order: false,
+			program_student_batch_group: [],
 		},
 		gradingBasisOptions: [],
 		questionTypes: [],
@@ -127,6 +128,7 @@ export const useQuizStore = defineStore("quiz", {
 		async createQuiz() {
 			try {
 				this.errors = {};
+				console.log('Creating quiz with data:', this.quizData); // طباعة بيانات الكويز للتحقق
 				const response = await axios.post(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.create_quiz",
 					this.quizData,
@@ -137,12 +139,14 @@ export const useQuizStore = defineStore("quiz", {
 						},
 					}
 				);
+		
 				if (response.data.status_code === 200) {
 					console.log("Quiz created successfully");
 					return true;
 				} else {
 					if (response.data.status_code == 400) {
 						this.errors = response.data.errors;
+						console.log(response.data.errors);
 					}
 					return false;
 				}
@@ -158,6 +162,7 @@ export const useQuizStore = defineStore("quiz", {
 				return false;
 			}
 		},
+		
 
 		setQuizData(data) {
 			this.quizData = data;

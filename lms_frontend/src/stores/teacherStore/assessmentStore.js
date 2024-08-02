@@ -12,26 +12,33 @@ export const useAssessmentStore = defineStore("assessmentStore", {
 		fieldErrors: {},
 	}),
 	actions: {
-		async fetchAssignments() {
+		async fetchAssignments(course_id) {
 			this.loading = true;
 			this.error = null;
 			try {
+				console.log("Fetching assignments for course_id:", course_id);
 				const response = await axios.get(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.fetch_submitted_assignments_for_faculty_member",
 					{
+						params: {
+							course_id: course_id,
+						},
 						headers: {
 							"Content-Type": "application/json",
 							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
+				console.log("Response data:", response.data);
 				this.assignments = response.data.submitted_assignments;
 			} catch (error) {
+				console.error("Error fetching assignments:", error);
 				this.error = error.message || "An error occurred while fetching assignments.";
 			} finally {
 				this.loading = false;
 			}
 		},
+
 		async fetchAssignmentDetails(assignmentSubmissionId) {
 			this.loading = true;
 			this.error = null;
@@ -85,6 +92,7 @@ export const useAssessmentStore = defineStore("assessmentStore", {
 				this.loading = false;
 			}
 		},
+
 		async saveAssessment(payload) {
 			this.loading = true;
 			this.error = null;
@@ -118,7 +126,7 @@ export const useAssessmentStore = defineStore("assessmentStore", {
 				this.loading = false;
 			}
 		},
-		async fetchQuizAndAssignmentGrades(facultyMember, course) {
+		async fetchQuizAndAssignmentGrades( course) {
 			this.loading = true;
 			this.error = null;
 			try {
@@ -126,7 +134,6 @@ export const useAssessmentStore = defineStore("assessmentStore", {
 					"http://localhost:8080/api/method/academia.lms_api.teacher.assessment.get_quiz_and_assignment_grades",
 					{
 						params: {
-							faculty_member: facultyMember,
 							course: course,
 						},
 					},

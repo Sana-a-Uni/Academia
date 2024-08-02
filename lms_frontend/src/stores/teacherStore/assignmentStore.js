@@ -7,7 +7,7 @@ export const useAssignmentStore = defineStore("assignment", {
 		assignmentData: {
 			assignment_type: "",
 			assignment_title: "",
-			course: "00",
+			course: "",
 			instruction: "",
 			make_the_assignment_availability: false,
 			from_date: "",
@@ -16,6 +16,7 @@ export const useAssignmentStore = defineStore("assignment", {
 			assessment_criteria: [],
 			uploadedFiles: [],
 			previousSubmissionFiles: [],
+			program_student_batch_group: [],
 		},
 		assignments: [],
 		loading: false,
@@ -59,6 +60,9 @@ export const useAssignmentStore = defineStore("assignment", {
 						},
 					}
 				);
+				console.log(this.assignmentData);
+				console.log(response );
+				
 				if (response.data.status_code === 200) {
 					return { success: true };
 				} else {
@@ -74,6 +78,8 @@ export const useAssignmentStore = defineStore("assignment", {
 					this.error = error.message || "An error occurred while creating assignment.";
 				}
 				return { success: false };
+				console.log(";;;;;;;;");
+				
 			}
 		},
 
