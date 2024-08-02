@@ -250,6 +250,14 @@ def create_quiz_document(data, questions, faculty_member):
     quiz_doc.show_question_score = data.get("show_question_score")
     quiz_doc.show_correct_answer = data.get("show_correct_answer")
 
+    program_student_batch_group = data.get("program_student_batch_group")
+    if program_student_batch_group:
+        for entry in program_student_batch_group:
+            assigned_student_group_row = quiz_doc.append("assigned_student_group", {})
+            assigned_student_group_row.student_batch = entry.get("student_batch")
+            assigned_student_group_row.group = entry.get("group")
+            assigned_student_group_row.program = entry.get("program")
+
     total_grades = 0
     for question_doc in questions:
         question_row = quiz_doc.append("quiz_question", {})
