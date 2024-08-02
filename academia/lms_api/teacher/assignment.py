@@ -137,6 +137,14 @@ def create_assignment_document(data):
 
     assignment_doc.total_grades = total_grades
 
+    program_student_batch_group = data.get("program_student_batch_group")
+    if program_student_batch_group:
+        for entry in program_student_batch_group:
+            assigned_student_group_row = assignment_doc.append("assigned_student_group", {})
+            assigned_student_group_row.student_batch = entry.get("student_batch")
+            assigned_student_group_row.group = entry.get("group")
+            assigned_student_group_row.program = entry.get("program")
+
     assignment_doc.insert()
 
     attachments = data.get('attachments')
