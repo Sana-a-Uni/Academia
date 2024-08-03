@@ -16,7 +16,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Applicant Type",
-   "options": "\nStudent\nAcademic\nEmployee\nUser",
+   "options": "\nStudent\nAcademic\nEmployee\nUser\nFaculty Member"
    "reqd": 1
   },
   {
@@ -37,8 +37,9 @@
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
- "links": [],
- "modified": "2024-07-28 16:19:28.422158",
+ "links": [],t
+ "modified": "2024-08-01 20:27:14.994458",
+
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Applicant",

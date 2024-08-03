@@ -10,6 +10,7 @@
   "date_of_publish",
   "column_break_rpol",
   "article_link",
+  "article_file",
   "article_authors_section",
   "scientific_article_author"
  ],
@@ -53,11 +54,16 @@
    "fieldname": "article_link",
    "fieldtype": "Data",
    "label": "Article Link"
+  },
+  {
+   "fieldname": "article_file",
+   "fieldtype": "Attach",
+   "label": "Article File"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-27 00:28:10.986219",
+ "modified": "2024-08-02 07:42:34.119088",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Scientific Article",

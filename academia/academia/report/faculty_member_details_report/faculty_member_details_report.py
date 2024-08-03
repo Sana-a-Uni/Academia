@@ -15,161 +15,64 @@ def get_columns():
 	columns = [
 		{
 			"label": _("Faculty Member Name"),
-			"fieldtype": "Data",
+			"fieldtype": "Link",
 			"fieldname": "faculty_member_name",
-			"width": 200,
+			"options": "Faculty Member",
+			# "width": 200,
 		},
 		{
-			"label": _("Faculty"),
+			"label": _("Company"),
 			"fieldtype": "Link",
-			"fieldname": "faculty",
-			"width": 150,
+			"fieldname": "company",
 			"options": "Company",
+			# "width": 150,
+
 		},
 		{
 			"label": _("Department"),
 			"fieldtype": "Link",
 			"fieldname": "department",
-			"width": 150,
 			"options": "Department",
+			# "width": 150,
 		},
 		{
 			"label": _("Email"),
 			"fieldtype": "Data",
 			"fieldname": "email",
-			"width": 200,
-			"options": "Email"
+			"options": "Email",
+			# "width": 200,
+
 		},
 		{
 			"label": _("Employment Type"),
 			"fieldtype": "Link",
 			"fieldname": "employment_type",
-			"width": 100,
 			"options": "Employment Type",
+			# "width": 100,
 		},
 		{
 			"label": _("Date of Joining"),
 			"fieldtype": "Date",
 			"fieldname": "date_of_joining_in_university",
-			"width": 150
+			# "width": 150,
 		},
 		{
 			"label": _("Academic Rank"),
 			"fieldtype": "Link",
 			"fieldname": "academic_rank",
-			"width": 150,
-			"options": "Academic Rank"
+			"options": "Academic Rank",
+			# "width": 150,
 		},
 		{
 			"label": _("Scientific Degree"),
 			"fieldtype": "Link",
 			"fieldname": "scientific_degree",
-			"width": 150,
-			"options": "Scientific Degree"
-		},
-		{
-			"label": _("Nationality"),
-			"fieldtype": "Link",
-			"fieldname": "nationality",
-			"width": 150,
-			"options": "Nationality",
-		},
-		{
-			"label": _("Languages"),
-			"fieldtype": "Link",
-			"fieldname": "languages",
-			"width": 150,
-			"options": "Languages",
+			"options": "Scientific Degree",
+			# "width": 150,
 		},
 		
 	]
-	# 	{
-	# 		"label": _("Vin"),
-	# 		"fieldname": "vin",
-	# 		"fieldtype": "Link",
-	# 		"options": "Customer Vehicles",
-	# 		"width": 150,
-	# 	},
-	# 	{
-	# 		"fieldname": "customer",
-	# 		"label": _("customer"),
-	# 		"fieldtype": "Link",
-	# 		"options": "Customer",
-	# 		"width": 100,
-	# 	},
-	# 	{"label": _("Description"), "fieldname": "description", "fieldtype": "Data", "width": 120},
-	# 	{"label": _("Container No"), "fieldname": "container_no", "fieldtype": "Data", "width": 120},
-	# 	{"label": _("Batch"), "fieldname": "batch", "fieldtype": "Data", "width": 120},
-  
-	# 	{"label": _("Buying Towing"), "fieldname": "buying_towing", "fieldtype": "Data", "width": 120},
-	# 	{"label": _("Selling Towing"), "fieldname": "selling_towing", "fieldtype": "Data", "width": 120},
-	# 	{"label": _("Gross Profit Towing"), "fieldname": "gross_profit_towing", "fieldtype": "Data", "width": 120},
-	
-	# 	{"label": _("Ocean Freight Price"), "fieldname": "buying_ocean_freight", "fieldtype": "Data", "width": 120},
-	# 	{"label": _("Selling Ocean Freight"), "fieldname": "selling_ocean_freight", "fieldtype": "Data", "width": 120},
-	# 	{"label": _("Gross Profit Ocean"), "fieldname": "gross_profit_ocean", "fieldtype": "Data", "width": 120},
-  
-  	# 	{"label": _("Buying Transit"), "fieldname": "buying_transit", "fieldtype": "Data", "width": 120},
-	# 	{"label": _("Selling Transit"), "fieldname": "selling_transit", "fieldtype": "Data", "width": 120},
-	# 	{"label": _("Gross Profit Transit"), "fieldname": "gross_profit_transit", "fieldtype": "Data", "width": 120},
-	# ]
 	return columns
-
-
-# def get_columns() -> list[dict]:
-	# return [
-	# 	{
-	# 		"label": _("Faculty"),
-	# 		"fieldtype": "Link",
-	# 		"fieldname": "faculty",
-	# 		"width": 200,
-	# 		"options": "faculty",
-	# 	},
-	# 	{
-	# 		"label": _("Faculty Member Name"),
-	# 		"fieldtype": "Data",
-	# 		"fieldname": "faculty_member_name",
-	# 		"width": 100,
-	# 	},
-	# 	{
-	# 		"label": _("Employee Name"),
-	# 		"fieldtype": "Dynamic Link",
-	# 		"fieldname": "employee_name",
-	# 		"width": 100,
-	# 		"options": "employee",
-	# 	},
-	# 	{
-	# 		"label": _("Email"),
-	# 		"fieldtype": "Data",
-	# 		"fieldname": "email",
-	# 		"width": 150,
-	# 		"options": "Email"
-	# 	},
-	# 	# {
-	# 	# 	"label": _("New Leave(s) Allocated"),
-	# 	# 	"fieldtype": "float",
-	# 	# 	"fieldname": "leaves_allocated",
-	# 	# 	"width": 200,
-	# 	# },
-	# 	# {
-	# 	# 	"label": _("Leave(s) Taken"),
-	# 	# 	"fieldtype": "float",
-	# 	# 	"fieldname": "leaves_taken",
-	# 	# 	"width": 150,
-	# 	# },
-	# 	# {
-	# 	# 	"label": _("Leave(s) Expired"),
-	# 	# 	"fieldtype": "float",
-	# 	# 	"fieldname": "leaves_expired",
-	# 	# 	"width": 150,
-	# 	# },
-	# 	# {
-	# 	# 	"label": _("Closing Balance"),
-	# 	# 	"fieldtype": "float",
-	# 	# 	"fieldname": "closing_balance",
-	# 	# 	"width": 150,
-	# 	# },
-	# ]
 
 
 def get_data(filters):
@@ -177,21 +80,19 @@ def get_data(filters):
         """
         SELECT
             `tabFaculty Member`.faculty_member_name,
-            `tabFaculty Member`.academic_rank,
-            `tabFaculty Member`.company as faculty,
+            `tabFaculty Member`.company,
+			`tabFaculty Member`.department,
             `tabFaculty Member`.email,
-            `tabFaculty Member`.scientific_degree,
-            `tabFaculty Member`.date_of_joining_in_university,
 			`tabFaculty Member`.employment_type,
-						`tabFaculty Member`.languages,
-			`tabFaculty Member`.nationality,
-			`tabFaculty Member`.department
+            `tabFaculty Member`.date_of_joining_in_university,
+            `tabFaculty Member`.academic_rank,
+            `tabFaculty Member`.scientific_degree
         FROM
             `tabFaculty Member`
         WHERE
             `tabFaculty Member`.name IS NOT NULL {conditions}
         ORDER BY
-            `tabFaculty Member`.creation ASC """.format(
+            `tabFaculty Member`.faculty_member_name ASC """.format(
                 conditions=get_conditions(filters)
             ),
         filters,
@@ -202,9 +103,11 @@ def get_data(filters):
 def get_conditions(filters):
 	conditions = []
 
-	if filters.get("employee"):
-		conditions.append(" and `tabFaculty Member`.employee=%(employee)s")
+	if filters.get("name"):
+		conditions.append(" and `tabFaculty Member`.name=%(name)s")
 
+	if filters.get("company"):
+		conditions.append(" and `tabFaculty Member`.company=%(company)s")
 
 	if filters.get("department"):
 		conditions.append(" and `tabFaculty Member`.department=%(department)s")
@@ -212,8 +115,14 @@ def get_conditions(filters):
 	if filters.get("academic_rank"):
 		conditions.append(" and `tabFaculty Member`.academic_rank=%(academic_rank)s")
 
+	if filters.get("scientific_degree"):
+		conditions.append(" and `tabFaculty Member`.scientific_degree=%(scientific_degree)s")
+
 	if filters.get("date_of_joining_in_university"):
 		conditions.append(" and `tabFaculty Member`.date_of_joining_in_university=%(date_of_joining_in_university)s")
+	
+	if filters.get("email"):
+		conditions.append(" and `tabFaculty Member`.email=%(email)s")
 	
 	if filters.get("employment_type"):
 		conditions.append(" and `tabFaculty Member`.employment_type=%(employment_type)s")

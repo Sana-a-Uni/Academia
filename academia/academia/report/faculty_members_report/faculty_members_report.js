@@ -3,33 +3,30 @@
 
 frappe.query_reports["Faculty Members Report"] = {
 	filters: [
+
 		{
-			fieldname: "from_date",
-			label: __("From Date"),
-			fieldtype: "Date",
-			reqd: 1,
-			default: frappe.defaults.get_default("year_start_date")
-		},
-		{
-			fieldname: "to_date",
-			label: __("To Date"),
-			fieldtype: "Date",
-			reqd: 1,
-			default: frappe.defaults.get_default("year_end_date")
-		},
-		{
-			label: __("Faculty"),
-			fieldname: "faculty",
+			label: __("Company"),
+			fieldname: "company",
 			fieldtype: "Link",
 			options: "Company",
 			reqd: 1,
 			default: frappe.defaults.get_user_default("Company")
 		},
 		{
-			label: __("Date of Joining"),
+			label: __("Department"),
+			fieldname: "department",
+			fieldtype: "Link",
+			options: "Department",
+			get_query: () => ({
+				filters: {
+					company: frappe.query_report.get_filter_value("company"),
+				},
+			}),
+		},
+		{
+			label: __("Date of Joining in University"),
 			fieldname: "date_of_joining_in_university",
 			fieldtype: "Date",
-			options: "Date of Joining",
 		},
 		{
 			label: __("Employment Type"),
@@ -38,30 +35,16 @@ frappe.query_reports["Faculty Members Report"] = {
 			options: "Employment Type",
 		},
 		{
-			fieldname: "academic_rank",
 			label: __("Academic Rank"),
+			fieldname: "academic_rank",
 			fieldtype: "Link",
 			options: "Academic Rank",
 		},
 		{
-			fieldname: "employee_status",
-			label: __("Employee Status"),
-			fieldtype: "Select",
-			options: [
-				"",
-				{ "value": "Active", "label": __("Active") },
-				{ "value": "Inactive", "label": __("Inactive") },
-				{ "value": "Suspended", "label": __("Suspended") },
-				{ "value": "Left", "label": __("Left") },
-			],
-			default: "Active",
+			label: __("Scientific Degree"),
+			fieldname: "scientific_degree_name",
+			fieldtype: "Link",
+			options: "Scientific Degree",
 		},
-		// {
-		// 	fieldname: "consolidate_leave_types",
-		// 	label: __("Consolidate Leave Types"),
-		// 	fieldtype: "Check",
-		// 	default: 1,
-		// 	depends_on: "eval: !doc.employee",
-		// }
 	],
 };

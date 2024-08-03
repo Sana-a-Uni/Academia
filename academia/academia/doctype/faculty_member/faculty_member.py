@@ -8,7 +8,9 @@ import logging
 
 
 class FacultyMember(Document):
-    # Begin auto-generated types
+    # begin: auto-generated types
+    # This code is auto-generated. Do not modify anything in this block.
+
     from typing import TYPE_CHECKING
 
     if TYPE_CHECKING:
@@ -25,6 +27,9 @@ class FacultyMember(Document):
 
         academic_rank: DF.Link
         academic_services: DF.TableMultiSelect[FacultyMemberAcademicServices]
+        commencement_of_work_attachment: DF.Attach | None
+        commencement_of_work_date: DF.Date | None
+        commencement_of_work_decision_number: DF.Data | None
         company: DF.Link
         courses: DF.TableMultiSelect[FacultyMemberCourse]
         date: DF.Date | None
@@ -33,8 +38,8 @@ class FacultyMember(Document):
         date_of_obtaining_the_academic_rank: DF.Date
         decision_attachment: DF.Attach | None
         decision_number: DF.Data | None
-        department: DF.Link | None
-        email: DF.Data | None
+        department: DF.Link
+        email: DF.Data
         employee: DF.Link
         employment_type: DF.Link | None
         external_faculty: DF.Link | None
@@ -59,9 +64,9 @@ class FacultyMember(Document):
         scientific_degree: DF.Link
         specialist_field: DF.Data | None
         tenure_status: DF.Literal["", "On Probation", "Tenured"]
-    # End auto-generated types
+    # end: auto-generated types
+    # Begin auto-generated types
 
-    # Start of validate controller hook
     def validate(self):
         # Calling functions
         self.validate_duplicate_employee()
@@ -113,12 +118,12 @@ class FacultyMember(Document):
 
     # Fetch and set probation end date
     def get_probation_end_date(self):
-        if self.date_of_joining_in_university and self.tenure_status == "On Probation":
+        if self.commencement_of_work_date and self.tenure_status == "On Probation":
             faculty_member_settings = frappe.get_all(
                 "Faculty Member Settings",
                 filters=[
                     ["academic_rank", "=", self.academic_rank],
-                    ["valid_from", "<=", self.date_of_joining_in_university],
+                    ["valid_from", "<=", self.commencement_of_work_date],
                 ],
                 fields=["name", "probation_period"],
                 order_by="valid_from desc",
@@ -127,7 +132,7 @@ class FacultyMember(Document):
             if faculty_member_settings:
                 faculty_member_settings = faculty_member_settings[0]
                 self.probation_period_end_date = add_months(
-                    self.date_of_joining_in_university,
+                    self.commencement_of_work_date,
                     int(faculty_member_settings.probation_period),
                 )
             else:
@@ -153,17 +158,3 @@ class FacultyMember(Document):
             except ValueError as e:
                 frappe.msgprint(_("Error parsing probation end date: {0}").format(e), title=_("Date Parsing Error"), indicator="red")
                 self.is_eligible_for_granting_tenure = 0
-
-    @frappe.whitelist()
-    def update_academic_rank(doc):
-        logging.debug(f"Updating academic rank for document: {doc}")
-        doc = frappe.parse_json(doc)
-        logging.debug(f"Parsed document: {doc}")
-        if 'faculty_member_academic_ranking' in doc and doc['faculty_member_academic_ranking']:
-            last_ranking = doc['faculty_member_academic_ranking'][-1]
-            logging.debug(f"Last academic ranking: {last_ranking}")
-            if 'academic_rank' in last_ranking:
-                frappe.db.set_value("Faculty Member", doc['name'], "academic_rank", last_ranking['academic_rank'])
-                logging.info(f"Updated academic rank to {last_ranking['academic_rank']} for Faculty Member {doc['name']}")
-                return last_ranking['academic_rank']
-        return None

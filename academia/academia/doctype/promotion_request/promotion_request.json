@@ -19,7 +19,9 @@
   "scientific_degree",
   "date_of_obtaining_the_certificate",
   "scientific_degree_attachment",
-  "amended_from"
+  "amended_from",
+  "section_break_kicr",
+  "academic_arbitrators"
  ],
  "fields": [
   {
@@ -124,12 +126,22 @@
    "fieldname": "scientific_degree_attachment",
    "fieldtype": "Attach",
    "label": "Scientific Degree Attachment "
+  },
+  {
+   "fieldname": "section_break_kicr",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "academic_arbitrators",
+   "fieldtype": "Table",
+   "label": "Academic Arbitrators",
+   "options": "Academic Arbitrators"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-27 05:25:20.180441",
+ "modified": "2024-08-02 09:07:25.871361",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Promotion Request",

@@ -13,18 +13,25 @@ def execute(filters=None):
 
 def get_columns():
 	columns = [
-				{
-			"label": _("Faculty"),
-			"fieldtype": "Link",
-			"fieldname": "faculty",
-			"width": 200,
-			"options": "Company",
-		},
 		{
 			"label": _("Faculty Member Name"),
 			"fieldtype": "Data",
 			"fieldname": "faculty_member_name",
 			"width": 200,
+		},
+		{
+			"label": _("Company"),
+			"fieldtype": "Link",
+			"fieldname": "company",
+			"width": 200,
+			"options": "Company",
+		},
+		{
+			"label": _("Department"),
+			"fieldtype": "Link",
+			"fieldname": "department",
+			"width": 200,
+			"options": "Department",
 		},
 		{
 			"label": _("Employment Type"),
@@ -41,7 +48,7 @@ def get_columns():
 			"options": "Email"
 		},
 		{
-			"label": _("Date of Joining"),
+			"label": _("Date of Joining in University"),
 			"fieldtype": "Date",
 			"fieldname": "date_of_joining_in_university",
 			"width": 150
@@ -155,9 +162,10 @@ def get_data(filters):
         """
         SELECT
             `tabFaculty Member`.faculty_member_name,
-            `tabFaculty Member`.academic_rank,
-            `tabFaculty Member`.company as faculty,
+            `tabFaculty Member`.company,
+			`tabFaculty Member`.department,
             `tabFaculty Member`.email,
+            `tabFaculty Member`.academic_rank,
             `tabFaculty Member`.scientific_degree,
             `tabFaculty Member`.date_of_joining_in_university,
 			`tabFaculty Member`.employment_type
@@ -166,7 +174,7 @@ def get_data(filters):
         WHERE
             `tabFaculty Member`.name IS NOT NULL {conditions}
         ORDER BY
-            `tabFaculty Member`.creation ASC """.format(
+            `tabFaculty Member`.faculty_member_name ASC """.format(
                 conditions=get_conditions(filters)
             ),
         filters,
@@ -180,6 +188,8 @@ def get_conditions(filters):
 	if filters.get("employee"):
 		conditions.append(" and `tabFaculty Member`.employee=%(employee)s")
 
+	if filters.get("company"):
+		conditions.append(" and `tabFaculty Member`.company=%(company)s")
 
 	if filters.get("department"):
 		conditions.append(" and `tabFaculty Member`.department=%(department)s")
@@ -190,6 +200,7 @@ def get_conditions(filters):
 	if filters.get("date_of_joining_in_university"):
 		conditions.append(" and `tabFaculty Member`.date_of_joining_in_university=%(date_of_joining_in_university)s")
 	
+
 	if filters.get("employment_type"):
 		conditions.append(" and `tabFaculty Member`.employment_type=%(employment_type)s")
 	return " ".join(conditions) if conditions else ""

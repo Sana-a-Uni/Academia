@@ -19,6 +19,4 @@ class AcademicRank(Document):
         academic_rank_name: DF.Data
         description: DF.Text | None
     # end: auto-generated types
-    def validate(self):
-        if not re.match("^[A-Za-z\s]+$", self.academic_rank_name):
-            frappe.throw(_("Academic rank name should only contain letters."))
+    pass

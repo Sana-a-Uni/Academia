@@ -125,6 +125,7 @@
    "fieldtype": "Select",
    "label": "Series",
    "options": "Unknown-\nEVAL-EMP-EMP-.department.-.evaluatee_party_name.-.YYYY.-\nEVAL-EMP-FM-.department.-.evaluatee_party_name.-.YYYY.-\nEVAL-EMP-STD-.department.-.evaluatee_party_name.-.YYYY.-\nEVAL-FM-EMP-.department.-.evaluatee_party_name.-.YYYY.-\nEVAL-FM-FM-.department.-.evaluatee_party_name.-.YYYY.-\nEVAL-FM-STD-.department.-.evaluatee_party_name.-.YYYY.-",
+   "print_hide": 1,
    "read_only": 1,
    "reqd": 1
   },
@@ -160,7 +161,8 @@
    "fieldtype": "Link",
    "label": "Department",
    "options": "Department",
-   "read_only": 1
+   "read_only": 1,
+   "reqd": 1
   },
   {
    "fieldname": "faculty",
@@ -258,7 +260,7 @@
    "table_fieldname": "evaluations"
   }
  ],
- "modified": "2024-07-29 13:23:30.141823",
+ "modified": "2024-08-02 08:48:01.624842",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Evaluation",

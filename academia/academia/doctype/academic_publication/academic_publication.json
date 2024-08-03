@@ -1,5 +1,4 @@
 {
- "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
  "autoname": "field:title",
@@ -99,7 +98,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-12 17:00:03.510776",
+ "modified": "2024-08-02 02:47:12.296125",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Publication",

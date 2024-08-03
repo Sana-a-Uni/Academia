@@ -18,18 +18,25 @@ frappe.query_reports["Faculty Member Details Report"] = {
 	// 		default: frappe.defaults.get_default("year_end_date")
 	// 	},
 		{
-			label: __("Faculty"),
-			fieldname: "faculty",
+			label: __("Company"),
+			fieldname: "company",
 			fieldtype: "Link",
 			options: "Company",
 			reqd: 1,
 			default: frappe.defaults.get_user_default("Company")
 		},
 		{
-			label: __("Employee"),
-			fieldname: "employee",
+			label: __("Faculty Member"),
+			fieldname: "name",
 			fieldtype: "Link",
-			options: "Employee",
+			options: "Faculty Member",
+			reqd: 1,
+
+			get_query: () => ({
+				filters: {
+					company: frappe.query_report.get_filter_value("company"),
+				},
+			}),
 		},
 		// {
 		// 	label: __("Employment Type"),
@@ -43,19 +50,19 @@ frappe.query_reports["Faculty Member Details Report"] = {
 		// 	fieldtype: "Link",
 		// 	options: "Academic Rank",
 		// },
-		{
-			fieldname: "employee_status",
-			label: __("Employee Status"),
-			fieldtype: "Select",
-			options: [
-				"",
-				{ "value": "Active", "label": __("Active") },
-				{ "value": "Inactive", "label": __("Inactive") },
-				{ "value": "Suspended", "label": __("Suspended") },
-				{ "value": "Left", "label": __("Left") },
-			],
-			default: "Active",
-		},
+		// {
+		// 	fieldname: "employee_status",
+		// 	label: __("Employee Status"),
+		// 	fieldtype: "Select",
+		// 	options: [
+		// 		"",
+		// 		{ "value": "Active", "label": __("Active") },
+		// 		{ "value": "Inactive", "label": __("Inactive") },
+		// 		{ "value": "Suspended", "label": __("Suspended") },
+		// 		{ "value": "Left", "label": __("Left") },
+		// 	],
+		// 	default: "Active",
+		// },
 		// {
 		// 	fieldname: "consolidate_leave_types",
 		// 	label: __("Consolidate Leave Types"),

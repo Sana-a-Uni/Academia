@@ -45,6 +45,11 @@
   "date",
   "column_break_pkgt",
   "decision_attachment",
+  "commencement_of_work_data_section",
+  "commencement_of_work_decision_number",
+  "commencement_of_work_date",
+  "column_break_lbxn",
+  "commencement_of_work_attachment",
   "academic_services_section",
   "academic_services",
   "column_break_pkbw",
@@ -139,11 +144,11 @@
   },
   {
    "fetch_from": "employee.company",
-   "fetch_if_empty": 1,
    "fieldname": "company",
    "fieldtype": "Link",
    "label": "Company",
    "options": "Company",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -279,7 +284,8 @@
    "fieldname": "department",
    "fieldtype": "Link",
    "label": "Department",
-   "options": "Department"
+   "options": "Department",
+   "reqd": 1
   },
   {
    "fieldname": "current_academic_data_section",
@@ -319,7 +325,7 @@
    "options": "University"
   },
   {
-   "depends_on": "eval: doc.employee && doc.employment_type != \"Official\"",
+   "depends_on": "eval: doc.employee && doc.employment_type && doc.employment_type != \"Official\"",
    "fieldname": "academic_services_section",
    "fieldtype": "Section Break",
    "label": "Academic Services"
@@ -392,7 +398,8 @@
    "fieldname": "email",
    "fieldtype": "Data",
    "label": "Email",
-   "options": "Email"
+   "options": "Email",
+   "reqd": 1
   },
   {
    "fieldname": "date_of_obtaining_the_academic_rank",
@@ -405,13 +412,37 @@
    "fieldtype": "Link",
    "label": "External Faculty",
    "options": "External Faculty"
+  },
+  {
+   "fieldname": "commencement_of_work_data_section",
+   "fieldtype": "Section Break",
+   "label": "Commencement of Work Data"
+  },
+  {
+   "fieldname": "commencement_of_work_decision_number",
+   "fieldtype": "Data",
+   "label": "Commencement of Work Decision Number"
+  },
+  {
+   "fieldname": "commencement_of_work_date",
+   "fieldtype": "Date",
+   "label": "Commencement of Work Date"
+  },
+  {
+   "fieldname": "column_break_lbxn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "commencement_of_work_attachment",
+   "fieldtype": "Attach",
+   "label": "Commencement of Work Attachment"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [
   {
-   "group": "Publication",
+   "group": "Publications",
    "is_child_table": 1,
    "link_doctype": "Academic Author",
    "link_fieldname": "author_name",
@@ -419,7 +450,7 @@
    "table_fieldname": "academic_publication_author"
   },
   {
-   "group": "Publication",
+   "group": "Publications",
    "is_child_table": 1,
    "link_doctype": "Academic Author",
    "link_fieldname": "author_name",
@@ -427,17 +458,22 @@
    "table_fieldname": "scientific_article_author"
   },
   {
-   "group": "Tenure",
-   "link_doctype": "Tenure Evaluation Request",
+   "group": "Academic Requests",
+   "link_doctype": "Tenure Request",
    "link_fieldname": "faculty_member"
   },
   {
-   "group": "Tenure",
-   "link_doctype": "Tenure Request",
+   "group": "Academic Requests",
+   "link_doctype": "Promotion Request",
    "link_fieldname": "faculty_member"
+  },
+  {
+   "group": "Academic Evaluations",
+   "link_doctype": "Academic Evaluation",
+   "link_fieldname": "evaluatee_party"
   }
  ],
- "modified": "2024-07-30 11:41:28.722731",
+ "modified": "2024-08-03 01:40:54.358468",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",
