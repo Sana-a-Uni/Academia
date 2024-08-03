@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Totaled Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background-color: #f2f2f2; }
+        .header { text-align: center; margin-bottom: 20px; display: flex; justify-content: space-between; padding: 10px 0; }
+        .header div { margin: 5px 0; }
+        .faculty-info { margin-top: 20px; }
+        .center { text-align: center; }
+        .header img {
+            max-width: 150px;
+            height: auto;
+        }
+        .logo { 
+            width: 40%;
+            text-align: center;
+        }
+        @page{
+            size: landscape;
+            margin: auto;
+        }        
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <div><strong>{{ college_name }}</strong></div>
+            <div><strong>Academic Year:</strong> {{ academic_year }}</div>
+            <div><strong>Academic Term:</strong> {{ academic_term }}</div>
+        </div>
+        <div>
+            <img src="{{ logo }}" alt="College Logo" class="logo">
+        </div>
+        <div>
+            <div><strong>Hour Rate List:</strong> {{ hour_rate_list }}</div>
+            <div><strong>From:</strong> {{ start_date }} <strong>To:</strong> {{ end_date }}</div>
+            <div><strong>Release Date:</strong> {{ release_date }}</div>
+        </div>
+    </div>
+    <div class="center">
+    <h1> Totaled Report</h1>
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <th>Faculty Member</th>
+                <th>Academic Rank</th>
+                <th>Status</th>
+                <th>Course Type</th>
+                <th>Total Lectures</th>
+                <th>Total Hours</th>
+                <th>Hour Rate</th>
+                <th>Sub Total</th>
+                <th>Total</th>
+                <th>Tax (15%)</th>
+                <th>Net</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for faculty_member, summaries in faculty_summary.items() %}
+            {% for summary in summaries %}
+            <tr>
+                {% if loop.index == 1 %}
+                <td rowspan="{{ summaries|length }}">{{ summary.faculty_member }}</td>
+                <td rowspan="{{ summaries|length }}">{{ summary.academic_rank }}</td>
+                <td rowspan="{{ summaries|length }}">{{ summary.status }}</td>
+                {% endif %}
+                <td>{{ summary.course_type }}</td>
+                <td>{{ summary.total_lectures }}</td>
+                <td>{{ summary.total_hours }}</td>
+                <td>{{ summary.academic_hour_rate }}</td>
+                <td>{{ summary.total_amount }}</td>
+                {% if loop.index == 1 %}
+                <td rowspan="{{ summaries|length }}">{{ summary.total1}}</td>
+                <td rowspan="{{ summaries|length }}">{{ summary.total1 * 0.15}}</td>
+                <td rowspan="{{ summaries|length }}">{{ summary.total1 * 0.85 }}</td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

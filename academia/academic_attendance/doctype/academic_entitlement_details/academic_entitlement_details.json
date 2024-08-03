@@ -1,0 +1,136 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-14 08:33:55.674959",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "faculty_member",
+  "faculty_member_name",
+  "academic_rank",
+  "status",
+  "course_type",
+  "lesson_type",
+  "total_lectures",
+  "total_hours",
+  "program",
+  "level",
+  "group",
+  "subgroup",
+  "course",
+  "academic_hour_rate",
+  "total"
+ ],
+ "fields": [
+  {
+   "fieldname": "program",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Program",
+   "options": "Program Specification"
+  },
+  {
+   "fieldname": "level",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Level",
+   "options": "Level"
+  },
+  {
+   "fieldname": "group",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Group",
+   "options": "Student Group"
+  },
+  {
+   "fieldname": "academic_rank",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Rank",
+   "options": "Academic Rank"
+  },
+  {
+   "fieldname": "lesson_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Lesson Type",
+   "options": "\nOrdinary Lesson\nCompensatory Lesson"
+  },
+  {
+   "fieldname": "course_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Course Type",
+   "options": "\nTheoretical\nPractical"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "options": "Unoccupied\noccupied"
+  },
+  {
+   "fieldname": "total_lectures",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Total Lectures"
+  },
+  {
+   "fieldname": "total_hours",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Total Hours"
+  },
+  {
+   "fieldname": "subgroup",
+   "fieldtype": "Data",
+   "label": "Subgroup"
+  },
+  {
+   "fieldname": "course",
+   "fieldtype": "Link",
+   "label": "Course",
+   "options": "Course Study"
+  },
+  {
+   "fieldname": "academic_hour_rate",
+   "fieldtype": "Data",
+   "label": "Academic Hour Rate"
+  },
+  {
+   "fieldname": "faculty_member",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Faculty Member",
+   "options": "Faculty Member"
+  },
+  {
+   "fieldname": "total",
+   "fieldtype": "Data",
+   "label": "Total"
+  },
+  {
+   "fieldname": "faculty_member_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Faculty Member name",
+   "options": "Faculty Member"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-07-29 06:19:14.211622",
+ "modified_by": "Administrator",
+ "module": "Academic Attendance",
+ "name": "Academic Entitlement Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
