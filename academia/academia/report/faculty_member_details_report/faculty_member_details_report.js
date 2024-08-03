@@ -26,10 +26,17 @@ frappe.query_reports["Faculty Member Details Report"] = {
 			default: frappe.defaults.get_user_default("Company")
 		},
 		{
-			label: __("Employee"),
-			fieldname: "employee",
+			label: __("Faculty Member"),
+			fieldname: "name",
 			fieldtype: "Link",
-			"options": "Employee",
+			options: "Faculty Member",
+			reqd: 1,
+
+			get_query: () => ({
+				filters: {
+					company: frappe.query_report.get_filter_value("company"),
+				},
+			}),
 		},
 		// {
 		// 	label: __("Employment Type"),

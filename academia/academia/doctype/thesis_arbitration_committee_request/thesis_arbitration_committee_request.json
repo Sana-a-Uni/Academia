@@ -11,7 +11,6 @@
   "faculty_member",
   "faculty_member_publication",
   "column_break_jiih",
-  "supervisor_name",
   "request_attachment",
   "request_information_section",
   "internal_arbitration_committee",
@@ -53,12 +52,6 @@
    "fieldtype": "Link",
    "label": "Faculty Member Publication",
    "options": "Academic Publication"
-  },
-  {
-   "fieldname": "supervisor_name",
-   "fieldtype": "Link",
-   "label": "Supervisor Name",
-   "options": "Faculty Member"
   },
   {
    "fieldname": "request_information_section",
@@ -145,7 +138,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-08-02 08:54:11.413719",
+ "modified": "2024-08-03 04:35:12.122008",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Thesis Arbitration Committee Request",

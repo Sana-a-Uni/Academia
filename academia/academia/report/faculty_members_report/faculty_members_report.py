@@ -174,7 +174,7 @@ def get_data(filters):
         WHERE
             `tabFaculty Member`.name IS NOT NULL {conditions}
         ORDER BY
-            `tabFaculty Member`.creation ASC """.format(
+            `tabFaculty Member`.faculty_member_name ASC """.format(
                 conditions=get_conditions(filters)
             ),
         filters,

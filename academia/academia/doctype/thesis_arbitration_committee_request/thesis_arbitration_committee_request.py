@@ -12,21 +12,20 @@ class ThesisArbitrationCommitteeRequest(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.academia.doctype.external_discussion_committee.external_discussion_committee import ExternalDiscussionCommittee
-		from academia.academia.doctype.internal_discussion_committee.internal_discussion_committee import InternalDiscussionCommittee
+		from academia.academia.doctype.external_arbitration_committee.external_arbitration_committee import ExternalArbitrationCommittee
+		from academia.academia.doctype.internal_arbitration_committee.internal_arbitration_committee import InternalArbitrationCommittee
 		from frappe.types import DF
 
 		amended_from: DF.Link | None
-		external_arbitration_committee: DF.Table[ExternalDiscussionCommittee]
+		external_arbitration_committee: DF.Table[ExternalArbitrationCommittee]
 		faculty_member: DF.Link | None
 		faculty_member_publication: DF.Link | None
-		internal_arbitration_committee: DF.Table[InternalDiscussionCommittee]
+		internal_arbitration_committee: DF.Table[InternalArbitrationCommittee]
 		modified_request_date: DF.Date | None
 		naming_series: DF.Literal["ACAD-TDC-REQ-.YY.-.MM.-.#####."]
 		rejection_reason: DF.SmallText | None
 		request_attachment: DF.Attach | None
 		request_date: DF.Date | None
 		status: DF.Data | None
-		supervisor_name: DF.Link | None
 	# end: auto-generated types
 	pass

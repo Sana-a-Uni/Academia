@@ -14,7 +14,7 @@ class FacultyMemberAcademicServices(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		academic_service: DF.Link | None
+		academic_service: DF.Link
 		name: DF.Int | None
 		parent: DF.Data
 		parentfield: DF.Data

@@ -11,6 +11,13 @@ frappe.ui.form.on("Faculty Member", {
             }
             frm.refresh_field('employment_type');
         });
+
+        frappe.db.get_value("Employee", frm.doc.employee, "department", function(value) {
+            if (value && value.department) {
+                frm.set_value('department', value.department);
+            }
+            frm.refresh_field('department');
+        });
     },
     // End of refresh event
 
@@ -162,16 +169,3 @@ frappe.ui.form.on("Faculty Member", {
     }
 });
 
-// // frappe.ui.form.on('Faculty Member Academic Ranking', {
-// //     academic_rank: function(frm, cdt, cdn) {
-// //         frappe.call({
-// //             method: 'academia.academia.doctype.faculty_member.faculty_member.update_academic_rank',
-// //             args: {
-// //                 doc: frm.doc
-// //             },
-// //             callback: function(response) {
-// //                 frm.refresh_field('academic_rank');
-// //             }
-// //         });
-// //     }
-// // });
