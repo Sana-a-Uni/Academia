@@ -6,6 +6,8 @@
  "engine": "InnoDB",
  "field_order": [
   "assignment_submission",
+  "student",
+  "assignment",
   "column_break_dsjc",
   "faculty_member",
   "section_break_tsla",
@@ -13,7 +15,8 @@
   "grade",
   "section_break_eolt",
   "feedback",
-  "assessment_date"
+  "assessment_date",
+  "amended_from"
  ],
  "fields": [
   {
@@ -60,11 +63,36 @@
    "fieldtype": "Table",
    "label": "Assignment Assessment Details",
    "options": "Assignment Assessment Details"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Assignment Assessment",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "assignment_submission.student",
+   "fieldname": "student",
+   "fieldtype": "Link",
+   "label": "Student",
+   "options": "Student"
+  },
+  {
+   "fetch_from": "assignment_submission.assignment",
+   "fieldname": "assignment",
+   "fieldtype": "Link",
+   "label": "Assignment",
+   "options": "LMS Assignment"
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2024-07-24 02:56:08.063393",
+ "modified": "2024-07-29 23:44:12.835468",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "Assignment Assessment",

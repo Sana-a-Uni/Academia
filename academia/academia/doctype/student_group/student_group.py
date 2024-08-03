@@ -16,7 +16,7 @@ class StudentGroup(Document):
 		from frappe.types import DF
 
 		batch: DF.Link
-		faculty: DF.Link
+		faculty: DF.Link | None
 		group_based_on: DF.Data
 		program: DF.Link
 		student_group_name: DF.Data

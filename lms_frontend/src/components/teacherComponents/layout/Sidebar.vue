@@ -22,18 +22,30 @@
 					>
 				</li>
 				<li>
-					<router-link :to="{ name: 'assignments' }" class="menu-link">
+					<router-link
+						:to="{ path: '/teacherDashboard/courseView/assignments' }"
+						class="menu-link"
+					>
 						<font-awesome-icon icon="tasks" class="menu-icon" /> Assignments
 					</router-link>
 				</li>
 
 				<li>
-					<router-link :to="{ name: 'quizList' }" class="menu-link">
+					<router-link
+						:to="{ path: '/teacherDashboard/courseView/quizList' }"
+						class="menu-link"
+					>
 						<font-awesome-icon icon="question-circle" class="menu-icon" /> Quiz
 					</router-link>
 				</li>
 				<li>
-					<a href="#"><font-awesome-icon icon="chart-bar" class="menu-icon" /> Grades</a>
+					<router-link
+						:to="{ path: '/teacherDashboard/courseView/pendingAssessment' }"
+						class="menu-link"
+					>
+						<font-awesome-icon icon="chart-bar" class="menu-icon" />
+						Assessment
+					</router-link>
 				</li>
 			</ul>
 		</nav>

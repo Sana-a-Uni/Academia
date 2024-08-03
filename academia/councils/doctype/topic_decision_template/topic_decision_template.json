@@ -8,7 +8,8 @@
  "engine": "InnoDB",
  "field_order": [
   "subject",
-  "decision"
+  "decision",
+  "help"
  ],
  "fields": [
   {
@@ -24,10 +25,17 @@
    "in_list_view": 1,
    "label": "Decision",
    "reqd": 1
+  },
+  {
+   "fieldname": "help",
+   "fieldtype": "HTML",
+   "label": "Help",
+   "options": "<h4>How to Access Data</h4>\n<p>You can access the data using the following codes:</p>\n<pre dir=\"rtl\">- Topic Title: {{ topic.title }}\n- Topic Status: {{ topic.status }}\n- Decision Type: {{ topic.decision_type }}\n- Topic Date: {{ topic.topic_date }}\n- Main Category Type: {{ topic.category }}\n- Sub Catygory Type: {{ topic.sub_category }}\n- Council: {{ session.council }}\n- Session Date: {{ session.date }}\n- Session Start Time: {{ session.begin_time }}\n- Session End Time: {{ session.end_time }}\n- Applicant (Single Person): {{topic.applicants[0][\"applicant_name\"]}}\n- Applicants (Multiple Persons):{% for applicant in topic.applicants %}\n                            {{ applicant[\"applicant_name\"] }}\n                            {% endfor %}\n</pre>\n<h4 dir=\"rtl\">Templates are implemented using Jinja language. To learn more about Jinja, <a class=\"strong\" href=\"https://jinja.palletsprojects.com/en/3.1.x/\">read this documentation.</a></h4>"
   }
  ],
+ "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-22 06:23:18.217383",
+ "modified": "2024-07-28 18:11:45.900013",
  "modified_by": "Administrator",
  "module": "Councils",
  "name": "Topic Decision Template",
@@ -43,41 +51,6 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
-   "share": 1,
-   "write": 1
-  },
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Council Head",
-   "share": 1,
-   "write": 1
-  },
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Council Reporter",
-   "share": 1,
-   "write": 1
-  },
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Council user",
    "share": 1,
    "write": 1
   }

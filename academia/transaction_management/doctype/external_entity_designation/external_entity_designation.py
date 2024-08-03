@@ -14,7 +14,10 @@ class ExternalEntityDesignation(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		designation_name: DF.Data | None
-		external_entity: DF.Link | None
+		designation_name: DF.Data
+		external_entity: DF.Link
+		parent: DF.Data
+		parentfield: DF.Data
+		parenttype: DF.Data
 	# end: auto-generated types
 	pass

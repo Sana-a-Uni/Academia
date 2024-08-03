@@ -17,25 +17,29 @@
    "in_list_view": 1,
    "label": "Applicant Type",
    "options": "\nStudent\nAcademic\nEmployee\nUser\nFaculty Member"
+   "reqd": 1
   },
   {
    "fieldname": "applicant",
    "fieldtype": "Dynamic Link",
    "in_list_view": 1,
    "label": "Applicant",
-   "options": "applicant_type"
+   "options": "applicant_type",
+   "reqd": 1
   },
   {
    "fieldname": "applicant_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Applicant Name"
+   "label": "Applicant Name",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
- "links": [],
+ "links": [],t
  "modified": "2024-08-01 20:27:14.994458",
+
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Applicant",

@@ -13,7 +13,6 @@
   "reference_transaction",
   "start_date",
   "hijri_date",
-  "private",
   "through_route",
   "full_electronic",
   "circular",
@@ -83,7 +82,8 @@
   {
    "fieldname": "title",
    "fieldtype": "Data",
-   "label": "Title"
+   "label": "Title",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_ktxa",
@@ -151,7 +151,8 @@
    "fieldname": "priority",
    "fieldtype": "Select",
    "label": "Priority",
-   "options": "\nLow\nMedium\nHigh\nUrgent"
+   "options": "\nLow\nMedium\nHigh\nUrgent",
+   "reqd": 1
   },
   {
    "depends_on": "eval:doc.category;",
@@ -252,12 +253,6 @@
    "label": "Transaction Scan"
   },
   {
-   "default": "0",
-   "fieldname": "private",
-   "fieldtype": "Check",
-   "label": "Private"
-  },
-  {
    "fieldname": "refresh_button",
    "fieldtype": "Button",
    "label": "Refresh"
@@ -272,6 +267,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Start From",
+   "mandatory_depends_on": "eval:!(doc.transaction_scope==\"With External Entity\" && doc.type==\"Incoming\");",
    "options": "Employee"
   },
   {
@@ -298,6 +294,7 @@
    "fieldname": "start_with_company",
    "fieldtype": "Link",
    "label": "Company",
+   "mandatory_depends_on": "eval: doc.start_with;",
    "options": "Company"
   },
   {
@@ -338,6 +335,7 @@
    "fieldname": "referenced_document",
    "fieldtype": "Dynamic Link",
    "label": "Referenced Document",
+   "mandatory_depends_on": "eval: doc.referenced_doctype;",
    "options": "referenced_doctype"
   },
   {
@@ -473,9 +471,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
-
- "modified": "2024-07-26 23:29:11.522579",
-
+ "modified": "2024-07-28 20:11:09.021693",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

@@ -78,7 +78,7 @@ const handleLogin = async () => {
 			const role = Cookies.get("role");
 			if (role === "teacher") {
 				router.push({ name: "teacherDashboard" });
-			} else if (role === "student") {
+			} else if (role === "Student") {
 				router.push({ name: "studentDashboard" });
 			} else {
 				authStore.roleError = true;

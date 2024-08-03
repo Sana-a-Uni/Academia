@@ -26,6 +26,7 @@ class Faculty(Document):
 		faculty_logo: DF.AttachImage | None
 		faculty_mission: DF.TextEditor | None
 		faculty_name: DF.Data
+		faculty_name_english: DF.Data
 		faculty_vision: DF.TextEditor | None
 		fax: DF.Data | None
 		is_group: DF.Check

@@ -10,7 +10,7 @@ from frappe.utils import getdate
 
 from frappe import _
 import locale
-from jinja2 import Template
+from jinja2 import Template, TemplateError
 import json
 from datetime import datetime
 
@@ -26,12 +26,16 @@ class Session(Document):
         from academia.councils.doctype.session_topic.session_topic import SessionTopic
         from frappe.types import DF
 
+        agenda_title: DF.SmallText | None
         amended_from: DF.Link | None
         begin_time: DF.Time | None
         council: DF.Link
         date: DF.Date | None
         end_time: DF.Time | None
         members: DF.Table[SessionMember]
+        minute_ending: DF.SmallText | None
+        minute_hash: DF.Data | None
+        minute_title: DF.SmallText | None
         naming_series: DF.Literal["CNCL-SESS-.YY.-.{council}.-.###"]
         opening: DF.TextEditor | None
         title: DF.Data
@@ -112,9 +116,17 @@ class Session(Document):
         self.process_session_topics()
 
     def before_save(self):
+        self.update_workflow_state()
         self.update_topics_status()
         self.minute_hash = 'SM-'+str(uuid.uuid1())
 
+    def update_workflow_state(self):
+        if self.date and self.begin_time and self.end_time:
+            if self.workflow_state == "Unscheduled":
+                self.workflow_state = "Scheduled"
+        else:
+            if self.workflow_state == "Scheduled":
+                self.workflow_state = "Unscheduled"
 
     def process_session_topics(self):
         """
@@ -142,7 +154,8 @@ class Session(Document):
             session_topic_doc.status = session_topic.status
             session_topic_doc.decision_type = session_topic.decision_type
             session_topic_doc.save()
-            session_topic_doc.submit()
+            if session_topic.status != "Postponed":
+                session_topic_doc.submit()
 
     # def process_council_memo(self, session_assignment):
     # 	if session_assignment.council_memo:
@@ -183,11 +196,62 @@ class Session(Document):
             if not (
                     topic.docstatus == 0
                     and topic.council == self.council
-                    and topic.status == "Pending"
+                    and topic.status in ["Pending", "Postponed"]
                     and not topic.parent_topic
             ):
                 frappe.throw(
                     _("There are topic outside the valid list, please check again."))
+    def get_members_emails(self):
+        emails = []
+        for member in self.members:
+            email = frappe.db.get_value("Employee", member.employee, "prefered_email")
+            if email:
+                emails.append(email)
+        return emails
+    @frappe.whitelist()
+    def send_topics_to_members_emails(self):
+        frappe.sendmail(
+            recipients=self.get_members_emails(),
+            subject=self.agenda_title,
+            message=self.get_html_email_body(),
+        )
+        frappe.msgprint(_("Emails are sent"))
+    def get_html_email_body(self):
+        # Prepare the HTML table
+        html_table = f"""
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">{_("Topic ID")}</th>
+                    <th scope="col">{_("Topic Title")}</th>
+                </tr>
+            </thead>
+            <tbody>
+        """
+        for topic in self.topics:
+            html_table += f"""
+            <tr>
+                <td scope="row">{topic.idx}</td>
+                <td>{topic.title}</td>
+            </tr>
+            """
+        html_table += """
+            </tbody>
+        </table>
+        """
+
+        # Wrap the HTML table in a basic email template
+        html_body = f"""
+        <html>
+            <body>
+                <h2>{self.agenda_title}</h2>
+                {html_table}
+                
+            </body>
+        </html>
+        """
+
+        return html_body
 
 
 @frappe.whitelist()
@@ -195,32 +259,40 @@ def get_template(decision_template=None, topic=None, session=None):
     try:
         decision_template_id = get_decision_template_id(
         ) if not decision_template else decision_template
+        if not decision_template_id:
+            return {"error": "Decision template not found."}
+
         decision_template_data = fetch_decision_template(decision_template_id)
         if not decision_template_data:
-            return None
+            return {"error": "Decision template data not found."}
 
         topic_info = fetch_topic_info(topic) if topic else None
         if session:
             session_data = json.loads(session)
         else:
-            return None
-        attendees, absentees = extract_session_members(session_data)
+            return {"error": "Session data is missing."}
+
+        attendees, absenteesWE, absenteesWOE = extract_session_members(
+            session_data) if not decision_template else [{}, {}, {}]
         session_data["weekday"] = extract_weekday_from_date(
             session_data["date"])
-        # Convert the string to a datetime object
+
         rendered_template = render_decision_template(
-            decision_template_data, topic_info, attendees, absentees, session_data
+            decision_template_data, topic_info, attendees, absenteesWE, absenteesWOE, session_data
         )
+
+        if "error" in rendered_template:
+            return rendered_template
+
         return rendered_template
 
     except Exception as e:
-        log_and_return_error(e)
+        return log_and_return_error(e)
 
 
 def get_decision_template_id():
-    decision_template = frappe.get_all(
-        "Topic Decision Template", filters={"subject": "افتتاحية الجلسة"}, fields=["name"]
-    )
+    decision_template = frappe.get_all("Topic Decision Template", filters={
+                                       "subject": "افتتاحية الجلسة"}, fields=["name"])
     if not decision_template:
         return None
     return decision_template[0].name
@@ -241,35 +313,43 @@ def fetch_topic_info(topic):
 
 def extract_session_members(session_data):
     attendees = []
-    absentees = []
+    absenteesWE = []
+    absenteesWOE = []
     if "members" in session_data:
         for member in session_data["members"]:
             member_info = {"name": member.get(
                 "member_name", ""), "role": member.get("member_role", "")}
             if member.get("attendance") == "Attend":
                 attendees.append(member_info)
+            elif member.get("attendance") == "Absent with Excuse":
+                absenteesWE.append(member_info)
             else:
-                absentees.append(member_info)
-    return attendees, absentees
+                absenteesWOE.append(member_info)
+    return attendees, absenteesWE, absenteesWOE
 
 
-def render_decision_template(decision_template_data, topic_info, attendees, absentees, session_data):
-    template_content = decision_template_data.decision
-    template = Template(template_content)
+def render_decision_template(decision_template_data, topic_info, attendees, absenteesWE, absenteesWOE, session_data):
+    try:
+        template_content = decision_template_data.decision
+        template = Template(template_content)
+        rendered_template = template.render(
+            topic=topic_info if topic_info else {},
+            attendees=attendees,
+            absentees=absenteesWE,
+            absenteesWOE=absenteesWOE,
+            session=session_data
+        )
+        return rendered_template
 
-    return template.render(
-        topic=topic_info if topic_info else {}, attendees=attendees, absentees=absentees, session=session_data
-    )
+    except TemplateError as e:
+        frappe.log_error(frappe.get_traceback(), "Error rendering template")
+        return {"error": "An error occurred while rendering the template. Please check the template and data fields."}
 
 
 def extract_weekday_from_date(date_str):
-    # Set the locale to Arabic for Gregorian date
     locale.setlocale(locale.LC_TIME, "ar_SA.utf8")
-
     date_obj = datetime.strptime(date_str, "%Y-%m-%d")
-
     weekday = date_obj.strftime("%A")
-
     return weekday
 
 

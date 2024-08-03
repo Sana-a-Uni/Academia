@@ -16,14 +16,11 @@ import LoadingSpinner from "@/components/LoadingSpinner.vue";
 const route = useRoute();
 
 const assignmentStore = useAssignmentStore();
-// const courseName = ref(route.params.courseName);
-// const studentId = ref(route.params.studentId);
+
 const courseName = ref("00");
-const studentId = ref("EDU-STU-2024-00004");
 
 onMounted(() => {
-	assignmentStore.fetchAssignments(courseName.value, studentId.value);
-	console.log("hiiiiii");
+	assignmentStore.fetchAssignments(courseName.value);
 });
 
 const assignments = ref([]);

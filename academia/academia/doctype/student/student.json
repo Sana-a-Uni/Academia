@@ -145,7 +145,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "default": "+967",
    "fieldname": "student_mobile_number",
    "fieldtype": "Phone",
    "label": "Student Mobile Number"
@@ -352,7 +351,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-24 21:36:11.221711",
+ "modified": "2024-07-29 20:58:32.138487",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student",

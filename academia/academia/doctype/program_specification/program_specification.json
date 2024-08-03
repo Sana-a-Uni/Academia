@@ -8,12 +8,13 @@
  "field_order": [
   "section_break_8b0b",
   "program_name",
+  "program_name_english",
   "faculty",
   "faculty_department",
   "column_break_xbfe",
-  "program_abbreviation",
-  "program_degree",
-  "starrting_year_of_the_program",
+  "abbr",
+  "academic_degree",
+  "date_of_starting_the_program",
   "section_break_soto",
   "courses",
   "column_break_uxus",
@@ -23,9 +24,9 @@
   "course_language",
   "column_break_zw7h",
   "delivery_mode",
-  "study_methods",
+  "academic_system",
   "section_break_46rv",
-  "effective_year",
+  "implementation_start_academic_year",
   "column_break_sksq",
   "date_of_programe_development",
   "section_break_mzlt",
@@ -55,7 +56,7 @@
   {
    "fetch_from": "program_name.faculty_department",
    "fieldname": "faculty_department",
-   "fieldtype": "Link",
+   "fieldtype": "Read Only",
    "in_list_view": 1,
    "label": "Faculty Department",
    "options": "Faculty Department",
@@ -65,15 +66,6 @@
   {
    "fieldname": "column_break_xbfe",
    "fieldtype": "Column Break"
-  },
-  {
-   "fetch_from": "program_name.program_degree",
-   "fieldname": "program_degree",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Program Degree",
-   "read_only": 1,
-   "reqd": 1
   },
   {
    "fieldname": "section_break_koic",
@@ -89,13 +81,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "program_name.starrting_year_of_program",
-   "fieldname": "starrting_year_of_the_program",
-   "fieldtype": "Date",
-   "label": "Starrting Year of the Program",
-   "read_only": 1
-  },
-  {
    "fieldname": "delivery_mode",
    "fieldtype": "Select",
    "label": "Delivery Mode",
@@ -104,12 +89,6 @@
   {
    "fieldname": "section_break_46rv",
    "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "study_methods",
-   "fieldtype": "Link",
-   "label": "Study Methods",
-   "options": "Study Method"
   },
   {
    "fieldname": "column_break_sksq",
@@ -124,26 +103,12 @@
   {
    "fetch_from": "program_name.faculty",
    "fieldname": "faculty",
-   "fieldtype": "Link",
+   "fieldtype": "Read Only",
    "in_list_view": 1,
    "label": "Faculty",
    "options": "Faculty",
    "read_only": 1,
    "reqd": 1
-  },
-  {
-   "fetch_from": "program_name.program_abbreviation",
-   "fieldname": "program_abbreviation",
-   "fieldtype": "Data",
-   "label": "Program Abbreviation",
-   "read_only": 1,
-   "reqd": 1
-  },
-  {
-   "fieldname": "effective_year",
-   "fieldtype": "Link",
-   "label": "Effective Academic Year",
-   "options": "Academic Year"
   },
   {
    "fieldname": "section_break_mzlt",
@@ -240,13 +205,58 @@
   {
    "fieldname": "course_language",
    "fieldtype": "Table MultiSelect",
-   "label": "Course Language",
+   "label": "Language of Study",
    "options": "Course Language"
+  },
+  {
+   "fetch_from": "program_name.program_name_english",
+   "fieldname": "program_name_english",
+   "fieldtype": "Read Only",
+   "in_list_view": 1,
+   "label": "Program Name (English)",
+   "options": "Academic Program",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "program_name.date_of_starting_the_program",
+   "fieldname": "date_of_starting_the_program",
+   "fieldtype": "Date",
+   "label": "Date of Starting the Program",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "program_name.academic_degree",
+   "fieldname": "academic_degree",
+   "fieldtype": "Read Only",
+   "in_list_view": 1,
+   "label": "Academic Degree",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "program_name.program_abbreviation",
+   "fieldname": "abbr",
+   "fieldtype": "Read Only",
+   "label": "Abbr",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "academic_system",
+   "fieldtype": "Select",
+   "label": "Academic System",
+   "options": "\nSemester System\nCredit Hours System"
+  },
+  {
+   "fieldname": "implementation_start_academic_year",
+   "fieldtype": "Link",
+   "label": "Implementation Start (Academic Year)",
+   "options": "Academic Year"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-14 01:24:36.981086",
+ "modified": "2024-07-30 00:05:23.675273",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Specification",
