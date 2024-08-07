@@ -40,8 +40,8 @@
   "room",
   "workflow_state",
   "column_break_tcmz",
-  "to_time",
   "from_time",
+  "to_time",
   "amended_from"
  ],
  "fields": [
@@ -294,7 +294,7 @@
    "link_fieldname": "custom_compensatory_lesson_reference"
   }
  ],
- "modified": "2024-07-29 17:42:24.715835",
+ "modified": "2024-08-07 14:34:51.701352",
  "modified_by": "Administrator",
  "module": "Academic Attendance",
  "name": "Compensatory Lesson",

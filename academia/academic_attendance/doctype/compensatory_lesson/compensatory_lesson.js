@@ -4,6 +4,7 @@
 
 frappe.ui.form.on("Compensatory Lesson", {
 	refresh(frm) {
+        frm.trigger("show_lecture_info");
         if (frm.doc.is_transfer === "1") {
             frappe.call({
                 method: 'academia.academic_attendance.doctype.compensatory_lesson.compensatory_lesson.get_multi_groups_data',
@@ -20,7 +21,12 @@ frappe.ui.form.on("Compensatory Lesson", {
             })
            
         }
+        if (frm.doc.workflow_state == "Approval Pending By Academic Manager" && !frm.doc.date) {
+            frm.set_value('from_time', '')
+            frm.set_value('to_time', '')
+        }
 	},
+
     faculty(frm) {
         frm.set_query("room", function(){
 			return {
@@ -30,6 +36,7 @@ frappe.ui.form.on("Compensatory Lesson", {
 			}
 		})
     },
+
     before_workflow_action: async (frm) => {
         frm.refresh();
         let reject_value;
@@ -98,4 +105,23 @@ frappe.ui.form.on("Compensatory Lesson", {
             });
         }
     },
+    
+    show_lecture_info(frm) {
+		if (!frm.is_new() && frm.doc.docstatus === 0) {
+			frm.dashboard.clear_headline();
+
+			frm.call("show_lecture_info").then((r) => {
+				if (r.message?.length) {
+					frm.dashboard.reset();
+					frm.dashboard.add_section(
+						frappe.render_template("attendance_warnings", {
+							warnings: r.message || [],
+						}),
+						__("Informtion")
+					);
+					frm.dashboard.show();
+				}
+			})
+		}
+	}
 });
