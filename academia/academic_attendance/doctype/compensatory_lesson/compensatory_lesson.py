@@ -15,16 +15,17 @@ class CompensatoryLesson(Document):
 		self.create_lesson_record()
 	
 	def before_cancel(self):
-		lesson_list =frappe.db.get_list('Lesson', pluck='name', filters = {"custom_compensatory_lesson_reference": self.name})
+		lesson_list =frappe.db.get_list('Lesson', pluck='name', filters = {"compensatory_lesson_reference": self.name})
 		for lesson in lesson_list:
 			frappe.delete_doc('Lesson', lesson)
+			frappe.msgprint("The Lesson that Linked to this request was Deleted")
 	
 	def validate_duplicate_reqested(self):
 		if self.workflow_state == "Draft":
 			compensator_lesson_list =frappe.db.get_list('Compensatory Lesson', fields=['name', 'workflow_state'],filters = {"lesson_attendance": self.lesson_attendance})
 			if compensator_lesson_list:
 				for lesson in compensator_lesson_list:
-					if lesson["workflow_state"] in ["Approval Pending By Academic Manager","Approval Pending By Department Head","Approval Pending By Dean of the College","Approved"]:
+					if lesson["workflow_state"] in ["Approval Pending By Academic Manager","Approval Pending By Department Head","Approval Pending By Faculty Dean","Approved"]:
 						frappe.throw(_("You already have reqested Compensatory Lesson <a href='/app/compensatory-lesson/{}'>{}</a> for this Lesson Attendance and his status is {}")
 						  .format(lesson["name"],lesson["name"],lesson["workflow_state"]))
 
@@ -64,10 +65,11 @@ class CompensatoryLesson(Document):
 					from_time=self.from_time,
 					to_time=self.to_time,
 					table_hfgk=self.multi_group,
-					custom_compensatory_lesson_reference = self.name
+					compensatory_lesson_reference = self.name
 				)
 			)
 			lesson.save()
+			frappe.msgprint("Lesson create for this request")
 	
 	@frappe.whitelist()
 	def show_lecture_info(self):

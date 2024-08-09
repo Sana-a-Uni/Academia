@@ -180,14 +180,14 @@ class LessonSchedulingTool(Document):
 		
 		schedules = frappe.get_list(
 			"Lesson",
-			fields=["name","lesson_type","custom_compensatory_lesson_reference"],
+			fields=["name","lesson_type","compensatory_lesson_reference"],
 			filters=filters,
 		)
 
 		for d in schedules:
 			try:
 				if(d.lesson_type == "Compensatory Lesson"):
-						compensatory_lesson = frappe.get_doc('Compensatory Lesson', d.custom_compensatory_lesson_reference)
+						compensatory_lesson = frappe.get_doc('Compensatory Lesson', d.compensatory_lesson_reference)
 						compensatory_lesson.db_set('cancelled_reason', "تعارض مع الجدول الجديد")
 						compensatory_lesson.db_set('workflow_state','Cancelled')
 						compensatory_lesson.cancel()
@@ -211,7 +211,7 @@ class LessonSchedulingTool(Document):
 		
 		schedules = frappe.get_list(
 			"Lesson",
-			fields=["name","lesson_type","custom_compensatory_lesson_reference"],
+			fields=["name","lesson_type","compensatory_lesson_reference"],
 			filters=filters,
 		)
 
@@ -226,7 +226,7 @@ class LessonSchedulingTool(Document):
 			if exist:
 				try:
 					if(d.lesson_type == "Compensatory Lesson"):
-						compensatory_lesson = frappe.get_doc('Compensatory Lesson', d.custom_compensatory_lesson_reference)
+						compensatory_lesson = frappe.get_doc('Compensatory Lesson', d.compensatory_lesson_reference)
 						compensatory_lesson.db_set('cancelled_reason', "تعارض مع الجدول الجديد")
 						compensatory_lesson.db_set('workflow_state','Cancelled')
 						compensatory_lesson.cancel()

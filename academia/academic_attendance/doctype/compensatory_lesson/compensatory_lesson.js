@@ -72,7 +72,7 @@ frappe.ui.form.on("Compensatory Lesson", {
             });
         }
         
-        if (frm.selected_workflow_action == "Canceled") {
+        if (frm.selected_workflow_action == "Cancel") {
             let promise = new Promise((resolve, reject) => {
                 frappe.prompt({
                     label: 'Cancelled Reason',

@@ -95,7 +95,6 @@
   {
    "fieldname": "faculty",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Faculty",
    "options": "Faculty",
    "reqd": 1
@@ -143,7 +142,6 @@
   {
    "fieldname": "faculty_member",
    "fieldtype": "Link",
-   "in_standard_filter": 1,
    "label": "Instructor",
    "options": "Faculty Member",
    "reqd": 1
@@ -152,7 +150,7 @@
    "fetch_from": "faculty_member.faculty_member_name",
    "fieldname": "faculty_member_name",
    "fieldtype": "Read Only",
-   "label": "Faculty Member Name"
+   "label": "Instructor Name"
   },
   {
    "fieldname": "room",
@@ -202,6 +200,8 @@
   {
    "fieldname": "attendance_date",
    "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Attendance Date",
    "reqd": 1
   },
@@ -239,6 +239,7 @@
   {
    "fieldname": "status",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Status",
    "options": "\nPresent\nAbsent"
@@ -326,7 +327,7 @@
    "link_fieldname": "lesson_attendance"
   }
  ],
- "modified": "2024-07-27 19:01:51.200394",
+ "modified": "2024-08-09 17:20:54.393347",
  "modified_by": "Administrator",
  "module": "Academic Attendance",
  "name": "Lesson Attendance",
@@ -366,7 +367,16 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": [],
+ "states": [
+  {
+   "color": "Green",
+   "title": "Present"
+  },
+  {
+   "color": "Red",
+   "title": "Absent"
+  }
+ ],
  "title_field": "faculty_member_name",
  "track_changes": 1
 }
