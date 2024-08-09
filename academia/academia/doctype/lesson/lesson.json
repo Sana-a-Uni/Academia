@@ -71,7 +71,7 @@
    "in_list_view": 1,
    "label": "Program",
    "mandatory_depends_on": "eval:doc.is_multi_group == 0;",
-   "options": "Academic Program"
+   "options": "Program Specification"
   },
   {
    "fieldname": "section_break_stfq",
@@ -208,8 +208,13 @@
   }
  ],
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2024-07-30 01:41:12.252880",
+ "links": [
+  {
+   "link_doctype": "Lesson Attendance",
+   "link_fieldname": "lesson"
+  }
+ ],
+ "modified": "2024-08-01 18:11:04.520038",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lesson",
