@@ -32,7 +32,9 @@
   "from_time",
   "to_time",
   "section_break_mxrm",
-  "table_hfgk"
+  "table_hfgk",
+  "section_break_vutq",
+  "compensatory_lesson_reference"
  ],
  "fields": [
   {
@@ -205,6 +207,17 @@
    "fieldname": "is_multi_group",
    "fieldtype": "Check",
    "label": "Is Multi Group"
+  },
+  {
+   "fieldname": "section_break_vutq",
+   "fieldtype": "Section Break",
+   "read_only": 1
+  },
+  {
+   "fieldname": "compensatory_lesson_reference",
+   "fieldtype": "Link",
+   "label": "Compensatory Lesson Reference",
+   "options": "Compensatory Lesson"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -214,7 +227,7 @@
    "link_fieldname": "lesson"
   }
  ],
- "modified": "2024-08-01 18:11:04.520038",
+ "modified": "2024-08-09 10:06:56.705062",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lesson",
