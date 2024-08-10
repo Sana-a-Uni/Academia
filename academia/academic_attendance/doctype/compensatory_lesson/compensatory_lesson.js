@@ -14,7 +14,7 @@ frappe.ui.form.on("Compensatory Lesson", {
             }).then(r => {
                 if(r.message.length > 0) {
                     frm.set_value("is_multi_group", 1);
-                    frm.set_value("multi_group", r.message);
+                    frm.set_value("multi_groups", r.message);
                      
                 }   
                 frm.set_value("is_transfer", "2"); 
