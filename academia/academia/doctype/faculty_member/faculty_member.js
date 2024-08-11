@@ -36,6 +36,7 @@ frappe.ui.form.on("Faculty Member", {
         frm.events.validate_child_extension(frm, 'faculty_member_academic_ranking', 'attachment', "Attachment File");
         frm.events.validate_child_extension(frm, 'faculty_member_training_course', 'certification', "Certification File");
         frm.events.validate_date(frm);
+        frm.events.validate_current_academic_rank(frm);
     },
     // End of validate event
 
@@ -166,6 +167,39 @@ frappe.ui.form.on("Faculty Member", {
         });
 
         frm.set_value('external_faculty', null);
-    }
+    },
+
+    validate_current_academic_rank: function (frm) {
+        var rank_list = [];
+        frm.doc.faculty_member_academic_ranking.forEach(function (row) {
+            rank_list.push(row.academic_rank);
+        });
+        if (rank_list.length > 0) {
+            rank_list.sort((a, b) => a - b);
+            var latest_academic_rank = rank_list[rank_list.length - 1];
+            frm.set_value('current_academic_rank', latest_academic_rank);
+            frm.refresh_field('current_academic_rank');
+        } else {
+            console.log('Faculty Member Academic Ranking table is empty.');
+        }
+    },
+
 });
 
+// --- Start of 'Faculty Member Academic Ranking' childe table form scripts ---
+frappe.ui.form.on('Faculty Member Academic Ranking', {
+    // FN: filter duplicate 'academic_rank' field in 'faculty_member_academic_ranking' child table
+    faculty_member_academic_ranking_add: function (frm) {
+        frm.fields_dict['faculty_member_academic_ranking'].grid.get_field('academic_rank').get_query = function (doc) {
+            let rank_list = [];
+            if (!doc.__islocal) rank_list.push(doc.academic_rank);
+            $.each(doc.faculty_member_academic_ranking, function (idx, val) {
+                if (val.academic_rank) rank_list.push(val.academic_rank);
+            });
+            return { filters: [['Academic Rank', 'name', 'not in', rank_list]] };
+        };
+    },
+    // End of the function
+
+});
+// End of childe table form scripts

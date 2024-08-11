@@ -17,6 +17,7 @@ class FacultyMemberAcademicRanking(Document):
 		academic_rank: DF.Link
 		attachment: DF.Attach | None
 		country: DF.Link | None
+		date_of_obtaining_the_academic_rank: DF.Date
 		general_field: DF.Data | None
 		granting_authority: DF.Link | None
 		name: DF.Int | None

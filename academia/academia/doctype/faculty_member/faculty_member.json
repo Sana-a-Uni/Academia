@@ -31,8 +31,7 @@
   "courses",
   "current_academic_data_section",
   "scientific_degree",
-  "academic_rank",
-  "date_of_obtaining_the_academic_rank",
+  "current_academic_rank",
   "general_field",
   "specialist_field",
   "column_break_gcym",
@@ -223,13 +222,6 @@
    "label": "Awards and Appreciation Certificates"
   },
   {
-   "fieldname": "academic_rank",
-   "fieldtype": "Link",
-   "label": "Academic Rank",
-   "options": "Academic Rank",
-   "reqd": 1
-  },
-  {
    "fieldname": "google_scholar_profile_link",
    "fieldtype": "Data",
    "label": "Google Scholar Profile Link"
@@ -402,12 +394,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "date_of_obtaining_the_academic_rank",
-   "fieldtype": "Date",
-   "label": "Date of Obtaining the Academic Rank",
-   "reqd": 1
-  },
-  {
    "fieldname": "external_faculty",
    "fieldtype": "Link",
    "label": "External Faculty",
@@ -436,6 +422,13 @@
    "fieldname": "commencement_of_work_attachment",
    "fieldtype": "Attach",
    "label": "Commencement of Work Attachment"
+  },
+  {
+   "fieldname": "current_academic_rank",
+   "fieldtype": "Link",
+   "label": "Academic Rank",
+   "options": "Academic Rank",
+   "reqd": 1
   }
  ],
  "image_field": "image",
@@ -473,7 +466,7 @@
    "link_fieldname": "evaluatee_party"
   }
  ],
- "modified": "2024-08-03 01:40:54.358468",
+ "modified": "2024-08-11 10:40:10.393277",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",
@@ -545,6 +538,76 @@
    "create": 1,
    "read": 1,
    "role": "Faculty Member",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Faculty Member",
+   "share": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Faculty Dean",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Department Head",
+   "share": 1,
    "write": 1
   }
  ],

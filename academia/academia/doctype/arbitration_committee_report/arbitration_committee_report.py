@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class InternalArbitrationCommittee(Document):
+class ArbitrationCommitteeReport(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -14,12 +14,10 @@ class InternalArbitrationCommittee(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		academic_rank: DF.Data | None
-		faculty: DF.Link | None
-		faculty_member: DF.Link | None
-		name: DF.Int | None
-		parent: DF.Data
-		parentfield: DF.Data
-		parenttype: DF.Data
+		date: DF.Date | None
+		report_author: DF.Link | None
+		report_content: DF.TextEditor | None
+		report_file: DF.Attach | None
+		report_title: DF.Data | None
 	# end: auto-generated types
 	pass

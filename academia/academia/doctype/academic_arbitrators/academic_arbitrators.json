@@ -8,8 +8,8 @@
  "field_order": [
   "arbitrator_name",
   "academic_rank",
-  "scientific_degree",
   "university",
+  "scientific_degree",
   "faculty",
   "country"
  ],
@@ -80,7 +80,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-27 07:34:03.640790",
+ "modified": "2024-08-03 21:33:02.473711",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Arbitrators",

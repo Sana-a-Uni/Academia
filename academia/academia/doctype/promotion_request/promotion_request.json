@@ -18,10 +18,12 @@
   "academic_publications",
   "scientific_degree",
   "date_of_obtaining_the_certificate",
-  "scientific_degree_attachment",
+  "certificate",
   "amended_from",
   "section_break_kicr",
-  "academic_arbitrators"
+  "academic_arbitrators",
+  "academic_arbitrator_reports_section",
+  "table_ejow"
  ],
  "fields": [
   {
@@ -123,11 +125,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "scientific_degree_attachment",
-   "fieldtype": "Attach",
-   "label": "Scientific Degree Attachment "
-  },
-  {
    "fieldname": "section_break_kicr",
    "fieldtype": "Section Break"
   },
@@ -136,12 +133,27 @@
    "fieldtype": "Table",
    "label": "Academic Arbitrators",
    "options": "Academic Arbitrators"
+  },
+  {
+   "fieldname": "academic_arbitrator_reports_section",
+   "fieldtype": "Section Break",
+   "label": "Academic Arbitrator reports"
+  },
+  {
+   "fieldname": "table_ejow",
+   "fieldtype": "Table",
+   "options": "Academic Arbitrator Report"
+  },
+  {
+   "fieldname": "certificate",
+   "fieldtype": "Attach",
+   "label": "Certificate"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-08-02 09:07:25.871361",
+ "modified": "2024-08-03 22:01:44.641408",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Promotion Request",

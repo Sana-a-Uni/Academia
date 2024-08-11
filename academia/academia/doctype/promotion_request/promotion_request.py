@@ -10,6 +10,7 @@ class PromotionRequest(Document):
     from typing import TYPE_CHECKING
 
     if TYPE_CHECKING:
+        from academia.academia.doctype.academic_arbitrator_report.academic_arbitrator_report import AcademicArbitratorReport
         from academia.academia.doctype.academic_arbitrators.academic_arbitrators import AcademicArbitrators
         from academia.academia.doctype.faculty_member_academic_publications.faculty_member_academic_publications import FacultyMemberAcademicPublications
         from frappe.types import DF
@@ -17,6 +18,7 @@ class PromotionRequest(Document):
         academic_arbitrators: DF.Table[AcademicArbitrators]
         academic_publications: DF.TableMultiSelect[FacultyMemberAcademicPublications]
         amended_from: DF.Link | None
+        certificate: DF.Attach | None
         company: DF.Link | None
         current_academic_rank: DF.Data
         date_of_obtaining_the_certificate: DF.Date
@@ -27,7 +29,7 @@ class PromotionRequest(Document):
         faculty_member_name: DF.Data | None
         naming_series: DF.Literal["PROMREQ-.YYYY.-.faculty_member_name.-"]
         scientific_degree: DF.Link
-        scientific_degree_attachment: DF.Attach | None
+        table_ejow: DF.Table[AcademicArbitratorReport]
     # end: auto-generated types
 
     def validate(self):
@@ -126,23 +128,22 @@ class PromotionRequest(Document):
                 title=_("Missing Promotion Settings")
             )
 
-    # def filter_academic_publications(self):
-    #     faculty_member = self.faculty_member
 
-    #     if faculty_member:
-    #         # Fetch relevant academic publications via Academic Author
-    #         publications = frappe.db.sql("""
-    #             SELECT p.name as academic_publication
-    #             FROM `tabAcademic Publication` p
-    #             JOIN `tabAcademic Author` a ON a.parent = p.name
-    #             WHERE a.author_name = %s
-    #         """, (faculty_member,), as_dict=True)
 
-    #         # Debugging: Print the retrieved publications
-    #         print(f"Retrieved publications for faculty_member {faculty_member}: {publications}")
+    # @frappe.whitelist()
+    # def get_filtered_publications(self, faculty_member):
+    #     if not frappe.has_permission("Academic Publication", "read"):
+    #         raise frappe.PermissionError("You do not have permission to access Academic Publications.")
+        
+    #     author_names = self.get_author_names(faculty_member)
+    #     publications = frappe.get_list("Academic Publication", filters={
+    #         "author": ["in", author_names]
+    #     })
+    #     return publications
 
-    #         # Update academic_publications field with filtered results
-    #         self.academic_publications = [{'academic_publications': pub['academic_publication']} for pub in publications]
-
-    #         # Debugging: Print the updated academic_publications
-    #         print(f"Updated academic_publications: {self.academic_publications}")
+    # @frappe.whitelist()
+    # def get_author_names(self, faculty_member):
+    #     authors = frappe.get_list("Academic Author", filters={
+    #         "author_name": faculty_member
+    #     }, fields=["name"])
+    #     return [author.name for author in authors]

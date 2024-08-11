@@ -10,7 +10,7 @@ frappe.ui.form.on("Academic Evaluation", {
     onload(frm) {
         // Calling functions
         frm.events.filtering_academic_term(frm);
-        frm.events.template(frm);
+        // frm.events.template(frm);
         update_party_field_label(frm, 'evaluatee_party_type', 'evaluatee_party');
         update_party_name_field_label(frm, 'evaluatee_party_type', 'evaluatee_party_name');
         update_party_field_label(frm, 'evaluator_party_type', 'evaluator_party');
@@ -55,11 +55,11 @@ frappe.ui.form.on("Academic Evaluation", {
                     let entry = frm.add_child("evaluation_details");
                     entry.criterion = e.criterion;
                 })
-                refresh_field("evaluation_details")
+                refresh_field("evaluation_details");
             });
         } else {
             frm.clear_table('evaluation_details');
-            refresh_field("evaluation_details")
+            refresh_field("evaluation_details");
         }
     },
     // End of the function

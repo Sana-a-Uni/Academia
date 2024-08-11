@@ -14,9 +14,10 @@ class ExternalArbitrationCommittee(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		academic_rank: DF.Link | None
+		academic_rank: DF.Data | None
 		external_faculty: DF.Link | None
 		faculty_member: DF.Link | None
+		name: DF.Int | None
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data

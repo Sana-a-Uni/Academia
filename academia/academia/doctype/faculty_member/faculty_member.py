@@ -25,17 +25,16 @@ class FacultyMember(Document):
         from academia.academia.doctype.faculty_member_university_and_community_service.faculty_member_university_and_community_service import FacultyMemberUniversityandCommunityService
         from frappe.types import DF
 
-        academic_rank: DF.Link
         academic_services: DF.TableMultiSelect[FacultyMemberAcademicServices]
         commencement_of_work_attachment: DF.Attach | None
         commencement_of_work_date: DF.Date | None
         commencement_of_work_decision_number: DF.Data | None
         company: DF.Link
         courses: DF.TableMultiSelect[FacultyMemberCourse]
+        current_academic_rank: DF.Link
         date: DF.Date | None
         date_of_joining_in_service: DF.Date | None
         date_of_joining_in_university: DF.Date | None
-        date_of_obtaining_the_academic_rank: DF.Date
         decision_attachment: DF.Attach | None
         decision_number: DF.Data | None
         department: DF.Link
@@ -118,7 +117,7 @@ class FacultyMember(Document):
 
     # Fetch and set probation end date
     def get_probation_end_date(self):
-        if self.commencement_of_work_date and self.tenure_status == "On Probation":
+        if self.commencement_of_work_date and self.tenure_status == "On Probation" and self.employment_type == "Official":
             faculty_member_settings = frappe.get_all(
                 "Faculty Member Settings",
                 filters=[

@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class ThesisArbitrationCommitteeRequest(Document):
+class ThesisArbitrationCommittee(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -17,11 +17,14 @@ class ThesisArbitrationCommitteeRequest(Document):
 		from frappe.types import DF
 
 		amended_from: DF.Link | None
+		chairman: DF.Link | None
+		document_name: DF.DynamicLink | None
 		external_arbitration_committee: DF.Table[ExternalArbitrationCommittee]
 		faculty_member: DF.Link | None
 		faculty_member_publication: DF.Link | None
 		internal_arbitration_committee: DF.Table[InternalArbitrationCommittee]
-		naming_series: DF.Literal["ACAD-TAC-REQ-.YY.-.MM.-.#####."]
+		naming_series: DF.Literal["ACAD-TAC-.YY.-.MM.-.#####."]
+		reference_doctype: DF.Link | None
 		request_attachment: DF.Attach | None
 	# end: auto-generated types
 	pass
