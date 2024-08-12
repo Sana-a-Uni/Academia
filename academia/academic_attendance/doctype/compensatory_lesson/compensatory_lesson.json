@@ -23,6 +23,7 @@
   "is_multi_group",
   "section_break_inyw",
   "program",
+  "faculty_department",
   "instructor",
   "instructor_name",
   "course",
@@ -32,7 +33,7 @@
   "group",
   "subgroup",
   "section_break_mker",
-  "multi_group",
+  "multi_groups",
   "section_break_wdte",
   "proposed_times",
   "section_break_jint",
@@ -40,8 +41,8 @@
   "room",
   "workflow_state",
   "column_break_tcmz",
-  "to_time",
   "from_time",
+  "to_time",
   "amended_from"
  ],
  "fields": [
@@ -57,7 +58,8 @@
    "fieldname": "lesson_attendance",
    "fieldtype": "Link",
    "label": "Lesson Attendance",
-   "options": "Lesson Attendance"
+   "options": "Lesson Attendance",
+   "reqd": 1
   },
   {
    "fieldname": "is_transfer",
@@ -137,7 +139,6 @@
    "depends_on": "eval:doc.is_multi_group == 0;",
    "fieldname": "program",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Program",
    "mandatory_depends_on": "eval:doc.is_multi_group == 0;",
    "options": "Program Specification"
@@ -182,7 +183,8 @@
    "fieldname": "course_type",
    "fieldtype": "Select",
    "label": "Course Type",
-   "options": "\nTheoretical\nPractical"
+   "options": "\nTheoretical\nPractical",
+   "reqd": 1
   },
   {
    "depends_on": "eval:doc.is_multi_group == 0;",
@@ -202,12 +204,6 @@
   {
    "fieldname": "section_break_mker",
    "fieldtype": "Section Break"
-  },
-  {
-   "depends_on": "eval:doc.is_multi_group == 1;",
-   "fieldname": "multi_group",
-   "fieldtype": "Table",
-   "options": "Multi Lesson Template"
   },
   {
    "fieldname": "section_break_wdte",
@@ -281,9 +277,26 @@
    "fieldname": "workflow_state",
    "fieldtype": "Link",
    "hidden": 1,
-   "label": "Workflow State",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
    "no_copy": 1,
    "options": "Workflow State"
+  },
+  {
+   "fetch_from": "program.faculty_department",
+   "fieldname": "faculty_department",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Faculty Department",
+   "options": "Faculty Department"
+  },
+  {
+   "depends_on": "eval:doc.is_multi_group == 1;",
+   "fieldname": "multi_groups",
+   "fieldtype": "Table",
+   "mandatory_depends_on": "eval:doc.is_multi_group == 1;",
+   "options": "Multi Lesson Template"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -291,10 +304,10 @@
  "links": [
   {
    "link_doctype": "Lesson",
-   "link_fieldname": "custom_compensatory_lesson_reference"
+   "link_fieldname": "compensatory_lesson_reference"
   }
  ],
- "modified": "2024-07-29 17:42:24.715835",
+ "modified": "2024-08-10 21:59:55.721468",
  "modified_by": "Administrator",
  "module": "Academic Attendance",
  "name": "Compensatory Lesson",
@@ -317,5 +330,8 @@
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "track_changes": 1
+ "title_field": "instructor_name",
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
 }

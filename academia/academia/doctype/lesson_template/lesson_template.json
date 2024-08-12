@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:LT-{#####}",
  "creation": "2024-06-30 02:14:23.340266",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -75,7 +76,7 @@
    "in_list_view": 1,
    "label": "Program",
    "mandatory_depends_on": "eval:doc.is_multi_group == 0;",
-   "options": "Academic Program"
+   "options": "Program Specification"
   },
   {
    "fieldname": "section_break_stfq",
@@ -243,10 +244,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-30 01:50:21.471478",
+ "modified": "2024-08-01 18:13:06.493731",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lesson Template",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

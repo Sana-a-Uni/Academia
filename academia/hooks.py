@@ -38,7 +38,27 @@ fixtures = [
     }
 ]
 
-
+fixtures = [
+    {
+        "doctype": "Workflow",
+        "filters": [
+            ["name", "in", ["Session Workflow", "Evaluation Workflow", "Compensatory Lesson"]]
+        ]
+    },
+    {
+        "doctype": "Workflow State",
+        "filters": [
+            ["name", "in", ["Scheduled", "Unscheduled", "Pending Approved", "Pending Modified", "Pending", "Rejected", "Approved", "Pending Evaluation", "Draft",
+                             "Pending Approval", "Approval Pending By Academic Manager", "Approval Pending By Department Head", "Approval Pending By Faculty Dean", "Cancelled"]]
+        ]
+    },
+    {
+        "doctype": "Workflow Action Master",
+        "filters": [
+            ["name", "in",["Request Approval", "Request Modification", "Review", "Approve", "Reject", "Send Request", "Send Evaluation", "Scheduled", "Unscheduled","Submit", "Cancel"]]
+        ]
+    },
+]
 # Includes in <head>
 # ------------------
 

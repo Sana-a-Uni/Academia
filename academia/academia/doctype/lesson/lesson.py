@@ -17,6 +17,7 @@ class Lesson(Document):
 
 		academic_term: DF.Link
 		academic_year: DF.Link
+		compensatory_lesson_reference: DF.Link | None
 		course: DF.Link
 		course_type: DF.Literal["", "Theoretical", "Practical"]
 		date: DF.Date

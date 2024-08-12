@@ -12,9 +12,7 @@ frappe.ui.form.on("Lesson Attendance", {
                 docstatus: 1
             }
         }).then(records => {
-            console.log(records);
             compensatory_lesson = records[0]
-            console.log(compensatory_lesson)
             if(frm.doc.status == "Absent" && frm.doc.docstatus == 1 && !(records.length > 0) ) {
                 frm.add_custom_button('Create Compensatory Lesson', () => {
                     frappe.new_doc('Compensatory Lesson', {

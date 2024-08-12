@@ -3,6 +3,33 @@
   "docstatus": 0,
   "doctype": "Workflow State",
   "icon": "",
+  "modified": "2024-06-29 15:34:12.275724",
+  "name": "Cancelled",
+  "style": "Danger",
+  "workflow_state_name": "Cancelled"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-07-01 19:39:12.887696",
+  "name": "Approval Pending By Academic Manager",
+  "style": "Primary",
+  "workflow_state_name": "Approval Pending By Academic Manager"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-07-29 17:43:22.372738",
+  "name": "Approval Pending By Department Head",
+  "style": "Primary",
+  "workflow_state_name": "Approval Pending By Department Head"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
   "modified": "2024-07-22 22:31:54.338953",
   "name": "Scheduled",
   "style": "Info",
@@ -88,5 +115,14 @@
   "name": "Pending Approval",
   "style": "Primary",
   "workflow_state_name": "Pending Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-08-08 22:43:54.782689",
+  "name": "Approval Pending By Faculty Dean",
+  "style": "Primary",
+  "workflow_state_name": "Approval Pending By Faculty Dean"
  }
 ]

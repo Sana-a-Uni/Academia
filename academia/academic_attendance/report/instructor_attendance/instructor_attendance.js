@@ -102,7 +102,15 @@ frappe.query_reports["Instructor Attendance"] = {
 			fieldname:"to_date",
 			label: __("To Date"),
 			fieldtype: "Date"
-		}
-			
+		},	
 	],
+	formatter:function(value, row, column, data, default_formatter) {
+		value = default_formatter(value, row, column, data);
+		if (value == "Present" || value == "Work From Home")
+			value = `<span style="color:green">${__(value)}</span>`;
+		else if (value == "Absent")
+			value = `<span style="color:red">${__(value)}</span>`;
+
+		return value;
+	}
 };
