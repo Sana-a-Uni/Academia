@@ -63,6 +63,9 @@ fixtures = [
 # ------------------
 
 # include js, css files in header of desk.html
+doctype_js = {
+	"Employee": "public/js/employee_custom.js",
+}
 app_include_js = "academia.bundle.js"
 # app_include_css = "/assets/academia/css/academia.css"
 # app_include_js = "/assets/academia/js/academia.js"

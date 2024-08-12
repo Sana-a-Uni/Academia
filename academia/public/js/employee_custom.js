@@ -4,8 +4,9 @@ frappe.ui.form.on('Employee', {
 		frm.set_query('custom_academic_department', function () {
 			return {
 				filters: {
+					'custom_faculty': frm.doc.custom_faculty,
 					'custom_is_academic_department': 1
-				}
+				}	
 			};
 		});
 	}
