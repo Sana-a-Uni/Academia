@@ -9,7 +9,7 @@
  "idx": 0,
  "is_standard": "Yes",
  "letterhead": null,
- "modified": "2024-08-06 00:21:25.958901",
+ "modified": "2024-08-14 23:02:28.272266",
  "modified_by": "Administrator",
  "module": "Academic Attendance",
  "name": "Instructor Attendance",
@@ -20,6 +20,9 @@
  "report_name": "Instructor Attendance",
  "report_type": "Script Report",
  "roles": [
+  {
+   "role": "Lesson Attendance Manager"
+  },
   {
    "role": "Academic Manager"
   },
