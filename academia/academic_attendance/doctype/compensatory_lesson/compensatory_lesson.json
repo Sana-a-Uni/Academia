@@ -1,6 +1,5 @@
 {
  "actions": [],
- "allow_rename": 1,
  "autoname": "format:AAT-CL-{YYYY}-{#####}",
  "creation": "2024-07-27 13:22:25.665640",
  "default_view": "List",
@@ -295,6 +294,7 @@
    "depends_on": "eval:doc.is_multi_group == 1;",
    "fieldname": "multi_groups",
    "fieldtype": "Table",
+   "label": "Multi Groups",
    "mandatory_depends_on": "eval:doc.is_multi_group == 1;",
    "options": "Multi Lesson Template"
   }
@@ -307,7 +307,7 @@
    "link_fieldname": "compensatory_lesson_reference"
   }
  ],
- "modified": "2024-08-10 21:59:55.721468",
+ "modified": "2024-08-14 23:00:29.133517",
  "modified_by": "Administrator",
  "module": "Academic Attendance",
  "name": "Compensatory Lesson",
@@ -315,6 +315,7 @@
  "owner": "Administrator",
  "permissions": [
   {
+   "cancel": 1,
    "create": 1,
    "delete": 1,
    "email": 1,
@@ -324,7 +325,132 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
+   "submit": 1,
    "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 2,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Lesson Attendance Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "Lesson Attendance Manager",
+   "write": 1
+  },
+  {
+   "permlevel": 2,
+   "read": 1,
+   "role": "Lesson Attendance Manager",
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Academic Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "Academic Manager",
+   "write": 1
+  },
+  {
+   "permlevel": 2,
+   "read": 1,
+   "role": "Academic Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Department Head",
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "Department Head",
+   "write": 1
+  },
+  {
+   "permlevel": 2,
+   "read": 1,
+   "role": "Department Head"
+  },
+  {
+   "read": 1,
+   "role": "Faculty Dean",
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "Faculty Dean",
+   "write": 1
+  },
+  {
+   "permlevel": 2,
+   "read": 1,
+   "role": "Faculty Dean"
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Faculty Member",
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "Faculty Member"
+  },
+  {
+   "permlevel": 2,
+   "read": 1,
+   "role": "Faculty Member"
   }
  ],
  "sort_field": "modified",

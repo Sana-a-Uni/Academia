@@ -1,7 +1,6 @@
 {
  "actions": [],
  "allow_copy": 1,
- "allow_rename": 1,
  "creation": "2024-07-27 12:32:00.523263",
  "default_view": "List",
  "doctype": "DocType",
@@ -144,7 +143,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-07-27 12:32:00.523263",
+ "modified": "2024-08-14 22:19:56.099995",
  "modified_by": "Administrator",
  "module": "Academic Attendance",
  "name": "Lesson Scheduling Tool",
@@ -157,6 +156,26 @@
    "print": 1,
    "read": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Academic Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Lesson Attendance Manager",
    "share": 1,
    "write": 1
   }

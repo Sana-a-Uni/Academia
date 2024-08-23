@@ -1,6 +1,5 @@
 {
  "actions": [],
- "allow_rename": 1,
  "autoname": "format:AAT-LAT-{YYYY}-{#####}",
  "creation": "2024-07-21 16:21:51.428326",
  "default_view": "List",
@@ -327,7 +326,7 @@
    "link_fieldname": "lesson_attendance"
   }
  ],
- "modified": "2024-08-09 17:20:54.393347",
+ "modified": "2024-08-14 22:42:23.754214",
  "modified_by": "Administrator",
  "module": "Academic Attendance",
  "name": "Lesson Attendance",
@@ -348,21 +347,124 @@
    "write": 1
   },
   {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
    "create": 1,
    "export": 1,
    "read": 1,
    "report": 1,
-   "role": "Academics User",
+   "role": "Lesson Attendance User",
    "submit": 1,
    "write": 1
   },
   {
+   "email": 1,
    "export": 1,
    "permlevel": 1,
+   "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Academics User",
+   "role": "Lesson Attendance User",
+   "share": 1,
    "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Academic Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Academic Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Lesson Attendance Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Lesson Attendance Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Faculty Member"
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Department Head",
+   "share": 1
+  },
+  {
+   "email": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Department Head",
+   "share": 1
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Faculty Dean",
+   "share": 1
+  },
+  {
+   "email": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Faculty Dean",
+   "share": 1
   }
  ],
  "sort_field": "modified",
