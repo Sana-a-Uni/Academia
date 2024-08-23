@@ -7,7 +7,6 @@
  "field_order": [
   "naming_series",
   "academic_rank",
-  "publications_count",
   "required_scientific_degree",
   "required_period_for_promotion",
   "next_academic_rank",
@@ -20,12 +19,6 @@
    "fieldtype": "Link",
    "label": "Academic Rank",
    "options": "Academic Rank"
-  },
-  {
-   "fieldname": "publications_count",
-   "fieldtype": "Int",
-   "label": "Publications Count",
-   "non_negative": 1
   },
   {
    "fieldname": "naming_series",
@@ -63,7 +56,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-04 03:49:52.128351",
+ "modified": "2024-08-18 04:45:58.695378",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Promotion Settings",

@@ -6,21 +6,13 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "research_count",
+  "publications_count",
   "journal_type",
   "column_break_nqxc",
   "journal",
   "requirement"
  ],
  "fields": [
-  {
-   "fieldname": "research_count",
-   "fieldtype": "Int",
-   "in_list_view": 1,
-   "label": "Research Count",
-   "non_negative": 1,
-   "reqd": 1
-  },
   {
    "fieldname": "journal_type",
    "fieldtype": "Link",
@@ -47,12 +39,20 @@
    "label": "Requirement",
    "mandatory_depends_on": "eval: doc.journal_type == 'Internal'",
    "options": "\nRequired\nAt least"
+  },
+  {
+   "fieldname": "publications_count",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Publications Count",
+   "non_negative": 1,
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-08-02 00:03:13.670443",
+ "modified": "2024-08-23 14:03:33.292487",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Publication Condition",

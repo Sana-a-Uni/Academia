@@ -21,9 +21,7 @@
   "certificate",
   "amended_from",
   "section_break_kicr",
-  "academic_arbitrators",
-  "academic_arbitrator_reports_section",
-  "table_ejow"
+  "academic_arbitrators"
  ],
  "fields": [
   {
@@ -57,10 +55,11 @@
    "read_only": 1
   },
   {
+   "fetch_from": "faculty_member.company",
+   "fetch_if_empty": 1,
    "fieldname": "company",
-   "fieldtype": "Link",
-   "label": "Company",
-   "options": "Company"
+   "fieldtype": "Data",
+   "label": "Company"
   },
   {
    "fetch_from": "faculty_member.faculty",
@@ -135,16 +134,6 @@
    "options": "Academic Arbitrators"
   },
   {
-   "fieldname": "academic_arbitrator_reports_section",
-   "fieldtype": "Section Break",
-   "label": "Academic Arbitrator reports"
-  },
-  {
-   "fieldname": "table_ejow",
-   "fieldtype": "Table",
-   "options": "Academic Arbitrator Report"
-  },
-  {
    "fieldname": "certificate",
    "fieldtype": "Attach",
    "label": "Certificate"
@@ -153,7 +142,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-08-03 22:01:44.641408",
+ "modified": "2024-08-20 07:04:38.787823",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Promotion Request",

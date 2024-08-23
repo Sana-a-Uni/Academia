@@ -20,7 +20,7 @@ class PublicationCondition(Document):
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
+		publications_count: DF.Int
 		requirement: DF.Literal["", "Required", "At least"]
-		research_count: DF.Int
 	# end: auto-generated types
 	pass

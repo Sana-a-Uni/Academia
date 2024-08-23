@@ -55,58 +55,92 @@ function go_to_transaction(transactionId, applicants, frm) {
 }
 
 
-// Copyright (c) 2024, alaalsalam and contributors
-// For license information, please see license.txt
-
-// Copyright (c) 2024, alaalsalam and contributors
-// For license information, please see license.txt
-
 // frappe.ui.form.on("Promotion Request", {
-//     refresh(frm) {
-//         // Set the query for the academic_publications field
-//         frm.set_query("academic_publications", function (doc) {
+//     refresh: function(frm) {
+//         // Initialize filters when the form is refreshed
+//         frm.fields_dict['academic_arbitrators'].grid.get_field('arbitrator_name').get_query = function(doc, cdt, cdn) {
+//             const row = locals[cdt][cdn];
 //             return {
 //                 filters: {
-//                     name: ["in", getAcademicPublicationFilter(doc.faculty_member)]
+//                     'from_another_university': row.university || ''
 //                 }
 //             };
-//         });
+//         };
 //     },
 
-//     faculty_member: function(frm) {
-//         // Update filter when the faculty member field changes
-//         frm.set_query("academic_publications", function (doc) {
+//     university: function(frm, cdt, cdn) {
+//         const row = locals[cdt][cdn];
+
+//         // Clear the arbitrator_name field when the university changes
+//         frappe.model.set_value(cdt, cdn, 'arbitrator_name', '');
+        
+//         // Apply filtering logic to the arbitrator_name field
+//         frm.fields_dict['academic_arbitrators'].grid.get_field('arbitrator_name').get_query = function(doc, cdt, cdn) {
 //             return {
 //                 filters: {
-//                     name: ["in", getAcademicPublicationFilter(doc.faculty_member)]
+//                     'from_another_university': row.university || ''
 //                 }
 //             };
-//         });
+//         };
+        
+//         // Refresh the grid to apply the new filter
+//         frm.fields_dict['academic_arbitrators'].grid.refresh();
+//     },
+
+//     arbitrator_name: function(frm, cdt, cdn) {
+//         const row = locals[cdt][cdn];
+//         let duplicate = frm.doc.academic_arbitrators.some((r) => 
+//             r.university === row.university && 
+//             r.arbitrator_name === row.arbitrator_name && 
+//             r.idx !== row.idx
+//         );
+
+//         if (duplicate) {
+//             frappe.msgprint(__('This Arbitrator is already selected in this university. Please choose a different one.'));
+//             frappe.model.set_value(cdt, cdn, 'arbitrator_name', '');
+//         }
+//     },
+
+//     academic_arbitrators_add: function(frm, cdt, cdn) {
+//         // Apply the filtering logic to newly added rows
+//         const row = locals[cdt][cdn];
+//         frm.fields_dict['academic_arbitrators'].grid.get_field('arbitrator_name').get_query = function(doc, cdt, cdn) {
+//             return {
+//                 filters: {
+//                     'from_another_university': row.university || ''
+//                 }
+//             };
+//         };
+        
+//         // Refresh the grid to apply the new filter
+//         frm.fields_dict['academic_arbitrators'].grid.refresh();
 //     }
 // });
 
 
+// frappe.ui.form.on("Promotion Request", {
+//     refresh: function(frm) {
+//         // Initially hide the university field
+//         frm.toggle_display('university', false);
+//     },
 
-// function getAcademicPublicationFilter(faculty_member) {
-//     if (faculty_member) {
-//         frappe.call({
-//             method: "academia.promotion_request.get_filtered_publications", // Path adjusted
-//             args: {
-//                 faculty_member: faculty_member
-//             },
-//             callback: function(response) {
-//                 if (response.message) {
-//                     let publication_names = response.message.map(publication => publication.name);
-//                     console.log(publication_names); // Use or display the filtered publication names as needed
-//                 }
-//             },
-//             error: function(err) {
-//                 console.error("Error fetching filtered publications:", err);
-//             }
-//         });
+//     arbitrator_name: function(frm) {
+//         if (frm.doc.arbitrator_name) {
+//             frappe.db.get_value('Faculty Member', frm.doc.arbitrator_name, 'from_another_university')
+//                 .then(r => {
+//                     if (r.message && r.message.from_another_university) {
+//                         // Show the university field if from_another_university has a value
+//                         frm.toggle_display('university', true);
+//                     } else {
+//                         // Hide the university field if from_another_university is empty
+//                         frm.toggle_display('university', false);
+//                     }
+//                 }).catch(err => {
+//                     console.error(err);
+//                 });
+//         } else {
+//             // Hide the university field if no arbitrator_name is selected
+//             frm.toggle_display('university', false);
+//         }
 //     }
-// }
-
-
-
-
+// });

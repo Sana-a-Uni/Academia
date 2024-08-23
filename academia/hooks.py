@@ -28,6 +28,8 @@ fixtures = [
     "Journal Type",
     "Scientific Degree",
     "Workflow",
+	"Wiki Space",
+    "Wiki Page",
     "Workflow State",
     "Workflow Action Master",
     {
@@ -355,9 +357,3 @@ fixtures = [
   	{"doctype": "Topic Decision Template"},
 ]
 
-
-# doc_events = {
-#     "Faculty Member": {
-#         "on_update": "academia.academia.doctype.faculty_member.faculty_member.update_academic_rank"
-#     }
-# }

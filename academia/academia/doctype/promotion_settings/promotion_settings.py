@@ -19,7 +19,6 @@ class PromotionSettings(Document):
 		naming_series: DF.Literal["ACAD-FM-S-.academic_rank.-.YYYY.-.MM.-.####."]
 		next_academic_rank: DF.Link | None
 		publication_condition: DF.Table[PublicationCondition]
-		publications_count: DF.Int
 		required_period_for_promotion: DF.Data | None
 		required_scientific_degree: DF.Link | None
 	# end: auto-generated types

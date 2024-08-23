@@ -27,10 +27,9 @@
    "options": "External Faculty"
   },
   {
-   "fetch_from": "faculty_member.academic_rank",
-   "fetch_if_empty": 1,
+   "fetch_from": ".academic_rank",
    "fieldname": "academic_rank",
-   "fieldtype": "Data",
+   "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Academic Rank",
    "options": "Academic Rank"
@@ -46,7 +45,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-08-10 17:54:14.417903",
+ "modified": "2024-08-21 06:01:27.544135",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "External Arbitration Committee",

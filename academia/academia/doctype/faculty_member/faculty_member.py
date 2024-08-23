@@ -25,16 +25,17 @@ class FacultyMember(Document):
         from academia.academia.doctype.faculty_member_university_and_community_service.faculty_member_university_and_community_service import FacultyMemberUniversityandCommunityService
         from frappe.types import DF
 
+        academic_rank: DF.Link
         academic_services: DF.TableMultiSelect[FacultyMemberAcademicServices]
         commencement_of_work_attachment: DF.Attach | None
         commencement_of_work_date: DF.Date | None
         commencement_of_work_decision_number: DF.Data | None
         company: DF.Link
         courses: DF.TableMultiSelect[FacultyMemberCourse]
-        current_academic_rank: DF.Link
         date: DF.Date | None
         date_of_joining_in_service: DF.Date | None
         date_of_joining_in_university: DF.Date | None
+        date_of_obtaining_the_academic_rank: DF.Date | None
         decision_attachment: DF.Attach | None
         decision_number: DF.Data | None
         department: DF.Link

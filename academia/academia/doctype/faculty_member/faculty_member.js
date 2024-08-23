@@ -2,9 +2,7 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Faculty Member", {
-    // Start of refresh event
     refresh: function(frm) {
-        // Refresh fetched field 'employment_type'
         frappe.db.get_value("Employee", frm.doc.employee, "employment_type", function(value) {
             if (value && value.employment_type) {
                 frm.set_value('employment_type', value.employment_type);
@@ -19,28 +17,20 @@ frappe.ui.form.on("Faculty Member", {
             frm.refresh_field('department');
         });
     },
-    // End of refresh event
 
-    // Start of onload event
     onload: function(frm) {
-        // Calling functions
         frm.events.filtering_faculty(frm);
         frm.events.filtering_department(frm);
     },
-    // End of onload event
 
-    // Start of validate event
     validate: function(frm) {
-        // Calling functions
         frm.events.validate_extension(frm);
         frm.events.validate_child_extension(frm, 'faculty_member_academic_ranking', 'attachment', "Attachment File");
         frm.events.validate_child_extension(frm, 'faculty_member_training_course', 'certification', "Certification File");
         frm.events.validate_date(frm);
         frm.events.validate_current_academic_rank(frm);
     },
-    // End of validate event
 
-    // FN: validate 'decision_attachment' extensions
     validate_extension: function(frm) {
         var decision_attachment = frm.doc.decision_attachment;
         if (decision_attachment) {
@@ -53,7 +43,6 @@ frappe.ui.form.on("Faculty Member", {
         }
     },
 
-    // FN: validate file extensions of child tables
     validate_child_extension: function(frm, child_table_name, attachment_field_name, error_message) {
         if (frm.doc[child_table_name]) {
             frm.doc[child_table_name].forEach(function(row) {
@@ -69,7 +58,6 @@ frappe.ui.form.on("Faculty Member", {
         }
     },
 
-    // FN: validate dates of child tables
     validate_date: function(frm) {
         const today = frappe.datetime.get_today();
 
@@ -85,6 +73,12 @@ frappe.ui.form.on("Faculty Member", {
             }
         };
 
+        const validate_single_date = function(row, table_name) {
+            if (row.date && row.date > today) {
+                frappe.throw(__('Date in {0} table cannot be in the future.', [table_name]));
+            }
+        };
+
         if (frm.doc['faculty_member_training_course']) {
             frm.doc['faculty_member_training_course'].forEach(function(row) {
                 validate_date_range(row, 'training courses');
@@ -96,12 +90,6 @@ frappe.ui.form.on("Faculty Member", {
                 validate_date_range(row, 'conferences and workshops');
             });
         }
-
-        const validate_single_date = function(row, table_name) {
-            if (row.date && row.date > today) {
-                frappe.throw(__('Date in {0} table cannot be in the future.', [table_name]));
-            }
-        };
 
         if (frm.doc['faculty_member_university_and_community_service']) {
             frm.doc['faculty_member_university_and_community_service'].forEach(function(row) {
@@ -122,17 +110,14 @@ frappe.ui.form.on("Faculty Member", {
         }
     },
 
-    // FN: Clearing faculty and department fields when value of company changes
     company: function(frm) {
         if (frm.doc.faculty) {
             frm.set_value('faculty', '');
         }
-        // Calling functions
         frm.events.filtering_faculty(frm);
         frm.events.filtering_department(frm);
     },
 
-    // FN: Filtering faculty field by company field
     filtering_faculty: function(frm) {
         frm.set_query("faculty", function() {
             return {
@@ -143,7 +128,6 @@ frappe.ui.form.on("Faculty Member", {
         });
     },
 
-    // FN: Filtering department field by company field
     filtering_department: function(frm) {
         frm.set_query("department", function() {
             return {
@@ -154,7 +138,6 @@ frappe.ui.form.on("Faculty Member", {
         });
     },
 
-    // FN: Handle 'from_another_university' field
     from_another_university: function(frm) {
         let selected_university = frm.doc.from_another_university;
 
@@ -170,36 +153,42 @@ frappe.ui.form.on("Faculty Member", {
     },
 
     validate_current_academic_rank: function (frm) {
-        var rank_list = [];
-        frm.doc.faculty_member_academic_ranking.forEach(function (row) {
-            rank_list.push(row.academic_rank);
-        });
-        if (rank_list.length > 0) {
+        if (frm.doc.faculty_member_academic_ranking && frm.doc.faculty_member_academic_ranking.length > 0) {
+            var rank_list = frm.doc.faculty_member_academic_ranking.map(function(row) {
+                return row.academic_ranking;
+            });
+
             rank_list.sort((a, b) => a - b);
+
             var latest_academic_rank = rank_list[rank_list.length - 1];
-            frm.set_value('current_academic_rank', latest_academic_rank);
-            frm.refresh_field('current_academic_rank');
+            frm.set_value('academic_rank', latest_academic_rank);
+            frm.refresh_field('academic_rank');
         } else {
             console.log('Faculty Member Academic Ranking table is empty.');
         }
-    },
-
+    }
 });
 
-// --- Start of 'Faculty Member Academic Ranking' childe table form scripts ---
 frappe.ui.form.on('Faculty Member Academic Ranking', {
-    // FN: filter duplicate 'academic_rank' field in 'faculty_member_academic_ranking' child table
     faculty_member_academic_ranking_add: function (frm) {
-        frm.fields_dict['faculty_member_academic_ranking'].grid.get_field('academic_rank').get_query = function (doc) {
+        frm.fields_dict['faculty_member_academic_ranking'].grid.get_field('academic_ranking').get_query = function (doc) {
             let rank_list = [];
-            if (!doc.__islocal) rank_list.push(doc.academic_rank);
-            $.each(doc.faculty_member_academic_ranking, function (idx, val) {
-                if (val.academic_rank) rank_list.push(val.academic_rank);
-            });
-            return { filters: [['Academic Rank', 'name', 'not in', rank_list]] };
-        };
-    },
-    // End of the function
 
+            if (!doc.__islocal && doc.academic_ranking) {
+                rank_list.push(doc.academic_ranking);
+            }
+
+            frm.doc.faculty_member_academic_ranking.forEach(function(row) {
+                if (row.academic_ranking) {
+                    rank_list.push(row.academic_ranking);
+                }
+            });
+
+            rank_list = [...new Set(rank_list)];
+
+            return {
+                filters: [['Academic Rank', 'name', 'not in', rank_list]]
+            };
+        };
+    }
 });
-// End of childe table form scripts

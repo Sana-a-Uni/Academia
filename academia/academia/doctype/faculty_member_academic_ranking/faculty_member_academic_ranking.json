@@ -6,7 +6,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "academic_rank",
+  "academic_ranking",
   "date_of_obtaining_the_academic_rank",
   "granting_authority",
   "country",
@@ -16,14 +16,6 @@
   "attachment"
  ],
  "fields": [
-  {
-   "fieldname": "academic_rank",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Academic Rank",
-   "options": "Academic Rank",
-   "reqd": 1
-  },
   {
    "fieldname": "granting_authority",
    "fieldtype": "Link",
@@ -69,12 +61,20 @@
    "in_list_view": 1,
    "label": "Date of Obtaining the Academic Rank",
    "reqd": 1
+  },
+  {
+   "fieldname": "academic_ranking",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Rank",
+   "options": "Academic Rank",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-08-11 10:40:37.157989",
+ "modified": "2024-08-18 02:55:36.246960",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member Academic Ranking",

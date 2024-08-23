@@ -14,7 +14,7 @@ class FacultyMemberAcademicRanking(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		academic_rank: DF.Link
+		academic_ranking: DF.Link
 		attachment: DF.Attach | None
 		country: DF.Link | None
 		date_of_obtaining_the_academic_rank: DF.Date

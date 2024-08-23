@@ -22,6 +22,6 @@ class AcademicArbitrators(Document):
 		parentfield: DF.Data
 		parenttype: DF.Data
 		scientific_degree: DF.Data | None
-		university: DF.Link
+		university: DF.Link | None
 	# end: auto-generated types
 	pass
