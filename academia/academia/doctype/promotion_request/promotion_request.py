@@ -17,7 +17,8 @@ class PromotionRequest(Document):
         academic_arbitrators: DF.Table[AcademicArbitrators]
         academic_publications: DF.TableMultiSelect[FacultyMemberAcademicPublications]
         amended_from: DF.Link | None
-        company: DF.Link | None
+        certificate: DF.Attach | None
+        company: DF.Data | None
         current_academic_rank: DF.Data
         date_of_obtaining_the_certificate: DF.Date
         date_of_obtaining_the_current_academic_rank: DF.Date
@@ -27,7 +28,6 @@ class PromotionRequest(Document):
         faculty_member_name: DF.Data | None
         naming_series: DF.Literal["PROMREQ-.YYYY.-.faculty_member_name.-"]
         scientific_degree: DF.Link
-        scientific_degree_attachment: DF.Attach | None
     # end: auto-generated types
 
     def validate(self):
@@ -126,23 +126,4 @@ class PromotionRequest(Document):
                 title=_("Missing Promotion Settings")
             )
 
-    # def filter_academic_publications(self):
-    #     faculty_member = self.faculty_member
 
-    #     if faculty_member:
-    #         # Fetch relevant academic publications via Academic Author
-    #         publications = frappe.db.sql("""
-    #             SELECT p.name as academic_publication
-    #             FROM `tabAcademic Publication` p
-    #             JOIN `tabAcademic Author` a ON a.parent = p.name
-    #             WHERE a.author_name = %s
-    #         """, (faculty_member,), as_dict=True)
-
-    #         # Debugging: Print the retrieved publications
-    #         print(f"Retrieved publications for faculty_member {faculty_member}: {publications}")
-
-    #         # Update academic_publications field with filtered results
-    #         self.academic_publications = [{'academic_publications': pub['academic_publication']} for pub in publications]
-
-    #         # Debugging: Print the updated academic_publications
-    #         print(f"Updated academic_publications: {self.academic_publications}")

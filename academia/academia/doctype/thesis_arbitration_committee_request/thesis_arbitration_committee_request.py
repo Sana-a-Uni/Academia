@@ -21,11 +21,7 @@ class ThesisArbitrationCommitteeRequest(Document):
 		faculty_member: DF.Link | None
 		faculty_member_publication: DF.Link | None
 		internal_arbitration_committee: DF.Table[InternalArbitrationCommittee]
-		modified_request_date: DF.Date | None
-		naming_series: DF.Literal["ACAD-TDC-REQ-.YY.-.MM.-.#####."]
-		rejection_reason: DF.SmallText | None
+		naming_series: DF.Literal["ACAD-TAC-REQ-.YY.-.MM.-.#####."]
 		request_attachment: DF.Attach | None
-		request_date: DF.Date | None
-		status: DF.Data | None
 	# end: auto-generated types
 	pass

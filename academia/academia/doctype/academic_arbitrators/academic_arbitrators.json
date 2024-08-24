@@ -7,9 +7,9 @@
  "engine": "InnoDB",
  "field_order": [
   "arbitrator_name",
+  "university",
   "academic_rank",
   "scientific_degree",
-  "university",
   "faculty",
   "country"
  ],
@@ -26,14 +26,14 @@
    "unique": 1
   },
   {
+   "depends_on": "eval:frm.doc.faculty_member && frappe.get_doc(\"Faculty Member\", frm.doc.faculty_member).from_another_university\r\n",
    "fieldname": "university",
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_preview": 1,
    "in_standard_filter": 1,
    "label": "University",
-   "options": "University",
-   "reqd": 1
+   "options": "University"
   },
   {
    "fetch_from": "arbitrator_name.faculty",
@@ -80,7 +80,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-27 07:34:03.640790",
+ "modified": "2024-08-21 06:55:11.824397",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Arbitrators",

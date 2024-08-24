@@ -35,7 +35,7 @@ class FacultyMember(Document):
         date: DF.Date | None
         date_of_joining_in_service: DF.Date | None
         date_of_joining_in_university: DF.Date | None
-        date_of_obtaining_the_academic_rank: DF.Date
+        date_of_obtaining_the_academic_rank: DF.Date | None
         decision_attachment: DF.Attach | None
         decision_number: DF.Data | None
         department: DF.Link
@@ -118,7 +118,7 @@ class FacultyMember(Document):
 
     # Fetch and set probation end date
     def get_probation_end_date(self):
-        if self.commencement_of_work_date and self.tenure_status == "On Probation":
+        if self.commencement_of_work_date and self.tenure_status == "On Probation" and self.employment_type == "Official":
             faculty_member_settings = frappe.get_all(
                 "Faculty Member Settings",
                 filters=[

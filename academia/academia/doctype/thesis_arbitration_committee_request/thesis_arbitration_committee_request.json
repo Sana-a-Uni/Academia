@@ -15,14 +15,6 @@
   "request_information_section",
   "internal_arbitration_committee",
   "external_arbitration_committee",
-  "section_break_zxiu",
-  "request_date",
-  "column_break_lztr",
-  "status",
-  "section_break_ichz",
-  "modified_request_date",
-  "column_break_gudq",
-  "rejection_reason",
   "section_break_wixa",
   "amended_from"
  ],
@@ -59,50 +51,6 @@
    "label": "Request Information"
   },
   {
-   "fieldname": "section_break_zxiu",
-   "fieldtype": "Section Break"
-  },
-  {
-   "allow_on_submit": 1,
-   "fieldname": "request_date",
-   "fieldtype": "Date",
-   "label": "Request Date",
-   "options": "frappe.utils.format_datetime(doc.creation, \n                format_string='dd MMM yyyy, HH:mm:ss'\n            )",
-   "read_only": 1
-  },
-  {
-   "fieldname": "column_break_lztr",
-   "fieldtype": "Column Break"
-  },
-  {
-   "allow_on_submit": 1,
-   "fieldname": "status",
-   "fieldtype": "Data",
-   "label": "Status",
-   "read_only": 1
-  },
-  {
-   "fieldname": "section_break_ichz",
-   "fieldtype": "Section Break"
-  },
-  {
-   "allow_on_submit": 1,
-   "fieldname": "modified_request_date",
-   "fieldtype": "Date",
-   "is_virtual": 1,
-   "label": "Modified Request Date",
-   "read_only": 1
-  },
-  {
-   "fieldname": "column_break_gudq",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "rejection_reason",
-   "fieldtype": "Small Text",
-   "label": "Rejection Reason"
-  },
-  {
    "fieldname": "column_break_jiih",
    "fieldtype": "Column Break"
   },
@@ -111,7 +59,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Series",
-   "options": "ACAD-TDC-REQ-.YY.-.MM.-.#####."
+   "options": "ACAD-TAC-REQ-.YY.-.MM.-.#####."
   },
   {
    "fieldname": "request_attachment",
@@ -138,7 +86,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-08-03 04:35:12.122008",
+ "modified": "2024-08-10 17:49:40.676041",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Thesis Arbitration Committee Request",

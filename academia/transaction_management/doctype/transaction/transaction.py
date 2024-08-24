@@ -933,8 +933,6 @@ def create_transaction(priority,title, category, sub_category,refrenced_document
     if(is_parent_category(category, sub_category)):
             # frappe.msgprint("ttttttt")
             pass
-           
-
 
         
             template=get_template_by_category(sub_category)

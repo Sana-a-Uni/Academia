@@ -10,9 +10,7 @@
   "footer_image": null,
   "footer_image_height": 0.0,
   "footer_image_width": 0.0,
-  "footer_script": null,
   "footer_source": "HTML",
-  "header_script": null,
   "image": null,
   "image_height": 0.0,
   "image_width": 0.0,
@@ -20,7 +18,7 @@
   "letter_head_name": "Agenda LH Template",
   "modified": "2024-07-14 20:35:04.446407",
   "name": "Agenda LH Template",
-  "source": "HTML"
+  "source": "Image"
  },
  {
   "align": "Left",
@@ -33,9 +31,7 @@
   "footer_image": null,
   "footer_image_height": 0.0,
   "footer_image_width": 0.0,
-  "footer_script": null,
   "footer_source": "HTML",
-  "header_script": null,
   "image": null,
   "image_height": 0.0,
   "image_width": 0.0,
@@ -43,6 +39,27 @@
   "letter_head_name": "Minute LH Templete",
   "modified": "2024-07-16 01:08:16.878116",
   "name": "Minute LH Templete",
+  "source": "Image"
+ },
+ {
+  "align": "Left",
+  "content": "\n    <style>\n        /* إعادة تعيين الإعدادات الافتراضية */\n        * {\n            margin: 0;\n            padding: 0;\n            box-sizing: border-box;\n        }\n\n        /* تحديد الخط الأساسي */\n        body {\n            font-family: 'Calibri', sans-serif; /* تعيين خط Calibri */\n            margin: 0;\n            padding: 0;\n        }\n\n        /* تنسيق الهيدر */\n        .header {\n            display: flex;\n            justify-content: space-between;\n            align-items: center;\n            border-bottom: 2px solid #000;\n            padding: 0 0 10px 0; /* تعيين padding للأعلى 0 وللأسفل 10 بكسل */\n            margin: 0; /* إزالة أي هامش إضافي */\n        }\n\n        .header .text-en, .header .text-ar {\n            font-weight: bold; /* تعيين النص ليكون غامق */\n        }\n\n        .header .text-en {\n            text-align: left;\n            flex: 1;\n            direction: ltr; /* ضبط اتجاه النص الإنجليزي */\n        }\n\n        .header .text-ar {\n            text-align: right;\n            flex: 1;\n            direction: rtl; /* ضبط اتجاه النص العربي */\n        }\n\n        .header img {\n            width: 100px; /* تعديل الحجم حسب الحاجة */\n            height: auto;\n        }\n\n        .separator {\n            border-top: 2px solid #000;\n            margin: 0; /* إزالة المسافات الإضافية */\n            padding: 0; /* إزالة أي حشو إضافي */\n        }\n    </style>\n\n\n    <div class=\"header\">\n        <div class=\"text-en\">\n            Republic of Yemen<br>\n            Sana'a University<br>\n            General Administration<br>\n            For Academic Affairs\n        </div>\n        <div class=\"logo\">\n            <!-- استخدام مسار الصورة المحدد -->\n            <img src=\"/files/Uni.jpg\" alt=\"University Logo\">\n        </div>\n        <div class=\"text-ar\">\n            الجمهورية اليمنية<br>\n            جامعة صنعاء<br>\n            الإدارة العامة للشؤون الأكاديمية<br>\n            وشؤون أعضاء هيئة التدريس<br><br> <!-- إضافة سطر فارغ -->\n        </div>\n    </div>\n\n    <!-- فاصل سطر واحد فقط -->\n    <div class=\"separator\"></div>\n\n\n\n",
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Letter Head",
+  "footer": "",
+  "footer_align": "Left",
+  "footer_image": null,
+  "footer_image_height": 0.0,
+  "footer_image_width": 0.0,
+  "footer_source": "HTML",
+  "image": null,
+  "image_height": 0.0,
+  "image_width": 0.0,
+  "is_default": 0,
+  "letter_head_name": "Head",
+  "modified": "2024-08-23 21:44:25.994438",
+  "name": "Head",
   "source": "HTML"
  }
 ]

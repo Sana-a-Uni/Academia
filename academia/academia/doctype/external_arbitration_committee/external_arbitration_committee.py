@@ -17,6 +17,7 @@ class ExternalArbitrationCommittee(Document):
 		academic_rank: DF.Link | None
 		external_faculty: DF.Link | None
 		faculty_member: DF.Link | None
+		name: DF.Int | None
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data

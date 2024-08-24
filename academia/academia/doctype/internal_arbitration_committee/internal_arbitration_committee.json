@@ -1,7 +1,6 @@
 {
  "actions": [],
- "allow_rename": 1,
- "autoname": "prompt",
+ "autoname": "autoincrement",
  "creation": "2024-08-02 09:13:07.096555",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -20,6 +19,7 @@
    "options": "Faculty"
   },
   {
+   "fetch_from": ".academic_rank",
    "fieldname": "academic_rank",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -37,11 +37,11 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-08-02 09:13:07.096555",
+ "modified": "2024-08-21 06:01:58.346053",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Internal Arbitration Committee",
- "naming_rule": "Set by user",
+ "naming_rule": "Autoincrement",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",

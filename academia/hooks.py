@@ -22,7 +22,6 @@ fixtures = [
      }
  ]
 
-
 fixtures = [
     "Academic Status",
     "Journal Type",
@@ -286,6 +285,8 @@ fixtures = [
     "Letter Head",
 	# Standard Fixtures
 	"Academic Status",
+	"Wiki Space",
+    "Wiki Page",
 	"Journal Type",
 	"Workflow",
 	"Workflow State",
@@ -378,9 +379,3 @@ fixtures = [
   	{"doctype": "Topic Decision Template"},
 ]
 
-
-# doc_events = {
-#     "Faculty Member": {
-#         "on_update": "academia.academia.doctype.faculty_member.faculty_member.update_academic_rank"
-#     }
-# }
