@@ -22,14 +22,11 @@ fixtures = [
      }
  ]
 
-
 fixtures = [
     "Academic Status",
     "Journal Type",
     "Scientific Degree",
     "Workflow",
-	"Wiki Space",
-    "Wiki Page",
     "Workflow State",
     "Workflow Action Master",
     {
@@ -265,6 +262,8 @@ fixtures = [
     "Letter Head",
 	# Standard Fixtures
 	"Academic Status",
+	"Wiki Space",
+    "Wiki Page",
 	"Journal Type",
 	"Workflow",
 	"Workflow State",

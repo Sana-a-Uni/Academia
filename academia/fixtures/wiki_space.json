@@ -1,0 +1,306 @@
+[
+ {
+  "dark_mode_logo": null,
+  "docstatus": 0,
+  "doctype": "Wiki Space",
+  "light_mode_logo": null,
+  "modified": "2024-08-12 20:58:35.658124",
+  "name": "fe2cf28f61",
+  "navbar_items": [],
+  "route": "wiki",
+  "wiki_sidebars": [
+   {
+    "hide_on_sidebar": 0,
+    "parent": "fe2cf28f61",
+    "parent_label": "Wiki",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "81f81a8547"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "fe2cf28f61",
+    "parent_label": "New Group",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "3805266f49"
+   }
+  ]
+ },
+ {
+  "dark_mode_logo": null,
+  "docstatus": 0,
+  "doctype": "Wiki Space",
+  "light_mode_logo": null,
+  "modified": "2024-08-24 07:36:04.070024",
+  "name": "Faculty Members Documentation",
+  "navbar_items": [],
+  "route": "Faculty Members Documentation",
+  "wiki_sidebars": [
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "المقدمة",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "fea38c06a3"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "تهيئة البيانات الأساسية",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "f5a643b157"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "تهيئة البيانات الأساسية",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "e2c1b1da26"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "تهيئة البيانات الأساسية",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "14ae3459ca"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "تهيئة البيانات الأساسية",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "3be5871765"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "تهيئة البيانات الأساسية",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "5924e80bf9"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "تهيئة البيانات الأساسية",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "bcc103821d"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "بيانات أعضاء هيئة التدريس",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "3def0c338d"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "بيانات أعضاء هيئة التدريس",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "64cdecca54"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "بيانات أعضاء هيئة التدريس",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "f46286f54f"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "بيانات أعضاء هيئة التدريس",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "fbc216c435"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "المنشورات الأكاديمية",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "8cbfd0a522"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "المنشورات الأكاديمية",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "4421c63cd4"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "المنشورات الأكاديمية",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "dffe7120d8"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "المنشورات الأكاديمية",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "f3d34251a9"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "المنشورات الأكاديمية",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "ee13d5cabb"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "المنشورات الأكاديمية",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "5d9642b070"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "التقييم",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "bd209b6ca4"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "التقييم",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "4eca639785"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "التقييم",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "429f20bc7b"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "التقييم",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "52e70496f4"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "التثبيت",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "0038fad089"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "التثبيت",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "fc48880544"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "الترقية",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "e5d1eaf8a5"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "الترقية",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "091860de70"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "تشكيل لجنة التحكيم",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "ae283bb396"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "تشكيل لجنة التحكيم",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "15fe3759f0"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "الأدوات",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "b6f29f4bed"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "الإعدادات",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "77cfb801bf"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "الإعدادات",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "803816b7f3"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "التقارير",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "a00baf0e34"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "التقارير",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "546b4d6f7f"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "Faculty Members Documentation",
+    "parent_label": "تشكيل لجنة التحكيم",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "e141811ee4"
+   }
+  ]
+ }
+]
