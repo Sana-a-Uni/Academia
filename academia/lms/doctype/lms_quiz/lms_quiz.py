@@ -16,8 +16,10 @@ class LMSQuiz(Document):
 		from academia.lms.doctype.quiz_question.quiz_question import QuizQuestion
 		from frappe.types import DF
 
+		amended_from: DF.Link | None
 		assigned_student_group: DF.Table[AssignedStudentGroup]
 		course: DF.Link | None
+		course_type: DF.Link | None
 		duration: DF.Duration | None
 		faculty_member: DF.Link | None
 		from_date: DF.Datetime | None

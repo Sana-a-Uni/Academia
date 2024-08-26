@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class AssignmentSubmission(Document):
+class CourseContent(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -15,15 +15,11 @@ class AssignmentSubmission(Document):
 		from academia.lms.doctype.attachment_files.attachment_files import AttachmentFiles
 		from frappe.types import DF
 
-		amended_from: DF.Link | None
-		answer: DF.TextEditor | None
-		assignment: DF.Link | None
 		attachment_files: DF.Table[AttachmentFiles]
-		comment: DF.TextEditor | None
 		course: DF.Link | None
-		status: DF.Literal["", "submitted", "assessed"]
-		student: DF.Link | None
-		student_name: DF.Data | None
-		submission_date: DF.Datetime | None
+		course_type: DF.Link | None
+		faculty_member: DF.Link | None
+		title: DF.Data | None
+		topic: DF.TextEditor | None
 	# end: auto-generated types
 	pass

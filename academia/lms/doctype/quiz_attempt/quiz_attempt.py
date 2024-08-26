@@ -15,7 +15,9 @@ class QuizAttempt(Document):
 		from academia.lms.doctype.quiz_answer.quiz_answer import QuizAnswer
 		from frappe.types import DF
 
+		amended_from: DF.Link | None
 		course: DF.Link | None
+		course_type: DF.Link | None
 		end_time: DF.Datetime | None
 		grade: DF.Float
 		grade_out_of: DF.Float
@@ -26,6 +28,7 @@ class QuizAttempt(Document):
 		quiz_answer: DF.Table[QuizAnswer]
 		start_time: DF.Datetime | None
 		student: DF.Link | None
+		student_name: DF.Data | None
 		time_taken: DF.Duration | None
 	# end: auto-generated types
 	pass

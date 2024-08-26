@@ -10,6 +10,7 @@
   "course",
   "column_break_rjff",
   "assignment",
+  "student_name",
   "section_break_qcjw",
   "answer",
   "submission_date",
@@ -96,12 +97,18 @@
    "fieldtype": "Link",
    "label": "Course",
    "options": "Course Specification"
+  },
+  {
+   "fetch_from": "student.full_name",
+   "fieldname": "student_name",
+   "fieldtype": "Data",
+   "label": "Student Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-08-02 17:02:51.138340",
+ "modified": "2024-08-12 03:24:25.492657",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "Assignment Submission",

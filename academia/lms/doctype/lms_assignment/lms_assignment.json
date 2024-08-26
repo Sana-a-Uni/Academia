@@ -8,6 +8,7 @@
   "details_section",
   "course",
   "assignment_title",
+  "course_type",
   "column_break_bsqh",
   "faculty_member",
   "assignment_type",
@@ -137,11 +138,17 @@
   {
    "fieldname": "section_break_ohfh",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "course_type",
+   "fieldtype": "Link",
+   "label": "Course Type",
+   "options": "Hour Type"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-02 04:33:44.887165",
+ "modified": "2024-08-03 04:29:18.077988",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "LMS Assignment",

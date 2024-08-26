@@ -8,8 +8,10 @@
   "section_break_qsgi",
   "student",
   "quiz",
+  "student_name",
   "column_break_m3yi",
   "course",
+  "course_type",
   "section_break_tdsg",
   "quiz_answer",
   "section_break_a5jj",
@@ -23,7 +25,8 @@
   "time_taken",
   "column_break_ygn8",
   "grade_out_of",
-  "end_time"
+  "end_time",
+  "amended_from"
  ],
  "fields": [
   {
@@ -119,11 +122,34 @@
    "fieldname": "number_of_incorrect_answers",
    "fieldtype": "Int",
    "label": "Number of incorrect answers"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Quiz Attempt",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "quiz.course_type",
+   "fieldname": "course_type",
+   "fieldtype": "Link",
+   "label": "Course Type",
+   "options": "Hour Type"
+  },
+  {
+   "fetch_from": "student.full_name",
+   "fieldname": "student_name",
+   "fieldtype": "Data",
+   "label": "Student Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-02 02:26:48.578003",
+ "modified": "2024-08-12 03:50:40.439598",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "Quiz Attempt",

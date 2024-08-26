@@ -16,8 +16,10 @@ class QuizResult(Document):
 
 		attempts_taken: DF.Int
 		course: DF.Link | None
+		course_type: DF.Link | None
 		grade: DF.Float
 		quiz: DF.Link | None
 		student: DF.Link | None
+		student_name: DF.Data | None
 	# end: auto-generated types
 	pass

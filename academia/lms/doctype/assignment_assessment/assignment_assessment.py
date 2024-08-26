@@ -24,5 +24,6 @@ class AssignmentAssessment(Document):
 		feedback: DF.TextEditor | None
 		grade: DF.Float
 		student: DF.Link | None
+		student_name: DF.Data | None
 	# end: auto-generated types
 	pass

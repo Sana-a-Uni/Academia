@@ -7,6 +7,7 @@
  "field_order": [
   "course",
   "faculty_member",
+  "course_type",
   "section_break_hqny",
   "question",
   "question_type",
@@ -57,11 +58,17 @@
    "fieldtype": "Link",
    "label": "Faculty Member",
    "options": "Faculty Member"
+  },
+  {
+   "fieldname": "course_type",
+   "fieldtype": "Link",
+   "label": "Course Type",
+   "options": "Hour Type"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-02 14:24:55.976427",
+ "modified": "2024-08-03 05:16:38.223673",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "Question",

@@ -7,8 +7,10 @@
  "field_order": [
   "student",
   "quiz",
+  "student_name",
   "column_break_szil",
   "course",
+  "course_type",
   "section_break_hemv",
   "grade",
   "column_break_dfft",
@@ -36,7 +38,7 @@
    "fieldname": "course",
    "fieldtype": "Link",
    "label": "Course",
-   "options": "Course"
+   "options": "Course Specification"
   },
   {
    "fieldname": "section_break_hemv",
@@ -55,11 +57,24 @@
    "fieldname": "attempts_taken",
    "fieldtype": "Int",
    "label": "Attempts taken"
+  },
+  {
+   "fetch_from": "quiz.course_type",
+   "fieldname": "course_type",
+   "fieldtype": "Link",
+   "label": "Course Type",
+   "options": "Hour Type"
+  },
+  {
+   "fetch_from": "student.full_name",
+   "fieldname": "student_name",
+   "fieldtype": "Data",
+   "label": "Student Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-02 02:27:21.656720",
+ "modified": "2024-08-12 03:56:03.227452",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "Quiz Result",

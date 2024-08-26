@@ -16,6 +16,7 @@ class Question(Document):
 		from frappe.types import DF
 
 		course: DF.Link | None
+		course_type: DF.Link | None
 		faculty_member: DF.Link | None
 		question: DF.TextEditor | None
 		question_options: DF.Table[QuestionOptions]

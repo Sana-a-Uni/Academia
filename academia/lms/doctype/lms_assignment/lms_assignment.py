@@ -23,6 +23,7 @@ class LMSAssignment(Document):
 		assignment_type: DF.Literal["Assignment", "Project"]
 		attachment_file: DF.Table[AttachmentFiles]
 		course: DF.Link | None
+		course_type: DF.Link | None
 		faculty_member: DF.Link | None
 		from_date: DF.Datetime | None
 		instruction: DF.TextEditor | None
