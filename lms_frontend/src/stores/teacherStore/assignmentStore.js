@@ -8,6 +8,7 @@ export const useAssignmentStore = defineStore("assignment", {
 			assignment_type: "",
 			assignment_title: "",
 			course: "",
+			course_type:"",
 			instruction: "",
 			make_the_assignment_availability: false,
 			from_date: "",
@@ -25,14 +26,14 @@ export const useAssignmentStore = defineStore("assignment", {
 		assignmentTypeOptions: [],
 	}),
 	actions: {
-		async fetchAssignments(courseName) {
+		async fetchAssignments(courseName,course_type) {
 			this.loading = true;
 			this.error = null;
 			try {
 				const response = await axios.get(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.assignment.fetch_assignments_for_course",
 					{
-						params: { course: courseName },
+						params: { course: courseName ,course_type:course_type},
 						headers: {
 							"Content-Type": "application/json",
 							Authorization: Cookies.get("authToken"),
@@ -48,6 +49,10 @@ export const useAssignmentStore = defineStore("assignment", {
 		},
 
 		async createAssignment() {
+			if (this.loading) {
+				return { success: false };
+			}
+			this.loading = true;
 			this.errors = {};
 			try {
 				const response = await axios.post(
@@ -61,7 +66,6 @@ export const useAssignmentStore = defineStore("assignment", {
 					}
 				);
 				console.log(this.assignmentData);
-				console.log(response );
 				
 				if (response.data.status_code === 200) {
 					return { success: true };
@@ -78,8 +82,8 @@ export const useAssignmentStore = defineStore("assignment", {
 					this.error = error.message || "An error occurred while creating assignment.";
 				}
 				return { success: false };
-				console.log(";;;;;;;;");
-				
+			} finally {
+				this.loading = false;
 			}
 		},
 

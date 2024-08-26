@@ -7,6 +7,7 @@ export const useQuizStore = defineStore("quiz", {
 		quizData: {
 			title: "",
 			course: "",
+			course_type:"",
 			instruction: "",
 			make_the_quiz_availability: false,
 			from_date: "",
@@ -30,7 +31,7 @@ export const useQuizStore = defineStore("quiz", {
 		errors: {},
 	}),
 	actions: {
-		async fetchQuizzes(courseName) {
+		async fetchQuizzes(courseName,course_type) {
 			this.loading = true;
 			this.error = null;
 			try {
@@ -39,6 +40,7 @@ export const useQuizStore = defineStore("quiz", {
 					{
 						params: {
 							course: courseName,
+							course_type: course_type,
 						},
 						headers: {
 							"Content-Type": "application/json",
@@ -54,12 +56,12 @@ export const useQuizStore = defineStore("quiz", {
 			}
 		},
 
-		async fetchCourseQuestions(courseName) {
+		async fetchCourseQuestions(courseName,course_type) {
 			try {
 				const response = await axios.get(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.fetch_course_questions",
 					{
-						params: { course_name: courseName },
+						params: { course_name: courseName , course_type:course_type},
 						headers: {
 							"Content-Type": "application/json",
 							Authorization: Cookies.get("authToken"),
@@ -128,7 +130,7 @@ export const useQuizStore = defineStore("quiz", {
 		async createQuiz() {
 			try {
 				this.errors = {};
-				console.log('Creating quiz with data:', this.quizData); // طباعة بيانات الكويز للتحقق
+				console.log('Creating quiz with data:', this.quizData); 
 				const response = await axios.post(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.quiz.create_quiz",
 					this.quizData,

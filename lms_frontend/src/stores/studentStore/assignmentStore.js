@@ -13,14 +13,14 @@ export const useAssignmentStore = defineStore("assignment", {
     isSubmitted: false,
   }),
   actions: {
-    async fetchAssignments(courseName = "00") {
+    async fetchAssignments(courseName ,course_type) {
       this.loading = true;
       this.error = null;
       try {
         const response = await axios.get(
           "http://localhost:8080/api/method/academia.lms_api.student.assignment.get_assignments_by_course",
           {
-            params: { course_name: courseName },
+            params: { course_name: courseName ,course_type:course_type },
           }
         );
         this.assignments = response.data.data;

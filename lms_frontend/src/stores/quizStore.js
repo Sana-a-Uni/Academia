@@ -12,10 +12,9 @@ export const useQuizStore = defineStore("quiz", {
 		questionsWithAnswers: [],
 		loading: false,
 		error: null,
-		submitted: false,
 	}),
 	actions: {
-		async fetchQuizzes(courseName) {
+		async fetchQuizzes(courseName, course_type) {
 			this.loading = true;
 			this.error = null;
 			try {
@@ -24,6 +23,7 @@ export const useQuizStore = defineStore("quiz", {
 					{
 						params: {
 							course_name: courseName,
+							course_type: course_type,
 						},
 					},
 					{
@@ -33,8 +33,8 @@ export const useQuizStore = defineStore("quiz", {
 						},
 					}
 				);
-				console.log(response);
 				this.quizzes = response.data.data;
+				console.log(response.data);
 			} catch (error) {
 				this.error = error.message || "An error occurred while fetching quizzes.";
 			} finally {
@@ -42,7 +42,7 @@ export const useQuizStore = defineStore("quiz", {
 			}
 		},
 
-		async fetchQuizInstructions(quizName) {
+		async fetchQuizInstructions(quizName, course_type) {
 			this.loading = true;
 			this.error = null;
 			try {
@@ -51,6 +51,7 @@ export const useQuizStore = defineStore("quiz", {
 					{
 						params: {
 							quiz_name: quizName,
+							course_type: course_type,
 						},
 					},
 					{
@@ -75,7 +76,7 @@ export const useQuizStore = defineStore("quiz", {
 			}
 		},
 
-		async fetchQuiz(quizName) {
+		async fetchQuiz(quizName, course_type) {
 			this.loading = true;
 			this.error = null;
 			try {
@@ -84,6 +85,7 @@ export const useQuizStore = defineStore("quiz", {
 					{
 						params: {
 							quiz_name: quizName,
+							course_type: course_type,
 						},
 					},
 					{
@@ -122,9 +124,8 @@ export const useQuizStore = defineStore("quiz", {
 					}
 				);
 				if (response.data.status_code === 200) {
-					this.submitted = true;
 					console.log(response.data.quiz_attempt_id);
-					return response.data.quiz_attempt_id; 
+					return response.data.quiz_attempt_id; // Return the quiz_attempt_id
 				} else {
 					this.error =
 						response.data.message || "An error occurred while submitting the quiz.";
@@ -162,7 +163,7 @@ export const useQuizStore = defineStore("quiz", {
 			}
 		},
 
-		async fetchQuizzesResult(courseName) {
+		async fetchQuizzesResult(courseName, course_type) {
 			this.loading = true;
 			this.error = null;
 			try {
@@ -171,6 +172,7 @@ export const useQuizStore = defineStore("quiz", {
 					{
 						params: {
 							course_name: courseName,
+							course_type: course_type,
 						},
 					},
 					{

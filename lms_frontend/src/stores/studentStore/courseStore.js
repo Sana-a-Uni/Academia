@@ -1,10 +1,11 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import Cookies from "js-cookie";
 
-export const useCourseStore = defineStore("courseStore", {
+export const useStudentStore = defineStore("student", {
 	state: () => ({
+		studentDetails: {},
 		courses: [],
-		selectedCourse: null,
 		notifications: [
 			{
 				date: "22 Jan",
@@ -47,21 +48,32 @@ export const useCourseStore = defineStore("courseStore", {
 				description: "3 hour .Dr\\Ghallib",
 			},
 		],
+		selectedCourse: null,
+		error: null,
 	}),
 	actions: {
-		async fetchCourses() {
+		async fetchStudentProgramDetails() {
 			try {
 				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.course.get_faculty_details_for_current_term_and_year"
+					"http://localhost:8080/api/method/academia.lms_api.student.course.get_student_program_details",
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
+						},
+					}
 				);
-				// console.log(response.data.message);
-				if (response.data.error) {
-					console.error(response.data.error);
+
+				const data = response.data.message;
+				if (data.error) {
+					this.error = data.error;
 				} else {
-					this.courses = response.data.message;
+					this.studentDetails = data;
+					this.courses = data.courses;
+					console.log(data);
 				}
 			} catch (error) {
-				console.error("There was an error fetching the faculty details: ", error);
+				this.error = "An error occurred while fetching student program details.";
 			}
 		},
 		selectCourse(course) {

@@ -24,14 +24,14 @@ export const useGradeStore = defineStore("gradeStore", {
 		errorAssignment: null,
 	}),
 	actions: {
-		async fetchGrades(courseName) {
+		async fetchGrades(courseName ,course_type) {
 			this.loadingGrades = true;
 			this.errorGrades = null;
 			try {
 				const response = await axios.get(
 					"http://localhost:8080/api/method/academia.lms_api.student.grade.get_quiz_and_assignment_grades",
 					{
-						params: { course: courseName },
+						params: { course: courseName ,course_type:course_type },
 					}
 				);
 				console.log("API Response:", response.data.message); 

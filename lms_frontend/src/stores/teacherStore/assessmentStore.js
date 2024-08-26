@@ -12,7 +12,7 @@ export const useAssessmentStore = defineStore("assessmentStore", {
 		fieldErrors: {},
 	}),
 	actions: {
-		async fetchAssignments(course_id) {
+		async fetchAssignments(course_id,course_type) {
 			this.loading = true;
 			this.error = null;
 			try {
@@ -22,6 +22,7 @@ export const useAssessmentStore = defineStore("assessmentStore", {
 					{
 						params: {
 							course_id: course_id,
+							course_type:course_type
 						},
 						headers: {
 							"Content-Type": "application/json",
@@ -126,7 +127,7 @@ export const useAssessmentStore = defineStore("assessmentStore", {
 				this.loading = false;
 			}
 		},
-		async fetchQuizAndAssignmentGrades( course) {
+		async fetchQuizAndAssignmentGrades( course,course_type) {
 			this.loading = true;
 			this.error = null;
 			try {
@@ -135,6 +136,7 @@ export const useAssessmentStore = defineStore("assessmentStore", {
 					{
 						params: {
 							course: course,
+							course_type:course_type,
 						},
 					},
 					{
