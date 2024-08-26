@@ -229,6 +229,9 @@ fixtures = [
 	{"doctype": "Print Format", "filters": [["name", "in", ["transaction"]]]},
 	# Standard Fixtures
 	"Academic Status",
+	"Wiki Space",
+	"Wiki Page",
+	"Wiki Sidebar",
 	"Journal Type",
 	"Workflow",
 	"Workflow State",

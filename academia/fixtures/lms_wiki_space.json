@@ -1,0 +1,114 @@
+[
+ {
+  "dark_mode_logo": null,
+  "docstatus": 0,
+  "doctype": "Wiki Space",
+  "light_mode_logo": null,
+  "modified": "2024-08-25 23:26:42.095134",
+  "name": "dfd3598137",
+  "navbar_items": [],
+  "route": "wiki",
+  "wiki_sidebars": [
+   {
+    "hide_on_sidebar": 0,
+    "parent": "dfd3598137",
+    "parent_label": "Wiki",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "afb2a8691d"
+   }
+  ]
+ },
+ {
+  "dark_mode_logo": null,
+  "docstatus": 0,
+  "doctype": "Wiki Space",
+  "light_mode_logo": null,
+  "modified": "2024-08-26 07:04:31.355856",
+  "name": "d5eb2cc39c",
+  "navbar_items": [],
+  "route": "Introduction",
+  "wiki_sidebars": [
+   {
+    "hide_on_sidebar": 0,
+    "parent": "d5eb2cc39c",
+    "parent_label": "Introduction",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "7137128ad7"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "d5eb2cc39c",
+    "parent_label": "ابدأ",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "28d9b20fe1"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "d5eb2cc39c",
+    "parent_label": "دليل أعضاء هيئة التدريس",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "4740f61b54"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "d5eb2cc39c",
+    "parent_label": "دليل أعضاء هيئة التدريس",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "e3d0dd3902"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "d5eb2cc39c",
+    "parent_label": "دليل أعضاء هيئة التدريس",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "c43691d6e7"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "d5eb2cc39c",
+    "parent_label": "دليل أعضاء هيئة التدريس",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "35ba3fa3f6"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "d5eb2cc39c",
+    "parent_label": "دليل الطلاب",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "9d5c11fbf4"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "d5eb2cc39c",
+    "parent_label": "دليل الطلاب",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "ada73148c7"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "d5eb2cc39c",
+    "parent_label": "دليل الطلاب",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "bd1ef2dba9"
+   },
+   {
+    "hide_on_sidebar": 0,
+    "parent": "d5eb2cc39c",
+    "parent_label": "دليل الطلاب",
+    "parentfield": "wiki_sidebars",
+    "parenttype": "Wiki Space",
+    "wiki_page": "4561ff4138"
+   }
+  ]
+ }
+]
