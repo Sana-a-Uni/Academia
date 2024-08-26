@@ -1,8 +1,9 @@
 import frappe
 from frappe import _
 
+
 @frappe.whitelist(allow_guest=True)
-def get_quiz_and_assignment_grades(course):
+def get_quiz_and_assignment_grades(course, course_type):
     user_id = frappe.session.user
     
     student = frappe.get_value("Student", {"user_id": user_id}, "name")
@@ -23,8 +24,8 @@ def get_quiz_and_assignment_grades(course):
         JOIN
             `tabQuiz Result` qr ON q.name = qr.quiz
         WHERE
-            qr.student = %s AND q.course = %s
-    """, (student, course), as_dict=True)
+            qr.student = %s AND q.course = %s AND q.course_type = %s
+    """, (student, course, course_type), as_dict=True)
     
     frappe.logger().info(f"Quizzes: {quizzes}")
 
@@ -40,8 +41,8 @@ def get_quiz_and_assignment_grades(course):
         JOIN
             `tabAssignment Assessment` aa ON a.name = aa.assignment
         WHERE
-            aa.student = %s AND a.course = %s
-    """, (student, course), as_dict=True)
+            aa.student = %s AND a.course = %s AND a.course_type = %s
+    """, (student, course, course_type), as_dict=True)
     
     frappe.logger().info(f"Assignments: {assignments}")
 
@@ -62,6 +63,7 @@ def get_quiz_attempts(quiz_name):
 
     attempts_data = frappe.db.sql("""
         SELECT
+            qa.name AS attempt_name,
             qa.start_time,
             qa.end_time,
             qa.time_taken,
@@ -77,7 +79,7 @@ def get_quiz_attempts(quiz_name):
         JOIN
             `tabLMS Quiz` lq ON qa.quiz = lq.name
         LEFT JOIN
-            `tabQuiz Result` rq ON qa.name = rq.name
+            `tabQuiz Result` rq ON qa.quiz = rq.name
         WHERE
             qa.quiz = %s AND qa.student = %s
     """, (quiz_name, student), as_dict=True)
@@ -88,6 +90,7 @@ def get_quiz_attempts(quiz_name):
     attempts = []
     for attempt in attempts_data:
         attempt_info = {
+            "name": attempt["attempt_name"],
             "start_time": attempt["start_time"],
             "end_time": attempt["end_time"],
             "time_taken": attempt["time_taken"],
@@ -104,7 +107,6 @@ def get_quiz_attempts(quiz_name):
         attempts.append({"quizDetails": quiz_details, "attempts": attempt_info})
 
     return attempts
-
 
 @frappe.whitelist(allow_guest=True)
 def get_assignment_assessment_details(assignment_name):

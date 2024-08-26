@@ -4,7 +4,7 @@ import frappe
 import json
 
 @frappe.whitelist(allow_guest=True)
-def get_assignments_by_course(course_name="00"):
+def get_assignments_by_course(course_name,course_type):
     try:
         today = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         
@@ -17,6 +17,7 @@ def get_assignments_by_course(course_name="00"):
             fields=['name', 'assignment_title', 'to_date','assignment_type'],
             filters={
                 'course': course_name,
+                'course_type':course_type,
                 'make_the_assignment_availability': 1,
                 'from_date': ['<=', today]
             },
@@ -53,6 +54,7 @@ def get_assignment(assignment_name="8e82ccda9e"):
             "assignment_title": assignment_doc.assignment_title,
             "assignment_type":assignment_doc.assignment_type,
             "course": assignment_doc.course,
+            "course_type":assignment_doc.course_type,
             "instruction": assignment_doc.instruction,
             "to_date": assignment_doc.to_date.strftime('%Y-%m-%d %H:%M:%S'),
             "question": assignment_doc.question,

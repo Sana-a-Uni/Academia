@@ -213,6 +213,7 @@ def prepare_questions_for_creation(data, faculty_member):
     for question in data.get("quiz_question"):
         if 'name' not in question:
             question["course"] = data.get("course")
+            question["course_type"] = data.get("course_type")
             question["faculty_member"] = faculty_member
 
 def create_quiz_document(data, questions, faculty_member):
@@ -225,6 +226,7 @@ def create_quiz_document(data, questions, faculty_member):
     """
     quiz_doc = frappe.new_doc("LMS Quiz")
     quiz_doc.course = data.get("course")
+    quiz_doc.course_type = data.get("course_type")
     quiz_doc.faculty_member = faculty_member
     quiz_doc.title = data.get("title")
     quiz_doc.instruction = data.get("instruction")
@@ -285,6 +287,7 @@ def create_question_document(question_data):
         question_doc = frappe.new_doc("Question")
         question_doc.update(question_data)
         question_doc.course = question_data.get("course")
+        question_doc.course_type = question_data.get("course_type")
         question_doc.faculty_member = question_data.get("faculty_member")
 
     question_doc.save()
@@ -401,7 +404,7 @@ def fetch_question_types():
         })
 
 @frappe.whitelist(allow_guest=True)
-def fetch_course_questions(course_name):
+def fetch_course_questions(course_name,course_type):
     """
     Fetch questions for a specific course and the faculty member linked to the current session user.
 
@@ -421,6 +424,7 @@ def fetch_course_questions(course_name):
             fields=['name', 'question', 'question_type'],
             filters={
                 'course': course_name,
+                'course_type':course_type,
                 'faculty_member': faculty_member,
             },
         )
@@ -468,7 +472,7 @@ def fetch_course_questions(course_name):
     return frappe.response["message"]
 
 @frappe.whitelist(allow_guest=True)
-def fetch_quizzes_for_course(course):
+def fetch_quizzes_for_course(course,course_type):
     """
     Fetch quizzes for a specific course and the faculty member linked to the current session user.
 
@@ -486,6 +490,7 @@ def fetch_quizzes_for_course(course):
         quizzes = frappe.get_all('LMS Quiz',
             filters={
                 'course': course,
+                'course_type':course_type,
                 'faculty_member': faculty_member
             },
             fields=['name', 'title', 'from_date', 'to_date', 'duration', 'number_of_attempts', 'total_grades']

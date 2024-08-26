@@ -21,7 +21,7 @@ def get_faculty_member_from_user(user_id):
 
 
 @frappe.whitelist(allow_guest=True)
-def fetch_submitted_assignments_for_faculty_member(course_id="DS-2024-07-31"):
+def fetch_submitted_assignments_for_faculty_member(course_id,course_type):
     """
     Retrieve submitted assignments for the current faculty member and a specific course.
     """
@@ -37,6 +37,7 @@ def fetch_submitted_assignments_for_faculty_member(course_id="DS-2024-07-31"):
         SELECT
             assignment_submission.name as assignment_submission_name,
             student.name as student_name,
+            student.full_name as student_full_name,
             assignment.assignment_title,
             assignment_submission.submission_date
         FROM
@@ -49,9 +50,10 @@ def fetch_submitted_assignments_for_faculty_member(course_id="DS-2024-07-31"):
             assignment_submission.status = 'submitted'
             AND assignment.faculty_member = %s
             AND assignment.course = %s
+            AND assignment.course_type = %s
         ORDER BY
             assignment_submission.submission_date DESC
-    """, (faculty_member_id, course_id), as_dict=True)
+    """, (faculty_member_id, course_id,course_type), as_dict=True)
 
     frappe.response["status_code"] = 200
     frappe.response["submitted_assignments"] = submitted_assignments
@@ -224,7 +226,7 @@ def get_assignment_assessment(assignment_submission_id):
 
 
 @frappe.whitelist()
-def get_quiz_and_assignment_grades(course="00"):
+def get_quiz_and_assignment_grades(course,course_type):
     user_id = frappe.session.user  # Get the current user ID from the session
     faculty_member_id = get_faculty_member_from_user(user_id)  # Retrieve faculty member ID
     if not faculty_member_id:
@@ -234,27 +236,29 @@ def get_quiz_and_assignment_grades(course="00"):
         SELECT
             q.title AS quiz_title,
             qr.student AS student_name,
+            qr.student_name AS student_full_name,
             qr.grade AS quiz_grade
         FROM
             `tabLMS Quiz` q
         JOIN
             `tabQuiz Result` qr ON q.name = qr.quiz
         WHERE
-            q.faculty_member = %s AND q.course = %s
-    """, (faculty_member_id, course), as_dict=True)
+            q.faculty_member = %s AND q.course = %s  AND q.course_type = %s
+    """, (faculty_member_id, course , course_type ), as_dict=True)
 
     assignments = frappe.db.sql("""
         SELECT
             a.assignment_title AS assignment_title,
             aa.student AS student_name,
+            aa.student_name AS student_full_name,                   
             aa.grade AS assignment_grade
         FROM
             `tabLMS Assignment` a
         JOIN
             `tabAssignment Assessment` aa ON a.name = aa.assignment
         WHERE
-            a.faculty_member = %s AND a.course = %s
-    """, (faculty_member_id, course), as_dict=True)
+            a.faculty_member = %s AND a.course = %s AND a.course_type = %s
+    """, (faculty_member_id, course,course_type), as_dict=True)
 
     results = {
         "quizzes": quizzes,

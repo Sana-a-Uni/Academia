@@ -3,7 +3,7 @@ import json
 from datetime import datetime
 
 @frappe.whitelist(allow_guest=True)
-def fetch_assignments_for_course(course):
+def fetch_assignments_for_course(course , course_type):
     try:
         user_id = frappe.session.user
         faculty_member_id = get_faculty_member_from_user(user_id)
@@ -13,6 +13,7 @@ def fetch_assignments_for_course(course):
         assignments = frappe.get_all('LMS Assignment',
             filters={
                 'course': course,
+                'course_type':course_type,
                 'faculty_member': faculty_member_id
             },
             fields=['name', 'assignment_title', 'from_date', 'to_date', 'total_grades']
@@ -56,7 +57,7 @@ def create_assignment():
                 "status_code": 400,
                 "errors": errors
             })
-            return
+            return frappe.response["errors"]
 
         create_assignment_document(data)
     except Exception as e:
@@ -64,12 +65,13 @@ def create_assignment():
             "status_code": 500,
             "message": f"An error occurred while creating the assignment: {str(e)}"
         })
-        return
+        return frappe.response["message"]
 
     frappe.response.update({
         "status_code": 200,
         "message": "Assignment created successfully"
     })
+    return frappe.response["message"]
 
 def validate_assignment_data(data):
     errors = {}
@@ -112,64 +114,72 @@ def validate_assignment_data(data):
     return errors
 
 def create_assignment_document(data):
-    assignment_doc = frappe.new_doc("LMS Assignment")
-    assignment_doc.course = data.get("course")
-    assignment_doc.faculty_member = data.get("faculty_member")
-    assignment_doc.assignment_title = data.get("assignment_title")
-    assignment_doc.assignment_type = data.get("assignment_type")
-    assignment_doc.instruction = data.get("instruction")
-    assignment_doc.make_the_assignment_availability = data.get("make_the_assignment_availability")
+    try:
+        assignment_doc = frappe.new_doc("LMS Assignment")
+        assignment_doc.course = data.get("course")
+        assignment_doc.course_type= data.get("course_type")
+        assignment_doc.faculty_member = data.get("faculty_member")
+        assignment_doc.assignment_title = data.get("assignment_title")
+        assignment_doc.assignment_type = data.get("assignment_type")
+        assignment_doc.instruction = data.get("instruction")
+        assignment_doc.make_the_assignment_availability = data.get("make_the_assignment_availability")
 
-    if data.get("make_the_assignment_availability") == 1:
-        assignment_doc.from_date = data.get("from_date")
-        assignment_doc.to_date = data.get("to_date")
+        if data.get("make_the_assignment_availability") == 1:
+            assignment_doc.from_date = data.get("from_date")
+            assignment_doc.to_date = data.get("to_date")
 
-    assignment_doc.question = data.get("question")
+        assignment_doc.question = data.get("question")
 
-    total_grades = 0
-    assessment_criteria_list = data.get("assessment_criteria")
-    if assessment_criteria_list:
-        for criteria in assessment_criteria_list:
-            criteria_row = assignment_doc.append("assessment_criteria", {})
-            criteria_row.assessment_criteria = criteria.get("assessment_criteria")
-            criteria_row.maximum_grade = criteria.get("maximum_grade")
-            total_grades += criteria.get("maximum_grade", 0)
+        total_grades = 0
+        assessment_criteria_list = data.get("assessment_criteria")
+        if assessment_criteria_list:
+            for criteria in assessment_criteria_list:
+                criteria_row = assignment_doc.append("assessment_criteria", {})
+                criteria_row.assessment_criteria = criteria.get("assessment_criteria")
+                criteria_row.maximum_grade = criteria.get("maximum_grade")
+                total_grades += criteria.get("maximum_grade", 0)
 
-    assignment_doc.total_grades = total_grades
+        assignment_doc.total_grades = total_grades
 
-    program_student_batch_group = data.get("program_student_batch_group")
-    if program_student_batch_group:
-        for entry in program_student_batch_group:
-            assigned_student_group_row = assignment_doc.append("assigned_student_group", {})
-            assigned_student_group_row.student_batch = entry.get("student_batch")
-            assigned_student_group_row.group = entry.get("group")
-            assigned_student_group_row.program = entry.get("program")
+        program_student_batch_group = data.get("program_student_batch_group")
+        if program_student_batch_group:
+            for entry in program_student_batch_group:
+                assigned_student_group_row = assignment_doc.append("assigned_student_group", {})
+                assigned_student_group_row.student_batch = entry.get("student_batch")
+                assigned_student_group_row.group = entry.get("group")
+                assigned_student_group_row.program = entry.get("program")
 
-    assignment_doc.insert()
+        assignment_doc.insert()
+        assignment_doc.save()
 
-    attachments = data.get('attachments')
-    if attachments:
-        for attachment in attachments:
-            attachment_content = attachment.get('attachment')
-            attachment_name = attachment.get('attachment_name')
-            if attachment_content and attachment_name:
-                try:
-                    file_doc = frappe.get_doc({
-                        "doctype": "File",
-                        "file_name": attachment_name,
-                        "attached_to_doctype": "LMS Assignment",
-                        "attached_to_name": assignment_doc.name,
-                        "content": attachment_content,
-                        "decode": True
-                    })
-                    file_doc.insert()
-                    assignment_doc.append("attachment_file", {
-                        "attachment_file": file_doc.file_url
-                    })
-                except Exception as e:
-                    frappe.throw(f"Failed to upload attachment {attachment_name}: {str(e)}")
+        attachments = data.get('attachments')
+        if attachments:
+            for attachment in attachments:
+                attachment_content = attachment.get('attachment')
+                attachment_name = attachment.get('attachment_name')
+                if attachment_content and attachment_name:
+                    try:
+                        file_doc = frappe.get_doc({
+                            "doctype": "File",
+                            "file_name": attachment_name,
+                            "attached_to_doctype": "LMS Assignment",
+                            "attached_to_name": assignment_doc.name,
+                            "content": attachment_content,
+                            "decode": True
+                        })
+                        file_doc.insert()
+                        assignment_doc.append("attachment_file", {
+                            "attachment_file": file_doc.file_url
+                        })
+                    except Exception as e:
+                        frappe.throw(f"Failed to upload attachment {attachment_name}: {str(e)}")
 
-    assignment_doc.save()
+        assignment_doc.save()
+        frappe.db.commit()  # Commit the transaction to ensure data is saved in the database
+
+    except Exception as e:
+        frappe.log_error(message=f"Error creating assignment document: {str(e)}", title="Assignment Creation Error")
+        frappe.throw(f"Error creating assignment document: {str(e)}")
 
 def get_faculty_member_from_user(user_id):
     employee = frappe.get_value("Employee", {"user_id": user_id}, "name")
