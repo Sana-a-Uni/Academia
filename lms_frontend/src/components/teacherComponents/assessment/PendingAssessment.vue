@@ -21,7 +21,7 @@
 					v-for="assignment in assignments"
 					:key="assignment.assignment_submission_name"
 				>
-					<td class="student-column">{{ assignment.student_name }}</td>
+					<td class="student-column"> {{ assignment.student_full_name }} </td>
 					<td class="assignment-column">{{ assignment.assignment_title }}</td>
 					<td class="submission-date-column">
 						{{ formatDate(assignment.submission_date) }}

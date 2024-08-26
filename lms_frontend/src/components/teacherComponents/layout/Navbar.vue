@@ -10,7 +10,7 @@
 			<div class="user-menu" @click="toggleDropdown">
 				<img src="@/assets/images/Icon.png" alt="User Avatar" class="avatar" />
 				<div class="user-details">
-					<h2 class="user-name">Student Name</h2>
+					<h2 class="user-name">Atrab Ahmed</h2>
 					<span class="user-major">Computer Science</span>
 				</div>
 				<font-awesome-icon icon="caret-down" class="caret-icon" />
@@ -23,11 +23,11 @@
 								class="avatar-dropdown"
 							/>
 							<div>
-								<h2 class="user-name">Student Name</h2>
+								<h2 class="user-name">at</h2>
 								<span class="user-major">Computer Science</span>
 							</div>
 						</div>
-						<a href="#"
+						<!-- <a href="#"
 							><font-awesome-icon icon="user" class="dropdown-icon" /><span
 								>Profile</span
 							></a
@@ -36,7 +36,7 @@
 							><font-awesome-icon icon="cog" class="dropdown-icon" /><span
 								>Settings</span
 							></a
-						>
+						> -->
 						<a href="#" @click.prevent="handleLogout"
 							><font-awesome-icon icon="sign-out-alt" class="dropdown-icon" /><span
 								>Logout</span
@@ -163,7 +163,7 @@ onBeforeUnmount(() => {
 	display: none;
 	position: absolute;
 	right: 0;
-	top: calc(100% + 5px); /* Adjust this value to move the dropdown closer */
+	top: calc(100% + 5px);
 	background-color: #fff;
 	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 	border-radius: 4px;

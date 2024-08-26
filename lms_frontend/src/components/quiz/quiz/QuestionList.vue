@@ -53,7 +53,7 @@ const props = defineProps({
 .question-list {
 	flex: 1;
 	overflow-y: auto;
-	max-height: 60vh;
+	max-height: 70vh;
 }
 .question-list ul {
 	list-style: none;
@@ -74,7 +74,7 @@ const props = defineProps({
 	width: 16px;
 	height: 16px;
 	border-radius: 50%;
-	background-color: #fff; /* Default background color */
+	background-color: #fff; 
 	margin-right: 10px;
 	display: flex;
 	justify-content: center;
@@ -83,7 +83,7 @@ const props = defineProps({
 	font-size: 12px;
 	font-weight: bold;
 	position: relative;
-	border: 2px solid black; /* Black border color */
+	border: 2px solid black;
 }
 .custom-radio::before {
 	content: "";
@@ -92,7 +92,7 @@ const props = defineProps({
 	left: 2px;
 	right: 2px;
 	bottom: 2px;
-	background-color: white; /* White gap */
+	background-color: white; 
 	border-radius: 50%;
 }
 .custom-radio.correct {

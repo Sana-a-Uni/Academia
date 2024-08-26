@@ -7,9 +7,6 @@
 					<option value="all">All Assignments</option>
 					<option value="available">Available</option>
 					<option value="expired">Expired</option>
-					<option value="not_attempted">Not Attempted</option>
-					<option value="attempted">Attempted</option>
-					<option value="has_attempts_remaining">Has Attempts Remaining</option>
 				</select>
 			</div>
 		</div>
@@ -57,7 +54,7 @@ const props = defineProps({
 	assignments: {
 		type: Array,
 		required: true,
-		default: () => [], // Ensure it defaults to an empty array if not provided
+		default: () => [], 
 	},
 });
 
@@ -65,7 +62,6 @@ const selectedAssignment = ref("all");
 const router = useRouter();
 
 const filteredAssignments = computed(() => {
-	// Ensure props.assignments is defined and is an array before filtering
 	if (!Array.isArray(props.assignments)) {
 		return [];
 	}
@@ -109,7 +105,7 @@ function formatTime(dateString) {
 	const minutes = date.getMinutes();
 	const ampm = hours >= 12 ? "PM" : "AM";
 	hours = hours % 12;
-	hours = hours ? hours : 12; // the hour '0' should be '12'
+	hours = hours ? hours : 12; 
 	const strMinutes = minutes < 10 ? "0" + minutes : minutes;
 	return hours + ":" + strMinutes + " " + ampm;
 }
@@ -139,11 +135,11 @@ function formatTime(dateString) {
 
 .filters select {
 	padding: 8px;
-	padding-right: 32px; /* Add space for arrow */
+	padding-right: 32px;
 	border: 1px solid #ddd;
 	border-radius: 4px;
 	font-size: 16px;
-	appearance: none; /* Remove default arrow */
+	appearance: none; 
 	background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>')
 		no-repeat right 8px center;
 	background-size: 16px 16px;
@@ -205,11 +201,11 @@ a:hover {
 }
 
 .project-type {
-	background-color: #ffe5e5;
+	background-color: #f1cbcb;
 }
 
 .project-row {
-	background-color: #fff0f0;
+	background-color: #fde0e0;
 }
 
 .no-data {

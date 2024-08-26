@@ -1,6 +1,9 @@
 <template>
 	<div class="grades-table">
+		<div class="header">
 		<h2>Grades Table</h2>
+	</div>
+
 		<table>
 			<thead>
 				<tr>
@@ -11,7 +14,7 @@
 			</thead>
 			<tbody>
 				<tr v-for="student in students" :key="student.name">
-					<td>{{ student.name }}</td>
+					<td>{{ student.fullName }}</td>
 					<td v-for="quiz in quizzes" :key="quiz">
 						{{ student.grades.quizzes[quiz] || "-" }}
 					</td>
@@ -46,7 +49,7 @@ const props = defineProps({
 <style scoped>
 .grades-table {
 	width: 100%;
-	margin: 20px auto;
+	margin: 0px auto;
 	border-collapse: collapse;
 }
 

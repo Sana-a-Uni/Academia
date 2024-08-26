@@ -130,11 +130,13 @@ function formatDuration(seconds) {
 	const hours = Math.floor(remainingSecondsAfterDays / 3600);
 	const remainingSecondsAfterHours = remainingSecondsAfterDays % 3600;
 	const minutes = Math.floor(remainingSecondsAfterHours / 60);
+	const remainingSeconds = remainingSecondsAfterHours % 60;
 
 	const parts = [];
 	if (days > 0) parts.push(`${days}d`);
 	if (hours > 0) parts.push(`${hours}h`);
 	if (minutes > 0) parts.push(`${minutes}m`);
+	if (remainingSeconds > 0 || parts.length === 0) parts.push(`${remainingSeconds}s`);
 
 	return parts.join(" ");
 }
@@ -142,7 +144,7 @@ function formatDuration(seconds) {
 function formatDate(dateString) {
 	const date = new Date(dateString);
 	const day = date.getDate().toString().padStart(2, "0");
-	const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-indexed
+	const month = (date.getMonth() + 1).toString().padStart(2, "0");
 	const year = date.getFullYear();
 	return `${day}/${month}/${year}`;
 }
@@ -153,7 +155,7 @@ function formatTime(dateString) {
 	const minutes = date.getMinutes();
 	const ampm = hours >= 12 ? "PM" : "AM";
 	hours = hours % 12;
-	hours = hours ? hours : 12; // the hour '0' should be '12'
+	hours = hours ? hours : 12;
 	const strMinutes = minutes < 10 ? "0" + minutes : minutes;
 	return hours + ":" + strMinutes + " " + ampm;
 }
@@ -184,11 +186,11 @@ function formatTime(dateString) {
 
 .filters select {
 	padding: 8px;
-	padding-right: 32px; /* Add space for arrow */
+	padding-right: 32px;
 	border: 1px solid #ddd;
 	border-radius: 4px;
 	font-size: 16px;
-	appearance: none; /* Remove default arrow */
+	appearance: none;
 	background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>')
 		no-repeat right 8px center;
 	background-size: 16px 16px;

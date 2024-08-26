@@ -13,9 +13,9 @@
 		<div v-if="quizDetails" class="detail-item">
 			<span>Grade Possible:</span> {{ quizDetails.total_grades }}
 		</div>
-		<div v-if="quizDetails" class="detail-item">
+		<!-- <div v-if="quizDetails" class="detail-item">
 			<span>Your quiz result:</span> {{ quizDetails.result_grade }}
-		</div>
+		</div> -->
 		<div class="section-title"></div>
 
 		<div class="sections-title">Attempts Details</div>
@@ -37,7 +37,17 @@
 						<td>{{ formatTime(attempt.time_taken) }}</td>
 						<td>{{ attempt.attempt_grade }}</td>
 						<td>
-							<a v-if="attempt.show_correct_answer === 1" href="#">Review</a>
+							<a v-if="attempt.show_correct_answer === 1" href="#">
+								<router-link
+									:to="{
+										name: 'quizReview',
+										params: { quizAttemptId: attempt.name },
+									}"
+									class="question-link"
+								>
+									Review
+								</router-link>
+							</a>
 							<span v-else class="disabled">Review</span>
 						</td>
 					</tr>
@@ -78,9 +88,22 @@ function formatTime(seconds) {
 	seconds %= 3600;
 	const minutes = Math.floor(seconds / 60);
 	seconds %= 60;
-	return `${days > 0 ? days + "d " : ""}${hours > 0 ? hours + "h " : ""}${
-		minutes > 0 ? minutes + "m " : ""
-	}${seconds}s`;
+
+	let timeString = "";
+	if (days > 0) {
+		timeString += `${days}d `;
+	}
+	if (hours > 0) {
+		timeString += `${hours}h `;
+	}
+	if (minutes > 0) {
+		timeString += `${minutes}m `;
+	}
+	if (seconds > 0 || timeString === "") {
+		timeString += `${seconds}s`;
+	}
+
+	return timeString.trim();
 }
 </script>
 
@@ -125,11 +148,20 @@ function formatTime(seconds) {
 	background-color: #f8f8f8;
 }
 .attempts .disabled {
-	color: gray;
 	cursor: not-allowed;
 }
 .legend {
 	margin-top: 20px;
 	text-align: center;
+}
+.attempts a {
+	color: #2a73cc;
+	text-decoration: underline;
+	text-decoration: none;
+}
+
+.attempts a:hover {
+	color: #2a73cc;
+	text-decoration: underline;
 }
 </style>

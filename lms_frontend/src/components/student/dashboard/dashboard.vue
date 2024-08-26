@@ -13,7 +13,7 @@
 						<img src="@/assets/images/book1.jpeg" alt="course image" />
 						<h3>{{ course.course_name }}</h3>
 						<div class="info">
-							<p>{{ course.faculty }}</p>
+							<!-- <p>{{ course.faculty }}</p> -->
 							<p>{{ course.course_type }}</p>
 						</div>
 					</div>
@@ -45,21 +45,21 @@
 <script setup>
 import { useRouter } from "vue-router";
 import { onMounted, computed } from "vue";
-import { useCourseStore } from "@/stores/teacherStore/courseStore";
+import { useStudentStore } from "@/stores/studentStore/courseStore";
 
 const router = useRouter();
-const courseStore = useCourseStore();
+const studentStore = useStudentStore();
 
 onMounted(() => {
-	courseStore.fetchCourses();
+	studentStore.fetchStudentProgramDetails();
 });
 
-const courses = computed(() => courseStore.courses);
-const notifications = computed(() => courseStore.notifications);
+const courses = computed(() => studentStore.courses);
+const notifications = computed(() => studentStore.notifications); 
 
 const navigateToCourseView = (course) => {
-	courseStore.selectCourse(course);
-	router.push(`/teacherDashboard/courseView`);
+	studentStore.selectCourse(course); 
+	router.push(`/studentDashboard/courseView`);
 };
 </script>
 
@@ -69,7 +69,6 @@ const navigateToCourseView = (course) => {
 	flex: 1;
 	flex-direction: column;
 	margin-top: 50px;
-
 }
 
 .courses,

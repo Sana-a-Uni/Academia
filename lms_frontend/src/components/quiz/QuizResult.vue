@@ -5,20 +5,22 @@
 		</header>
 		<div class="result-details">
 			<div class="details-row">
-				<span class="label">Name:</span> <span class="value">Student Name</span>
+				<span class="label">Name:</span> <span class="value">{{ student_name }}</span>
 			</div>
 			<div class="details-row">
 				<span class="label">Title:</span> <span class="value">{{ quizResult.quiz }}</span>
 			</div>
 			<div class="details-row">
-				<span class="label">Date Start:</span> <span class="value">{{ quizResult.start_time }}</span>
+				<span class="label">Date Start:</span>
+				<span class="value">{{ quizResult.start_time }}</span>
 			</div>
 			<div class="details-row">
 				<span class="label">Date Submitted:</span>
 				<span class="value">{{ quizResult.end_time }}</span>
 			</div>
 			<div class="details-row">
-				<span class="label">Time Spent:</span> <span class="value">{{ quizResult.time_taken }}</span>
+				<span class="label">Time Spent:</span>
+				<span class="value">{{ quizResult.time_taken }}</span>
 			</div>
 			<div class="details-row score">
 				<span class="label">Grade:</span>
@@ -28,14 +30,26 @@
 		<div class="questions-result">
 			<div class="questions-row">
 				<div class="questions-label">Questions: {{ quizResult.number_of_questions }}</div>
-				<div class="questions-label">Correct: {{ quizResult.number_of_correct_answers }}</div>
-				<div class="questions-label">Incorrect: {{ quizResult.number_of_incorrect_answers }}</div>
-				<div class="questions-label">Incomplete: {{ quizResult.number_of_unanswered_questions }}</div>
+				<div class="questions-label">
+					Correct: {{ quizResult.number_of_correct_answers }}
+				</div>
+				<div class="questions-label">
+					Incorrect: {{ quizResult.number_of_incorrect_answers }}
+				</div>
+				<div class="questions-label">
+					Incomplete: {{ quizResult.number_of_unanswered_questions }}
+				</div>
 			</div>
 			<div class="questions-list">
-				<div class="question" v-for="(q, index) in quizResult.questions_with_grades" :key="index">
-					<span class="question-icon" v-if="quizResult.show_question_score">
-						<i :class="q.user_grade === q.grade ? 'correct-icon' : 'incorrect-icon'"></i>
+				<div
+					class="question"
+					v-for="(q, index) in quizResult.questions_with_grades"
+					:key="index"
+				>
+					<span class="question-icon" v-if="quizResult.questions_with_grades">
+						<i
+							:class="q.user_grade === q.grade ? 'correct-icon' : 'incorrect-icon'"
+						></i>
 					</span>
 					<template v-if="quizResult.show_correct_answer">
 						<router-link
@@ -51,11 +65,15 @@
 					<template v-else>
 						<span class="question-number">Question {{ index + 1 }}</span>
 					</template>
-					<span class="question-score" v-if="quizResult.show_question_score"
-						>({{ q.user_grade }} / {{ q.grade }})</span
-					>
+					<span class="question-score" v-if="quizResult.questions_with_grades">
+						({{ q.user_grade }} / {{ q.grade }})
+					</span>
 				</div>
 			</div>
+		</div>
+		<div class="buttons-container">
+			<button @click="goBack" class="button">Go Back</button>
+			<button @click="goToAllAttempts" class="button">All Attempts</button>
 		</div>
 	</div>
 	<div v-else>
@@ -64,12 +82,38 @@
 </template>
 
 <script setup>
+import { useRouter } from "vue-router"; 
+import { useStudentStore } from "@/stores/studentStore/courseStore";
+import { onMounted , computed } from "vue";
+
+const courseStore = useStudentStore();
+
+onMounted(() => {
+	courseStore.fetchStudentProgramDetails(); 
+});
+
+const student_name = computed(
+	() => courseStore.studentDetails.student_name
+	|| "Default Student name"
+);
+
+
 const props = defineProps({
 	quizResult: {
 		type: Object,
 		required: true,
 	},
 });
+
+const router = useRouter(); 
+
+function goBack() {
+	router.push({ name: "quizView" });
+}
+
+function goToAllAttempts() {
+	router.push({ name: "quizResultList" }); 
+}
 </script>
 
 <style scoped>
@@ -146,7 +190,7 @@ const props = defineProps({
 	width: calc(25% - 10px);
 	box-sizing: border-box;
 	font-size: 1.1em;
-	color: black; /* النص يكون باللون الأسود افتراضياً */
+	color: black;
 }
 
 .question-link {
@@ -180,6 +224,30 @@ const props = defineProps({
 .incorrect-icon::before {
 	content: "✘";
 	color: red;
+}
+
+.buttons-container {
+	display: flex;
+	justify-content: flex-start;
+	margin-top: 20px;
+	border-top: 1px solid #ccc;
+	padding-top: 20px;
+}
+
+.button {
+	background-color: #0584ae;
+	color: white;
+	border: none;
+	border-radius: 20px;
+	padding: 10px 20px;
+	margin: 0 10px;
+	cursor: pointer;
+	font-size: 16px;
+	transition: background-color 0.3s;
+}
+
+.button:hover {
+	background-color: #046b8c;
 }
 
 @media (max-width: 1200px) {

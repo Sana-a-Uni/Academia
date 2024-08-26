@@ -185,6 +185,15 @@ const editorOptions = {
 
 onMounted(() => {
 	nextTick(() => {
+		if (!assignmentStore.assignmentData) {
+			assignmentStore.assignmentData = {
+				question: "",
+				assessment_criteria: [],
+				uploadedFiles: [],
+				previousSubmissionFiles: [],
+			};
+		}
+
 		const editor = new Quill(quillQuestionEditor.value, editorOptions);
 		editor.root.innerHTML = assignmentStore.assignmentData.question;
 		editor.on("text-change", () => {
@@ -272,6 +281,10 @@ const getFullFileUrl = (fileUrl) => {
 };
 
 const saveAssignmentDetails = () => {
+	if (!assignmentStore.assignmentData || !assignmentStore.assignmentData.uploadedFiles) {
+		console.error("Assignment data or uploadedFiles are undefined.");
+		return;
+	}
 	assignmentStore.updateAssignmentData({
 		question: assignmentStore.assignmentData.question,
 		assessment_criteria: assignmentStore.assignmentData.assessment_criteria,

@@ -3,24 +3,20 @@
 </template>
 
 <script setup>
-import { computed, onMounted } from "vue";
-import { useStudentStore } from "@/stores/studentStore/courseStore";
+import { computed, ref } from "vue";
+import { useCourseStore } from "@/stores/teacherStore/courseStore";
 
-const courseStore = useStudentStore();
+// const courseName = ref("Data Structure"); 
 
-onMounted(() => {
-	courseStore.loadSelectedCourse();
-	courseStore.fetchStudentProgramDetails();
-});
-
-const courseName = computed(
-	() => courseStore.selectedCourse?.course_name || "Default Course Name"
+const courseStore = useCourseStore();
+const semester = computed(
+	() => courseStore.selectedCourse?.academic_term 
 );
 const currentYear = computed(
-	() => courseStore.studentDetails.academic_year || "Default Academic Year"
+	() => courseStore.selectedCourse?.academic_year 
 );
-const semester = computed(
-	() => courseStore.studentDetails?.academic_term || "Default Academic Term"
+const courseName = computed(
+	() => courseStore.selectedCourse?.course_name 
 );
 </script>
 

@@ -125,7 +125,7 @@ function formatTime(dateString) {
 
 <style scoped>
 .quiz-list {
-	width: 90%;
+	width: 100%;
 	border-collapse: collapse;
 }
 
@@ -167,11 +167,11 @@ function formatTime(dateString) {
 .filters select {
 	margin-left: 20px;
 	padding: 8px;
-	padding-right: 32px; /* Add space for arrow */
+	padding-right: 32px; 
 	border: 1px solid #ddd;
 	border-radius: 4px;
 	font-size: 16px;
-	appearance: none; /* Remove default arrow */
+	appearance: none; 
 	background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>')
 		no-repeat right 8px center;
 	background-size: 16px 16px;

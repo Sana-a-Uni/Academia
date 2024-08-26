@@ -1,10 +1,14 @@
 <template>
 	<div class="sidebar" :class="{ 'collapsed-container': isCollapsed }">
-		<button class="expand-button" v-if="isCollapsed" @click="toggleQuestionList">&#9654;</button>
+		<button class="expand-button" v-if="isCollapsed" @click="toggleQuestionList">
+			&#9654;
+		</button>
 		<div class="question-list-container">
 			<div class="question-list-title" :class="{ 'collapsed-title': isCollapsed }">
 				Question List
-				<button class="toggle-button" v-if="!isCollapsed" @click="toggleQuestionList">&#9664;</button>
+				<button class="toggle-button" v-if="!isCollapsed" @click="toggleQuestionList">
+					&#9664;
+				</button>
 			</div>
 			<slot></slot>
 		</div>

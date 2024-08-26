@@ -1,7 +1,11 @@
 <template>
 	<div class="main">
 		<div class="tabs" v-show="isSmallScreen">
-			<div class="tab" :class="{ active: activeTab === 'courses' }" @click="activeTab = 'courses'">
+			<div
+				class="tab"
+				:class="{ active: activeTab === 'courses' }"
+				@click="activeTab = 'courses'"
+			>
 				Courses
 			</div>
 			<div
@@ -10,9 +14,6 @@
 				@click="activeTab = 'notifications'"
 			>
 				Notifications
-			</div>
-			<div class="tab" :class="{ active: activeTab === 'upcoming' }" @click="activeTab = 'upcoming'">
-				Upcoming
 			</div>
 		</div>
 		<div :class="{ hidden: activeTab !== 'courses' && isSmallScreen }" class="courses">
@@ -45,7 +46,11 @@
 			>
 				<h3 style="padding-left: 20px; padding-top: 20px">Notifications</h3>
 				<div class="scrollable-card-notification">
-					<div class="notification" v-for="(notification, index) in notifications" :key="index">
+					<div
+						class="notification"
+						v-for="(notification, index) in notifications"
+						:key="index"
+					>
 						<div class="notification-date">
 							{{ notification.date }}
 						</div>
@@ -54,26 +59,6 @@
 							<p>{{ notification.description }}</p>
 						</div>
 						<i class="fas fa-bell"></i>
-					</div>
-				</div>
-			</div>
-			<div :class="{ hidden: activeTab !== 'upcoming' && isSmallScreen }" class="Upcoming">
-				<h3 style="padding-left: 35px; padding-top: 20px">Upcoming Task</h3>
-				<div class="Upcoming-content">
-					<h3 style="padding-left: 35px; padding-top: 20px">Select the date:</h3>
-					<div class="ava-h">
-						<div class="avatar">
-							<h4 style="text-align: center; margin-top: 3px">3</h4>
-						</div>
-						<h4 style="margin-top: 25px; margin-left: 10px">Today</h4>
-						<div class="avatar">
-							<h4 style="text-align: center; margin-top: 3px">4</h4>
-						</div>
-						<h4 style="margin-top: 25px; margin-left: 10px">Tomorrow</h4>
-						<div class="avatar">
-							<h4 style="text-align: center; margin-top: 3px">2</h4>
-						</div>
-						<h4 style="margin-top: 25px; margin-left: 10px">The Week</h4>
 					</div>
 				</div>
 			</div>
@@ -136,7 +121,6 @@ export default {
 					instructor: "Ebrahim Alhadad",
 					type: "Lab",
 				},
-				// Add more course objects as needed
 			],
 			notifications: [
 				{
@@ -154,7 +138,6 @@ export default {
 					title: "Algorithm",
 					description: "3 hour .Dr\\Ghallib",
 				},
-			
 			],
 		};
 	},
@@ -170,7 +153,7 @@ export default {
 			this.isSmallScreen = window.innerWidth < 900;
 		},
 		navigateToCourseView() {
-			this.$router.push("/courseview"); // Assumes you have a route set up for 'courseview'
+			this.$router.push("/courseview");
 		},
 	},
 };
@@ -206,13 +189,13 @@ export default {
 }
 
 .scrollable-card {
-	max-height: 600px; /* يمكنك تعديل هذا الارتفاع حسب الحاجة */
+	max-height: 600px;
 	overflow-y: auto;
 	padding: 20px;
 	border-radius: 10px;
 }
 .scrollable-card-notification {
-	max-height: 350px; /* يمكنك تعديل هذا الارتفاع حسب الحاجة */
+	max-height: 350px;
 	overflow-y: auto;
 	padding: 20px;
 	border-radius: 10px;
@@ -337,7 +320,7 @@ export default {
 }
 
 .tabs {
-	display: none; /* إخفاء التبويبات في الشاشات الكبيرة */
+	display: none;
 }
 
 .tab {
@@ -377,7 +360,7 @@ export default {
 	}
 
 	.tabs {
-		display: flex; /* عرض التبويبات في الشاشات الصغيرة */
+		display: flex;
 		justify-content: space-around;
 		margin-bottom: 10px;
 	}

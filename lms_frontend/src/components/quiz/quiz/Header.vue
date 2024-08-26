@@ -1,9 +1,29 @@
 <template>
 	<div class="header">
-		<div class="left-section">Student Name</div>
-		<div class="right-section">Course Name</div>
+		<div class="left-section">{{ student_name }}</div>
+		<div class="right-section">{{ courseName }}</div>
 	</div>
 </template>
+<script setup>
+import { useStudentStore } from "@/stores/studentStore/courseStore";
+import { onMounted , computed } from "vue";
+
+const courseStore = useStudentStore();
+
+onMounted(() => {
+	courseStore.loadSelectedCourse();
+	courseStore.fetchStudentProgramDetails(); 
+});
+
+const student_name = computed(
+	() => courseStore.studentDetails.student_name
+	|| "Default Student name"
+);
+const courseName = computed(
+	() => courseStore.selectedCourse?.course_name || "Default Course Name"
+);
+
+</script>
 
 <style scoped>
 .header {

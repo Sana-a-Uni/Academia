@@ -108,7 +108,7 @@ function formatTime(dateString) {
 
 <style scoped>
 .assignment-list {
-	width: 90%;
+	width: 100%;
 	border-collapse: collapse;
 }
 

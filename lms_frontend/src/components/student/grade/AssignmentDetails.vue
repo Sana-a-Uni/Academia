@@ -9,40 +9,44 @@
 		</div>
 		<div v-if="assignmentDetails" class="detail-item">
 			<span>Grade Possible:</span> {{ assignmentDetails.total_grades }}
-			<div v-if="assignment_grade" class="detail-item">
-				<span>Your assignment grade:</span> {{ assignment_grade }}
-			</div>
-			<div v-if="assignmentDetails.result_grade !== undefined" class="detail-item">
-				<span>Your assignment result:</span> {{ assignmentDetails.result_grade }}
-			</div>
-			<div class="section-title"></div>
+		</div>
+		<div v-if="assignment_grade" class="detail-item">
+			<span>Your assignment grade:</span> {{ assignment_grade }}
+		</div>
+		<div v-if="assignmentDetails.result_grade !== undefined" class="detail-item">
+			<span>Your assignment result:</span> {{ assignmentDetails.result_grade }}
+		</div>
+		<div class="section-title"></div>
 
-			<div class="sections-title">Assessment Criteria</div>
-			<div v-if="assessmentCriteria && assessmentCriteria.length > 0" class="criteria">
-				<table>
-					<thead>
-						<tr>
-							<th>Criteria</th>
-							<th>Maximum Grade</th>
-							<th>Grade</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr v-for="criteria in assessmentCriteria" :key="criteria.id">
-							<td>{{ criteria.criteria_text }}</td>
-							<td>{{ criteria.maximum_grade }}</td>
-							<td>{{ criteria.criteria_grade }}</td>
-						</tr>
-					</tbody>
-				</table>
-				<div v-if="feedback" class="feedback">
-					<h3>Feedback:</h3>
-					<p v-html="feedback"></p>
+		<div class="sections-title">Assessment Criteria</div>
+		<div v-if="assessmentCriteria && assessmentCriteria.length > 0" class="criteria">
+			<table>
+				<thead>
+					<tr>
+						<th>Criteria</th>
+						<th>Maximum Grade</th>
+						<th>Grade</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="criteria in assessmentCriteria" :key="criteria.id">
+						<td>{{ criteria.criteria_text }}</td>
+						<td>{{ criteria.maximum_grade }}</td>
+						<td>{{ criteria.criteria_grade }}</td>
+					</tr>
+				</tbody>
+			</table>
+			<div v-if="feedback" class="feedback">
+				<h3>Feedback:</h3>
+				<div class="instruction-text">
+					<span v-html="feedback"></span>
 				</div>
+
+				<!-- <p v-html="feedback"></p> -->
 			</div>
-			<div v-else>
-				<p>No assessment criteria available.</p>
-			</div>
+		</div>
+		<div v-else>
+			<p>No assessment criteria available.</p>
 		</div>
 	</div>
 </template>
@@ -112,5 +116,8 @@ const props = defineProps({
 }
 .feedback {
 	margin-top: 20px;
+}
+.instruction-text {
+	margin-top: -20px;
 }
 </style>

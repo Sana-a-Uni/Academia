@@ -23,8 +23,10 @@
 					:class="[
 						'date-input',
 						{
-							active: assignmentStore.assignmentData.make_the_assignment_availability,
-							faded: !assignmentStore.assignmentData.make_the_assignment_availability,
+							active: assignmentStore.assignmentData
+								.make_the_assignment_availability,
+							faded: !assignmentStore.assignmentData
+								.make_the_assignment_availability,
 						},
 					]"
 					id="date-inputs"
@@ -127,7 +129,7 @@ const saveSettings = async () => {
 		};
 
 		assignmentStore.updateAssignmentData(settingsData);
-		await assignmentStore.createAssignment();
+		// await assignmentStore.createAssignment();
 		emit("save-settings", settingsData);
 	} catch (error) {
 		console.error("Failed to save settings:", error);

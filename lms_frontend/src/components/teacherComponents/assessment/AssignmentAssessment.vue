@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="assignment-panel">
 			<div :class="['panel-header', { 'grey-background': !showDetails }]">
-				<h4>Assignment Details</h4>
+				<h3>Assignment Details</h3>
 				<button @click="toggleDetails">
 					<span v-if="showDetails">▲</span>
 					<span v-else>▼</span>
@@ -28,12 +28,15 @@
 					</div>
 				</div>
 			</div>
+			
 			<div class="content-block">
-				<h4>Student Answer:</h4>
-				<p>{{ details.student_answer }}</p>
+				<h3>Student Answer:</h3>
+				<span v-html="details.student_answer" class="instruction-text"></span>
+				<!-- <p>{{ details.student_answer }}</p> -->
 			</div>
+			<hr>
 			<div class="content-block">
-				<h4>Student Files</h4>
+				<h3>Student Files</h3>
 				<div class="indented-content">
 					<div class="assignment-file">
 						<ul>
@@ -44,9 +47,11 @@
 					</div>
 				</div>
 			</div>
+			<hr>
 			<div class="content-block">
-				<h4>Comment:</h4>
-				<p>{{ details.comment }}</p>
+				<h3>Student Comment:</h3>
+				<span v-html="details.comment" class="instruction-text"></span>
+				<!-- <p>{{ details.comment }}</p> -->
 			</div>
 		</div>
 		<div class="evaluation-panel">
@@ -79,7 +84,7 @@
 				</table>
 			</div>
 			<div class="feedback-section">
-				<label for="feedback">Student Feedback</label>
+				<label for="feedback">Feedback</label>
 				<textarea id="feedback" v-model="feedback" rows="10"></textarea>
 			</div>
 			<div class="buttons-section">
@@ -281,6 +286,8 @@ body {
 	margin-bottom: 20px;
 	position: relative;
 	padding: 10px;
+	font-size: 14px;
+
 }
 
 .panel-header h1 {
@@ -312,7 +319,7 @@ body {
 	padding: 8px;
 	border: 1px solid #ccc;
 	text-align: left;
-	font-size: 12px;
+	font-size: 14px;
 }
 
 .assessment-list th {
@@ -335,7 +342,7 @@ body {
 	border: 1px solid #ccc;
 	border-radius: 5px;
 	box-sizing: border-box;
-	font-size: 12px;
+	font-size: 14px;
 }
 
 .buttons-section button {
@@ -354,18 +361,20 @@ body {
 }
 
 .buttons-section button:nth-of-type(2) {
-	background-color: #007bff;
+	background-color:  #0584ae;
 	color: #fff;
 	margin-bottom: 10px;
 }
 
 .buttons-section button:last-of-type {
-	background-color: #007bff;
+	background-color: #c82333;
 	color: #fff;
 }
 
 .content-block {
 	margin-bottom: 20px;
+	font-size: 14px;
+
 }
 
 h4 {
@@ -376,11 +385,13 @@ h4 {
 
 p {
 	margin-bottom: 10px;
-	font-size: 12px;
+	font-size: 14px;
 }
 
 .indented-content {
 	padding-left: 20px;
+	font-size: 14px;
+
 }
 
 .assignment-content {
@@ -391,17 +402,19 @@ p {
 	border-radius: 5px;
 	box-sizing: border-box;
 	background-color: #f4f4f4;
-	font-size: 12px;
+	font-size: 14px;
 }
+
 
 .assignment-file {
 	margin-bottom: 20px;
+	font-size: 14px;
 }
 
 ul {
 	padding-left: 20px;
 	list-style-type: disc;
-	font-size: 12px;
+	font-size: 14px;
 }
 
 .loading {
@@ -456,8 +469,11 @@ a:hover {
 	}
 
 	.buttons-section button {
-		font-size: 12px;
+		font-size: 1px;
 		padding: 8px;
 	}
+}
+.instruction-text {
+	font-size: 14px;
 }
 </style>

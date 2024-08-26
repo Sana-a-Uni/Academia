@@ -49,7 +49,7 @@ export default {
 }
 
 .scrollable-card-notification {
-	max-height: 290px; /* يمكنك تعديل هذا الارتفاع حسب الحاجة */
+	max-height: 290px; 
 	overflow-y: auto;
 	padding: 20px;
 	margin-top:20px;
@@ -93,8 +93,8 @@ export default {
 	}
 
 	.courses,
-	.notifications,
-	.{
+	.notifications
+	{
 		margin: 0;
 		padding: 0;
 		flex: none;	
@@ -106,7 +106,7 @@ export default {
 		height:680px;
 	}
     .scrollable-card-notification{
-		max-height: 600px; /* يمكنك تعديل هذا الارتفاع حسب الحاجة */
+		max-height: 600px; 
 	overflow-y: auto;
 	padding: 20px;
 	margin-top:20px;		
@@ -134,7 +134,7 @@ export default {
 		margin-bottom:398px;
 	}
 	.tabs {
-		display: flex; /* عرض التبويبات في الشاشات الصغيرة */
+		display: flex; 
 		justify-content: space-around;
 		margin-bottom: 10px;
 	}

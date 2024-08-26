@@ -64,10 +64,16 @@ const questions = computed(() => quizStore.questions);
 onMounted(async () => {
 	const courseId = route.params.courseId;
 	await courseStore.fetchCourses();
+	
 	const course = courseStore.courses.find((course) => course.id === courseId);
 	if (course) {
 		courseStore.selectCourse(course);
-		await quizStore.fetchCourseQuestions(course.course);
+		if (course.course_type) {
+			await quizStore.fetchCourseQuestions(course.course, course.course_type);
+		} else {
+			console.error("Course type is missing.");
+			alert("An error occurred: Course type is missing.");
+		}
 	} else {
 		console.error("Course information is missing.");
 		alert("An error occurred: Course information is missing.");
@@ -82,10 +88,6 @@ const cancel = () => {
 	emit("cancel");
 };
 </script>
-
-<style scoped>
-/* CSS Code remains the same */
-</style>
 
 <style scoped>
 .grade {

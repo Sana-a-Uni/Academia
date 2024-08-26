@@ -82,7 +82,7 @@ export default {
 }
 
 .tabs {
-	display: none; /* إخفاء التبويبات في الشاشات الكبيرة */
+	display: none; 
 }
 
 .tab {
@@ -113,8 +113,8 @@ export default {
 	}
 
 	.courses,
-	.notifications,
-	.{
+	.notifications
+	{
 		margin: 0;
 		padding: 0;
 		flex: none;
@@ -148,7 +148,7 @@ export default {
 		margin-bottom:398px;
 	}
 	.tabs {
-		display: flex; /* عرض التبويبات في الشاشات الصغيرة */
+		display: flex; 
 		justify-content: space-around;
 		margin-bottom: 10px;
 	}

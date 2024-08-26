@@ -8,15 +8,18 @@
 					</router-link>
 				</li>
 				<li>
-					<a href="#">
+					<router-link
+						:to="{ path: '/teacherDashboard/courseView/courseContent' }"
+						class="menu-link"
+					>
 						<font-awesome-icon icon="folder-open" class="menu-icon" /> Course Content
-					</a>
+					</router-link>
 				</li>
-				<li>
+				<!-- <li>
 					<a href="#">
 						<font-awesome-icon icon="bullhorn" class="menu-icon" /> Announcements
 					</a>
-				</li>
+				</li>  -->
 				<li>
 					<router-link
 						:to="{ path: '/teacherDashboard/courseView/assignments' }"

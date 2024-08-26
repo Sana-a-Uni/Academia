@@ -2,13 +2,13 @@
 	<div class="quiz-list">
 		<div class="header">
 			<h2>All Quizzes Results</h2>
-			<div class="filters">
+			<!-- <div class="filters">
 				<select v-model="selectedQuiz" class="custom-select">
 					<option value="all">All Quizzes</option>
 					<option value="passed">Passed</option>
 					<option value="failed">Failed</option>
 				</select>
-			</div>
+			</div> -->
 		</div>
 		<table>
 			<thead>
@@ -53,11 +53,15 @@
 				</tr>
 			</tbody>
 		</table>
+		<div class="buttons-container">
+			<button @click="goBack" class="button">Go Back</button>
+		</div>
 	</div>
 </template>
 
 <script setup>
 import { ref, computed } from "vue";
+import { useRouter } from "vue-router"; 
 
 const props = defineProps({
 	quizzesResult: {
@@ -67,6 +71,7 @@ const props = defineProps({
 });
 
 const selectedQuiz = ref("all");
+const router = useRouter(); 
 
 const filteredQuizzes = computed(() => {
 	if (!props.quizzesResult) return [];
@@ -96,9 +101,13 @@ function formatTime(dateString) {
 	const minutes = date.getMinutes();
 	const ampm = hours >= 12 ? "PM" : "AM";
 	hours = hours % 12;
-	hours = hours ? hours : 12; // the hour '0' should be '12'
+	hours = hours ? hours : 12; 
 	const strMinutes = minutes < 10 ? "0" + minutes : minutes;
 	return hours + ":" + strMinutes + " " + ampm;
+}
+
+function goBack() {
+	router.push({ name: "quizView" }); 
 }
 </script>
 
@@ -126,11 +135,11 @@ function formatTime(dateString) {
 
 .filters select {
 	padding: 8px;
-	padding-right: 32px; /* Add space for arrow */
+	padding-right: 32px; 
 	border: 1px solid #ddd;
 	border-radius: 4px;
 	font-size: 16px;
-	appearance: none; /* Remove default arrow */
+	appearance: none;
 	background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>')
 		no-repeat right 8px center;
 	background-size: 16px 16px;
@@ -148,7 +157,7 @@ table {
 	width: calc(100% - 40px);
 	margin: 0 20px;
 	border: 1px solid #ddd;
-	margin-top: 20px; /* Add space between header and table */
+	margin-top: 20px; 
 }
 
 th,
@@ -168,7 +177,7 @@ th {
 .grade-column,
 .time-taken-column,
 .date-started-column,
-.date-ended-column {
+date-ended-column {
 	width: 16%;
 	text-align: center;
 }
@@ -193,6 +202,28 @@ th {
 	color: #666;
 	font-size: 1.2em;
 	padding: 20px;
+}
+
+.buttons-container {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.button {
+	background-color: #0584ae;
+	color: white;
+	border: none;
+	border-radius: 20px;
+	padding: 10px 20px;
+	margin: 0 10px;
+	cursor: pointer;
+	font-size: 16px;
+	transition: background-color 0.3s;
+}
+
+.button:hover {
+	background-color: #046b8c;
 }
 
 @media (max-width: 768px) {
@@ -236,6 +267,16 @@ th {
 
 	.quiz-column {
 		width: auto;
+	}
+
+	.buttons-container {
+		flex-direction: column;
+		align-items: center;
+	}
+
+	.button {
+		margin-top: 10px;
+		width: calc(100% - 40px);
 	}
 }
 </style>

@@ -73,7 +73,6 @@ const filteredGrades = computed(() => {
 <style scoped>
 .grade-list {
 	width: 100%;
-	margin-top: 70px;
 	border-collapse: collapse;
 }
 
@@ -129,6 +128,44 @@ td {
 th {
 	background-color: #f4f4f4;
 	text-align: center;
+}
+
+a {
+	color: #2a73cc;
+	text-decoration: none;
+	cursor: pointer;
+	position: relative;
+}
+
+a.disabled {
+	color: #000000;
+	cursor: not-allowed;
+	pointer-events: none;
+}
+
+a:hover:not(.disabled) {
+	text-decoration: underline;
+}
+
+.tooltip {
+	position: absolute;
+	background-color: #f4f4f4;
+	color: #000;
+	font-weight: bold;
+	padding: 5px;
+	border-radius: 3px;
+	white-space: nowrap;
+	z-index: 10;
+	font-size: 12px;
+	top: 70%;
+	left: 10%;
+	transform: translateY(-50%);
+	opacity: 0;
+	transition: opacity 0.2s ease-in-out;
+}
+
+.title-column:hover .tooltip {
+	opacity: 1;
 }
 
 .no-data {

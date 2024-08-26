@@ -41,7 +41,7 @@
 
 <script setup>
 import { ref, onMounted, nextTick } from "vue";
-import { useRouter } from "vue-router"; // استيراد useRouter
+import { useRouter } from "vue-router"; 
 import Quill from "quill";
 import { useAssignmentStore } from "@/stores/teacherStore/assignmentStore";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
@@ -50,7 +50,7 @@ const emit = defineEmits(["assignment-created"]);
 const props = defineProps(["errors"]);
 const assignmentStore = useAssignmentStore();
 const quillEditor = ref(null);
-const router = useRouter(); // استخدام useRouter
+const router = useRouter(); 
 
 const editorOptions = {
 	theme: "snow",
@@ -74,7 +74,7 @@ onMounted(() => {
 				assignmentStore.assignmentData.instruction = editor.root.innerHTML;
 			});
 		}
-		assignmentStore.fetchAssignmentTypeOptions(); // جلب خيارات أنواع التكليف عند تحميل المكون
+		assignmentStore.fetchAssignmentTypeOptions(); 
 	});
 });
 
@@ -85,13 +85,12 @@ const createAssignment = () => {
 const cancelAssignment = () => {
 	assignmentStore.assignmentData.assignment_title = "";
 	assignmentStore.assignmentData.instruction = "";
-	assignmentStore.assignmentData.assignment_type = ""; // إعادة تعيين نوع التكليف
-	router.push({ name: "assignments" }); // توجيه المستخدم إلى صفحة assignments
+	assignmentStore.assignmentData.assignment_type = ""; 
+	router.push({ name: "assignments" });
 };
 </script>
 
 <style>
-/* إضافات التنسيق */
 body {
 	font-family: Arial, sans-serif;
 	margin: 0;

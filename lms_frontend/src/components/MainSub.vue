@@ -1,7 +1,8 @@
 <template>
 	<div class="container">
 		<Navbar @toggle-drawer="toggleDrawer" />
-		<!-- <Subheader /> -->
+		<Subheader />
+
 		<div class="content">
 			<Sidebar :isOpen="isDrawerOpen" />
 			<main class="main-content">
@@ -15,12 +16,12 @@
 import { ref } from "vue";
 import Navbar from "@/components/Navbar.vue";
 import Sidebar from "@/components/Sidebar.vue";
-// import Subheader from "@/components/Subheader.vue";
+import Subheader from "@/components/Subheader.vue";
 
 const isDrawerOpen = ref(false);
 
 const toggleDrawer = () => {
-	isDrawerOpen.value = !isDrawerOpen.value;
+  isDrawerOpen.value = !isDrawerOpen.value;
 };
 </script>
 
@@ -32,9 +33,9 @@ const toggleDrawer = () => {
 
 .content {
 	display: flex;
-	margin-left: 17.5%;
-	width: 80%;
-	margin-top: 60px;
+	/* margin-top: 80px; */
+	margin-left: 18.5%;
+	width: 88%;
 }
 
 main {

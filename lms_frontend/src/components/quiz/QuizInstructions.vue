@@ -4,17 +4,20 @@
 		<div class="instructions">
 			<p>
 				Welcome to <strong>{{ quizInstructions.title }}</strong> in
-				<strong>{{ quizInstructions.course }}</strong
-				>! Please read the following instructions carefully before you begin:
+				<!-- <strong>Database</strong> -->
+				<strong>{{ courseName }}</strong>
+				! Please read the following instructions carefully before you begin:
 			</p>
 			<ul>
 				<li>
 					Attempts allowed: You have
-					<strong>{{ quizInstructions.number_of_attempts }}</strong> attempts to complete the quiz.
+					<strong>{{ quizInstructions.number_of_attempts }}</strong> attempts to complete
+					the quiz.
 				</li>
 				<li v-if="quizInstructions.duration !== null">
-					Time limit: You have <strong>{{ formatDuration(quizInstructions.duration) }}</strong> to
-					complete the quiz from the moment you start your attempt.
+					Time limit: You have
+					<strong>{{ formatDuration(quizInstructions.duration) }}</strong> to complete
+					the quiz from the moment you start your attempt.
 				</li>
 				<li>
 					Total score: The maximum possible score is
@@ -30,12 +33,12 @@
 					<strong>{{ quizInstructions.to_date }}</strong
 					>.
 				</li>
-				<li v-if="quizInstructions.instruction">
+				<!-- <li v-if="quizInstructions.instruction">
 					<div class="inline-container">
 						<span class="note-label">Notes:</span>
 						<span v-html="quizInstructions.instruction" class="instruction-text"></span>
 					</div>
-				</li>
+				</li> -->
 			</ul>
 		</div>
 		<div class="btn-container">
@@ -85,6 +88,21 @@ function formatDuration(seconds) {
 
 	return parts.join(" ");
 }
+
+import { computed, onMounted } from "vue";
+import { useStudentStore } from "@/stores/studentStore/courseStore";
+
+const courseStore = useStudentStore();
+
+onMounted(() => {
+	courseStore.loadSelectedCourse();
+	courseStore.fetchStudentProgramDetails(); 
+});
+
+const courseName = computed(
+	() => courseStore.selectedCourse?.course_name || "Default Course Name"
+);
+
 </script>
 
 <style scoped>
@@ -160,7 +178,7 @@ ul li strong::after {
 	justify-content: end;
 	gap: 10px;
 	margin-top: 10px;
-	margin-right:40px;
+	margin-right: 40px;
 }
 
 .btn {
