@@ -19,6 +19,21 @@ const routes = [
 		component: () => import("../views/teacherDashboard/courseView"),
 	},
 	{
+		path: "/teacherDashboard/courseView/courseContent",
+		name: "courseContent",
+		component: () => import("../views/teacherDashboard/courseContent/courseContentView"),
+	},
+	{
+		path: "/teacherDashboard/courseContentView/courseContentDetails/:courseName",
+		name: "courseContentDetail",
+		component: () => import("../views/teacherDashboard/courseContent/courseContentDetails"),
+	},
+	{
+		path: "/teacherDashboard/courseView/courseContent/createCourseContent",
+		name: "createCourseContents",
+		component: () => import("../views/teacherDashboard/courseContent/createCourseContent"),
+	},
+	{
 		path: "/teacherDashboard/courseView/quizList",
 		name: "quizzes",
 		component: () => import("../views/teacherDashboard/quiz/quizView"),
@@ -54,6 +69,7 @@ const routes = [
 		name: "completedAssessment",
 		component: () => import("../views/teacherDashboard/assessment/completedAssessment"),
 	},
+	
 
 	////////////////////////////
 	{
@@ -64,12 +80,12 @@ const routes = [
 	},
 
 	{
-		path: "/courseView",
+		path: "/studentDashboard/courseView",
 		name: "courseView",
 		component: () => import("../views/studentDashboard/courseView"),
 	},
 	{
-		path: "/quizView/:courseName",
+		path: "/quizView/",
 		name: "quizView",
 		component: () => import("../views/studentDashboard/quiz/quizView"),
 		props: true,
@@ -131,7 +147,17 @@ const routes = [
 		name: "assignmentDetails",
 		component: () => import("../views/studentDashboard/grade/assignmentDetails"),
 	},
-
+	{
+		path: "/studentDashboard/courseContentView",
+		name: "courseContentView",
+		component: () => import("../views/studentDashboard/courseContent/courseContentView"),
+	},
+	{
+		path: "/studentDashboard/courseContentView/courseContentDetails/:courseName",
+		name: "courseContentDetails",
+		component: () => import("../views/studentDashboard/courseContent/courseContentDetails"),
+	},
+	
 	{
 		path: "/unauthorized",
 		name: "unauthorized",

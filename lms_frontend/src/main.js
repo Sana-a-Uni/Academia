@@ -5,6 +5,7 @@ import { createPinia } from "pinia";
 import { QuillEditor } from "@vueup/vue-quill";
 import VTooltip from "v-tooltip";
 import { useCourseStore } from "@/stores/teacherStore/courseStore"; 
+import { useStudentStore } from "@/stores/studentStore/courseStore"; 
 
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
@@ -21,3 +22,6 @@ app.mount("#app");
 
 const courseStore = useCourseStore(pinia);
 courseStore.loadSelectedCourse();
+
+const studentStore = useStudentStore(pinia);
+studentStore.loadSelectedCourse();
