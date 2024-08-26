@@ -7,10 +7,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch , computed} from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import { useQuizStore } from "@/stores/teacherStore/quizStore";
 import QuizList from "@/components/teacherComponents/quiz/QuizView.vue";
-import mainLayout from "@/components/teacherComponents/layout/MainLayout.vue";
+import mainLayout from "@/components/teacherComponents/layout/MainSub.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 import { useCourseStore } from "@/stores/teacherStore/courseStore";
@@ -21,7 +21,7 @@ const quizStore = useQuizStore();
 console.log(selectedCourse.value);
 onMounted(() => {
 	if (selectedCourse.value) {
-		quizStore.fetchQuizzes(selectedCourse.value.course);
+		quizStore.fetchQuizzes(selectedCourse.value.course, selectedCourse.value.course_type);
 	}
 });
 const quizzes = ref([]);
@@ -34,3 +34,9 @@ watch(
 	}
 );
 </script>
+<style scoped>
+* {
+	width: 94%;
+	margin: 0px;
+}
+</style>

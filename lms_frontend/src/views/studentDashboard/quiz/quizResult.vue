@@ -26,6 +26,7 @@ onMounted(async () => {
 	quizResult.value = quizResultStore.quizResult;
 });
 
+
 watch(
 	() => quizResultStore.quizResult,
 	(newQuizResult) => {

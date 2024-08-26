@@ -9,7 +9,7 @@ import { ref, computed, onMounted } from "vue";
 import { useAssessmentStore } from "@/stores/teacherStore/assessmentStore";
 import { useCourseStore } from "@/stores/teacherStore/courseStore";
 import CompletedAssessment from "@/components/teacherComponents/assessment/CompletedAssessment.vue";
-import mainLayout from "@/components/teacherComponents/layout/MainLayout.vue";
+import mainLayout from "@/components/teacherComponents/layout/MainSub.vue";
 
 const assessmentStore = useAssessmentStore();
 const courseStore = useCourseStore();
@@ -18,7 +18,10 @@ const selectedCourse = computed(() => courseStore.selectedCourse);
 
 const loadGrades = async () => {
 	if (selectedCourse.value) {
-		await assessmentStore.fetchQuizAndAssignmentGrades(selectedCourse.value.course);
+		await assessmentStore.fetchQuizAndAssignmentGrades(
+			selectedCourse.value.course,
+			selectedCourse.value.course_type
+		);
 		console.log(selectedCourse.value.course);
 	}
 };
@@ -44,14 +47,22 @@ const students = computed(() => {
 
 	assessmentStore.quizzes.forEach((quiz) => {
 		if (!studentGrades[quiz.student_name]) {
-			studentGrades[quiz.student_name] = { quizzes: {}, assignments: {} };
+			studentGrades[quiz.student_name] = {
+				fullName: quiz.student_full_name,
+				quizzes: {},
+				assignments: {},
+			};
 		}
 		studentGrades[quiz.student_name].quizzes[quiz.quiz_title] = quiz.quiz_grade;
 	});
 
 	assessmentStore.assignments.forEach((assignment) => {
 		if (!studentGrades[assignment.student_name]) {
-			studentGrades[assignment.student_name] = { quizzes: {}, assignments: {} };
+			studentGrades[assignment.student_name] = {
+				fullName: assignment.student_full_name,
+				quizzes: {},
+				assignments: {},
+			};
 		}
 		studentGrades[assignment.student_name].assignments[assignment.assignment_title] =
 			assignment.assignment_grade;
@@ -59,7 +70,14 @@ const students = computed(() => {
 
 	return Object.keys(studentGrades).map((studentName) => ({
 		name: studentName,
+		fullName: studentGrades[studentName].fullName,
 		grades: studentGrades[studentName],
 	}));
 });
 </script>
+<style scoped>
+* {
+	width: 94%;
+	margin: 0px;
+}
+</style>

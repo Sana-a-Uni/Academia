@@ -58,14 +58,22 @@ const showDialog = ref(false);
 const dialogMessage = ref("");
 
 const selectedCourse = computed(() => courseStore.selectedCourse);
-
+const courseName = computed(
+	() => courseStore.selectedCourse?.course_name || "Default Course Name"
+);
 onMounted(async () => {
-	const courseId = route.params.courseId; // تأكد من أن لديك مسار يحتوي على معرف الدورة
+	const courseId = route.params.courseId; 
 	await courseStore.fetchCourses();
-	console.log("Fetched courses:", courseStore.courses); // طباعة الدورات التي تم جلبها للتحقق منها
+	console.log("Fetched courses:", courseName.value); 
 	const course = courseStore.courses.find((course) => course.id === courseId);
 	if (course) {
 		courseStore.selectCourse(course);
+		if (course.course_type) {
+			await quizStore.fetchCourseQuestions(course.course, course.course_type);
+		} else {
+			console.error("Course type is missing.");
+			alert("An error occurred: Course type is missing.");
+		}
 	} else {
 		console.error("Course information is missing.");
 		alert("An error occurred: Course information is missing.");
@@ -74,9 +82,13 @@ onMounted(async () => {
 
 const handleQuizCreated = () => {
 	currentView.value = "questions";
+	const selectedCourse = computed(() => courseStore.selectedCourse);
 	if (selectedCourse.value) {
-		quizStore.updateQuizData({ course: selectedCourse.value.course });
-		console.log("Quiz Data after course update:", quizStore.quizData); // طباعة بيانات الكويز بعد التحديث
+		quizStore.updateQuizData({
+			course: selectedCourse.value.course,
+			course_type: selectedCourse.value.course_type,
+		});
+		console.log("Quiz Data after course update:", quizStore.quizData); 
 	} else {
 		console.error("Selected course is missing.");
 	}
@@ -85,9 +97,10 @@ const handleQuizCreated = () => {
 const handleSaveSettings = async (settingsData) => {
 	if (selectedCourse.value) {
 		settingsData.course = selectedCourse.value.course;
-		console.log("Course being used:", settingsData.course); // تأكد من أن الدورة تستخدم هنا
+		settingsData.course_type = selectedCourse.value.course_type;
+		console.log("Course being used:", settingsData.course); 
 		quizStore.updateQuizData(settingsData);
-		console.log("Quiz Data before sending:", quizStore.quizData); // طباعة بيانات الكويز قبل الإرسال
+		console.log("Quiz Data before sending:", quizStore.quizData); 
 		try {
 			const success = await quizStore.createQuiz();
 			if (success) {
@@ -175,6 +188,3 @@ const resetFields = () => {
 };
 </script>
 
-<style scoped>
-/* أضف أنماط CSS هنا */
-</style>

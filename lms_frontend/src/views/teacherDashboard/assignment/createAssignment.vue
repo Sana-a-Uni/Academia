@@ -45,11 +45,15 @@ const dialogMessage = ref("");
 
 const handleAssignmentCreated = () => {
 	currentView.value = "questions";
-	assignmentStore.updateAssignmentData({ course: selectedCourse.value.course });
+	assignmentStore.updateAssignmentData({
+		course: selectedCourse.value.course,
+		course_type: selectedCourse.value.course,
+	});
 };
 
 const handleSaveSettings = async (settingsData) => {
 	settingsData.course = selectedCourse.value.course;
+	settingsData.course_type = selectedCourse.value.course_type;
 	assignmentStore.updateAssignmentData(settingsData);
 	try {
 		const response = await assignmentStore.createAssignment();
@@ -60,10 +64,9 @@ const handleSaveSettings = async (settingsData) => {
 				showDialog.value = false;
 				resetFields();
 				router.push({ name: "assignments" });
-			}, 1000); // Display the dialog for 1 second
+			}, 1000); 
 		} else {
 			errors.value = assignmentStore.errors;
-			// Redirect to the view where the error is
 			if (errors.value.assignment_title || errors.value.instruction) {
 				currentView.value = "information";
 			} else if (errors.value.questions || errors.value.assessment_criteria) {

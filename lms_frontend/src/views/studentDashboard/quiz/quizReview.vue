@@ -21,9 +21,16 @@
 					/>
 				</template>
 			</Sidebar>
-			<div class="content" :style="{ width: isCollapsed ? 'calc(100% - 40px)' : '80%' }" id="content">
+			<div
+				class="content"
+				:style="{ width: isCollapsed ? 'calc(100% - 40px)' : '80%' }"
+				id="content"
+			>
 				<template v-if="!loading && questionsWithAnswers.length">
-					<QuestionContent :questions="questionsWithAnswers" :currentQuestion="currentQuestion" />
+					<QuestionContent
+						:questions="questionsWithAnswers"
+						:currentQuestion="currentQuestion"
+					/>
 					<Options
 						:questions="questionsWithAnswers"
 						:currentQuestion="currentQuestion"
@@ -69,7 +76,7 @@ const quizStore = useQuizStore();
 const { questionsWithAnswers, loading, error } = storeToRefs(quizStore);
 
 const formattedTime = computed(() => {
-	return "--:--:--"; // No timer in review mode
+	return "--:--:--"; 
 });
 
 const toggleQuestionList = () => {
@@ -93,11 +100,10 @@ const goToQuestion = (index) => {
 };
 
 const markAnswered = (questionIndex, option, checked = false) => {
-	// No marking in review mode
 };
 
 const closeReview = () => {
-	router.push({ name: "quizResultList" });
+	router.go(-1);
 };
 
 const submitAnswers = () => {
@@ -110,7 +116,7 @@ onMounted(() => {
 		currentQuestion.value = parseInt(route.params.questionIndex, 10);
 	}
 	watch(questionsWithAnswers, (newVal) => {
-		console.log("Questions with Answers:", newVal); // تحقق من البيانات المحدثة
+		console.log("Questions with Answers:", newVal); 
 	});
 });
 </script>

@@ -32,11 +32,10 @@ const previousSubmissionFiles = computed(() => assignmentStore.previousSubmissio
 const submitAssignment = async (data) => {
 	try {
 		const response = await assignmentStore.submitAssignment(data);
-		console.log("Server response:", response); // عرض استجابة السيرفر في وحدة التحكم
+		console.log("Server response:", response); 
 
-		// التحقق من حقل status_code
 		if (response && response.data.status_code === 200) {
-			alert(response.data.message || "Assignment submitted successfully!");
+			// alert(response.data.message || "Assignment submitted successfully!");
 			router.push({ path: "/studentDashboard/assignmentView" });
 		} else {
 			console.error("Unexpected response format", response);

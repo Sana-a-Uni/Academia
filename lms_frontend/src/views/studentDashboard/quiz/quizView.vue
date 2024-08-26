@@ -9,22 +9,30 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import { useQuizStore } from "@/stores/quizStore";
-import { useRoute } from "vue-router";
+import { useStudentStore } from "@/stores/studentStore/courseStore";
 import QuizList from "@/components/quiz/QuizList.vue";
-import mainLayout from "@/components/MainLayout.vue";
+import MainLayout from "@/components/MainSub.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
-const route = useRoute();
+
 
 const quizStore = useQuizStore();
-const courseName = ref(route.params.courseName);
+const studentStore = useStudentStore(); 
 
+const courseCode = ref("");
+const course_type=ref("");
 onMounted(() => {
-	quizStore.fetchQuizzes(courseName.value);
+	if (studentStore.selectedCourse) {
+		courseCode.value = studentStore.selectedCourse.course_code;
+		course_type.value = studentStore.selectedCourse.course_type;
+		quizStore.fetchQuizzes(courseCode.value , course_type.value);
+		console.log(courseCode.value);
+		
+	} else {
+		console.error("No course selected. Please select a course.");
+	}
 });
 
 const quizzes = ref([]);
-quizzes.value = quizStore.quizzes;
-
 watch(
 	() => quizStore.quizzes,
 	(newQuizzes) => {
@@ -32,3 +40,9 @@ watch(
 	}
 );
 </script>
+<style scoped>
+*{
+	width: 93%;
+	margin: 0px ;
+}
+</style>

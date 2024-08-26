@@ -13,7 +13,7 @@
 						v-model="username"
 						type="text"
 						required
-						placeholder="Enter your student ID"
+						placeholder="Enter your email"
 					/>
 				</div>
 				<div

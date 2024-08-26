@@ -8,17 +8,31 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useRoute } from "vue-router";
 import { useGradeStore } from "@/stores/studentStore/gradeStore";
+import { useStudentStore } from "@/stores/studentStore/courseStore";
 import GradeList from "@/components/student/grade/Grades.vue";
-import mainLayout from "@/components/MainLayout.vue";
+import mainLayout from "@/components/MainSub.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
-const route = useRoute();
 const gradeStore = useGradeStore();
-const courseName = ref("00");
 
+const studentStore = useStudentStore();
+const courseCode = ref("");
+const courseType = ref("");
 onMounted(() => {
-	gradeStore.fetchGrades(courseName.value);
+	if (studentStore.selectedCourse) {
+		courseCode.value = studentStore.selectedCourse.course_code;
+		courseType.value = studentStore.selectedCourse.course_type;
+		gradeStore.fetchGrades(courseCode.value, courseType.value);
+		console.log(courseCode.value);
+	} else {
+		console.error("No course selected. Please select a course.");
+	}
 });
 </script>
+<style scoped>
+* {
+	width: 94%;
+	margin: 0px;
+}
+</style>

@@ -11,7 +11,7 @@ import { ref, onMounted, watch, computed } from "vue";
 import { useAssignmentStore } from "@/stores/teacherStore/assignmentStore";
 import { useRoute } from "vue-router";
 import AssignmentList from "@/components/teacherComponents/assignment/AssignmentView.vue";
-import mainLayout from "@/components/teacherComponents/layout/MainLayout.vue";
+import mainLayout from "@/components/teacherComponents/layout/MainSub.vue";
 import LoadingSpinner from "@/components/LoadingSpinner.vue";
 
 const route = useRoute();
@@ -23,7 +23,10 @@ const selectedCourse = computed(() => courseStore.selectedCourse);
 
 onMounted(() => {
 	if (selectedCourse.value) {
-		assignmentStore.fetchAssignments(selectedCourse.value.course);
+		assignmentStore.fetchAssignments(
+			selectedCourse.value.course,
+			selectedCourse.value.course_type
+		);
 	}
 });
 
@@ -37,3 +40,9 @@ watch(
 	}
 );
 </script>
+<style scoped>
+* {
+	width: 94%;
+	margin: 0px;
+}
+</style>
