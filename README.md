@@ -3,13 +3,14 @@
 Academic institution management system
 
 
+
 ## How to make your Wiki
 
 ### Installation
 
 If the Wiki app is already installed and running for you, you can skip this part.
 
-#### Method 1 (recommended)
+#### - Method 1 (recommended)
 
 We recommend you to uninstall the Academia app before installing the Wiki app.
 Make sure that you have commited all changes before uninstalling.
@@ -31,7 +32,7 @@ Once you are done installing wiki, you can now install the Academia app:
 bench --site sitename install-app academia
 ```
 
-#### Method 2
+#### - Method 2
 
 If you don't want to uninstall the Academia app, you can get and install the Wiki app:
 ```bash
@@ -58,7 +59,7 @@ If you are still encoutnering different errors, we recommend you to use the firs
 
 ### First steps
 
-#### Migrate
+#### - Migrate
 
 After installing the Wiki app successfully, start by migrating the data to your site.
 ```bash
@@ -66,12 +67,13 @@ bench --site sitename migrate
 ```
 You should also do this everytime you pull changes from the main github repository.
 
-#### Delete default Wiki data
+#### - Delete default Wiki data
 
 Go to the *Wiki Pages* doctype and look for the two default wiki pages named *"New Wiki Page"* and *"Home"* and delete them.
 ![image](https://github.com/user-attachments/assets/7532eebf-940e-49f2-8007-10a1c3b340ad)
 
 You should also go the the *Wiki Space* doctype and look for the default wiki route that has *"Wiki"* in the route column and delete it.
+
 ![image](https://github.com/user-attachments/assets/c221a0aa-5544-4955-82d5-007a2d541b11)
 
 
