@@ -2,6 +2,9 @@
 
 Academic institution management system
 
+
+## How to make your Wiki
+
 ### Installation
 
 If the Wiki app is already installed and running for you, you can skip this part.
