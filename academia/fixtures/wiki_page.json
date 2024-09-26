@@ -1,34 +1,6 @@
 [
  {
   "allow_guest": 1,
-  "content": "Welcome to the homepage of your wiki!",
-  "docstatus": 0,
-  "doctype": "Wiki Page",
-  "meta_description": null,
-  "meta_image": null,
-  "meta_keywords": null,
-  "modified": "2024-08-12 20:58:35.496778",
-  "name": "81f81a8547",
-  "published": 1,
-  "route": "wiki/home",
-  "title": "Home"
- },
- {
-  "allow_guest": 1,
-  "content": "Welcome to Wiki Space wiki",
-  "docstatus": 0,
-  "doctype": "Wiki Page",
-  "meta_description": null,
-  "meta_image": null,
-  "meta_keywords": null,
-  "modified": "2024-08-12 20:58:35.636588",
-  "name": "3805266f49",
-  "published": 1,
-  "route": "wiki/new-wiki-page",
-  "title": "New Wiki Page"
- },
- {
-  "allow_guest": 1,
   "content": "<meta charset=\"utf-8\"/>\n<meta content=\"width=device-width, initial-scale=1.0\" name=\"viewport\"/>\n<title>عملية الترقية</title>\n<style>\n        body {\n            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; \n            margin: 0;\n            padding: 0;\n            direction: rtl; \n            text-align: right; \n            font-size: 20px; /* Increased font size for better readability */\n            background-color: #f0f0f0; /* Light background for better visibility */\n            color: #333; /* Dark text for contrast */\n        }\n        .content {\n            padding: 20px;\n            max-width: 800px; /* Center content with max width */\n            margin: auto; /* Center the content */\n            background-color: white; /* White background for the text area */\n            border: 1px solid #ddd; /* Light border for the content area */\n            border-radius: 8px; /* Rounded corners */\n            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */\n        }\n        h2 {\n            border-bottom: 2px solid #007bff; /* Underline for header */\n            padding-bottom: 10px; /* Spacing below header */\n            font-size: 24px; /* Larger font for headings */\n            margin-top: 20px; /* Margin above headers */\n        }\n        ol {\n            padding-left: 20px; /* Indent ordered list */\n        }\n        li {\n            margin-bottom: 10px; /* Space between list items */\n        }\n        strong {\n            color: #007bff; /* Highlight strong text */\n        }\n        .footer {\n            padding: 10px;\n            font-size: 0.9em; \n            color: #888; \n        }\n    </style>\n<div class=\"content\">\n<div>\n<p style=\"text-align: right;\">عملية الترقية في البيئة الأكاديمية تتعلق بنقل عضو هيئة التدريس من رتبة أكاديمية إلى رتبة أعلى بناءً على إنجازاته، مؤهلاته، ومساهماته في مجاله. هذه العملية ضرورية للاعتراف بالنمو الأكاديمي والمهني لأعضاء هيئة التدريس وتقديرهم</p>\n<p style=\"text-align: right;\"><strong>خطوات عملية الترقية:</strong></p>\n<p style=\"text-align: right;\"><strong>تقديم الطلب:</strong></p>\n<p style=\"text-align: right;\">يقدم عضو هيئة التدريس طلب الترقية من خلال تعبئة نموذج طلب الترقية، حيث يتم تقديم كافة المعلومات المطلوبة مثل الرتبة الحالية، المؤهلات الأكاديمية، والإنجازات البحثية</p>\n<p style=\"text-align: right;\"><strong>مراجعة الوثائق:</strong></p><p style=\"text-align: right;\">تقوم اللجنة المختصة بمراجعة الطلبات المقدمة والتأكد من اكتمال الوثائق والمعلومات. تشمل الوثائق عادةً السيرة الذاتية، الشهادات الأكاديمية، وأي مستندات تدعم إنجازات العضو</p>\n<p style=\"text-align: right;\"><strong>التقييم:</strong></p><p style=\"text-align: right;\">يتم تقييم الطلبات بناءً على معايير محددة مثل مستوى الإنجازات الأكاديمية، المساهمات في الأبحاث، والمشاركة في الأنشطة الأكاديمية. قد يتضمن التقييم استعراض الأبحاث، الشهادات، وآراء الزملاء</p>\n<p style=\"text-align: right;\"><strong>مراجعة من قبل المراجعين:</strong></p><p style=\"text-align: right;\">يتم تعيين مجموعة من المراجعين الأكاديميين لمراجعة طلب الترقية. هؤلاء المراجعين يقدمون تقييماتهم واستعراضاتهم حول مدى استحقاق العضو للترقية</p>\n<p style=\"text-align: right;\"><strong>اتخاذ القرار:</strong></p><p style=\"text-align: right;\">بعد استلام تقييمات المراجعين، تقوم اللجنة المعنية باتخاذ قرار بشأن منح الترقية. يتم اتخاذ القرار بناءً على التقييمات، المستندات المقدمة، والمراجعات الأكاديمية</p>\n<p style=\"text-align: right;\"><strong>إخطار العضو:</strong></p><p style=\"text-align: right;\">بعد اتخاذ القرار، يتم إخطار عضو هيئة التدريس بالقرار المتخذ. إذا تمت الموافقة على الترقية، يتم تحديث الرتبة الأكاديمية للعضو وفقًا للقرار</p>\n<p style=\"text-align: right;\"><br class=\"ProseMirror-trailingBreak\"/></p></div>\n</div>\n",
   "docstatus": 0,
   "doctype": "Wiki Page",

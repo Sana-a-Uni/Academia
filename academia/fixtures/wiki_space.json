@@ -4,34 +4,6 @@
   "docstatus": 0,
   "doctype": "Wiki Space",
   "light_mode_logo": null,
-  "modified": "2024-08-12 20:58:35.658124",
-  "name": "fe2cf28f61",
-  "navbar_items": [],
-  "route": "wiki",
-  "wiki_sidebars": [
-   {
-    "hide_on_sidebar": 0,
-    "parent": "fe2cf28f61",
-    "parent_label": "Wiki",
-    "parentfield": "wiki_sidebars",
-    "parenttype": "Wiki Space",
-    "wiki_page": "81f81a8547"
-   },
-   {
-    "hide_on_sidebar": 0,
-    "parent": "fe2cf28f61",
-    "parent_label": "New Group",
-    "parentfield": "wiki_sidebars",
-    "parenttype": "Wiki Space",
-    "wiki_page": "3805266f49"
-   }
-  ]
- },
- {
-  "dark_mode_logo": null,
-  "docstatus": 0,
-  "doctype": "Wiki Space",
-  "light_mode_logo": null,
   "modified": "2024-08-24 07:36:04.070024",
   "name": "Faculty Members Documentation",
   "navbar_items": [],
