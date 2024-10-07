@@ -69,7 +69,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": " Parent Category",
+   "label": "Parent Category",
    "options": "Transaction Category"
   },
   {
@@ -104,7 +104,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-29 09:23:17.404248",
+ "modified": "2024-09-15 23:03:33.500908",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Category",
