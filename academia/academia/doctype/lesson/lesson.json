@@ -32,7 +32,9 @@
   "from_time",
   "to_time",
   "section_break_mxrm",
-  "table_hfgk"
+  "table_hfgk",
+  "section_break_vutq",
+  "compensatory_lesson_reference"
  ],
  "fields": [
   {
@@ -44,13 +46,13 @@
    "reqd": 1
   },
   {
-   "depends_on": "eval:doc.is_multy_group == 0;",
+   "depends_on": "eval:doc.is_multi_group == 0;",
    "fieldname": "level",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Level",
-   "options": "Level",
-   "reqd": 1
+   "mandatory_depends_on": "eval:doc.is_multi_group == 0;",
+   "options": "Level"
   },
   {
    "fieldname": "column_break_jdfp",
@@ -65,13 +67,13 @@
    "reqd": 1
   },
   {
-   "depends_on": "eval:doc.is_multy_group == 0;",
+   "depends_on": "eval:doc.is_multi_group == 0;",
    "fieldname": "program",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Program",
-   "options": "Program Specification",
-   "reqd": 1
+   "mandatory_depends_on": "eval:doc.is_multi_group == 0;",
+   "options": "Program Specification"
   },
   {
    "fieldname": "section_break_stfq",
@@ -103,10 +105,11 @@
    "reqd": 1
   },
   {
-   "depends_on": "eval:doc.is_multy_group == 0;",
+   "depends_on": "eval:doc.is_multi_group == 0;",
    "fieldname": "group",
    "fieldtype": "Link",
    "label": "Group",
+   "mandatory_depends_on": "eval:doc.is_multi_group == 0;",
    "options": "Student Group"
   },
   {
@@ -179,9 +182,10 @@
    "fieldtype": "Section Break"
   },
   {
-   "depends_on": "eval:doc.is_multy_group == 1;",
+   "depends_on": "eval:doc.is_multi_group == 1;",
    "fieldname": "table_hfgk",
    "fieldtype": "Table",
+   "mandatory_depends_on": "eval:doc.is_multi_group == 1;",
    "options": "Multi Lesson Template"
   },
   {
@@ -202,12 +206,28 @@
    "default": "0",
    "fieldname": "is_multi_group",
    "fieldtype": "Check",
-   "label": "is Multi Group"
+   "label": "Is Multi Group"
+  },
+  {
+   "fieldname": "section_break_vutq",
+   "fieldtype": "Section Break",
+   "read_only": 1
+  },
+  {
+   "fieldname": "compensatory_lesson_reference",
+   "fieldtype": "Link",
+   "label": "Compensatory Lesson Reference",
+   "options": "Compensatory Lesson"
   }
  ],
  "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2024-07-06 18:25:14.445970",
+ "links": [
+  {
+   "link_doctype": "Lesson Attendance",
+   "link_fieldname": "lesson"
+  }
+ ],
+ "modified": "2024-08-09 10:06:56.705062",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lesson",

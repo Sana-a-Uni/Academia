@@ -4,6 +4,7 @@
 import frappe
 from frappe.model.document import Document
 import re
+from frappe import _
 
 class Authority(Document):
     # begin: auto-generated types
@@ -17,7 +18,4 @@ class Authority(Document):
         authority_name: DF.Data
     # end: auto-generated types
 
-    def validate(self):
-        if not re.match("^[a-zA-Z ]*$", self.authority_name):
-            frappe.throw("Authority name should only contain letters")
-
+    pass

@@ -2,6 +2,34 @@
  {
   "docstatus": 0,
   "doctype": "Workflow Action Master",
+  "modified": "2024-06-29 15:32:50.725139",
+  "name": "Cancel",
+  "workflow_action_name": "Cancel"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2024-07-02 13:27:16.815663",
+  "name": "Submit",
+  "workflow_action_name": "Submit"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2024-07-22 22:44:50.527149",
+  "name": "Request Approval",
+  "workflow_action_name": "Request Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2024-07-22 22:47:16.766798",
+  "name": "Request Modification",
+  "workflow_action_name": "Request Modification"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
   "modified": "2024-01-16 21:56:47.288299",
   "name": "Review",
   "workflow_action_name": "Review"
@@ -33,5 +61,19 @@
   "modified": "2024-07-04 14:46:40.911229",
   "name": "Send Evaluation",
   "workflow_action_name": "Send Evaluation"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2024-07-22 23:07:16.873707",
+  "name": "Scheduled",
+  "workflow_action_name": "Scheduled"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow Action Master",
+  "modified": "2024-07-22 23:11:02.221599",
+  "name": "Unscheduled",
+  "workflow_action_name": "Unscheduled"
  }
 ]

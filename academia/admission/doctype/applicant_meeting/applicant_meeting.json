@@ -1,0 +1,62 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-29 11:43:41.800799",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "academic_program",
+  "students",
+  "committee_member_tab",
+  "table_epbm"
+ ],
+ "fields": [
+  {
+   "fieldname": "academic_program",
+   "fieldtype": "Link",
+   "label": "Academic Program",
+   "options": "Program Specification"
+  },
+  {
+   "fieldname": "students",
+   "fieldtype": "Table",
+   "label": "Students",
+   "options": "Student Applicant Child",
+   "read_only": 1
+  },
+  {
+   "fieldname": "committee_member_tab",
+   "fieldtype": "Tab Break",
+   "label": "Committee Member "
+  },
+  {
+   "fieldname": "table_epbm",
+   "fieldtype": "Table",
+   "options": "Request A Supervisor child"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-30 03:11:45.578664",
+ "modified_by": "Administrator",
+ "module": "Admission",
+ "name": "Applicant Meeting",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,42 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2024-07-21 00:56:20.886208",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "academic_publications",
+  "faculty_member"
+ ],
+ "fields": [
+  {
+   "fieldname": "academic_publications",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Publications",
+   "options": "Academic Publication",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "faculty_member",
+   "fieldtype": "Link",
+   "label": "Faculty Member",
+   "options": "Faculty Member"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-07-21 15:51:23.821308",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Faculty Member Academic Publications",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

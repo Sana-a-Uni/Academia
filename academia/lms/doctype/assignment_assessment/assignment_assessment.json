@@ -1,0 +1,117 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-24 02:27:07.255326",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "assignment_submission",
+  "student",
+  "assignment",
+  "column_break_dsjc",
+  "faculty_member",
+  "section_break_tsla",
+  "assignment_assessment_details",
+  "grade",
+  "section_break_eolt",
+  "feedback",
+  "assessment_date",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "assignment_submission",
+   "fieldtype": "Link",
+   "label": "Assignment Submission",
+   "options": "Assignment Submission"
+  },
+  {
+   "fieldname": "faculty_member",
+   "fieldtype": "Link",
+   "label": "Faculty Member",
+   "options": "Faculty Member"
+  },
+  {
+   "fieldname": "feedback",
+   "fieldtype": "Text Editor",
+   "label": "Feedback"
+  },
+  {
+   "fieldname": "assessment_date",
+   "fieldtype": "Datetime",
+   "label": "Assessment Date"
+  },
+  {
+   "fieldname": "grade",
+   "fieldtype": "Float",
+   "label": "Grade"
+  },
+  {
+   "fieldname": "column_break_dsjc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_eolt",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_tsla",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "assignment_assessment_details",
+   "fieldtype": "Table",
+   "label": "Assignment Assessment Details",
+   "options": "Assignment Assessment Details"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Assignment Assessment",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "assignment_submission.student",
+   "fieldname": "student",
+   "fieldtype": "Link",
+   "label": "Student",
+   "options": "Student"
+  },
+  {
+   "fetch_from": "assignment_submission.assignment",
+   "fieldname": "assignment",
+   "fieldtype": "Link",
+   "label": "Assignment",
+   "options": "LMS Assignment"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-07-29 23:44:12.835468",
+ "modified_by": "Administrator",
+ "module": "LMS",
+ "name": "Assignment Assessment",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

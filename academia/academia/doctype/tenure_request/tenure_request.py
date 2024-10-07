@@ -19,11 +19,13 @@ class TenureRequest(Document):
 
 		academic_rank: DF.Link
 		amended_from: DF.Link | None
+		attachment: DF.Attach | None
 		company: DF.Link
 		date: DF.Date | None
 		department: DF.Link | None
+		email: DF.Data
 		evaluations: DF.TableMultiSelect[Evaluations]
-		faculty: DF.Link | None
+		faculty: DF.Link
 		faculty_member: DF.Link
 		faculty_member_name: DF.Data | None
 		naming_series: DF.Literal["TENUREQ-.YYYY.-.faculty_member_name.-"]
@@ -37,10 +39,12 @@ class TenureRequest(Document):
 
 
 @frappe.whitelist()
-def get_evaluations(faculty_member):
+def get_evaluations(faculty_member, department):
 	evaluations = frappe.db.sql(f"""
-		SELECT name
-        FROM `tabAcademic Evaluation`
-		WHERE evaluatee_party = '{faculty_member}' AND docstatus = 1
+		SELECT eval.name
+        FROM `tabAcademic Evaluation` eval
+		JOIN `tabEmployee` emp
+		ON eval.evaluator_party = emp.name
+		WHERE eval.evaluatee_party = '{faculty_member}' AND eval.evaluator_party_type = 'Employee' AND emp.department = '{department}' AND emp.designation = 'Department Head' AND eval.docstatus = 1
 	""", as_dict=True)
 	return evaluations

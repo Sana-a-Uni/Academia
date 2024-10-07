@@ -1,0 +1,149 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:naming_series",
+ "creation": "2024-08-08 17:07:05.846880",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_aooo",
+  "naming_series",
+  "section_break_ioxi",
+  "faculty_member",
+  "faculty_member_publication",
+  "column_break_tjgj",
+  "request_attachment",
+  "request_information_section",
+  "chairman",
+  "internal_arbitration_committee",
+  "external_arbitration_committee",
+  "section_break_zsww",
+  "reference_doctype",
+  "column_break_vhcr",
+  "document_name",
+  "section_break_pehv",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_aooo",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Thesis Arbitration Committee",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "ACAD-TAC-.YY.-.MM.-.#####."
+  },
+  {
+   "fieldname": "section_break_ioxi",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "faculty_member",
+   "fieldtype": "Link",
+   "label": "Faculty Member",
+   "options": "Faculty Member"
+  },
+  {
+   "fieldname": "faculty_member_publication",
+   "fieldtype": "Link",
+   "label": "Faculty Member Publication",
+   "options": "Academic Publication"
+  },
+  {
+   "fieldname": "column_break_tjgj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "request_attachment",
+   "fieldtype": "Attach",
+   "label": "Request Attachment"
+  },
+  {
+   "fieldname": "request_information_section",
+   "fieldtype": "Section Break",
+   "label": "Request Information"
+  },
+  {
+   "fieldname": "internal_arbitration_committee",
+   "fieldtype": "Table",
+   "label": "Internal Arbitration Committee",
+   "options": "Internal Arbitration Committee"
+  },
+  {
+   "fieldname": "external_arbitration_committee",
+   "fieldtype": "Table",
+   "label": "External Arbitration Committee",
+   "options": "External Arbitration Committee"
+  },
+  {
+   "fieldname": "section_break_pehv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "chairman",
+   "fieldtype": "Link",
+   "label": "Chairman",
+   "options": "Faculty Member"
+  },
+  {
+   "fieldname": "section_break_zsww",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Link",
+   "label": "Reference Doctype",
+   "options": "DocType"
+  },
+  {
+   "fieldname": "column_break_vhcr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "document_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Document Name",
+   "options": "reference_doctype"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-08-08 17:18:49.078076",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Thesis Arbitration Committee",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -930,9 +930,8 @@ def change_is_received_in_action_recipients(rcipient_name):
 @frappe.whitelist()
 def create_transaction(priority,title, category, sub_category,refrenced_document,applicants_list ):
     if(is_parent_category(category, sub_category)):
-            frappe.msgprint("ttttttt")
-           
-
+            # frappe.msgprint("ttttttt")
+            pass
 
         
             template=get_template_by_category(sub_category)

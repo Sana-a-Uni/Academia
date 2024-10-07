@@ -8,10 +8,10 @@
  "field_order": [
   "theoretical_tab",
   "student_group_name",
-  "batch",
+  "faculty",
   "program",
   "column_break_zbwu",
-  "faculty",
+  "batch",
   "group_based_on",
   "students_section",
   "students",
@@ -56,7 +56,8 @@
    "in_global_search": 1,
    "label": "Batch",
    "mandatory_depends_on": "eval:doc.group_based_on == \"Batch\"",
-   "options": "Student Batch"
+   "options": "Student Batch",
+   "reqd": 1
   },
   {
    "fieldname": "students_section",
@@ -73,7 +74,8 @@
    "fieldname": "program",
    "fieldtype": "Link",
    "label": "Program",
-   "options": "Program Specification"
+   "options": "Program Specification",
+   "reqd": 1
   },
   {
    "fieldname": "theoretical_tab",
@@ -125,7 +127,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-03 01:48:49.849789",
+ "modified": "2024-07-30 18:05:05.377522",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Group",

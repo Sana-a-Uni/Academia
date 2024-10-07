@@ -1,6 +1,7 @@
 <template>
 	<div class="container">
 		<Navbar @toggle-drawer="toggleDrawer" />
+		<Subheader />
 		<div class="content">
 			<Sidebar :isOpen="isDrawerOpen" />
 			<main class="main-content">
@@ -14,6 +15,7 @@
 import { ref } from "vue";
 import Navbar from "@/components/Navbar.vue";
 import Sidebar from "@/components/Sidebar.vue";
+import Subheader from "@/components/Subheader.vue";
 
 const isDrawerOpen = ref(false);
 
@@ -30,8 +32,8 @@ const toggleDrawer = () => {
 
 .content {
 	display: flex;
-	margin-top: 60px;
-	margin-left: 22.5%;
+	
+	margin-left: 17.5%;
 	width: 80%;
 }
 

@@ -1,0 +1,169 @@
+{
+ "actions": [],
+ "autoname": "naming_series:naming_series",
+ "creation": "2024-07-17 02:28:10.118116",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_ovv1",
+  "naming_series",
+  "faculty_member",
+  "faculty_member_name",
+  "company",
+  "faculty",
+  "department",
+  "column_break_klyw",
+  "current_academic_rank",
+  "date_of_obtaining_the_current_academic_rank",
+  "academic_publications",
+  "scientific_degree",
+  "date_of_obtaining_the_certificate",
+  "certificate",
+  "amended_from",
+  "section_break_kicr",
+  "academic_arbitrators"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_ovv1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Promotion Request",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "faculty_member",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Faculty Member",
+   "options": "Faculty Member",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fetch_from": "faculty_member.faculty_member_name",
+   "fieldname": "faculty_member_name",
+   "fieldtype": "Data",
+   "label": "Faculty Member Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "faculty_member.company",
+   "fetch_if_empty": 1,
+   "fieldname": "company",
+   "fieldtype": "Data",
+   "label": "Company"
+  },
+  {
+   "fetch_from": "faculty_member.faculty",
+   "fieldname": "faculty",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Faculty",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "faculty_member.department",
+   "fieldname": "department",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Department",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "faculty_member.academic_rank",
+   "fetch_if_empty": 1,
+   "fieldname": "current_academic_rank",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Current Academic Rank",
+   "reqd": 1
+  },
+  {
+   "fieldname": "scientific_degree",
+   "fieldtype": "Link",
+   "label": "Scientific Degree",
+   "options": "Scientific Degree",
+   "reqd": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "PROMREQ-.YYYY.-.faculty_member_name.-"
+  },
+  {
+   "fieldname": "column_break_klyw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "date_of_obtaining_the_certificate",
+   "fieldtype": "Date",
+   "label": "Date of Obtaining the Certificate",
+   "reqd": 1
+  },
+  {
+   "fieldname": "academic_publications",
+   "fieldtype": "Table MultiSelect",
+   "label": "Academic Publications",
+   "options": "Faculty Member Academic Publications"
+  },
+  {
+   "fetch_from": "faculty_member.date_of_obtaining_the_academic_rank",
+   "fetch_if_empty": 1,
+   "fieldname": "date_of_obtaining_the_current_academic_rank",
+   "fieldtype": "Date",
+   "label": "Date of Obtaining the Current Academic Rank",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_kicr",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "academic_arbitrators",
+   "fieldtype": "Table",
+   "label": "Academic Arbitrators",
+   "options": "Academic Arbitrators"
+  },
+  {
+   "fieldname": "certificate",
+   "fieldtype": "Attach",
+   "label": "Certificate"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-08-20 07:04:38.787823",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Promotion Request",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

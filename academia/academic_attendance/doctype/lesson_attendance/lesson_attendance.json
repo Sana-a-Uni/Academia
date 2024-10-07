@@ -1,6 +1,5 @@
 {
  "actions": [],
- "allow_rename": 1,
  "autoname": "format:AAT-LAT-{YYYY}-{#####}",
  "creation": "2024-07-21 16:21:51.428326",
  "default_view": "List",
@@ -95,7 +94,6 @@
   {
    "fieldname": "faculty",
    "fieldtype": "Link",
-   "in_list_view": 1,
    "label": "Faculty",
    "options": "Faculty",
    "reqd": 1
@@ -151,8 +149,7 @@
    "fetch_from": "faculty_member.faculty_member_name",
    "fieldname": "faculty_member_name",
    "fieldtype": "Read Only",
-   "hidden": 1,
-   "label": "Faculty Member Name"
+   "label": "Instructor Name"
   },
   {
    "fieldname": "room",
@@ -202,6 +199,8 @@
   {
    "fieldname": "attendance_date",
    "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Attendance Date",
    "reqd": 1
   },
@@ -239,6 +238,7 @@
   {
    "fieldname": "status",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Status",
    "options": "\nPresent\nAbsent"
@@ -310,16 +310,6 @@
    "search_index": 1
   },
   {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Lesson Attendance",
-   "print_hide": 1,
-   "read_only": 1,
-   "search_index": 1
-  },
-  {
    "fieldname": "teaching_hours",
    "fieldtype": "Float",
    "label": "Teaching Hours",
@@ -327,15 +317,16 @@
    "read_only": 1
   }
  ],
+ "in_create": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [
   {
-   "link_doctype": "Compensatory Lesson 3",
+   "link_doctype": "Compensatory Lesson",
    "link_fieldname": "lesson_attendance"
   }
  ],
- "modified": "2024-07-21 23:09:38.448354",
+ "modified": "2024-08-14 22:42:23.754214",
  "modified_by": "Administrator",
  "module": "Academic Attendance",
  "name": "Lesson Attendance",
@@ -354,11 +345,140 @@
    "share": 1,
    "submit": 1,
    "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "export": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Lesson Attendance User",
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Lesson Attendance User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Academic Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Academic Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Lesson Attendance Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Lesson Attendance Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Faculty Member"
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Department Head",
+   "share": 1
+  },
+  {
+   "email": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Department Head",
+   "share": 1
+  },
+  {
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Faculty Dean",
+   "share": 1
+  },
+  {
+   "email": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Faculty Dean",
+   "share": 1
   }
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": [],
+ "states": [
+  {
+   "color": "Green",
+   "title": "Present"
+  },
+  {
+   "color": "Red",
+   "title": "Absent"
+  }
+ ],
  "title_field": "faculty_member_name",
  "track_changes": 1
 }

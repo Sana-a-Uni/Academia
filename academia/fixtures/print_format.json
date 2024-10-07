@@ -1,0 +1,33 @@
+[
+ {
+  "absolute_value": 0,
+  "align_labels_right": 0,
+  "css": ".container {\n      width: 100%;\n      height: 60vh;\n      display: flex;\n      flex-direction: column;\n     align-items: center;\n      justify-content: center;\n      \n    }\n    .print-format {\n        \n        padding-left: 0px;\n    }\n    \n    .pos-right{\n        position:relative;\n        right:100px;\n    }\n    \n    .pos-left{\n        position:relative;\n        left:100px;\n    }\n    \n    table {\n      width: 60%;\n      border-collapse: collapse;\n      margin-bottom: 20px;\n    }\n    \n    .tdimg {\n      padding: 10px;\n      border: none;  /* Remove cell borders */\n      text-align: center;  /* Align text horizontally in the center */\n      vertical-align: middle;  /* Align text vertically in the middle */\n    }\n    \n    .tdarabic {\n      padding: 10px;\n      border: none;  /* Remove cell borders */\n      text-align: right;  /* Align text horizontally in the center */\n        /* Align text vertically in the middle */\n    }\n   \n    img {\n      display: block;\n      max-width: 20%;\n      height: auto;\n      margin: 0 auto;\n    }\n    \n    hr {\n      width: 100%;\n      margin-bottom: 20px;\n    }\n    .font {\n      font-size: x-large;\n    }\n    .largefont{\n      font-size: large;\n    }\n    .title-td{\n      font-size: x-large;\n      text-align: center;\n      font-weight: bold;\n       vertical-align: middle; \n    }\n     .thank-td{\n      font-size: large;\n      text-align: center;\n      font-weight: bold;\n       vertical-align: middle; \n    }\n    .dep-td{\n      font-size: large;\n      text-align: left;\n      font-weight: bold;\n       vertical-align: middle; \n    }\n    .resized-td {\n    width: 200px;\n    height: 100px;\n  }",
+  "custom_format": 1,
+  "default_print_language": "en",
+  "disabled": 0,
+  "doc_type": "Transaction",
+  "docstatus": 0,
+  "doctype": "Print Format",
+  "font": null,
+  "font_size": 14,
+  "format_data": null,
+  "html": "<div class=\"container\">\n    <table>\n          {% set date_parts = doc.start_date.split() %}\n{% set day = date_parts[0] %}\n{% set month = date_parts[1] %}\n{% set year = date_parts[2].rstrip(',') %}\n      <tr>\n        <td class=\"pos-right resized-td\">Republic of Yemen <br>\n          Sana’a University  <br>\n          <!--{{ doc.company }}-->\n          {{ doc.start_with_company }}                    <br>   \n          DATE: {{ day }} {{ month }} {{ year }}  <br>\n        </td>\n{% if not (doc.transaction_scope == \"With External Entity\" and doc.type == \"Incoming\") %}\n{% set logo=frappe.db.get_value(\"Company\", {\"company_name\": doc.start_with_company}, \"company_logo\")%}\n{% else %}\n    {% set logo = frappe.db.get_value(\"External Entity\", {\"external_entity\": doc.main_external_entity_from}, \"logo\") %}\n\n{% endif %}\n          <!--{% set company_logo=frappe.db.get_value(\"Company\", {\"company_name\": doc.start_with_company}, \"company_logo\")%}-->\n\n        <td  class=\"tdimg  resized-td\">\n          <img src=\"{{logo}}\" alt=\"Logo\">\n        </td>\n        <td  class=\"tdarabic resized-td pos-left\">الجمهورية اليمنية<br>\n          جامعة صنعاء<br>\n          {{_(doc.start_with_company)}} <br>\n       \n\n       {{doc.hijri_date}}   :التاريخ\n        </td>\n      </tr>\n    </table>\n    \n    <hr>\n\n    <table>\n        \n      <tr>\n          \n        <td class=\"font pos-right\"> المحترم</td>\n        <td class=\"tdarabic font pos-left\"><span>\n            {% if doc.transaction_scope != \"With External Entity\" and doc.recipients %}\n                  {% set first_recipient = doc.recipients[0].recipient_name %}\n                  <!--{{ first_recipient.fullname }}-->\n            {% elif doc.transaction_scope == \"With External Entity\" and doc.type == \"Outgoing\" %}\n                  {% set first_recipient = doc.external_entity_designation_to %}\n\n      \n            \n            \n            {{ first_recipient }}</span> / الأخ  </td>\n            {% endif %}\n      </tr>\n    </table>\n    <br>\n    <table>\n      <tr>\n<td class=\"title-td\">الموضوع / {{ doc.title }}</td>\n</table>\n    <br><br> \n    <table>\n      <tr>\n        <td class=\"tdarabic largefont\"> {{ doc.transaction_description }}        </td>\n      </tr>\n    </table>\n    <br><br>\n    <table>\n      <tr>\n        <td class=\"thank-td\">..شاكرين تعاونكم معنا </td>\n      </tr>\n    </table>\n    <br><br><br><br><br><br>\n    <table>\n        \n{% if doc.transaction_scope != \"With External Entity\" %}\n    {% for signature in doc.signatories %}\n        <tr>\n            <td class=\"dep-td\">: {{ signature.signatory_designation }} <br> <br>\n            </td>\n        </tr>\n    {% endfor %}\n    {% for signature in doc.signatories %}\n        <tr>\n            <td> {{ signature.signatory_name|join }}</td>\n        </tr>\n    {% endfor %}\n{% elif doc.transaction_scope == \"With External Entity\" and doc.type == \"Outgoing\" %}\n    {% set head = frappe.db.get_value(\"Transaction Company Head\", {\"company\": doc.start_with_company}, \"head_name\") %}\n    {% set head_designation = frappe.db.get_value(\"Transaction Company Head\", {\"company\": doc.start_with_company}, \"head_desgination\") %}\n    <tr>\n        <td class=\"dep-td\">: {{head_designation}} <br> <br>\n        </td>\n    </tr>\n    <tr>\n        <td> {{head}}</td>\n    </tr>\n{% elif doc.transaction_scope == \"With External Entity\" and doc.type == \"Incoming\" %}\n    {{ doc.external_entity_designation_from }}\n{% endif %}",
+  "line_breaks": 0,
+  "margin_bottom": 15.0,
+  "margin_left": 15.0,
+  "margin_right": 15.0,
+  "margin_top": 15.0,
+  "modified": "2024-07-23 22:22:46.139869",
+  "module": "Transaction Management",
+  "name": "Transaction",
+  "page_number": "Hide",
+  "print_format_builder": 0,
+  "print_format_builder_beta": 0,
+  "print_format_type": "Jinja",
+  "raw_commands": null,
+  "raw_printing": 0,
+  "show_section_headings": 0,
+  "standard": "Yes"
+ }
+]

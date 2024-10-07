@@ -8,7 +8,4 @@ from frappe import _
 
 
 class FacultyMemberAwardandAppreciationCertificate(Document):
- def validate(self):
-	 if self.date:
-            if self.date > frappe.utils.today():
-                frappe.throw(_(" Date cannot be in the future"))
+    pass

@@ -1,0 +1,185 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-07-30 00:58:51.353689",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "private",
+  "section_break_yuho",
+  "university_name",
+  "university_name_english",
+  "column_break_uibx",
+  "abbr",
+  "date_of_establishment",
+  "section_break_xxkv",
+  "country",
+  "column_break_xecv",
+  "city",
+  "section_break_elhw",
+  "university_vision",
+  "university__mission",
+  "column_break_ojeu",
+  "university_goals",
+  "address_and_contact_tab",
+  "university_logo",
+  "phone_no",
+  "description",
+  "column_break_dcqe",
+  "fax",
+  "website",
+  "email"
+ ],
+ "fields": [
+  {
+   "default": "0",
+   "fieldname": "private",
+   "fieldtype": "Check",
+   "label": "Private"
+  },
+  {
+   "fieldname": "section_break_yuho",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "university_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "University Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "university_name_english",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "University Name (English)",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_uibx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "abbr",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Abbr",
+   "reqd": 1
+  },
+  {
+   "fieldname": "date_of_establishment",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date of Establishment",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_xxkv",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_xecv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "city",
+   "fieldtype": "Data",
+   "label": "City",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_elhw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "university_vision",
+   "fieldtype": "Text Editor",
+   "label": " University Vision"
+  },
+  {
+   "fieldname": "university__mission",
+   "fieldtype": "Text Editor",
+   "label": "University  Mission"
+  },
+  {
+   "fieldname": "column_break_ojeu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "university_goals",
+   "fieldtype": "Text Editor",
+   "label": " University Goals"
+  },
+  {
+   "fieldname": "address_and_contact_tab",
+   "fieldtype": "Tab Break",
+   "label": "Address and Contact"
+  },
+  {
+   "fieldname": "university_logo",
+   "fieldtype": "Attach Image",
+   "hidden": 1,
+   "label": "University Logo"
+  },
+  {
+   "fieldname": "phone_no",
+   "fieldtype": "Phone",
+   "label": "Phone No"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text Editor",
+   "label": "Description"
+  },
+  {
+   "fieldname": "column_break_dcqe",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fax",
+   "fieldtype": "Data",
+   "label": "Fax"
+  },
+  {
+   "fieldname": "website",
+   "fieldtype": "Data",
+   "label": "Website"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email"
+  }
+ ],
+ "image_field": "university_logo",
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-07-30 01:04:54.313831",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "My University",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

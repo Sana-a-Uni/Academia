@@ -1,0 +1,111 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "allow_rename": 1,
+ "autoname": "field:hour_rate_list_name",
+ "creation": "2024-07-11 09:35:40.920857",
+ "default_view": "List",
+ "doctype": "DocType",
+ "document_type": "Setup",
+ "engine": "InnoDB",
+ "field_order": [
+  "enabled",
+  "column_break_3",
+  "default",
+  "column_break_rbrt",
+  "column_break_yueu",
+  "column_break_oril",
+  "sb_1",
+  "hour_rate_list_name",
+  "currency",
+  "date_of_apply"
+ ],
+ "fields": [
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "sb_1",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Currency",
+   "options": "Currency",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "default",
+   "fieldtype": "Check",
+   "label": "Default"
+  },
+  {
+   "fieldname": "column_break_rbrt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hour_rate_list_name",
+   "fieldtype": "Data",
+   "label": " Hour Rate List Name",
+   "no_copy": 1,
+   "oldfieldname": "price_list_name",
+   "oldfieldtype": "Data",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "column_break_yueu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_oril",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "date_of_apply",
+   "fieldtype": "Date",
+   "label": "Date Of Apply"
+  }
+ ],
+ "icon": "fa fa-tags",
+ "links": [],
+ "max_attachments": 1,
+ "modified": "2024-07-31 01:19:45.135795",
+ "modified_by": "Administrator",
+ "module": "Academic Attendance",
+ "name": "Hour Rate List",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Academic Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "search_fields": "currency",
+ "show_name_in_global_search": 1,
+ "sort_field": "modified",
+ "sort_order": "ASC",
+ "states": []
+}

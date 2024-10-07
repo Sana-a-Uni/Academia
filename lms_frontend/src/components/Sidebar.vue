@@ -75,7 +75,7 @@ const props = defineProps({
 	isOpen: Boolean,
 });
 
-const courseName = ref("00");
+const courseName = ref("DS");
 const studentId = ref("EDU-STU-2024-00001");
 </script>
 
@@ -84,7 +84,7 @@ const studentId = ref("EDU-STU-2024-00001");
 	position: fixed;
 	top: 63px; /* Adjust based on the height of the navbar */
 	left: 0;
-	width: 20%;
+	width: 15%;
 	height: calc(100% - 70px); /* Adjust based on the height of the navbar */
 	background-color: #f4f4f4;
 	padding: 20px;
@@ -92,7 +92,6 @@ const studentId = ref("EDU-STU-2024-00001");
 	z-index: 1000;
 	display: block; /* Show sidebar by default on large screens */
 }
-
 .sidebar.open {
 	display: block; /* Ensure sidebar is shown when open class is added */
 }
@@ -106,11 +105,11 @@ const studentId = ref("EDU-STU-2024-00001");
 .sidebar nav ul li {
 	margin-bottom: 10px;
 	border-bottom: 1px solid #ddd; /* Add bottom border */
-	padding-bottom: 10px; /* Add padding to bottom */
+	padding-bottom: 10px;
 }
 
 .sidebar nav ul li:last-child {
-	border-bottom: none; /* Remove border from last item */
+	border-bottom: none;
 }
 
 .sidebar nav ul li a,

@@ -7,10 +7,64 @@ app_license = "mit"
 required_apps = ["frappe/erpnext", "frappe/hrms"]
 
 
+
+# for print format
+fixtures = [
+ {
+  "doctype": "Print format",
+  "filters" : [
+                "name",
+                "in",
+                [
+     'transaction'
+                ]
+             ]
+     }
+ ]
+
+fixtures = [
+    "Academic Status",
+    "Journal Type",
+    "Scientific Degree",
+    "Workflow",
+    "Workflow State",
+    "Workflow Action Master",
+    {
+        "doctype": "Role",
+        "filters": [
+            ["name", "in", ["Academic User", "Faculty Dean", "Department Head"]]
+        ]
+    }
+]
+
+fixtures = [
+    {
+        "doctype": "Workflow",
+        "filters": [
+            ["name", "in", ["Session Workflow", "Evaluation Workflow", "Compensatory Lesson"]]
+        ]
+    },
+    {
+        "doctype": "Workflow State",
+        "filters": [
+            ["name", "in", ["Scheduled", "Unscheduled", "Pending Approved", "Pending Modified", "Pending", "Rejected", "Approved", "Pending Evaluation", "Draft",
+                             "Pending Approval", "Approval Pending By Academic Manager", "Approval Pending By Department Head", "Approval Pending By Faculty Dean", "Cancelled"]]
+        ]
+    },
+    {
+        "doctype": "Workflow Action Master",
+        "filters": [
+            ["name", "in",["Request Approval", "Request Modification", "Review", "Approve", "Reject", "Send Request", "Send Evaluation", "Scheduled", "Unscheduled","Submit", "Cancel"]]
+        ]
+    },
+]
 # Includes in <head>
 # ------------------
 
 # include js, css files in header of desk.html
+doctype_js = {
+	"Employee": "public/js/employee_custom.js",
+}
 app_include_js = "academia.bundle.js"
 # app_include_css = "/assets/academia/css/academia.css"
 # app_include_js = "/assets/academia/js/academia.js"
@@ -227,8 +281,12 @@ export_python_type_annotations = True
 fixtures = [
 	# Print formats
 	{"doctype": "Print Format", "filters": [["name", "in", ["transaction"]]]},
+    # letter heads
+    "Letter Head",
 	# Standard Fixtures
 	"Academic Status",
+	"Wiki Space",
+    "Wiki Page",
 	"Journal Type",
 	"Workflow",
 	"Workflow State",
@@ -318,4 +376,6 @@ fixtures = [
 			]
 		],
 	},
+  	{"doctype": "Topic Decision Template"},
 ]
+

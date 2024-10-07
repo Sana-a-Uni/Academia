@@ -4,6 +4,7 @@
 import frappe
 from frappe.model.document import Document
 import re
+from frappe import _
  
 class Journal(Document):
     # begin: auto-generated types
@@ -27,17 +28,14 @@ class Journal(Document):
         # Calling functions
         self.validate_url()
 
-        if not re.match("^[A-Za-z\s]+$", self.journal_name):
-            frappe.throw("Journal name should only contain letters")
-
         if self.hindex and not re.match("^[0-9]+$", str(self.hindex)):
-            frappe.throw("H-Index should only contain numbers")
+            frappe.throw(_("H-Index should only contain numbers."))
 
         if self.issn:
             issn_str = str(self.issn).strip()  # Remove leading/trailing whitespaces
             if not issn_str or not re.match(r"^\d{4}[-\s]?\d{4}$", issn_str):
                 # Only allow digits and hyphen
-                frappe.throw("ISSN should be in the format XXXX-XXXX or XXXX XXXX, where X represents a digit")
+                frappe.throw(_("ISSN should be in the format XXXX-XXXX or XXXX XXXX, where X represents a digit."))
 
             else:
                 # Format the ISSN as XXXX-XXXX
@@ -52,5 +50,5 @@ class Journal(Document):
         # Verifying that website_link matches the URL pattern
         if self.website_link:
             if not url_pattern.match(self.website_link):
-                frappe.throw("Website Link is not valid. Please enter a valid URL starting with http, https, or ftp")
+                frappe.throw(_("Website Link is not valid. Please enter a valid URL starting with http, https, or ftp."))
     # End of the function

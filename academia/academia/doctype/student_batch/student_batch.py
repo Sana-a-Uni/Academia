@@ -15,7 +15,8 @@ class StudentBatch(Document):
 		from frappe.types import DF
 
 		batch_name: DF.Data
-		current_level: DF.Link | None
+		current_level: DF.Link
+		faculty: DF.Link
 		program: DF.Link
 		program_specification: DF.Link
 		status: DF.Literal["", "Continue", "Finished"]

@@ -10,12 +10,14 @@
   "naming_series",
   "faculty_member",
   "faculty_member_name",
+  "email",
   "academic_rank",
   "date",
+  "attachment",
   "column_break_aujg",
   "company",
-  "department",
   "faculty",
+  "department",
   "evaluations",
   "amended_from"
  ],
@@ -32,30 +34,30 @@
   },
   {
    "fetch_from": "faculty_member.company",
-   "fetch_if_empty": 1,
    "fieldname": "company",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Company",
    "options": "Company",
+   "read_only": 1,
    "reqd": 1
   },
   {
    "fetch_from": "faculty_member.department",
-   "fetch_if_empty": 1,
    "fieldname": "department",
    "fieldtype": "Link",
    "label": "Department",
-   "options": "Department"
+   "options": "Department",
+   "read_only": 1
   },
   {
    "fetch_from": "faculty_member.academic_rank",
-   "fetch_if_empty": 1,
    "fieldname": "academic_rank",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Academic Rank",
    "options": "Academic Rank",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -73,11 +75,12 @@
   },
   {
    "fetch_from": "faculty_member.faculty",
-   "fetch_if_empty": 1,
    "fieldname": "faculty",
    "fieldtype": "Link",
    "label": "Faculty",
-   "options": "Faculty"
+   "options": "Faculty",
+   "read_only": 1,
+   "reqd": 1
   },
   {
    "fieldname": "naming_series",
@@ -114,12 +117,27 @@
    "fieldtype": "Date",
    "label": "Date",
    "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "attachment",
+   "fieldtype": "Attach",
+   "label": "Attachment"
+  },
+  {
+   "fetch_from": "faculty_member.email",
+   "fetch_if_empty": 1,
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-07-17 18:46:25.419419",
+ "modified": "2024-08-01 21:07:09.608641",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Tenure Request",

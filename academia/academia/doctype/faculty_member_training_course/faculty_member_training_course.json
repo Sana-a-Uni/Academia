@@ -1,5 +1,4 @@
 {
- "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "autoname": "autoincrement",
  "creation": "2024-01-24 10:49:16.932637",
@@ -12,7 +11,8 @@
   "starts_on",
   "ends_on",
   "as_a_trainer",
-  "certification"
+  "certification",
+  "description"
  ],
  "fields": [
   {
@@ -57,12 +57,18 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "As a Trainer"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Description"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-12 17:02:34.781319",
+ "modified": "2024-07-29 18:21:59.104093",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member Training Course",

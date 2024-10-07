@@ -1,0 +1,291 @@
+{
+ "charts": [
+  {
+   "chart_name": "Faculty Member",
+   "label": "Faculty Members Based on Date of Joining in University"
+  }
+ ],
+ "content": "[{\"id\":\"8JxBGlUqj0\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Statistics</span>\",\"col\":12}},{\"id\":\"HHwxfr-Zc5\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Faculty Members\",\"col\":4}},{\"id\":\"n5KLhHfK5L\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Academic Publications\",\"col\":4}},{\"id\":\"EavelMOgIe\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Scientific Articles\",\"col\":4}},{\"id\":\"3qLxPFDg15\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Submitted Academic Evaluations\",\"col\":4}},{\"id\":\"d6dFoJx_Ne\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Submitted Tenure Requests\",\"col\":4}},{\"id\":\"KZGjfFndg9\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Submitted Promotion Requests\",\"col\":4}},{\"id\":\"yHtD3ctA45\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"9fFJGJ5Oem\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Faculty Members Based on Date of Joining in University\",\"col\":12}},{\"id\":\"Ud2iAqyXKk\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Last Academic Publications\",\"col\":4}},{\"id\":\"tSgPl81WQ1\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Last Scientific Articles\",\"col\":4}},{\"id\":\"3rwu2ds5HT\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Last Academic Evaluations\",\"col\":4}},{\"id\":\"_Oa7wcx3yL\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"rTKIDsi4kE\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Masters</b><b></b></span>\",\"col\":12}},{\"id\":\"kBno-yOHer\",\"type\":\"card\",\"data\":{\"card_name\":\"Staff\",\"col\":4}},{\"id\":\"1E4jPYmnbM\",\"type\":\"card\",\"data\":{\"card_name\":\"Ranks & Degrees\",\"col\":4}},{\"id\":\"y5yelT6eI6\",\"type\":\"card\",\"data\":{\"card_name\":\"Publications\",\"col\":4}},{\"id\":\"jUKn_EfAob\",\"type\":\"card\",\"data\":{\"card_name\":\"Requests\",\"col\":4}},{\"id\":\"3pJr9ArYnA\",\"type\":\"card\",\"data\":{\"card_name\":\"Evaluation\",\"col\":4}},{\"id\":\"6jWRnQSTAE\",\"type\":\"card\",\"data\":{\"card_name\":\"Reports\",\"col\":4}},{\"id\":\"RAfOE5kTSN\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"f7bHWuV-Nm\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Settings &amp; Tools</span>\",\"col\":12}},{\"id\":\"G02vrLJ5gg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Faculty Member Settings\",\"col\":3}},{\"id\":\"I2J8UR4JtD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Promotion Settings\",\"col\":3}},{\"id\":\"eY8QJ-Iixy\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Evaluation Form Generator Tool\",\"col\":3}},{\"id\":\"JPZIu_BuWD\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Faculty Members Documentation\",\"col\":3}}]",
+ "creation": "2024-07-27 21:14:20.857769",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "share-people",
+ "idx": 0,
+ "indicator_color": "green",
+ "is_hidden": 0,
+ "label": "Faculty Members",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Staff",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Employee",
+   "link_count": 0,
+   "link_to": "Employee",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Faculty Member",
+   "link_count": 0,
+   "link_to": "Faculty Member",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Evaluation",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Academic Evaluation",
+   "link_count": 0,
+   "link_to": "Academic Evaluation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Evaluation Criteria Template",
+   "link_count": 0,
+   "link_to": "Evaluation Criteria Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Ranks & Degrees",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Academic Rank",
+   "link_count": 0,
+   "link_to": "Academic Rank",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Scientific Degree",
+   "link_count": 0,
+   "link_to": "Scientific Degree",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Publications",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Academic Publication",
+   "link_count": 0,
+   "link_to": "Academic Publication",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Scientific Article",
+   "link_count": 0,
+   "link_to": "Scientific Article",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reports",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Faculty Members Report",
+   "link_count": 0,
+   "link_to": "Faculty Members Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Faculty Member Details Report",
+   "link_count": 0,
+   "link_to": "Faculty Member Details Report",
+   "link_type": "Report",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Requests",
+   "link_count": 3,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Tenure Request",
+   "link_count": 0,
+   "link_to": "Tenure Request",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Promotion Request",
+   "link_count": 0,
+   "link_to": "Promotion Request",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Thesis Arbitration Committee Request",
+   "link_count": 0,
+   "link_to": "Thesis Arbitration Committee Request",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2024-08-23 22:55:39.636896",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Faculty Members",
+ "number_cards": [
+  {
+   "label": "Total Faculty Members",
+   "number_card_name": "Faculty Member"
+  },
+  {
+   "label": "Total Submitted Tenure Requests",
+   "number_card_name": "Tenure Request"
+  },
+  {
+   "label": "Total Submitted Academic Evaluations",
+   "number_card_name": "Academic Evaluation"
+  },
+  {
+   "label": "Total Submitted Promotion Requests",
+   "number_card_name": "Promotion Request"
+  },
+  {
+   "label": "Total Academic Publications",
+   "number_card_name": "Academic Publication"
+  },
+  {
+   "label": "Total Scientific Articles",
+   "number_card_name": "Scientific Article"
+  }
+ ],
+ "owner": "Administrator",
+ "parent_page": "Academia",
+ "public": 1,
+ "quick_lists": [
+  {
+   "document_type": "Academic Publication",
+   "label": "Last Academic Publications",
+   "quick_list_filter": "[[\"Academic Publication\",\"modified\",\"Timespan\",\"this month\",false]]"
+  },
+  {
+   "document_type": "Scientific Article",
+   "label": "Last Scientific Articles",
+   "quick_list_filter": "[[\"Scientific Article\",\"modified\",\"Timespan\",\"this month\",false]]"
+  },
+  {
+   "document_type": "Academic Evaluation",
+   "label": "Last Academic Evaluations",
+   "quick_list_filter": "[[\"Academic Evaluation\",\"date\",\"Timespan\",\"this month\",false]]"
+  }
+ ],
+ "roles": [],
+ "sequence_id": 39.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Faculty Members Documentation",
+   "type": "URL",
+   "url": "http://localhost:85/http%3A//localhost%3A85/app/faculty-members"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Faculty Member Settings",
+   "link_to": "Faculty Member Settings",
+   "stats_filter": "[]",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Evaluation Form Generator Tool",
+   "link_to": "Evaluation Form Generator Tool",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Promotion Settings",
+   "link_to": "Promotion Settings",
+   "stats_filter": "[]",
+   "type": "DocType"
+  }
+ ],
+ "title": "Faculty Members"
+}

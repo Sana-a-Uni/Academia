@@ -45,7 +45,6 @@ def get_employees(
 		if value:
 			filters[field] = value
 
-
 	employee_list = frappe.get_list(
 	"Lesson", fields=["*"], filters=filters, order_by="instructor")
 
@@ -64,7 +63,6 @@ def get_employees(
 											 parent_doctype = "Lesson", 
 											 filters={'parent': employee_list[i]["name"]}, 
 											 fields=["program" , "level", "group"])
-
 	
 	attendance_list = frappe.get_list(
 	"Lesson Attendance",

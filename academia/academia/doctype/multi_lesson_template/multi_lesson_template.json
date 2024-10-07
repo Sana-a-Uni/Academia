@@ -16,27 +16,30 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Group",
-   "options": "Student Group"
+   "options": "Student Group",
+   "reqd": 1
   },
   {
    "fieldname": "program",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Program",
-   "options": "Program Specification"
+   "options": "Program Specification",
+   "reqd": 1
   },
   {
    "fieldname": "level",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Level",
-   "options": "Level"
+   "options": "Level",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-03 17:54:15.586354",
+ "modified": "2024-08-01 18:10:17.035358",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Multi Lesson Template",

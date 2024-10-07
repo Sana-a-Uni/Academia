@@ -22,18 +22,18 @@ class AcademicEvaluation(Document):
 		attachment: DF.Attach | None
 		company: DF.Link | None
 		date: DF.Date | None
-		department: DF.Link | None
+		department: DF.Link
 		designation: DF.Link | None
 		email: DF.Data
 		evaluatee_party: DF.DynamicLink
 		evaluatee_party_name: DF.Data | None
-		evaluatee_party_type: DF.Literal
+		evaluatee_party_type: DF.Literal["", "Employee", "Faculty Member"]
 		evaluation_details: DF.Table[EvaluationDetail]
 		evaluator_party: DF.DynamicLink
 		evaluator_party_name: DF.Data | None
-		evaluator_party_type: DF.Literal
+		evaluator_party_type: DF.Literal["", "Employee", "Faculty Member", "Student"]
 		faculty: DF.Link | None
-		naming_series: DF.Literal["Unknown-", "EVAL-EMP-FM-.department.-.evaluatee_party_name.-.YYYY.-", "EVAL-FM-EMP-.department.-.evaluatee_party_name.-.YYYY.-", "EVAL-FM-STD-.department.-.evaluatee_party_name.-.YYYY.-"]
+		naming_series: DF.Literal["Unknown-", "EVAL-EMP-EMP-.department.-.evaluatee_party_name.-.YYYY.-", "EVAL-EMP-FM-.department.-.evaluatee_party_name.-.YYYY.-", "EVAL-EMP-STD-.department.-.evaluatee_party_name.-.YYYY.-", "EVAL-FM-EMP-.department.-.evaluatee_party_name.-.YYYY.-", "EVAL-FM-FM-.department.-.evaluatee_party_name.-.YYYY.-", "EVAL-FM-STD-.department.-.evaluatee_party_name.-.YYYY.-"]
 		notes: DF.SmallText | None
 		template: DF.Link | None
 	# end: auto-generated types
@@ -52,9 +52,3 @@ def get_evaluation_criteria(template):
 	return templates
 # End of the function
 
-
-
-@frappe.whitelist()
-def get_department_head(department):
-    department_head = frappe.db.get_value('Employee', {'department': department, 'designation': 'Department Head'}, 'name')
-    return department_head

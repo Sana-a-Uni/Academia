@@ -12,14 +12,18 @@
   {
    "fieldname": "academic_service",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
    "label": "Academic Service",
-   "options": "Academic Services"
+   "options": "Academic Services",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-06-26 20:22:26.883237",
+ "modified": "2024-08-02 20:37:20.905044",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member Academic Services",

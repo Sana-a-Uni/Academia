@@ -135,7 +135,6 @@
    "label": "Set Attendance Details"
   },
   {
-   "default": "Present",
    "fieldname": "status",
    "fieldtype": "Select",
    "in_list_view": 1,
@@ -182,7 +181,7 @@
  "hide_toolbar": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-07-21 16:33:49.435591",
+ "modified": "2024-08-14 22:16:38.554798",
  "modified_by": "Administrator",
  "module": "Academic Attendance",
  "name": "Academic Attendance Tool",
@@ -191,7 +190,25 @@
   {
    "create": 1,
    "read": 1,
-   "role": "HR Manager",
+   "role": "System Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Lesson Attendance User",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Lesson Attendance Manager",
+   "write": 1
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Academic Manager",
    "write": 1
   }
  ],

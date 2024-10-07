@@ -1,35 +1,40 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 export const useAssignmentStore = defineStore("assignment", {
 	state: () => ({
 		assignmentData: {
 			assignment_title: "",
 			course: "00",
-			faculty_member: "ACAD-FM-00001",
 			instruction: "",
 			make_the_assignment_availability: false,
 			from_date: "",
 			to_date: "",
 			question: "",
 			assessment_criteria: [],
-			attachments: [],
+			uploadedFiles: [],
+			previousSubmissionFiles: [],
+			assignment_type: "", // إضافة نوع التكليف
 		},
 		assignments: [],
 		loading: false,
 		error: null,
+		errors: {},
+		assignmentTypeOptions: [], // خيارات أنواع التكليف
 	}),
 	actions: {
-		async fetchAssignments(courseName, facultyMember) {
+		async fetchAssignments(courseName) {
 			this.loading = true;
 			this.error = null;
 			try {
 				const response = await axios.get(
-					"http://localhost:8080/api/method/academia.lms_api.teacher.assignment.get_assignments_by_course_and_faculty",
+					"http://localhost:8080/api/method/academia.lms_api.teacher.assignment.fetch_assignments_for_course",
 					{
-						params: {
-							course: courseName,
-							faculty_member: facultyMember,
+						params: { course: courseName },
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
@@ -42,6 +47,7 @@ export const useAssignmentStore = defineStore("assignment", {
 		},
 
 		async createAssignment() {
+			this.errors = {};
 			try {
 				const response = await axios.post(
 					"http://localhost:8080/api/method/academia.lms_api.teacher.assignment.create_assignment",
@@ -49,25 +55,70 @@ export const useAssignmentStore = defineStore("assignment", {
 					{
 						headers: {
 							"Content-Type": "application/json",
-							Authorization: "token 0b88a69d4861506:a0640c80d24119a",
+							Authorization: Cookies.get("authToken"),
 						},
 					}
 				);
-				if (response.status === 200) {
-					console.log("Assignment created successfully");
-					console.log(this.assignmentData);
+				if (response.data.status_code === 200) {
+					return { success: true };
 				} else {
-					console.error("Error creating assignment");
+					if (response.data.status_code === 400) {
+						this.errors = response.data.errors;
+					}
+					return { success: false };
+				}
+			} catch (error) {
+				if (error.response && error.response.data && error.response.data.errors) {
+					this.errors = error.response.data.errors;
+				} else {
+					this.error = error.message || "An error occurred while creating assignment.";
+				}
+				return { success: false };
+			}
+		},
+
+		async fetchAssignmentTypeOptions() {
+			try {
+				const response = await axios.get(
+					"http://localhost:8080/api/method/academia.lms_api.teacher.assignment.fetch_assignment_type_options",
+					{
+						headers: {
+							"Content-Type": "application/json",
+							Authorization: Cookies.get("authToken"),
+						},
+					}
+				);
+				if (response.data.status_code === 200) {
+					this.assignmentTypeOptions = response.data.data;
+				} else {
+					console.error("Error fetching assignment type options");
 				}
 			} catch (error) {
 				console.error(
-					"Error creating assignment:",
+					"Error fetching assignment type options:",
 					error.response ? error.response.data : error
 				);
 			}
 		},
+
 		updateAssignmentData(partialData) {
 			this.assignmentData = { ...this.assignmentData, ...partialData };
+		},
+
+		addUploadedFile(file) {
+			this.assignmentData.uploadedFiles.push(file);
+		},
+
+		addPreviousSubmissionFile(file) {
+			this.assignmentData.previousSubmissionFiles.push(file);
+		},
+
+		removeUploadedFile(index) {
+			this.assignmentData.uploadedFiles.splice(index, 1);
+		},
+
+		removePreviousSubmissionFile(index) {
+			this.assignmentData.previousSubmissionFiles.splice(index, 1);
 		},
 	},
 });

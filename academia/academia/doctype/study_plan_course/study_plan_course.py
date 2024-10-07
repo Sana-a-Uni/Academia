@@ -21,7 +21,7 @@ class StudyPlanCourse(Document):
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
-		semester: DF.Link | None
+		semester: DF.Data | None
 		study_level: DF.Link | None
 	# end: auto-generated types
 	pass

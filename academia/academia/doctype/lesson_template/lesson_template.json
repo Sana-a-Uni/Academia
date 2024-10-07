@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:LT-{#####}",
  "creation": "2024-06-30 02:14:23.340266",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -14,18 +15,18 @@
   "academic_year",
   "faculty",
   "level",
-  "course_type",
-  "course",
   "column_break_jdfp",
   "academic_term",
   "program",
   "lesson_type",
-  "sub_group",
   "section_break_stfq",
   "instructor",
   "room",
   "column_break_yvwh",
   "group",
+  "course_type",
+  "course",
+  "sub_group",
   "section_break_wdte",
   "saturday",
   "monday",
@@ -49,13 +50,12 @@
    "reqd": 1
   },
   {
-   "depends_on": "eval:doc.is_multy_group == 0;",
+   "depends_on": "eval:doc.is_multi_group == 0;",
    "fieldname": "level",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Level",
-   "options": "Level",
-   "reqd": 1
+   "options": "Level"
   },
   {
    "fieldname": "column_break_jdfp",
@@ -70,13 +70,13 @@
    "reqd": 1
   },
   {
-   "depends_on": "eval:doc.is_multy_group == 0;",
+   "depends_on": "eval:doc.is_multi_group == 0;",
    "fieldname": "program",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Program",
-   "options": "Program Specification",
-   "reqd": 1
+   "mandatory_depends_on": "eval:doc.is_multi_group == 0;",
+   "options": "Program Specification"
   },
   {
    "fieldname": "section_break_stfq",
@@ -108,10 +108,11 @@
    "reqd": 1
   },
   {
-   "depends_on": "eval:doc.is_multy_group == 0;",
+   "depends_on": "eval:doc.is_multi_group == 0;",
    "fieldname": "group",
    "fieldtype": "Link",
    "label": "Group",
+   "mandatory_depends_on": "eval:doc.is_multi_group == 0;",
    "options": "Student Group"
   },
   {
@@ -178,9 +179,10 @@
    "fieldtype": "Section Break"
   },
   {
-   "depends_on": "eval:doc.is_multy_group == 1;",
+   "depends_on": "eval:doc.is_multi_group == 1;",
    "fieldname": "table_ocar",
    "fieldtype": "Table",
+   "mandatory_depends_on": "eval:doc.is_multi_group == 1;",
    "options": "Multi Lesson Template"
   },
   {
@@ -227,9 +229,11 @@
    "reqd": 1
   },
   {
+   "depends_on": "eval:doc.course_type == \"Practical\";",
    "fieldname": "sub_group",
    "fieldtype": "Data",
-   "label": "Sub Group"
+   "label": "Sub Group",
+   "mandatory_depends_on": "eval:doc.course_type == \"Practical\";"
   },
   {
    "default": "0",
@@ -240,10 +244,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-06 18:24:41.193710",
+ "modified": "2024-08-01 18:13:06.493731",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lesson Template",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

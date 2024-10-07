@@ -7,12 +7,23 @@ import re
 from frappe import _
 
 class FacultyMemberConferenceandWorkshop(Document):
-    def validate(self):
-        if self.starts_on and self.ends_on:
-            if self.ends_on <= self.starts_on:
-                frappe.throw(_("Date of End must be after Date of Start"))
+    # begin: auto-generated types
+    # This code is auto-generated. Do not modify anything in this block.
 
+    from typing import TYPE_CHECKING
 
-        if not re.match("^[a-zA-Z ]*$", self.name1):
-            frappe.throw("Name should only contain letters")
+    if TYPE_CHECKING:
+        from frappe.types import DF
 
+        description: DF.Text | None
+        ends_on: DF.Date | None
+        location: DF.Data | None
+        name1: DF.Data
+        name: DF.Int | None
+        parent: DF.Data
+        parentfield: DF.Data
+        parenttype: DF.Data
+        participation_type: DF.Literal["", "Researcher", "Presenter", "Supervisor", "Chairperson", "Participant", "Attendee (Guest)"]
+        starts_on: DF.Date | None
+    # end: auto-generated types
+    pass

@@ -39,8 +39,8 @@
 			</ul>
 		</div>
 		<div class="btn-container">
-			<button @click="startQuiz" class="btn btn-start">Start Quiz</button>
 			<button @click="cancel" class="btn btn-cancel">Cancel</button>
+			<button @click="startQuiz" class="btn btn-start">Start Quiz</button>
 		</div>
 	</div>
 </template>
@@ -92,9 +92,9 @@ function formatDuration(seconds) {
 	background-color: #fff;
 	border-radius: 15px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-	width: 95%;
+	width: 100%;
 	padding: 20px;
-	margin: 0px auto;
+	margin: 0px;
 }
 
 .instructions {
@@ -157,9 +157,10 @@ ul li strong::after {
 
 .btn-container {
 	display: flex;
-	justify-content: center;
+	justify-content: end;
 	gap: 10px;
 	margin-top: 10px;
+	margin-right:40px;
 }
 
 .btn {

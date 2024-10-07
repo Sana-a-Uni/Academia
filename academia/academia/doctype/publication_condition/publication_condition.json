@@ -1,0 +1,65 @@
+{
+ "actions": [],
+ "autoname": "autoincrement",
+ "creation": "2024-08-01 23:47:11.098895",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "publications_count",
+  "journal_type",
+  "column_break_nqxc",
+  "journal",
+  "requirement"
+ ],
+ "fields": [
+  {
+   "fieldname": "journal_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Journal Type",
+   "options": "Journal Type"
+  },
+  {
+   "fieldname": "column_break_nqxc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "journal",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Journal",
+   "mandatory_depends_on": "eval: doc.journal_type == 'Internal'",
+   "options": "Journal"
+  },
+  {
+   "depends_on": "eval: doc.journal_type == 'Internal'",
+   "fieldname": "requirement",
+   "fieldtype": "Select",
+   "label": "Requirement",
+   "mandatory_depends_on": "eval: doc.journal_type == 'Internal'",
+   "options": "\nRequired\nAt least"
+  },
+  {
+   "fieldname": "publications_count",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Publications Count",
+   "non_negative": 1,
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-08-23 14:03:33.292487",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Publication Condition",
+ "naming_rule": "Autoincrement",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,200 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "autoname": "format:{faculty}-{hour_rate_list}-{start_date}-{end_date}",
+ "creation": "2024-07-14 07:32:06.438141",
+ "default_view": "List",
+ "doctype": "DocType",
+ "document_type": "Setup",
+ "engine": "InnoDB",
+ "field_order": [
+  "faculty",
+  "academic_year",
+  "hour_rate_list",
+  "column_break_3",
+  "company",
+  "academic_term",
+  "section_break_15",
+  "start_date",
+  "release_date",
+  "column_break_18",
+  "end_date",
+  "section_break_zjdz",
+  "get_academic_entitlement_details",
+  "details",
+  "section_break_xype",
+  "printing_the_total_academic_entitlement_slip",
+  "column_break_aiel",
+  "printing_the_detailed_academic_entitlement_slip",
+  "column_break_ywff",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Faculty",
+   "oldfieldname": "price_list_name",
+   "oldfieldtype": "Select",
+   "options": "Faculty",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Academic Year",
+   "oldfieldname": "price_list_name",
+   "oldfieldtype": "Select",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "faculty.company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "fetch_from": ".",
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Term",
+   "options": "Academic Term",
+   "reqd": 1
+  },
+  {
+   "fieldname": "hour_rate_list",
+   "fieldtype": "Link",
+   "label": "Hour Rate List",
+   "options": "Hour Rate List",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_15",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_18",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Today",
+   "fieldname": "release_date",
+   "fieldtype": "Date",
+   "label": "Release Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_zjdz",
+   "fieldtype": "Section Break"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "get_academic_entitlement_details",
+   "fieldtype": "Button",
+   "label": "Get Academic Entitlement Details",
+   "options": "get_academic_entitlement_details"
+  },
+  {
+   "fieldname": "details",
+   "fieldtype": "Table",
+   "label": "Academic Entitlement Details",
+   "options": "Academic Entitlement Details",
+   "read_only": 1
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "From",
+   "reqd": 1
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "To",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_xype",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "printing_the_total_academic_entitlement_slip",
+   "fieldtype": "Button",
+   "label": "Printing The Total Academic Entitlement Slip",
+   "options": "generate_summary_report"
+  },
+  {
+   "fieldname": "column_break_aiel",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "printing_the_detailed_academic_entitlement_slip",
+   "fieldtype": "Button",
+   "label": "Printing The Detailed Academic Entitlement Slip",
+   "options": "generate_detailed_report"
+  },
+  {
+   "fieldname": "column_break_ywff",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Academic Entitlement Slip",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "icon": "fa fa-flag",
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-07-31 01:03:06.597868",
+ "modified_by": "Administrator",
+ "module": "Academic Attendance",
+ "name": "Academic Entitlement Slip",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Academic Manager",
+   "select": 1,
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 1
+}
