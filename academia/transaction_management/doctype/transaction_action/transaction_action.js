@@ -2,6 +2,16 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Transaction Action", {
+
+  refresh: function (frm) {
+    
+    // Hide 'add row' button
+    frm.get_field("recipients").grid.cannot_add_rows = true;
+    // Stop 'add below' & 'add above' options
+    frm.get_field("recipients").grid.only_sortable();
+    frm.refresh_field("recipients");
+  },
+  
   setup: function (frm) {
     // Changing Button Style
     $(`<style>
@@ -96,7 +106,12 @@ frappe.ui.form.on("Transaction Action", {
   
                 // Clear existing recipients
                 frm.doc.recipients = [];
-  
+                
+            
+                frm.set_value("notified_user", selectedEmployees[0].user_id)
+                frm.refresh_field("notified_user");
+
+
                 selectedEmployees.forEach((employee) => {
                   frm.add_child("recipients", {
                     recipient_name: employee.employee_name,

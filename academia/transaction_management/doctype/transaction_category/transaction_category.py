@@ -32,7 +32,7 @@ class TransactionCategory(Document):
 # def get_transaction_category_requirement(transaction_category):
 #     requirements = frappe.get_all("Transaction Category  Requirement",
 #                                    filters={"parent": transaction_category},
-#                                    fields=["name", "file_type", "required"])
+#                                    fields=["name", "required"])
 #     return requirements
 
 

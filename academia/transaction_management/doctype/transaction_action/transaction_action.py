@@ -24,6 +24,7 @@ class TransactionAction(Document):
         from_company: DF.Data | None
         from_department: DF.Data | None
         from_designation: DF.Data | None
+        notified_user: DF.Link | None
         recipients: DF.Table[TransactionRecipients]
         topic_status: DF.Literal["Incomplete", "Complete"]
         transaction: DF.Link

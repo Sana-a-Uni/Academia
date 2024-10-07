@@ -49,7 +49,7 @@
           {% elif recipient_dict.action.type == 'Rejected' %}reject
           {% else %}pending
           {% endif %}"></div>
-        <span class="recipient">{{ recipient_dict.recipient }} - {{ recipient_dict.action.type }} </span>
+        <span class="recipient">{{ recipient_dict.recipient }} - {{ recipient_dict.action.type }}--{{ recipient_dict.action_date }} </span>
       </a>
     {% else %}
       <div class="dot pending"></div>

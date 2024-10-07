@@ -8,7 +8,8 @@
   "name": "Faculty Members Documentation",
   "navbar_items": [],
   "route": "Faculty Members Documentation",
-  "wiki_sidebars": [
+  "wiki_sidebars": 
+  [
    {
     "hide_on_sidebar": 0,
     "parent": "Faculty Members Documentation",
@@ -274,5 +275,73 @@
     "wiki_page": "e141811ee4"
    }
   ]
- }
+ },
+ {
+    "dark_mode_logo": null,
+    "docstatus": 0,
+    "doctype": "Wiki Space",
+    "light_mode_logo": null,
+    "modified": "2024-10-07 11:41:59.797498",
+    "name": "Transaction Management Documentation",
+    "navbar_items": [],
+    "route": "Transaction Management Documentation",
+    "wiki_sidebars": [
+     {
+      "hide_on_sidebar": 0,
+      "parent": "Transaction Management Documentation",
+      "parent_label": "مقدمة لنظام المعاملات",
+      "parentfield": "wiki_sidebars",
+      "parenttype": "Wiki Space",
+      "wiki_page": "89a4efaecc"
+     },
+     {
+      "hide_on_sidebar": 0,
+      "parent": "Transaction Management Documentation",
+      "parent_label": "تهيئة البيانات الأساسية",
+      "parentfield": "wiki_sidebars",
+      "parenttype": "Wiki Space",
+      "wiki_page": "458561a378"
+     },
+     {
+      "hide_on_sidebar": 0,
+      "parent": "Transaction Management Documentation",
+      "parent_label": "تهيئة البيانات الأساسية",
+      "parentfield": "wiki_sidebars",
+      "parenttype": "Wiki Space",
+      "wiki_page": "47e1fdc5cb"
+     },
+     {
+      "hide_on_sidebar": 0,
+      "parent": "Transaction Management Documentation",
+      "parent_label": "تهيئة البيانات الأساسية",
+      "parentfield": "wiki_sidebars",
+      "parenttype": "Wiki Space",
+      "wiki_page": "eee77cac8b"
+     },
+     {
+      "hide_on_sidebar": 0,
+      "parent": "Transaction Management Documentation",
+      "parent_label": "تهيئة البيانات الأساسية",
+      "parentfield": "wiki_sidebars",
+      "parenttype": "Wiki Space",
+      "wiki_page": "4575d89821"
+     },
+     {
+      "hide_on_sidebar": 0,
+      "parent": "Transaction Management Documentation",
+      "parent_label": "تهيئة البيانات الأساسية",
+      "parentfield": "wiki_sidebars",
+      "parenttype": "Wiki Space",
+      "wiki_page": "874a4b770d"
+     },
+     {
+      "hide_on_sidebar": 0,
+      "parent": "Transaction Management Documentation",
+      "parent_label": "المعاملات",
+      "parentfield": "wiki_sidebars",
+      "parenttype": "Wiki Space",
+      "wiki_page": "587f025015"
+     }
+    ]
+   }
 ]

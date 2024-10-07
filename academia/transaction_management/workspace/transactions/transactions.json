@@ -1,0 +1,78 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"ITCi2C1eEe\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">\u0627\u0644\u0645\u0639\u0627\u0645\u0644\u0627\u062a</span>\",\"col\":12}},{\"id\":\"fm4-o6I-qL\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Pending Transactions\",\"col\":4}},{\"id\":\"IbOZwWPdTq\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Completed Transactions\",\"col\":4}},{\"id\":\"KsqzVRAPQQ\",\"type\":\"quick_list\",\"data\":{\"quick_list_name\":\"Rejected Transactions\",\"col\":4}},{\"id\":\"oG7xkJKpTV\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"_QWoGRGzBM\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"48-2qYKXc1\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>\u0627\u0644\u062a\u0642\u0627\u0631\u064a\u0631</b></span>\",\"col\":12}},{\"id\":\"IZxa4opgUb\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Type of Transaction\",\"col\":4}},{\"id\":\"YnbXmMmejg\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"External Transactions By Type\",\"col\":4}},{\"id\":\"t3WBOcBOF6\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Late Transactions\",\"col\":4}},{\"id\":\"5cYdjgQBOA\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Late Transaction Actions\",\"col\":3}}]",
+ "creation": "2024-09-15 18:52:45.337965",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "file",
+ "idx": 0,
+ "indicator_color": "",
+ "is_hidden": 0,
+ "label": "Transactions",
+ "links": [],
+ "modified": "2024-09-15 23:18:31.742298",
+ "modified_by": "Administrator",
+ "module": "Transaction Management",
+ "name": "Transactions",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [
+  {
+   "document_type": "Transaction",
+   "label": "Pending Transactions",
+   "quick_list_filter": "[[\"Transaction\",\"status\",\"=\",\"Pending\",false],[\"Transaction\",\"docstatus\",\"=\",\"1\",false]]"
+  },
+  {
+   "document_type": "Transaction",
+   "label": "Completed Transactions",
+   "quick_list_filter": "[[\"Transaction\",\"status\",\"=\",\"Completed\",false]]"
+  },
+  {
+   "document_type": "Transaction",
+   "label": "Rejected Transactions",
+   "quick_list_filter": "[[\"Transaction\",\"status\",\"=\",\"Rejected\",false]]"
+  }
+ ],
+ "roles": [
+  {
+   "role": "Employee"
+  }
+ ],
+ "sequence_id": 40.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Type of Transaction",
+   "link_to": "Type of Transaction",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Late Transactions",
+   "link_to": "Late Transactions",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Late Transaction Actions",
+   "link_to": "Late Transaction Actions",
+   "type": "Report"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "External Transactions By Type",
+   "link_to": "External Transactions By Type",
+   "type": "Report"
+  }
+ ],
+ "title": "Transactions"
+}

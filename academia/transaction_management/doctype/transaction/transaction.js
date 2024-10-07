@@ -113,12 +113,40 @@ frappe.ui.form.on('Transaction', {
     global_action_name = null;
     global_recipient_docname = null;
 
-    frm.fields_dict.recipients.grid.wrapper.find(".grid-add-row")
-    .toggle(!frm.doc.through_route);
+    if(!frm.doc.start_with && frappe.session.user != "Administrator")
+    {
+      frappe.call({
+        method: "frappe.client.get",
+        args: {
+        doctype: "Employee",
+        filters: { user_id: frappe.session.user },
+      },
+      callback: (response) => {
+          employee = response.message
+          if(employee)
+          {
+            frm.set_value("start_with", employee.name);
+            frm.set_value('start_with_company', employee.company);
+            frm.set_value('start_with_department', employee.department);
+            frm.set_value('start_with_designation', employee.designation);
+          }
+        }
+      });
+    }
 
-    // Disable the "Add New" button when through_route is checked
-    frm.fields_dict.recipients.grid.wrapper.find(".grid-add-row")
-      .prop("disabled", frm.doc.through_route);
+    // Hide 'add row' button
+    frm.get_field("recipients").grid.cannot_add_rows = true;
+    // Stop 'add below' & 'add above' options
+    frm.get_field("recipients").grid.only_sortable();
+    frm.refresh_field("recipients");
+
+
+    // frm.fields_dict.recipients.grid.wrapper.find(".grid-add-row")
+    // .toggle(!frm.doc.through_route);
+
+    // // Disable the "Add New" button when through_route is checked
+    // frm.fields_dict.recipients.grid.wrapper.find(".grid-add-row")
+    //   .prop("disabled", frm.doc.through_route);
       
     // Disable the "Get Recipients" button when through_route is checked and there is at least one recipient
     frm.set_df_property("get_recipients", "hidden", frm.doc.through_route && frm.doc.recipients.length > 0);
@@ -447,33 +475,18 @@ frappe.ui.form.on('Transaction', {
     },
     
     start_with: function(frm) {
-      console.log("Here Start With... ",frm.doc.start_with)
-      if(frm.doc.start_with)
-        {
-          if (!frm.doc.sub_category)
-          {
-            update_must_include(frm)
-          }
-          frappe.call({
-            method: "frappe.client.get",
-            args: {
-            doctype: "Employee",
-            filters: { name: frm.doc.start_with },
-            fields: ["designation", "department", "company"]
-          },
-          callback: (response) => {
-              employee = response.message
-              frm.set_value('start_with_company', employee.company);
-              frm.set_value('start_with_department', employee.department);
-              frm.set_value('start_with_designation', employee.designation);
-            }
-          });
-        }
-        else{
-          frm.set_value('start_with_company', '');
-          frm.set_value('start_with_department', '');
-          frm.set_value('start_with_designation', '');
-        }
+      // if(frm.doc.start_with)
+      //   {
+      if (!frm.doc.sub_category)
+      {
+        update_must_include(frm)
+      }
+        // }
+        // else{
+        //   frm.set_value('start_with_company', '');
+        //   frm.set_value('start_with_department', '');
+        //   frm.set_value('start_with_designation', '');
+        // }
         
     },
   
@@ -614,8 +627,9 @@ frappe.ui.form.on('Transaction', {
   
             frm.refresh_field("recipients");
 
-            // Hide the "Add" button for the recipients table if through_route is checked and there's a recipient
-            frm.get_field("recipients").grid.grid_buttons.find(".grid-add-row").toggle(!frm.doc.through_route || existingRecipients.length === 0);
+            // // Hide the "Add" button for the recipients table if through_route is checked and there's a recipient
+            // frm.get_field("recipients").grid.grid_buttons.find(".grid-add-row").toggle(!frm.doc.through_route || existingRecipients.length === 0);
+
           }
         });
         }

@@ -43,7 +43,6 @@ class Transaction(Document):
         hijri_date: DF.Data | None
         main_external_entity_from: DF.Link | None
         main_external_entity_to: DF.Link | None
-        print_official_paper: DF.Check
         priority: DF.Literal["", "Low", "Medium", "High", "Urgent"]
         recipients: DF.Table[TransactionRecipients]
         reference_number: DF.Data | None
@@ -295,7 +294,7 @@ def get_transaction_category_requirement(transaction_category):
     transaction_category_requirements = frappe.get_all(
         "Transaction Category  Requirement",
         filters={"parent": transaction_category},
-        fields=["name", "file_type", "required"],
+        fields=["name", "required"],
     )
     requirements.extend(transaction_category_requirements)
 
@@ -308,7 +307,7 @@ def get_transaction_category_requirement(transaction_category):
         parent_category_requirements = frappe.get_all(
             "Transaction Category  Requirement",
             filters={"parent": parent_category},
-            fields=["name", "file_type", "required"],
+            fields=["name", "required"],
         )
         requirements.extend(parent_category_requirements)
 
