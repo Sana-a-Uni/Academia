@@ -4,6 +4,7 @@
 import frappe
 from frappe.model.document import Document
 import re
+from frappe import _
 
 class JournalType(Document):
     # begin: auto-generated types
@@ -19,15 +20,9 @@ class JournalType(Document):
     # end: auto-generated types
 
     def validate(self):
-        self.validate_journal_type()
         self.validate_journal_weight()
 
-
-    def validate_journal_type(self):
-        if not re.match("^[A-Za-z0-9\s]+$", self.journal_type):
-            frappe.throw("Journal Type Name should only contain letters and numbers")
-            
     def validate_journal_weight(self):   
         if self.journal_weight and not re.match("^[0-9]+$", str(self.journal_weight)):
-            frappe.throw("Journal Weight should only contain numbers")
+            frappe.throw(_("Journal Weight should only contain numbers."))
     

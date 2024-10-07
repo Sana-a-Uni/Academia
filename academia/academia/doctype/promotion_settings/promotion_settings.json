@@ -1,0 +1,82 @@
+{
+ "actions": [],
+ "autoname": "naming_series:naming_series",
+ "creation": "2024-07-17 19:09:49.948102",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "naming_series",
+  "academic_rank",
+  "required_scientific_degree",
+  "required_period_for_promotion",
+  "next_academic_rank",
+  "section_break_ivmk",
+  "publication_condition"
+ ],
+ "fields": [
+  {
+   "fieldname": "academic_rank",
+   "fieldtype": "Link",
+   "label": "Academic Rank",
+   "options": "Academic Rank"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Series",
+   "options": "ACAD-FM-S-.academic_rank.-.YYYY.-.MM.-.####."
+  },
+  {
+   "fieldname": "required_period_for_promotion",
+   "fieldtype": "Data",
+   "label": "Required Period for  Promotion"
+  },
+  {
+   "fieldname": "next_academic_rank",
+   "fieldtype": "Link",
+   "label": "Next Academic Rank",
+   "options": "Academic Rank"
+  },
+  {
+   "fieldname": "required_scientific_degree",
+   "fieldtype": "Link",
+   "label": "Required Scientific Degree",
+   "options": "Scientific Degree"
+  },
+  {
+   "fieldname": "publication_condition",
+   "fieldtype": "Table",
+   "label": "Publication Condition",
+   "options": "Publication Condition"
+  },
+  {
+   "fieldname": "section_break_ivmk",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-08-18 04:45:58.695378",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Promotion Settings",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

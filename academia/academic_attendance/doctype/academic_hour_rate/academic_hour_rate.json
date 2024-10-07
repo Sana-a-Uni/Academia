@@ -1,0 +1,220 @@
+{
+ "actions": [],
+ "allow_import": 1,
+ "autoname": "format:{faculty}-{hour_rate_list}-{academic_rank}-{status}",
+ "creation": "2024-07-11 08:25:20.664716",
+ "default_view": "List",
+ "doctype": "DocType",
+ "document_type": "Setup",
+ "engine": "InnoDB",
+ "field_order": [
+  "faculty",
+  "academic_year",
+  "column_break_3",
+  "company",
+  "academic_term",
+  "section_break_olsh",
+  "column_break_17",
+  "hour_rate_list",
+  "academic_rank",
+  "column_break_hlal",
+  "status",
+  "faculty_member",
+  "section_break_ptmg",
+  "currency",
+  "column_break_jnrs",
+  "rate",
+  "section_break_15",
+  "valid_from",
+  "column_break_18",
+  "valid_upto",
+  "section_break_24",
+  "note",
+  "reference"
+ ],
+ "fields": [
+  {
+   "fieldname": "column_break_17",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "bold": 1,
+   "fieldname": "currency",
+   "fieldtype": "Link",
+   "label": "Currency",
+   "options": "Currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_15",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "valid_from",
+   "fieldtype": "Date",
+   "label": "Valid From"
+  },
+  {
+   "fieldname": "column_break_18",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "valid_upto",
+   "fieldtype": "Date",
+   "label": "Valid Upto"
+  },
+  {
+   "fieldname": "section_break_24",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Text",
+   "label": "Note"
+  },
+  {
+   "fieldname": "reference",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Reference"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Faculty",
+   "oldfieldname": "price_list_name",
+   "oldfieldtype": "Select",
+   "options": "Faculty",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "faculty.company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "faculty_member",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Faculty Member",
+   "options": "Faculty Member"
+  },
+  {
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "in_filter": 1,
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "label": "Rate",
+   "oldfieldname": "ref_rate",
+   "oldfieldtype": "Currency",
+   "options": "currency",
+   "reqd": 1
+  },
+  {
+   "fetch_from": ".",
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Term",
+   "options": "Academic Term",
+   "reqd": 1
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "in_filter": 1,
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Academic Year",
+   "oldfieldname": "price_list_name",
+   "oldfieldtype": "Select",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "academic_rank",
+   "fieldtype": "Link",
+   "label": "Academic Rank",
+   "options": "Academic Rank",
+   "reqd": 1
+  },
+  {
+   "fieldname": "hour_rate_list",
+   "fieldtype": "Link",
+   "in_global_search": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Hour Rate List",
+   "options": "Hour Rate List",
+   "reqd": 1
+  },
+  {
+   "default": "Unoccupied",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Unoccupied\noccupied",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_olsh",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_hlal",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_ptmg",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_jnrs",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "icon": "fa fa-flag",
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-07-31 01:12:24.811392",
+ "modified_by": "Administrator",
+ "module": "Academic Attendance",
+ "name": "Academic Hour Rate",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Academic Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "ASC",
+ "states": [],
+ "track_changes": 1
+}

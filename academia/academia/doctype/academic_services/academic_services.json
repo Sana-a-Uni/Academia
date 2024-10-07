@@ -1,7 +1,7 @@
 {
- "_liked_by": "[\"Administrator\"]",
  "actions": [],
  "allow_rename": 1,
+ "autoname": "prompt",
  "creation": "2024-06-09 05:06:28.439711",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -31,10 +31,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-12 17:11:47.673113",
+ "modified": "2024-07-29 22:07:24.982790",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Services",
+ "naming_rule": "Set by user",
  "owner": "Administrator",
  "permissions": [
   {
@@ -50,7 +51,10 @@
    "write": 1
   }
  ],
+ "show_name_in_global_search": 1,
+ "show_title_field_in_link": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [],
+ "title_field": "academic_service_name"
 }

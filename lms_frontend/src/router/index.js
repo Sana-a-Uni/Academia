@@ -2,10 +2,60 @@ import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
 	{
+		path: "/",
+		name: "login",
+		component: () => import("../views/login"),
+	},
+	{
+		path: "/teacherDashboard",
+		name: "teacherDashboard",
+		component: () => import("../views/teacherDashboard/dashboard"),
+	},
+	{
+		path: "/teacherDashboard/courseView",
+		name: "teacherCourseView",
+		component: () => import("../views/teacherDashboard/courseView"),
+	},
+	{
+		path: "/teacherDashboard/courseView/quizList",
+		name: "quizzes",
+		component: () => import("../views/teacherDashboard/quiz/quizView"),
+	},
+	{
+		path: "/teacherDashboard/courseView/quizList/createQuiz",
+		name: "createQuiz",
+		component: () => import("../views/teacherDashboard/quiz/createQuiz"),
+	},
+	{
+		path: "/teacherDashboard/courseView/assignments",
+		name: "assignments",
+		component: () => import("../views/teacherDashboard/assignment/assignmentView"),
+	},
+	{
+		path: "/teacherDashboard/courseView/assignments/createAssignment",
+		name: "createAssignment",
+		component: () => import("../views/teacherDashboard/assignment/createAssignment"),
+	},
+	
+	{
+		path: "/teacherDashboard/courseView/pendingAssessment",
+		name: "pendingAssessment",
+		component: () => import("../views/teacherDashboard/assessment/pendingAssessment"),
+	},
+	{
+		path: "/teacherDashboard/courseView/pendingAssessment/assignmentAssessment/:submission_name",
+		name: "assessmentAssignment",
+		component: () => import("../views/teacherDashboard/assessment/assignmentAssessment"),
+	}
+,	
+
+	////////////////////////////
+	{
 		path: "/studentDashboard",
 		name: "studentDashboard",
 		component: () => import("../views/studentDashboard/dashboard"),
 	},
+
 	{
 		path: "/courseView",
 		name: "courseView",
@@ -49,27 +99,8 @@ const routes = [
 		}),
 	},
 
-	{
-		path: "/createQuiz",
-		name: "createQuiz",
-		component: () => import("../views/teacherDashboard/quiz/createQuiz"),
-	},
-	{
-		path: "/quizList",
-		name: "quizList",
-		component: () => import("../views/teacherDashboard/quiz/quizView"),
-		// props: true,
-	},
-	{
-		path: "/assignments",
-		name: "assignments",
-		component: () => import("../views/teacherDashboard/assignment/assignmentView"),
-	},
-	{
-		path: "/createAssignment",
-		name: "createAssignment",
-		component: () => import("../views/teacherDashboard/assignment/createAssignment"),
-	},
+	
+	
 	{
 		path: "/assignmentView",
 		name: "assignmentView",
@@ -80,6 +111,7 @@ const routes = [
 		name: "assignment",
 		component: () => import("../views/studentDashboard/assignment/assignment"),
 	},
+	
 ];
 
 const router = createRouter({

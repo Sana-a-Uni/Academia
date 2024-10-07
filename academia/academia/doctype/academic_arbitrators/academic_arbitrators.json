@@ -1,0 +1,93 @@
+{
+ "actions": [],
+ "autoname": "field:arbitrator_name",
+ "creation": "2024-07-17 19:33:19.211208",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "arbitrator_name",
+  "university",
+  "academic_rank",
+  "scientific_degree",
+  "faculty",
+  "country"
+ ],
+ "fields": [
+  {
+   "fieldname": "arbitrator_name",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Arbitrator Name",
+   "options": "Faculty Member",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "depends_on": "eval:frm.doc.faculty_member && frappe.get_doc(\"Faculty Member\", frm.doc.faculty_member).from_another_university\r\n",
+   "fieldname": "university",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "University",
+   "options": "University"
+  },
+  {
+   "fetch_from": "arbitrator_name.faculty",
+   "fetch_if_empty": 1,
+   "fieldname": "faculty",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Faculty"
+  },
+  {
+   "fetch_from": "arbitrator_name.academic_rank",
+   "fetch_if_empty": 1,
+   "fieldname": "academic_rank",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Academic Rank"
+  },
+  {
+   "fetch_from": "university.country",
+   "fetch_if_empty": 1,
+   "fieldname": "country",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Country"
+  },
+  {
+   "fetch_from": "arbitrator_name.scientific_degree",
+   "fetch_if_empty": 1,
+   "fieldname": "scientific_degree",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_preview": 1,
+   "in_standard_filter": 1,
+   "label": "Scientific Degree",
+   "options": "Scientific Degree"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-08-21 06:55:11.824397",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Academic Arbitrators",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -156,8 +156,8 @@ function formatTime(dateString) {
 
 <style scoped>
 .quiz-list {
-	width: 100%;
-	margin: 0px auto;
+	width: 103%;
+	margin: 0px;
 	border-collapse: collapse;
 }
 
@@ -174,6 +174,7 @@ function formatTime(dateString) {
 	flex: 1;
 	display: flex;
 	justify-content: flex-start;
+	margin:0px;
 }
 
 .filters select {

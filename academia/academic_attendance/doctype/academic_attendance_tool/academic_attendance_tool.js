@@ -13,7 +13,7 @@ frappe.ui.form.on("Academic Attendance Tool", {
 	},
 
 	onload(frm) {
-		frm.set_value("date", frappe.datetime.get_today());
+		frm.set_value("date", frappe.datetime.get_today());	
         frm.set_value("from_time", "");
         frm.set_value("to_time", "");
 	},
@@ -157,7 +157,7 @@ frappe.ui.form.on("Academic Attendance Tool", {
 				}
 				return text;
 			}
-			if(employee.course_type === "Practical"){
+			if(employee.course_type === "Practical" && employee.sub_group){
 
 				return employee.level + '-' + employee.program + employee.group + '-' + employee.sub_group;
 			}	
@@ -180,7 +180,7 @@ frappe.ui.form.on("Academic Attendance Tool", {
 											<h5 class="card-title" id="info">${lesson_info(lesson)}</h5>
 											<p class="card-text" style="color:black">${lesson.course} 
 												</br> ${lesson.room} 
-												</br> Time : ${lesson.from_time} - ${lesson.to_time}
+												</br> ${ __("Time")}: ${lesson.from_time} - ${lesson.to_time}
 											</p>
 										</div>
 									</div>`,
@@ -233,9 +233,9 @@ frappe.ui.form.on("Academic Attendance Tool", {
 	get_columns_for_marked_attendance_table(frm) {
 		return [
 			{
-				name: "employee",
-				id: "employee",
-				content: __("Employee"),
+				name: "instructor",
+				id: "instructor",
+				content: __("Instructor"),
 				editable: false,
 				sortable: false,
 				focusable: false,

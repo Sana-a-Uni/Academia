@@ -26,6 +26,7 @@ class LMSQuiz(Document):
 		multiple_attempts: DF.Check
 		number_of_attempts: DF.Int
 		quiz_question: DF.Table[QuizQuestion]
+		randomize_option_order: DF.Check
 		randomize_question_order: DF.Check
 		show_correct_answer: DF.Check
 		show_question_score: DF.Check

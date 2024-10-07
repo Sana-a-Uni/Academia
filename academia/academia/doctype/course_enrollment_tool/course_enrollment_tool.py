@@ -143,4 +143,4 @@ class CourseEnrollmentTool(Document):
 					course_enrollment.academic_term = self.academic_term
 					course_enrollment.save()
 
-		frappe.msgprint('Students Enrolled Succesfully...')
+			frappe.msgprint('Students Enrolled Succesfully...')

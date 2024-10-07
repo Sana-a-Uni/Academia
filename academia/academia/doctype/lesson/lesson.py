@@ -17,6 +17,7 @@ class Lesson(Document):
 
 		academic_term: DF.Link
 		academic_year: DF.Link
+		compensatory_lesson_reference: DF.Link | None
 		course: DF.Link
 		course_type: DF.Literal["", "Theoretical", "Practical"]
 		date: DF.Date
@@ -26,8 +27,8 @@ class Lesson(Document):
 		instructor: DF.Link
 		is_multi_group: DF.Check
 		lesson_type: DF.Literal["", "Ordinary Lesson", "Compensatory Lesson"]
-		level: DF.Link
-		program: DF.Link
+		level: DF.Link | None
+		program: DF.Link | None
 		room: DF.Link
 		schedule_template: DF.ReadOnly | None
 		schedule_template_version: DF.Link

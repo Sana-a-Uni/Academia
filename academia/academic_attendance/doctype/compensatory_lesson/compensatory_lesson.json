@@ -1,0 +1,463 @@
+{
+ "actions": [],
+ "autoname": "format:AAT-CL-{YYYY}-{#####}",
+ "creation": "2024-07-27 13:22:25.665640",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_stfq",
+  "column_break_lwea",
+  "lesson_attendance",
+  "is_transfer",
+  "cancelled_reason",
+  "column_break_yvwh",
+  "reason",
+  "reason_for_rejection",
+  "section_break_wyzm",
+  "faculty",
+  "academic_term",
+  "column_break_jdfp",
+  "academic_year",
+  "is_multi_group",
+  "section_break_inyw",
+  "program",
+  "faculty_department",
+  "instructor",
+  "instructor_name",
+  "course",
+  "column_break_flsj",
+  "level",
+  "course_type",
+  "group",
+  "subgroup",
+  "section_break_mker",
+  "multi_groups",
+  "section_break_wdte",
+  "proposed_times",
+  "section_break_jint",
+  "date",
+  "room",
+  "workflow_state",
+  "column_break_tcmz",
+  "from_time",
+  "to_time",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_stfq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_lwea",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "lesson_attendance",
+   "fieldtype": "Link",
+   "label": "Lesson Attendance",
+   "options": "Lesson Attendance",
+   "reqd": 1
+  },
+  {
+   "fieldname": "is_transfer",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Is Transfer",
+   "non_negative": 1,
+   "options": "\n1\n2"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "cancelled_reason",
+   "fieldtype": "Data",
+   "label": "Cancelled Reason ",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_yvwh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Reason for absence in the basic  lecture",
+   "fieldname": "reason",
+   "fieldtype": "Data",
+   "label": "Reason",
+   "reqd": 1
+  },
+  {
+   "fieldname": "reason_for_rejection",
+   "fieldtype": "Data",
+   "label": "Reason For Rejection",
+   "permlevel": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_wyzm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty",
+   "reqd": 1
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Term",
+   "options": "Academic Term",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_jdfp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Year",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "is_multi_group",
+   "fieldtype": "Check",
+   "label": "is Multi Group"
+  },
+  {
+   "fieldname": "section_break_inyw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.is_multi_group == 0;",
+   "fieldname": "program",
+   "fieldtype": "Link",
+   "label": "Program",
+   "mandatory_depends_on": "eval:doc.is_multi_group == 0;",
+   "options": "Program Specification"
+  },
+  {
+   "fieldname": "instructor",
+   "fieldtype": "Link",
+   "label": "Instructor",
+   "options": "Faculty Member",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "instructor.faculty_member_name",
+   "fieldname": "instructor_name",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Instructor Name",
+   "options": "Faculty Member",
+   "read_only": 1
+  },
+  {
+   "fieldname": "course",
+   "fieldtype": "Link",
+   "label": "Course",
+   "options": "Course Study",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_flsj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.is_multi_group == 0;",
+   "fieldname": "level",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Level",
+   "mandatory_depends_on": "eval:doc.is_multi_group == 0;",
+   "options": "Level"
+  },
+  {
+   "fieldname": "course_type",
+   "fieldtype": "Select",
+   "label": "Course Type",
+   "options": "\nTheoretical\nPractical",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.is_multi_group == 0;",
+   "fieldname": "group",
+   "fieldtype": "Link",
+   "label": "Group",
+   "mandatory_depends_on": "eval:doc.is_multi_group == 0;",
+   "options": "Student Group"
+  },
+  {
+   "depends_on": "eval:doc.course_type == \"Practical\";",
+   "fieldname": "subgroup",
+   "fieldtype": "Data",
+   "label": "Subgroup ",
+   "mandatory_depends_on": "eval:doc.course_type == \"Practical\";"
+  },
+  {
+   "fieldname": "section_break_mker",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_break_wdte",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "proposed_times",
+   "fieldtype": "Table",
+   "label": "Proposed Times",
+   "options": "Proposed Times"
+  },
+  {
+   "fieldname": "section_break_jint",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "mandatory_depends_on": "eval:doc.workflow_state == \"Approval Pending By Academic Manager\";",
+   "permlevel": 2
+  },
+  {
+   "fieldname": "room",
+   "fieldtype": "Link",
+   "label": "Room",
+   "mandatory_depends_on": "eval:doc.workflow_state == \"Approval Pending By Academic Manager\";",
+   "options": "Room",
+   "permlevel": 2
+  },
+  {
+   "fieldname": "column_break_tcmz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "to_time",
+   "fieldtype": "Time",
+   "label": "To Time",
+   "mandatory_depends_on": "eval:doc.workflow_state == \"Approval Pending By Academic Manager\";",
+   "permlevel": 2
+  },
+  {
+   "fieldname": "from_time",
+   "fieldtype": "Time",
+   "label": "From Time",
+   "mandatory_depends_on": "eval:doc.workflow_state == \"Approval Pending By Academic Manager\";",
+   "permlevel": 2
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Compensatory Lesson",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Compensatory Lesson",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "workflow_state",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Status",
+   "no_copy": 1,
+   "options": "Workflow State"
+  },
+  {
+   "fetch_from": "program.faculty_department",
+   "fieldname": "faculty_department",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Faculty Department",
+   "options": "Faculty Department"
+  },
+  {
+   "depends_on": "eval:doc.is_multi_group == 1;",
+   "fieldname": "multi_groups",
+   "fieldtype": "Table",
+   "label": "Multi Groups",
+   "mandatory_depends_on": "eval:doc.is_multi_group == 1;",
+   "options": "Multi Lesson Template"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [
+  {
+   "link_doctype": "Lesson",
+   "link_fieldname": "compensatory_lesson_reference"
+  }
+ ],
+ "modified": "2024-08-14 23:00:29.133517",
+ "modified_by": "Administrator",
+ "module": "Academic Attendance",
+ "name": "Compensatory Lesson",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 2,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Lesson Attendance Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "Lesson Attendance Manager",
+   "write": 1
+  },
+  {
+   "permlevel": 2,
+   "read": 1,
+   "role": "Lesson Attendance Manager",
+   "write": 1
+  },
+  {
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Academic Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "Academic Manager",
+   "write": 1
+  },
+  {
+   "permlevel": 2,
+   "read": 1,
+   "role": "Academic Manager",
+   "write": 1
+  },
+  {
+   "read": 1,
+   "role": "Department Head",
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "Department Head",
+   "write": 1
+  },
+  {
+   "permlevel": 2,
+   "read": 1,
+   "role": "Department Head"
+  },
+  {
+   "read": 1,
+   "role": "Faculty Dean",
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "Faculty Dean",
+   "write": 1
+  },
+  {
+   "permlevel": 2,
+   "read": 1,
+   "role": "Faculty Dean"
+  },
+  {
+   "create": 1,
+   "read": 1,
+   "role": "Faculty Member",
+   "write": 1
+  },
+  {
+   "permlevel": 1,
+   "read": 1,
+   "role": "Faculty Member"
+  },
+  {
+   "permlevel": 2,
+   "read": 1,
+   "role": "Faculty Member"
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "instructor_name",
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
+}

@@ -73,5 +73,13 @@ frappe.ui.form.on('Course Study Tool', {
                 return {};
             }
         });
+    },
+    based_on: function(frm){
+        frm.set_value('level', null);
+        frm.set_value('academic_program', null);
+        frm.set_value('program_specification', null);
+        frm.set_value('student_batch', null);
+        frm.set_value('specific_level', null);
+        frm.set_value('specific_program', null);
     }
 });

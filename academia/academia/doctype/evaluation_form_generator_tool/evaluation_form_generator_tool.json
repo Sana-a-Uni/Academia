@@ -5,14 +5,20 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "evaluator_section",
+  "evaluation_type",
+  "first_section",
   "employee",
-  "column_break_bsnd",
   "employee_name",
-  "column_break_igbi",
+  "column_break_bsnd",
+  "company",
   "department",
-  "evaluatee_section",
+  "column_break_igbi",
+  "designation",
+  "email",
+  "second_section",
   "faculty_members",
+  "get_faculty_members",
+  "clear_faculty_members",
   "other_details_section",
   "academic_year",
   "academic_term",
@@ -45,7 +51,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "depends_on": "eval: doc.employee",
    "fieldname": "faculty_members",
    "fieldtype": "Table",
    "label": "Faculty Members",
@@ -66,16 +71,6 @@
    "options": "Evaluation Criteria Template"
   },
   {
-   "fieldname": "evaluator_section",
-   "fieldtype": "Section Break",
-   "label": "Evaluator"
-  },
-  {
-   "fieldname": "evaluatee_section",
-   "fieldtype": "Section Break",
-   "label": "Evaluatee"
-  },
-  {
    "fieldname": "other_details_section",
    "fieldtype": "Section Break",
    "label": "Other Details"
@@ -92,17 +87,74 @@
    "read_only": 1
   },
   {
+   "fieldname": "evaluation_type",
+   "fieldtype": "Select",
+   "label": "Evaluation Type",
+   "options": "\nDepartment Head Evaluate his Faculty Members\nFaculty Members Evaluate their Department Head\nFaculty Members Evaluate Employee",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval: doc.evaluation_type",
+   "fieldname": "first_section",
+   "fieldtype": "Section Break",
+   "label": "First Section"
+  },
+  {
+   "depends_on": "eval: doc.evaluation_type",
+   "fieldname": "second_section",
+   "fieldtype": "Section Break",
+   "label": "Second Section"
+  },
+  {
    "fieldname": "employee",
    "fieldtype": "Link",
    "label": "Employee",
    "options": "Employee",
    "reqd": 1
+  },
+  {
+   "fetch_from": "employee.company",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee.designation",
+   "fieldname": "designation",
+   "fieldtype": "Link",
+   "label": "Designation",
+   "options": "Designation",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee.user_id",
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email",
+   "options": "Email",
+   "read_only": 1
+  },
+  {
+   "columns": 3,
+   "depends_on": "eval: doc.evaluation_type == \"Faculty Members Evaluate Employee\"",
+   "fieldname": "get_faculty_members",
+   "fieldtype": "Button",
+   "label": "Get Faculty Members"
+  },
+  {
+   "columns": 3,
+   "depends_on": "eval: doc.evaluation_type == \"Faculty Members Evaluate Employee\"",
+   "fieldname": "clear_faculty_members",
+   "fieldtype": "Button",
+   "label": "Clear Faculty Members"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-07-19 17:35:35.167548",
+ "modified": "2024-07-29 14:55:09.949927",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Evaluation Form Generator Tool",

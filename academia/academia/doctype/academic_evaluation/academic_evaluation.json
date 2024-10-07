@@ -1,5 +1,4 @@
 {
- "_comments": "[{\"comment\": \"<div class=\\\"ql-editor read-mode\\\"><p><br></p></div>\", \"by\": \"admin@example.com\", \"name\": \"d4184d2933\"}]",
  "actions": [],
  "allow_rename": 1,
  "autoname": "naming_series:",
@@ -22,8 +21,8 @@
   "evaluator_party_name",
   "evaluatee_information_section",
   "company",
-  "department",
   "faculty",
+  "department",
   "column_break_dqof",
   "email",
   "designation",
@@ -57,11 +56,13 @@
    "fieldtype": "Column Break"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "evaluatee",
    "fieldtype": "Heading",
    "label": "Evaluatee"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "evaluator",
    "fieldtype": "Heading",
    "label": "Evaluator"
@@ -71,6 +72,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Party Type",
+   "options": "\nEmployee\nFaculty Member",
    "reqd": 1
   },
   {
@@ -78,6 +80,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Party Type",
+   "options": "\nEmployee\nFaculty Member\nStudent",
    "reqd": 1
   },
   {
@@ -121,7 +124,8 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Series",
-   "options": "Unknown-\nEVAL-EMP-FM-.department.-.evaluatee_party_name.-.YYYY.-\nEVAL-FM-EMP-.department.-.evaluatee_party_name.-.YYYY.-\nEVAL-FM-STD-.department.-.evaluatee_party_name.-.YYYY.-",
+   "options": "Unknown-\nEVAL-EMP-EMP-.department.-.evaluatee_party_name.-.YYYY.-\nEVAL-EMP-FM-.department.-.evaluatee_party_name.-.YYYY.-\nEVAL-EMP-STD-.department.-.evaluatee_party_name.-.YYYY.-\nEVAL-FM-EMP-.department.-.evaluatee_party_name.-.YYYY.-\nEVAL-FM-FM-.department.-.evaluatee_party_name.-.YYYY.-\nEVAL-FM-STD-.department.-.evaluatee_party_name.-.YYYY.-",
+   "print_hide": 1,
    "read_only": 1,
    "reqd": 1
   },
@@ -157,7 +161,8 @@
    "fieldtype": "Link",
    "label": "Department",
    "options": "Department",
-   "read_only": 1
+   "read_only": 1,
+   "reqd": 1
   },
   {
    "fieldname": "faculty",
@@ -255,7 +260,7 @@
    "table_fieldname": "evaluations"
   }
  ],
- "modified": "2024-07-19 17:40:39.224656",
+ "modified": "2024-08-02 08:48:01.624842",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Evaluation",

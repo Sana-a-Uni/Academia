@@ -25,9 +25,9 @@ class LessonTemplate(Document):
 		instructor: DF.Link
 		is_multi_group: DF.Check
 		lesson_type: DF.Literal["", "Ordinary Lesson", "Compensatory Lesson"]
-		level: DF.Link
+		level: DF.Link | None
 		monday: DF.Check
-		program: DF.Link
+		program: DF.Link | None
 		room: DF.Link
 		saturday: DF.Check
 		schedule_template: DF.ReadOnly | None

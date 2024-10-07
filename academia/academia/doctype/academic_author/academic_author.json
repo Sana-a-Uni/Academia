@@ -20,17 +20,19 @@
    "reqd": 1
   },
   {
+   "depends_on": "eval: doc.parenttype == \"Academic Publication\"",
    "fieldname": "author_order",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Author Order",
-   "options": "First\nSecond\nThird\nForth\nFifth\nSixth\nSeventh"
+   "options": "First\nSecond\nThird\nFourth\nFifth\nSixth\nSeventh",
+   "read_only_depends_on": "eval: doc.parenttype == \"Scientific Article\""
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-05-01 23:28:51.980677",
+ "modified": "2024-08-02 07:16:27.879206",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Author",

@@ -2,14 +2,6 @@
  {
   "docstatus": 0,
   "doctype": "Journal Type",
-  "journal_type": "Internal",
-  "journal_weight": 1,
-  "modified": "2024-07-04 05:31:55.143496",
-  "name": "Internal"
- },
- {
-  "docstatus": 0,
-  "doctype": "Journal Type",
   "journal_type": "Indexed",
   "journal_weight": 2,
   "modified": "2024-07-04 05:32:07.754719",
@@ -46,5 +38,13 @@
   "journal_weight": 6,
   "modified": "2024-07-04 05:36:35.040096",
   "name": "Q1"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Journal Type",
+  "journal_type": "Internal",
+  "journal_weight": 1,
+  "modified": "2024-08-23 08:43:37.849587",
+  "name": "Internal"
  }
 ]

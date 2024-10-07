@@ -28,6 +28,8 @@
   "section_break_ynry",
   "question_order_settings_column",
   "randomize_question_order",
+  "column_break_dmhf",
+  "randomize_option_order",
   "results_display_settings_section",
   "show_question_score",
   "column_break_bwos",
@@ -193,11 +195,21 @@
    "fieldname": "randomize_question_order",
    "fieldtype": "Check",
    "label": "Randomize Question Order"
+  },
+  {
+   "default": "0",
+   "fieldname": "randomize_option_order",
+   "fieldtype": "Check",
+   "label": "Randomize Option Order"
+  },
+  {
+   "fieldname": "column_break_dmhf",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-10 23:44:36.523018",
+ "modified": "2024-07-30 01:13:56.822985",
  "modified_by": "Administrator",
  "module": "LMS",
  "name": "LMS Quiz",

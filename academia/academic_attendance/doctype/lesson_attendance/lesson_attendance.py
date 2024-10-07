@@ -1,9 +1,19 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
-# import frappe
+import frappe
+from frappe import _
 from frappe.model.document import Document
-
+from frappe.utils import (
+	add_days,
+	cint,
+	cstr,
+	format_date,
+	get_datetime,
+	get_link_to_form,
+	getdate,
+	nowdate,
+)
 
 class LessonAttendance(Document):
 	# begin: auto-generated types
@@ -46,4 +56,35 @@ class LessonAttendance(Document):
 		teaching_hours: DF.Float
 		to_time: DF.Time
 	# end: auto-generated types
-	pass
+	
+	def validate(self):
+		if (getdate(self.attendance_date) > getdate(nowdate())):
+			frappe.throw(
+				_("Attendance can not be marked for future dates: {0}").format(
+					frappe.bold(format_date(self.attendance_date)),
+				)
+			)
+	
+	def on_submit(self):
+		self.send_absence_notification()
+	
+	def send_absence_notification(self):
+		if self.status == "Absent":
+			instructor = frappe.get_doc("Faculty Member", self.faculty_member)
+			user_id = instructor.email
+			
+			if user_id:
+				subject = "Absence Notification"
+				message = f"{instructor.faculty_member_name},\n\nYou have been marked as absent for {self.attendance_date}.\n\nPlease request a make-up lecture as soon as possible."
+				
+				# Send system notification
+				notification = frappe.new_doc("Notification Log")
+				notification.update({
+					"for_user": user_id,
+					"subject": subject,
+					"email_content": message,
+					"document_type": self.doctype,
+					"document_name": self.name,
+				})
+				notification.insert(ignore_permissions=True)
+				frappe.db.commit()

@@ -1,0 +1,21 @@
+<div class="form-message yellow">
+	<div>{{__("This information help you to decide to approve or reject the request")}}</div>
+</div>
+<table class="table table-bordered table-hover">
+	<thead>
+		<tr>
+			<th style="width: 20%">{{ __("Total Present ") }}</th>
+            <th style="width: 20%">{{ __("Total Absent") }}</th>
+			<th style="width: 20%">{{ __("Total compensatory lesson") }}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+            <td class="small"> {{ __(warnings[0].total_present) }} </td>
+			<td class="small"> {{ __(warnings[0].total_absent) }} </td>
+            <td class="small"> {{ __(warnings[0].total_compensatory_lesson) }} </td>
+			<!-- <td class="small"> {{ __(warnings[i].reason) }} </td>
+			<td class="small"> {{ warnings[i].record }} </td> -->
+		</tr>
+	</tbody>
+</table>

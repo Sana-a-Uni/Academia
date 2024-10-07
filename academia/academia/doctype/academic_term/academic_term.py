@@ -17,7 +17,11 @@ class AcademicTerm(Document):
 		academic_year: DF.Link
 		auto_created: DF.Check
 		disabled: DF.Check
+		exam_end: DF.Date | None
+		exam_start: DF.Date | None
 		faculty: DF.Link
+		study_end: DF.Date | None
+		study_start: DF.Date | None
 		term_name: DF.Data
 	# end: auto-generated types
 	pass

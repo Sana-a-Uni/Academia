@@ -1,0 +1,186 @@
+{
+ "actions": [],
+ "allow_copy": 1,
+ "creation": "2024-07-27 12:32:00.523263",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "schedule_template_version",
+  "column_break_polw",
+  "schedule_template",
+  "section_break_vcqd",
+  "academic_program",
+  "specific_program",
+  "column_break_lufb",
+  "level",
+  "specific_level",
+  "group",
+  "section_break_ouyx",
+  "lesson_start_date",
+  "column_break_kxay",
+  "lesson_end_date",
+  "cancelled_compensatory_lessons_section",
+  "export_to_pdf",
+  "cancelled_compensatory_lesson_html",
+  "scheduled_lessons_section",
+  "scheduled_lesson_html"
+ ],
+ "fields": [
+  {
+   "fieldname": "schedule_template_version",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Schedule Template Version",
+   "options": "Schedule Template Version",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_polw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "schedule_template_version.schedule_template",
+   "fieldname": "schedule_template",
+   "fieldtype": "Read Only",
+   "label": "Schedule Template"
+  },
+  {
+   "fieldname": "section_break_vcqd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "All Programs",
+   "fieldname": "academic_program",
+   "fieldtype": "Select",
+   "label": "Academic Program",
+   "options": "\nAll Programs\nSpecific Program"
+  },
+  {
+   "depends_on": "eval:doc.academic_program == \"Specific Program\";",
+   "fieldname": "specific_program",
+   "fieldtype": "Link",
+   "label": "Specific Program",
+   "mandatory_depends_on": "eval:doc.academic_program == \"Specific Program\";",
+   "options": "Program Specification"
+  },
+  {
+   "fieldname": "column_break_lufb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "All Levels",
+   "fieldname": "level",
+   "fieldtype": "Select",
+   "label": "Level",
+   "options": "\nAll Levels\nSpecific Level"
+  },
+  {
+   "depends_on": "eval:doc.level == \"Specific Level\";",
+   "fieldname": "specific_level",
+   "fieldtype": "Link",
+   "label": "Specific Level",
+   "mandatory_depends_on": "eval:doc.level == \"Specific Level\";",
+   "options": "Level"
+  },
+  {
+   "depends_on": "specific_level",
+   "fieldname": "group",
+   "fieldtype": "Link",
+   "label": "Group",
+   "options": "Student Group"
+  },
+  {
+   "fieldname": "section_break_ouyx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "lesson_start_date",
+   "fieldtype": "Date",
+   "label": "Lesson Start Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_kxay",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "The last date in end date will not include",
+   "fieldname": "lesson_end_date",
+   "fieldtype": "Date",
+   "label": "Lesson End Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "cancelled_compensatory_lessons_section",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "Cancelled Compensatory Lessons"
+  },
+  {
+   "fieldname": "export_to_pdf",
+   "fieldtype": "Button",
+   "label": "Export to PDF"
+  },
+  {
+   "fieldname": "cancelled_compensatory_lesson_html",
+   "fieldtype": "HTML",
+   "label": "Cancelled Compensatory Lesson HTML"
+  },
+  {
+   "fieldname": "scheduled_lessons_section",
+   "fieldtype": "Section Break",
+   "hidden": 1,
+   "label": "Scheduled Lessons"
+  },
+  {
+   "fieldname": "scheduled_lesson_html",
+   "fieldtype": "HTML",
+   "label": "Scheduled Lesson HTML"
+  }
+ ],
+ "hide_toolbar": 1,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-08-14 22:19:56.099995",
+ "modified_by": "Administrator",
+ "module": "Academic Attendance",
+ "name": "Lesson Scheduling Tool",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Academic Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Lesson Attendance Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

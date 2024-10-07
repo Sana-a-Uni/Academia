@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:university_name",
  "creation": "2024-05-28 04:59:56.032491",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -16,7 +17,8 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "University Name",
-   "reqd": 1
+   "reqd": 1,
+   "unique": 1
   },
   {
    "fieldname": "country",
@@ -39,10 +41,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-06-05 21:41:08.405787",
+ "modified": "2024-07-28 12:36:47.474897",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "University",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {

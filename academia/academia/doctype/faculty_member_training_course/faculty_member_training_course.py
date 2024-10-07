@@ -19,6 +19,7 @@ class FacultyMemberTrainingCourse(Document):
         as_a_trainer: DF.Check
         certification: DF.Attach | None
         course_name: DF.Data
+        description: DF.Text | None
         ends_on: DF.Date | None
         location: DF.Data | None
         name: DF.Int | None
@@ -27,11 +28,4 @@ class FacultyMemberTrainingCourse(Document):
         parenttype: DF.Data
         starts_on: DF.Date | None
     # end: auto-generated types
-    def validate(self):
-        if self.starts_on and self.ends_on:
-            if self.ends_on <= self.starts_on:
-                frappe.throw(_("Date of End must be after Date of Start"))
-
-        if not re.match("^[a-zA-Z ]*$", self.course_name):
-            frappe.throw("Course name should only contain letters")
-
+    pass

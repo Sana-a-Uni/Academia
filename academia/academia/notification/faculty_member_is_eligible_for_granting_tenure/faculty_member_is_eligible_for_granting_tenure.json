@@ -1,0 +1,29 @@
+{
+ "attach_print": 0,
+ "channel": "Email",
+ "condition": "doc.is_eligible_for_granting_tenure==1",
+ "creation": "2024-08-01 14:37:37.084230",
+ "days_in_advance": 0,
+ "docstatus": 0,
+ "doctype": "Notification",
+ "document_type": "Faculty Member",
+ "enabled": 1,
+ "event": "Value Change",
+ "idx": 0,
+ "is_standard": 1,
+ "message": "<h3>{{ _(\"Eligibility for Tenure\") }}</h3>\n\n<p>\n  {{ _(\"Dear \") }} {{ doc.faculty_member_name }},\n</p>\n\n<p>\n  {{ _(\"We are pleased to inform you that you are eligible for tenure.\") }}\n</p>\n<p>\n  {{ _(\"Please submit a tenure request to begin the necessary procedures for tenure.\") }}\n</p>\n\n<p>\n  {{ _(\"Best regards,\") }}<br>\n  {{ _(\"Sana'a University.\") }}\n</p>",
+ "modified": "2024-08-01 14:53:40.282532",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Faculty Member is Eligible for Granting Tenure",
+ "owner": "Administrator",
+ "recipients": [
+  {
+   "receiver_by_document_field": "email"
+  }
+ ],
+ "send_system_notification": 0,
+ "send_to_all_assignees": 0,
+ "subject": "You are eligible for granting tenure",
+ "value_changed": "is_eligible_for_granting_tenure"
+}

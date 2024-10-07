@@ -2,6 +2,69 @@
  {
   "docstatus": 0,
   "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-06-29 15:34:12.275724",
+  "name": "Cancelled",
+  "style": "Danger",
+  "workflow_state_name": "Cancelled"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-07-01 19:39:12.887696",
+  "name": "Approval Pending By Academic Manager",
+  "style": "Primary",
+  "workflow_state_name": "Approval Pending By Academic Manager"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-07-29 17:43:22.372738",
+  "name": "Approval Pending By Department Head",
+  "style": "Primary",
+  "workflow_state_name": "Approval Pending By Department Head"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-07-22 22:31:54.338953",
+  "name": "Scheduled",
+  "style": "Info",
+  "workflow_state_name": "Scheduled"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-07-22 22:37:31.494262",
+  "name": "Unscheduled",
+  "style": "Primary",
+  "workflow_state_name": "Unscheduled"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-07-22 22:39:52.180787",
+  "name": "Pending Approved",
+  "style": "Info",
+  "workflow_state_name": "Pending Approved"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-07-22 22:41:45.584224",
+  "name": "Pending Modified",
+  "style": "Warning",
+  "workflow_state_name": "Pending Modified"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
   "icon": "question-sign",
   "modified": "2024-01-16 21:56:47.252064",
   "name": "Pending",
@@ -52,5 +115,14 @@
   "name": "Pending Approval",
   "style": "Primary",
   "workflow_state_name": "Pending Approval"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Workflow State",
+  "icon": "",
+  "modified": "2024-08-08 22:43:54.782689",
+  "name": "Approval Pending By Faculty Dean",
+  "style": "Primary",
+  "workflow_state_name": "Approval Pending By Faculty Dean"
  }
 ]

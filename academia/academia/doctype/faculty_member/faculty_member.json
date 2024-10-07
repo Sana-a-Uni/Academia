@@ -17,8 +17,8 @@
   "email",
   "column_break_hagf",
   "company",
-  "department",
   "faculty",
+  "department",
   "nationality",
   "column_break_zcxq",
   "date_of_joining_in_service",
@@ -32,6 +32,7 @@
   "current_academic_data_section",
   "scientific_degree",
   "academic_rank",
+  "date_of_obtaining_the_academic_rank",
   "general_field",
   "specialist_field",
   "column_break_gcym",
@@ -44,10 +45,16 @@
   "date",
   "column_break_pkgt",
   "decision_attachment",
+  "commencement_of_work_data_section",
+  "commencement_of_work_decision_number",
+  "commencement_of_work_date",
+  "column_break_lbxn",
+  "commencement_of_work_attachment",
   "academic_services_section",
   "academic_services",
   "column_break_pkbw",
   "from_another_university",
+  "external_faculty",
   "profile_tab",
   "academic_ranking_section",
   "faculty_member_academic_ranking",
@@ -123,7 +130,7 @@
   {
    "fieldname": "employee",
    "fieldtype": "Link",
-   "label": "Employee ",
+   "label": "Employee",
    "options": "Employee",
    "reqd": 1
   },
@@ -137,11 +144,11 @@
   },
   {
    "fetch_from": "employee.company",
-   "fetch_if_empty": 1,
    "fieldname": "company",
    "fieldtype": "Link",
    "label": "Company",
    "options": "Company",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -216,13 +223,6 @@
    "label": "Awards and Appreciation Certificates"
   },
   {
-   "fieldname": "academic_rank",
-   "fieldtype": "Link",
-   "label": "Academic Rank",
-   "options": "Academic Rank",
-   "reqd": 1
-  },
-  {
    "fieldname": "google_scholar_profile_link",
    "fieldtype": "Data",
    "label": "Google Scholar Profile Link"
@@ -277,7 +277,8 @@
    "fieldname": "department",
    "fieldtype": "Link",
    "label": "Department",
-   "options": "Department"
+   "options": "Department",
+   "reqd": 1
   },
   {
    "fieldname": "current_academic_data_section",
@@ -317,7 +318,7 @@
    "options": "University"
   },
   {
-   "depends_on": "eval: doc.employee && doc.employment_type != \"Official\"",
+   "depends_on": "eval: doc.employee && doc.employment_type && doc.employment_type != \"Official\"",
    "fieldname": "academic_services_section",
    "fieldtype": "Section Break",
    "label": "Academic Services"
@@ -354,7 +355,8 @@
    "fieldname": "faculty",
    "fieldtype": "Link",
    "label": "Faculty",
-   "options": "Faculty"
+   "options": "Faculty",
+   "reqd": 1
   },
   {
    "fieldname": "connections_tab",
@@ -389,14 +391,57 @@
    "fieldname": "email",
    "fieldtype": "Data",
    "label": "Email",
-   "options": "Email"
+   "options": "Email",
+   "reqd": 1
+  },
+  {
+   "fieldname": "external_faculty",
+   "fieldtype": "Link",
+   "label": "External Faculty",
+   "options": "External Faculty"
+  },
+  {
+   "fieldname": "commencement_of_work_data_section",
+   "fieldtype": "Section Break",
+   "label": "Commencement of Work Data"
+  },
+  {
+   "fieldname": "commencement_of_work_decision_number",
+   "fieldtype": "Data",
+   "label": "Commencement of Work Decision Number"
+  },
+  {
+   "fieldname": "commencement_of_work_date",
+   "fieldtype": "Date",
+   "label": "Commencement of Work Date"
+  },
+  {
+   "fieldname": "column_break_lbxn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "commencement_of_work_attachment",
+   "fieldtype": "Attach",
+   "label": "Commencement of Work Attachment"
+  },
+  {
+   "fieldname": "academic_rank",
+   "fieldtype": "Link",
+   "label": "Academic Rank",
+   "options": "Academic Rank",
+   "reqd": 1
+  },
+  {
+   "fieldname": "date_of_obtaining_the_academic_rank",
+   "fieldtype": "Date",
+   "label": "Date of Obtaining the Academic Rank"
   }
  ],
  "image_field": "image",
  "index_web_pages_for_search": 1,
  "links": [
   {
-   "group": "Publication",
+   "group": "Publications",
    "is_child_table": 1,
    "link_doctype": "Academic Author",
    "link_fieldname": "author_name",
@@ -404,7 +449,7 @@
    "table_fieldname": "academic_publication_author"
   },
   {
-   "group": "Publication",
+   "group": "Publications",
    "is_child_table": 1,
    "link_doctype": "Academic Author",
    "link_fieldname": "author_name",
@@ -412,17 +457,22 @@
    "table_fieldname": "scientific_article_author"
   },
   {
-   "group": "Tenure",
-   "link_doctype": "Tenure Evaluation Request",
+   "group": "Academic Requests",
+   "link_doctype": "Tenure Request",
    "link_fieldname": "faculty_member"
   },
   {
-   "group": "Tenure",
-   "link_doctype": "Tenure Request",
+   "group": "Academic Requests",
+   "link_doctype": "Promotion Request",
    "link_fieldname": "faculty_member"
+  },
+  {
+   "group": "Academic Evaluations",
+   "link_doctype": "Academic Evaluation",
+   "link_fieldname": "evaluatee_party"
   }
  ],
- "modified": "2024-07-17 15:37:37.334341",
+ "modified": "2024-08-18 04:40:39.354598",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",
@@ -494,6 +544,76 @@
    "create": 1,
    "read": 1,
    "role": "Faculty Member",
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Faculty Member",
+   "share": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Administrator",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Faculty Dean",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Department Head",
+   "share": 1,
    "write": 1
   }
  ],
