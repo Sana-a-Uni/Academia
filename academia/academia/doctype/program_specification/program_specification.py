@@ -15,12 +15,13 @@ class ProgramSpecification(Document):
 
     if TYPE_CHECKING:
         from academia.academia.doctype.course_language.course_language import CourseLanguage
+        from academia.academia.doctype.credit_hours_course.credit_hours_course import CreditHoursCourse
         from academia.academia.doctype.study_plan_course.study_plan_course import StudyPlanCourse
         from frappe.types import DF
 
         abbr: DF.ReadOnly
         academic_degree: DF.ReadOnly
-        academic_system: DF.Literal["", "Semester System", "Credit Hours System"]
+        academic_system: DF.Literal["", "Semester System", "Credit Hours System", "Annual System"]
         approval_date: DF.Date | None
         course_language: DF.TableMultiSelect[CourseLanguage]
         courses: DF.Check
@@ -37,6 +38,7 @@ class ProgramSpecification(Document):
         program_name: DF.Link
         program_name_english: DF.ReadOnly
         research_or_thesis: DF.Check
+        table_omcu: DF.Table[CreditHoursCourse]
         table_ytno: DF.Table[StudyPlanCourse]
         total_hours_required_to_award_degree: DF.Int
     # end: auto-generated types
