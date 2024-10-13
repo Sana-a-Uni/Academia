@@ -34,7 +34,10 @@
   "column_break_kpxz",
   "file",
   "study_plan_details_tab",
+  "semester_system_section",
   "table_ytno",
+  "credit_hours_system_section",
+  "table_omcu",
   "research_tab",
   "minimum_course_average_to_start_research",
   "minimum_research_period",
@@ -245,18 +248,35 @@
    "fieldname": "academic_system",
    "fieldtype": "Select",
    "label": "Academic System",
-   "options": "\nSemester System\nCredit Hours System"
+   "options": "\nSemester System\nCredit Hours System\nAnnual System"
   },
   {
    "fieldname": "implementation_start_academic_year",
    "fieldtype": "Link",
    "label": "Implementation Start (Academic Year)",
    "options": "Academic Year"
+  },
+  {
+   "depends_on": "eval:doc.academic_system == \"Semester System\" || doc.academic_system == \"Annual System\";",
+   "fieldname": "semester_system_section",
+   "fieldtype": "Section Break",
+   "label": "Semester System & Annual System"
+  },
+  {
+   "depends_on": "eval:doc.academic_system == \"Credit Hours System\";",
+   "fieldname": "credit_hours_system_section",
+   "fieldtype": "Section Break",
+   "label": "Credit Hours System"
+  },
+  {
+   "fieldname": "table_omcu",
+   "fieldtype": "Table",
+   "options": "Credit Hours Course"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-10-03 12:02:23.878781",
+ "modified": "2024-10-11 00:05:02.230457",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Specification",
