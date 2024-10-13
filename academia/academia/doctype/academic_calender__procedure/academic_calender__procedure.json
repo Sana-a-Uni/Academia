@@ -1,0 +1,63 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-10-13 11:38:03.087270",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "procedure",
+  "procedure_type",
+  "start_date",
+  "end_date",
+  "note"
+ ],
+ "fields": [
+  {
+   "fieldname": "procedure",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Procedure",
+   "reqd": 1
+  },
+  {
+   "fieldname": "procedure_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Procedure Type",
+   "options": "\nperiod\none day",
+   "reqd": 1
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Start Date",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.procedure_type==\"period\"",
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date",
+   "mandatory_depends_on": "eval:doc.procedure_type==\"period\""
+  },
+  {
+   "fieldname": "note",
+   "fieldtype": "Text",
+   "in_list_view": 1,
+   "label": "Note"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-10-13 11:51:22.808897",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Academic Calender  Procedure",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
