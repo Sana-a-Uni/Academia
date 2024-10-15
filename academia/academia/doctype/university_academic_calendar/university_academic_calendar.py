@@ -18,10 +18,12 @@ class UniversityAcademicCalendar(Document):
 		academic_calendar_term_one: DF.Table[AcademicCalenderProcedure]
 		academic_calendar_term_three: DF.Table[AcademicCalenderProcedure]
 		academic_calendar_term_two: DF.Table[AcademicCalenderProcedure]
-		academic_term_one: DF.ReadOnly
-		academic_term_three: DF.ReadOnly | None
-		academic_term_two: DF.ReadOnly | None
+		academic_term_one: DF.Data
+		academic_term_three: DF.Data | None
+		academic_term_two: DF.Data | None
 		academic_year: DF.Data
 		is_hour_system: DF.Check
+		master_academic_calendar: DF.Table[AcademicCalenderProcedure]
+		master_academic_year: DF.Data | None
 	# end: auto-generated types
 	pass

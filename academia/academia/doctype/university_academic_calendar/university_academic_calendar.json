@@ -17,7 +17,9 @@
   "section_break_hhpv",
   "academic_term_three",
   "academic_calendar_term_three",
-  "term_2_tab"
+  "term_2_tab",
+  "master_academic_year",
+  "master_academic_calendar"
  ],
  "fields": [
   {
@@ -34,26 +36,28 @@
   {
    "fieldname": "term_1_tab",
    "fieldtype": "Tab Break",
-   "label": "Term 1"
+   "label": "Bachelor"
   },
   {
+   "default": "Term One",
    "fieldname": "academic_term_one",
-   "fieldtype": "Read Only",
+   "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Academic Term",
-   "options": "Term One",
+   "read_only": 1,
    "reqd": 1
   },
   {
    "fieldname": "term_2_tab",
    "fieldtype": "Tab Break",
-   "label": "Term 2"
+   "label": "Master"
   },
   {
+   "default": "Term Two",
    "fieldname": "academic_term_two",
-   "fieldtype": "Read Only",
+   "fieldtype": "Data",
    "label": "Academic Term",
-   "options": "Term Two"
+   "read_only": 1
   },
   {
    "fieldname": "academic_calendar_term_one",
@@ -79,10 +83,11 @@
    "label": "Is Hour System"
   },
   {
+   "default": "Term Three",
    "fieldname": "academic_term_three",
-   "fieldtype": "Read Only",
+   "fieldtype": "Data",
    "label": "Academic Term",
-   "options": "Term Three"
+   "read_only": 1
   },
   {
    "depends_on": "is_hour_system",
@@ -94,11 +99,22 @@
    "fieldtype": "Table",
    "label": "Academic Calendar",
    "options": "Academic Calender  Procedure"
+  },
+  {
+   "fieldname": "master_academic_year",
+   "fieldtype": "Data",
+   "label": "Master Academic Year"
+  },
+  {
+   "fieldname": "master_academic_calendar",
+   "fieldtype": "Table",
+   "label": "Master Academic Calendar",
+   "options": "Academic Calender  Procedure"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-10-13 13:47:37.182454",
+ "modified": "2024-10-15 17:48:46.361879",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "University Academic Calendar",
