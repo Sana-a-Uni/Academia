@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class AcademicCalenderProcedure(Document):
+class CalendarProcedure(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -14,13 +14,7 @@ class AcademicCalenderProcedure(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		end_date: DF.Date | None
-		note: DF.Text | None
-		parent: DF.Data
-		parentfield: DF.Data
-		parenttype: DF.Data
-		procedure: DF.Link
-		procedure_type: DF.Literal["", "period", "one day"]
-		start_date: DF.Date
+		procedure_code: DF.Data
+		procedure_name: DF.Data
 	# end: auto-generated types
 	pass

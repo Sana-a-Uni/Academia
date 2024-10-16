@@ -12,9 +12,16 @@ class FacultyAcademicCalender(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.academia.doctype.academic_calender__procedure.academic_calender__procedure import AcademicCalenderProcedure
 		from frappe.types import DF
 
-		academic_term: DF.Data | None
-		academic_year: DF.Link | None
+		academic_calendar_term_one: DF.Table[AcademicCalenderProcedure]
+		academic_calendar_term_three: DF.Table[AcademicCalenderProcedure]
+		academic_calendar_term_two: DF.Table[AcademicCalenderProcedure]
+		academic_calendar_type: DF.Literal["", "Bachelor Studies", "Post Graduate Studies"]
+		academic_system_type: DF.Literal["", "Semester System", "Credit Hours System", "Annual System"]
+		academic_year: DF.Link
+		faculty: DF.Link
+		university_calendar: DF.Link | None
 	# end: auto-generated types
 	pass
