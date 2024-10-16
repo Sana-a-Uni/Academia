@@ -12,7 +12,9 @@ class UniversityAcademicCalendar(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.academia.doctype.academic_calender__procedure.academic_calender__procedure import AcademicCalenderProcedure
+		from academia.academia.doctype.academic_calender__procedure.academic_calender__procedure import (
+			AcademicCalenderProcedure,
+		)
 		from frappe.types import DF
 
 		academic_calendar_term_one: DF.Table[AcademicCalenderProcedure]
