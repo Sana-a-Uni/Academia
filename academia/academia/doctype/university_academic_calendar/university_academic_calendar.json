@@ -18,7 +18,7 @@
   "section_break_helr",
   "academic_calendar_term_one",
   "section_break_nexi",
-  "bachelor_academic_calendar_term_two",
+  "academic_calendar_term_two",
   "section_break_hhpv",
   "academic_calendar_term_three"
  ],
@@ -61,13 +61,6 @@
    "label": "Bachelor"
   },
   {
-   "depends_on": "eval:doc.annual_system == 0",
-   "fieldname": "bachelor_academic_calendar_term_two",
-   "fieldtype": "Table",
-   "label": "Academic Calendar",
-   "options": "Academic Calender  Procedure"
-  },
-  {
    "fieldname": "academic_calendar_type",
    "fieldtype": "Select",
    "label": "Academic Calendar Type",
@@ -77,7 +70,7 @@
    "fieldname": "academic_calendar_term_one",
    "fieldtype": "Table",
    "label": "Academic Calendar",
-   "options": "Academic Calender  Procedure",
+   "options": "Academic Calendar Procedure",
    "reqd": 1
   },
   {
@@ -85,7 +78,7 @@
    "fieldname": "academic_calendar_term_three",
    "fieldtype": "Table",
    "label": "Academic Calendar",
-   "options": "Academic Calender  Procedure"
+   "options": "Academic Calendar Procedure"
   },
   {
    "fieldname": "column_break_fabk",
@@ -111,11 +104,18 @@
    "fieldname": "system_type_section",
    "fieldtype": "Section Break",
    "label": "Academic System Type"
+  },
+  {
+   "depends_on": "eval:doc.annual_system == 0",
+   "fieldname": "academic_calendar_term_two",
+   "fieldtype": "Table",
+   "label": "Academic Calendar",
+   "options": "Academic Calendar Procedure"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-10-16 11:59:19.766621",
+ "modified": "2024-10-17 12:26:41.200875",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "University Academic Calendar",

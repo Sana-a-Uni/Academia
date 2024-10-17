@@ -75,7 +75,7 @@
    "fieldname": "academic_calendar_term_one",
    "fieldtype": "Table",
    "label": "Academic Calendar",
-   "options": "Academic Calender  Procedure",
+   "options": "Academic Calendar Procedure",
    "reqd": 1
   },
   {
@@ -100,7 +100,7 @@
    "fieldname": "academic_calendar_term_two",
    "fieldtype": "Table",
    "label": "Academic Calendar",
-   "options": "Academic Calender  Procedure"
+   "options": "Academic Calendar Procedure"
   },
   {
    "depends_on": "eval:doc.academic_system_type == \"Credit Hours System\";",
@@ -118,12 +118,12 @@
    "fieldname": "academic_calendar_term_three",
    "fieldtype": "Table",
    "label": "Academic Calendar",
-   "options": "Academic Calender  Procedure"
+   "options": "Academic Calendar Procedure"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-10-16 12:52:57.331047",
+ "modified": "2024-10-17 11:39:09.360955",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Academic Calender",
