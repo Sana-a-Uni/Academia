@@ -1,0 +1,141 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{academic_calendar_type}-{academic_year}",
+ "creation": "2024-10-13 11:34:49.269664",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "bachelor_tab",
+  "system_type_section",
+  "is_hour_system",
+  "column_break_fabk",
+  "annual_system",
+  "section_break_secl",
+  "academic_calendar_type",
+  "column_break_fjll",
+  "academic_year",
+  "section_break_helr",
+  "academic_calendar_term_one",
+  "section_break_nexi",
+  "academic_calendar_term_two",
+  "section_break_hhpv",
+  "academic_calendar_term_three"
+ ],
+ "fields": [
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Academic Year",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_helr",
+   "fieldtype": "Section Break",
+   "label": "Term One"
+  },
+  {
+   "depends_on": "eval:doc.annual_system == 0",
+   "fieldname": "section_break_nexi",
+   "fieldtype": "Section Break",
+   "label": "Term Two"
+  },
+  {
+   "default": "0",
+   "fieldname": "is_hour_system",
+   "fieldtype": "Check",
+   "label": "Is Hour System",
+   "read_only_depends_on": "annual_system"
+  },
+  {
+   "depends_on": "eval:doc.annual_system == 0;\neval:doc.is_hour_system == 1",
+   "fieldname": "section_break_hhpv",
+   "fieldtype": "Section Break",
+   "label": "Term Three"
+  },
+  {
+   "fieldname": "bachelor_tab",
+   "fieldtype": "Tab Break",
+   "label": "Bachelor"
+  },
+  {
+   "fieldname": "academic_calendar_type",
+   "fieldtype": "Select",
+   "label": "Academic Calendar Type",
+   "options": "\nBachelor Studies\nPost Graduate Studies"
+  },
+  {
+   "fieldname": "academic_calendar_term_one",
+   "fieldtype": "Table",
+   "label": "Academic Calendar",
+   "options": "Academic Calendar Procedure",
+   "reqd": 1
+  },
+  {
+   "depends_on": "is_hour_system",
+   "fieldname": "academic_calendar_term_three",
+   "fieldtype": "Table",
+   "label": "Academic Calendar",
+   "options": "Academic Calendar Procedure"
+  },
+  {
+   "fieldname": "column_break_fabk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "annual_system",
+   "fieldtype": "Check",
+   "label": "Annual System",
+   "read_only_depends_on": "is_hour_system"
+  },
+  {
+   "fieldname": "section_break_secl",
+   "fieldtype": "Section Break",
+   "label": "Calendar Settings"
+  },
+  {
+   "fieldname": "column_break_fjll",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "system_type_section",
+   "fieldtype": "Section Break",
+   "label": "Academic System Type"
+  },
+  {
+   "depends_on": "eval:doc.annual_system == 0",
+   "fieldname": "academic_calendar_term_two",
+   "fieldtype": "Table",
+   "label": "Academic Calendar",
+   "options": "Academic Calendar Procedure"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-10-17 12:26:41.200875",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "University Academic Calendar",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
