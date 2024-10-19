@@ -1,0 +1,148 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-10-13 11:53:29.269175",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_vspq",
+  "faculty",
+  "academic_calendar_type",
+  "university_calendar",
+  "column_break_ugvx",
+  "academic_year",
+  "academic_system_type",
+  "term_one_section",
+  "get_university_calendar_term_one",
+  "academic_calendar_term_one",
+  "section_break_deox",
+  "get_university_calendar_term_two",
+  "academic_calendar_term_two",
+  "section_break_ntqo",
+  "get_university_calendar_term_three",
+  "academic_calendar_term_three"
+ ],
+ "fields": [
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "label": "Academic Year",
+   "options": "Academic Year",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ugvx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Faculty",
+   "options": "Faculty",
+   "reqd": 1
+  },
+  {
+   "fieldname": "academic_calendar_type",
+   "fieldtype": "Select",
+   "label": "Academic Calendar Type",
+   "options": "\nBachelor Studies\nPost Graduate Studies",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_vspq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "academic_system_type",
+   "fieldtype": "Select",
+   "label": "Academic System Type",
+   "options": "\nSemester System\nCredit Hours System\nAnnual System",
+   "reqd": 1
+  },
+  {
+   "fieldname": "university_calendar",
+   "fieldtype": "Link",
+   "label": "University Calendar",
+   "options": "University Academic Calendar"
+  },
+  {
+   "fieldname": "term_one_section",
+   "fieldtype": "Section Break",
+   "label": "Term One"
+  },
+  {
+   "fieldname": "academic_calendar_term_one",
+   "fieldtype": "Table",
+   "label": "Academic Calendar",
+   "options": "Academic Calendar Procedure",
+   "reqd": 1
+  },
+  {
+   "depends_on": "university_calendar",
+   "fieldname": "get_university_calendar_term_one",
+   "fieldtype": "Button",
+   "label": "Get University Calendar"
+  },
+  {
+   "depends_on": "eval:doc.academic_system_type == \"Semester System\" || doc.academic_system_type == \"Credit Hours System\";",
+   "fieldname": "section_break_deox",
+   "fieldtype": "Section Break",
+   "label": "Term Two"
+  },
+  {
+   "depends_on": "eval:doc.university_calendar && (doc.academic_system_type == \"Semester System\" || doc.academic_system_type == \"Credit Hours System\");",
+   "fieldname": "get_university_calendar_term_two",
+   "fieldtype": "Button",
+   "label": "Get University Calendar"
+  },
+  {
+   "fieldname": "academic_calendar_term_two",
+   "fieldtype": "Table",
+   "label": "Academic Calendar",
+   "options": "Academic Calendar Procedure"
+  },
+  {
+   "depends_on": "eval:doc.academic_system_type == \"Credit Hours System\";",
+   "fieldname": "section_break_ntqo",
+   "fieldtype": "Section Break",
+   "label": "Term Three"
+  },
+  {
+   "depends_on": "eval:doc.academic_system_type == \"Credit Hours System\" && doc.university_calendar;",
+   "fieldname": "get_university_calendar_term_three",
+   "fieldtype": "Button",
+   "label": "Get University Calendar"
+  },
+  {
+   "fieldname": "academic_calendar_term_three",
+   "fieldtype": "Table",
+   "label": "Academic Calendar",
+   "options": "Academic Calendar Procedure"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-10-17 11:39:09.360955",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Faculty Academic Calender",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
