@@ -973,3 +973,61 @@ function update_must_include(frm) {
 		}
 	}
 }
+
+frappe.ui.form.on("Transaction Applicant", {
+	applicant: function (frm, cdt, cdn) {
+		let child = locals[cdt][cdn];
+
+		if (child.applicant_type == "Employee") {
+			frappe.db.get_value(
+				child.applicant_type,
+				child.applicant,
+				"employee_name",
+				function (r) {
+					if (r) {
+						frappe.model.set_value(cdt, cdn, "applicant_name", r.employee_name);
+					} else {
+						frappe.msgprint("Employee name not found");
+					}
+				}
+			);
+		} else if (child.applicant_type == "User") {
+			frappe.db.get_value(child.applicant_type, child.applicant, "full_name", function (r) {
+				if (r) {
+					frappe.model.set_value(cdt, cdn, "applicant_name", r.full_name);
+				} else {
+					frappe.msgprint("User name not found");
+				}
+			});
+		} else if (child.applicant_type == "Faculty Member") {
+			frappe.db.get_value(
+				child.applicant_type,
+				child.applicant,
+				"faculty_member_name",
+				function (r) {
+					if (r) {
+						frappe.model.set_value(cdt, cdn, "applicant_name", r.faculty_member_name);
+					} else {
+						frappe.msgprint("Faculty member name not found");
+					}
+				}
+			);
+		} else if (child.applicant_type == "Student") {
+			frappe.db.get_value(
+				child.applicant_type,
+				child.applicant,
+				["first_name", "middle_name", "last_name"],
+				function (r) {
+					if (r) {
+						let full_name = [r.first_name, r.middle_name, r.last_name]
+							.filter(Boolean)
+							.join(" ");
+						frappe.model.set_value(cdt, cdn, "applicant_name", full_name);
+					} else {
+						frappe.msgprint("Student name not found");
+					}
+				}
+			);
+		}
+	},
+});

@@ -14,11 +14,9 @@ class TransactionApplicant(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-
-		applicant: DF.DynamicLink | None
-		applicant_name: DF.Data | None
-		applicant_type: DF.Literal["", "Student", "Academic", "Employee", "User", "Faculty Member"]
-
+		applicant: DF.DynamicLink
+		applicant_name: DF.Data
+		applicant_type: DF.Literal["", "Student", "Employee", "User", "Faculty Member"]
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
