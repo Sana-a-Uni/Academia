@@ -3,12 +3,12 @@
  "allow_rename": 1,
  "creation": "2024-10-17 11:54:56.480884",
  "doctype": "DocType",
+ "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
   "procedure",
-  "procedure_type",
-  "start_date",
-  "end_date",
+  "date",
+  "hijri_date",
   "note"
  ],
  "fields": [
@@ -21,39 +21,29 @@
    "reqd": 1
   },
   {
-   "fieldname": "procedure_type",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Procedure Type",
-   "options": "\nPeriod\nOne Day",
-   "reqd": 1
-  },
-  {
-   "fieldname": "start_date",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "label": "Start Date",
-   "reqd": 1
-  },
-  {
-   "depends_on": "eval:doc.procedure_type == \"Period\"",
-   "fieldname": "end_date",
-   "fieldtype": "Date",
-   "in_list_view": 1,
-   "label": "End Date",
-   "mandatory_depends_on": "eval:doc.procedure_type == \"Period\""
-  },
-  {
    "fieldname": "note",
    "fieldtype": "Small Text",
    "in_list_view": 1,
    "label": "Note"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "hijri_date",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Hijri Date"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-10-17 12:41:53.493871",
+ "modified": "2024-10-21 00:25:47.124385",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Calendar Procedure",
