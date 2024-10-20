@@ -17,6 +17,8 @@
   "recipients",
   "get_recipients",
   "clear_recipients",
+  "section_break_woov",
+  "path",
   "requirements_tab",
   "requirements"
  ],
@@ -100,11 +102,21 @@
    "fieldname": "clear_recipients",
    "fieldtype": "Button",
    "label": "Clear Recipients"
+  },
+  {
+   "fieldname": "section_break_woov",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "path",
+   "fieldtype": "Table",
+   "label": "Path",
+   "options": "Transaction Path"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-15 23:03:33.500908",
+ "modified": "2024-10-20 12:47:58.755943",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Category",

@@ -1,0 +1,63 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-10-20 12:39:23.608996",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "step",
+  "designation",
+  "print_paper",
+  "has_sign",
+  "is_received"
+ ],
+ "fields": [
+  {
+   "fieldname": "step",
+   "fieldtype": "Int",
+   "label": "Step",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Link",
+   "label": "Designation",
+   "options": "Designation"
+  },
+  {
+   "default": "0",
+   "fieldname": "print_paper",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Will Print Paper"
+  },
+  {
+   "default": "0",
+   "fieldname": "has_sign",
+   "fieldtype": "Check",
+   "label": "Has Sign"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "0",
+   "fieldname": "is_received",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Is Received"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-10-20 12:46:55.942013",
+ "modified_by": "Administrator",
+ "module": "Transaction Management",
+ "name": "Transaction Path",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

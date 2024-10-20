@@ -26,6 +26,8 @@
   "title",
   "get_default_template_button",
   "transaction_description",
+  "section_break_kyyb",
+  "path",
   "category_information_section",
   "category",
   "sub_category",
@@ -469,13 +471,23 @@
    "fieldtype": "Data",
    "label": "Hijri Date",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_break_kyyb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "path",
+   "fieldtype": "Table",
+   "label": "Path",
+   "options": "Transaction Path"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-10-04 23:11:11.687998",
+ "modified": "2024-10-20 12:56:16.185380",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
