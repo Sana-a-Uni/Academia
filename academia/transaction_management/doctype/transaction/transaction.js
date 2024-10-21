@@ -7,6 +7,8 @@ var global_print_papaer = null;
 var global_is_received = null;
 var global_action_name = null;
 var global_recipient_docname = null;
+let global_applicant_company = null;
+let global_recipient_designation = null;
 
 frappe.ui.form.on("Transaction", {
 	setup: function (frm) {
@@ -680,6 +682,7 @@ frappe.ui.form.on("Transaction", {
 						});
 					});
 
+					global_recipient_designation = path;
 					// Refresh the form to display the newly added fields
 					frm.refresh_fields("recipients");
 					frm.refresh_fields("path");
@@ -975,24 +978,36 @@ function update_must_include(frm) {
 }
 
 frappe.ui.form.on("Transaction Applicant", {
+	applicant_type: function (frm, cdt, cdn) {
+		let child = locals[cdt][cdn];
+		frappe.model.set_value(cdt, cdn, "applicant", "");
+		frappe.model.set_value(cdt, cdn, "applicant_name", "");
+		applicant_company = "";
+	},
+
 	applicant: function (frm, cdt, cdn) {
 		let child = locals[cdt][cdn];
 
+		// Fetch the intended name and add it to applicant_name field
 		if (child.applicant_type == "Employee") {
+			// Fetch employee name
 			frappe.db.get_value(
 				child.applicant_type,
 				child.applicant,
-				"employee_name",
+				["employee_name", "company"],
 				function (r) {
 					if (r) {
 						frappe.model.set_value(cdt, cdn, "applicant_name", r.employee_name);
+						global_applicant_company = r.company;
 					} else {
 						frappe.msgprint("Employee name not found");
 					}
 				}
 			);
 		} else if (child.applicant_type == "User") {
+			// Fetch user name
 			frappe.db.get_value(child.applicant_type, child.applicant, "full_name", function (r) {
+				// Does not have company
 				if (r) {
 					frappe.model.set_value(cdt, cdn, "applicant_name", r.full_name);
 				} else {
@@ -1000,19 +1015,23 @@ frappe.ui.form.on("Transaction Applicant", {
 				}
 			});
 		} else if (child.applicant_type == "Faculty Member") {
+			//Fetch faculty memeber name
 			frappe.db.get_value(
 				child.applicant_type,
 				child.applicant,
-				"faculty_member_name",
+				["faculty_member_name", "company"],
 				function (r) {
 					if (r) {
 						frappe.model.set_value(cdt, cdn, "applicant_name", r.faculty_member_name);
+						global_applicant_company = r.company;
+						frappe.msgprint(applicant_company);
 					} else {
 						frappe.msgprint("Faculty member name not found");
 					}
 				}
 			);
 		} else if (child.applicant_type == "Student") {
+			// Fetch student name
 			frappe.db.get_value(
 				child.applicant_type,
 				child.applicant,
@@ -1028,6 +1047,39 @@ frappe.ui.form.on("Transaction Applicant", {
 					}
 				}
 			);
+		}
+
+		// Bring the intended recipients if sub_category and the applicant have been set
+		if (frm.doc.sub_category && child.applicant) {
+			global_recipient_designation.forEach(function (row) {
+				frappe.call({
+					method: "frappe.client.get_list",
+					args: {
+						doctype: "Employee",
+						filters: {
+							designation: row.designation,
+							company: global_applicant_company,
+						},
+						fields: ["name", "employee_name"],
+					},
+					callback: function (response) {
+						var employees = response.message;
+						frappe.msgprint(global_applicant_company);
+
+						if (employees.length > 0) {
+							employees.forEach(function (employee) {
+								frappe.msgprint(
+									`Employee ID: ${employee.name}, Employee Name: ${employee.employee_name}`
+								);
+							});
+						} else {
+							frappe.msgprint(
+								`No employees found for designation ${row.designation} in company ${company_name}`
+							);
+						}
+					},
+				});
+			});
 		}
 	},
 });
