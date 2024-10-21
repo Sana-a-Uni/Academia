@@ -16,5 +16,6 @@ class CalendarProcedure(Document):
 
 		procedure_code: DF.Data
 		procedure_name: DF.Data
+		procedure_name_english: DF.Data | None
 	# end: auto-generated types
 	pass
