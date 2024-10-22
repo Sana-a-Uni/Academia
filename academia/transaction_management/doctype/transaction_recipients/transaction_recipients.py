@@ -20,6 +20,7 @@ class TransactionRecipients(Document):
 		parentfield: DF.Data
 		parenttype: DF.Data
 		print_paper: DF.Check
+		recipient: DF.Link | None
 		recipient_company: DF.Link
 		recipient_department: DF.Link | None
 		recipient_designation: DF.Link | None

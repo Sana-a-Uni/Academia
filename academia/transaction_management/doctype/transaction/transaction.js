@@ -575,7 +575,7 @@ frappe.ui.form.on("Transaction", {
 						docstatus: ["!=", 2],
 						department: ["!=", null],
 						designation: ["!=", null],
-						user_id: ["in", mustInclude],
+						//user_id: ["in", mustInclude],
 					};
 
 					if (!all_companies) {
@@ -676,6 +676,13 @@ frappe.ui.form.on("Transaction", {
 						frm.add_child("path", {
 							step: path1.step,
 							designation: path1.designation,
+							print_paper: path1.print_paper,
+							has_sign: path1.has_sign,
+							is_received: path1.is_received,
+						});
+						frm.add_child("recipients", {
+							step: path1.step,
+							recipient_designation: path1.designation,
 							print_paper: path1.print_paper,
 							has_sign: path1.has_sign,
 							is_received: path1.is_received,
@@ -1081,5 +1088,25 @@ frappe.ui.form.on("Transaction Applicant", {
 				});
 			});
 		}
+	},
+});
+
+frappe.ui.form.on("Transaction Recipients", {
+	recipient_designation: function (frm, cdt, cdn) {
+		let row = locals[cdt][cdn];
+		frappe.msgprint(
+			"Handler Triggered - Recipient Designation Changed: " + row.recipient_designation
+		);
+
+		frm.fields_dict["recipients"].grid.get_field("recipient").get_query = function () {
+			return {
+				filters: {
+					designation: row.recipient_designation,
+					// 'company': frm.doc.company
+				},
+			};
+		};
+
+		frm.refresh_field("recipients");
 	},
 });
