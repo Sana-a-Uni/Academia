@@ -1,6 +1,6 @@
 {
  "actions": [],
- "allow_rename": 1,
+ "autoname": "format:{faculty}-{academic_calendar_type}-{academic_system_type}-{academic_year}",
  "creation": "2024-10-13 11:53:29.269175",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -123,10 +123,11 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-10-17 11:39:09.360955",
+ "modified": "2024-10-20 11:28:26.133419",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Academic Calender",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

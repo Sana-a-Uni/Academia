@@ -1,0 +1,92 @@
+[
+ {
+  "docstatus": 0,
+  "doctype": "Calendar Procedure",
+  "modified": "2024-10-21 00:38:34.143408",
+  "name": "بداية الدراسة",
+  "procedure_code": "STUDY_START",
+  "procedure_name": "بداية الدراسة",
+  "procedure_name_english": "Study Start"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Calendar Procedure",
+  "modified": "2024-10-21 00:39:39.401127",
+  "name": "انتهاء الدراسة",
+  "procedure_code": "STUDY_END",
+  "procedure_name": "انتهاء الدراسة",
+  "procedure_name_english": "Study End"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Calendar Procedure",
+  "modified": "2024-10-21 00:40:56.400811",
+  "name": "بداية الاختبارات",
+  "procedure_code": "EXAM_START",
+  "procedure_name": "بداية الاختبارات",
+  "procedure_name_english": "Exam Start"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Calendar Procedure",
+  "modified": "2024-10-21 00:41:44.976552",
+  "name": "انتهاء الاختبارات",
+  "procedure_code": "EXAM_END",
+  "procedure_name": "انتهاء الاختبارات",
+  "procedure_name_english": "Exam End"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Calendar Procedure",
+  "modified": "2024-10-21 00:45:23.090653",
+  "name": "بداية اجازة الفصل",
+  "procedure_code": "SEMESTER_BREAK_START",
+  "procedure_name": "بداية اجازة الفصل",
+  "procedure_name_english": "Semester Break Start"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Calendar Procedure",
+  "modified": "2024-10-21 00:47:31.412397",
+  "name": "انتهاء اجازة الفصل",
+  "procedure_code": "SEMESTER_BREAK_END",
+  "procedure_name": "انتهاء اجازة الفصل",
+  "procedure_name_english": "Semester Break End"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Calendar Procedure",
+  "modified": "2024-10-21 00:53:55.952697",
+  "name": "بداية الاختبارات النصفية",
+  "procedure_code": "MIDTERM_EXAM_START",
+  "procedure_name": "بداية الاختبارات النصفية",
+  "procedure_name_english": "Midterm Exam Start"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Calendar Procedure",
+  "modified": "2024-10-21 00:54:51.148152",
+  "name": "انتهاء الاختبارات النصفية",
+  "procedure_code": "MIDTERM_EXAM_END",
+  "procedure_name": "انتهاء الاختبارات النصفية",
+  "procedure_name_english": "Midterm Exam End"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Calendar Procedure",
+  "modified": "2024-10-21 00:56:11.720492",
+  "name": "بداية الاختبارات العملي",
+  "procedure_code": "PRACTICAL_EXAM_START",
+  "procedure_name": "بداية الاختبارات العملي",
+  "procedure_name_english": "Practical Exam Start"
+ },
+ {
+  "docstatus": 0,
+  "doctype": "Calendar Procedure",
+  "modified": "2024-10-21 00:57:37.729053",
+  "name": "انتهاء الاختبارات العملي",
+  "procedure_code": "PRACTICAL_EXAM_END",
+  "procedure_name": "انتهاء الاختبارات العملي",
+  "procedure_name_english": "Practical Exam End"
+ }
+]

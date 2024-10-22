@@ -14,13 +14,12 @@ class AcademicCalendarProcedure(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		end_date: DF.Date | None
+		date: DF.Date
+		hijri_date: DF.Data | None
 		note: DF.SmallText | None
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
 		procedure: DF.Link
-		procedure_type: DF.Literal["", "Period", "One Day"]
-		start_date: DF.Date
 	# end: auto-generated types
 	pass

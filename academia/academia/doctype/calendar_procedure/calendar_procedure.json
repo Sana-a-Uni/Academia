@@ -1,14 +1,14 @@
 {
  "actions": [],
- "allow_rename": 1,
  "autoname": "field:procedure_name",
  "creation": "2024-10-16 11:28:43.208857",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "procedure_name",
+  "procedure_code",
   "column_break_rmsf",
-  "procedure_code"
+  "procedure_name_english"
  ],
  "fields": [
   {
@@ -30,11 +30,16 @@
    "label": "Procedure Code",
    "reqd": 1,
    "unique": 1
+  },
+  {
+   "fieldname": "procedure_name_english",
+   "fieldtype": "Data",
+   "label": "Procedure Name (English)"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-10-16 11:35:01.694590",
+ "modified": "2024-10-21 01:30:51.114783",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Calendar Procedure",
@@ -57,5 +62,5 @@
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [],
- "title_field": "procedure_code"
+ "title_field": "procedure_name_english"
 }
