@@ -16,6 +16,7 @@
   {
    "fieldname": "step",
    "fieldtype": "Int",
+   "in_list_view": 1,
    "label": "Step",
    "non_negative": 1,
    "reqd": 1
@@ -23,6 +24,7 @@
   {
    "fieldname": "designation",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Designation",
    "options": "Designation"
   },
@@ -51,7 +53,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-10-20 12:46:55.942013",
+ "modified": "2024-10-23 13:56:16.915030",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Path",

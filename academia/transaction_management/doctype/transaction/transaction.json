@@ -474,7 +474,8 @@
   },
   {
    "fieldname": "section_break_kyyb",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "hidden": 1
   },
   {
    "fieldname": "path",
@@ -487,7 +488,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-10-20 12:56:16.185380",
+ "modified": "2024-10-24 11:58:03.164383",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",

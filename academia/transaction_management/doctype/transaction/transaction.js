@@ -601,6 +601,7 @@ frappe.ui.form.on("Transaction", {
 							doctype: "Employee",
 							filters: { name: ["in", selections] },
 							fields: [
+								"name",
 								"employee_name",
 								"designation",
 								"department",
@@ -624,6 +625,7 @@ frappe.ui.form.on("Transaction", {
 
 							selectedEmployees.forEach((employee) => {
 								frm.add_child("recipients", {
+									recipient: employee.name, // Use document name instead of employee_name
 									recipient_name: employee.employee_name,
 									recipient_company: employee.company,
 									recipient_department: employee.department,
@@ -688,6 +690,17 @@ frappe.ui.form.on("Transaction", {
 							is_received: path1.is_received,
 						});
 					});
+					setTimeout(function () {
+						// DO NOT DELETE THIS: This is a workaround to open and close the first row of the recipients grid so that filtering works
+						let grid = frm.fields_dict["recipients"].grid;
+						if (grid.grid_rows.length > 0) {
+							let first_row = grid.grid_rows[0];
+							first_row.toggle_view(true); // Open the first row
+							setTimeout(function () {
+								first_row.toggle_view(false); // Close the first row
+							}, 0);
+						}
+					}, 0);
 
 					global_recipient_designation = path;
 					// Refresh the form to display the newly added fields
@@ -1057,56 +1070,57 @@ frappe.ui.form.on("Transaction Applicant", {
 		}
 
 		// Bring the intended recipients if sub_category and the applicant have been set
-		if (frm.doc.sub_category && child.applicant) {
-			global_recipient_designation.forEach(function (row) {
-				frappe.call({
-					method: "frappe.client.get_list",
-					args: {
-						doctype: "Employee",
-						filters: {
-							designation: row.designation,
-							company: global_applicant_company,
-						},
-						fields: ["name", "employee_name"],
-					},
-					callback: function (response) {
-						var employees = response.message;
-						frappe.msgprint(global_applicant_company);
+		// if (frm.doc.sub_category && child.applicant) {
+		// 	global_recipient_designation.forEach(function (row) {
+		// 		frappe.call({
+		// 			method: "frappe.client.get_list",
+		// 			args: {
+		// 				doctype: "Employee",
+		// 				filters: {
+		// 					designation: row.designation,
+		// 					company: global_applicant_company,
+		// 				},
+		// 				fields: ["name", "employee_name"],
+		// 			},
+		// 			callback: function (response) {
+		// 				var employees = response.message;
+		// 				// frappe.msgprint(global_applicant_company);
 
-						if (employees.length > 0) {
-							employees.forEach(function (employee) {
-								frappe.msgprint(
-									`Employee ID: ${employee.name}, Employee Name: ${employee.employee_name}`
-								);
-							});
-						} else {
-							frappe.msgprint(
-								`No employees found for designation ${row.designation} in company ${company_name}`
-							);
-						}
-					},
-				});
-			});
-		}
+		// 				if (employees.length > 0) {
+		// 					employees.forEach(function (employee) {
+		// 						frappe.msgprint(
+		// 							`Employee ID: ${employee.name}, Employee Name: ${employee.employee_name}`
+		// 						);
+		// 					});
+		// 				} else {
+		// 					frappe.msgprint(
+		// 						`No employees found for designation ${row.designation} in company ${company_name}`
+		// 					);
+		// 				}
+		// 			},
+		// 		});
+		// 	});
+		// }
 	},
 });
 
 frappe.ui.form.on("Transaction Recipients", {
-	recipient_designation: function (frm, cdt, cdn) {
+	form_render: function (frm, cdt, cdn) {
 		let row = locals[cdt][cdn];
-		frappe.msgprint(
-			"Handler Triggered - Recipient Designation Changed: " + row.recipient_designation
-		);
+		recipient_designation = row.recipient_designation;
+		row.recipient_designation = recipient_designation;
+		// frappe.msgprint(
+		// 	"Handler Triggered - Recipient Designation Changed: " + row.recipient_designation
+		// );
+		frm.refresh_field("recipients");
 
 		frm.fields_dict["recipients"].grid.get_field("recipient").get_query = function () {
 			return {
 				filters: {
-					designation: row.recipient_designation,
+					designation: recipient_designation,
 					// 'company': frm.doc.company
 				},
 			};
 		};
-
-		frm.refresh_field("recipients");
 	},
 });

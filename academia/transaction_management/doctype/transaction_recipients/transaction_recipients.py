@@ -14,6 +14,7 @@ class TransactionRecipients(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
+		amended_from: DF.Link | None
 		has_sign: DF.Check
 		is_received: DF.Check
 		parent: DF.Data
