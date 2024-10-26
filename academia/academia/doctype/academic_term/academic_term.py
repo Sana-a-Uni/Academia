@@ -23,5 +23,6 @@ class AcademicTerm(Document):
 		study_end: DF.Date | None
 		study_start: DF.Date | None
 		term_name: DF.Data
+		term_status: DF.Literal["", "Finished", "Current", "Up Coming"]
 	# end: auto-generated types
 	pass

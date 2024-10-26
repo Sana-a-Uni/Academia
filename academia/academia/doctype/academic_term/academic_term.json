@@ -11,6 +11,7 @@
   "term_name",
   "disabled",
   "auto_created",
+  "term_status",
   "column_break_obzq",
   "study_start",
   "study_end",
@@ -76,11 +77,17 @@
    "fieldname": "exam_end",
    "fieldtype": "Date",
    "label": "Exam End Date"
+  },
+  {
+   "fieldname": "term_status",
+   "fieldtype": "Select",
+   "label": "Term Status",
+   "options": "\nFinished\nCurrent\nUp Coming"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-10-15 22:04:51.875312",
+ "modified": "2024-10-19 10:19:19.001245",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Term",
