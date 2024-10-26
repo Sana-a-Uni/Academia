@@ -7,6 +7,7 @@
  "engine": "InnoDB",
  "field_order": [
   "step",
+  "recipient",
   "recipient_name",
   "recipient_company",
   "recipient_department",
@@ -14,14 +15,17 @@
   "recipient_email",
   "print_paper",
   "has_sign",
-  "is_received"
+  "is_received",
+  "amended_from"
  ],
  "fields": [
   {
+   "fetch_from": "recipient.employee_name",
    "fieldname": "recipient_name",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Recipient Name"
+   "label": "Recipient Name",
+   "read_only": 1
   },
   {
    "fieldname": "recipient_company",
@@ -29,27 +33,33 @@
    "in_list_view": 1,
    "label": "Recipient Company",
    "options": "Company",
+   "read_only": 1,
    "reqd": 1
   },
   {
+   "fetch_from": "recipient.department",
    "fieldname": "recipient_department",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Recipient Department",
-   "options": "Department"
+   "options": "Department",
+   "read_only": 1
   },
   {
    "fieldname": "recipient_designation",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Recipient Designation",
-   "options": "Designation"
+   "options": "Designation",
+   "read_only": 1
   },
   {
+   "fetch_from": "recipient.prefered_email",
    "fieldname": "recipient_email",
    "fieldtype": "Link",
    "label": "Recipient Email",
    "options": "User",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -59,6 +69,7 @@
    "in_list_view": 1,
    "label": "Step",
    "non_negative": 1,
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -81,12 +92,30 @@
    "fieldtype": "Check",
    "hidden": 1,
    "label": "Is Received"
+  },
+  {
+   "fieldname": "recipient",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Recipient",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Transaction Recipients",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-28 19:37:39.150202",
+ "modified": "2024-10-24 12:52:58.553531",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Recipients",
