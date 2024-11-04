@@ -68,6 +68,11 @@
   "faculty_member_activity",
   "awards_and_appreciation_certificates_section",
   "faculty_member_award_and_appreciation_certificate",
+  "availability_tab",
+  "available_for_work",
+  "start_date",
+  "column_break_nvaw",
+  "pledge_document",
   "connections_tab"
  ],
  "fields": [
@@ -435,6 +440,35 @@
    "fieldname": "date_of_obtaining_the_academic_rank",
    "fieldtype": "Date",
    "label": "Date of Obtaining the Academic Rank"
+  },
+  {
+   "fieldname": "availability_tab",
+   "fieldtype": "Tab Break",
+   "label": "Availability"
+  },
+  {
+   "default": "0",
+   "fieldname": "available_for_work",
+   "fieldtype": "Check",
+   "label": "Available for work"
+  },
+  {
+   "depends_on": "available_for_work",
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date",
+   "mandatory_depends_on": "available_for_work"
+  },
+  {
+   "fieldname": "column_break_nvaw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "available_for_work",
+   "fieldname": "pledge_document",
+   "fieldtype": "Attach",
+   "label": "Pledge Document",
+   "mandatory_depends_on": "available_for_work"
   }
  ],
  "image_field": "image",
@@ -472,7 +506,7 @@
    "link_fieldname": "evaluatee_party"
   }
  ],
- "modified": "2024-08-18 04:40:39.354598",
+ "modified": "2024-11-04 13:19:00.510422",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Faculty Member",
