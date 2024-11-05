@@ -1,0 +1,84 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{action_name}-P",
+ "creation": "2024-10-29 13:01:01.813707",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "transaction_name",
+  "from",
+  "to",
+  "column_break_zqyj",
+  "action_name",
+  "through_middle_man",
+  "middle_man"
+ ],
+ "fields": [
+  {
+   "fieldname": "transaction_name",
+   "fieldtype": "Link",
+   "label": "Transaction Name",
+   "options": "Transaction"
+  },
+  {
+   "fieldname": "from",
+   "fieldtype": "Link",
+   "label": "From",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "to",
+   "fieldtype": "Link",
+   "label": "To",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "column_break_zqyj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "middle_man",
+   "fieldtype": "Link",
+   "label": "Middle Man",
+   "options": "Employee"
+  },
+  {
+   "default": "0",
+   "fieldname": "through_middle_man",
+   "fieldtype": "Check",
+   "label": "Through Middle Man"
+  },
+  {
+   "fieldname": "action_name",
+   "fieldtype": "Link",
+   "label": "Transaction Action Name",
+   "options": "Transaction Action"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-11-05 16:21:26.644187",
+ "modified_by": "Administrator",
+ "module": "Transaction Management",
+ "name": "Transaction Paper Log",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
