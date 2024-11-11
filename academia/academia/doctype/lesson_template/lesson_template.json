@@ -54,6 +54,7 @@
    "fieldname": "level",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Level",
    "options": "Level"
   },
@@ -85,6 +86,8 @@
   {
    "fieldname": "instructor",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Instructor",
    "options": "Faculty Member",
    "reqd": 1
@@ -92,6 +95,8 @@
   {
    "fieldname": "room",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Room",
    "options": "Room",
    "reqd": 1
@@ -103,6 +108,8 @@
   {
    "fieldname": "course",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "course",
    "options": "Course Study",
    "reqd": 1
@@ -111,6 +118,8 @@
    "depends_on": "eval:doc.is_multi_group == 0;",
    "fieldname": "group",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Group",
    "mandatory_depends_on": "eval:doc.is_multi_group == 0;",
    "options": "Student Group"
@@ -118,6 +127,8 @@
   {
    "fieldname": "faculty",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Faculty",
    "options": "Faculty",
    "reqd": 1
@@ -133,12 +144,14 @@
   {
    "fieldname": "from_time",
    "fieldtype": "Time",
+   "in_standard_filter": 1,
    "label": "From Time",
    "reqd": 1
   },
   {
    "fieldname": "to_time",
    "fieldtype": "Time",
+   "in_standard_filter": 1,
    "label": "To Time",
    "reqd": 1
   },
@@ -224,6 +237,8 @@
   {
    "fieldname": "course_type",
    "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Course Type",
    "options": "\nTheoretical\nPractical",
    "reqd": 1
@@ -244,7 +259,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-08-01 18:13:06.493731",
+ "modified": "2024-11-11 09:50:03.182108",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lesson Template",
