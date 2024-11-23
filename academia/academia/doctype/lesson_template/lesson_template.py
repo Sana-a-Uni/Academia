@@ -12,18 +12,21 @@ class LessonTemplate(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.academia.doctype.multi_lesson_template.multi_lesson_template import MultiLessonTemplate
 		from frappe.types import DF
+
+		from academia.academia.doctype.multi_lesson_template.multi_lesson_template import MultiLessonTemplate
 
 		academic_term: DF.Link
 		academic_year: DF.Link
 		course: DF.Link
 		course_type: DF.Literal["", "Theoretical", "Practical"]
 		faculty: DF.Link
-		from_time: DF.Time
+		from_time: DF.Literal["", "8", "10", "12", "14", "16"]
 		group: DF.Link | None
 		instructor: DF.Link
+		instructor_name: DF.Data
 		is_multi_group: DF.Check
+		lesson_day: DF.Literal["", "saturday", "sunday", "monday", "tuesday", "wednesday", "thursday"]
 		lesson_type: DF.Literal["", "Ordinary Lesson", "Compensatory Lesson"]
 		level: DF.Link | None
 		monday: DF.Check
@@ -36,7 +39,7 @@ class LessonTemplate(Document):
 		sunday: DF.Check
 		table_ocar: DF.Table[MultiLessonTemplate]
 		thursday: DF.Check
-		to_time: DF.Time
+		to_time: DF.Literal["", "10", "12", "14", "16", "18"]
 		tuesday: DF.Check
 		wednesday: DF.Check
 	# end: auto-generated types
