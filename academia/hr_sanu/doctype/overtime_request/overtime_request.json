@@ -1,0 +1,186 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format: \u062a\u0643\u0644\u064a\u0641 \u0639\u0645\u0644 \u0625\u0636\u0627\u0641\u064a - {to_do} - {#####}",
+ "creation": "2024-11-14 14:45:03.799967",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "request_type",
+  "column_break_xxjr",
+  "to_do",
+  "column_break_okaq",
+  "request_created_by",
+  "status",
+  "section_break_yetj",
+  "employees",
+  "section_break_ivpx",
+  "start_time",
+  "column_break_jdst",
+  "end_time",
+  "default_shift",
+  "section_break_zoth",
+  "description",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "request_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Request Type",
+   "options": "\n\u0625\u062f\u0627\u0631\u064a\n\u0623\u0643\u0627\u062f\u064a\u0645\u064a",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_xxjr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "to_do",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "To Do",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_okaq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "user.username",
+   "fieldname": "request_created_by",
+   "fieldtype": "Link",
+   "label": "Request Created By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Draft\nPending Approval\nApproved\nRejected",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_yetj",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "employees",
+   "fieldtype": "Table",
+   "label": "Employee(s)",
+   "options": "Overtime Request Employee",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_ivpx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "start_time",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Start Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_jdst",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "end_time",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "End Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_zoth",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Text",
+   "label": "Description"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Overtime Request",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "default_shift",
+   "fieldtype": "Link",
+   "label": "Default Shift",
+   "options": "Shift Type",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-11-19 13:13:37.014379",
+ "modified_by": "Administrator",
+ "module": "HR SanU",
+ "name": "Overtime Request",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Academic Manager",
+   "share": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Faculty Dean",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "HR User",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
