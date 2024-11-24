@@ -1,0 +1,99 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-11-23 11:30:29.686612",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "faculty",
+  "progarm",
+  "student_batch",
+  "column_break_idbd",
+  "academic_year",
+  "academic_term",
+  "level",
+  "section_break_eaqf",
+  "get_student",
+  "students"
+ ],
+ "fields": [
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "progarm",
+   "fieldtype": "Link",
+   "label": "Progarm",
+   "options": "Program Specification"
+  },
+  {
+   "fieldname": "student_batch",
+   "fieldtype": "Link",
+   "label": "Student Batch",
+   "options": "Student Batch"
+  },
+  {
+   "fieldname": "column_break_idbd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "label": "Academic Year",
+   "options": "Academic Year"
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "label": "Academic Term",
+   "options": "Academic Term"
+  },
+  {
+   "fieldname": "level",
+   "fieldtype": "Link",
+   "label": "Level",
+   "options": "Level"
+  },
+  {
+   "fieldname": "section_break_eaqf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "get_student",
+   "fieldtype": "Button",
+   "label": "Get Student"
+  },
+  {
+   "fieldname": "students",
+   "fieldtype": "Table",
+   "label": "Students",
+   "options": "Temporary Student Temporary"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-11-23 12:05:41.494118",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Program Enrollment Tool",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

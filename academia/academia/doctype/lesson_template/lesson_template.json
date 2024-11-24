@@ -21,6 +21,7 @@
   "lesson_type",
   "section_break_stfq",
   "instructor",
+  "instructor_name",
   "room",
   "column_break_yvwh",
   "group",
@@ -31,6 +32,7 @@
   "saturday",
   "monday",
   "wednesday",
+  "lesson_day",
   "from_time",
   "column_break_fyil",
   "sunday",
@@ -75,6 +77,7 @@
    "fieldname": "program",
    "fieldtype": "Link",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Program",
    "mandatory_depends_on": "eval:doc.is_multi_group == 0;",
    "options": "Program Specification"
@@ -86,8 +89,6 @@
   {
    "fieldname": "instructor",
    "fieldtype": "Link",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
    "label": "Instructor",
    "options": "Faculty Member",
    "reqd": 1
@@ -143,16 +144,18 @@
   },
   {
    "fieldname": "from_time",
-   "fieldtype": "Time",
+   "fieldtype": "Select",
    "in_standard_filter": 1,
    "label": "From Time",
+   "options": "\n8\n10\n12\n14\n16",
    "reqd": 1
   },
   {
    "fieldname": "to_time",
-   "fieldtype": "Time",
+   "fieldtype": "Select",
    "in_standard_filter": 1,
    "label": "To Time",
+   "options": "\n10\n12\n14\n16\n18",
    "reqd": 1
   },
   {
@@ -255,11 +258,28 @@
    "fieldname": "is_multi_group",
    "fieldtype": "Check",
    "label": "is Multi Group"
+  },
+  {
+   "fieldname": "lesson_day",
+   "fieldtype": "Select",
+   "label": "Lesson Day",
+   "options": "\nsaturday\nsunday\nmonday\ntuesday\nwednesday\nthursday",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "instructor.faculty_member_name",
+   "fieldname": "instructor_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Instructor Name",
+   "read_only": 1,
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-11 09:50:03.182108",
+ "modified": "2024-11-18 10:14:51.032207",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lesson Template",

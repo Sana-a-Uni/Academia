@@ -1,0 +1,102 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-11-12 10:10:28.211386",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_ndqr",
+  "date_of_printing",
+  "faculty",
+  "schedule_template_version",
+  "column_break_hyqz",
+  "instructor",
+  "instructor_name",
+  "amended_from",
+  "instructor_data"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_ndqr",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Lesson Template Print",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "date_of_printing",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date of Printing",
+   "reqd": 1
+  },
+  {
+   "fieldname": "instructor",
+   "fieldtype": "Link",
+   "label": "Instructor",
+   "options": "Faculty Member"
+  },
+  {
+   "fieldname": "column_break_hyqz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "label": "Faculty",
+   "options": "Faculty",
+   "reqd": 1
+  },
+  {
+   "fieldname": "schedule_template_version",
+   "fieldtype": "Link",
+   "label": "Schedule Template Version",
+   "options": "Schedule Template Version"
+  },
+  {
+   "fetch_from": "instructor.faculty_member_name",
+   "fieldname": "instructor_name",
+   "fieldtype": "Data",
+   "label": "Instructor Name",
+   "read_only": 1
+  },
+  {
+   "fieldname": "instructor_data",
+   "fieldtype": "JSON",
+   "label": "Instructor Data"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-11-13 11:42:20.984634",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Lesson Template Print",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
