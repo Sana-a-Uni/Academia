@@ -2,14 +2,15 @@
 # For license information, please see license.txt
 
 
-from queue import Full
-from jinja2 import Template
-import os
-import frappe  # type: ignore
-from frappe.model.document import Document  # type: ignore
 import json
+import os
 from datetime import datetime
+from queue import Full
+
+import frappe  # type: ignore
 from frappe import _
+from frappe.model.document import Document  # type: ignore
+from jinja2 import Template
 
 # from ..hijri_converter import convert_to_hijri
 
@@ -21,6 +22,8 @@ class Transaction(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from frappe.types import DF
+
 		from academia.transaction_management.doctype.transaction_applicant.transaction_applicant import (
 			TransactionApplicant,
 		)
@@ -34,7 +37,6 @@ class Transaction(Document):
 		from academia.transaction_management.doctype.transaction_signatories.transaction_signatories import (
 			TransactionSignatories,
 		)
-		from frappe.types import DF
 
 		amended_from: DF.Link | None
 		applicants_table: DF.Table[TransactionApplicant]
@@ -428,6 +430,8 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
 		new_doc.submit()
 		new_doc.save()
 
+		action_name = new_doc.name
+
 		check_result = check_all_recipients_action(transaction_name, user_id)
 
 		if check_result:
@@ -460,9 +464,9 @@ def create_new_transaction_action(user_id, transaction_name, type, details):
 		permissions_str = json.dumps(permissions)
 		update_share_permissions(transaction_name, user_id, permissions_str)
 
-		return "Action Success"
+		return {"message": "Action Success", "action_name": action_name}
 	else:
-		return "No employee found for the given user ID."
+		return {"message": "No employee found for the given user ID."}
 
 
 @frappe.whitelist()
@@ -493,7 +497,7 @@ def get_actions_html(transaction_name):
 	template_path = os.path.join(current_dir, "transaction_management/templates/vertical_path.html")
 
 	# Load the template file
-	with open(template_path, "r") as file:
+	with open(template_path) as file:
 		template_content = file.read()
 	template = Template(template_content)
 
@@ -869,13 +873,21 @@ def search_in_actions_for_print_paper_user(
 
 
 @frappe.whitelist()
-def change_is_received_in_action_recipients(rcipient_name):
-	action = frappe.get_doc("Transaction Recipients", rcipient_name)
+def change_is_received_in_action_recipients(transaction_name, recipient_email):
+	# Fetch the parent document using the transaction name
+	transaction = frappe.get_doc("Transaction", transaction_name)
+	frappe.logger().info(f"Transaction: {transaction_name}, Recipient Email: {recipient_email}")
 
-	action.is_received = 1
-	action.save(ignore_permissions=True)
+	# Iterate through the recipients to find the correct recipient row
+	for recipient in transaction.recipients:
+		frappe.logger().info(f"Checking recipient: {recipient.recipient_email}")
+		if recipient.recipient_email == recipient_email:
+			recipient.is_received = 1
+			transaction.save(ignore_permissions=True)
+			frappe.logger().info(f"Updated recipient: {recipient.recipient_email} to is_received = 1")
+			return recipient
 
-	return action
+	frappe.throw(_("Recipient not found in the specified transaction"))
 
 
 @frappe.whitelist()
@@ -1083,7 +1095,110 @@ def get_last_topic_action(docname):
 		fields=["name", "type", "topic_status"],
 	)
 
-	if actions[0].topic_status == "Complete":
-		return True
+	if actions:
+		if actions[0].topic_status == "Complete":
+			return True
 
 	return False
+
+
+@frappe.whitelist()
+def create_transaction_paper_log(
+	start_employee, end_employee, transaction_name, action_name, through_middle_man, middle_man=""
+):
+	# Create a new document for the "Transaction Paper Log" doctype
+	new_log = frappe.new_doc("Transaction Paper Log")
+
+	# Set the fields with the provided parameters
+	new_log.start_employee = start_employee
+	new_log.end_employee = end_employee
+	new_log.transaction_name = transaction_name
+	new_log.action_name = action_name
+	new_log.through_middle_man = through_middle_man
+	new_log.name = action_name + "-P"
+	if through_middle_man == "False":
+		new_log.paper_progress = "Delivered to end employee"
+	elif through_middle_man == "True":
+		new_log.paper_progress = "Delivered to middle man"
+		new_log.middle_man = middle_man
+
+	# Save the document
+	new_log.insert(ignore_permissions=True)
+
+	if through_middle_man == True:
+		middle_man_email = frappe.get_value("Employee", middle_man, "user_id") if middle_man else None
+
+		# Share the document with the middle man
+		frappe.share.add(
+			doctype="Transaction Paper Log",
+			name=new_log.name,
+			user=middle_man_email,
+			read=1,
+			write=1,
+			share=1,
+		)
+	else:
+		end_employee_email = frappe.get_value("Employee", end_employee, "user_id") if end_employee else None
+
+		# Share the document with the end employee
+		frappe.share.add(
+			doctype="Transaction Paper Log",
+			name=new_log.name,
+			user=end_employee_email,
+			read=1,
+			write=1,
+			share=1,
+		)
+
+	frappe.db.commit()
+
+	return new_log
+
+
+@frappe.whitelist()
+def get_next_recipient_by_step(transaction_name, current_employee):
+	transaction = frappe.get_doc("Transaction", transaction_name)
+
+	# Find the current recipient's step
+	current_step = None
+	for recipient in transaction.recipients:
+		if recipient.recipient_email == current_employee:
+			current_step = recipient.step
+			break
+
+	# if current_step is None:
+	# 	frappe.throw(_("Current employee not found in the transaction recipients"))
+
+	# Find the next recipient based on the next step
+	if current_step:
+		next_step = current_step + 1
+		for recipient in transaction.recipients:
+			if recipient.step == next_step:
+				return recipient.recipient  # or recipient.recipient_email if you prefer
+
+	return None
+
+
+@frappe.whitelist()
+def get_employee_list(doctype, txt, searchfield, start, page_len, filters):
+	try:
+		# Fetch the list of employees based on the search criteria and designation filter
+		employees = frappe.db.sql(
+			"""
+            SELECT name, employee_name
+            FROM `tabEmployee`
+            WHERE (name LIKE %(txt)s OR employee_name LIKE %(txt)s)
+            AND designation = 'Accountant'
+            LIMIT %(start)s, %(page_len)s
+        """,
+			{"txt": f"%{txt}%", "start": start, "page_len": page_len},
+		)
+
+		# Ensure the list is not empty
+		if not employees:
+			frappe.throw(_("No employees found"))
+
+		return employees
+	except Exception as e:
+		frappe.log_error(message=str(e), title="Error in get_employee_list")
+		frappe.throw(_("An error occurred while fetching the employee list"))

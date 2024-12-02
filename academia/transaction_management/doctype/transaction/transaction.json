@@ -488,7 +488,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-10-24 11:58:03.164383",
+ "modified": "2024-11-18 11:42:43.107521",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction",
@@ -545,6 +545,15 @@
    "role": "Transaction Manager",
    "submit": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Get Employees",
+   "share": 1
   }
  ],
  "sort_field": "modified",
