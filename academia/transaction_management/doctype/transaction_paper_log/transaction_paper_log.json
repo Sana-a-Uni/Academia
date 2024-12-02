@@ -7,31 +7,22 @@
  "engine": "InnoDB",
  "field_order": [
   "transaction_name",
-  "from",
-  "to",
+  "start_employee",
+  "end_employee",
+  "paper_progress",
   "column_break_zqyj",
   "action_name",
   "through_middle_man",
-  "middle_man"
+  "middle_man",
+  "amended_from"
  ],
  "fields": [
   {
    "fieldname": "transaction_name",
    "fieldtype": "Link",
    "label": "Transaction Name",
-   "options": "Transaction"
-  },
-  {
-   "fieldname": "from",
-   "fieldtype": "Link",
-   "label": "From",
-   "options": "Employee"
-  },
-  {
-   "fieldname": "to",
-   "fieldtype": "Link",
-   "label": "To",
-   "options": "Employee"
+   "options": "Transaction",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_zqyj",
@@ -40,25 +31,61 @@
   {
    "fieldname": "middle_man",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Middle Man",
-   "options": "Employee"
+   "options": "Employee",
+   "read_only": 1
   },
   {
    "default": "0",
    "fieldname": "through_middle_man",
    "fieldtype": "Check",
-   "label": "Through Middle Man"
+   "label": "Through Middle Man",
+   "read_only": 1
   },
   {
    "fieldname": "action_name",
    "fieldtype": "Link",
    "label": "Transaction Action Name",
-   "options": "Transaction Action"
+   "options": "Transaction Action",
+   "read_only": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Transaction Paper Log",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "start_employee",
+   "fieldtype": "Link",
+   "label": "Start Employee",
+   "options": "Employee",
+   "read_only": 1
+  },
+  {
+   "fieldname": "end_employee",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "label": "End Employee",
+   "options": "Employee",
+   "read_only": 1
+  },
+  {
+   "fieldname": "paper_progress",
+   "fieldtype": "Select",
+   "label": "Paper Progress",
+   "options": "\nDelivered to middle man\nReceived by middle man\nDelivered to end employee\nReceived by end employee",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-05 16:21:26.644187",
+ "modified": "2024-11-24 10:55:09.795004",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Paper Log",
@@ -74,6 +101,50 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction Paper Log",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction Paper Log",
    "share": 1,
    "write": 1
   }

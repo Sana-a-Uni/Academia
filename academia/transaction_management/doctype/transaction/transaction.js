@@ -947,6 +947,15 @@ function add_approve_action(frm) {
 					},
 				],
 				function (values) {
+					if (values.through_middle_man && !values.middle_man) {
+						frappe.msgprint({
+							title: __("Error"),
+							indicator: "red",
+							message: __("Please select a Middle Man."),
+						});
+						return;
+					}
+
 					frappe.call({
 						method: "academia.transaction_management.doctype.transaction.transaction.create_new_transaction_action",
 						args: {
@@ -983,7 +992,9 @@ function add_approve_action(frm) {
 													transaction_name: values.transaction_name,
 													action_name: global_action_name,
 													middle_man: values.middle_man,
-													is_direct: values.is_direct,
+													through_middle_man: values.through_middle_man
+														? "True"
+														: "False",
 												},
 												callback: function (r) {
 													if (r.message) {
