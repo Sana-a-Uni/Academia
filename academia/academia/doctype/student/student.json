@@ -152,6 +152,8 @@
   {
    "fieldname": "gender",
    "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Gender",
    "options": "\nMale\nFemale\nMale & Female",
    "reqd": 1
@@ -351,7 +353,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-29 20:58:32.138487",
+ "modified": "2024-12-01 11:54:04.521184",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student",
