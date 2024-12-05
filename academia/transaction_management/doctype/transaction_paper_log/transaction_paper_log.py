@@ -17,7 +17,9 @@ class TransactionPaperLog(Document):
 		action_name: DF.Link | None
 		amended_from: DF.Link | None
 		end_employee: DF.Link | None
+		end_employee_name: DF.Data | None
 		middle_man: DF.Link | None
+		middle_man_name: DF.Data | None
 		paper_progress: DF.Literal[
 			"",
 			"Delivered to middle man",
@@ -26,6 +28,7 @@ class TransactionPaperLog(Document):
 			"Received by end employee",
 		]
 		start_employee: DF.Link | None
+		start_employee_name: DF.Data | None
 		through_middle_man: DF.Check
 		transaction_name: DF.Link | None
 	# end: auto-generated types

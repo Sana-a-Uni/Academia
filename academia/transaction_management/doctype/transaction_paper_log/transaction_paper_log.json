@@ -8,13 +8,16 @@
  "field_order": [
   "transaction_name",
   "start_employee",
-  "end_employee",
+  "start_employee_name",
   "paper_progress",
+  "through_middle_man",
   "column_break_zqyj",
   "action_name",
-  "through_middle_man",
+  "end_employee",
+  "amended_from",
+  "end_employee_name",
   "middle_man",
-  "amended_from"
+  "middle_man_name"
  ],
  "fields": [
   {
@@ -81,11 +84,29 @@
    "label": "Paper Progress",
    "options": "\nDelivered to middle man\nReceived by middle man\nDelivered to end employee\nReceived by end employee",
    "read_only": 1
+  },
+  {
+   "fetch_from": "start_employee.employee_name",
+   "fieldname": "start_employee_name",
+   "fieldtype": "Data",
+   "label": "Start Employee Name"
+  },
+  {
+   "fetch_from": "end_employee.employee_name",
+   "fieldname": "end_employee_name",
+   "fieldtype": "Data",
+   "label": "End Employee Name"
+  },
+  {
+   "fetch_from": "middle_man.employee_name",
+   "fieldname": "middle_man_name",
+   "fieldtype": "Data",
+   "label": "Middle Man Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-24 10:55:09.795004",
+ "modified": "2024-12-04 10:24:10.603508",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Paper Log",

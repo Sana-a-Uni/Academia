@@ -1114,12 +1114,12 @@ def create_transaction_paper_log(
 	new_log.end_employee = end_employee
 	new_log.transaction_name = transaction_name
 	new_log.action_name = action_name
-	new_log.through_middle_man = through_middle_man
 	new_log.name = action_name + "-P"
 	if through_middle_man == "False":
 		new_log.paper_progress = "Delivered to end employee"
 	elif through_middle_man == "True":
 		new_log.paper_progress = "Delivered to middle man"
+		new_log.through_middle_man = 1
 		new_log.middle_man = middle_man
 
 	# Save the document
