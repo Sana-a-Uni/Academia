@@ -32,8 +32,8 @@ class ProgramSpecification(Document):
 		date_of_programe_development: DF.Date
 		date_of_starting_the_program: DF.Date | None
 		delivery_mode: DF.Literal["", "On Campus", "Online"]
+		department: DF.ReadOnly
 		faculty: DF.ReadOnly
-		faculty_department: DF.ReadOnly
 		file: DF.Attach | None
 		implementation_start_academic_year: DF.Link | None
 		maximum_research_period: DF.Int

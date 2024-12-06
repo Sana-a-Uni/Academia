@@ -28,10 +28,9 @@
   },
   {
    "fieldname": "semester",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Semester",
-   "options": "Semester"
+   "label": "Semester"
   },
   {
    "fieldname": "enrollment_date",
@@ -79,7 +78,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Faculty Department",
-   "options": "Faculty Department"
+   "options": "Department"
   },
   {
    "fieldname": "academic_year",
@@ -90,7 +89,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-05-09 17:18:31.253130",
+ "modified": "2024-12-06 22:52:06.450542",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Level And Semester Enrollment",
