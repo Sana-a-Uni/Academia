@@ -17,25 +17,38 @@ class InstructorLessonsTemplate(Document):
 		academic_term: DF.Link | None
 		academic_year: DF.Link | None
 		faculty: DF.Link | None
+		group: DF.Link | None
 		instructor: DF.Link | None
 		program_specification: DF.Link | None
+		room: DF.Link | None
 		schedule_template_version: DF.Link | None
+		schedule_type: DF.Literal[
+			"",
+			"Instructor",
+			"Group",
+			"Room",
+			"All Instructor",
+			"All Groups",
+			"All Room",
+			"Instructor",
+			"Group",
+			"Room",
+		]
 	# end: auto-generated types
 
 
 @frappe.whitelist()
-def get_lessons_data(instructor, faculty, schedule_template_version):
+def get_lessons_data(schedule_type, identifier=None, faculty=None, schedule_template_version=None):
 	"""
-	Fetch lessons for a specific instructor, faculty, and schedule template version.
-	Returns a dictionary formatted for rendering in the timetable.
+	Fetch lessons based on the selected schedule type (Instructor, Group, Room, or All)
 	"""
 	lessons = {}
 	days = ["Saturday", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"]
 	time_slots = ["08:00 - 10:00", "10:00 - 12:00", "12:00 - 14:00", "14:00 - 16:00", "16:00 - 18:00"]
 
-	# Initialize an empty schedule
+	# Initialize an empty schedule for each day and time slot
 	for day in days:
-		lessons[day] = [None] * len(time_slots)  # Use None instead of empty strings
+		lessons[day] = [None] * len(time_slots)
 
 	# Mapping for time ranges
 	time_mapping = {
@@ -46,31 +59,42 @@ def get_lessons_data(instructor, faculty, schedule_template_version):
 		"16": "16:00 - 18:00",
 	}
 
-	# Fetch lessons from Lesson Template with the new filter
+	filters = {
+		"faculty": faculty,
+		"schedule_template_version": schedule_template_version,
+	}
+
+	# Adjust filters based on `schedule_type`
+	if schedule_type in ["Instructor", "Group", "Room"] and identifier:
+		filters[schedule_type.lower()] = identifier
+	elif schedule_type in ["All Instructor", "All Groups", "All Room"]:
+		schedule_type = schedule_type.split(" ")[1]  # Extract type (Instructor, Group, Room)
+
+	# Fetch lessons
 	lesson_templates = frappe.get_all(
 		"Lesson Template",
-		filters={
-			"instructor": instructor,
-			"faculty": faculty,
-			"schedule_template_version": schedule_template_version,  # New filter added
-		},
+		filters=filters,
 		fields=["lesson_day", "from_time", "course", "group", "room", "instructor"],
 	)
 
-	# Populate the schedule
+	# Group lessons based on schedule_type
+	lessons_grouped = {}
 	for lesson in lesson_templates:
-		day = lesson["lesson_day"].capitalize()  # Capitalize day to match days format
-		from_time = time_mapping.get(lesson["from_time"], "")  # Map time to range
-		course = lesson["course"]
-		group = lesson["group"]
-		room = lesson["room"]
-		instructor_name = lesson["instructor"]
+		key = lesson[schedule_type.lower()]  # Group by Instructor/Group/Room
+		if key not in lessons_grouped:
+			lessons_grouped[key] = {day: [None] * len(time_slots) for day in days}
 
-		# Format the content as a dictionary to easily access it later
-		lesson_data = {"group": group, "course": course, "instructor": instructor_name, "room": room}
+		day = lesson["lesson_day"].capitalize()
+		from_time = time_mapping.get(lesson["from_time"], "")
+		lesson_data = {
+			"group": lesson["group"],
+			"course": lesson["course"],
+			"instructor": lesson["instructor"],
+			"room": lesson["room"],
+		}
 
-		if day in lessons and from_time in time_slots:
+		if day in lessons_grouped[key] and from_time in time_slots:
 			index = time_slots.index(from_time)
-			lessons[day][index] = lesson_data  # Store the lesson data in the appropriate slot
+			lessons_grouped[key][day][index] = lesson_data
 
-	return lessons
+	return lessons_grouped
