@@ -16,7 +16,7 @@ class ProgramEnrollmentTool(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		from academia.academia.doctype.temporary_student_temporary.temporary_student_temporary import (
+		from academia.academia.doctype.student_temporary_student.student_temporary_student import (
 			StudentTemporaryStudent,
 		)
 
