@@ -1104,7 +1104,14 @@ def get_last_topic_action(docname):
 
 @frappe.whitelist()
 def create_transaction_paper_log(
-	start_employee, end_employee, transaction_name, action_name, through_middle_man, middle_man=""
+	start_employee,
+	end_employee,
+	transaction_name,
+	action_name,
+	through_middle_man,
+	with_proof,
+	proof="",
+	middle_man="",
 ):
 	# Create a new document for the "Transaction Paper Log" doctype
 	new_log = frappe.new_doc("Transaction Paper Log")
@@ -1116,11 +1123,26 @@ def create_transaction_paper_log(
 	new_log.action_name = action_name
 	new_log.name = action_name + "-P"
 	if through_middle_man == "False":
-		new_log.paper_progress = "Delivered to end employee"
+		if with_proof == "True":
+			new_log.ee_proof = proof
+			new_log.paper_progress = "Received by end employee"
+		else:
+			new_log.paper_progress = "Delivered to end employee"
 	elif through_middle_man == "True":
-		new_log.paper_progress = "Delivered to middle man"
 		new_log.through_middle_man = 1
 		new_log.middle_man = middle_man
+		if with_proof == "True":
+			new_log.mm_proof = proof
+			new_log.paper_progress = "Received by middle man"
+		else:
+			new_log.paper_progress = "Delivered to middle man"
+
+	transaction_doc = frappe.get_doc("Transaction", transaction_name)
+
+	# Iterate over the attachments child table entries and add them to the new document
+	for attachment in transaction_doc.get("attachments"):
+		new_attachment = new_log.append("attachments", {})
+		new_attachment.update(attachment.as_dict())
 
 	# Save the document
 	new_log.insert(ignore_permissions=True)

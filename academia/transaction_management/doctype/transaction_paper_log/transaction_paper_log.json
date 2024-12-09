@@ -11,13 +11,17 @@
   "start_employee_name",
   "paper_progress",
   "through_middle_man",
+  "mm_proof",
+  "ee_proof",
   "column_break_zqyj",
   "action_name",
   "end_employee",
-  "amended_from",
   "end_employee_name",
   "middle_man",
-  "middle_man_name"
+  "middle_man_name",
+  "amended_from",
+  "attachments_tab",
+  "attachments"
  ],
  "fields": [
   {
@@ -102,11 +106,33 @@
    "fieldname": "middle_man_name",
    "fieldtype": "Data",
    "label": "Middle Man Name"
+  },
+  {
+   "fieldname": "mm_proof",
+   "fieldtype": "Attach",
+   "label": "Proof of Delivery to Middle Man"
+  },
+  {
+   "fieldname": "ee_proof",
+   "fieldtype": "Attach",
+   "label": "Proof of Delivery to End Employee"
+  },
+  {
+   "fieldname": "attachments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "attachments",
+   "fieldtype": "Table",
+   "label": "Attachments",
+   "options": "Transaction Attachments"
   }
  ],
+ "in_create": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-04 10:24:10.603508",
+ "modified": "2024-12-09 17:22:28.624461",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Paper Log",

@@ -15,7 +15,8 @@ class TransactionAttachments(Document):
 		from frappe.types import DF
 
 		attachment_label: DF.Data | None
-		file: DF.AttachImage | None
+		file: DF.Attach | None
+		number_of_papers: DF.Int
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
