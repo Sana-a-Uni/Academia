@@ -67,7 +67,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Faculty Department",
-   "options": "Faculty Department",
+   "options": "Department",
    "reqd": 1
   },
   {
@@ -108,7 +108,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-27 03:43:36.920955",
+ "modified": "2024-11-29 03:38:15.966828",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Enrollment",

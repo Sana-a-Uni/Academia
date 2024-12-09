@@ -1,0 +1,94 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-12-04 18:12:20.227643",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "instructor",
+  "faculty",
+  "schedule_template_version",
+  "column_break_chdy",
+  "program_specification",
+  "academic_year",
+  "academic_term",
+  "section_break_ccdw",
+  "lessons"
+ ],
+ "fields": [
+  {
+   "fieldname": "instructor",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Instructor ",
+   "options": "Faculty Member"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Faculty",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "program_specification",
+   "fieldtype": "Link",
+   "label": "Program Specification",
+   "options": "Program Specification"
+  },
+  {
+   "fieldname": "column_break_chdy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "schedule_template_version",
+   "fieldtype": "Link",
+   "label": "Schedule Template Version",
+   "options": "Schedule Template Version"
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "label": "Academic Year",
+   "options": "Academic Year"
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "label": "Academic Term",
+   "options": "Academic Term"
+  },
+  {
+   "fieldname": "section_break_ccdw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "lessons",
+   "fieldtype": "HTML",
+   "label": "Lessons"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-12-05 02:09:14.895392",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Instructor Lessons Template",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

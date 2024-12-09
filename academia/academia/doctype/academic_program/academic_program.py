@@ -14,11 +14,18 @@ class AcademicProgram(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		academic_degree: DF.Literal["", "Post-Secondary Diploma", "Bachelor's Degree", "Postgraduate Diploma", "Master Degree", "PHD Degree"]
+		academic_degree: DF.Literal[
+			"",
+			"Post-Secondary Diploma",
+			"Bachelor's Degree",
+			"Postgraduate Diploma",
+			"Master Degree",
+			"PHD Degree",
+		]
 		courses: DF.Check
 		date_of_starting_the_program: DF.Date | None
+		department: DF.Link | None
 		faculty: DF.Link
-		faculty_department: DF.Link
 		maximum_research_period: DF.Int
 		minimum_course_average_to_start_research: DF.Data | None
 		minimum_research_period: DF.Int

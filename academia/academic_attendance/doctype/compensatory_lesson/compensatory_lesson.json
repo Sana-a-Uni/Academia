@@ -288,7 +288,7 @@
    "fieldtype": "Link",
    "hidden": 1,
    "label": "Faculty Department",
-   "options": "Faculty Department"
+   "options": "Department"
   },
   {
    "depends_on": "eval:doc.is_multi_group == 1;",
@@ -307,7 +307,7 @@
    "link_fieldname": "compensatory_lesson_reference"
   }
  ],
- "modified": "2024-08-14 23:00:29.133517",
+ "modified": "2024-12-06 22:53:34.450651",
  "modified_by": "Administrator",
  "module": "Academic Attendance",
  "name": "Compensatory Lesson",

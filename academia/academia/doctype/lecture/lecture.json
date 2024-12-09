@@ -57,7 +57,7 @@
    "fieldname": "faculty_department",
    "fieldtype": "Link",
    "label": "Faculty Department",
-   "options": "Faculty Department"
+   "options": "Department"
   },
   {
    "fieldname": "column_break_hlmi",
@@ -177,7 +177,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-23 20:27:56.374258",
+ "modified": "2024-12-06 22:52:20.325134",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lecture",

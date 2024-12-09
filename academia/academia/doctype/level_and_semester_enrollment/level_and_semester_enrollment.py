@@ -20,7 +20,7 @@ class LevelAndSemesterEnrollment(Document):
 		faculty: DF.Link | None
 		faculty_department: DF.Link | None
 		level: DF.Link | None
-		semester: DF.Link | None
+		semester: DF.Data | None
 		student: DF.Link
 		student_name: DF.Data | None
 	# end: auto-generated types
