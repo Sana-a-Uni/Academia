@@ -5,18 +5,24 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "instructor",
-  "faculty",
-  "schedule_template_version",
-  "column_break_chdy",
-  "program_specification",
   "academic_year",
+  "column_break_gydt",
   "academic_term",
+  "section_break_ujtt",
+  "schedule_type",
+  "instructor",
+  "group",
+  "room",
+  "faculty",
+  "column_break_chdy",
+  "schedule_template_version",
+  "program_specification",
   "section_break_ccdw",
   "lessons"
  ],
  "fields": [
   {
+   "depends_on": "eval:doc.schedule_type == \"Instructor\";",
    "fieldname": "instructor",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -66,12 +72,40 @@
    "fieldname": "lessons",
    "fieldtype": "HTML",
    "label": "Lessons"
+  },
+  {
+   "fieldname": "schedule_type",
+   "fieldtype": "Select",
+   "label": "Schedule Type",
+   "options": "\nInstructor\nGroup\nRoom\nAll Instructor\nAll Groups\nAll Room"
+  },
+  {
+   "depends_on": "eval:doc.schedule_type == \"Group\";",
+   "fieldname": "group",
+   "fieldtype": "Link",
+   "label": "Group",
+   "options": "Student Group"
+  },
+  {
+   "depends_on": "eval:doc.schedule_type == \"Room\";",
+   "fieldname": "room",
+   "fieldtype": "Link",
+   "label": "Room",
+   "options": "Room"
+  },
+  {
+   "fieldname": "column_break_gydt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_ujtt",
+   "fieldtype": "Section Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2024-12-05 02:09:14.895392",
+ "modified": "2024-12-08 07:53:12.147567",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Instructor Lessons Template",
