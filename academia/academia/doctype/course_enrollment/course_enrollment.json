@@ -52,23 +52,20 @@
    "fieldname": "enrollment_date",
    "fieldtype": "Date",
    "in_list_view": 1,
-   "label": "Enrollment Date",
-   "reqd": 1
+   "label": "Enrollment Date"
   },
   {
    "fieldname": "faculty",
    "fieldtype": "Link",
    "label": "Faculty",
-   "options": "Faculty",
-   "reqd": 1
+   "options": "Faculty"
   },
   {
    "fieldname": "faculty_department",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Faculty Department",
-   "options": "Department",
-   "reqd": 1
+   "options": "Department"
   },
   {
    "fieldname": "student_batch",
@@ -108,7 +105,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-29 03:38:15.966828",
+ "modified": "2024-12-08 02:31:56.767826",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Enrollment",
