@@ -10,7 +10,7 @@
   "program_name",
   "program_name_english",
   "faculty",
-  "faculty_department",
+  "department",
   "column_break_xbfe",
   "abbr",
   "academic_degree",
@@ -54,16 +54,6 @@
    "in_list_view": 1,
    "label": "Program Name",
    "options": "Academic Program",
-   "reqd": 1
-  },
-  {
-   "fetch_from": "program_name.faculty_department",
-   "fieldname": "faculty_department",
-   "fieldtype": "Read Only",
-   "in_list_view": 1,
-   "label": "Faculty Department",
-   "options": "Faculty Department",
-   "read_only": 1,
    "reqd": 1
   },
   {
@@ -272,11 +262,20 @@
    "fieldname": "table_omcu",
    "fieldtype": "Table",
    "options": "Credit Hours Course"
+  },
+  {
+   "fetch_from": "program_name.department",
+   "fieldname": "department",
+   "fieldtype": "Read Only",
+   "in_list_view": 1,
+   "label": "Faculty Department",
+   "read_only": 1,
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-10-11 00:05:02.230457",
+ "modified": "2024-11-29 04:52:03.166429",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Specification",

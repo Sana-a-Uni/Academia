@@ -6,37 +6,49 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "student_id",
   "student_name",
   "first_name",
   "gender"
  ],
  "fields": [
   {
+   "fetch_from": "student_id.student_name",
    "fieldname": "student_name",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Student Name"
   },
   {
+   "fetch_from": "student_id.first_name",
    "fieldname": "first_name",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "First Name"
   },
   {
+   "fetch_from": "student_id.gender",
    "fieldname": "gender",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Gender"
+  },
+  {
+   "fieldname": "student_id",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Student ID",
+   "options": "Student",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-11-23 12:05:58.913562",
+ "modified": "2024-12-02 13:19:48.556098",
  "modified_by": "Administrator",
  "module": "Academia",
- "name": "Temporary Student Temporary",
+ "name": "Student Temporary Student",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",

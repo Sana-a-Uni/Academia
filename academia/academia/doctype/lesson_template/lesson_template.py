@@ -12,9 +12,8 @@ class LessonTemplate(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from frappe.types import DF
-
 		from academia.academia.doctype.multi_lesson_template.multi_lesson_template import MultiLessonTemplate
+		from frappe.types import DF
 
 		academic_term: DF.Link
 		academic_year: DF.Link

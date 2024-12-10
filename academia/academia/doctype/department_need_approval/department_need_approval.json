@@ -99,7 +99,7 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Faculty Department",
-   "options": "Faculty Department",
+   "options": "Department",
    "reqd": 1
   },
   {
@@ -136,7 +136,7 @@
    "table_fieldname": "approved_department_needs"
   }
  ],
- "modified": "2024-07-15 14:17:31.428656",
+ "modified": "2024-12-06 22:50:37.316286",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Department Need Approval",
