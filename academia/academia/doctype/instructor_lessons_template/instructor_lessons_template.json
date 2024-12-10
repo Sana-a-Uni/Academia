@@ -1,0 +1,128 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-12-04 18:12:20.227643",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "academic_year",
+  "column_break_gydt",
+  "academic_term",
+  "section_break_ujtt",
+  "schedule_type",
+  "instructor",
+  "group",
+  "room",
+  "faculty",
+  "column_break_chdy",
+  "schedule_template_version",
+  "program_specification",
+  "section_break_ccdw",
+  "lessons"
+ ],
+ "fields": [
+  {
+   "depends_on": "eval:doc.schedule_type == \"Instructor\";",
+   "fieldname": "instructor",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Instructor ",
+   "options": "Faculty Member"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Faculty",
+   "options": "Faculty"
+  },
+  {
+   "fieldname": "program_specification",
+   "fieldtype": "Link",
+   "label": "Program Specification",
+   "options": "Program Specification"
+  },
+  {
+   "fieldname": "column_break_chdy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "schedule_template_version",
+   "fieldtype": "Link",
+   "label": "Schedule Template Version",
+   "options": "Schedule Template Version"
+  },
+  {
+   "fieldname": "academic_year",
+   "fieldtype": "Link",
+   "label": "Academic Year",
+   "options": "Academic Year"
+  },
+  {
+   "fieldname": "academic_term",
+   "fieldtype": "Link",
+   "label": "Academic Term",
+   "options": "Academic Term"
+  },
+  {
+   "fieldname": "section_break_ccdw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "lessons",
+   "fieldtype": "HTML",
+   "label": "Lessons"
+  },
+  {
+   "fieldname": "schedule_type",
+   "fieldtype": "Select",
+   "label": "Schedule Type",
+   "options": "\nInstructor\nGroup\nRoom\nAll Instructor\nAll Groups\nAll Room"
+  },
+  {
+   "depends_on": "eval:doc.schedule_type == \"Group\";",
+   "fieldname": "group",
+   "fieldtype": "Link",
+   "label": "Group",
+   "options": "Student Group"
+  },
+  {
+   "depends_on": "eval:doc.schedule_type == \"Room\";",
+   "fieldname": "room",
+   "fieldtype": "Link",
+   "label": "Room",
+   "options": "Room"
+  },
+  {
+   "fieldname": "column_break_gydt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_ujtt",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-12-08 07:53:12.147567",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Instructor Lessons Template",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

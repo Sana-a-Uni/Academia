@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestTemporaryStudent(FrappeTestCase):
+class TestTemporaryImportStudent(FrappeTestCase):
 	pass
