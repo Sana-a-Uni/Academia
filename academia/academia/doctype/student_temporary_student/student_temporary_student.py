@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class TemporaryStudentTemporary(Document):
+class StudentTemporaryStudent(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -19,6 +19,7 @@ class TemporaryStudentTemporary(Document):
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
+		student_id: DF.Link
 		student_name: DF.Data | None
 	# end: auto-generated types
 	pass

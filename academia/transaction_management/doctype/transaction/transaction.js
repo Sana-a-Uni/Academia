@@ -782,7 +782,7 @@ frappe.ui.form.on("Transaction", {
 					// Stop 'add below' & 'add above' options
 					frm.get_field("attachments").grid.only_sortable();
 					//make the lables uneditable
-					frm.fields_dict.attachments.grid.docfields[1].read_only = 1;
+					frm.fields_dict.attachments.grid.docfields[0].read_only = 1;
 
 					// Refresh the form to display the newly added fields
 					frm.refresh_fields("attachments");
@@ -945,6 +945,17 @@ function add_approve_action(frm) {
 							};
 						},
 					},
+					{
+						fieldname: "with_proof",
+						label: __("With Proof"),
+						fieldtype: "Check",
+					},
+					{
+						fieldname: "proof",
+						label: __("Proof"),
+						fieldtype: "Attach",
+						depends_on: "eval:doc.with_proof == 1",
+					},
 				],
 				function (values) {
 					if (values.through_middle_man && !values.middle_man) {
@@ -952,6 +963,14 @@ function add_approve_action(frm) {
 							title: __("Error"),
 							indicator: "red",
 							message: __("Please select a Middle Man."),
+						});
+						return;
+					}
+					if (values.with_proof && !values.proof) {
+						frappe.msgprint({
+							title: __("Error"),
+							indicator: "red",
+							message: __("Please attach proof."),
 						});
 						return;
 					}
@@ -993,6 +1012,10 @@ function add_approve_action(frm) {
 													action_name: global_action_name,
 													middle_man: values.middle_man,
 													through_middle_man: values.through_middle_man
+														? "True"
+														: "False",
+													proof: values.proof,
+													with_proof: values.with_proof
 														? "True"
 														: "False",
 												},

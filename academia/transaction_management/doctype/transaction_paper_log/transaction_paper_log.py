@@ -14,10 +14,19 @@ class TransactionPaperLog(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
+		from academia.transaction_management.doctype.transaction_attachments.transaction_attachments import (
+			TransactionAttachments,
+		)
+
 		action_name: DF.Link | None
 		amended_from: DF.Link | None
+		attachments: DF.Table[TransactionAttachments]
+		ee_proof: DF.Attach | None
 		end_employee: DF.Link | None
+		end_employee_name: DF.Data | None
 		middle_man: DF.Link | None
+		middle_man_name: DF.Data | None
+		mm_proof: DF.Attach | None
 		paper_progress: DF.Literal[
 			"",
 			"Delivered to middle man",
@@ -26,6 +35,7 @@ class TransactionPaperLog(Document):
 			"Received by end employee",
 		]
 		start_employee: DF.Link | None
+		start_employee_name: DF.Data | None
 		through_middle_man: DF.Check
 		transaction_name: DF.Link | None
 	# end: auto-generated types

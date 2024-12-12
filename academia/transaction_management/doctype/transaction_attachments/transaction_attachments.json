@@ -6,13 +6,14 @@
  "engine": "InnoDB",
  "field_order": [
   "attachment_label",
+  "number_of_papers",
   "file",
   "required"
  ],
  "fields": [
   {
    "fieldname": "file",
-   "fieldtype": "Attach Image",
+   "fieldtype": "Attach",
    "label": "File"
   },
   {
@@ -28,12 +29,19 @@
    "in_list_view": 1,
    "label": "Required",
    "read_only": 1
+  },
+  {
+   "fieldname": "number_of_papers",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Number of Papers",
+   "non_negative": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-07-26 18:47:29.576490",
+ "modified": "2024-12-09 18:13:46.891698",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Attachments",
