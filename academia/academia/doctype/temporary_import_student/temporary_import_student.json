@@ -7,11 +7,15 @@
  "engine": "InnoDB",
  "field_order": [
   "student_id",
-  "student_name",
   "gender",
   "first_name",
-  "program",
+  "middle_name",
+  "last_name",
+  "column_break_weqi",
   "faculty",
+  "department",
+  "program",
+  "level",
   "student_batch",
   "academic_year",
   "academic_term"
@@ -23,12 +27,6 @@
    "in_list_view": 1,
    "label": "Student ID",
    "reqd": 1
-  },
-  {
-   "fieldname": "student_name",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "Student Name"
   },
   {
    "fieldname": "first_name",
@@ -73,12 +71,37 @@
    "fieldtype": "Data",
    "label": "Gender",
    "reqd": 1
+  },
+  {
+   "fieldname": "middle_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Middle Name"
+  },
+  {
+   "fieldname": "last_name",
+   "fieldtype": "Data",
+   "label": "Last Name"
+  },
+  {
+   "fieldname": "column_break_weqi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Data",
+   "label": "Department"
+  },
+  {
+   "fieldname": "level",
+   "fieldtype": "Data",
+   "label": "Level"
   }
  ],
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-09 11:15:41.431863",
+ "modified": "2024-12-11 20:21:00.895053",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Temporary Import Student",
