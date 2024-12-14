@@ -619,7 +619,7 @@ frappe.ui.form.on("Transaction", {
 						docstatus: ["!=", 2],
 						department: ["!=", null],
 						designation: ["!=", null],
-						//user_id: ["in", mustInclude],
+						user_id: ["in", mustInclude],
 					};
 
 					if (!all_companies) {
@@ -1026,6 +1026,45 @@ function add_approve_action(frm) {
 															r.message
 														);
 														if (r.message) {
+															if (
+																values.with_proof &&
+																!values.through_middle_man
+															) {
+																frappe.db.get_value(
+																	"Employee",
+																	{ name: end_employee },
+																	"user_id",
+																	function (message) {
+																		frappe.call({
+																			method: "academia.transaction_management.doctype.transaction.transaction.change_is_received_in_action_recipients",
+																			args: {
+																				transaction_name:
+																					frm.doc.name,
+																				recipient_email:
+																					message.user_id,
+																			},
+																			callback: function (
+																				r
+																			) {
+																				if (r.message) {
+																					console.log(
+																						r.message
+																					);
+																				}
+																			},
+																			error: function (r) {
+																				frappe.show_alert({
+																					message: __(
+																						"Error updating received status"
+																					),
+																					indicator:
+																						"red",
+																				});
+																			},
+																		});
+																	}
+																);
+															}
 															location.reload();
 														}
 													}
