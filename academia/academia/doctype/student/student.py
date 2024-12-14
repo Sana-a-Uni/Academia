@@ -21,12 +21,18 @@ class Student(Document):
 		blood_group: DF.Literal["", "A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-"]
 		city: DF.Data | None
 		county: DF.Data | None
+		current_department: DF.Data | None
+		current_faculty: DF.Data | None
+		current_student_batch: DF.Data | None
+		current_student_id: DF.Data | None
+		current_student_level: DF.Data | None
+		current_student_program: DF.Data | None
 		date_of_birth: DF.Date | None
 		date_of_leaving: DF.Date | None
 		educational_system: DF.Literal["", "\u0627\u0644\u0646\u0638\u0627\u0645 \u0627\u0644\u0639\u0627\u0645", "\u0627\u0644\u0646\u0638\u0627\u0645 \u0627\u0644\u0645\u0648\u0627\u0632\u064a", "\u0646\u0641\u0642\u0629 \u062e\u0627\u0635\u0629"]
 		first_name: DF.Data
 		first_name_en: DF.Data | None
-		gender: DF.Literal["", "Male", "Female", "Male & Female"]
+		gender: DF.Literal["", "Male", "Female"]
 		guardians: DF.Table[StudentGuardian]
 		high_school_year: DF.Data | None
 		identification_number: DF.Data | None
