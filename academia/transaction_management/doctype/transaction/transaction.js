@@ -210,19 +210,41 @@ frappe.ui.form.on("Transaction", {
 							}
 						}
 					});
-					frappe.call({
-						method: "academia.transaction_management.doctype.transaction.transaction.get_next_recipient_by_step",
-						args: {
-							transaction_name: frm.doc.name,
-							current_employee: frappe.session.user,
-						},
-						callback: function (r) {
-							if (r.message) {
-								// Assign the result to the global variable
-								global_next_recipient = r.message;
-							}
-						},
-					});
+					if (frm.doc.through_route) {
+						// Fetch the current user's employee record
+						frappe.call({
+							method: "frappe.client.get",
+							args: {
+								doctype: "Employee",
+								filters: { user_id: frappe.session.user },
+							},
+							callback: function (response) {
+								const employee = response.message;
+								if (employee) {
+									// Assign the reports_to field to global_next_recipient
+									global_next_recipient = employee.reports_to;
+									console.log(
+										"Global next recipient is: " + global_next_recipient
+									);
+								}
+							},
+						});
+					} else if (!frm.doc.through_route && frm.doc.sub_category) {
+						frappe.call({
+							method: "academia.transaction_management.doctype.transaction.transaction.get_next_recipient_by_step",
+							args: {
+								transaction_name: frm.doc.name,
+								current_employee: frappe.session.user,
+							},
+							callback: function (r) {
+								if (r.message) {
+									// Assign the result to the global variable
+									global_next_recipient = r.message;
+									console.log(global_next_recipient);
+								}
+							},
+						});
+					}
 				}
 
 				frappe.call({
@@ -424,6 +446,11 @@ frappe.ui.form.on("Transaction", {
 	},
 
 	through_route: function (frm) {
+		frm.clear_table("recipients");
+		frm.refresh_field("recipients");
+		frm.set_value("category", "");
+		frm.set_value("sub_category", "");
+
 		if (!frm.doc.sub_category) {
 			update_must_include(frm);
 		}
@@ -896,7 +923,11 @@ function add_received_action(frm) {
 
 function add_approve_action(frm) {
 	cur_frm.page.add_action_item(__("Approve"), function () {
-		if (global_print_papaer) {
+		if (
+			!frm.doc.full_electronic &&
+			frm.doc.recipients[frm.doc.recipients.length - 1].recipient_email !=
+				frappe.session.user
+		) {
 			frappe.prompt(
 				[
 					{
@@ -992,100 +1023,92 @@ function add_approve_action(frm) {
 								const start_employee = frappe.session.user;
 
 								// Fetch the next recipient based on the next step
+								// frappe.call({
+								// 	method: "academia.transaction_management.doctype.transaction.transaction.get_next_recipient_by_step",
+								// 	args: {
+								// 		transaction_name: values.transaction_name,
+								// 		current_employee: start_employee,
+								// 	},
+								// 	callback: function (r) {
+								// 		if (r.message) {
+								// 			const end_employee = r.message;
+								// 			console.log(end_employee)
+								// 			// Call the server-side method to create the transaction paper log
 								frappe.call({
-									method: "academia.transaction_management.doctype.transaction.transaction.get_next_recipient_by_step",
+									method: "academia.transaction_management.doctype.transaction.transaction.create_transaction_paper_log",
 									args: {
+										start_employee: values.start_employee,
+										end_employee: global_next_recipient,
 										transaction_name: values.transaction_name,
-										current_employee: start_employee,
+										action_name: global_action_name,
+										middle_man: values.middle_man,
+										through_middle_man: values.through_middle_man
+											? "True"
+											: "False",
+										proof: values.proof,
+										with_proof: values.with_proof ? "True" : "False",
 									},
 									callback: function (r) {
 										if (r.message) {
-											const end_employee = r.message;
-
-											// Call the server-side method to create the transaction paper log
-											frappe.call({
-												method: "academia.transaction_management.doctype.transaction.transaction.create_transaction_paper_log",
-												args: {
-													start_employee: values.start_employee,
-													end_employee: values.end_employee,
-													transaction_name: values.transaction_name,
-													action_name: global_action_name,
-													middle_man: values.middle_man,
-													through_middle_man: values.through_middle_man
-														? "True"
-														: "False",
-													proof: values.proof,
-													with_proof: values.with_proof
-														? "True"
-														: "False",
-												},
-												callback: function (r) {
-													if (r.message) {
-														console.log(
-															"Transaction Paper Log created:",
-															r.message
-														);
-														if (r.message) {
-															if (
-																values.with_proof &&
-																!values.through_middle_man
-															) {
-																frappe.db.get_value(
-																	"Employee",
-																	{ name: end_employee },
-																	"user_id",
-																	function (message) {
-																		frappe.call({
-																			method: "academia.transaction_management.doctype.transaction.transaction.change_is_received_in_action_recipients",
-																			args: {
-																				transaction_name:
-																					frm.doc.name,
-																				recipient_email:
-																					message.user_id,
-																			},
-																			callback: function (
-																				r
-																			) {
-																				if (r.message) {
-																					console.log(
-																						r.message
-																					);
-																				}
-																			},
-																			error: function (r) {
-																				frappe.show_alert({
-																					message: __(
-																						"Error updating received status"
-																					),
-																					indicator:
-																						"red",
-																				});
-																			},
-																		});
+											console.log(
+												"Transaction Paper Log created:",
+												r.message
+											);
+											if (r.message) {
+												if (
+													values.with_proof &&
+													!values.through_middle_man
+												) {
+													frappe.db.get_value(
+														"Employee",
+														{ name: end_employee },
+														"user_id",
+														function (message) {
+															frappe.call({
+																method: "academia.transaction_management.doctype.transaction.transaction.change_is_received_in_action_recipients",
+																args: {
+																	transaction_name: frm.doc.name,
+																	recipient_email:
+																		message.user_id,
+																},
+																callback: function (r) {
+																	if (r.message) {
+																		console.log(r.message);
 																	}
-																);
-															}
-															location.reload();
+																},
+																error: function (r) {
+																	frappe.show_alert({
+																		message: __(
+																			"Error updating received status"
+																		),
+																		indicator: "red",
+																	});
+																},
+															});
 														}
-													}
-												},
-												error: function (r) {
-													console.error(r);
-													frappe.msgprint({
-														title: __("Error"),
-														indicator: "red",
-														message: r.message,
-													});
-												},
-											});
-										} else {
-											frappe.msgprint(__("No next recipient found."));
+													);
+												}
+												location.reload();
+											}
 										}
 									},
 									error: function (r) {
 										console.error(r);
+										frappe.msgprint({
+											title: __("Error"),
+											indicator: "red",
+											message: r.message,
+										});
 									},
 								});
+								// 		} else {
+								// 			frappe.msgprint(__("No next recipient found."));
+								// 		}
+								// 	},
+								// 	error: function (r) {
+								// 		console.error(r);
+								// 	},
+								// });
 								// if (r.message) {
 								// 	location.reload();
 								// }
