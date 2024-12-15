@@ -78,24 +78,25 @@
    "mandatory_depends_on": "eval:doc.academic_degree == \"Master Degree\" || doc.academic_degree == \"PHD Degree\";"
   },
   {
-   "depends_on": "eval:doc.research_or_thesis == 1;",
+   "depends_on": "eval:doc.research_or_thesis === 1;",
    "fieldname": "research_tab",
    "fieldtype": "Tab Break",
    "label": "Research"
   },
   {
+   "depends_on": "research_or_thesis",
    "description": "In Years",
    "fieldname": "minimum_research_period",
    "fieldtype": "Int",
    "label": "Minimum Research Period",
-   "mandatory_depends_on": "eval:doc.research_or_thesis === 1 && doc.courses === 1 ;"
+   "mandatory_depends_on": "research_or_thesis"
   },
   {
    "description": "In Years",
    "fieldname": "maximum_research_period",
    "fieldtype": "Int",
    "label": "Maximum Research Period",
-   "mandatory_depends_on": "eval:doc.research_or_thesis === 1 && doc.courses === 1 ;"
+   "mandatory_depends_on": "research_or_thesis"
   },
   {
    "depends_on": "eval:doc.research_or_thesis === 1 && doc.courses === 1 ;",
@@ -141,7 +142,7 @@
    "link_fieldname": "program_name"
   }
  ],
- "modified": "2024-11-29 04:50:14.458952",
+ "modified": "2024-12-12 02:02:06.044693",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Academic Program",

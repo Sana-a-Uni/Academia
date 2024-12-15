@@ -238,7 +238,8 @@
    "fieldname": "academic_system",
    "fieldtype": "Select",
    "label": "Academic System",
-   "options": "\nSemester System\nCredit Hours System\nAnnual System"
+   "options": "\nSemester System\nCredit Hours System\nAnnual System",
+   "reqd": 1
   },
   {
    "fieldname": "implementation_start_academic_year",
@@ -275,7 +276,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-29 04:52:03.166429",
+ "modified": "2024-12-14 17:41:30.382609",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Program Specification",

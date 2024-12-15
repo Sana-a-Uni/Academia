@@ -36,6 +36,14 @@
   "gender",
   "nationality",
   "identification_number",
+  "student_details_tab",
+  "current_student_id",
+  "current_faculty",
+  "current_student_program",
+  "column_break_gutz",
+  "current_department",
+  "current_student_level",
+  "current_student_batch",
   "address_tab",
   "address_and_contact_section",
   "city",
@@ -155,7 +163,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Gender",
-   "options": "\nMale\nFemale\nMale & Female",
+   "options": "\nMale\nFemale",
    "reqd": 1
   },
   {
@@ -349,11 +357,50 @@
    "fieldname": "high_school_year",
    "fieldtype": "Data",
    "label": "High school year"
+  },
+  {
+   "fieldname": "student_details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Student Details"
+  },
+  {
+   "fieldname": "current_student_id",
+   "fieldtype": "Data",
+   "label": "Current Student ID"
+  },
+  {
+   "fieldname": "current_faculty",
+   "fieldtype": "Data",
+   "label": "Current Faculty"
+  },
+  {
+   "fieldname": "current_student_program",
+   "fieldtype": "Data",
+   "label": "Current Student Program"
+  },
+  {
+   "fieldname": "column_break_gutz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "current_department",
+   "fieldtype": "Data",
+   "label": "Current Department"
+  },
+  {
+   "fieldname": "current_student_level",
+   "fieldtype": "Data",
+   "label": "Current Student Level"
+  },
+  {
+   "fieldname": "current_student_batch",
+   "fieldtype": "Data",
+   "label": "Current Student Batch"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-01 11:54:04.521184",
+ "modified": "2024-12-11 20:21:29.852223",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student",
