@@ -1,0 +1,237 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-12-22 19:48:14.182885",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_g9lf",
+  "amended_from",
+  "title",
+  "status",
+  "inbox_from",
+  "full_electronic",
+  "section_break_ggvi",
+  "start_from",
+  "start_from_employee",
+  "start_from_company",
+  "column_break_mcgn",
+  "start_from_department",
+  "start_from_designation",
+  "from_section",
+  "main_external_entity",
+  "sub_external_entity",
+  "column_break_pnay",
+  "external_entity_designation",
+  "external_entity_employee",
+  "to_section",
+  "recipients",
+  "get_recipients",
+  "clear_recipients",
+  "attachments_tab",
+  "attachments"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_g9lf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Inbox Memo",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "depends_on": "eval:!doc.__islocal",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Pending\nCompleted\nCanceled\nClosed\nRejected",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.inbox_from == \"Company within the system\"",
+   "fieldname": "section_break_ggvi",
+   "fieldtype": "Section Break",
+   "label": "From"
+  },
+  {
+   "fieldname": "start_from",
+   "fieldtype": "Link",
+   "label": "Start From",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "start_from.employee_name",
+   "fieldname": "start_from_employee",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "start_from.company",
+   "fieldname": "start_from_company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_mcgn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "start_from.department",
+   "fieldname": "start_from_department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department"
+  },
+  {
+   "fetch_from": "start_from.designation",
+   "fieldname": "start_from_designation",
+   "fieldtype": "Link",
+   "label": "Designation",
+   "options": "Designation"
+  },
+  {
+   "depends_on": "eval:doc.inbox_from == \"Company outside the system\"",
+   "fieldname": "from_section",
+   "fieldtype": "Section Break",
+   "label": "From"
+  },
+  {
+   "fieldname": "main_external_entity",
+   "fieldtype": "Link",
+   "label": "Main External Entity",
+   "options": "External Entity New"
+  },
+  {
+   "fieldname": "sub_external_entity",
+   "fieldtype": "Link",
+   "label": "Sub External Entity",
+   "options": "External Entity New"
+  },
+  {
+   "fieldname": "column_break_pnay",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "external_entity_designation",
+   "fieldtype": "Link",
+   "label": "External Entity Designation",
+   "options": "External Entity Designation"
+  },
+  {
+   "fieldname": "external_entity_employee",
+   "fieldtype": "Data",
+   "label": "External Entity Employee"
+  },
+  {
+   "fieldname": "inbox_from",
+   "fieldtype": "Select",
+   "label": "Inbox From",
+   "options": "Company within the system\nCompany outside the system"
+  },
+  {
+   "fieldname": "attachments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "attachments",
+   "fieldtype": "Table",
+   "label": "Attachments",
+   "options": "Transaction Attachments New"
+  },
+  {
+   "default": "0",
+   "fieldname": "full_electronic",
+   "fieldtype": "Check",
+   "label": "Full Electronic"
+  },
+  {
+   "fieldname": "to_section",
+   "fieldtype": "Section Break",
+   "label": "To"
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "Recipients",
+   "options": "Transaction Recipients New"
+  },
+  {
+   "fieldname": "get_recipients",
+   "fieldtype": "Button",
+   "label": "Get Recipients"
+  },
+  {
+   "fieldname": "clear_recipients",
+   "fieldtype": "Button",
+   "label": "Clear Recipients"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-12-22 21:04:04.566074",
+ "modified_by": "Administrator",
+ "module": "Transactions",
+ "name": "Inbox Memo",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [
+  {
+   "color": "Blue",
+   "title": "Pending"
+  },
+  {
+   "color": "Green",
+   "title": "Completed"
+  },
+  {
+   "color": "Red",
+   "title": "Canceled"
+  },
+  {
+   "color": "Orange",
+   "title": "Closed"
+  },
+  {
+   "color": "Purple",
+   "title": "Rejected"
+  }
+ ]
+}

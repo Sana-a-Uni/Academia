@@ -1,0 +1,188 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:REQ-{MM}-{YY}-{####}",
+ "creation": "2024-12-22 17:40:06.753113",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_ktpj",
+  "amended_from",
+  "title",
+  "status",
+  "full_electronic",
+  "from_section",
+  "start_from",
+  "start_from_employee",
+  "start_from_company",
+  "column_break_eyug",
+  "start_from_department",
+  "start_from_designation",
+  "to_section",
+  "recipients",
+  "get_recipients",
+  "clear_recipients",
+  "attachments_tab",
+  "attachments"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_ktpj",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Request",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "depends_on": "eval:!doc.__islocal",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Pending\nCompleted\nCanceled\nClosed\nRejected",
+   "read_only": 1
+  },
+  {
+   "fieldname": "from_section",
+   "fieldtype": "Section Break",
+   "label": "From"
+  },
+  {
+   "fieldname": "start_from",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Start From",
+   "options": "Employee",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_eyug",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "start_from_employee",
+   "fieldtype": "Data",
+   "label": "Employee Name"
+  },
+  {
+   "fieldname": "start_from_company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "start_from_department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department"
+  },
+  {
+   "fieldname": "start_from_designation",
+   "fieldtype": "Link",
+   "label": "Designation",
+   "options": "Designation"
+  },
+  {
+   "fieldname": "to_section",
+   "fieldtype": "Section Break",
+   "label": "To"
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "Recipients",
+   "options": "Transaction Recipients New"
+  },
+  {
+   "fieldname": "get_recipients",
+   "fieldtype": "Button",
+   "label": "Get Recipients"
+  },
+  {
+   "fieldname": "clear_recipients",
+   "fieldtype": "Button",
+   "label": "Clear Recipients"
+  },
+  {
+   "fieldname": "attachments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "attachments",
+   "fieldtype": "Table",
+   "label": "Attachments",
+   "options": "Transaction Attachments New"
+  },
+  {
+   "default": "0",
+   "fieldname": "full_electronic",
+   "fieldtype": "Check",
+   "label": "Full Electronic"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-12-22 20:49:44.193295",
+ "modified_by": "Administrator",
+ "module": "Transactions",
+ "name": "Request",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [
+  {
+   "color": "Blue",
+   "title": "Pending"
+  },
+  {
+   "color": "Green",
+   "title": "Completed"
+  },
+  {
+   "color": "Red",
+   "title": "Canceled"
+  },
+  {
+   "color": "Orange",
+   "title": "Closed"
+  },
+  {
+   "color": "Purple",
+   "title": "Rejected"
+  }
+ ],
+ "track_changes": 1
+}
