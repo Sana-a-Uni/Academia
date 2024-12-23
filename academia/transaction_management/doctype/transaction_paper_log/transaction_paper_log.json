@@ -1,6 +1,5 @@
 {
  "actions": [],
- "allow_rename": 1,
  "autoname": "format:{action_name}-P",
  "creation": "2024-10-29 13:01:01.813707",
  "doctype": "DocType",
@@ -132,7 +131,7 @@
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-09 17:22:28.624461",
+ "modified": "2024-12-15 13:24:15.830550",
  "modified_by": "Administrator",
  "module": "Transaction Management",
  "name": "Transaction Paper Log",

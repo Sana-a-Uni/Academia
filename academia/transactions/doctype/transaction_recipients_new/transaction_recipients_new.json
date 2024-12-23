@@ -1,0 +1,101 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-12-22 18:16:48.118404",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "step",
+  "recipient",
+  "recipient_name",
+  "recipient_company",
+  "recipient_department",
+  "recipient_designation",
+  "recipient_email",
+  "is_received"
+ ],
+ "fields": [
+  {
+   "default": "1",
+   "fieldname": "step",
+   "fieldtype": "Int",
+   "ignore_user_permissions": 1,
+   "in_list_view": 1,
+   "label": "Step",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "recipient",
+   "fieldtype": "Link",
+   "label": "Recipient",
+   "options": "Employee"
+  },
+  {
+   "fetch_from": "recipient.employee_name",
+   "fetch_if_empty": 1,
+   "fieldname": "recipient_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Recipient Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "recipient.company",
+   "fieldname": "recipient_company",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Recipient Company",
+   "options": "Company",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "recipient.department",
+   "fieldname": "recipient_department",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Recipient Department",
+   "options": "Department",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "recipient.designation",
+   "fieldname": "recipient_designation",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Recipient Designation",
+   "options": "Designation",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "recipient.prefered_email",
+   "fieldname": "recipient_email",
+   "fieldtype": "Link",
+   "label": "Recipient Email",
+   "options": "User",
+   "reqd": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "0",
+   "fieldname": "is_received",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Is Received"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2024-12-22 18:27:07.451450",
+ "modified_by": "Administrator",
+ "module": "Transactions",
+ "name": "Transaction Recipients New",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
