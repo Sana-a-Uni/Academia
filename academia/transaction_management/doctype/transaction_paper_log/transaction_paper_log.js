@@ -130,6 +130,31 @@ function add_middle_man_delivered_action(frm) {
 						paper_progress: __("Received by end employee"),
 						ee_proof: values.proof,
 					});
+					frappe.db.get_value(
+						"Employee",
+						{ name: frm.doc.end_employee },
+						"user_id",
+						function (message) {
+							frappe.call({
+								method: "academia.transaction_management.doctype.transaction.transaction.change_is_received_in_action_recipients",
+								args: {
+									transaction_name: frm.doc.transaction_name,
+									recipient_email: message.user_id,
+								},
+								callback: function (r) {
+									if (r.message) {
+										console.log(r.message);
+									}
+								},
+								error: function (r) {
+									frappe.show_alert({
+										message: __("Error updating received status"),
+										indicator: "red",
+									});
+								},
+							});
+						}
+					);
 					location.reload();
 				} else {
 					frappe.db.set_value(
@@ -172,7 +197,25 @@ function add_end_employee_received_action(frm) {
 					__("Received by end employee")
 				)
 				.then(() => {
-					location.reload();
+					frappe.call({
+						method: "academia.transaction_management.doctype.transaction.transaction.change_is_received_in_action_recipients",
+						args: {
+							transaction_name: frm.doc.transaction_name,
+							recipient_email: frappe.session.user,
+						},
+						callback: function (r) {
+							if (r.message) {
+								console.log(r.message);
+								location.reload();
+							}
+						},
+						error: function (r) {
+							frappe.show_alert({
+								message: __("Error updating received status"),
+								indicator: "red",
+							});
+						},
+					});
 				})
 				.catch((error) => {
 					frappe.msgprint({

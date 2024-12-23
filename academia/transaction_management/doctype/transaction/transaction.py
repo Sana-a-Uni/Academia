@@ -760,6 +760,7 @@ def get_reports_hierarchy(employee_name):
 	reports_emails = []
 	employee = frappe.get_doc("Employee", employee_name)
 	reports_to = employee.reports_to
+	reports_emails.append(employee.reports_to)
 
 	while reports_to:
 		employee = frappe.get_doc("Employee", reports_to)
