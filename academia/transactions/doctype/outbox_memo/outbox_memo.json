@@ -140,6 +140,7 @@
    "label": "Attachments"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "attachments",
    "fieldtype": "Table",
    "label": "Attachments",
@@ -155,7 +156,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-22 20:49:27.402388",
+ "modified": "2024-12-23 12:38:57.340532",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo",
