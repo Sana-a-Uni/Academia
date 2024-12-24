@@ -1,106 +1,8 @@
 // Copyright (c) 2024, SanU and contributors
 // For license information, please see license.txt
 
-function add_approve_action(frm) {
-	cur_frm.page.add_action_item(__("Approve"), function () {
-		frappe.prompt(
-			[
-				{
-					label: "Details",
-					fieldname: "details",
-					fieldtype: "Text",
-				},
-			],
-			function (values) {
-				frappe.call({
-					method: "academia.transactions.doctype.inbox_memo.inbox_memo.create_new_inbox_memo_action",
-					args: {
-						user_id: frappe.session.user,
-						inbox_memo: frm.doc.name,
-						type: "Approved",
-						details: values.details || "",
-						inbox_from: frm.doc.inbox_from || "",
-					},
-					callback: function (r) {
-						if (r.message) {
-							// console.log(r.message);
-							if (r.message) {
-								location.reload();
-							}
-							// frappe.db.set_value('Transaction', frm.docname, 'status', 'Approved');
-						}
-					},
-				});
-			},
-			__("Enter Approval Details"),
-			__("Submit")
-		);
-	});
-}
-
-function add_reject_action(frm) {
-	cur_frm.page.add_action_item(__("Reject"), function () {
-		frappe.prompt(
-			[
-				{
-					label: "Details",
-					fieldname: "details",
-					fieldtype: "Text",
-				},
-			],
-			function (values) {
-				frappe.call({
-					method: "academia.transactions.doctype.inbox_memo.inbox_memo.create_new_inbox_memo_action",
-					args: {
-						user_id: frappe.session.user,
-						inbox_memo: frm.doc.name,
-						type: "Rejected",
-						details: values.details || "",
-						inbox_from: frm.doc.inbox_from || "",
-					},
-					callback: function (r) {
-						if (r.message) {
-							location.reload();
-							// frappe.db.set_value('Transaction', frm.docname, 'status', 'Rejected');
-						}
-					},
-				});
-			},
-			__("Enter Rejection Details"),
-			__("Submit")
-		);
-	});
-}
-
-frappe.ui.form.on("Inbox Memo", {
-	before_submit: function (frm) {
-		frm.set_value("current_action_maker", frm.doc.recipients[0].recipient_email);
-	},
-
-	refresh(frm) {
-		if (frm.doc.current_action_maker == frappe.session.user) {
-			add_approve_action(frm);
-			add_reject_action(frm);
-		}
-	},
-
-	onload: function (frm) {
-		if (!frm.doc.start_from) {
-			frappe.call({
-				method: "frappe.client.get_value",
-				args: {
-					doctype: "Employee",
-					filters: { user_id: frappe.session.user },
-					fieldname: "name",
-				},
-				callback: function (response) {
-					if (response.message) {
-						frm.set_value("start_from", response.message.name);
-					}
-				},
-			});
-		}
-	},
+frappe.ui.form.on("Inbox Memo Action", {
+	refresh(frm) {},
 
 	get_recipients: function (frm) {
 		let setters = {
@@ -142,10 +44,6 @@ frappe.ui.form.on("Inbox Memo", {
 			primary_action_label: __("Get Recipients"),
 
 			action(selections) {
-				if (selections.length > 1) {
-					frappe.msgprint("You Can Only Select One Recipient");
-					return;
-				}
 				// console.log(d.dialog.get_value("company"));
 				// emptying Council members
 				frm.set_value("recipients", []);
@@ -195,5 +93,9 @@ frappe.ui.form.on("Inbox Memo", {
 	clear_recipients: function (frm) {
 		frm.clear_table("recipients");
 		frm.refresh_field("recipients");
+	},
+
+	onload: function (frm) {
+		frm.set_value("action_date", frappe.datetime.get_today());
 	},
 });
