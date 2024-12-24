@@ -1,7 +1,7 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
-# import frappe
+import frappe
 from frappe.model.document import Document
 
 
@@ -23,6 +23,8 @@ class OutboxMemo(Document):
 
 		amended_from: DF.Link | None
 		attachments: DF.Table[TransactionAttachmentsNew]
+		direction: DF.Literal["", "Upward", "Downward"]
+		document_content: DF.TextEditor | None
 		full_electronic: DF.Check
 		recipients: DF.Table[TransactionRecipientsNew]
 		start_from: DF.Link
@@ -35,3 +37,46 @@ class OutboxMemo(Document):
 		type: DF.Literal["Internal", "External"]
 	# end: auto-generated types
 	pass
+
+
+@frappe.whitelist()
+def get_all_employees_except_start_from_company(start_from_company):
+	employees = frappe.get_list(
+		"Employee", filters={"company": ["!=", start_from_company]}, fields=["user_id"]
+	)
+	return [emp.user_id for emp in employees]
+
+
+@frappe.whitelist()
+def get_reports_to_hierarchy(employee_name):
+	reports_emails = []
+	employee = frappe.get_doc("Employee", employee_name)
+	reports_to = employee.reports_to
+	reports_emails.append(reports_to)
+
+	while reports_to:
+		employee = frappe.get_doc("Employee", reports_to)
+		reports_emails.append(employee.user_id)
+		reports_to = employee.reports_to
+
+	return reports_emails
+
+
+@frappe.whitelist()
+def get_reports_to_hierarchy_reverse(employee_name):
+	employees = []
+
+	# Get employees with reports_to set as the given employee
+	direct_reports = frappe.get_all(
+		"Employee", filters={"reports_to": employee_name}, fields=["user_id", "name"]
+	)
+
+	# Iterate over direct reports
+	for employee in direct_reports:
+		# frappe.msgprint(f"{employee.user_id}")
+		employees.append(employee.user_id)
+
+		# Recursively call the function for each direct report
+		employees += get_reports_to_hierarchy_reverse(employee.name)
+
+	return employees

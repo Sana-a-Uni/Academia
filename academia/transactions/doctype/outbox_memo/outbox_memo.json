@@ -10,7 +10,10 @@
   "title",
   "status",
   "type",
+  "direction",
   "full_electronic",
+  "column_break_hbls",
+  "document_content",
   "section_break_dglz",
   "start_from",
   "start_from_employee",
@@ -74,7 +77,8 @@
    "in_list_view": 1,
    "label": "Start From",
    "options": "Employee",
-   "reqd": 1
+   "reqd": 1,
+   "set_only_once": 1
   },
   {
    "fetch_from": "start_from.employee_name",
@@ -151,12 +155,28 @@
    "fieldname": "full_electronic",
    "fieldtype": "Check",
    "label": "Full Electronic"
+  },
+  {
+   "depends_on": "eval:doc.type==\"Internal\"",
+   "fieldname": "direction",
+   "fieldtype": "Select",
+   "label": "Direction",
+   "options": "\nUpward\nDownward"
+  },
+  {
+   "fieldname": "column_break_hbls",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "document_content",
+   "fieldtype": "Text Editor",
+   "label": "Document Content"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-23 12:38:57.340532",
+ "modified": "2024-12-24 13:16:58.450544",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo",
