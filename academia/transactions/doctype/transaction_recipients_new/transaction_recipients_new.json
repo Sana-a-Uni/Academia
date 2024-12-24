@@ -29,6 +29,7 @@
   {
    "fieldname": "recipient",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Recipient",
    "options": "Employee"
   },
@@ -89,7 +90,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-12-22 18:27:07.451450",
+ "modified": "2024-12-23 13:08:46.086589",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Transaction Recipients New",
