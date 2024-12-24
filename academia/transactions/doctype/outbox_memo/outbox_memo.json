@@ -12,6 +12,8 @@
   "type",
   "direction",
   "full_electronic",
+  "column_break_hbls",
+  "document_content",
   "section_break_dglz",
   "start_from",
   "start_from_employee",
@@ -160,12 +162,21 @@
    "fieldtype": "Select",
    "label": "Direction",
    "options": "\nUpward\nDownward"
+  },
+  {
+   "fieldname": "column_break_hbls",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "document_content",
+   "fieldtype": "Text Editor",
+   "label": "Document Content"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-23 20:29:35.306414",
+ "modified": "2024-12-24 13:16:58.450544",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo",

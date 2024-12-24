@@ -24,6 +24,7 @@ class OutboxMemo(Document):
 		amended_from: DF.Link | None
 		attachments: DF.Table[TransactionAttachmentsNew]
 		direction: DF.Literal["", "Upward", "Downward"]
+		document_content: DF.TextEditor | None
 		full_electronic: DF.Check
 		recipients: DF.Table[TransactionRecipientsNew]
 		start_from: DF.Link
