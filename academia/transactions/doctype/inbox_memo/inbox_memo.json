@@ -7,6 +7,7 @@
  "field_order": [
   "section_break_g9lf",
   "amended_from",
+  "current_action_maker",
   "title",
   "status",
   "inbox_from",
@@ -72,15 +73,18 @@
   {
    "fieldname": "start_from",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Start From",
    "options": "Employee",
-   "reqd": 1
+   "reqd": 1,
+   "set_only_once": 1
   },
   {
    "fetch_from": "start_from.employee_name",
    "fieldname": "start_from_employee",
    "fieldtype": "Data",
    "label": "Employee Name",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -89,6 +93,7 @@
    "fieldtype": "Link",
    "label": "Company",
    "options": "Company",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -100,14 +105,16 @@
    "fieldname": "start_from_department",
    "fieldtype": "Link",
    "label": "Department",
-   "options": "Department"
+   "options": "Department",
+   "read_only": 1
   },
   {
    "fetch_from": "start_from.designation",
    "fieldname": "start_from_designation",
    "fieldtype": "Link",
    "label": "Designation",
-   "options": "Designation"
+   "options": "Designation",
+   "read_only": 1
   },
   {
    "depends_on": "eval:doc.inbox_from == \"Company outside the system\"",
@@ -186,12 +193,20 @@
    "fieldname": "clear_recipients",
    "fieldtype": "Button",
    "label": "Clear Recipients"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "current_action_maker",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Current Action Maker",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-23 12:38:39.040232",
+ "modified": "2024-12-24 16:56:15.331801",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Inbox Memo",

@@ -1,0 +1,144 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-12-23 18:47:29.834472",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_sqna",
+  "inbox_memo",
+  "type",
+  "from_company",
+  "from_department",
+  "from_designation",
+  "created_by",
+  "column_break_ndrh",
+  "action_date",
+  "details",
+  "amended_from",
+  "recipients_section",
+  "recipients",
+  "get_recipients",
+  "clear_recipients"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_sqna",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Inbox Memo Action",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "inbox_memo",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Inbox Memo",
+   "options": "Inbox Memo",
+   "reqd": 1
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Type",
+   "options": "Redirected\nApproved\nRejected\nCanceled\nTopic",
+   "reqd": 1
+  },
+  {
+   "fieldname": "from_company",
+   "fieldtype": "Link",
+   "label": "From Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "from_department",
+   "fieldtype": "Link",
+   "label": "From Department",
+   "options": "Department"
+  },
+  {
+   "fieldname": "from_designation",
+   "fieldtype": "Link",
+   "label": "From Designation",
+   "options": "Designation"
+  },
+  {
+   "fieldname": "action_date",
+   "fieldtype": "Date",
+   "label": "Action Date",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "created_by",
+   "fieldtype": "Data",
+   "is_virtual": 1,
+   "label": "Created By"
+  },
+  {
+   "fieldname": "column_break_ndrh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "details",
+   "fieldtype": "Text Editor",
+   "label": "Details"
+  },
+  {
+   "fieldname": "recipients_section",
+   "fieldtype": "Section Break",
+   "label": "Recipients"
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "Recipients",
+   "options": "Transaction Recipients New"
+  },
+  {
+   "fieldname": "get_recipients",
+   "fieldtype": "Button",
+   "label": "Get Recipients"
+  },
+  {
+   "fieldname": "clear_recipients",
+   "fieldtype": "Button",
+   "label": "Clear Recipients"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-12-24 16:42:32.172787",
+ "modified_by": "Administrator",
+ "module": "Transactions",
+ "name": "Inbox Memo Action",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
