@@ -7,6 +7,7 @@
  "field_order": [
   "section_break_pswz",
   "amended_from",
+  "current_action_maker",
   "title",
   "status",
   "type",
@@ -171,12 +172,19 @@
    "fieldname": "document_content",
    "fieldtype": "Text Editor",
    "label": "Document Content"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "current_action_maker",
+   "fieldtype": "Data",
+   "label": "Current Action Maker",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-24 13:16:58.450544",
+ "modified": "2024-12-24 21:32:31.537595",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo",

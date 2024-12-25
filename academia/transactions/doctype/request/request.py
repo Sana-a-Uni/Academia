@@ -1,7 +1,7 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
-# import frappe
+import frappe
 from frappe.model.document import Document
 
 
@@ -34,3 +34,18 @@ class Request(Document):
 		title: DF.Data
 	# end: auto-generated types
 	pass
+
+
+@frappe.whitelist()
+def get_reports_to_hierarchy(employee_name):
+	reports_emails = []
+	employee = frappe.get_doc("Employee", employee_name)
+	reports_to = employee.reports_to
+	reports_emails.append(reports_to)
+
+	while reports_to:
+		employee = frappe.get_doc("Employee", reports_to)
+		reports_emails.append(employee.user_id)
+		reports_to = employee.reports_to
+
+	return reports_emails
