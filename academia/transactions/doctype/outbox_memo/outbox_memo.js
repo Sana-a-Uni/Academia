@@ -3,7 +3,49 @@
 let mustInclude = [];
 
 frappe.ui.form.on("Outbox Memo", {
-	refresh(frm) {},
+	before_submit: function (frm) {
+		if (frm.doc.type === "Internal" && frm.doc.direction != "Downward") {
+			frappe.call({
+				method: "frappe.client.get_value",
+				args: {
+					doctype: "Employee",
+					filters: { name: frm.doc.start_from },
+					fieldname: "reports_to",
+				},
+				callback: function (response) {
+					if (response.message) {
+						reports_to = response.message.reports_to;
+						frappe.call({
+							method: "frappe.client.get_value",
+							args: {
+								doctype: "Employee",
+								filters: { name: reports_to },
+								fieldname: "user_id",
+							},
+							callback: function (response) {
+								if (response.message) {
+									user_id = response.message.user_id;
+									frm.set_value("current_action_maker", user_id);
+								}
+							},
+						});
+					}
+				},
+			});
+		} else if (frm.doc.type === "Internal" && frm.doc.direction === "Downward") {
+			frm.set_value("current_action_maker", frm.doc.recipients[0].recipient_email);
+		} else {
+			console.log("External");
+		}
+	},
+
+	refresh(frm) {
+		if (frm.doc.current_action_maker === frappe.session.user) {
+			add_approve_action(frm);
+			add_reject_action(frm);
+			// add_reject_action(frm);
+		}
+	},
 
 	onload: function (frm) {
 		if (!frm.doc.start_from) {
@@ -149,4 +191,116 @@ function update_must_include(frm) {
 			});
 		}
 	}
+}
+
+function add_approve_action(frm) {
+	cur_frm.page.add_action_item(__("Approve"), function () {
+		frappe.prompt(
+			[
+				{
+					label: "Details",
+					fieldname: "details",
+					fieldtype: "Text",
+				},
+			],
+			function (values) {
+				frappe.call({
+					method: "academia.transactions.doctype.outbox_memo.outbox_memo.create_new_outbox_memo_action",
+					args: {
+						user_id: frappe.session.user,
+						outbox_memo: frm.doc.name,
+						type: "Approved",
+						details: values.details || "",
+					},
+					callback: function (r) {
+						if (r.message) {
+							// console.log(r.message);
+							if (r.message) {
+								frappe.db
+									.set_value(
+										"Outbox Memo",
+										frm.docname,
+										"current_action_maker",
+										r.message.action_maker
+									)
+									.then(() => {
+										location.reload();
+									});
+							}
+							// frappe.db.set_value('Transaction', frm.docname, 'status', 'Approved');
+						}
+					},
+				});
+			},
+			__("Enter Approval Details"),
+			__("Submit")
+		);
+	});
+}
+
+function add_reject_action(frm) {
+	cur_frm.page.add_action_item(__("Reject"), function () {
+		frappe.prompt(
+			[
+				{
+					label: "Details",
+					fieldname: "details",
+					fieldtype: "Text",
+				},
+			],
+			function (values) {
+				frappe.call({
+					method: "academia.transactions.doctype.outbox_memo.outbox_memo.create_new_outbox_memo_action",
+					args: {
+						user_id: frappe.session.user,
+						outbox_memo: frm.doc.name,
+						type: "Rejected",
+						details: values.details || "",
+					},
+					callback: function (r) {
+						if (r.message) {
+							location.reload();
+							// frappe.db.set_value('Transaction', frm.docname, 'status', 'Rejected');
+						}
+					},
+				});
+			},
+			__("Enter Rejection Details"),
+			__("Submit")
+		);
+	});
+}
+
+function add_reject_action(frm) {
+	cur_frm.page.add_action_item(__("Reject"), function () {
+		frappe.prompt(
+			[
+				{
+					label: "Details",
+					fieldname: "details",
+					fieldtype: "Text",
+				},
+			],
+			function (values) {
+				frappe.call({
+					method: "academia.transactions.doctype.outbox_memo.outbox_memo.create_new_outbox_memo_action",
+					args: {
+						user_id: frappe.session.user,
+						outbox_memo: frm.doc.name,
+						type: "Rejected",
+						details: values.details || "",
+						inbox_from: frm.doc.inbox_from || "",
+					},
+					callback: function (r) {
+						if (r.message) {
+							location.reload();
+							// frappe.db.set_value('Transaction', frm.docname, 'status', 'Rejected');
+						}
+					},
+				});
+			},
+			__("Enter Rejection Details"),
+			__("Submit")
+		);
+	});
 }
