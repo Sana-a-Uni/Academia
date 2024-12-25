@@ -14,14 +14,9 @@ class InboxMemo(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import TransactionAttachmentsNew
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
-
-		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import (
-			TransactionAttachmentsNew,
-		)
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
-			TransactionRecipientsNew,
-		)
 
 		amended_from: DF.Link | None
 		attachments: DF.Table[TransactionAttachmentsNew]
@@ -55,7 +50,7 @@ def create_new_inbox_memo_action(user_id, inbox_memo, type, details):
 	if inbox_memo_doc.inbox_from == "Company outsite the system":
 		pass
 
-	action_maker = inbox_memo_doc.recipients[0]
+	action_maker = inbox_memo_doc.current_action_maker
 	if action_maker:
 		new_doc = frappe.new_doc("Inbox Memo Action")
 		new_doc.inbox_memo = inbox_memo
@@ -129,4 +124,8 @@ def update_share_permissions(docname, user, permissions):
 		frappe.db.commit()
 		return share
 	else:
-		return None
+		return "text"
+	
+@frappe.whitelist()
+def redirect_inbox_memo(docname):
+	pass

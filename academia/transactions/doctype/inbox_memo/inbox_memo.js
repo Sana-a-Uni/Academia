@@ -72,15 +72,88 @@ function add_reject_action(frm) {
 	});
 }
 
+function add_redirect_action(frm) {
+	cur_frm.page.add_action_item(__("Redirect"), function () {
+
+
+		const url = frappe.urllib.get_full_url(
+			"/app/inbox-memo-action/new?inbox_memo="+frm.doc.name+"&type=Redirected"
+		);
+
+		// فتح الرابط في نافذة جديدة
+		window.location.href = url;
+		// frappe.new_doc("Inbox Memo Action", {
+		// 	inbox_memo: frm.doc.name,
+		// 	type: "Redirected",
+		// 	from_company: frm.doc.start_from_company,
+		// 	from_department: frm.doc.start_from_department,
+		// 	from_designation: frm.doc.start_from_designation,
+		// 	// received: is_received,
+		// });
+		// // back to Transaction after save the transaction action
+		// frappe.ui.form.on("Inbox Memo Action", {
+		// 	on_submit: function () {
+		// 		if (frm.doc.inbox_memo) { frappe.msgprint(frm.doc.inbox_memo) }
+		// 		else { frappe.msgprint("")}
+		// 		frappe.call({
+		// 			method: "academia.transactions.doctype.inbox_memo.inbox_memo.update_share_permissions",
+		// 			args: {
+		// 				docname: frm.doc.name,
+		// 				user: frappe.session.user,
+		// 				permissions: {
+		// 					read: 1,
+		// 					write: 0,
+		// 					share: 0,
+		// 					submit: 0,
+		// 				},
+		// 			},
+		// 			callback: function (response) {
+		// 				if (response.message) {
+		// 					inbox_memo_action_doc = frappe.get_doc("Inbox Memo Action", frm.doc)
+		// 					// frappe.db.set_value(inbox_memo , 'current_action_maker')
+		// 					frappe.db.set_value("Inbox Memo", frm.doc.inbox_memo, "current_action_maker", inbox_memo_action_doc.recipients[0].recipient_email);
+		// 					// back to Transaction after save the transaction action
+		// 					frappe.set_route("Form", "Inbox Memo", frm.doc.name);
+		// 					location.reload();
+		// 				}
+		// 			},
+		// 		});
+		// 	},
+		// });
+	});
+}
+
 frappe.ui.form.on("Inbox Memo", {
 	before_submit: function (frm) {
 		frm.set_value("current_action_maker", frm.doc.recipients[0].recipient_email);
+		frappe.call({
+			method: "academia.transactions.doctype.inbox_memo.inbox_memo.update_share_permissions",
+			args: {
+				docname: frm.doc.name,
+				user: frappe.session.user,
+				permissions: {
+					read: 1,
+					write: 1,
+					share: 1,
+					submit: 1,
+				},
+			},
+			callback: function (response) {
+				if (response.message) {
+					// frappe.db.set_value(inbox_memo , 'current_action_maker')
+					frappe.db.set_value("Inbox Memo", frm.doc.name, "current_action_maker", inbox_memo_action_doc.recipients[0].recipient_email);
+					// back to Transaction after save the transaction action
+					location.reload();
+				}
+			},
+		});
 	},
 
 	refresh(frm) {
 		if (frm.doc.current_action_maker == frappe.session.user) {
 			add_approve_action(frm);
 			add_reject_action(frm);
+			add_redirect_action(frm);
 		}
 	},
 
