@@ -43,6 +43,7 @@
    "in_list_view": 1,
    "label": "Inbox Memo",
    "options": "Inbox Memo",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -51,25 +52,29 @@
    "in_list_view": 1,
    "label": "Type",
    "options": "Redirected\nApproved\nRejected\nCanceled\nTopic",
+   "read_only": 1,
    "reqd": 1
   },
   {
    "fieldname": "from_company",
    "fieldtype": "Link",
    "label": "From Company",
-   "options": "Company"
+   "options": "Company",
+   "read_only": 1
   },
   {
    "fieldname": "from_department",
    "fieldtype": "Link",
    "label": "From Department",
-   "options": "Department"
+   "options": "Department",
+   "read_only": 1
   },
   {
    "fieldname": "from_designation",
    "fieldtype": "Link",
    "label": "From Designation",
-   "options": "Designation"
+   "options": "Designation",
+   "read_only": 1
   },
   {
    "fieldname": "action_date",
@@ -90,10 +95,11 @@
   },
   {
    "fieldname": "details",
-   "fieldtype": "Text Editor",
+   "fieldtype": "Text",
    "label": "Details"
   },
   {
+   "depends_on": "eval:doc.type == \"Redirected\";",
    "fieldname": "recipients_section",
    "fieldtype": "Section Break",
    "label": "Recipients"
@@ -118,7 +124,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-24 16:42:32.172787",
+ "modified": "2024-12-25 16:59:28.029266",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Inbox Memo Action",
