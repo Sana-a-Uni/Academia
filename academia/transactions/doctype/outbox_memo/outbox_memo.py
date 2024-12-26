@@ -304,7 +304,7 @@ def update_share_permissions(docname, user, permissions):
 		frappe.db.commit()
 		return share
 	else:
-		return None
+		return "text"
 
 
 def share_permission_through_route(document, current_employee):
@@ -354,16 +354,6 @@ def share_permission_through_route(document, current_employee):
 			share=1,
 			submit=1,
 		)
-
-		recipient = {
-			"step": 1,
-			"recipient_name": reports_to_emp.employee_name,
-			"recipient_company": reports_to_emp.company,
-			"recipient_department": reports_to_emp.department,
-			"recipient_designation": reports_to_emp.designation,
-			"recipient_email": reports_to_emp.user_id,
-		}
-		recipients = [recipient]
 
 		# create_redirect_action(
 		# 	user=current_employee.user_id,
