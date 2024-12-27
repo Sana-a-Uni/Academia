@@ -13,6 +13,7 @@
   "from_department",
   "from_designation",
   "created_by",
+  "allow_recipient_to_redirect",
   "column_break_msrg",
   "type",
   "action_date",
@@ -109,6 +110,7 @@
    "fieldname": "recipients",
    "fieldtype": "Table",
    "label": "Recipients",
+   "mandatory_depends_on": "eval:doc.type == \"Redirected\"",
    "options": "Transaction Recipients New"
   },
   {
@@ -134,12 +136,18 @@
    "fieldtype": "Data",
    "label": "Employee Name",
    "read_only": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "allow_recipient_to_redirect",
+   "fieldtype": "Check",
+   "label": "Allow Recipient to Redirect"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-26 16:07:26.538542",
+ "modified": "2024-12-28 00:34:58.410415",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo Action",

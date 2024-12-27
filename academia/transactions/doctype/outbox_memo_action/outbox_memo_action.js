@@ -20,15 +20,43 @@ frappe.ui.form.on("Outbox Memo Action", {
 				if (response.message) {
 					outbox_memo_action_doc = frappe.get_doc("Outbox Memo Action", frm.doc.name);
 					// frappe.db.set_value(inbox_memo , 'current_action_maker')
-					frappe.db.set_value(
-						"Outbox Memo",
-						frm.doc.outbox_memo,
-						"current_action_maker",
-						outbox_memo_action_doc.recipients[0].recipient_email
-					);
-					// back to Transaction after save the transaction action
-					frappe.set_route("Form", "Outbox Memo", frm.doc.outbox_memo);
-					location.reload();
+					if(frm.doc.allow_recipient_to_redirect){
+						frappe.call({
+							method: "academia.transactions.doctype.outbox_memo_action.outbox_memo_action.update_outbox_memo",
+							args: {
+								outbox_memo_name: frm.doc.outbox_memo,  // Replace with the current document name
+								current_action_maker: outbox_memo_action_doc.recipients[0].recipient_email,
+								allow_to_redirect: 1,            // Uncheck the checkbox
+							},
+							callback: function(response) {
+								if (!response.exc) {
+									frappe.set_route("Form", "Outbox Memo", frm.doc.outbox_memo)
+									location.reload();
+								} else {
+									frappe.msgprint("There was an error!")
+								}
+							}
+						});		
+					}
+					else {
+						frappe.call({
+							method: "academia.transactions.doctype.outbox_memo_action.outbox_memo_action.update_outbox_memo",
+							args: {
+								outbox_memo_name: frm.doc.outbox_memo,  // Replace with the current document name
+								current_action_maker: "",        // Set the desired value
+								allow_to_redirect: 0,            // Uncheck the checkbox
+								status: "Completed"               // Set status to "Complete"
+							},
+							callback: function(response) {
+								if (!response.exc) {
+									frappe.set_route("Form", "Outbox Memo", frm.doc.outbox_memo)
+									location.reload();
+								} else {
+									frappe.msgprint("There was an error!")
+								}
+							}
+						});						
+					}
 				}
 			},
 		});
@@ -169,7 +197,7 @@ function update_must_include(frm) {
 				const employee_name = response.message.name;
 				if (employee_name) {
 					frappe.call({
-						method: "academia.transactions.doctype.outbox_memo.outbox_memo.get_reports_to_hierarchy_reverse",
+						method: "academia.transactions.doctype.outbox_memo.outbox_memo.get_direct_reports_to_hierarchy_reverse",
 						args: {
 							employee_name: employee_name,
 						},

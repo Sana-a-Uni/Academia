@@ -42,8 +42,13 @@ frappe.ui.form.on("Outbox Memo", {
 	refresh(frm) {
 		if (frm.doc.current_action_maker === frappe.session.user) {
 			add_approve_action(frm);
-			add_reject_action(frm);
-			add_redirect_action(frm);
+			if (frm.doc.allow_to_redirect === 1)
+			{
+				add_redirect_action(frm);
+			}
+			if (frm.doc.direction !== "Downward"){
+				add_reject_action(frm);
+			}
 			// add_reject_action(frm);
 		}
 	},
@@ -182,7 +187,7 @@ function update_must_include(frm) {
 			});
 		} else {
 			frappe.call({
-				method: "academia.transactions.doctype.outbox_memo.outbox_memo.get_reports_to_hierarchy_reverse",
+				method: "academia.transactions.doctype.outbox_memo.outbox_memo.get_direct_reports_to_hierarchy_reverse",
 				args: {
 					employee_name: frm.doc.start_from,
 				},
