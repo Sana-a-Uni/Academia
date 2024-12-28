@@ -1,6 +1,6 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
-
+import json
 import frappe
 from frappe.model.document import Document
 
@@ -59,46 +59,22 @@ def create_new_request_action(user_id, request, type, details):
 	"""
 	request_doc = frappe.get_doc("Request", request)
 
-	action_maker = request_doc.current_action_maker
+	action_maker = frappe.get_doc("Employee", {"user_id", user_id})
 	if action_maker:
 		new_doc = frappe.new_doc("Request Action")
 		new_doc.request = request
 		new_doc.type = type
-		new_doc.from_company = action_maker.recipient_company
-		new_doc.from_department = action_maker.recipient_department
-		new_doc.from_designation = action_maker.recipient_designation
+		new_doc.from_company = action_maker.company
+		new_doc.from_department = action_maker.department
+		new_doc.from_designation = action_maker.designation
 		new_doc.details = details
 		new_doc.action_date = frappe.utils.today()
-		new_doc.created_by = action_maker.recipient_email
+		new_doc.created_by = action_maker.user_id
 		new_doc.save(ignore_permissions=True)
 		new_doc.submit()
 
 		action_name = new_doc.name
 
-		# check_result = check_all_recipients_action(inbox_memo, user_id)
-
-		# if check_result:
-		# 	inbox_memo_doc = frappe.get_doc("Transaction", transaction_name)
-
-		# 	next_step = inbox_memo_doc.step + 1
-		# 	next_step_recipients = frappe.get_all(
-		# 		"Transaction Recipients",
-		# 		filters={"parent": inbox_memo_doc.name, "step": ("=", next_step)},
-		# 		fields=["recipient_email", "step"],
-		# 	)
-		# 	if len(next_step_recipients) > 0:
-		# 		for recipient in next_step_recipients:
-		# 			frappe.share.add(
-		# 				doctype="Transaction",
-		# 				name=inbox_memo_doc.name,
-		# 				user=recipient.recipient_email,
-		# 				read=1,
-		# 				write=1,
-		# 				share=1,
-		# 				submit=1,
-		# 			)
-		# 		inbox_memo_doc.step = next_step
-		# 	else:
 		if type == "Approved":
 			request_doc.status = "Completed"
 		elif type == "Rejected":

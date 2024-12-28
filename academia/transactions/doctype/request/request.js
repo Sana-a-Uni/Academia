@@ -19,7 +19,7 @@ function add_approve_action(frm) {
 						request: frm.doc.name,
 						type: "Approved",
 						details: values.details || "",
-						request: frm.doc.request || "",
+						// request: frm.doc.request || "",
 					},
 					callback: function (r) {
 						if (r.message) {
@@ -56,7 +56,7 @@ function add_reject_action(frm) {
 						request: frm.doc.name,
 						type: "Rejected",
 						details: values.details || "",
-						request: frm.doc.request || "",
+						// request: frm.doc.request || "",
 					},
 					callback: function (r) {
 						if (r.message) {
