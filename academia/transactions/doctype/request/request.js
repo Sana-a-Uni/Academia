@@ -3,6 +3,23 @@
 let mustInclude = [];
 frappe.ui.form.on("Request", {
 	refresh(frm) {
+		if (frappe.session.user !== "Administrator") {
+			frappe.call({
+				method: "frappe.client.get",
+				args: {
+					doctype: "Employee",
+					filters: {
+						user_id: frappe.session.user,
+					},
+					fieldname: "name",
+				},
+				callback: function (response) {
+					if (response.message) {
+						frm.set_value("start_from", response.message.name);
+					}
+				},
+			});
+		}
 		update_must_include(frm);
 	},
 	start_from: function (frm) {
