@@ -1,0 +1,173 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-12-28 14:43:18.398960",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_nymq",
+  "specific_transaction_document",
+  "start_from",
+  "employee_name",
+  "from_company",
+  "from_department",
+  "from_designation",
+  "created_by",
+  "allow_recipient_to_redirect",
+  "column_break_inbs",
+  "type",
+  "action_date",
+  "details",
+  "amended_from",
+  "recipients_section",
+  "recipients",
+  "get_recipients",
+  "clear_recipients"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_nymq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "specific_transaction_document",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Specific Transaction Document",
+   "options": "Specific Transaction Document",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Type",
+   "options": "Redirected\nApproved\nRejected\nCanceled",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "from_company",
+   "fieldtype": "Link",
+   "label": "From Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "fieldname": "from_department",
+   "fieldtype": "Link",
+   "label": "From Department",
+   "options": "Department",
+   "read_only": 1
+  },
+  {
+   "fieldname": "from_designation",
+   "fieldtype": "Link",
+   "label": "From Designation",
+   "options": "Designation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "created_by",
+   "fieldtype": "Data",
+   "is_virtual": 1,
+   "label": "Created By"
+  },
+  {
+   "fieldname": "column_break_inbs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "action_date",
+   "fieldtype": "Date",
+   "is_virtual": 1,
+   "label": "Action Date",
+   "read_only": 1
+  },
+  {
+   "fieldname": "details",
+   "fieldtype": "Text",
+   "label": "Details"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Specific Transaction Document Action",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "depends_on": "eval:doc.type == \"Redirected\";",
+   "fieldname": "recipients_section",
+   "fieldtype": "Section Break",
+   "label": "Recipients"
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "Recipients",
+   "mandatory_depends_on": "eval:doc.type == \"Redirected\"",
+   "options": "Transaction Recipients New"
+  },
+  {
+   "fieldname": "get_recipients",
+   "fieldtype": "Button",
+   "label": "Get Recipients"
+  },
+  {
+   "depends_on": "eval:doc.type == \"Redirected\";",
+   "fieldname": "clear_recipients",
+   "fieldtype": "Button",
+   "label": "Clear Recipients"
+  },
+  {
+   "fetch_from": "start_from.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name"
+  },
+  {
+   "fieldname": "start_from",
+   "fieldtype": "Link",
+   "label": "Start From",
+   "options": "Employee",
+   "read_only": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "allow_recipient_to_redirect",
+   "fieldtype": "Check",
+   "label": "Allow Recipient to Redirect"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-12-28 19:50:55.486071",
+ "modified_by": "Administrator",
+ "module": "Transactions",
+ "name": "Specific Transaction Document Action",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
