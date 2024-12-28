@@ -8,6 +8,8 @@
   "section_break_sqna",
   "inbox_memo",
   "type",
+  "action_maker",
+  "employee_name",
   "from_company",
   "from_department",
   "from_designation",
@@ -56,6 +58,7 @@
    "reqd": 1
   },
   {
+   "fetch_from": "action_maker.company",
    "fieldname": "from_company",
    "fieldtype": "Link",
    "label": "From Company",
@@ -63,6 +66,7 @@
    "read_only": 1
   },
   {
+   "fetch_from": "action_maker.department",
    "fieldname": "from_department",
    "fieldtype": "Link",
    "label": "From Department",
@@ -70,6 +74,7 @@
    "read_only": 1
   },
   {
+   "fetch_from": "action_maker.designation",
    "fieldname": "from_designation",
    "fieldtype": "Link",
    "label": "From Designation",
@@ -108,6 +113,7 @@
    "fieldname": "recipients",
    "fieldtype": "Table",
    "label": "Recipients",
+   "mandatory_depends_on": "eval: doc.type == \"Redirected\"",
    "options": "Transaction Recipients New"
   },
   {
@@ -119,12 +125,26 @@
    "fieldname": "clear_recipients",
    "fieldtype": "Button",
    "label": "Clear Recipients"
+  },
+  {
+   "fieldname": "action_maker",
+   "fieldtype": "Link",
+   "label": "Action Maker",
+   "options": "Employee",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "action_maker.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-25 16:59:28.029266",
+ "modified": "2024-12-26 17:07:45.731938",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Inbox Memo Action",

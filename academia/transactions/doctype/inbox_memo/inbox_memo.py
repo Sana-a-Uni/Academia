@@ -21,17 +21,17 @@ class InboxMemo(Document):
 		amended_from: DF.Link | None
 		attachments: DF.Table[TransactionAttachmentsNew]
 		current_action_maker: DF.Data | None
-		external_entity_designation: DF.Link | None
+		external_entity_designation: DF.Data | None
 		external_entity_employee: DF.Data | None
 		full_electronic: DF.Check
 		inbox_from: DF.Literal["Company within the system", "Company outside the system"]
 		main_external_entity: DF.Link | None
 		recipients: DF.Table[TransactionRecipientsNew]
-		start_from: DF.Link
-		start_from_company: DF.Link
+		start_from: DF.Link | None
+		start_from_company: DF.Link | None
 		start_from_department: DF.Link | None
 		start_from_designation: DF.Link | None
-		start_from_employee: DF.Data
+		start_from_employee: DF.Data | None
 		status: DF.Literal["Pending", "Completed", "Canceled", "Closed", "Rejected"]
 		sub_external_entity: DF.Link | None
 		title: DF.Data
@@ -66,30 +66,6 @@ def create_new_inbox_memo_action(user_id, inbox_memo, type, details):
 
 		action_name = new_doc.name
 
-		# check_result = check_all_recipients_action(inbox_memo, user_id)
-
-		# if check_result:
-		# 	inbox_memo_doc = frappe.get_doc("Transaction", transaction_name)
-
-		# 	next_step = inbox_memo_doc.step + 1
-		# 	next_step_recipients = frappe.get_all(
-		# 		"Transaction Recipients",
-		# 		filters={"parent": inbox_memo_doc.name, "step": ("=", next_step)},
-		# 		fields=["recipient_email", "step"],
-		# 	)
-		# 	if len(next_step_recipients) > 0:
-		# 		for recipient in next_step_recipients:
-		# 			frappe.share.add(
-		# 				doctype="Transaction",
-		# 				name=inbox_memo_doc.name,
-		# 				user=recipient.recipient_email,
-		# 				read=1,
-		# 				write=1,
-		# 				share=1,
-		# 				submit=1,
-		# 			)
-		# 		inbox_memo_doc.step = next_step
-		# 	else:
 		if type == "Approved":
 			inbox_memo_doc.status = "Completed"
 		elif type == "Rejected":
@@ -107,6 +83,13 @@ def create_new_inbox_memo_action(user_id, inbox_memo, type, details):
 		return {"message": "Action Success", "action_name": action_name}
 	else:
 		return {"message": "No employee found for the given user ID."}
+
+@frappe.whitelist()
+def get_all_employees_except_start_with_company(start_with_company):
+	employees = frappe.get_list(
+		"Employee", filters={"company": ["!=", start_with_company]}, fields=["user_id"]
+	)
+	return [emp.user_id for emp in employees]
 
 
 @frappe.whitelist()
@@ -126,6 +109,3 @@ def update_share_permissions(docname, user, permissions):
 	else:
 		return "text"
 	
-@frappe.whitelist()
-def redirect_inbox_memo(docname):
-	pass
