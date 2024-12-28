@@ -7,17 +7,22 @@
  "field_order": [
   "section_break_sprv",
   "outbox_memo",
-  "type",
+  "start_from",
+  "employee_name",
   "from_company",
   "from_department",
   "from_designation",
   "created_by",
+  "allow_recipient_to_redirect",
   "column_break_msrg",
+  "type",
   "action_date",
   "details",
   "amended_from",
   "recipients_section",
-  "recipients"
+  "recipients",
+  "get_recipients",
+  "clear_recipients"
  ],
  "fields": [
   {
@@ -40,6 +45,7 @@
    "in_list_view": 1,
    "label": "Outbox Memo",
    "options": "Outbox Memo",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -48,6 +54,7 @@
    "in_list_view": 1,
    "label": "Type",
    "options": "Redirected\nApproved\nRejected\nCanceled",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -71,10 +78,9 @@
   {
    "allow_on_submit": 1,
    "fieldname": "created_by",
-   "fieldtype": "Data",
-   "is_virtual": 1,
+   "fieldtype": "Link",
    "label": "Created By",
-   "options": "doc.owner",
+   "options": "User",
    "read_only": 1
   },
   {
@@ -104,13 +110,44 @@
    "fieldname": "recipients",
    "fieldtype": "Table",
    "label": "Recipients",
+   "mandatory_depends_on": "eval:doc.type == \"Redirected\"",
    "options": "Transaction Recipients New"
+  },
+  {
+   "fieldname": "get_recipients",
+   "fieldtype": "Button",
+   "label": "Get Recipients"
+  },
+  {
+   "fieldname": "clear_recipients",
+   "fieldtype": "Button",
+   "label": "Clear Recipients"
+  },
+  {
+   "fieldname": "start_from",
+   "fieldtype": "Link",
+   "label": "Start From",
+   "options": "Employee",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "start_from.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "allow_recipient_to_redirect",
+   "fieldtype": "Check",
+   "label": "Allow Recipient to Redirect"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-24 18:24:08.830239",
+ "modified": "2024-12-28 00:34:58.410415",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo Action",

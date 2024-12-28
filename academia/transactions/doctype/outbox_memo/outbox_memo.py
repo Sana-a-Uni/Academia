@@ -14,19 +14,15 @@ class OutboxMemo(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import TransactionAttachmentsNew
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
 
-		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import (
-			TransactionAttachmentsNew,
-		)
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
-			TransactionRecipientsNew,
-		)
-
+		allow_to_redirect: DF.Check
 		amended_from: DF.Link | None
 		attachments: DF.Table[TransactionAttachmentsNew]
 		current_action_maker: DF.Data | None
-		direction: DF.Literal["", "Upward", "Downward"]
+		direction: DF.Literal["Upward", "Downward"]
 		document_content: DF.TextEditor | None
 		full_electronic: DF.Check
 		recipients: DF.Table[TransactionRecipientsNew]
@@ -83,6 +79,23 @@ def get_reports_to_hierarchy_reverse(employee_name):
 		employees += get_reports_to_hierarchy_reverse(employee.name)
 
 	return employees
+
+@frappe.whitelist()
+def get_direct_reports_to_hierarchy_reverse(employee_name):
+	employees = []
+
+	# Get employees with reports_to set as the given employee
+	direct_reports = frappe.get_all(
+		"Employee", filters={"reports_to": employee_name}, fields=["user_id", "name"]
+	)
+
+	# Iterate over direct reports
+	for employee in direct_reports:
+		# frappe.msgprint(f"{employee.user_id}")
+		employees.append(employee.user_id)
+		
+	return employees
+
 
 
 # @frappe.whitelist()
@@ -304,7 +317,7 @@ def update_share_permissions(docname, user, permissions):
 		frappe.db.commit()
 		return share
 	else:
-		return None
+		return "text"
 
 
 def share_permission_through_route(document, current_employee):
@@ -354,16 +367,6 @@ def share_permission_through_route(document, current_employee):
 			share=1,
 			submit=1,
 		)
-
-		recipient = {
-			"step": 1,
-			"recipient_name": reports_to_emp.employee_name,
-			"recipient_company": reports_to_emp.company,
-			"recipient_department": reports_to_emp.department,
-			"recipient_designation": reports_to_emp.designation,
-			"recipient_email": reports_to_emp.user_id,
-		}
-		recipients = [recipient]
 
 		# create_redirect_action(
 		# 	user=current_employee.user_id,

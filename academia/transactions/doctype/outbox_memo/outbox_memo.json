@@ -8,6 +8,7 @@
   "section_break_pswz",
   "amended_from",
   "current_action_maker",
+  "allow_to_redirect",
   "title",
   "status",
   "type",
@@ -127,6 +128,7 @@
    "fieldname": "recipients",
    "fieldtype": "Table",
    "label": "Recipients",
+   "mandatory_depends_on": "eval:doc.direction",
    "options": "Transaction Recipients New"
   },
   {
@@ -162,7 +164,7 @@
    "fieldname": "direction",
    "fieldtype": "Select",
    "label": "Direction",
-   "options": "\nUpward\nDownward"
+   "options": "Upward\nDownward"
   },
   {
    "fieldname": "column_break_hbls",
@@ -179,12 +181,21 @@
    "fieldtype": "Data",
    "label": "Current Action Maker",
    "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "1",
+   "fieldname": "allow_to_redirect",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Allow to Redirect",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-24 21:32:31.537595",
+ "modified": "2024-12-28 01:35:25.132909",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo",
