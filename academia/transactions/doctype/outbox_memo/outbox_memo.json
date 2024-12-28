@@ -28,7 +28,9 @@
   "get_recipients",
   "clear_recipients",
   "attachments_tab",
-  "attachments"
+  "attachments",
+  "related_actions_tab",
+  "related_actions"
  ],
  "fields": [
   {
@@ -190,12 +192,23 @@
    "hidden": 1,
    "label": "Allow to Redirect",
    "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.related_action",
+   "fieldname": "related_actions_tab",
+   "fieldtype": "Tab Break",
+   "label": "Related Actions"
+  },
+  {
+   "fieldname": "related_actions",
+   "fieldtype": "HTML",
+   "label": "Related Actions"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-28 01:35:25.132909",
+ "modified": "2024-12-28 14:40:09.294450",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo",

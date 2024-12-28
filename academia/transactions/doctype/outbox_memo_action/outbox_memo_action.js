@@ -4,6 +4,12 @@ let mustInclude = [];
 
 frappe.ui.form.on("Outbox Memo Action", {
 	on_submit: function (frm) {
+		const new_row_html = generate_new_row_html(
+			frm.doc.name,
+			frm.doc.type,
+			frm.doc.action_date
+		);
+
 		frappe.call({
 			method: "academia.transactions.doctype.outbox_memo.outbox_memo.update_share_permissions",
 			args: {
@@ -20,44 +26,85 @@ frappe.ui.form.on("Outbox Memo Action", {
 				if (response.message) {
 					outbox_memo_action_doc = frappe.get_doc("Outbox Memo Action", frm.doc.name);
 					// frappe.db.set_value(inbox_memo , 'current_action_maker')
-					if(frm.doc.allow_recipient_to_redirect){
+					if (frm.doc.allow_recipient_to_redirect) {
 						frappe.call({
 							method: "academia.transactions.doctype.outbox_memo_action.outbox_memo_action.update_outbox_memo",
 							args: {
-								outbox_memo_name: frm.doc.outbox_memo,  // Replace with the current document name
-								current_action_maker: outbox_memo_action_doc.recipients[0].recipient_email,
-								allow_to_redirect: 1,            // Uncheck the checkbox
+								outbox_memo_name: frm.doc.outbox_memo, // Replace with the current document name
+								current_action_maker:
+									outbox_memo_action_doc.recipients[0].recipient_email,
+								allow_to_redirect: 1, // Uncheck the checkbox
 							},
-							callback: function(response) {
+							callback: function (response) {
 								if (!response.exc) {
-									frappe.set_route("Form", "Outbox Memo", frm.doc.outbox_memo)
-									location.reload();
+									// frappe.set_route("Form", "Outbox Memo", frm.doc.outbox_memo)
+									frappe.msgprint("Check console");
 								} else {
-									frappe.msgprint("There was an error!")
+									frappe.msgprint("There was an error!");
 								}
-							}
-						});		
-					}
-					else {
+							},
+						});
+					} else {
 						frappe.call({
 							method: "academia.transactions.doctype.outbox_memo_action.outbox_memo_action.update_outbox_memo",
 							args: {
-								outbox_memo_name: frm.doc.outbox_memo,  // Replace with the current document name
-								current_action_maker: "",        // Set the desired value
-								allow_to_redirect: 0,            // Uncheck the checkbox
-								status: "Completed"               // Set status to "Complete"
+								outbox_memo_name: frm.doc.outbox_memo, // Replace with the current document name
+								current_action_maker: "", // Set the desired value
+								allow_to_redirect: 0, // Uncheck the checkbox
+								status: "Completed", // Set status to "Complete"
 							},
-							callback: function(response) {
+							callback: function (response) {
 								if (!response.exc) {
-									frappe.set_route("Form", "Outbox Memo", frm.doc.outbox_memo)
+									frappe.set_route("Form", "Outbox Memo", frm.doc.outbox_memo);
 									location.reload();
 								} else {
-									frappe.msgprint("There was an error!")
+									frappe.msgprint("There was an error!");
 								}
-							}
-						});						
+							},
+						});
 					}
 				}
+			},
+		});
+
+		frappe.call({
+			method: "frappe.client.get_value",
+			args: {
+				doctype: "Outbox Memo",
+				fieldname: "related_actions",
+				filters: { name: frm.doc.outbox_memo },
+			},
+			callback: function (response) {
+				let current_html = response.message.related_actions || "";
+				if (current_html.includes("<table")) {
+					// Append the new row to the existing table
+					current_html = current_html.replace(
+						"</tbody></table>",
+						new_row_html + "</tbody></table>"
+					);
+				} else {
+					// Create a new table with the new row
+					current_html =
+						generate_table_header_html() + new_row_html + "</tbody></table>";
+				}
+
+				// Update the related_actions field with the new HTML content
+				frappe.call({
+					method: "frappe.client.set_value",
+					args: {
+						doctype: "Outbox Memo",
+						name: frm.doc.outbox_memo,
+						fieldname: "related_actions",
+						value: current_html,
+					},
+					callback: function (response) {
+						if (!response.exc) {
+							frappe.msgprint("Related actions updated successfully.");
+						} else {
+							frappe.msgprint("There was an error updating the related actions.");
+						}
+					},
+				});
 			},
 		});
 	},
@@ -209,4 +256,12 @@ function update_must_include(frm) {
 			},
 		});
 	}
+}
+
+function generate_new_row_html(action_name, action_type, action_date) {
+	return `<tr><td>${action_name}</td><td>${action_type}</td><td>${action_date}</td></tr>`;
+}
+
+function generate_table_header_html() {
+	return "<table class='table table-bordered'><thead><tr><th>Action Name</th><th>Action Type</th><th>Action Date</th></tr></thead><tbody>";
 }
