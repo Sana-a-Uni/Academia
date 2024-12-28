@@ -16,9 +16,11 @@ class InboxMemoAction(Document):
 		from frappe.types import DF
 
 		action_date: DF.Date
+		action_maker: DF.Link | None
 		amended_from: DF.Link | None
 		created_by: DF.Data | None
 		details: DF.Text | None
+		employee_name: DF.Data | None
 		from_company: DF.Link | None
 		from_department: DF.Link | None
 		from_designation: DF.Link | None
@@ -27,8 +29,6 @@ class InboxMemoAction(Document):
 		type: DF.Literal["Redirected", "Approved", "Rejected", "Canceled", "Topic"]
 	# end: auto-generated types
 	def on_submit(self):
-		self.action_date = frappe.utils.now()
-		self.created_by = self.owner
 
 		# make a read, write, share permissions for reciepents
 		user = frappe.get_doc("User", self.recipients[0].recipient_email)
@@ -42,3 +42,18 @@ class InboxMemoAction(Document):
 			submit=1,
 		)
 		
+@frappe.whitelist()
+def get_direct_reports_to_hierarchy_reverse(employee_name):
+	employees = []
+
+	# Get employees with reports_to set as the given employee
+	direct_reports = frappe.get_all(
+		"Employee", filters={"reports_to": employee_name}, fields=["user_id", "name"]
+	)
+
+	# Iterate over direct reports
+	for employee in direct_reports:
+		# frappe.msgprint(f"Direct report found: {employee.user_id}")
+		employees.append(employee.user_id)
+		
+	return employees

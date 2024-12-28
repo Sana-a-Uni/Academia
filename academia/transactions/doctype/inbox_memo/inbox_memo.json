@@ -62,10 +62,11 @@
    "in_standard_filter": 1,
    "label": "Status",
    "options": "Pending\nCompleted\nCanceled\nClosed\nRejected",
-   "read_only": 1
+   "read_only": 1,
+   "reqd": 1
   },
   {
-   "depends_on": "eval:doc.inbox_from == \"Company within the system\"",
+   "depends_on": "eval: doc.inbox_from == \"Company within the system\"",
    "fieldname": "section_break_ggvi",
    "fieldtype": "Section Break",
    "label": "From"
@@ -75,8 +76,8 @@
    "fieldtype": "Link",
    "ignore_user_permissions": 1,
    "label": "Start From",
+   "mandatory_depends_on": "eval: doc.inbox_from == \"Company within the system\"",
    "options": "Employee",
-   "reqd": 1,
    "set_only_once": 1
   },
   {
@@ -84,17 +85,17 @@
    "fieldname": "start_from_employee",
    "fieldtype": "Data",
    "label": "Employee Name",
-   "read_only": 1,
-   "reqd": 1
+   "mandatory_depends_on": "eval: doc.inbox_from == \"Company within the system\"",
+   "read_only": 1
   },
   {
    "fetch_from": "start_from.company",
    "fieldname": "start_from_company",
    "fieldtype": "Link",
    "label": "Company",
+   "mandatory_depends_on": "eval: doc.inbox_from == \"Company within the system\"",
    "options": "Company",
-   "read_only": 1,
-   "reqd": 1
+   "read_only": 1
   },
   {
    "fieldname": "column_break_mcgn",
@@ -117,7 +118,7 @@
    "read_only": 1
   },
   {
-   "depends_on": "eval:doc.inbox_from == \"Company outside the system\"",
+   "depends_on": "eval: doc.inbox_from == \"Company outside the system\"",
    "fieldname": "from_section",
    "fieldtype": "Section Break",
    "label": "From"
@@ -126,12 +127,14 @@
    "fieldname": "main_external_entity",
    "fieldtype": "Link",
    "label": "Main External Entity",
+   "mandatory_depends_on": "eval: doc.inbox_from == \"Company outside the system\"",
    "options": "External Entity New"
   },
   {
    "fieldname": "sub_external_entity",
    "fieldtype": "Link",
    "label": "Sub External Entity",
+   "mandatory_depends_on": "eval: doc.inbox_from == \"Company outside the system\"",
    "options": "External Entity New"
   },
   {
@@ -140,14 +143,15 @@
   },
   {
    "fieldname": "external_entity_designation",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "External Entity Designation",
-   "options": "External Entity Designation"
+   "mandatory_depends_on": "eval: doc.inbox_from == \"Company outside the system\""
   },
   {
    "fieldname": "external_entity_employee",
    "fieldtype": "Data",
-   "label": "External Entity Employee"
+   "label": "External Entity Employee",
+   "mandatory_depends_on": "eval: doc.inbox_from == \"Company outside the system\""
   },
   {
    "fieldname": "inbox_from",
@@ -182,6 +186,7 @@
    "fieldname": "recipients",
    "fieldtype": "Table",
    "label": "Recipients",
+   "mandatory_depends_on": "eval: doc.inbox_from",
    "options": "Transaction Recipients New"
   },
   {
@@ -202,10 +207,11 @@
    "read_only": 1
   }
  ],
+ "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-25 18:16:42.740951",
+ "modified": "2024-12-28 17:27:02.558246",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Inbox Memo",
