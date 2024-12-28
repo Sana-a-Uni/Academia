@@ -1,5 +1,6 @@
 // Copyright (c) 2024, SanU and contributors
 // For license information, please see license.txt
+let mustInclude = [];
 
 frappe.ui.form.on("Inbox Memo Action", {
 	on_submit: function (frm) {
@@ -33,27 +34,39 @@ frappe.ui.form.on("Inbox Memo Action", {
 		// Stop 'add below' & 'add above' options
 		frm.get_field("recipients").grid.only_sortable();
 		frm.refresh_field("recipients");
+
+		if(frappe.session.user !== "Administrator" && frm.doc.docstatus == 0)
+		{
+			frappe.call({
+				method: "frappe.client.get",
+				args: {
+					doctype: "Employee",
+					filters: {
+						user_id: frappe.session.user
+					},
+				},
+				callback: function (response) {
+					const employee = response.message;
+					if (employee) {
+                        frm.set_value("action_maker", employee.name);
+                    }
+				},
+            });
+		}
+	},
+
+	action_maker: function (frm) {
+		update_must_include(frm);
 	},
 
 	get_recipients: function (frm) {
+		update_must_include(frm);
 		let setters = {
 			employee_name: null,
 			department: null,
 			designation: null,
 		};
-		if (frm.doc.type == "External") {
-			setters.company = null;
-			frappe.call({
-				method: "academia.transaction_management.doctype.transaction.transaction.get_all_employees_except_start_with_company",
-				args: {
-					start_with_company: frm.doc.start_with_company,
-				},
-				callback: function (response) {
-					mustInclude = response.message;
-				},
-			});
-		} else if (frm.doc.type == "Internal") {
-		}
+
 		new frappe.ui.form.MultiSelectDialog({
 			doctype: "Employee",
 			target: frm,
@@ -64,10 +77,9 @@ frappe.ui.form.on("Inbox Memo Action", {
 			get_query() {
 				let filters = {
 					docstatus: ["!=", 2],
+					user_id: ["in", mustInclude],
 				};
-				if (frm.doc.type == "External") {
-					filters.company = this.setters.company || "";
-				}
+
 				return {
 					filters: filters,
 				};
@@ -83,7 +95,7 @@ frappe.ui.form.on("Inbox Memo Action", {
 					method: "frappe.client.get_list",
 					args: {
 						doctype: "Employee",
-						filters: { name: ["in", selections] },
+						filters: { name: ["in", selections], user_id: ["in", mustInclude] },
 						fields: [
 							"name",
 							"employee_name",
@@ -126,7 +138,29 @@ frappe.ui.form.on("Inbox Memo Action", {
 		frm.refresh_field("recipients");
 	},
 
+
 	onload: function (frm) {
-		frm.set_value("action_date", frappe.datetime.get_today());
+		if(frm.doc.docstatus == 0)
+		{
+			frm.set_value("action_date", frappe.datetime.get_today());
+			frm.set_value("created_by", frappe.session.user);
+		}
 	},
 });
+
+function update_must_include(frm) {
+	if (frm.doc.action_maker) {
+		frm.clear_table("recipients");
+		frm.refresh_field("recipients");
+		frappe.call({
+			method: "academia.transactions.doctype.inbox_memo_action.inbox_memo_action.get_direct_reports_to_hierarchy_reverse",
+			args: {
+				employee_name: frm.doc.action_maker,
+			},
+			callback: function (response) {
+				mustInclude = response.message;
+				console.log("must include: " + mustInclude);
+			},
+		});
+	}
+}
