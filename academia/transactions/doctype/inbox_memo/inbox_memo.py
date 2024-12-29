@@ -25,6 +25,7 @@ class InboxMemo(Document):
 		amended_from: DF.Link | None
 		attachments: DF.Table[TransactionAttachmentsNew]
 		current_action_maker: DF.Data | None
+		document_content: DF.TextEditor | None
 		external_entity_designation: DF.Data | None
 		external_entity_employee: DF.Data | None
 		full_electronic: DF.Check
