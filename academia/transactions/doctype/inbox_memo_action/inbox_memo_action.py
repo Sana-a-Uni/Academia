@@ -31,16 +31,17 @@ class InboxMemoAction(Document):
 	def on_submit(self):
 
 		# make a read, write, share permissions for reciepents
-		user = frappe.get_doc("User", self.recipients[0].recipient_email)
-		frappe.share.add(
-			doctype="Inbox Memo",
-			name=self.inbox_memo,
-			user=user.email,
-			read=1,
-			write=1,
-			share=1,
-			submit=1,
-		)
+		if self.type == "Redirected":
+			user = frappe.get_doc("User", self.recipients[0].recipient_email)
+			frappe.share.add(
+				doctype="Inbox Memo",
+				name=self.inbox_memo,
+				user=user.email,
+				read=1,
+				write=1,
+				share=1,
+				submit=1,
+			)
 		
 @frappe.whitelist()
 def get_direct_reports_to_hierarchy_reverse(employee_name):
