@@ -1,0 +1,160 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-12-28 20:43:54.103419",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_5ykb",
+  "request",
+  "type",
+  "action_maker",
+  "employee_name",
+  "from_company",
+  "from_department",
+  "from_designation",
+  "created_by",
+  "column_break_aack",
+  "action_date",
+  "details",
+  "amended_from",
+  "recipients_section",
+  "recipients",
+  "get_recipients",
+  "clear_recipients"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_5ykb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Request Action",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "request",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Request",
+   "options": "Request",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Type",
+   "options": "Redirected\nApproved\nRejected\nCanceled\nTopic",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "action_maker",
+   "fieldtype": "Link",
+   "label": "Action Maker",
+   "options": "Employee",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "action_maker.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Read Only",
+   "label": "Employee Name"
+  },
+  {
+   "fetch_from": "action_maker.company",
+   "fieldname": "from_company",
+   "fieldtype": "Read Only",
+   "label": "From Company"
+  },
+  {
+   "fetch_from": "action_maker.department",
+   "fieldname": "from_department",
+   "fieldtype": "Read Only",
+   "label": "From Department"
+  },
+  {
+   "fetch_from": "action_maker.designation",
+   "fieldname": "from_designation",
+   "fieldtype": "Read Only",
+   "label": "From Designation"
+  },
+  {
+   "fieldname": "created_by",
+   "fieldtype": "Data",
+   "is_virtual": 1,
+   "label": "Created By"
+  },
+  {
+   "fieldname": "column_break_aack",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "action_date",
+   "fieldtype": "Date",
+   "label": "Action Date",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "details",
+   "fieldtype": "Text",
+   "label": "Details"
+  },
+  {
+   "fieldname": "recipients_section",
+   "fieldtype": "Section Break",
+   "label": "Recipients"
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "Recipients",
+   "options": "Transaction Recipients New"
+  },
+  {
+   "fieldname": "get_recipients",
+   "fieldtype": "Button",
+   "label": "Get Recipients"
+  },
+  {
+   "fieldname": "clear_recipients",
+   "fieldtype": "Button",
+   "label": "Clear Recipients"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-12-28 20:51:12.783785",
+ "modified_by": "Administrator",
+ "module": "Transactions",
+ "name": "Request Action",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
