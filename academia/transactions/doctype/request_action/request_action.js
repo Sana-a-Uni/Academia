@@ -2,12 +2,12 @@
 // For license information, please see license.txt
 let mustInclude = [];
 
-frappe.ui.form.on("Inbox Memo Action", {
+frappe.ui.form.on("Request Action", {
 	on_submit: function (frm) {
 		frappe.call({
-			method: "academia.transactions.doctype.inbox_memo.inbox_memo.update_share_permissions",
+			method: "academia.transactions.doctype.request.request.update_share_permissions",
 			args: {
-				docname: frm.doc.inbox_memo,
+				docname: frm.doc.request,
 				user: frappe.session.user,
 				permissions: {
 					read: 1,
@@ -18,11 +18,16 @@ frappe.ui.form.on("Inbox Memo Action", {
 			},
 			callback: function (response) {
 				if (response.message) {
-					inbox_memo_action_doc = frappe.get_doc("Inbox Memo Action", frm.doc.name)
+					request_action_doc = frappe.get_doc("Request Action", frm.doc.name);
 					// frappe.db.set_value(inbox_memo , 'current_action_maker')
-					frappe.db.set_value("Inbox Memo", frm.doc.inbox_memo, "current_action_maker", inbox_memo_action_doc.recipients[0].recipient_email);
+					frappe.db.set_value(
+						"Request",
+						frm.doc.request,
+						"current_action_maker",
+						request_action_doc.recipients[0].recipient_email
+					);
 					// back to Transaction after save the transaction action
-					frappe.set_route("Form", "Inbox Memo", frm.doc.inbox_memo);
+					frappe.set_route("Form", "Request", frm.doc.request);
 					location.reload();
 				}
 			},
@@ -35,23 +40,22 @@ frappe.ui.form.on("Inbox Memo Action", {
 		frm.get_field("recipients").grid.only_sortable();
 		frm.refresh_field("recipients");
 
-		if(frappe.session.user !== "Administrator" && frm.doc.docstatus == 0)
-		{
+		if (frappe.session.user !== "Administrator" && frm.doc.docstatus == 0) {
 			frappe.call({
 				method: "frappe.client.get",
 				args: {
 					doctype: "Employee",
 					filters: {
-						user_id: frappe.session.user
+						user_id: frappe.session.user,
 					},
 				},
 				callback: function (response) {
 					const employee = response.message;
 					if (employee) {
-                        frm.set_value("action_maker", employee.name);
-                    }
+						frm.set_value("action_maker", employee.name);
+					}
 				},
-            });
+			});
 		}
 	},
 
@@ -87,6 +91,10 @@ frappe.ui.form.on("Inbox Memo Action", {
 			primary_action_label: __("Get Recipients"),
 
 			action(selections) {
+				if (selections.length > 1) {
+					frappe.msgprint("You Can Only Select One Recipient");
+					return;
+				}
 				// console.log(d.dialog.get_value("company"));
 				// emptying Council members
 				frm.set_value("recipients", []);
@@ -138,10 +146,8 @@ frappe.ui.form.on("Inbox Memo Action", {
 		frm.refresh_field("recipients");
 	},
 
-
 	onload: function (frm) {
-		if(frm.doc.docstatus == 0)
-		{
+		if (frm.doc.docstatus == 0) {
 			frm.set_value("action_date", frappe.datetime.get_today());
 			frm.set_value("created_by", frappe.session.user);
 		}
@@ -153,7 +159,7 @@ function update_must_include(frm) {
 		frm.clear_table("recipients");
 		frm.refresh_field("recipients");
 		frappe.call({
-			method: "academia.transactions.doctype.inbox_memo_action.inbox_memo_action.get_direct_reports_to_hierarchy_reverse",
+			method: "academia.transactions.doctype.request_action.request_action.get_direct_reports_to_hierarchy_reverse",
 			args: {
 				employee_name: frm.doc.action_maker,
 			},

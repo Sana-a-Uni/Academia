@@ -155,6 +155,12 @@ frappe.ui.form.on("Inbox Memo", {
 			add_reject_action(frm);
 			add_redirect_action(frm);
 		}
+
+		// Hide 'add row' button
+		frm.get_field("recipients").grid.cannot_add_rows = true;
+		// Stop 'add below' & 'add above' options
+		frm.get_field("recipients").grid.only_sortable();
+		frm.refresh_field("recipients");
 	},
 
 	onload: function (frm) {
@@ -175,6 +181,30 @@ frappe.ui.form.on("Inbox Memo", {
 		}
 	},
 
+    inbox_from: function (frm) {
+        console.log("inbox_from changed:", frm.doc.inbox_from); // Debugging statement
+        if (frm.doc.inbox_from === "Company outside the system") {
+            console.log("Clearing start_from field"); // Debugging statement
+            frm.set_value("start_from", "");
+        }
+		if(frm.doc.inbox_from === "Company within the system") {
+			console.log("set session user name to start_from field"); 
+			frappe.call({
+				method: "frappe.client.get_value",
+				args: {
+					doctype: "Employee",
+					filters: { user_id: frappe.session.user },
+					fieldname: "name",
+				},
+				callback: function (response) {
+					if (response.message) {
+						frm.set_value("start_from", response.message.name);
+					}
+				},
+			});
+		}
+    },
+
 	get_recipients: function (frm) {
 		let setters = {
 			employee_name: null,
@@ -184,7 +214,7 @@ frappe.ui.form.on("Inbox Memo", {
 		if (frm.doc.type == "External") {
 			setters.company = null;
 			frappe.call({
-				method: "academia.transaction_management.doctype.transaction.transaction.get_all_employees_except_start_with_company",
+				method: "academia.transactions.doctype.inbox_memo.inbox_memo.get_all_employees_except_start_with_company",
 				args: {
 					start_with_company: frm.doc.start_with_company,
 				},

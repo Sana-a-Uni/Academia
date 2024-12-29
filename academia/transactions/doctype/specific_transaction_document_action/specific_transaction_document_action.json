@@ -1,20 +1,21 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2024-12-23 18:47:29.834472",
+ "creation": "2024-12-28 14:43:18.398960",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_sqna",
-  "inbox_memo",
-  "type",
-  "action_maker",
+  "section_break_nymq",
+  "specific_transaction_document",
+  "start_from",
   "employee_name",
   "from_company",
   "from_department",
   "from_designation",
   "created_by",
-  "column_break_ndrh",
+  "allow_recipient_to_redirect",
+  "column_break_inbs",
+  "type",
   "action_date",
   "details",
   "amended_from",
@@ -25,26 +26,15 @@
  ],
  "fields": [
   {
-   "fieldname": "section_break_sqna",
+   "fieldname": "section_break_nymq",
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "hidden": 1,
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Inbox Memo Action",
-   "print_hide": 1,
-   "read_only": 1,
-   "search_index": 1
-  },
-  {
-   "fieldname": "inbox_memo",
+   "fieldname": "specific_transaction_document",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Inbox Memo",
-   "options": "Inbox Memo",
+   "label": "Specific Transaction Document",
+   "options": "Specific Transaction Document",
    "read_only": 1,
    "reqd": 1
   },
@@ -53,12 +43,11 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Type",
-   "options": "Redirected\nApproved\nRejected\nCanceled\nTopic",
+   "options": "Redirected\nApproved\nRejected\nCanceled",
    "read_only": 1,
    "reqd": 1
   },
   {
-   "fetch_from": "action_maker.company",
    "fieldname": "from_company",
    "fieldtype": "Link",
    "label": "From Company",
@@ -66,7 +55,6 @@
    "read_only": 1
   },
   {
-   "fetch_from": "action_maker.department",
    "fieldname": "from_department",
    "fieldtype": "Link",
    "label": "From Department",
@@ -74,19 +62,11 @@
    "read_only": 1
   },
   {
-   "fetch_from": "action_maker.designation",
    "fieldname": "from_designation",
    "fieldtype": "Link",
    "label": "From Designation",
    "options": "Designation",
    "read_only": 1
-  },
-  {
-   "fieldname": "action_date",
-   "fieldtype": "Date",
-   "label": "Action Date",
-   "read_only": 1,
-   "reqd": 1
   },
   {
    "fieldname": "created_by",
@@ -95,13 +75,30 @@
    "label": "Created By"
   },
   {
-   "fieldname": "column_break_ndrh",
+   "fieldname": "column_break_inbs",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "action_date",
+   "fieldtype": "Date",
+   "is_virtual": 1,
+   "label": "Action Date",
+   "read_only": 1
   },
   {
    "fieldname": "details",
    "fieldtype": "Text",
    "label": "Details"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Specific Transaction Document Action",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
   },
   {
    "depends_on": "eval:doc.type == \"Redirected\";",
@@ -113,7 +110,7 @@
    "fieldname": "recipients",
    "fieldtype": "Table",
    "label": "Recipients",
-   "mandatory_depends_on": "eval: doc.type == \"Redirected\"",
+   "mandatory_depends_on": "eval:doc.type == \"Redirected\"",
    "options": "Transaction Recipients New"
   },
   {
@@ -122,32 +119,38 @@
    "label": "Get Recipients"
   },
   {
+   "depends_on": "eval:doc.type == \"Redirected\";",
    "fieldname": "clear_recipients",
    "fieldtype": "Button",
    "label": "Clear Recipients"
   },
   {
-   "fieldname": "action_maker",
+   "fetch_from": "start_from.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name"
+  },
+  {
+   "fieldname": "start_from",
    "fieldtype": "Link",
-   "label": "Action Maker",
+   "label": "Start From",
    "options": "Employee",
    "read_only": 1
   },
   {
-   "fetch_from": "action_maker.employee_name",
-   "fieldname": "employee_name",
-   "fieldtype": "Data",
-   "label": "Employee Name",
-   "read_only": 1
+   "default": "1",
+   "fieldname": "allow_recipient_to_redirect",
+   "fieldtype": "Check",
+   "label": "Allow Recipient to Redirect"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-26 17:07:45.731938",
+ "modified": "2024-12-28 19:50:55.486071",
  "modified_by": "Administrator",
  "module": "Transactions",
- "name": "Inbox Memo Action",
+ "name": "Specific Transaction Document Action",
  "owner": "Administrator",
  "permissions": [
   {
