@@ -12,6 +12,7 @@
   "title",
   "status",
   "full_electronic",
+  "transaction_reference",
   "from_section",
   "start_from",
   "start_from_employee",
@@ -147,12 +148,18 @@
    "fieldtype": "Data",
    "label": "Current Action Maker",
    "read_only": 1
+  },
+  {
+   "fieldname": "transaction_reference",
+   "fieldtype": "Link",
+   "label": "Transaction Reference",
+   "options": "Transaction New"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-28 17:02:12.511345",
+ "modified": "2024-12-29 15:12:44.614954",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Request",

@@ -32,6 +32,7 @@ class Request(Document):
 		start_from_employee: DF.Data | None
 		status: DF.Literal["Pending", "Completed", "Canceled", "Closed", "Rejected"]
 		title: DF.Data
+		transaction_reference: DF.Link | None
 	# end: auto-generated types
 	pass
 

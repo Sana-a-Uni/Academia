@@ -12,8 +12,11 @@ class OutboxMemoAction(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
+
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
+			TransactionRecipientsNew,
+		)
 
 		action_date: DF.Data | None
 		allow_recipient_to_redirect: DF.Check
@@ -31,10 +34,12 @@ class OutboxMemoAction(Document):
 	# end: auto-generated types
 	pass
 
+
 import frappe
 
+
 @frappe.whitelist()
-def update_outbox_memo(outbox_memo_name, current_action_maker, allow_to_redirect, status = ""):
+def update_outbox_memo(outbox_memo_name, current_action_maker, allow_to_redirect, status=""):
 	"""
 	Updates the specified fields of an Outbox Memo document.
 
@@ -48,7 +53,7 @@ def update_outbox_memo(outbox_memo_name, current_action_maker, allow_to_redirect
 		dict: Updated document data.
 	"""
 	if not outbox_memo_name:
-		frappe.throw(_("Outbox Memo name is required"))
+		frappe.throw("Outbox Memo name is required")
 
 	# Fetch the document
 	doc = frappe.get_doc("Outbox Memo", outbox_memo_name)
@@ -58,8 +63,6 @@ def update_outbox_memo(outbox_memo_name, current_action_maker, allow_to_redirect
 	doc.allow_to_redirect = allow_to_redirect
 	if status:
 		doc.status = status
-
-
 	# Save the document
 	doc.save()
 	frappe.db.commit()  # Commit the changes to the database

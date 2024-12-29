@@ -14,8 +14,12 @@ class InboxMemo(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import TransactionAttachmentsNew
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
+		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import (
+			TransactionAttachmentsNew,
+		)
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
+			TransactionRecipientsNew,
+		)
 		from frappe.types import DF
 
 		amended_from: DF.Link | None
@@ -35,6 +39,7 @@ class InboxMemo(Document):
 		status: DF.Literal["Pending", "Completed", "Canceled", "Closed", "Rejected"]
 		sub_external_entity: DF.Link | None
 		title: DF.Data
+		transaction_reference: DF.Link | None
 	# end: auto-generated types
 	pass
 
@@ -84,6 +89,7 @@ def create_new_inbox_memo_action(user_id, inbox_memo, type, details):
 	else:
 		return {"message": "No employee found for the given user ID."}
 
+
 @frappe.whitelist()
 def get_all_employees_except_start_with_company(start_with_company):
 	employees = frappe.get_list(
@@ -108,4 +114,3 @@ def update_share_permissions(docname, user, permissions):
 		return share
 	else:
 		return "text"
-	
