@@ -10,7 +10,8 @@
   "status",
   "amended_from",
   "start_date",
-  "related_documents_tab",
+  "related_documents_section",
+  "related_documents",
   "actions_tab"
  ],
  "fields": [
@@ -51,21 +52,27 @@
    "read_only": 1
   },
   {
-   "fieldname": "related_documents_tab",
-   "fieldtype": "Tab Break",
-   "label": "Related Documents"
-  },
-  {
    "fieldname": "actions_tab",
    "fieldtype": "Tab Break",
    "label": "Actions"
+  },
+  {
+   "fieldname": "related_documents",
+   "fieldtype": "Table",
+   "label": "Related Documents",
+   "options": "Transaction Related Documents"
+  },
+  {
+   "fieldname": "related_documents_section",
+   "fieldtype": "Section Break",
+   "label": "Related Documents"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-22 17:35:43.693650",
+ "modified": "2024-12-29 14:30:49.592643",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Transaction New",

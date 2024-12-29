@@ -8,9 +8,11 @@
  "field_order": [
   "section_break_ktpj",
   "amended_from",
+  "current_action_maker",
   "title",
   "status",
   "full_electronic",
+  "transaction_reference",
   "from_section",
   "start_from",
   "start_from_employee",
@@ -75,23 +77,27 @@
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "start_from.employee_name",
    "fieldname": "start_from_employee",
    "fieldtype": "Data",
    "label": "Employee Name"
   },
   {
+   "fetch_from": "start_from.company",
    "fieldname": "start_from_company",
    "fieldtype": "Link",
    "label": "Company",
    "options": "Company"
   },
   {
+   "fetch_from": "start_from.department",
    "fieldname": "start_from_department",
    "fieldtype": "Link",
    "label": "Department",
    "options": "Department"
   },
   {
+   "fetch_from": "start_from.designation",
    "fieldname": "start_from_designation",
    "fieldtype": "Link",
    "label": "Designation",
@@ -135,12 +141,25 @@
    "fieldname": "full_electronic",
    "fieldtype": "Check",
    "label": "Full Electronic"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "current_action_maker",
+   "fieldtype": "Data",
+   "label": "Current Action Maker",
+   "read_only": 1
+  },
+  {
+   "fieldname": "transaction_reference",
+   "fieldtype": "Link",
+   "label": "Transaction Reference",
+   "options": "Transaction New"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-23 12:38:14.255196",
+ "modified": "2024-12-29 15:12:44.614954",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Request",

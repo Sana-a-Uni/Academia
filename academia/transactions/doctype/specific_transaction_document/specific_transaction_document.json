@@ -15,6 +15,7 @@
   "full_electronic",
   "column_break_alsb",
   "document_content",
+  "transaction_reference",
   "section_break_qljd",
   "start_from",
   "employee_name",
@@ -182,12 +183,18 @@
    "fieldname": "related_actions",
    "fieldtype": "HTML",
    "label": "Related Actions"
+  },
+  {
+   "fieldname": "transaction_reference",
+   "fieldtype": "Link",
+   "label": "Transaction Reference",
+   "options": "Transaction New"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-29 18:33:09.424667",
+ "modified": "2024-12-29 15:13:24.244035",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Specific Transaction Document",

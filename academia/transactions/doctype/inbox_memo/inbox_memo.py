@@ -14,8 +14,12 @@ class InboxMemo(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import TransactionAttachmentsNew
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
+		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import (
+			TransactionAttachmentsNew,
+		)
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
+			TransactionRecipientsNew,
+		)
 		from frappe.types import DF
 
 		amended_from: DF.Link | None
@@ -35,6 +39,7 @@ class InboxMemo(Document):
 		status: DF.Literal["Pending", "Completed", "Canceled", "Closed", "Rejected"]
 		sub_external_entity: DF.Link | None
 		title: DF.Data
+		transaction_reference: DF.Link | None
 	# end: auto-generated types
 	pass
 
@@ -50,17 +55,17 @@ def create_new_inbox_memo_action(user_id, inbox_memo, type, details):
 	if inbox_memo_doc.inbox_from == "Company outsite the system":
 		pass
 
-	action_maker = inbox_memo_doc.current_action_maker
+	action_maker = frappe.get_doc("Employee", {"user_id": user_id})
 	if action_maker:
 		new_doc = frappe.new_doc("Inbox Memo Action")
 		new_doc.inbox_memo = inbox_memo
 		new_doc.type = type
-		new_doc.from_company = action_maker.recipient_company
-		new_doc.from_department = action_maker.recipient_department
-		new_doc.from_designation = action_maker.recipient_designation
+		new_doc.from_company = action_maker.company
+		new_doc.from_department = action_maker.department
+		new_doc.from_designation = action_maker.designation
 		new_doc.details = details
 		new_doc.action_date = frappe.utils.today()
-		new_doc.created_by = action_maker.recipient_email
+		new_doc.created_by = action_maker.user_id
 		new_doc.save(ignore_permissions=True)
 		new_doc.submit()
 
@@ -83,6 +88,7 @@ def create_new_inbox_memo_action(user_id, inbox_memo, type, details):
 		return {"message": "Action Success", "action_name": action_name}
 	else:
 		return {"message": "No employee found for the given user ID."}
+
 
 @frappe.whitelist()
 def get_all_employees_except_start_with_company(start_with_company):
@@ -108,4 +114,3 @@ def update_share_permissions(docname, user, permissions):
 		return share
 	else:
 		return "text"
-	

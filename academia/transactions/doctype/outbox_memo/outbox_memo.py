@@ -14,8 +14,12 @@ class OutboxMemo(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import TransactionAttachmentsNew
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
+		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import (
+			TransactionAttachmentsNew,
+		)
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
+			TransactionRecipientsNew,
+		)
 		from frappe.types import DF
 
 		allow_to_redirect: DF.Check
@@ -33,6 +37,7 @@ class OutboxMemo(Document):
 		start_from_employee: DF.Data
 		status: DF.Literal["Pending", "Completed", "Canceled", "Closed", "Rejected"]
 		title: DF.Data
+		transaction_reference: DF.Link | None
 		type: DF.Literal["Internal", "External"]
 	# end: auto-generated types
 	pass
@@ -80,6 +85,7 @@ def get_reports_to_hierarchy_reverse(employee_name):
 
 	return employees
 
+
 @frappe.whitelist()
 def get_direct_reports_to_hierarchy_reverse(employee_name):
 	employees = []
@@ -93,9 +99,8 @@ def get_direct_reports_to_hierarchy_reverse(employee_name):
 	for employee in direct_reports:
 		# frappe.msgprint(f"{employee.user_id}")
 		employees.append(employee.user_id)
-		
-	return employees
 
+	return employees
 
 
 # @frappe.whitelist()
