@@ -229,19 +229,19 @@
   {
    "fieldname": "actions_tab",
    "fieldtype": "Tab Break",
-   "label": "Actions"
+   "label": "Related Actions"
   },
   {
    "fieldname": "action",
    "fieldtype": "HTML",
-   "label": "Action"
+   "label": "Related Actions"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-29 16:42:32.455494",
+ "modified": "2024-12-29 16:46:11.748418",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Inbox Memo",

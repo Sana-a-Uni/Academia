@@ -171,18 +171,18 @@
   {
    "fieldname": "actions_tab",
    "fieldtype": "Tab Break",
-   "label": "Actions"
+   "label": "Related Actions"
   },
   {
    "fieldname": "action",
    "fieldtype": "HTML",
-   "label": "Action"
+   "label": "Related Actions"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-29 16:37:23.936010",
+ "modified": "2024-12-29 16:46:33.984305",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Request",
