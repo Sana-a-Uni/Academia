@@ -12,8 +12,12 @@ class SpecificTransactionDocument(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import TransactionAttachmentsNew
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
+		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import (
+			TransactionAttachmentsNew,
+		)
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
+			TransactionRecipientsNew,
+		)
 		from frappe.types import DF
 
 		allow_to_redirect: DF.Check
@@ -29,9 +33,12 @@ class SpecificTransactionDocument(Document):
 		start_from_designation: DF.Link | None
 		status: DF.Literal["Pending", "Completed", "Canceled", "Closed", "Rejected"]
 		title: DF.Data | None
+		transaction_reference: DF.Link | None
 		type: DF.Literal["\u0643\u0634\u0641", "\u0648\u0631\u0642\u0629"]
 	# end: auto-generated types
 	pass
+
+
 @frappe.whitelist()
 def get_reports_to_hierarchy(employee_name):
 	reports_emails = []
@@ -45,13 +52,17 @@ def get_reports_to_hierarchy(employee_name):
 		reports_to = employee.reports_to
 
 	return reports_emails
+
+
 @frappe.whitelist()
 def create_new_specific_transaction_document_action(user_id, specific_transaction_document, type, details):
 	"""
 	Create a new document in Transaction Action and pass the relevant data from Transaction.
 	This function will be called when a button is pressed in Transaction.
 	"""
-	specific_transaction_document_doc = frappe.get_doc("Specific Transaction Document", specific_transaction_document)  # Fetch the specific_transaction_document as a document
+	specific_transaction_document_doc = frappe.get_doc(
+		"Specific Transaction Document", specific_transaction_document
+	)  # Fetch the specific_transaction_document as a document
 	action_maker = frappe.get_doc("Employee", {"user_id": user_id})
 
 	recipients = []
@@ -59,7 +70,8 @@ def create_new_specific_transaction_document_action(user_id, specific_transactio
 
 	# Ensure the recipients child table is accessed correctly
 	if (
-		action_maker.user_id != specific_transaction_document_doc.recipients[0].recipient_email and type == "Approved"
+		action_maker.user_id != specific_transaction_document_doc.recipients[0].recipient_email
+		and type == "Approved"
 	):  # Access the recipients attribute on the document
 		reports_to = action_maker.reports_to
 		reports_to_emp = frappe.get_doc("Employee", reports_to)
@@ -93,7 +105,10 @@ def create_new_specific_transaction_document_action(user_id, specific_transactio
 		update_share_permissions(specific_transaction_document, user_id, permissions_str)
 
 	else:
-		if action_maker.user_id == specific_transaction_document_doc.recipients[0].recipient_email and type == "Approved":
+		if (
+			action_maker.user_id == specific_transaction_document_doc.recipients[0].recipient_email
+			and type == "Approved"
+		):
 			specific_transaction_document_doc.status = "Completed"
 		elif type == "Rejected":
 			specific_transaction_document_doc.status = "Rejected"
@@ -143,6 +158,7 @@ def create_new_specific_transaction_document_action(user_id, specific_transactio
 			return {"message": "Action Success", "action_name": action_name, "action_maker": ""}
 	else:
 		return {"message": "No employee found for the given user ID."}
+
 
 @frappe.whitelist()
 def update_share_permissions(docname, user, permissions):

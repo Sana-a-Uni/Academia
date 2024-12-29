@@ -40,13 +40,24 @@ frappe.ui.form.on("Outbox Memo", {
 	},
 
 	refresh(frm) {
+		// Hide 'add row' button
+		frm.get_field("recipients").grid.cannot_add_rows = true;
+		// Stop 'add below' & 'add above' options
+		frm.get_field("recipients").grid.only_sortable();
+		frm.refresh_fields("recipients");
+
+		// if(frm.doc.status === 0) {
+		// 	frm.fields_dict.get_recipients.$wrapper.hide();
+		// 	frm.fields_dict.get_recipients.input.disabled = true;
+		// 	frm.fields_dict.clear_recipients.$wrapper.hide();
+		// 	frm.fields_dict.clear_recipients.input.disabled = true;
+		// }
 		if (frm.doc.current_action_maker === frappe.session.user) {
 			add_approve_action(frm);
-			if (frm.doc.allow_to_redirect === 1)
-			{
+			if (frm.doc.allow_to_redirect === 1) {
 				add_redirect_action(frm);
 			}
-			if (frm.doc.direction !== "Downward"){
+			if (frm.doc.direction !== "Downward") {
 				add_reject_action(frm);
 			}
 			// add_reject_action(frm);

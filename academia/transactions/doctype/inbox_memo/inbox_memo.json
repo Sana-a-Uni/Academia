@@ -12,6 +12,7 @@
   "status",
   "inbox_from",
   "full_electronic",
+  "transaction_reference",
   "section_break_ggvi",
   "start_from",
   "start_from_employee",
@@ -205,13 +206,19 @@
    "fieldtype": "Data",
    "label": "Current Action Maker",
    "read_only": 1
+  },
+  {
+   "fieldname": "transaction_reference",
+   "fieldtype": "Link",
+   "label": "Transaction Reference",
+   "options": "Transaction New"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-28 17:27:02.558246",
+ "modified": "2024-12-29 15:12:15.753691",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Inbox Memo",

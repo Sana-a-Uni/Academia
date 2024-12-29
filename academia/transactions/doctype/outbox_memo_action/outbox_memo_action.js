@@ -110,6 +110,11 @@ frappe.ui.form.on("Outbox Memo Action", {
 	},
 
 	refresh(frm) {
+		// Hide 'add row' button
+		frm.get_field("recipients").grid.cannot_add_rows = true;
+		// Stop 'add below' & 'add above' options
+		frm.get_field("recipients").grid.only_sortable();
+		frm.refresh_fields("recipients");
 		if (frappe.session.user !== "Administrator" && frm.doc.docstatus == 0) {
 			frappe.call({
 				method: "frappe.client.get",
