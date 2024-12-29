@@ -23,6 +23,7 @@ class Request(Document):
 		amended_from: DF.Link | None
 		attachments: DF.Table[TransactionAttachmentsNew]
 		current_action_maker: DF.Data | None
+		document_content: DF.TextEditor | None
 		full_electronic: DF.Check
 		recipients: DF.Table[TransactionRecipientsNew]
 		start_from: DF.Link

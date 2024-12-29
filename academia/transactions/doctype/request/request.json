@@ -13,6 +13,8 @@
   "status",
   "full_electronic",
   "transaction_reference",
+  "column_break_rbbm",
+  "document_content",
   "from_section",
   "start_from",
   "start_from_employee",
@@ -25,7 +27,9 @@
   "get_recipients",
   "clear_recipients",
   "attachments_tab",
-  "attachments"
+  "attachments",
+  "actions_tab",
+  "action"
  ],
  "fields": [
   {
@@ -154,12 +158,31 @@
    "fieldtype": "Link",
    "label": "Transaction Reference",
    "options": "Transaction New"
+  },
+  {
+   "fieldname": "column_break_rbbm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "document_content",
+   "fieldtype": "Text Editor",
+   "label": "Document Content"
+  },
+  {
+   "fieldname": "actions_tab",
+   "fieldtype": "Tab Break",
+   "label": "Actions"
+  },
+  {
+   "fieldname": "action",
+   "fieldtype": "HTML",
+   "label": "Action"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-29 15:12:44.614954",
+ "modified": "2024-12-29 16:37:23.936010",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Request",
