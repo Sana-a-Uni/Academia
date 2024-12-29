@@ -28,8 +28,8 @@
   "clear_recipients",
   "attachments_tab",
   "attachments",
-  "actions_tab",
-  "action"
+  "related_actions_tab",
+  "related_actions"
  ],
  "fields": [
   {
@@ -169,20 +169,20 @@
    "label": "Document Content"
   },
   {
-   "fieldname": "actions_tab",
-   "fieldtype": "Tab Break",
+   "fieldname": "related_actions",
+   "fieldtype": "HTML",
    "label": "Related Actions"
   },
   {
-   "fieldname": "action",
-   "fieldtype": "HTML",
+   "fieldname": "related_actions_tab",
+   "fieldtype": "Tab Break",
    "label": "Related Actions"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-29 16:46:33.984305",
+ "modified": "2024-12-29 17:00:30.900968",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Request",

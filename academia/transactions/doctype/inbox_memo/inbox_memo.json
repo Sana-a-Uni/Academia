@@ -34,8 +34,8 @@
   "clear_recipients",
   "attachments_tab",
   "attachments",
-  "actions_tab",
-  "action"
+  "related_actions_tab",
+  "related_actions"
  ],
  "fields": [
   {
@@ -227,12 +227,12 @@
    "label": "Document Content"
   },
   {
-   "fieldname": "actions_tab",
+   "fieldname": "related_actions_tab",
    "fieldtype": "Tab Break",
    "label": "Related Actions"
   },
   {
-   "fieldname": "action",
+   "fieldname": "related_actions",
    "fieldtype": "HTML",
    "label": "Related Actions"
   }
@@ -241,7 +241,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-29 16:46:11.748418",
+ "modified": "2024-12-29 17:01:18.901352",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Inbox Memo",
