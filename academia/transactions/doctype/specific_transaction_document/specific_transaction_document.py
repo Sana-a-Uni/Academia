@@ -24,6 +24,7 @@ class SpecificTransactionDocument(Document):
 		amended_from: DF.Link | None
 		attachments: DF.Table[TransactionAttachmentsNew]
 		current_action_maker: DF.Data | None
+		document_content: DF.TextEditor | None
 		employee_name: DF.Data | None
 		full_electronic: DF.Check
 		recipients: DF.Table[TransactionRecipientsNew]
@@ -36,8 +37,88 @@ class SpecificTransactionDocument(Document):
 		transaction_reference: DF.Link | None
 		type: DF.Literal["\u0643\u0634\u0641", "\u0648\u0631\u0642\u0629"]
 	# end: auto-generated types
-	pass
 
+
+	def on_submit(self):
+		if self.start_from:
+			employee = frappe.get_doc("Employee", self.start_from)
+			frappe.share.add(
+				doctype="Specific Transaction Document",
+				name=self.name,
+				user=employee.user_id,
+				read=1,
+				write=0,
+				share=0,
+			)
+
+		employee = frappe.get_doc("Employee", self.start_from, fields=["reports_to", "user_id"])
+		share_permission_through_route(self, employee)
+
+		# make a read permission for applicants
+		# for row in self.recipients:
+		# 	recipient = frappe.get_doc("Employee", row.recipient)
+		# 	# if row.applicant_type == "User":
+		# 	# 	appicant_user_id = applicant.email
+		# 	# else:
+		# 	# 	appicant_user_id = applicant.user_id
+		# 	frappe.share.add(
+		# 		doctype="Specific Transaction Document",
+		# 		name=self.name,
+		# 		user=recipient.user_id,
+		# 		read=1,
+		# 	)
+
+		# if self.through_route == 1:
+		# 	employee = frappe.get_doc("Employee", self.start_with, fields=["reports_to", "user_id"])
+		# 	share_permission_through_route(self, employee)
+
+		# elif self.transaction_scope == "Among Companies":
+		# 	company_head = frappe.get_doc("Transaction Company Head", {"company": self.start_with_company})
+		# 	head_employee_id = company_head.head_employee
+		# 	employee_user = frappe.get_doc("Employee", head_employee_id)
+		# 	user_id = employee_user.user_id
+		# 	recipients = [
+		# 		{
+		# 			"step": 1,
+		# 			"recipient_name": employee_user.employee_name,
+		# 			"recipient_company": employee_user.company,
+		# 			"recipient_department": employee_user.department,
+		# 			"recipient_designation": employee_user.designation,
+		# 			"recipient_email": user_id,
+		# 			"has_sign": 0,
+		# 			"print_paper": 0,
+		# 			"is_received": 0,
+		# 		}
+		# 	]
+		# 	create_redirect_action(self.owner, self.name, recipients, self.step, 1)
+
+		# 	frappe.share.add(
+		# 		doctype="Transaction",
+		# 		name=self.name,
+		# 		user=user_id,
+		# 		read=1,
+		# 		write=1,
+		# 		share=1,
+		# 		submit=1,
+		# 	)
+		# 	frappe.db.commit()
+		# else:
+		# 	create_redirect_action(self.owner, self.name, self.recipients, self.step, 1)
+		# 	# make a read, write, share permissions for reciepents
+		# 	for row in self.recipients:
+		# 		if row.step == 1:
+		# 			frappe.share.add(
+		# 				doctype="Transaction",
+		# 				name=self.name,
+		# 				user=row.recipient_email,
+		# 				read=1,
+		# 				write=1,
+		# 				share=1,
+		# 				submit=1,
+		# 			)
+		# 	frappe.db.commit()
+
+		###########################
 
 @frappe.whitelist()
 def get_reports_to_hierarchy(employee_name):
@@ -176,3 +257,19 @@ def update_share_permissions(docname, user, permissions):
 		return share
 	else:
 		return "text"
+
+def share_permission_through_route(document, current_employee):
+	reports_to = current_employee.reports_to
+	if current_employee.user_id != document.recipients[0].recipient_email:
+		reports_to_emp = frappe.get_doc("Employee", reports_to)
+		# if reports_to_emp != document.recipients[0].recipient_email:
+		frappe.share.add(
+			doctype="Specific Transaction Document",
+			name=document.name,
+			user=reports_to_emp.user_id,
+			read=1,
+			write=1,
+			share=1,
+			submit=1,
+		)
+
