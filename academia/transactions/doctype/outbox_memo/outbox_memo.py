@@ -14,13 +14,14 @@ class OutboxMemo(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from frappe.types import DF
+
 		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import (
 			TransactionAttachmentsNew,
 		)
 		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
 			TransactionRecipientsNew,
 		)
-		from frappe.types import DF
 
 		allow_to_redirect: DF.Check
 		amended_from: DF.Link | None
@@ -39,8 +40,22 @@ class OutboxMemo(Document):
 		title: DF.Data
 		transaction_reference: DF.Link | None
 		type: DF.Literal["Internal", "External"]
+
 	# end: auto-generated types
-	pass
+	def on_submit(self):
+		if self.start_from and self.direction == "Upward":
+			employee = frappe.get_doc("Employee", self.start_from)
+			frappe.share.add(
+				doctype="Outbox Memo",
+				name=self.name,
+				user=employee.user_id,
+				read=1,
+				write=0,
+				share=0,
+			)
+
+		employee = frappe.get_doc("Employee", self.start_from, fields=["reports_to", "user_id"])
+		share_permission_through_route(self, employee)
 
 
 @frappe.whitelist()
@@ -217,7 +232,7 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 	action_maker = frappe.get_doc("Employee", {"user_id": user_id})
 
 	recipients = []
-	reports_to_emp = None  # Initialize the reports_to_emp variable as None
+	reports_to_emp = "HR-EMP-00004"  # Initialize the reports_to_emp variable as None
 
 	# Ensure the recipients child table is accessed correctly
 	if (
@@ -237,6 +252,7 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 			)
 		recipient = {
 			"step": 1,
+			"recipient": reports_to_emp.name,
 			"recipient_name": reports_to_emp.employee_name,
 			"recipient_company": reports_to_emp.company,
 			"recipient_department": reports_to_emp.department,
@@ -283,17 +299,27 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 		# Ensure recipients is properly defined
 		if recipients:
 			for recipient in recipients:
-				recipients_field = new_doc.append("recipients", {})
-				recipients_field.step = recipient.get("step")
-				recipients_field.recipient_name = recipient.get("recipient_name")
-				recipients_field.recipient_company = recipient.get("recipient_company")
-				recipients_field.recipient_department = recipient.get("recipient_department")
-				recipients_field.recipient_designation = recipient.get("recipient_designation")
-				recipients_field.recipient_email = recipient.get("recipient_email")
+				new_doc.append(
+					"recipients",
+					{
+						"step": recipient.get("step"),
+						"recipient": recipient.get("recipient"),
+						"recipient_name": recipient.get("recipient_name"),
+						"recipient_company": recipient.get("recipient_company"),
+						"recipient_department": recipient.get("recipient_department"),
+						"recipient_designation": recipient.get("recipient_designation"),
+						"recipient_email": recipient.get("recipient_email"),
+					},
+				)
 
-		new_doc.save(ignore_permissions=True)
+		new_doc.insert(ignore_permissions=True)
+		frappe.db.commit()
+		new_doc.save()
+
 		new_doc.submit()
-
+		update_share_permissions(
+			outbox_memo, user_id, json.dumps({"read": 1, "write": 0, "share": 0, "submit": 0})
+		)
 		action_name = new_doc.name
 		if reports_to_emp:
 			return {
@@ -322,47 +348,14 @@ def update_share_permissions(docname, user, permissions):
 		frappe.db.commit()
 		return share
 	else:
-		return "text"
+		return None
 
 
 def share_permission_through_route(document, current_employee):
 	reports_to = current_employee.reports_to
-	# if document.transaction_scope == "Among Companies":
-	# 	company_head = frappe.get_doc("Transaction Company Head", {"company": document.start_with_company})
-	# 	head_emp = frappe.get_doc("Employee", company_head.head_employee)
-	# 	if head_emp.user_id == current_employee.user_id:
-	# 		end_recipient = document.recipients[0]
-	# 		frappe.share.add(
-	# 			doctype="Transaction",
-	# 			name=document.name,
-	# 			user=end_recipient.recipient_email,
-	# 			read=1,
-	# 			write=1,
-	# 			share=1,
-	# 			submit=1,
-	# 		)
-	# 		recipient = {
-	# 			"step": 1,
-	# 			"recipient_name": end_recipient.recipient_name,
-	# 			"recipient_company": end_recipient.recipient_company,
-	# 			"recipient_department": end_recipient.recipient_department,
-	# 			"recipient_designation": end_recipient.recipient_designation,
-	# 			"recipient_email": end_recipient.recipient_email,
-	# 		}
-	# 		recipients = [recipient]
-
-	# 		create_redirect_action(
-	# 			user=current_employee.user_id,
-	# 			transaction_name=document.name,
-	# 			recipients=recipients,
-	# 			step=1,
-	# 			auto=1,
-	# 		)
-	# 		return
-
 	if current_employee.user_id != document.recipients[0].recipient_email:
 		reports_to_emp = frappe.get_doc("Employee", reports_to)
-		# if reports_to_emp != docucurrent_employeement.recipients[0].recipient_email:
+		# if reports_to_emp != document.recipients[0].recipient_email:
 		frappe.share.add(
 			doctype="Outbox Memo",
 			name=document.name,
@@ -372,11 +365,3 @@ def share_permission_through_route(document, current_employee):
 			share=1,
 			submit=1,
 		)
-
-		# create_redirect_action(
-		# 	user=current_employee.user_id,
-		# 	transaction_name=document.name,
-		# 	recipients=recipients,
-		# 	step=1,
-		# 	auto=1,
-		# )

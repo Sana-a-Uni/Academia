@@ -57,6 +57,7 @@
    "label": "Actions"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "related_documents",
    "fieldtype": "Table",
    "label": "Related Documents",
@@ -72,7 +73,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-29 14:30:49.592643",
+ "modified": "2024-12-29 16:55:17.395913",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Transaction New",
