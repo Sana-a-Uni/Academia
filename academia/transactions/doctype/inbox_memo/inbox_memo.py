@@ -14,12 +14,8 @@ class InboxMemo(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import (
-			TransactionAttachmentsNew,
-		)
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
-			TransactionRecipientsNew,
-		)
+		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import TransactionAttachmentsNew
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
 
 		amended_from: DF.Link | None
@@ -64,6 +60,7 @@ def create_new_inbox_memo_action(user_id, inbox_memo, type, details):
 		new_doc.from_company = action_maker.company
 		new_doc.from_department = action_maker.department
 		new_doc.from_designation = action_maker.designation
+		new_doc.action_maker = action_maker.user_id
 		new_doc.details = details
 		new_doc.action_date = frappe.utils.today()
 		new_doc.created_by = action_maker.user_id
@@ -114,4 +111,58 @@ def update_share_permissions(docname, user, permissions):
 		frappe.db.commit()
 		return share
 	else:
-		return "text"
+		return None
+
+
+
+@frappe.whitelist()
+def get_request_actions_html(inbox_memo_name):
+	actions = frappe.get_all(
+		"Inbox Memo Action",
+		filters={"inbox_memo": inbox_memo_name, "docstatus": 1},
+		fields=["name", "type", "action_date", "action_maker", "details"],
+		order_by="creation asc",
+	)
+
+	if not actions:
+		return "<p>No actions found for this Inbox Memo.</p>"
+
+	table_html = """
+    <table class="table table-bordered" style="table-layout: fixed; width: 100%; word-wrap: break-word;">
+        <thead>
+            <tr>
+                <th style="width: 20%;">Action Name</th>
+                <th style="width: 15%;">Type</th>
+                <th style="width: 15%;">Action Date</th>
+                <th style="width: 20%;">Action Maker</th>
+                <th style="width: 30%;">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+    """
+
+	type_colors = {
+		"Pending": "gray",
+		"Redirected": "blue",
+		"Approved": "green",
+		"Rejected": "red",
+		"Canceled": "orange",
+		"Topic": "purple",
+	}
+
+	for action in actions:
+		type_color = type_colors.get(action["type"], "black")
+		action_maker = action["action_maker"] if action["action_maker"] else "None"
+
+		table_html += f"""
+        <tr>
+            <td><a href="/app/inbox-memo-action/{action['name']}" target="_blank">{action['name']}</a></td>
+            <td style="color: white; background-color: {type_color}; padding: 5px; border-radius: 10px; text-align: center; width: 100%;">{action['type']}</td>
+            <td>{action['action_date']}</td>
+            <td>{action['action_maker']}</td>
+            <td>{action['details'] or ''}</td>
+        </tr>
+        """
+	table_html += "</tbody></table>"
+
+	return table_html
