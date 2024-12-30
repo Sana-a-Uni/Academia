@@ -20,5 +20,6 @@ class TransactionRelatedDocuments(Document):
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
+		status: DF.Literal[None]
 	# end: auto-generated types
 	pass
