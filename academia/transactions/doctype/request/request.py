@@ -99,6 +99,14 @@ def create_new_request_action(user_id, request, type, details):
 
 
 @frappe.whitelist()
+def get_all_employees_except_start_with_company(start_with_company):
+	employees = frappe.get_list(
+		"Employee", filters={"company": ["!=", start_with_company]}, fields=["user_id"]
+	)
+	return [emp.user_id for emp in employees]
+
+
+@frappe.whitelist()
 def update_share_permissions(docname, user, permissions):
 	share = frappe.get_all(
 		"DocShare",

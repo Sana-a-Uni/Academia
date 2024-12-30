@@ -187,7 +187,7 @@ frappe.ui.form.on("Request", {
 		if (frm.doc.type == "External") {
 			setters.company = null;
 			frappe.call({
-				method: "academia.transaction_management.doctype.transaction.transaction.get_all_employees_except_start_with_company",
+				method: "academia.transactions.doctype.request.request.get_all_employees_except_start_with_company",
 				args: {
 					start_with_company: frm.doc.start_with_company,
 				},
