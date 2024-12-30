@@ -340,3 +340,31 @@ frappe.ui.form.on("Inbox Memo", {
 		frm.refresh_field("recipients");
 	},
 });
+
+
+frappe.ui.form.on("Inbox Memo", {
+	refresh: function (frm) {
+		update_related_actions_html(frm);
+	},
+	after_save: function (frm) {
+		update_related_actions_html(frm);
+	},
+	onload: function (frm) {
+		update_related_actions_html(frm);
+	},
+});
+
+function update_related_actions_html(frm) {
+	frappe.call({
+		method: "academia.transactions.doctype.inbox_memo.inbox_memo.get_request_actions_html",
+		args: {
+			inbox_memo_name: frm.doc.name,
+		},
+		callback: function (r) {
+			if (r.message) {
+				frm.set_df_property("related_actions", "options", r.message);
+				frm.refresh_field("related_actions");
+			}
+		},
+	});
+}

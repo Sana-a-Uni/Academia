@@ -32,18 +32,23 @@ class RequestAction(Document):
 
 	# end: auto-generated types
 	def on_submit(self):
-		# make a read, write, share permissions for reciepents
-		if self.recipients:
-			user = frappe.get_doc("User", self.recipients[0].recipient_email)
-			frappe.share.add(
-				doctype="Request",
-				name=self.request,
-				user=user.email,
-				read=1,
-				write=1,
-				share=1,
-				submit=1,
-			)
+
+		if len(self.recipients) > 0:
+			for row in self.recipients:
+				recipient = frappe.get_doc("Employee", row.recipient)
+				# if row.applicant_type == "User":
+				# 	appicant_user_id = applicant.email
+				# else:
+				# 	appicant_user_id = applicant.user_id
+				frappe.share.add(
+					doctype="Request",
+					name=self.request,
+					user=recipient.user_id,
+					read=1,
+					write=1,
+					share=1,
+					submit=1,
+				)
 
 
 @frappe.whitelist()

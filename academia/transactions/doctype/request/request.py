@@ -71,6 +71,7 @@ def create_new_request_action(user_id, request, type, details):
 		new_doc.from_company = action_maker.company
 		new_doc.from_department = action_maker.department
 		new_doc.from_designation = action_maker.designation
+		new_doc.action_maker = action_maker.user_id
 		new_doc.details = details
 		new_doc.action_date = frappe.utils.today()
 		new_doc.created_by = action_maker.user_id
@@ -121,7 +122,7 @@ def update_share_permissions(docname, user, permissions):
 		frappe.db.commit()
 		return share
 	else:
-		return "text"
+		return None
 
 
 @frappe.whitelist()
