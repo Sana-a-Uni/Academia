@@ -187,7 +187,7 @@ frappe.ui.form.on("Request", {
 		if (frm.doc.type == "External") {
 			setters.company = null;
 			frappe.call({
-				method: "academia.transaction_management.doctype.transaction.transaction.get_all_employees_except_start_with_company",
+				method: "academia.transactions.doctype.request.request.get_all_employees_except_start_with_company",
 				args: {
 					start_with_company: frm.doc.start_with_company,
 				},
@@ -289,4 +289,31 @@ function update_must_include(frm) {
 			},
 		});
 	}
+}
+
+frappe.ui.form.on("Request", {
+	refresh: function (frm) {
+		update_related_actions_html(frm);
+	},
+	after_save: function (frm) {
+		update_related_actions_html(frm);
+	},
+	onload: function (frm) {
+		update_related_actions_html(frm);
+	},
+});
+
+function update_related_actions_html(frm) {
+	frappe.call({
+		method: "academia.transactions.doctype.request.request.get_request_actions_html",
+		args: {
+			request_name: frm.doc.name,
+		},
+		callback: function (r) {
+			if (r.message) {
+				frm.set_df_property("related_actions", "options", r.message);
+				frm.refresh_field("related_actions");
+			}
+		},
+	});
 }
