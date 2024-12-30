@@ -14,14 +14,9 @@ class OutboxMemo(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import TransactionAttachmentsNew
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
-
-		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import (
-			TransactionAttachmentsNew,
-		)
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
-			TransactionRecipientsNew,
-		)
 
 		allow_to_redirect: DF.Check
 		amended_from: DF.Link | None
@@ -29,6 +24,11 @@ class OutboxMemo(Document):
 		current_action_maker: DF.Data | None
 		direction: DF.Literal["Upward", "Downward"]
 		document_content: DF.TextEditor | None
+		end_employee: DF.Link | None
+		end_employee_company: DF.Link | None
+		end_employee_department: DF.Link | None
+		end_employee_designation: DF.Link | None
+		end_employee_name: DF.Data | None
 		full_electronic: DF.Check
 		recipients: DF.Table[TransactionRecipientsNew]
 		start_from: DF.Link
@@ -40,7 +40,6 @@ class OutboxMemo(Document):
 		title: DF.Data
 		transaction_reference: DF.Link | None
 		type: DF.Literal["Internal", "External"]
-
 	# end: auto-generated types
 	def on_submit(self):
 		if self.start_from and self.direction == "Upward":
@@ -232,11 +231,12 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 	action_maker = frappe.get_doc("Employee", {"user_id": user_id})
 
 	recipients = []
-	reports_to_emp = "HR-EMP-00004"  # Initialize the reports_to_emp variable as None
+	reports_to_emp = None  # Initialize the reports_to_emp variable as None
 
 	# Ensure the recipients child table is accessed correctly
 	if (
-		action_maker.user_id != outbox_memo_doc.recipients[0].recipient_email and type == "Approved"
+		(outbox_memo_doc.type == "Internal" and (action_maker.user_id != outbox_memo_doc.recipients[0].recipient_email and type == "Approved"))
+		or (outbox_memo_doc.type == "External" and (action_maker.user_id != outbox_memo_doc.end_employee and type == "Approved"))
 	):  # Access the recipients attribute on the document
 		reports_to = action_maker.reports_to
 		reports_to_emp = frappe.get_doc("Employee", reports_to)
@@ -292,6 +292,7 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 		new_doc.from_company = action_maker.company
 		new_doc.from_department = action_maker.department
 		new_doc.from_designation = action_maker.designation
+		new_doc.start_from = action_maker.user_id
 		new_doc.details = details
 		new_doc.action_date = frappe.utils.today()
 		new_doc.created_by = action_maker.user_id  # Use user_id instead of recipient_email

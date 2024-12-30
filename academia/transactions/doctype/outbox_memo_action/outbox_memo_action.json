@@ -67,13 +67,11 @@
    "fieldtype": "Column Break"
   },
   {
-   "allow_on_submit": 1,
    "fieldname": "action_date",
    "fieldtype": "Data",
-   "is_virtual": 1,
    "label": "Action Date",
-   "options": "frappe.utils.format_datetime(doc.creation, \n                format_string='dd MMM yyyy, HH:mm:ss'\n            )",
-   "read_only": 1
+   "read_only": 1,
+   "reqd": 1
   },
   {
    "allow_on_submit": 1,
@@ -147,7 +145,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-28 00:34:58.410415",
+ "modified": "2024-12-30 19:08:50.121589",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo Action",

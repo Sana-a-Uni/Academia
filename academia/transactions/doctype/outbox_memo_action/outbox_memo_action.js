@@ -4,11 +4,11 @@ let mustInclude = [];
 
 frappe.ui.form.on("Outbox Memo Action", {
 	on_submit: function (frm) {
-		const new_row_html = generate_new_row_html(
-			frm.doc.name,
-			frm.doc.type,
-			frm.doc.action_date
-		);
+		// const new_row_html = generate_new_row_html(
+		// 	frm.doc.name,
+		// 	frm.doc.type,
+		// 	frm.doc.action_date
+		// );
 
 		frappe.call({
 			method: "academia.transactions.doctype.outbox_memo.outbox_memo.update_share_permissions",
@@ -67,46 +67,46 @@ frappe.ui.form.on("Outbox Memo Action", {
 			},
 		});
 
-		frappe.call({
-			method: "frappe.client.get_value",
-			args: {
-				doctype: "Outbox Memo",
-				fieldname: "related_actions",
-				filters: { name: frm.doc.outbox_memo },
-			},
-			callback: function (response) {
-				let current_html = response.message.related_actions || "";
-				if (current_html.includes("<table")) {
-					// Append the new row to the existing table
-					current_html = current_html.replace(
-						"</tbody></table>",
-						new_row_html + "</tbody></table>"
-					);
-				} else {
-					// Create a new table with the new row
-					current_html =
-						generate_table_header_html() + new_row_html + "</tbody></table>";
-				}
+		// frappe.call({
+		// 	method: "frappe.client.get_value",
+		// 	args: {
+		// 		doctype: "Outbox Memo",
+		// 		fieldname: "related_actions",
+		// 		filters: { name: frm.doc.outbox_memo },
+		// 	},
+		// 	callback: function (response) {
+		// 		let current_html = response.message.related_actions || "";
+		// 		if (current_html.includes("<table")) {
+		// 			// Append the new row to the existing table
+		// 			current_html = current_html.replace(
+		// 				"</tbody></table>",
+		// 				new_row_html + "</tbody></table>"
+		// 			);
+		// 		} else {
+		// 			// Create a new table with the new row
+		// 			current_html =
+		// 				generate_table_header_html() + new_row_html + "</tbody></table>";
+		// 		}
 
-				// Update the related_actions field with the new HTML content
-				frappe.call({
-					method: "frappe.client.set_value",
-					args: {
-						doctype: "Outbox Memo",
-						name: frm.doc.outbox_memo,
-						fieldname: "related_actions",
-						value: current_html,
-					},
-					callback: function (response) {
-						if (!response.exc) {
-							frappe.msgprint("Related actions updated successfully.");
-						} else {
-							frappe.msgprint("There was an error updating the related actions.");
-						}
-					},
-				});
-			},
-		});
+		// 		// Update the related_actions field with the new HTML content
+		// 		frappe.call({
+		// 			method: "frappe.client.set_value",
+		// 			args: {
+		// 				doctype: "Outbox Memo",
+		// 				name: frm.doc.outbox_memo,
+		// 				fieldname: "related_actions",
+		// 				value: current_html,
+		// 			},
+		// 			callback: function (response) {
+		// 				if (!response.exc) {
+		// 					frappe.msgprint("Related actions updated successfully.");
+		// 				} else {
+		// 					frappe.msgprint("There was an error updating the related actions.");
+		// 				}
+		// 			},
+		// 		});
+		// 	},
+		// });
 	},
 
 	refresh(frm) {
@@ -231,6 +231,15 @@ frappe.ui.form.on("Outbox Memo Action", {
 		frm.clear_table("recipients");
 		frm.refresh_field("recipients");
 	},
+
+	onload: function (frm) {
+		if(frm.doc.docstatus == 0)
+		{
+			frm.set_value("action_date", frappe.datetime.get_today());
+			frm.set_value("created_by", frappe.session.user);
+		}
+	},
+
 });
 
 function update_must_include(frm) {

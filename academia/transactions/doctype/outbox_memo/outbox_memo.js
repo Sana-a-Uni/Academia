@@ -169,6 +169,8 @@ frappe.ui.form.on("Outbox Memo", {
 		frm.clear_table("recipients");
 		frm.refresh_field("recipients");
 	},
+
+
 });
 
 function update_must_include(frm) {

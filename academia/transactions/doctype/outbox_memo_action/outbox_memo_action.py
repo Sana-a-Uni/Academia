@@ -12,13 +12,10 @@ class OutboxMemoAction(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
 
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
-			TransactionRecipientsNew,
-		)
-
-		action_date: DF.Data | None
+		action_date: DF.Data
 		allow_recipient_to_redirect: DF.Check
 		amended_from: DF.Link | None
 		created_by: DF.Link | None
