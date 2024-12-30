@@ -31,21 +31,22 @@ class SpecificTransactionDocumentAction(Document):
 	# end: auto-generated types
 	
 	def on_submit(self):
-		for row in self.recipients:
-			recipient = frappe.get_doc("Employee", row.recipient)
-			# if row.applicant_type == "User":
-			# 	appicant_user_id = applicant.email
-			# else:
-			# 	appicant_user_id = applicant.user_id
-			frappe.share.add(
-				doctype="Specific Transaction Document",
-				name=self.specific_transaction_document,
-				user=recipient.user_id,
-				read=1,
-				write=1,
-                share=1,
-                submit=1,
-			)
+		if len(self.recipients) > 0:
+			for row in self.recipients:
+				recipient = frappe.get_doc("Employee", row.recipient)
+				# if row.applicant_type == "User":
+				# 	appicant_user_id = applicant.email
+				# else:
+				# 	appicant_user_id = applicant.user_id
+				frappe.share.add(
+					doctype="Specific Transaction Document",
+					name=self.specific_transaction_document,
+					user=recipient.user_id,
+					read=1,
+					write=1,
+					share=1,
+					submit=1,
+				)
 
 @frappe.whitelist()
 def get_reports_to_hierarchy_reverse(employee_name):
