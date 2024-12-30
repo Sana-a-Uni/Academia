@@ -168,6 +168,7 @@ def create_new_specific_transaction_document_action(user_id, specific_transactio
 			)
 		recipient = {
 			"step": 1,
+			"recipient": reports_to_emp.name,
 			"recipient_name": reports_to_emp.employee_name,
 			"recipient_company": reports_to_emp.company,
 			"recipient_department": reports_to_emp.department,
@@ -217,17 +218,24 @@ def create_new_specific_transaction_document_action(user_id, specific_transactio
 		# Ensure recipients is properly defined
 		if recipients:
 			for recipient in recipients:
-				recipients_field = new_doc.append("recipients", {})
-				recipients_field.step = recipient.get("step")
-				recipients_field.recipient_name = recipient.get("recipient_name")
-				recipients_field.recipient_company = recipient.get("recipient_company")
-				recipients_field.recipient_department = recipient.get("recipient_department")
-				recipients_field.recipient_designation = recipient.get("recipient_designation")
-				recipients_field.recipient_email = recipient.get("recipient_email")
+				new_doc.append(
+					"recipients",
+					{
+						"step": recipient.get("step"),
+						"recipient": recipient.get("recipient"),
+						"recipient_name": recipient.get("recipient_name"),
+						"recipient_company": recipient.get("recipient_company"),
+						"recipient_department": recipient.get("recipient_department"),
+						"recipient_designation": recipient.get("recipient_designation"),
+						"recipient_email": recipient.get("recipient_email"),
+					},
+				)
 
-		new_doc.save(ignore_permissions=True)
+		new_doc.insert(ignore_permissions=True)
+		frappe.db.commit()
+		new_doc.save()
 		new_doc.submit()
-
+		
 		action_name = new_doc.name
 		if reports_to_emp:
 			return {
