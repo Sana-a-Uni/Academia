@@ -74,10 +74,8 @@ function add_reject_action(frm) {
 
 function add_redirect_action(frm) {
 	cur_frm.page.add_action_item(__("Redirect"), function () {
-
-
 		const url = frappe.urllib.get_full_url(
-			"/app/inbox-memo-action/new?inbox_memo="+frm.doc.name+"&type=Redirected"
+			"/app/inbox-memo-action/new?inbox_memo=" + frm.doc.name + "&type=Redirected"
 		);
 
 		// فتح الرابط في نافذة جديدة
@@ -141,9 +139,51 @@ frappe.ui.form.on("Inbox Memo", {
 			callback: function (response) {
 				if (response.message) {
 					// frappe.db.set_value(inbox_memo , 'current_action_maker')
-					frappe.db.set_value("Inbox Memo", frm.doc.name, "current_action_maker", inbox_memo_action_doc.recipients[0].recipient_email);
+					frappe.db.set_value(
+						"Inbox Memo",
+						frm.doc.name,
+						"current_action_maker",
+						inbox_memo_action_doc.recipients[0].recipient_email
+					);
 					// back to Transaction after save the transaction action
 					location.reload();
+				}
+			},
+		});
+	},
+
+	on_submit: function (frm) {
+		frappe.call({
+			method: "frappe.client.get",
+			args: {
+				doctype: "Transaction New",
+				filters: {
+					name: frm.doc.transaction_reference,
+				},
+			},
+			callback: function (response) {
+				if (response.message) {
+					let transaction_new_doc = response.message;
+					transaction_new_doc.related_documents.push({
+						document_name: frm.doc.name,
+						document_type: frm.doc.doctype,
+						document_title: frm.doc.title,
+						document_status: frm.doc.status,
+					});
+					frappe.call({
+						method: "frappe.client.save",
+						args: {
+							doc: transaction_new_doc,
+						},
+						callback: function (save_response) {
+							if (save_response.message) {
+								history.back(); // Take user to the previous page
+								frappe.msgprint(
+									__("Document added to related_documents successfully")
+								);
+							}
+						},
+					});
 				}
 			},
 		});
@@ -181,14 +221,14 @@ frappe.ui.form.on("Inbox Memo", {
 		}
 	},
 
-    inbox_from: function (frm) {
-        console.log("inbox_from changed:", frm.doc.inbox_from); // Debugging statement
-        if (frm.doc.inbox_from === "Company outside the system") {
-            console.log("Clearing start_from field"); // Debugging statement
-            frm.set_value("start_from", "");
-        }
-		if(frm.doc.inbox_from === "Company within the system") {
-			console.log("set session user name to start_from field"); 
+	inbox_from: function (frm) {
+		console.log("inbox_from changed:", frm.doc.inbox_from); // Debugging statement
+		if (frm.doc.inbox_from === "Company outside the system") {
+			console.log("Clearing start_from field"); // Debugging statement
+			frm.set_value("start_from", "");
+		}
+		if (frm.doc.inbox_from === "Company within the system") {
+			console.log("set session user name to start_from field");
 			frappe.call({
 				method: "frappe.client.get_value",
 				args: {
@@ -203,7 +243,7 @@ frappe.ui.form.on("Inbox Memo", {
 				},
 			});
 		}
-    },
+	},
 
 	get_recipients: function (frm) {
 		let setters = {

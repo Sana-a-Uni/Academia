@@ -46,12 +46,12 @@ frappe.ui.form.on("Outbox Memo", {
 		frm.get_field("recipients").grid.only_sortable();
 		frm.refresh_fields("recipients");
 
-		// if(frm.doc.status === 0) {
-		// 	frm.fields_dict.get_recipients.$wrapper.hide();
-		// 	frm.fields_dict.get_recipients.input.disabled = true;
-		// 	frm.fields_dict.clear_recipients.$wrapper.hide();
-		// 	frm.fields_dict.clear_recipients.input.disabled = true;
-		// }
+		if (frm.doc.status == 1) {
+			frm.fields_dict.get_recipients.$wrapper.hide();
+			frm.fields_dict.get_recipients.input.disabled = true;
+			frm.fields_dict.clear_recipients.$wrapper.hide();
+			frm.fields_dict.clear_recipients.input.disabled = true;
+		}
 		if (frm.doc.current_action_maker === frappe.session.user) {
 			add_approve_action(frm);
 			if (frm.doc.allow_to_redirect === 1) {
