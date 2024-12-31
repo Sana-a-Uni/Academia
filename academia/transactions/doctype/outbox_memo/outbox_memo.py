@@ -42,19 +42,30 @@ class OutboxMemo(Document):
 		type: DF.Literal["Internal", "External"]
 	# end: auto-generated types
 	def on_submit(self):
+		employee = frappe.get_doc("Employee", self.start_from)
+		frappe.share.add(
+			doctype="Outbox Memo",
+			name=self.name,
+			user=employee.user_id,
+			read=1,
+			write=0,
+			share=0,
+		)
+
 		if self.start_from and self.direction == "Upward":
-			employee = frappe.get_doc("Employee", self.start_from)
+			employee = frappe.get_doc("Employee", self.start_from, fields=["reports_to", "user_id"])
+			share_permission_through_route(self, employee)
+			
+		elif self.start_from and self.direction == "Downward":
 			frappe.share.add(
 				doctype="Outbox Memo",
 				name=self.name,
-				user=employee.user_id,
+				user=self.recipients[0].recipient_email,
 				read=1,
-				write=0,
-				share=0,
+				write=1,
+				share=1,
+				submit=1,
 			)
-
-		employee = frappe.get_doc("Employee", self.start_from, fields=["reports_to", "user_id"])
-		share_permission_through_route(self, employee)
 
 
 @frappe.whitelist()
@@ -237,7 +248,7 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 
 	# Ensure the recipients child table is accessed correctly
 	if (
-		(outbox_memo_doc.type == "Internal" and (action_maker.user_id != outbox_memo_doc.recipients[0].recipient_email and type == "Approved"))
+		(outbox_memo_doc.type == "Internal" and (action_maker.user_id != outbox_memo_doc.recipients[0].recipient_email and type == "Approved" and outbox_memo_doc.direction != "Downward"))
 		or (outbox_memo_doc.type == "External" and (action_maker.user_id != end_employee_email and type == "Approved"))
 	):  # Access the recipients attribute on the document
 		reports_to = action_maker.reports_to
@@ -262,6 +273,15 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 			"recipient_email": reports_to_emp.user_id,
 		}
 		recipients = [recipient]
+	elif type == "Approved" and outbox_memo_doc.direction =="Downward":
+		outbox_memo_doc.status = "Completed"
+		outbox_memo_doc.complete_time = frappe.utils.now()
+		outbox_memo_doc.current_action_maker = ""
+
+		outbox_memo_doc.save(ignore_permissions=True)
+		permissions = {"read": 1, "write": 0, "share": 0, "submit": 0}
+		permissions_str = json.dumps(permissions)
+		update_share_permissions(outbox_memo, user_id, permissions_str)
 	elif type == "Rejected":
 		outbox_memo_doc.status = "Rejected"
 
