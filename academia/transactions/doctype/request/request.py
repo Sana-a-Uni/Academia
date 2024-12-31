@@ -122,7 +122,7 @@ def update_share_permissions(docname, user, permissions):
 		frappe.db.commit()
 		return share
 	else:
-		return None
+		return "text"
 
 
 @frappe.whitelist()
