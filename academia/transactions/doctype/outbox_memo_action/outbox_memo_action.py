@@ -38,15 +38,27 @@ class OutboxMemoAction(Document):
 				# 	appicant_user_id = applicant.email
 				# else:
 				# 	appicant_user_id = applicant.user_id
-				frappe.share.add(
-					doctype="Outbox Memo",
-					name=self.outbox_memo,
-					user=recipient.user_id,
-					read=1,
-					write=1,
-					share=1,
-					submit=1,
-				)
+				if self.allow_recipient_to_redirect:
+					frappe.share.add(
+						doctype="Outbox Memo",
+						name=self.outbox_memo,
+						user=recipient.user_id,
+						read=1,
+						write=1,
+						share=1,
+						submit=1,
+					)
+				else:
+					frappe.share.add(
+						doctype="Outbox Memo",
+						name=self.outbox_memo,
+						user=recipient.user_id,
+						read=1,
+						write=0,
+						share=0,
+						submit=0,
+					)
+
 
 
 import frappe

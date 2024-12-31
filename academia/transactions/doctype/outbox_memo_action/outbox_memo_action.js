@@ -38,7 +38,8 @@ frappe.ui.form.on("Outbox Memo Action", {
 							callback: function (response) {
 								if (!response.exc) {
 									// frappe.set_route("Form", "Outbox Memo", frm.doc.outbox_memo)
-									frappe.msgprint("Check console");
+									frappe.set_route("Form", "Outbox Memo", frm.doc.outbox_memo);
+									location.reload();
 								} else {
 									frappe.msgprint("There was an error!");
 								}

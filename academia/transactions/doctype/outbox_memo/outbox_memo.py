@@ -229,6 +229,8 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 	"""
 	outbox_memo_doc = frappe.get_doc("Outbox Memo", outbox_memo)  # Fetch the outbox_memo as a document
 	action_maker = frappe.get_doc("Employee", {"user_id": user_id})
+	if outbox_memo_doc.end_employee:
+		end_employee_email = frappe.get_value("Employee", {"name": outbox_memo_doc.end_employee}, "user_id")
 
 	recipients = []
 	reports_to_emp = None  # Initialize the reports_to_emp variable as None
@@ -236,7 +238,7 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 	# Ensure the recipients child table is accessed correctly
 	if (
 		(outbox_memo_doc.type == "Internal" and (action_maker.user_id != outbox_memo_doc.recipients[0].recipient_email and type == "Approved"))
-		or (outbox_memo_doc.type == "External" and (action_maker.user_id != outbox_memo_doc.end_employee and type == "Approved"))
+		or (outbox_memo_doc.type == "External" and (action_maker.user_id != end_employee_email and type == "Approved"))
 	):  # Access the recipients attribute on the document
 		reports_to = action_maker.reports_to
 		reports_to_emp = frappe.get_doc("Employee", reports_to)
@@ -271,7 +273,7 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 		update_share_permissions(outbox_memo, user_id, permissions_str)
 
 	else:
-		if action_maker.user_id == outbox_memo_doc.recipients[0].recipient_email and type == "Approved":
+		if (action_maker.user_id == outbox_memo_doc.recipients[0].recipient_email and type == "Approved") or (outbox_memo_doc.type == "External" and action_maker.user_id == end_employee_email and type == "Approved"):
 			outbox_memo_doc.status = "Completed"
 		elif type == "Rejected":
 			outbox_memo_doc.status = "Rejected"
