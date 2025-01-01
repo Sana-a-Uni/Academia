@@ -311,10 +311,10 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 		new_doc = frappe.new_doc("Outbox Memo Action")
 		new_doc.outbox_memo = outbox_memo
 		new_doc.type = type
+		new_doc.action_maker = action_maker.name
 		new_doc.from_company = action_maker.company
 		new_doc.from_department = action_maker.department
 		new_doc.from_designation = action_maker.designation
-		new_doc.start_from = action_maker.user_id
 		new_doc.details = details
 		new_doc.action_date = frappe.utils.today()
 		new_doc.created_by = action_maker.user_id  # Use user_id instead of recipient_email

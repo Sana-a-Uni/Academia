@@ -16,6 +16,7 @@ class OutboxMemoAction(Document):
 		from frappe.types import DF
 
 		action_date: DF.Data
+		action_maker: DF.Link | None
 		allow_recipient_to_redirect: DF.Check
 		amended_from: DF.Link | None
 		created_by: DF.Link | None
@@ -26,7 +27,6 @@ class OutboxMemoAction(Document):
 		from_designation: DF.Data | None
 		outbox_memo: DF.Link
 		recipients: DF.Table[TransactionRecipientsNew]
-		start_from: DF.Link | None
 		type: DF.Literal["Redirected", "Approved", "Rejected", "Canceled"]
 	# end: auto-generated types
 

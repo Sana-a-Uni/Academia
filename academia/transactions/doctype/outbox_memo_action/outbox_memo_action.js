@@ -127,7 +127,7 @@ frappe.ui.form.on("Outbox Memo Action", {
 					const employee = response.message;
 					if (employee) {
 						// Set the values of the fields to those of the fetched employee record
-						frm.set_value("start_from", employee.name);
+						frm.set_value("action_maker", employee.name);
 						frm.set_value("from_company", employee.company);
 						frm.set_value("from_department", employee.department);
 						frm.set_value("from_designation", employee.designation);
@@ -234,11 +234,10 @@ frappe.ui.form.on("Outbox Memo Action", {
 	},
 
 	onload: function (frm) {
-		if(frm.doc.docstatus == 0)
-		{
-			frm.set_value("action_date", frappe.datetime.get_today());
-			frm.set_value("created_by", frappe.session.user);
+		if(frm.doc.docstatus == 0){
+			frm.set_value("action_date", frappe.datetime.now_date())
 		}
+		frm.get_field('recipients').grid.cannot_add_rows = true;
 	},
 
 });

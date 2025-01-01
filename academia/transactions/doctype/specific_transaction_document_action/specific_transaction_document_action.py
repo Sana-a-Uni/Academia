@@ -15,10 +15,11 @@ class SpecificTransactionDocumentAction(Document):
 		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
 
-		action_date: DF.Date | None
+		action_date: DF.Data | None
+		action_maker: DF.Link | None
 		allow_recipient_to_redirect: DF.Check
 		amended_from: DF.Link | None
-		created_by: DF.Data | None
+		created_by: DF.Link | None
 		details: DF.Text | None
 		employee_name: DF.Data | None
 		from_company: DF.Link | None
@@ -26,7 +27,6 @@ class SpecificTransactionDocumentAction(Document):
 		from_designation: DF.Link | None
 		recipients: DF.Table[TransactionRecipientsNew]
 		specific_transaction_document: DF.Link
-		start_from: DF.Link | None
 		type: DF.Literal["Redirected", "Approved", "Rejected", "Canceled"]
 	# end: auto-generated types
 	
