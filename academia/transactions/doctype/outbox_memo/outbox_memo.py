@@ -30,6 +30,7 @@ class OutboxMemo(Document):
 		end_employee_designation: DF.Link | None
 		end_employee_name: DF.Data | None
 		full_electronic: DF.Check
+		is_received: DF.Check
 		recipients: DF.Table[TransactionRecipientsNew]
 		start_from: DF.Link
 		start_from_company: DF.Link
@@ -388,3 +389,104 @@ def share_permission_through_route(document, current_employee):
 			share=1,
 			submit=1,
 		)
+
+@frappe.whitelist()
+def get_middle_man_list(doctype, txt, searchfield, start, page_len, filters):
+	try:
+		# Fetch the list of employees based on the search criteria and designation filter
+		employees = frappe.db.sql(
+			"""
+            SELECT name, employee_name
+            FROM `tabEmployee`
+            WHERE (name LIKE %(txt)s OR employee_name LIKE %(txt)s)
+            AND designation = 'Accountant'
+            LIMIT %(start)s, %(page_len)s
+        """,
+			{"txt": f"%{txt}%", "start": start, "page_len": page_len},
+		)
+
+		# Ensure the list is not empty
+		if not employees:
+			frappe.throw(_("No employees found"))
+
+		return employees
+	except Exception as e:
+		frappe.log_error(message=str(e), title="Error in get_employee_list")
+		frappe.throw(_("An error occurred while fetching the employee list"))
+
+@frappe.whitelist()
+def create_transaction_document_log(
+	start_employee,
+	end_employee,
+	document_type,
+	document_name,
+	document_action_type,
+	document_action_name,
+	through_middle_man,
+	with_proof,
+	proof="",
+	middle_man="",
+):
+	# Create a new document for the "Transaction Paper Log" doctype
+	new_log = frappe.new_doc("Transaction Document Log")
+	# Set the fields with the provided parameters
+	new_log.start_employee = start_employee
+	new_log.end_employee = end_employee
+	new_log.document_type = document_type
+	new_log.document_name = document_name
+	new_log.document_action_type = document_action_type
+	new_log.document_action_name = document_action_name
+	new_log.name = "Nigger" + "-P"
+	if through_middle_man == "False":
+		if with_proof == "True":
+			new_log.ee_proof = proof
+			new_log.paper_progress = "Received by end employee"
+		else:
+			new_log.paper_progress = "Delivered to end employee"
+	elif through_middle_man == "True":
+		new_log.through_middle_man = 1
+		new_log.middle_man = middle_man
+		if with_proof == "True":
+			new_log.mm_proof = proof
+			new_log.paper_progress = "Received by middle man"
+		else:
+			new_log.paper_progress = "Delivered to middle man"
+
+	transaction_doc = frappe.get_doc(document_type, document_name)
+
+	# Iterate over the attachments child table entries and add them to the new document
+	for attachment in transaction_doc.get("attachments"):
+		new_attachment = new_log.append("attachments", {})
+		new_attachment.update(attachment.as_dict())
+
+	# Save the document
+	new_log.insert(ignore_permissions=True)
+
+	if through_middle_man == True:
+		middle_man_email = frappe.get_value("Employee", middle_man, "user_id") if middle_man else None
+
+		# Share the document with the middle man
+		frappe.share.add(
+			doctype="Transaction Document Log",
+			name=new_log.name,
+			user=middle_man_email,
+			read=1,
+			write=1,
+			share=1,
+		)
+	else:
+		end_employee_email = frappe.get_value("Employee", end_employee, "user_id") if end_employee else None
+
+		# Share the document with the end employee
+		frappe.share.add(
+			doctype="Transaction Document Log",
+			name=new_log.name,
+			user=end_employee_email,
+			read=1,
+			write=1,
+			share=1,
+		)
+
+	frappe.db.commit()
+
+	return new_log
