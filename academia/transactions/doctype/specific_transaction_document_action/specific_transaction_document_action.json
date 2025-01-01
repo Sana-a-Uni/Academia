@@ -7,7 +7,7 @@
  "field_order": [
   "section_break_nymq",
   "specific_transaction_document",
-  "start_from",
+  "action_maker",
   "employee_name",
   "from_company",
   "from_department",
@@ -48,6 +48,7 @@
    "reqd": 1
   },
   {
+   "fetch_from": "action_maker.company",
    "fieldname": "from_company",
    "fieldtype": "Link",
    "label": "From Company",
@@ -55,6 +56,7 @@
    "read_only": 1
   },
   {
+   "fetch_from": "action_maker.department",
    "fieldname": "from_department",
    "fieldtype": "Link",
    "label": "From Department",
@@ -62,6 +64,7 @@
    "read_only": 1
   },
   {
+   "fetch_from": "action_maker.designation",
    "fieldname": "from_designation",
    "fieldtype": "Link",
    "label": "From Designation",
@@ -70,9 +73,9 @@
   },
   {
    "fieldname": "created_by",
-   "fieldtype": "Data",
-   "is_virtual": 1,
-   "label": "Created By"
+   "fieldtype": "Link",
+   "label": "Created By",
+   "options": "User"
   },
   {
    "fieldname": "column_break_inbs",
@@ -80,8 +83,7 @@
   },
   {
    "fieldname": "action_date",
-   "fieldtype": "Date",
-   "is_virtual": 1,
+   "fieldtype": "Data",
    "label": "Action Date",
    "read_only": 1
   },
@@ -125,29 +127,29 @@
    "label": "Clear Recipients"
   },
   {
-   "fetch_from": "start_from.employee_name",
+   "fetch_from": "action_maker.employee_name",
    "fieldname": "employee_name",
    "fieldtype": "Data",
    "label": "Employee Name"
-  },
-  {
-   "fieldname": "start_from",
-   "fieldtype": "Link",
-   "label": "Start From",
-   "options": "Employee",
-   "read_only": 1
   },
   {
    "default": "1",
    "fieldname": "allow_recipient_to_redirect",
    "fieldtype": "Check",
    "label": "Allow Recipient to Redirect"
+  },
+  {
+   "fieldname": "action_maker",
+   "fieldtype": "Link",
+   "label": "action_maker",
+   "options": "Employee",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-28 19:50:55.486071",
+ "modified": "2025-01-01 15:46:52.896698",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Specific Transaction Document Action",

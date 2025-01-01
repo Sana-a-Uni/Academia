@@ -7,7 +7,7 @@
  "field_order": [
   "section_break_sprv",
   "outbox_memo",
-  "start_from",
+  "action_maker",
   "employee_name",
   "from_company",
   "from_department",
@@ -67,13 +67,11 @@
    "fieldtype": "Column Break"
   },
   {
-   "allow_on_submit": 1,
    "fieldname": "action_date",
    "fieldtype": "Data",
-   "is_virtual": 1,
    "label": "Action Date",
-   "options": "frappe.utils.format_datetime(doc.creation, \n                format_string='dd MMM yyyy, HH:mm:ss'\n            )",
-   "read_only": 1
+   "read_only": 1,
+   "reqd": 1
   },
   {
    "allow_on_submit": 1,
@@ -84,18 +82,21 @@
    "read_only": 1
   },
   {
+   "fetch_from": "action_maker.company",
    "fieldname": "from_company",
    "fieldtype": "Data",
    "label": "From Company",
    "read_only": 1
   },
   {
+   "fetch_from": "action_maker.department",
    "fieldname": "from_department",
    "fieldtype": "Data",
    "label": "From Department",
    "read_only": 1
   },
   {
+   "fetch_from": "action_maker.designation",
    "fieldname": "from_designation",
    "fieldtype": "Data",
    "label": "From Designation",
@@ -124,14 +125,7 @@
    "label": "Clear Recipients"
   },
   {
-   "fieldname": "start_from",
-   "fieldtype": "Link",
-   "label": "Start From",
-   "options": "Employee",
-   "read_only": 1
-  },
-  {
-   "fetch_from": "start_from.employee_name",
+   "fetch_from": "action_maker.employee_name",
    "fieldname": "employee_name",
    "fieldtype": "Data",
    "label": "Employee Name",
@@ -142,12 +136,19 @@
    "fieldname": "allow_recipient_to_redirect",
    "fieldtype": "Check",
    "label": "Allow Recipient to Redirect"
+  },
+  {
+   "fieldname": "action_maker",
+   "fieldtype": "Link",
+   "label": "Action Maker",
+   "options": "Employee",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-28 00:34:58.410415",
+ "modified": "2025-01-01 15:01:58.566102",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo Action",

@@ -208,6 +208,7 @@ def create_new_specific_transaction_document_action(user_id, specific_transactio
 		new_doc = frappe.new_doc("Specific Transaction Document Action")
 		new_doc.specific_transaction_document = specific_transaction_document
 		new_doc.type = type
+		new_doc.action_maker = action_maker.name
 		new_doc.from_company = action_maker.company
 		new_doc.from_department = action_maker.department
 		new_doc.from_designation = action_maker.designation

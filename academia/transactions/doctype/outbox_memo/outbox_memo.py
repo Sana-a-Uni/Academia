@@ -14,14 +14,9 @@ class OutboxMemo(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import TransactionAttachmentsNew
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
-
-		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import (
-			TransactionAttachmentsNew,
-		)
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
-			TransactionRecipientsNew,
-		)
 
 		allow_to_redirect: DF.Check
 		amended_from: DF.Link | None
@@ -29,6 +24,11 @@ class OutboxMemo(Document):
 		current_action_maker: DF.Data | None
 		direction: DF.Literal["Upward", "Downward"]
 		document_content: DF.TextEditor | None
+		end_employee: DF.Link | None
+		end_employee_company: DF.Link | None
+		end_employee_department: DF.Link | None
+		end_employee_designation: DF.Link | None
+		end_employee_name: DF.Data | None
 		full_electronic: DF.Check
 		recipients: DF.Table[TransactionRecipientsNew]
 		start_from: DF.Link
@@ -40,22 +40,32 @@ class OutboxMemo(Document):
 		title: DF.Data
 		transaction_reference: DF.Link | None
 		type: DF.Literal["Internal", "External"]
-
 	# end: auto-generated types
 	def on_submit(self):
+		employee = frappe.get_doc("Employee", self.start_from)
+		frappe.share.add(
+			doctype="Outbox Memo",
+			name=self.name,
+			user=employee.user_id,
+			read=1,
+			write=0,
+			share=0,
+		)
+
 		if self.start_from and self.direction == "Upward":
-			employee = frappe.get_doc("Employee", self.start_from)
+			employee = frappe.get_doc("Employee", self.start_from, fields=["reports_to", "user_id"])
+			share_permission_through_route(self, employee)
+			
+		elif self.start_from and self.direction == "Downward":
 			frappe.share.add(
 				doctype="Outbox Memo",
 				name=self.name,
-				user=employee.user_id,
+				user=self.recipients[0].recipient_email,
 				read=1,
-				write=0,
-				share=0,
+				write=1,
+				share=1,
+				submit=1,
 			)
-
-		employee = frappe.get_doc("Employee", self.start_from, fields=["reports_to", "user_id"])
-		share_permission_through_route(self, employee)
 
 
 @frappe.whitelist()
@@ -230,13 +240,16 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 	"""
 	outbox_memo_doc = frappe.get_doc("Outbox Memo", outbox_memo)  # Fetch the outbox_memo as a document
 	action_maker = frappe.get_doc("Employee", {"user_id": user_id})
+	if outbox_memo_doc.end_employee:
+		end_employee_email = frappe.get_value("Employee", {"name": outbox_memo_doc.end_employee}, "user_id")
 
 	recipients = []
-	reports_to_emp = "HR-EMP-00004"  # Initialize the reports_to_emp variable as None
+	reports_to_emp = None  # Initialize the reports_to_emp variable as None
 
 	# Ensure the recipients child table is accessed correctly
 	if (
-		action_maker.user_id != outbox_memo_doc.recipients[0].recipient_email and type == "Approved"
+		(outbox_memo_doc.type == "Internal" and (action_maker.user_id != outbox_memo_doc.recipients[0].recipient_email and type == "Approved" and outbox_memo_doc.direction != "Downward"))
+		or (outbox_memo_doc.type == "External" and (action_maker.user_id != end_employee_email and type == "Approved"))
 	):  # Access the recipients attribute on the document
 		reports_to = action_maker.reports_to
 		reports_to_emp = frappe.get_doc("Employee", reports_to)
@@ -260,6 +273,15 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 			"recipient_email": reports_to_emp.user_id,
 		}
 		recipients = [recipient]
+	elif type == "Approved" and outbox_memo_doc.direction =="Downward":
+		outbox_memo_doc.status = "Completed"
+		outbox_memo_doc.complete_time = frappe.utils.now()
+		outbox_memo_doc.current_action_maker = ""
+
+		outbox_memo_doc.save(ignore_permissions=True)
+		permissions = {"read": 1, "write": 0, "share": 0, "submit": 0}
+		permissions_str = json.dumps(permissions)
+		update_share_permissions(outbox_memo, user_id, permissions_str)
 	elif type == "Rejected":
 		outbox_memo_doc.status = "Rejected"
 
@@ -271,7 +293,7 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 		update_share_permissions(outbox_memo, user_id, permissions_str)
 
 	else:
-		if action_maker.user_id == outbox_memo_doc.recipients[0].recipient_email and type == "Approved":
+		if (action_maker.user_id == outbox_memo_doc.recipients[0].recipient_email and type == "Approved") or (outbox_memo_doc.type == "External" and action_maker.user_id == end_employee_email and type == "Approved"):
 			outbox_memo_doc.status = "Completed"
 		elif type == "Rejected":
 			outbox_memo_doc.status = "Rejected"
@@ -289,6 +311,7 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 		new_doc = frappe.new_doc("Outbox Memo Action")
 		new_doc.outbox_memo = outbox_memo
 		new_doc.type = type
+		new_doc.action_maker = action_maker.name
 		new_doc.from_company = action_maker.company
 		new_doc.from_department = action_maker.department
 		new_doc.from_designation = action_maker.designation

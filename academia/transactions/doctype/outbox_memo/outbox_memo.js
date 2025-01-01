@@ -4,7 +4,7 @@ let mustInclude = [];
 
 frappe.ui.form.on("Outbox Memo", {
 	before_submit: function (frm) {
-		if (frm.doc.type === "Internal" && frm.doc.direction != "Downward") {
+		if ((frm.doc.type === "Internal" && frm.doc.direction != "Downward") || (frm.doc.type == "External")) {
 			frappe.call({
 				method: "frappe.client.get_value",
 				args: {
@@ -90,12 +90,20 @@ frappe.ui.form.on("Outbox Memo", {
 		update_must_include(frm);
 	},
 
+	type: function(frm){
+		update_must_include(frm)
+	},
+
 	get_recipients: function (frm) {
+		update_must_include(frm);
 		let setters = {
 			employee_name: null,
 			department: null,
 			designation: null,
 		};
+		if(frm.doc.type == "External"){
+			setters.company = null
+		}
 
 		new frappe.ui.form.MultiSelectDialog({
 			doctype: "Employee",
@@ -169,6 +177,8 @@ frappe.ui.form.on("Outbox Memo", {
 		frm.clear_table("recipients");
 		frm.refresh_field("recipients");
 	},
+
+
 });
 
 function update_must_include(frm) {
