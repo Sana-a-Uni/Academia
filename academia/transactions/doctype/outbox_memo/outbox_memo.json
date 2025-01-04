@@ -8,6 +8,7 @@
   "section_break_pswz",
   "amended_from",
   "current_action_maker",
+  "is_received",
   "allow_to_redirect",
   "title",
   "status",
@@ -262,12 +263,20 @@
    "fieldtype": "Link",
    "label": "Transaction Reference",
    "options": "Transaction New"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "0",
+   "fieldname": "is_received",
+   "fieldtype": "Check",
+   "label": "Is Received",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-31 10:04:03.542589",
+ "modified": "2025-01-02 00:17:41.129979",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo",

@@ -182,6 +182,10 @@ frappe.ui.form.on("Outbox Memo Action", {
 			primary_action_label: __("Get Recipients"),
 
 			action(selections) {
+				if (selections.length > 1) {
+					frappe.msgprint("You Can Only Select One Recipient");
+					return;
+				}
 				// console.log(d.dialog.get_value("company"));
 				// emptying Council members
 				frm.set_value("recipients", []);
