@@ -24,6 +24,7 @@ class SpecificTransactionDocument(Document):
 		document_content: DF.TextEditor | None
 		employee_name: DF.Data | None
 		full_electronic: DF.Check
+		is_received: DF.Check
 		recipients: DF.Table[TransactionRecipientsNew]
 		start_from: DF.Link | None
 		start_from_company: DF.Link | None

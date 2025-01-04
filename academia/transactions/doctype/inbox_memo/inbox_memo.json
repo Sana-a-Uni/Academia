@@ -8,6 +8,7 @@
   "section_break_g9lf",
   "amended_from",
   "current_action_maker",
+  "is_received",
   "title",
   "status",
   "inbox_from",
@@ -236,12 +237,20 @@
    "fieldtype": "HTML",
    "label": "Related Actions",
    "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "1",
+   "fieldname": "is_received",
+   "fieldtype": "Check",
+   "label": "Is Received",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-30 18:34:34.247087",
+ "modified": "2025-01-04 20:06:37.955800",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Inbox Memo",
