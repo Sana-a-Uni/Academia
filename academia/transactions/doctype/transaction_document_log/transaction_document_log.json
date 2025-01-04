@@ -120,7 +120,8 @@
    "fieldname": "document_type",
    "fieldtype": "Select",
    "label": "Document Type",
-   "options": "Inbox Memo\nOutbox Memo\nRequest\nSpecific Transaction Document"
+   "options": "Inbox Memo\nOutbox Memo\nRequest\nSpecific Transaction Document",
+   "read_only": 1
   },
   {
    "fieldname": "document_name",
@@ -133,7 +134,8 @@
    "fieldname": "document_action_type",
    "fieldtype": "Select",
    "label": "Document Action Type",
-   "options": "Inbox Memo Action\nOutbox Memo Action\nRequest Action\nSpecific Transaction Document Action"
+   "options": "Inbox Memo Action\nOutbox Memo Action\nRequest Action\nSpecific Transaction Document Action",
+   "read_only": 1
   },
   {
    "fieldname": "document_action_name",
@@ -146,7 +148,7 @@
  "in_create": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-02 00:12:24.145517",
+ "modified": "2025-01-04 17:39:32.009480",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Transaction Document Log",

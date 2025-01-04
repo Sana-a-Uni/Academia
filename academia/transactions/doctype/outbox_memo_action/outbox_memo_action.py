@@ -12,8 +12,11 @@ class OutboxMemoAction(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
+
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
+			TransactionRecipientsNew,
+		)
 
 		action_date: DF.Data
 		action_maker: DF.Link | None
@@ -31,6 +34,11 @@ class OutboxMemoAction(Document):
 	# end: auto-generated types
 
 	def on_submit(self):
+		if self.type == "Redirected":
+			doc = frappe.get_doc("Outbox Memo", self.outbox_memo)
+			doc.direction = "Downward"
+			doc.save()
+			frappe.db.commit()
 		if len(self.recipients) > 0:
 			for row in self.recipients:
 				recipient = frappe.get_doc("Employee", row.recipient)
@@ -58,7 +66,6 @@ class OutboxMemoAction(Document):
 						share=0,
 						submit=0,
 					)
-
 
 
 import frappe
@@ -89,6 +96,7 @@ def update_outbox_memo(outbox_memo_name, current_action_maker, allow_to_redirect
 	doc.allow_to_redirect = allow_to_redirect
 	if status:
 		doc.status = status
+
 	# Save the document
 	doc.save()
 	frappe.db.commit()  # Commit the changes to the database
