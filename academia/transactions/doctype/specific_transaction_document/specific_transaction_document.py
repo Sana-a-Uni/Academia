@@ -12,18 +12,15 @@ class SpecificTransactionDocument(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import (
-			TransactionAttachmentsNew,
-		)
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
-			TransactionRecipientsNew,
-		)
+		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import TransactionAttachmentsNew
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
 
 		allow_to_redirect: DF.Check
 		amended_from: DF.Link | None
 		attachments: DF.Table[TransactionAttachmentsNew]
 		current_action_maker: DF.Data | None
+		direction: DF.Literal["Upwards", "Downwards"]
 		document_content: DF.TextEditor | None
 		employee_name: DF.Data | None
 		full_electronic: DF.Check
@@ -154,28 +151,38 @@ def create_new_specific_transaction_document_action(user_id, specific_transactio
 		action_maker.user_id != specific_transaction_document_doc.recipients[0].recipient_email
 		and type == "Approved"
 	):  # Access the recipients attribute on the document
-		reports_to = action_maker.reports_to
-		reports_to_emp = frappe.get_doc("Employee", reports_to)
-		if type != "Rejected":
-			frappe.share.add(
-				doctype="Specific Transaction Document",
-				name=specific_transaction_document_doc.name,
-				user=reports_to_emp.user_id,
-				read=1,
-				write=1,
-				share=1,
-				submit=1,
-			)
-		recipient = {
-			"step": 1,
-			"recipient": reports_to_emp.name,
-			"recipient_name": reports_to_emp.employee_name,
-			"recipient_company": reports_to_emp.company,
-			"recipient_department": reports_to_emp.department,
-			"recipient_designation": reports_to_emp.designation,
-			"recipient_email": reports_to_emp.user_id,
-		}
-		recipients = [recipient]
+		if (specific_transaction_document_doc.direction == "Upwards"):
+			reports_to = action_maker.reports_to
+			reports_to_emp = frappe.get_doc("Employee", reports_to)
+			if type != "Rejected":
+				frappe.share.add(
+					doctype="Specific Transaction Document",
+					name=specific_transaction_document_doc.name,
+					user=reports_to_emp.user_id,
+					read=1,
+					write=1,
+					share=1,
+					submit=1,
+				)
+			recipient = {
+				"step": 1,
+				"recipient": reports_to_emp.name,
+				"recipient_name": reports_to_emp.employee_name,
+				"recipient_company": reports_to_emp.company,
+				"recipient_department": reports_to_emp.department,
+				"recipient_designation": reports_to_emp.designation,
+				"recipient_email": reports_to_emp.user_id,
+			}
+			recipients = [recipient]
+		else:
+			specific_transaction_document_doc.status = "Completed"
+			specific_transaction_document_doc.complete_time = frappe.utils.now()
+			specific_transaction_document_doc.current_action_maker = ""
+
+			specific_transaction_document_doc.save(ignore_permissions=True)
+			permissions = {"read": 1, "write": 0, "share": 0, "submit": 0}
+			permissions_str = json.dumps(permissions)
+			update_share_permissions(specific_transaction_document, user_id, permissions_str)
 	elif type == "Rejected":
 		specific_transaction_document_doc.status = "Rejected"
 
@@ -282,3 +289,54 @@ def share_permission_through_route(document, current_employee):
 			submit=1,
 		)
 
+@frappe.whitelist()
+def get_specific_transaction_document_actions_html(specific_transaction_document_name):
+	actions = frappe.get_all(
+		"Specific Transaction Document Action",
+		filters={"specific_transaction_document": specific_transaction_document_name, "docstatus": 1},
+		fields=["name", "type", "action_date", "action_maker", "details"],
+		order_by="creation asc",
+	)
+
+	if not actions:
+		return "<p>No actions found for this specific transaction document.</p>"
+
+	table_html = """
+    <table class="table table-bordered" style="table-layout: fixed; width: 100%; word-wrap: break-word;">
+        <thead>
+            <tr>
+                <th style="width: 20%;">Action Name</th>
+                <th style="width: 15%;">Type</th>
+                <th style="width: 15%;">Action Date</th>
+                <th style="width: 20%;">Action Maker</th>
+                <th style="width: 30%;">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+    """
+
+	type_colors = {
+		"Pending": "gray",
+		"Redirected": "blue",
+		"Approved": "green",
+		"Rejected": "red",
+		"Canceled": "orange",
+		"Topic": "purple",
+	}
+
+	for action in actions:
+		type_color = type_colors.get(action["type"], "black")
+		action_maker = action["action_maker"] if action["action_maker"] else "None"
+
+		table_html += f"""
+        <tr>
+            <td><a href="/app/specific_transaction_document-action/{action['name']}" target="_blank">{action['name']}</a></td>
+            <td style="color: white; background-color: {type_color}; padding: 5px; border-radius: 10px; text-align: center; width: 100%;">{action['type']}</td>
+            <td>{action['action_date']}</td>
+            <td>{action['action_maker']}</td>
+            <td>{action['details'] or ''}</td>
+        </tr>
+        """
+	table_html += "</tbody></table>"
+
+	return table_html

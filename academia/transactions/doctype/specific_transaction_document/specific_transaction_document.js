@@ -266,3 +266,30 @@ function add_redirect_action(frm) {
 		// });
 	});
 }
+
+frappe.ui.form.on("Specific Transaction Document", {
+	refresh: function (frm) {
+		update_related_actions_html(frm);
+	},
+	after_save: function (frm) {
+		update_related_actions_html(frm);
+	},
+	onload: function (frm) {
+		update_related_actions_html(frm);
+	},
+});
+
+function update_related_actions_html(frm) {
+	frappe.call({
+		method: "academia.transactions.doctype.specific_transaction_document.specific_transaction_document.get_specific_transaction_document_actions_html",
+		args: {
+			specific_transaction_document_name: frm.doc.name,
+		},
+		callback: function (r) {
+			if (r.message) {
+				frm.set_df_property("related_actions", "options", r.message);
+				frm.refresh_field("related_actions");
+			}
+		},
+	});
+}
