@@ -15,7 +15,7 @@ class StudentBatch(Document):
 		from frappe.types import DF
 
 		batch_name: DF.Data
-		current_level: DF.Link
+		current_level: DF.Link | None
 		faculty: DF.Link
 		program: DF.Link
 		program_specification: DF.Link
