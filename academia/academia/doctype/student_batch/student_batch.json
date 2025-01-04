@@ -11,8 +11,8 @@
   "program",
   "column_break_apun",
   "program_specification",
-  "current_level",
-  "status"
+  "status",
+  "current_level"
  ],
  "fields": [
   {
@@ -52,8 +52,8 @@
    "fieldname": "current_level",
    "fieldtype": "Link",
    "label": "Current Level",
-   "options": "Level",
-   "reqd": 1
+   "mandatory_depends_on": "eval:doc.status == \"Continue\"",
+   "options": "Level"
   },
   {
    "fieldname": "faculty",
@@ -65,7 +65,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-27 03:17:41.411447",
+ "modified": "2025-01-04 18:25:17.290028",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Student Batch",
