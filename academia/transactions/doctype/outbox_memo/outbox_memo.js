@@ -1,13 +1,16 @@
 // Copyright (c) 2024, SanU and contributors
 // For license information, please see license.txt
 let mustInclude = [];
-let global_current_employee = null
-let global_next_recipient = null
-let global_action_name = null
+let global_current_employee = null;
+let global_next_recipient = null;
+let global_action_name = null;
 
 frappe.ui.form.on("Outbox Memo", {
 	before_submit: function (frm) {
-		if ((frm.doc.type === "Internal" && frm.doc.direction != "Downward") || (frm.doc.type == "External")) {
+		if (
+			(frm.doc.type === "Internal" && frm.doc.direction != "Downward") ||
+			frm.doc.type == "External"
+		) {
 			frappe.call({
 				method: "frappe.client.get_value",
 				args: {
@@ -53,10 +56,14 @@ frappe.ui.form.on("Outbox Memo", {
 			},
 			callback: function (response) {
 				if (response.message) {
-					global_current_employee = response.message.name
-					if((frm.doc.direction == "Upward" && global_current_employee != frm.doc.recipients[0].recipient)
-						|| (frm.doc.type == "External" && global_current_employee!= frm.doc.end_employee )){
-						global_next_recipient = response.message.reports_to
+					global_current_employee = response.message.name;
+					if (
+						(frm.doc.direction == "Upward" &&
+							global_current_employee != frm.doc.recipients[0].recipient) ||
+						(frm.doc.type == "External" &&
+							global_current_employee != frm.doc.end_employee)
+					) {
+						global_next_recipient = response.message.reports_to;
 					}
 				}
 			},
@@ -112,8 +119,8 @@ frappe.ui.form.on("Outbox Memo", {
 		update_must_include(frm);
 	},
 
-	type: function(frm){
-		update_must_include(frm)
+	type: function (frm) {
+		update_must_include(frm);
 	},
 
 	get_recipients: function (frm) {
@@ -123,8 +130,8 @@ frappe.ui.form.on("Outbox Memo", {
 			department: null,
 			designation: null,
 		};
-		if(frm.doc.type == "External"){
-			setters.company = null
+		if (frm.doc.type == "External") {
+			setters.company = null;
 		}
 
 		new frappe.ui.form.MultiSelectDialog({
@@ -203,8 +210,6 @@ frappe.ui.form.on("Outbox Memo", {
 		frm.clear_table("recipients");
 		frm.refresh_field("recipients");
 	},
-
-
 });
 
 function update_must_include(frm) {
@@ -248,9 +253,12 @@ function update_must_include(frm) {
 
 function add_approve_action(frm) {
 	cur_frm.page.add_action_item(__("Approve"), function () {
-		if(((frm.doc.direction == "Upward" && global_current_employee == frm.doc.recipients[0].recipient)
-		|| (frm.doc.type == "External" && global_current_employee == frm.doc.end_employee ))
-		&& frm.doc.full_electronic || frm.doc.direction == "Downward"){
+		if (
+			((frm.doc.direction == "Upward" &&
+				global_current_employee === frm.doc.recipients[0].recipient) ||
+				(frm.doc.type == "External" && global_current_employee == frm.doc.end_employee)) &&
+			(!frm.doc.full_electronic || frm.doc.direction == "Downward")
+		) {
 			frappe.prompt(
 				[
 					{
@@ -291,8 +299,7 @@ function add_approve_action(frm) {
 				__("Enter Approval Details"),
 				__("Submit")
 			);
-		}
-		else if(!frm.doc.full_electronic){
+		} else {
 			frappe.prompt(
 				[
 					{
@@ -412,7 +419,9 @@ function add_approve_action(frm) {
 														? "True"
 														: "False",
 													proof: values.proof,
-													with_proof: values.with_proof ? "True" : "False",
+													with_proof: values.with_proof
+														? "True"
+														: "False",
 												},
 												callback: function (r) {
 													if (r.message) {
@@ -426,33 +435,33 @@ function add_approve_action(frm) {
 																!values.through_middle_man
 															) {
 																frappe.db
-																.set_value(
-																	"Outbox Memo",
-																	frm.docname,
-																	"is_received",
-																	1,
-																)
-																.then(() => {
-																	location.reload();
-																});
+																	.set_value(
+																		"Outbox Memo",
+																		frm.docname,
+																		"is_received",
+																		1
+																	)
+																	.then(() => {
+																		location.reload();
+																	});
 															} else {
 																frappe.db
-																.set_value(
-																	"Outbox Memo",
-																	frm.docname,
-																	"is_received",
-																	0,
-																)
-																.then(() => {
-																	location.reload();
-																});
+																	.set_value(
+																		"Outbox Memo",
+																		frm.docname,
+																		"is_received",
+																		0
+																	)
+																	.then(() => {
+																		location.reload();
+																	});
 															}
 															// location.reload();
 														}
 													}
 												},
 												error: function (r) {
-													frappe.msgprint("You are in the error")
+													frappe.msgprint("You are in the error");
 													console.error(r);
 													frappe.msgprint({
 														title: __("Error"),
@@ -463,7 +472,6 @@ function add_approve_action(frm) {
 											});
 										});
 								}
-
 
 								// Fetch the next recipient based on the next step
 								// frappe.call({
@@ -477,7 +485,7 @@ function add_approve_action(frm) {
 								// 			const end_employee = r.message;
 								// 			console.log(end_employee)
 								// 			// Call the server-side method to create the transaction paper log
-								
+
 								// 		} else {
 								// 			frappe.msgprint(__("No next recipient found."));
 								// 		}
