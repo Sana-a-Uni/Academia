@@ -18,6 +18,7 @@ class CourseEnrollment(Document):
 		academic_term: DF.Link
 		academic_year: DF.Link
 		course: DF.Link
+		course_name: DF.ReadOnly | None
 		enrollment_date: DF.Date | None
 		faculty: DF.Link | None
 		faculty_department: DF.Link | None
