@@ -89,6 +89,8 @@ def update_specific_transaction_document(specific_transaction_document_name, cur
 
 	# Update fields
 	doc.current_action_maker = current_action_maker
+	if allow_to_redirect:
+		doc.direction = "Downwards"
 	doc.allow_to_redirect = allow_to_redirect
 	if status:
 		doc.status = status
