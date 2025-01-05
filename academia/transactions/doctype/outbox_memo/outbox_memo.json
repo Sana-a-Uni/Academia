@@ -216,7 +216,7 @@
   },
   {
    "allow_on_submit": 1,
-   "depends_on": "eval:doc.type==\"Internal\" && doc.status == 0",
+   "depends_on": "eval:doc.type==\"Internal\" && doc.status != 1",
    "fieldname": "direction",
    "fieldtype": "Select",
    "label": "Direction",
@@ -248,7 +248,6 @@
    "read_only": 1
   },
   {
-   "depends_on": "eval:doc.related_action",
    "fieldname": "related_actions_tab",
    "fieldtype": "Tab Break",
    "label": "Related Actions"
@@ -277,7 +276,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-04 19:57:26.959281",
+ "modified": "2025-01-05 16:56:27.987855",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo",

@@ -1,6 +1,7 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 import json
+
 import frappe
 from frappe.model.document import Document
 
@@ -12,8 +13,11 @@ class SpecificTransactionDocumentAction(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
+
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
+			TransactionRecipientsNew,
+		)
 
 		action_date: DF.Data | None
 		action_maker: DF.Link | None
@@ -29,7 +33,7 @@ class SpecificTransactionDocumentAction(Document):
 		specific_transaction_document: DF.Link
 		type: DF.Literal["Redirected", "Approved", "Rejected", "Canceled"]
 	# end: auto-generated types
-	
+
 	def on_submit(self):
 		if len(self.recipients) > 0:
 			for row in self.recipients:
@@ -47,6 +51,7 @@ class SpecificTransactionDocumentAction(Document):
 					share=1,
 					submit=1,
 				)
+
 
 @frappe.whitelist()
 def get_reports_to_hierarchy_reverse(employee_name):
@@ -67,8 +72,11 @@ def get_reports_to_hierarchy_reverse(employee_name):
 
 	return employees
 
+
 @frappe.whitelist()
-def update_specific_transaction_document(specific_transaction_document_name, current_action_maker, allow_to_redirect, status = ""):
+def update_specific_transaction_document(
+	specific_transaction_document_name, current_action_maker, allow_to_redirect, status=""
+):
 	"""
 	Updates the specified fields of an Specific Transaction Document document.
 
@@ -90,11 +98,10 @@ def update_specific_transaction_document(specific_transaction_document_name, cur
 	# Update fields
 	doc.current_action_maker = current_action_maker
 	if allow_to_redirect:
-		doc.direction = "Downwards"
+		doc.direction = "Downward"
 	doc.allow_to_redirect = allow_to_redirect
 	if status:
 		doc.status = status
-
 
 	# Save the document
 	doc.save()

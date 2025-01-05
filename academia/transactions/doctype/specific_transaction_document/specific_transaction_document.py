@@ -1,6 +1,7 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 import json
+
 import frappe
 from frappe.model.document import Document
 
@@ -12,15 +13,20 @@ class SpecificTransactionDocument(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import TransactionAttachmentsNew
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
+
+		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import (
+			TransactionAttachmentsNew,
+		)
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
+			TransactionRecipientsNew,
+		)
 
 		allow_to_redirect: DF.Check
 		amended_from: DF.Link | None
 		attachments: DF.Table[TransactionAttachmentsNew]
 		current_action_maker: DF.Data | None
-		direction: DF.Literal["Upwards", "Downwards"]
+		direction: DF.Literal["Upward", "Downward"]
 		document_content: DF.TextEditor | None
 		employee_name: DF.Data | None
 		full_electronic: DF.Check
@@ -35,7 +41,6 @@ class SpecificTransactionDocument(Document):
 		transaction_reference: DF.Link | None
 		type: DF.Literal["\u0643\u0634\u0641", "\u0648\u0631\u0642\u0629"]
 	# end: auto-generated types
-
 
 	def on_submit(self):
 		if self.start_from:
@@ -118,6 +123,7 @@ class SpecificTransactionDocument(Document):
 
 		###########################
 
+
 @frappe.whitelist()
 def get_reports_to_hierarchy(employee_name):
 	reports_emails = []
@@ -152,7 +158,7 @@ def create_new_specific_transaction_document_action(user_id, specific_transactio
 		action_maker.user_id != specific_transaction_document_doc.recipients[0].recipient_email
 		and type == "Approved"
 	):  # Access the recipients attribute on the document
-		if (specific_transaction_document_doc.direction == "Upwards"):
+		if specific_transaction_document_doc.direction == "Upward":
 			reports_to = action_maker.reports_to
 			reports_to_emp = frappe.get_doc("Employee", reports_to)
 			if type != "Rejected":
@@ -244,7 +250,7 @@ def create_new_specific_transaction_document_action(user_id, specific_transactio
 		frappe.db.commit()
 		new_doc.save()
 		new_doc.submit()
-		
+
 		action_name = new_doc.name
 		if reports_to_emp:
 			return {
@@ -275,6 +281,7 @@ def update_share_permissions(docname, user, permissions):
 	else:
 		return "text"
 
+
 def share_permission_through_route(document, current_employee):
 	reports_to = current_employee.reports_to
 	if current_employee.user_id != document.recipients[0].recipient_email:
@@ -289,6 +296,7 @@ def share_permission_through_route(document, current_employee):
 			share=1,
 			submit=1,
 		)
+
 
 @frappe.whitelist()
 def get_specific_transaction_document_actions_html(specific_transaction_document_name):

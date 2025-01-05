@@ -46,6 +46,7 @@ frappe.ui.form.on("Outbox Memo", {
 	},
 
 	refresh(frm) {
+		update_related_actions_html(frm);
 		// Assign global variables
 		frappe.call({
 			method: "frappe.client.get_value",
@@ -94,6 +95,7 @@ frappe.ui.form.on("Outbox Memo", {
 	},
 
 	onload: function (frm) {
+		update_related_actions_html(frm);
 		if (!frm.doc.start_from) {
 			frappe.call({
 				method: "frappe.client.get_value",
@@ -254,10 +256,11 @@ function update_must_include(frm) {
 function add_approve_action(frm) {
 	cur_frm.page.add_action_item(__("Approve"), function () {
 		if (
-			((frm.doc.direction == "Upward" &&
+			(frm.doc.type == "Internal" &&
 				global_current_employee === frm.doc.recipients[0].recipient) ||
-				(frm.doc.type == "External" && global_current_employee == frm.doc.end_employee)) &&
-			(!frm.doc.full_electronic || frm.doc.direction == "Downward")
+			(frm.doc.type == "External" && global_current_employee == frm.doc.end_employee) ||
+			frm.doc.full_electronic ||
+			frm.doc.direction == "Downward"
 		) {
 			frappe.prompt(
 				[
@@ -588,5 +591,20 @@ function add_redirect_action(frm) {
 		// 		});
 		// 	},
 		// });
+	});
+}
+
+function update_related_actions_html(frm) {
+	frappe.call({
+		method: "academia.transactions.doctype.outbox_memo.outbox_memo.get_outbox_memo_actions_html",
+		args: {
+			outbox_memo_name: frm.doc.name,
+		},
+		callback: function (r) {
+			if (r.message) {
+				frm.set_df_property("related_actions", "options", r.message);
+				frm.refresh_field("related_actions");
+			}
+		},
 	});
 }

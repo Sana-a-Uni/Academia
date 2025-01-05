@@ -195,12 +195,12 @@
   },
   {
    "allow_on_submit": 1,
-   "default": "Upwards",
+   "default": "Upward",
    "fieldname": "direction",
    "fieldtype": "Select",
    "hidden": 1,
    "label": "Direction",
-   "options": "Upwards\nDownwards"
+   "options": "Upward\nDownward"
   },
   {
    "allow_on_submit": 1,
@@ -214,7 +214,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-04 20:06:55.652719",
+ "modified": "2025-01-05 18:43:40.728986",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Specific Transaction Document",
