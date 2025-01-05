@@ -34,6 +34,34 @@ frappe.ui.form.on("Request Action", {
 		});
 	},
 	refresh(frm) {
+		frappe.call({
+			method: "frappe.client.get",
+			args: {
+				doctype: "Request",
+				name: frm.doc.request,
+			},
+			callback: function (response) {
+				if (response.message) {
+					const doc = response.message;
+
+					// Check if the full_electronic field is checked
+					if (!doc.full_electronic) {
+						// Hide the "Submit" button
+						frm.page.wrapper.find('.btn-primary[data-label="Submit"]').hide();
+
+						// Add a custom submit button
+						if (!frm.is_new() && frm.doc.docstatus === 0) {
+							frm.add_custom_button(__("Submit"), function () {
+								// Custom functionality
+								custom_submit_functionality(frm);
+							}).addClass("btn-primary");
+						}
+						y;
+					}
+				}
+			},
+		});
+
 		// Hide 'add row' button
 		frm.get_field("recipients").grid.cannot_add_rows = true;
 		// Stop 'add below' & 'add above' options
@@ -169,4 +197,158 @@ function update_must_include(frm) {
 			},
 		});
 	}
+}
+
+function custom_submit_functionality(frm) {
+	// Example custom functionality
+	frappe.prompt(
+		[
+			{
+				label: "Details",
+				fieldname: "details",
+				fieldtype: "Text",
+			},
+			{
+				fieldname: "document_name",
+				fieldtype: "Link",
+				label: "Document Name",
+				options: "Transaction",
+				default: frm.doc.request,
+				read_only: 1,
+				hidden: 1,
+			},
+			{
+				fieldname: "start_employee",
+				fieldtype: "Link",
+				label: "Start From",
+				options: "Employee",
+				read_only: 1,
+				hidden: 1,
+				default: frm.doc.action_maker || "",
+			},
+			{
+				fieldname: "end_employee",
+				fieldtype: "Link",
+				label: "End To",
+				options: "Employee",
+				default: frm.doc.recipients[0].recipient || "",
+				read_only: 1,
+				hidden: 1,
+			},
+			{
+				fieldname: "through_middle_man",
+				fieldtype: "Check",
+				label: "Through Middle Man",
+			},
+			{
+				fieldname: "middle_man",
+				fieldtype: "Link",
+				label: "Middle Man",
+				options: "Employee",
+				depends_on: "eval:doc.through_middle_man == 1",
+				get_query: function () {
+					return {
+						query: "academia.transactions.doctype.outbox_memo.outbox_memo.get_middle_man_list",
+					};
+				},
+			},
+			{
+				fieldname: "with_proof",
+				label: __("With Proof"),
+				fieldtype: "Check",
+			},
+			{
+				fieldname: "proof",
+				label: __("Proof"),
+				fieldtype: "Attach",
+				depends_on: "eval:doc.with_proof == 1",
+			},
+		],
+		function (values) {
+			if (values.through_middle_man && !values.middle_man) {
+				frappe.msgprint({
+					title: __("Error"),
+					indicator: "red",
+					message: __("Please select a Middle Man."),
+				});
+				return;
+			}
+			if (values.with_proof && !values.proof) {
+				frappe.msgprint({
+					title: __("Error"),
+					indicator: "red",
+					message: __("Please attach proof."),
+				});
+				return;
+			}
+
+			frappe.call({
+				method: "academia.transactions.doctype.outbox_memo.outbox_memo.create_transaction_document_log",
+				args: {
+					start_employee: values.start_employee,
+					end_employee: frm.doc.recipients[0].recipient,
+					document_type: "Request",
+					document_name: values.document_name,
+					document_action_type: "Request Action",
+					document_action_name: frm.doc.name,
+					middle_man: values.middle_man,
+					through_middle_man: values.through_middle_man ? "True" : "False",
+					proof: values.proof,
+					with_proof: values.with_proof ? "True" : "False",
+				},
+				callback: function (r) {
+					if (r.message) {
+						console.log("Transaction Document Log created:", r.message);
+						if (r.message) {
+							if (values.with_proof && !values.through_middle_man) {
+								frappe.call({
+									method: "academia.transactions.doctype.transaction_document_log.transaction_document_log.change_is_received",
+									args: {
+										doctype: "Request",
+										docname: frm.doc.request,
+										is_received: 1,
+									},
+									callback: function (r) {
+										if (r.message) {
+											frm.save("Submit");
+											frm.events.on_submit(frm);
+										}
+									},
+								});
+							} else {
+								frappe.call({
+									method: "academia.transactions.doctype.transaction_document_log.transaction_document_log.change_is_received",
+									args: {
+										doctype: "Request",
+										docname: frm.doc.request,
+										is_received: 0,
+									},
+									callback: function (r) {
+										if (r.message) {
+											frm.save("Submit");
+											frm.events.on_submit(frm);
+										}
+									},
+								});
+							}
+							// location.reload();
+						}
+					}
+				},
+				error: function (r) {
+					frappe.msgprint("You are in the error");
+					console.error(r);
+					frappe.msgprint({
+						title: __("Error"),
+						indicator: "red",
+						message: r.message,
+					});
+				},
+			});
+		},
+		__("Enter Approval Details"),
+		__("Submit")
+	);
+
+	// Submit the document after the custom functionality
 }
