@@ -9,6 +9,7 @@
   "section_break_ktpj",
   "amended_from",
   "current_action_maker",
+  "is_received",
   "title",
   "status",
   "full_electronic",
@@ -178,12 +179,20 @@
    "fieldname": "related_actions_tab",
    "fieldtype": "Tab Break",
    "label": "Related Actions"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "1",
+   "fieldname": "is_received",
+   "fieldtype": "Check",
+   "label": "Is Received",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-29 19:15:33.753714",
+ "modified": "2025-01-04 20:07:03.678181",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Request",

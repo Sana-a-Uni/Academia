@@ -1,0 +1,218 @@
+{
+ "actions": [],
+ "autoname": "format:{document_action_name}-P",
+ "creation": "2025-01-01 20:57:19.260271",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "document_type",
+  "document_name",
+  "start_employee",
+  "start_employee_name",
+  "paper_progress",
+  "through_middle_man",
+  "mm_proof",
+  "ee_proof",
+  "column_break_zqyj",
+  "document_action_type",
+  "document_action_name",
+  "end_employee",
+  "end_employee_name",
+  "middle_man",
+  "middle_man_name",
+  "amended_from",
+  "attachments_tab",
+  "attachments"
+ ],
+ "fields": [
+  {
+   "fieldname": "start_employee",
+   "fieldtype": "Link",
+   "label": "Start Employee",
+   "options": "Employee",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "start_employee.employee_name",
+   "fieldname": "start_employee_name",
+   "fieldtype": "Data",
+   "label": "Start Employee Name"
+  },
+  {
+   "fieldname": "paper_progress",
+   "fieldtype": "Select",
+   "label": "Paper Progress",
+   "options": "\nDelivered to middle man\nReceived by middle man\nDelivered to end employee\nReceived by end employee",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "through_middle_man",
+   "fieldtype": "Check",
+   "label": "Through Middle Man",
+   "read_only": 1
+  },
+  {
+   "fieldname": "mm_proof",
+   "fieldtype": "Attach",
+   "label": "Proof of Delivery to Middle Man"
+  },
+  {
+   "fieldname": "ee_proof",
+   "fieldtype": "Attach",
+   "label": "Proof of Delivery to End Employee"
+  },
+  {
+   "fieldname": "column_break_zqyj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "end_employee",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "label": "End Employee",
+   "options": "Employee",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "end_employee.employee_name",
+   "fieldname": "end_employee_name",
+   "fieldtype": "Data",
+   "label": "End Employee Name"
+  },
+  {
+   "fieldname": "middle_man",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "label": "Middle Man",
+   "options": "Employee",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "middle_man.employee_name",
+   "fieldname": "middle_man_name",
+   "fieldtype": "Data",
+   "label": "Middle Man Name"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Transaction Paper Log",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "attachments_tab",
+   "fieldtype": "Tab Break",
+   "label": "Attachments"
+  },
+  {
+   "fieldname": "attachments",
+   "fieldtype": "Table",
+   "label": "Attachments",
+   "options": "Transaction Attachments"
+  },
+  {
+   "fieldname": "document_type",
+   "fieldtype": "Select",
+   "label": "Document Type",
+   "options": "Inbox Memo\nOutbox Memo\nRequest\nSpecific Transaction Document",
+   "read_only": 1
+  },
+  {
+   "fieldname": "document_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Document Name",
+   "options": "document_type",
+   "read_only": 1
+  },
+  {
+   "fieldname": "document_action_type",
+   "fieldtype": "Select",
+   "label": "Document Action Type",
+   "options": "Inbox Memo Action\nOutbox Memo Action\nRequest Action\nSpecific Transaction Document Action",
+   "read_only": 1
+  },
+  {
+   "fieldname": "document_action_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Document Action Name",
+   "options": "document_action_type",
+   "read_only": 1
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-04 17:39:32.009480",
+ "modified_by": "Administrator",
+ "module": "Transactions",
+ "name": "Transaction Document Log",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction User",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "permlevel": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction Paper Log",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transaction Paper Log",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

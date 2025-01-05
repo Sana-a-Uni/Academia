@@ -8,6 +8,7 @@
   "section_break_pswz",
   "amended_from",
   "current_action_maker",
+  "is_received",
   "allow_to_redirect",
   "title",
   "status",
@@ -24,6 +25,13 @@
   "column_break_fdix",
   "start_from_department",
   "start_from_designation",
+  "end_employee_within_the_system_section",
+  "end_employee",
+  "end_employee_name",
+  "end_employee_company",
+  "column_break_xmet",
+  "end_employee_department",
+  "end_employee_designation",
   "section_break_silk",
   "recipients",
   "get_recipients",
@@ -123,6 +131,50 @@
    "read_only": 1
   },
   {
+   "fieldname": "end_employee",
+   "fieldtype": "Link",
+   "label": "End Employee",
+   "mandatory_depends_on": "eval:doc.type == \"External\"",
+   "options": "Employee"
+  },
+  {
+   "depends_on": "eval:doc.type == \"External\"",
+   "fieldname": "end_employee_within_the_system_section",
+   "fieldtype": "Section Break",
+   "label": "End Employee Within The System"
+  },
+  {
+   "fetch_from": "end_employee.employee_name",
+   "fieldname": "end_employee_name",
+   "fieldtype": "Data",
+   "label": "End Employee Name"
+  },
+  {
+   "fetch_from": "end_employee.company",
+   "fieldname": "end_employee_company",
+   "fieldtype": "Link",
+   "label": "End Employee Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "column_break_xmet",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "end_employee.department",
+   "fieldname": "end_employee_department",
+   "fieldtype": "Link",
+   "label": "End Employee Department",
+   "options": "Department"
+  },
+  {
+   "fetch_from": "end_employee.designation",
+   "fieldname": "end_employee_designation",
+   "fieldtype": "Link",
+   "label": "End Employee Designation",
+   "options": "Designation"
+  },
+  {
    "fieldname": "section_break_silk",
    "fieldtype": "Section Break",
    "label": "To"
@@ -163,7 +215,8 @@
    "label": "Full Electronic"
   },
   {
-   "depends_on": "eval:doc.type==\"Internal\"",
+   "allow_on_submit": 1,
+   "depends_on": "eval:doc.type==\"Internal\" && doc.status == 0",
    "fieldname": "direction",
    "fieldtype": "Select",
    "label": "Direction",
@@ -211,12 +264,20 @@
    "fieldtype": "Link",
    "label": "Transaction Reference",
    "options": "Transaction New"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "1",
+   "fieldname": "is_received",
+   "fieldtype": "Check",
+   "label": "Is Received",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-30 18:40:09.497279",
+ "modified": "2025-01-04 19:57:26.959281",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo",
@@ -259,5 +320,6 @@
    "color": "Purple",
    "title": "Rejected"
   }
- ]
+ ],
+ "track_seen": 1
 }

@@ -8,11 +8,13 @@
   "section_break_gfhu",
   "amended_from",
   "current_action_maker",
+  "is_received",
   "allow_to_redirect",
   "title",
   "status",
   "type",
   "full_electronic",
+  "direction",
   "column_break_alsb",
   "document_content",
   "transaction_reference",
@@ -182,19 +184,37 @@
   {
    "fieldname": "related_actions",
    "fieldtype": "HTML",
-   "label": "Related Actions"
+   "label": "Related Actions",
+   "read_only": 1
   },
   {
    "fieldname": "transaction_reference",
    "fieldtype": "Link",
    "label": "Transaction Reference",
    "options": "Transaction New"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "Upwards",
+   "fieldname": "direction",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Direction",
+   "options": "Upwards\nDownwards"
+  },
+  {
+   "allow_on_submit": 1,
+   "default": "1",
+   "fieldname": "is_received",
+   "fieldtype": "Check",
+   "label": "Is Received",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-29 15:13:24.244035",
+ "modified": "2025-01-04 20:06:55.652719",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Specific Transaction Document",

@@ -18,7 +18,8 @@ class OutboxMemoAction(Document):
 			TransactionRecipientsNew,
 		)
 
-		action_date: DF.Data | None
+		action_date: DF.Data
+		action_maker: DF.Link | None
 		allow_recipient_to_redirect: DF.Check
 		amended_from: DF.Link | None
 		created_by: DF.Link | None
@@ -29,11 +30,15 @@ class OutboxMemoAction(Document):
 		from_designation: DF.Data | None
 		outbox_memo: DF.Link
 		recipients: DF.Table[TransactionRecipientsNew]
-		start_from: DF.Link | None
 		type: DF.Literal["Redirected", "Approved", "Rejected", "Canceled"]
 	# end: auto-generated types
 
 	def on_submit(self):
+		if self.type == "Redirected":
+			doc = frappe.get_doc("Outbox Memo", self.outbox_memo)
+			doc.direction = "Downward"
+			doc.save()
+			frappe.db.commit()
 		if len(self.recipients) > 0:
 			for row in self.recipients:
 				recipient = frappe.get_doc("Employee", row.recipient)
@@ -41,15 +46,26 @@ class OutboxMemoAction(Document):
 				# 	appicant_user_id = applicant.email
 				# else:
 				# 	appicant_user_id = applicant.user_id
-				frappe.share.add(
-					doctype="Outbox Memo",
-					name=self.outbox_memo,
-					user=recipient.user_id,
-					read=1,
-					write=1,
-					share=1,
-					submit=1,
-				)
+				if self.allow_recipient_to_redirect:
+					frappe.share.add(
+						doctype="Outbox Memo",
+						name=self.outbox_memo,
+						user=recipient.user_id,
+						read=1,
+						write=1,
+						share=1,
+						submit=1,
+					)
+				else:
+					frappe.share.add(
+						doctype="Outbox Memo",
+						name=self.outbox_memo,
+						user=recipient.user_id,
+						read=1,
+						write=0,
+						share=0,
+						submit=0,
+					)
 
 
 import frappe
@@ -80,6 +96,7 @@ def update_outbox_memo(outbox_memo_name, current_action_maker, allow_to_redirect
 	doc.allow_to_redirect = allow_to_redirect
 	if status:
 		doc.status = status
+
 	# Save the document
 	doc.save()
 	frappe.db.commit()  # Commit the changes to the database

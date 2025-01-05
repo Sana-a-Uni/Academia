@@ -26,6 +26,7 @@ class InboxMemo(Document):
 		external_entity_employee: DF.Data | None
 		full_electronic: DF.Check
 		inbox_from: DF.Literal["Company within the system", "Company outside the system"]
+		is_received: DF.Check
 		main_external_entity: DF.Link | None
 		recipients: DF.Table[TransactionRecipientsNew]
 		start_from: DF.Link | None
@@ -38,8 +39,27 @@ class InboxMemo(Document):
 		title: DF.Data
 		transaction_reference: DF.Link | None
 	# end: auto-generated types
-	pass
+	def on_submit(self):
+		employee = frappe.get_doc("Employee", self.start_from)
+		frappe.share.add(
+			doctype="inbox Memo",
+			name=self.name,
+			user=employee.user_id,
+			read=1,
+			write=0,
+			share=0,
+		)
 
+		employee = frappe.get_doc("Employee", self.recipients[0].recipient)
+		frappe.share.add(
+			doctype="inbox Memo",
+			name=self.name,
+			user=employee.user_id,
+			read=1,
+			write=1,
+			share=1,
+			submit=1,
+		)
 
 @frappe.whitelist()
 def create_new_inbox_memo_action(user_id, inbox_memo, type, details):

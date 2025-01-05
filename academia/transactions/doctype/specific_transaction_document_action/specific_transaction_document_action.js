@@ -14,7 +14,7 @@ frappe.ui.form.on("Specific Transaction Document Action", {
 					const employee = response.message;
 					if (employee) {
 						// Set the values of the fields to those of the fetched employee record
-						frm.set_value("start_from", employee.name);
+						frm.set_value("action_maker", employee.name);
 						frm.set_value("from_company", employee.company);
 						frm.set_value("from_department", employee.department);
 						frm.set_value("from_designation", employee.designation);
@@ -88,12 +88,20 @@ frappe.ui.form.on("Specific Transaction Document Action", {
 			},
 		});
 	},
+	before_save: function (frm) {
+		// If the user is not an Administrator, set the created_by field to the current user
+		if (frappe.session.user !== "Administrator") {
+			frm.set_value("created_by", frappe.session.user);
+		}
+	},
 
 	onload: function(frm) {
-
+		if(frm.doc.docstatus == 0){
+			frm.set_value("action_date", frappe.datetime.now_date())
+		}
         frm.get_field('recipients').grid.cannot_add_rows = true;
     },
-    start_from: function (frm) {
+    action_maker: function (frm) {
 		update_must_include(frm);
 	},
     get_recipients: function (frm) {
@@ -172,14 +180,14 @@ frappe.ui.form.on("Specific Transaction Document Action", {
 	},
 });
 function update_must_include(frm) {
-	if (frm.doc.start_from) {
+	if (frm.doc.action_maker) {
 		frm.clear_table("recipients");
 		frm.refresh_field("recipients");
 
 		frappe.call({
             method: "academia.transactions.doctype.specific_transaction_document_action.specific_transaction_document_action.get_reports_to_hierarchy_reverse",
             args: {
-                employee_name: frm.doc.start_from,
+                employee_name: frm.doc.action_maker,
             },
             callback: function (response) {
                 mustInclude = response.message;

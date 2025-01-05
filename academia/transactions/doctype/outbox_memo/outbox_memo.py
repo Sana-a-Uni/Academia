@@ -14,14 +14,9 @@ class OutboxMemo(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import TransactionAttachmentsNew
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
-
-		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import (
-			TransactionAttachmentsNew,
-		)
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
-			TransactionRecipientsNew,
-		)
 
 		allow_to_redirect: DF.Check
 		amended_from: DF.Link | None
@@ -29,7 +24,13 @@ class OutboxMemo(Document):
 		current_action_maker: DF.Data | None
 		direction: DF.Literal["Upward", "Downward"]
 		document_content: DF.TextEditor | None
+		end_employee: DF.Link | None
+		end_employee_company: DF.Link | None
+		end_employee_department: DF.Link | None
+		end_employee_designation: DF.Link | None
+		end_employee_name: DF.Data | None
 		full_electronic: DF.Check
+		is_received: DF.Check
 		recipients: DF.Table[TransactionRecipientsNew]
 		start_from: DF.Link
 		start_from_company: DF.Link
@@ -40,22 +41,32 @@ class OutboxMemo(Document):
 		title: DF.Data
 		transaction_reference: DF.Link | None
 		type: DF.Literal["Internal", "External"]
-
 	# end: auto-generated types
 	def on_submit(self):
+		employee = frappe.get_doc("Employee", self.start_from)
+		frappe.share.add(
+			doctype="Outbox Memo",
+			name=self.name,
+			user=employee.user_id,
+			read=1,
+			write=0,
+			share=0,
+		)
+
 		if self.start_from and self.direction == "Upward":
-			employee = frappe.get_doc("Employee", self.start_from)
+			employee = frappe.get_doc("Employee", self.start_from, fields=["reports_to", "user_id"])
+			share_permission_through_route(self, employee)
+			
+		elif self.start_from and self.direction == "Downward":
 			frappe.share.add(
 				doctype="Outbox Memo",
 				name=self.name,
-				user=employee.user_id,
+				user=self.recipients[0].recipient_email,
 				read=1,
-				write=0,
-				share=0,
+				write=1,
+				share=1,
+				submit=1,
 			)
-
-		employee = frappe.get_doc("Employee", self.start_from, fields=["reports_to", "user_id"])
-		share_permission_through_route(self, employee)
 
 
 @frappe.whitelist()
@@ -230,13 +241,16 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 	"""
 	outbox_memo_doc = frappe.get_doc("Outbox Memo", outbox_memo)  # Fetch the outbox_memo as a document
 	action_maker = frappe.get_doc("Employee", {"user_id": user_id})
+	if outbox_memo_doc.end_employee:
+		end_employee_email = frappe.get_value("Employee", {"name": outbox_memo_doc.end_employee}, "user_id")
 
 	recipients = []
-	reports_to_emp = "HR-EMP-00004"  # Initialize the reports_to_emp variable as None
+	reports_to_emp = None  # Initialize the reports_to_emp variable as None
 
 	# Ensure the recipients child table is accessed correctly
 	if (
-		action_maker.user_id != outbox_memo_doc.recipients[0].recipient_email and type == "Approved"
+		(outbox_memo_doc.type == "Internal" and (action_maker.user_id != outbox_memo_doc.recipients[0].recipient_email and type == "Approved" and outbox_memo_doc.direction != "Downward"))
+		or (outbox_memo_doc.type == "External" and (action_maker.user_id != end_employee_email and type == "Approved"))
 	):  # Access the recipients attribute on the document
 		reports_to = action_maker.reports_to
 		reports_to_emp = frappe.get_doc("Employee", reports_to)
@@ -260,6 +274,15 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 			"recipient_email": reports_to_emp.user_id,
 		}
 		recipients = [recipient]
+	elif type == "Approved" and outbox_memo_doc.direction =="Downward":
+		outbox_memo_doc.status = "Completed"
+		outbox_memo_doc.complete_time = frappe.utils.now()
+		outbox_memo_doc.current_action_maker = ""
+
+		outbox_memo_doc.save(ignore_permissions=True)
+		permissions = {"read": 1, "write": 0, "share": 0, "submit": 0}
+		permissions_str = json.dumps(permissions)
+		update_share_permissions(outbox_memo, user_id, permissions_str)
 	elif type == "Rejected":
 		outbox_memo_doc.status = "Rejected"
 
@@ -271,7 +294,7 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 		update_share_permissions(outbox_memo, user_id, permissions_str)
 
 	else:
-		if action_maker.user_id == outbox_memo_doc.recipients[0].recipient_email and type == "Approved":
+		if (action_maker.user_id == outbox_memo_doc.recipients[0].recipient_email and type == "Approved") or (outbox_memo_doc.type == "External" and action_maker.user_id == end_employee_email and type == "Approved"):
 			outbox_memo_doc.status = "Completed"
 		elif type == "Rejected":
 			outbox_memo_doc.status = "Rejected"
@@ -289,6 +312,7 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 		new_doc = frappe.new_doc("Outbox Memo Action")
 		new_doc.outbox_memo = outbox_memo
 		new_doc.type = type
+		new_doc.action_maker = action_maker.name
 		new_doc.from_company = action_maker.company
 		new_doc.from_department = action_maker.department
 		new_doc.from_designation = action_maker.designation
@@ -365,3 +389,104 @@ def share_permission_through_route(document, current_employee):
 			share=1,
 			submit=1,
 		)
+
+@frappe.whitelist()
+def get_middle_man_list(doctype, txt, searchfield, start, page_len, filters):
+	try:
+		# Fetch the list of employees based on the search criteria and designation filter
+		employees = frappe.db.sql(
+			"""
+            SELECT name, employee_name
+            FROM `tabEmployee`
+            WHERE (name LIKE %(txt)s OR employee_name LIKE %(txt)s)
+            AND designation = 'Accountant'
+            LIMIT %(start)s, %(page_len)s
+        """,
+			{"txt": f"%{txt}%", "start": start, "page_len": page_len},
+		)
+
+		# Ensure the list is not empty
+		if not employees:
+			frappe.throw(_("No employees found"))
+
+		return employees
+	except Exception as e:
+		frappe.log_error(message=str(e), title="Error in get_employee_list")
+		frappe.throw(_("An error occurred while fetching the employee list"))
+
+@frappe.whitelist()
+def create_transaction_document_log(
+	start_employee,
+	end_employee,
+	document_type,
+	document_name,
+	document_action_type,
+	document_action_name,
+	through_middle_man,
+	with_proof,
+	proof="",
+	middle_man="",
+):
+	# Create a new document for the "Transaction Paper Log" doctype
+	new_log = frappe.new_doc("Transaction Document Log")
+	# Set the fields with the provided parameters
+	new_log.start_employee = start_employee
+	new_log.end_employee = end_employee
+	new_log.document_type = document_type
+	new_log.document_name = document_name
+	new_log.document_action_type = document_action_type
+	new_log.document_action_name = document_action_name
+	new_log.name = "Nigger" + "-P"
+	if through_middle_man == "False":
+		if with_proof == "True":
+			new_log.ee_proof = proof
+			new_log.paper_progress = "Received by end employee"
+		else:
+			new_log.paper_progress = "Delivered to end employee"
+	elif through_middle_man == "True":
+		new_log.through_middle_man = 1
+		new_log.middle_man = middle_man
+		if with_proof == "True":
+			new_log.mm_proof = proof
+			new_log.paper_progress = "Received by middle man"
+		else:
+			new_log.paper_progress = "Delivered to middle man"
+
+	transaction_doc = frappe.get_doc(document_type, document_name)
+
+	# Iterate over the attachments child table entries and add them to the new document
+	for attachment in transaction_doc.get("attachments"):
+		new_attachment = new_log.append("attachments", {})
+		new_attachment.update(attachment.as_dict())
+
+	# Save the document
+	new_log.insert(ignore_permissions=True)
+
+	if through_middle_man == True:
+		middle_man_email = frappe.get_value("Employee", middle_man, "user_id") if middle_man else None
+
+		# Share the document with the middle man
+		frappe.share.add(
+			doctype="Transaction Document Log",
+			name=new_log.name,
+			user=middle_man_email,
+			read=1,
+			write=1,
+			share=1,
+		)
+	else:
+		end_employee_email = frappe.get_value("Employee", end_employee, "user_id") if end_employee else None
+
+		# Share the document with the end employee
+		frappe.share.add(
+			doctype="Transaction Document Log",
+			name=new_log.name,
+			user=end_employee_email,
+			read=1,
+			write=1,
+			share=1,
+		)
+
+	frappe.db.commit()
+
+	return new_log
