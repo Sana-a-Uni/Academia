@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:{student}-{student_batch}-{course_name}",
  "creation": "2024-01-29 00:12:04.103215",
  "default_view": "List",
  "doctype": "DocType",
@@ -16,6 +17,7 @@
   "section_break_qxhp",
   "academic_year",
   "course",
+  "course_name",
   "column_break_igqx",
   "academic_term",
   "enrollment_date"
@@ -101,14 +103,21 @@
   {
    "fieldname": "column_break_clmw",
    "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "course.course_name",
+   "fieldname": "course_name",
+   "fieldtype": "Read Only",
+   "label": "Course Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-12-08 02:31:56.767826",
+ "modified": "2025-01-05 18:37:23.645562",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Enrollment",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

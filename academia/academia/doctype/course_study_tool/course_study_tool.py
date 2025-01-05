@@ -58,7 +58,7 @@ class CourseStudyTool(Document):
 											child_data['batch'] = batch.name
 
 									child_table_data.append(child_data)
-						frappe.msgprint(str(child_table_data))
+						frappe.msgprint("coureses got seccesfully")
 
 					elif self.level == "Specific Level":
 						if self.specific_level:

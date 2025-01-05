@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:{course_name} - {group}",
  "creation": "2024-06-03 07:38:33.912640",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -25,6 +26,7 @@
   "group",
   "course_type",
   "course",
+  "course_name",
   "sub_group",
   "section_break_wdte",
   "date",
@@ -100,7 +102,7 @@
   {
    "fieldname": "course",
    "fieldtype": "Link",
-   "label": "course",
+   "label": "Course",
    "options": "Course Study",
    "reqd": 1
   },
@@ -218,6 +220,12 @@
    "fieldtype": "Link",
    "label": "Compensatory Lesson Reference",
    "options": "Compensatory Lesson"
+  },
+  {
+   "fetch_from": "course.course_name",
+   "fieldname": "course_name",
+   "fieldtype": "Read Only",
+   "label": "Course Name"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -227,10 +235,11 @@
    "link_fieldname": "lesson"
   }
  ],
- "modified": "2024-08-09 10:06:56.705062",
+ "modified": "2025-01-05 19:43:45.062586",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lesson",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
