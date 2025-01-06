@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:{student_batch}-{course_name}-{instructor_name}",
  "creation": "2024-06-03 07:33:01.089337",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -13,9 +14,11 @@
   "section_break_kmjp",
   "student_batch",
   "instructor",
+  "instructor_name",
   "column_break_idnk",
   "group",
-  "course"
+  "course",
+  "course_name"
  ],
  "fields": [
   {
@@ -88,14 +91,28 @@
    "label": "Course",
    "options": "Course Study",
    "reqd": 1
+  },
+  {
+   "fetch_from": "instructor.faculty_member_name",
+   "fieldname": "instructor_name",
+   "fieldtype": "Data",
+   "label": "Instructor Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "course.course_name",
+   "fieldname": "course_name",
+   "fieldtype": "Read Only",
+   "label": "Course Name"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-07-01 04:06:00.267335",
+ "modified": "2025-01-05 18:38:31.645826",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Group Assignment",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

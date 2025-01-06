@@ -17,9 +17,11 @@ class GroupAssignment(Document):
 		academic_term: DF.Link
 		academic_year: DF.Link
 		course: DF.Link
+		course_name: DF.ReadOnly | None
 		faculty: DF.Link
 		group: DF.Link | None
 		instructor: DF.Link
+		instructor_name: DF.Data | None
 		program: DF.Link
 		student_batch: DF.Link
 	# end: auto-generated types

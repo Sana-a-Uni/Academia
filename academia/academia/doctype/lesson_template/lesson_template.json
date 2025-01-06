@@ -1,5 +1,6 @@
 {
  "actions": [],
+ "allow_import": 1,
  "allow_rename": 1,
  "autoname": "format:LT-{#####}",
  "creation": "2024-06-30 02:14:23.340266",
@@ -279,7 +280,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-29 05:07:20.592922",
+ "modified": "2025-01-05 19:45:43.381719",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Lesson Template",

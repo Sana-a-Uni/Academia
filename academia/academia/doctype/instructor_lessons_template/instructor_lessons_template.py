@@ -22,18 +22,7 @@ class InstructorLessonsTemplate(Document):
 		program_specification: DF.Link | None
 		room: DF.Link | None
 		schedule_template_version: DF.Link | None
-		schedule_type: DF.Literal[
-			"",
-			"Instructor",
-			"Group",
-			"Room",
-			"All Instructor",
-			"All Groups",
-			"All Room",
-			"Instructor",
-			"Group",
-			"Room",
-		]
+		schedule_type: DF.Literal["", "Instructor", "Group", "Room", "All Instructor", "All Group", "All Room"]
 	# end: auto-generated types
 
 
@@ -67,7 +56,7 @@ def get_lessons_data(schedule_type, identifier=None, faculty=None, schedule_temp
 	# Adjust filters based on `schedule_type`
 	if schedule_type in ["Instructor", "Group", "Room"] and identifier:
 		filters[schedule_type.lower()] = identifier
-	elif schedule_type in ["All Instructor", "All Groups", "All Room"]:
+	elif schedule_type in ["All Instructor", "All Group", "All Room"]:
 		schedule_type = schedule_type.split(" ")[1]  # Extract type (Instructor, Group, Room)
 
 	# Fetch lessons
