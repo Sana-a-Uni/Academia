@@ -7,7 +7,7 @@ frappe.ui.form.on("Transaction New", {
 		// Stop 'add below' & 'add above' options
 		frm.get_field("related_documents").grid.only_sortable();
 		frm.refresh_fields("related_documents");
-		if (frm.doc.status === "Pending") {
+		if (frm.doc.status === "Pending" && frm.doc.status != 0) {
 			frm.add_custom_button(
 				__("Request"),
 				function () {

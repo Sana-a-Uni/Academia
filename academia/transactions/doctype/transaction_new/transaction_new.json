@@ -43,10 +43,8 @@
    "search_index": 1
   },
   {
-   "allow_on_submit": 1,
    "fieldname": "start_date",
    "fieldtype": "Date",
-   "is_virtual": 1,
    "label": "Start Date",
    "options": "frappe.utils.format_datetime(doc.creation, \n                format_string='dd MMM yyyy, HH:mm:ss'\n            )",
    "read_only": 1
@@ -73,7 +71,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-29 16:55:17.395913",
+ "modified": "2025-01-06 13:26:26.052670",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Transaction New",
@@ -95,5 +93,26 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": []
+ "states": [
+  {
+   "color": "Blue",
+   "title": "Pending"
+  },
+  {
+   "color": "Green",
+   "title": "Completed"
+  },
+  {
+   "color": "Red",
+   "title": "Canceled"
+  },
+  {
+   "color": "Red",
+   "title": "Closed"
+  },
+  {
+   "color": "Purple",
+   "title": "Rejected"
+  }
+ ]
 }
