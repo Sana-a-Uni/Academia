@@ -45,6 +45,12 @@ frappe.ui.form.on("Specific Transaction Document", {
 		});
 	},
 	onload: function (frm) {
+		const transaction_reference = localStorage.getItem("transaction_reference");
+
+		// Set the transaction_reference field value if it exists
+		if (transaction_reference && frm.is_new()) {
+			frm.set_value("transaction_reference", transaction_reference);
+		}
 		frm.get_field("recipients").grid.cannot_add_rows = true;
 	},
 	before_submit: function (frm) {
@@ -497,6 +503,8 @@ function add_reject_action(frm) {
 
 function add_redirect_action(frm) {
 	cur_frm.page.add_action_item(__("Redirect"), function () {
+		localStorage.setItem("specific_transaction_document", frm.doc.name);
+
 		const url = frappe.urllib.get_full_url(
 			"/app/specific-transaction-document-action/new?specific_transaction_document=" +
 				frm.doc.name +

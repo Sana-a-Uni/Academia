@@ -15,11 +15,11 @@
   "status",
   "type",
   "full_electronic",
+  "transaction_reference",
   "direction",
   "naming_series",
   "column_break_alsb",
   "document_content",
-  "transaction_reference",
   "section_break_qljd",
   "start_from",
   "employee_name",
@@ -193,7 +193,8 @@
    "fieldname": "transaction_reference",
    "fieldtype": "Link",
    "label": "Transaction Reference",
-   "options": "Transaction New"
+   "options": "Transaction New",
+   "read_only": 1
   },
   {
    "allow_on_submit": 1,
@@ -223,7 +224,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-07 03:00:51.510141",
+ "modified": "2025-01-07 17:16:48.899626",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Specific Transaction Document",

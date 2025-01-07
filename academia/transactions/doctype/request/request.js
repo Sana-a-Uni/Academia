@@ -73,6 +73,8 @@ function add_reject_action(frm) {
 }
 
 function add_redirect_action(frm) {
+	localStorage.setItem("request", frm.doc.name);
+
 	cur_frm.page.add_action_item(__("Redirect"), function () {
 		const url = frappe.urllib.get_full_url(
 			"/app/request-action/new?request=" + frm.doc.name + "&type=Redirected"
@@ -201,6 +203,12 @@ frappe.ui.form.on("Request", {
 	},
 
 	onload: function (frm) {
+		const transaction_reference = localStorage.getItem("transaction_reference");
+
+		// Set the transaction_reference field value if it exists
+		if (transaction_reference && frm.is_new()) {
+			frm.set_value("transaction_reference", transaction_reference);
+		}
 		if (!frm.doc.start_from) {
 			frappe.call({
 				method: "frappe.client.get_value",
@@ -210,7 +218,7 @@ frappe.ui.form.on("Request", {
 					fieldname: "name",
 				},
 				callback: function (response) {
-					if (response.message) {
+					if (response.message && frm.is_new()) {
 						frm.set_value("start_from", response.message.name);
 					}
 				},

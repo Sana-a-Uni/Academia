@@ -3,6 +3,8 @@
 
 frappe.ui.form.on("Transaction New", {
 	refresh(frm) {
+		localStorage.setItem("transaction_reference", frm.doc.name);
+
 		frm.get_field("related_documents").grid.cannot_add_rows = true;
 		// Stop 'add below' & 'add above' options
 		frm.get_field("related_documents").grid.only_sortable();

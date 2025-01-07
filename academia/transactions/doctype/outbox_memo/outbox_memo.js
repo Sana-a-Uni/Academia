@@ -135,6 +135,15 @@ frappe.ui.form.on("Outbox Memo", {
 	},
 
 	onload: function (frm) {
+		if (!frm.is_new()) {
+			frm.set_df_property("direction", "hidden", 1);
+		}
+		const transaction_reference = localStorage.getItem("transaction_reference");
+
+		// Set the transaction_reference field value if it exists
+		if (transaction_reference && frm.is_new()) {
+			frm.set_value("transaction_reference", transaction_reference);
+		}
 		update_related_actions_html(frm);
 		if (!frm.doc.start_from) {
 			frappe.call({
@@ -587,6 +596,8 @@ function add_reject_action(frm) {
 
 function add_redirect_action(frm) {
 	cur_frm.page.add_action_item(__("Redirect"), function () {
+		localStorage.setItem("outbox_memo", frm.doc.name);
+
 		const url = frappe.urllib.get_full_url(
 			"/app/outbox-memo-action/new?outbox_memo=" + frm.doc.name + "&type=Redirected"
 		);

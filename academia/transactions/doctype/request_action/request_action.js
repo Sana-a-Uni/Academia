@@ -3,8 +3,8 @@
 let mustInclude = [];
 
 frappe.ui.form.on("Request Action", {
-	before_save: function(frm){
-		frm.set_value("naming_series", frm.doc.request + "-ACT-")	
+	before_save: function (frm) {
+		frm.set_value("naming_series", frm.doc.request + "-ACT-");
 	},
 	on_submit: function (frm) {
 		frappe.call({
@@ -178,6 +178,12 @@ frappe.ui.form.on("Request Action", {
 	},
 
 	onload: function (frm) {
+		const request = localStorage.getItem("request");
+
+		// Set the transaction_reference field value if it exists
+		if (request && frm.is_new()) {
+			frm.set_value("request", request);
+		}
 		if (frm.doc.docstatus == 0) {
 			frm.set_value("action_date", frappe.datetime.get_today());
 			frm.set_value("created_by", frappe.session.user);

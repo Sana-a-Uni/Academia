@@ -73,6 +73,8 @@ function add_reject_action(frm) {
 }
 
 function add_redirect_action(frm) {
+	localStorage.setItem("inbox_memo", frm.doc.name);
+
 	cur_frm.page.add_action_item(__("Redirect"), function () {
 		const url = frappe.urllib.get_full_url(
 			"/app/inbox-memo-action/new?inbox_memo=" + frm.doc.name + "&type=Redirected"
@@ -154,34 +156,55 @@ frappe.ui.form.on("Inbox Memo", {
 
 	on_submit: function (frm) {
 		frappe.call({
-			method: "frappe.client.get",
+			method: "frappe.share.add",
 			args: {
 				doctype: "Transaction New",
-				filters: {
-					name: frm.doc.transaction_reference,
-				},
+				name: frm.doc.transaction_reference,
+				user: frappe.session.user,
+				read: 1,
+				write: 1,
+				share: 1,
+				submit: 1,
 			},
 			callback: function (response) {
-				if (response.message) {
-					let transaction_new_doc = response.message;
-					transaction_new_doc.related_documents.push({
-						document_name: frm.doc.name,
-						document_type: frm.doc.doctype,
-						document_title: frm.doc.title,
-						document_status: frm.doc.status,
-					});
+				if (!response.exc) {
+					// Fetch the Transaction New document
 					frappe.call({
-						method: "frappe.client.save",
+						method: "frappe.client.get",
 						args: {
-							doc: transaction_new_doc,
+							doctype: "Transaction New",
+							name: frm.doc.transaction_reference,
+							filters: {
+								name: frm.doc.transaction_reference,
+							},
+							ignore_permissions: true,
 						},
-						callback: function (save_response) {
-							if (save_response.message) {
-								frappe.set_route(
-									"Form",
-									"Transaction New",
-									frm.doc.transaction_reference
-								);
+						callback: function (response) {
+							if (response.message) {
+								let transaction_new_doc = response.message;
+								transaction_new_doc.related_documents.push({
+									document_name: frm.doc.name,
+									document_type: frm.doc.doctype,
+									document_title: frm.doc.title,
+									document_status: frm.doc.status,
+								});
+								// Save the updated document
+								frappe.call({
+									method: "frappe.client.save",
+									args: {
+										doc: transaction_new_doc,
+										ignore_permissions: true,
+									},
+									callback: function (save_response) {
+										if (save_response.message) {
+											frappe.set_route(
+												"Form",
+												"Transaction New",
+												frm.doc.transaction_reference
+											);
+										}
+									},
+								});
 							}
 						},
 					});
@@ -217,7 +240,7 @@ frappe.ui.form.on("Inbox Memo", {
 					fieldname: "name",
 				},
 				callback: function (response) {
-					if (response.message) {
+					if (response.message && frm.is_new()) {
 						frm.set_value("start_from", response.message.name);
 					}
 				},
