@@ -1,3 +1,10 @@
+frappe.listview_settings['Inbox Memo'] = {
+    onload: function() {
+        $('.btn-primary').filter(function () {
+            return $(this).text().trim() === 'Add Inbox Memo';
+        }).hide();
+    }
+};
 // frappe.listview_settings['Inbox Memo'] = {
 //     onload: function(listview) {
 //         // Fetch the current user's employee name

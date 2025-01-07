@@ -24,6 +24,7 @@ class Request(Document):
 		document_content: DF.TextEditor | None
 		full_electronic: DF.Check
 		is_received: DF.Check
+		naming_series: DF.Literal["REQ-.YY.-.MM.-"]
 		recipients: DF.Table[TransactionRecipientsNew]
 		start_from: DF.Link
 		start_from_company: DF.Link | None
@@ -72,6 +73,7 @@ def create_new_request_action(user_id, request, type, details):
 		new_doc.details = details
 		new_doc.action_date = frappe.utils.today()
 		new_doc.created_by = action_maker.user_id
+		new_doc.naming_series = request + "-ACT-"
 		new_doc.save(ignore_permissions=True)
 		new_doc.submit()
 

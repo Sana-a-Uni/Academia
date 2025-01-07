@@ -1,7 +1,7 @@
 # Copyright (c) 2024, SanU and contributors
 # For license information, please see license.txt
 
-# import frappe
+import frappe
 from frappe.model.document import Document
 
 
@@ -12,9 +12,7 @@ class TransactionNew(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.transactions.doctype.transaction_related_documents.transaction_related_documents import (
-			TransactionRelatedDocuments,
-		)
+		from academia.transactions.doctype.transaction_related_documents.transaction_related_documents import TransactionRelatedDocuments
 		from frappe.types import DF
 
 		amended_from: DF.Link | None
@@ -23,4 +21,5 @@ class TransactionNew(Document):
 		status: DF.Literal["Pending", "Completed", "Canceled", "Closed", "Rejected"]
 		title: DF.Data
 	# end: auto-generated types
-	pass
+	def before_submit(self):
+		self.start_date = frappe.utils.today()

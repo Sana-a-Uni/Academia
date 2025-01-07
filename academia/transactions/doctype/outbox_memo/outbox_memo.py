@@ -31,6 +31,7 @@ class OutboxMemo(Document):
 		end_employee_name: DF.Data | None
 		full_electronic: DF.Check
 		is_received: DF.Check
+		naming_series: DF.Literal["OUTBOX-.YY.-.MM.-"]
 		recipients: DF.Table[TransactionRecipientsNew]
 		start_from: DF.Link
 		start_from_company: DF.Link
@@ -56,7 +57,7 @@ class OutboxMemo(Document):
 		if self.start_from and self.direction == "Upward":
 			employee = frappe.get_doc("Employee", self.start_from, fields=["reports_to", "user_id"])
 			share_permission_through_route(self, employee)
-			
+
 		elif self.start_from and self.direction == "Downward":
 			frappe.share.add(
 				doctype="Outbox Memo",
@@ -249,8 +250,15 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 
 	# Ensure the recipients child table is accessed correctly
 	if (
-		(outbox_memo_doc.type == "Internal" and (action_maker.user_id != outbox_memo_doc.recipients[0].recipient_email and type == "Approved" and outbox_memo_doc.direction != "Downward"))
-		or (outbox_memo_doc.type == "External" and (action_maker.user_id != end_employee_email and type == "Approved"))
+		outbox_memo_doc.type == "Internal"
+		and (
+			action_maker.user_id != outbox_memo_doc.recipients[0].recipient_email
+			and type == "Approved"
+			and outbox_memo_doc.direction != "Downward"
+		)
+	) or (
+		outbox_memo_doc.type == "External"
+		and (action_maker.user_id != end_employee_email and type == "Approved")
 	):  # Access the recipients attribute on the document
 		reports_to = action_maker.reports_to
 		reports_to_emp = frappe.get_doc("Employee", reports_to)
@@ -274,7 +282,7 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 			"recipient_email": reports_to_emp.user_id,
 		}
 		recipients = [recipient]
-	elif type == "Approved" and outbox_memo_doc.direction =="Downward":
+	elif type == "Approved" and outbox_memo_doc.direction == "Downward":
 		outbox_memo_doc.status = "Completed"
 		outbox_memo_doc.complete_time = frappe.utils.now()
 		outbox_memo_doc.current_action_maker = ""
@@ -294,7 +302,11 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 		update_share_permissions(outbox_memo, user_id, permissions_str)
 
 	else:
-		if (action_maker.user_id == outbox_memo_doc.recipients[0].recipient_email and type == "Approved") or (outbox_memo_doc.type == "External" and action_maker.user_id == end_employee_email and type == "Approved"):
+		if (action_maker.user_id == outbox_memo_doc.recipients[0].recipient_email and type == "Approved") or (
+			outbox_memo_doc.type == "External"
+			and action_maker.user_id == end_employee_email
+			and type == "Approved"
+		):
 			outbox_memo_doc.status = "Completed"
 		elif type == "Rejected":
 			outbox_memo_doc.status = "Rejected"
@@ -319,6 +331,7 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 		new_doc.details = details
 		new_doc.action_date = frappe.utils.today()
 		new_doc.created_by = action_maker.user_id  # Use user_id instead of recipient_email
+		new_doc.naming_series = outbox_memo + "-ACT-"
 
 		# Ensure recipients is properly defined
 		if recipients:
@@ -390,6 +403,7 @@ def share_permission_through_route(document, current_employee):
 			submit=1,
 		)
 
+
 @frappe.whitelist()
 def get_middle_man_list(doctype, txt, searchfield, start, page_len, filters):
 	try:
@@ -414,6 +428,7 @@ def get_middle_man_list(doctype, txt, searchfield, start, page_len, filters):
 		frappe.log_error(message=str(e), title="Error in get_employee_list")
 		frappe.throw(_("An error occurred while fetching the employee list"))
 
+
 @frappe.whitelist()
 def create_transaction_document_log(
 	start_employee,
@@ -436,7 +451,7 @@ def create_transaction_document_log(
 	new_log.document_name = document_name
 	new_log.document_action_type = document_action_type
 	new_log.document_action_name = document_action_name
-	new_log.name = "Nigger" + "-P"
+	new_log.name = document_action_name + "-P"
 	if through_middle_man == "False":
 		if with_proof == "True":
 			new_log.ee_proof = proof
@@ -490,3 +505,56 @@ def create_transaction_document_log(
 	frappe.db.commit()
 
 	return new_log
+
+
+@frappe.whitelist()
+def get_outbox_memo_actions_html(outbox_memo_name):
+	actions = frappe.get_all(
+		"Outbox Memo Action",
+		filters={"outbox_memo": outbox_memo_name, "docstatus": 1},
+		fields=["name", "type", "action_date", "created_by", "details"],
+		order_by="creation asc",
+	)
+
+	if not actions:
+		return "<p>No actions found for this specific transaction document.</p>"
+
+	table_html = """
+    <table class="table table-bordered" style="table-layout: fixed; width: 100%; word-wrap: break-word;">
+        <thead>
+            <tr>
+                <th style="width: 20%;">Action Name</th>
+                <th style="width: 15%;">Type</th>
+                <th style="width: 15%;">Action Date</th>
+                <th style="width: 20%;">Action Maker</th>
+                <th style="width: 30%;">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+    """
+
+	type_colors = {
+		"Pending": "gray",
+		"Redirected": "blue",
+		"Approved": "green",
+		"Rejected": "red",
+		"Canceled": "orange",
+		"Topic": "purple",
+	}
+
+	for action in actions:
+		type_color = type_colors.get(action["type"], "black")
+		action_maker = action["created_by"] if action["created_by"] else "None"
+
+		table_html += f"""
+        <tr>
+            <td><a href="/app/specific_transaction_document-action/{action['name']}" target="_blank">{action['name']}</a></td>
+            <td>{action['type']}</td>
+            <td>{action['action_date']}</td>
+            <td>{action['created_by']}</td>
+            <td>{action['details'] or ''}</td>
+        </tr>
+        """
+	table_html += "</tbody></table>"
+
+	return table_html

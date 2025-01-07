@@ -122,6 +122,39 @@ function add_redirect_action(frm) {
 }
 
 frappe.ui.form.on("Request", {
+	on_submit: function(frm){
+		frappe.call({
+			method: "frappe.client.get",
+			args: {
+				doctype: "Transaction New",
+				filters: {
+					name: frm.doc.transaction_reference,
+				},
+			},
+			callback: function (response) {
+				if (response.message) {
+					let transaction_new_doc = response.message;
+					transaction_new_doc.related_documents.push({
+						document_name: frm.doc.name,
+						document_type: frm.doc.doctype,
+						document_title: frm.doc.title,
+						document_status: frm.doc.status,
+					});
+					frappe.call({
+						method: "frappe.client.save",
+						args: {
+							doc: transaction_new_doc,
+						},
+						callback: function (save_response) {
+							if (save_response.message) {
+								frappe.set_route("Form", "Transaction New", frm.doc.transaction_reference); 
+							}
+						},
+					});
+				}
+			},
+		});
+	},
 	before_submit: function (frm) {
 		frm.set_value("current_action_maker", frm.doc.recipients[0].recipient_email);
 		frappe.call({

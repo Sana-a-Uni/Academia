@@ -12,9 +12,7 @@ class RequestAction(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
-			TransactionRecipientsNew,
-		)
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
 
 		action_date: DF.Date
@@ -26,10 +24,10 @@ class RequestAction(Document):
 		from_company: DF.ReadOnly | None
 		from_department: DF.ReadOnly | None
 		from_designation: DF.ReadOnly | None
+		naming_series: DF.Data | None
 		recipients: DF.Table[TransactionRecipientsNew]
 		request: DF.Link
 		type: DF.Literal["Redirected", "Approved", "Rejected", "Canceled", "Topic"]
-
 	# end: auto-generated types
 	def on_submit(self):
 

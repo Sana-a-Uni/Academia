@@ -177,10 +177,7 @@ frappe.ui.form.on("Inbox Memo", {
 						},
 						callback: function (save_response) {
 							if (save_response.message) {
-								history.back(); // Take user to the previous page
-								frappe.msgprint(
-									__("Document added to related_documents successfully")
-								);
+								frappe.set_route("Form", "Transaction New", frm.doc.transaction_reference); 
 							}
 						},
 					});

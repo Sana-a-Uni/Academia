@@ -12,11 +12,8 @@ class OutboxMemoAction(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
-
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
-			TransactionRecipientsNew,
-		)
 
 		action_date: DF.Data
 		action_maker: DF.Link | None
@@ -28,6 +25,7 @@ class OutboxMemoAction(Document):
 		from_company: DF.Data | None
 		from_department: DF.Data | None
 		from_designation: DF.Data | None
+		naming_series: DF.Data | None
 		outbox_memo: DF.Link
 		recipients: DF.Table[TransactionRecipientsNew]
 		type: DF.Literal["Redirected", "Approved", "Rejected", "Canceled"]

@@ -25,6 +25,7 @@ class InboxMemoAction(Document):
 		from_department: DF.Link | None
 		from_designation: DF.Link | None
 		inbox_memo: DF.Link
+		naming_series: DF.Data | None
 		recipients: DF.Table[TransactionRecipientsNew]
 		type: DF.Literal["Redirected", "Approved", "Rejected", "Canceled", "Topic"]
 	# end: auto-generated types

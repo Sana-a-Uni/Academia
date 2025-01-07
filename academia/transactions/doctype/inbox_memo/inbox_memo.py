@@ -28,6 +28,7 @@ class InboxMemo(Document):
 		inbox_from: DF.Literal["Company within the system", "Company outside the system"]
 		is_received: DF.Check
 		main_external_entity: DF.Link | None
+		naming_series: DF.Literal["INBOX-.YY.-.MM.-"]
 		recipients: DF.Table[TransactionRecipientsNew]
 		start_from: DF.Link | None
 		start_from_company: DF.Link | None
@@ -84,6 +85,7 @@ def create_new_inbox_memo_action(user_id, inbox_memo, type, details):
 		new_doc.details = details
 		new_doc.action_date = frappe.utils.today()
 		new_doc.created_by = action_maker.user_id
+		new_doc.naming_series = inbox_memo + "-ACT-"
 		new_doc.save(ignore_permissions=True)
 		new_doc.submit()
 

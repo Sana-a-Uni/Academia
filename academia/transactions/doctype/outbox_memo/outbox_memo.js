@@ -6,6 +6,39 @@ let global_next_recipient = null;
 let global_action_name = null;
 
 frappe.ui.form.on("Outbox Memo", {
+	on_submit: function(frm){
+		frappe.call({
+			method: "frappe.client.get",
+			args: {
+				doctype: "Transaction New",
+				filters: {
+					name: frm.doc.transaction_reference,
+				},
+			},
+			callback: function (response) {
+				if (response.message) {
+					let transaction_new_doc = response.message;
+					transaction_new_doc.related_documents.push({
+						document_name: frm.doc.name,
+						document_type: frm.doc.doctype,
+						document_title: frm.doc.title,
+						document_status: frm.doc.status,
+					});
+					frappe.call({
+						method: "frappe.client.save",
+						args: {
+							doc: transaction_new_doc,
+						},
+						callback: function (save_response) {
+							if (save_response.message) {
+								frappe.set_route("Form", "Transaction New", frm.doc.transaction_reference); 
+							}
+						},
+					});
+				}
+			},
+		});
+	},
 	before_submit: function (frm) {
 		if (
 			(frm.doc.type === "Internal" && frm.doc.direction != "Downward") ||
@@ -46,6 +79,7 @@ frappe.ui.form.on("Outbox Memo", {
 	},
 
 	refresh(frm) {
+		update_related_actions_html(frm);
 		// Assign global variables
 		frappe.call({
 			method: "frappe.client.get_value",
@@ -94,6 +128,7 @@ frappe.ui.form.on("Outbox Memo", {
 	},
 
 	onload: function (frm) {
+		update_related_actions_html(frm);
 		if (!frm.doc.start_from) {
 			frappe.call({
 				method: "frappe.client.get_value",
@@ -254,10 +289,11 @@ function update_must_include(frm) {
 function add_approve_action(frm) {
 	cur_frm.page.add_action_item(__("Approve"), function () {
 		if (
-			((frm.doc.direction == "Upward" &&
+			(frm.doc.type == "Internal" &&
 				global_current_employee === frm.doc.recipients[0].recipient) ||
-				(frm.doc.type == "External" && global_current_employee == frm.doc.end_employee)) &&
-			(!frm.doc.full_electronic || frm.doc.direction == "Downward")
+			(frm.doc.type == "External" && global_current_employee == frm.doc.end_employee) ||
+			frm.doc.full_electronic ||
+			frm.doc.direction == "Downward"
 		) {
 			frappe.prompt(
 				[
@@ -590,3 +626,22 @@ function add_redirect_action(frm) {
 		// });
 	});
 }
+
+function update_related_actions_html(frm) {
+	frappe.call({
+		method: "academia.transactions.doctype.outbox_memo.outbox_memo.get_outbox_memo_actions_html",
+		args: {
+			outbox_memo_name: frm.doc.name,
+		},
+		callback: function (r) {
+			if (r.message) {
+				frm.set_df_property("related_actions", "options", r.message);
+				frm.refresh_field("related_actions");
+			}
+		},
+	});
+}
+
+frappe.listview_settings['Outbox Memo'] = {
+    hide_add_button: true
+};

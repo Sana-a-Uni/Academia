@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2024-12-28 20:43:54.103419",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -14,6 +15,7 @@
   "from_department",
   "from_designation",
   "created_by",
+  "naming_series",
   "column_break_aack",
   "action_date",
   "details",
@@ -129,15 +131,22 @@
    "fieldname": "clear_recipients",
    "fieldtype": "Button",
    "label": "Clear Recipients"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Naming Series"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-12-30 17:00:39.957987",
+ "modified": "2025-01-07 02:34:03.617507",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Request Action",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

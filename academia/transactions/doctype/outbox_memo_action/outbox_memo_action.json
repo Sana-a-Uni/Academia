@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2024-12-24 13:03:05.481132",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -14,6 +15,7 @@
   "from_designation",
   "created_by",
   "allow_recipient_to_redirect",
+  "naming_series",
   "column_break_msrg",
   "type",
   "action_date",
@@ -143,15 +145,22 @@
    "label": "Action Maker",
    "options": "Employee",
    "read_only": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Naming Series"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-01 15:01:58.566102",
+ "modified": "2025-01-07 02:54:53.375183",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo Action",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

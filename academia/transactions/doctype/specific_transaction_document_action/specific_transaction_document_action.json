@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2024-12-28 14:43:18.398960",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -14,6 +15,7 @@
   "from_designation",
   "created_by",
   "allow_recipient_to_redirect",
+  "naming_series",
   "column_break_inbs",
   "type",
   "action_date",
@@ -144,15 +146,22 @@
    "label": "action_maker",
    "options": "Employee",
    "read_only": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Naming Series"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-01 15:46:52.896698",
+ "modified": "2025-01-07 03:00:45.299215",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Specific Transaction Document Action",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
