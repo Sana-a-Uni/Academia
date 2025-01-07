@@ -13,11 +13,8 @@ class SpecificTransactionDocumentAction(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
-
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
-			TransactionRecipientsNew,
-		)
 
 		action_date: DF.Data | None
 		action_maker: DF.Link | None
@@ -29,6 +26,7 @@ class SpecificTransactionDocumentAction(Document):
 		from_company: DF.Link | None
 		from_department: DF.Link | None
 		from_designation: DF.Link | None
+		naming_series: DF.Data | None
 		recipients: DF.Table[TransactionRecipientsNew]
 		specific_transaction_document: DF.Link
 		type: DF.Literal["Redirected", "Approved", "Rejected", "Canceled"]

@@ -14,14 +14,9 @@ class OutboxMemo(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import TransactionAttachmentsNew
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
-
-		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import (
-			TransactionAttachmentsNew,
-		)
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
-			TransactionRecipientsNew,
-		)
 
 		allow_to_redirect: DF.Check
 		amended_from: DF.Link | None
@@ -36,6 +31,7 @@ class OutboxMemo(Document):
 		end_employee_name: DF.Data | None
 		full_electronic: DF.Check
 		is_received: DF.Check
+		naming_series: DF.Literal["OUTBOX-.YY.-.MM.-"]
 		recipients: DF.Table[TransactionRecipientsNew]
 		start_from: DF.Link
 		start_from_company: DF.Link
@@ -46,7 +42,6 @@ class OutboxMemo(Document):
 		title: DF.Data
 		transaction_reference: DF.Link | None
 		type: DF.Literal["Internal", "External"]
-
 	# end: auto-generated types
 	def on_submit(self):
 		employee = frappe.get_doc("Employee", self.start_from)
@@ -336,6 +331,7 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 		new_doc.details = details
 		new_doc.action_date = frappe.utils.today()
 		new_doc.created_by = action_maker.user_id  # Use user_id instead of recipient_email
+		new_doc.naming_series = outbox_memo + "-ACT-"
 
 		# Ensure recipients is properly defined
 		if recipients:

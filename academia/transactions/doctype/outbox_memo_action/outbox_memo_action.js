@@ -323,6 +323,8 @@ frappe.ui.form.on("Outbox Memo Action", {
 
 	before_save: function (frm) {
 		// If the user is not an Administrator, set the created_by field to the current user
+		frm.set_value("naming_series", frm.doc.outbox_memo + "-ACT-")	
+
 		if (frappe.session.user !== "Administrator") {
 			frm.set_value("created_by", frappe.session.user);
 		}

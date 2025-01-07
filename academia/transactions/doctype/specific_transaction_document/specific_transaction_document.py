@@ -13,14 +13,9 @@ class SpecificTransactionDocument(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import TransactionAttachmentsNew
+		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
-
-		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import (
-			TransactionAttachmentsNew,
-		)
-		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import (
-			TransactionRecipientsNew,
-		)
 
 		allow_to_redirect: DF.Check
 		amended_from: DF.Link | None
@@ -31,6 +26,7 @@ class SpecificTransactionDocument(Document):
 		employee_name: DF.Data | None
 		full_electronic: DF.Check
 		is_received: DF.Check
+		naming_series: DF.Literal["STD-.YY.-.MM.-"]
 		recipients: DF.Table[TransactionRecipientsNew]
 		start_from: DF.Link | None
 		start_from_company: DF.Link | None
@@ -229,6 +225,8 @@ def create_new_specific_transaction_document_action(user_id, specific_transactio
 		new_doc.details = details
 		new_doc.action_date = frappe.utils.today()
 		new_doc.created_by = action_maker.user_id  # Use user_id instead of recipient_email
+		new_doc.naming_series = specific_transaction_document + "-ACT-"
+
 
 		# Ensure recipients is properly defined
 		if recipients:

@@ -3,6 +3,9 @@
 let mustInclude = [];
 
 frappe.ui.form.on("Inbox Memo Action", {
+	before_save: function(frm){
+		frm.set_value("naming_series", frm.doc.inbox_memo + "-ACT-")	
+	},
 	on_submit: function (frm) {
 		frappe.call({
 			method: "academia.transactions.doctype.inbox_memo.inbox_memo.update_share_permissions",

@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2024-12-22 19:48:14.182885",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -14,6 +15,7 @@
   "inbox_from",
   "full_electronic",
   "transaction_reference",
+  "naming_series",
   "column_break_lqiw",
   "document_content",
   "section_break_ggvi",
@@ -245,15 +247,23 @@
    "fieldtype": "Check",
    "label": "Is Received",
    "read_only": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "INBOX-.YY.-.MM.-"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-04 20:06:37.955800",
+ "modified": "2025-01-07 02:35:13.083435",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Inbox Memo",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

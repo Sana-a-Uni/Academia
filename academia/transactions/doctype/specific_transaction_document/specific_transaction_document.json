@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "naming_series:",
  "creation": "2024-12-22 20:47:05.530652",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -15,6 +16,7 @@
   "type",
   "full_electronic",
   "direction",
+  "naming_series",
   "column_break_alsb",
   "document_content",
   "transaction_reference",
@@ -209,15 +211,23 @@
    "fieldtype": "Check",
    "label": "Is Received",
    "read_only": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "STD-.YY.-.MM.-"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-05 18:43:40.728986",
+ "modified": "2025-01-07 03:00:51.510141",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Specific Transaction Document",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

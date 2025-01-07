@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:REQ-{MM}-{YY}-{####}",
+ "autoname": "naming_series:",
  "creation": "2024-12-22 17:40:06.753113",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -14,6 +14,7 @@
   "status",
   "full_electronic",
   "transaction_reference",
+  "naming_series",
   "column_break_rbbm",
   "document_content",
   "from_section",
@@ -187,16 +188,23 @@
    "fieldtype": "Check",
    "label": "Is Received",
    "read_only": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "REQ-.YY.-.MM.-"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-04 20:07:03.678181",
+ "modified": "2025-01-07 02:34:33.360141",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Request",
- "naming_rule": "Expression",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {

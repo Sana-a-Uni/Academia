@@ -130,6 +130,7 @@ frappe.ui.form.on("Specific Transaction Document Action", {
 		});
 	},
 	before_save: function (frm) {
+		frm.set_value("naming_series", frm.doc.specific_transaction_document + "-ACT-")	
 		// If the user is not an Administrator, set the created_by field to the current user
 		if (frappe.session.user !== "Administrator") {
 			frm.set_value("created_by", frappe.session.user);

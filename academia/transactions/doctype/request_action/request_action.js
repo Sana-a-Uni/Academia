@@ -3,6 +3,9 @@
 let mustInclude = [];
 
 frappe.ui.form.on("Request Action", {
+	before_save: function(frm){
+		frm.set_value("naming_series", frm.doc.request + "-ACT-")	
+	},
 	on_submit: function (frm) {
 		frappe.call({
 			method: "academia.transactions.doctype.request.request.update_share_permissions",
