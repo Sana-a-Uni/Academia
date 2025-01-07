@@ -7,6 +7,29 @@ frappe.ui.form.on("Transaction New", {
 		// Stop 'add below' & 'add above' options
 		frm.get_field("related_documents").grid.only_sortable();
 		frm.refresh_fields("related_documents");
+		frm.doc.related_documents.forEach(function (row, index) {
+			// Fetch the status of each document
+			frappe.call({
+				method: "frappe.client.get_value",
+				args: {
+					doctype: row.document_type,
+					fieldname: "status",
+					filters: { name: row.document_name },
+				},
+				callback: function (response) {
+					if (response.message) {
+						const status = response.message.status;
+						// Update the status in the child table
+						frm.doc.related_documents[index].status = status;
+						frm.refresh_field("related_documents");
+					} else {
+						frappe.msgprint(
+							`Unable to fetch status for document: ${row.document_name}`
+						);
+					}
+				},
+			});
+		});
 		if (frm.doc.status === "Pending" && frm.doc.status != 0) {
 			frm.add_custom_button(
 				__("Request"),

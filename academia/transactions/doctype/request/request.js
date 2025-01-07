@@ -122,7 +122,7 @@ function add_redirect_action(frm) {
 }
 
 frappe.ui.form.on("Request", {
-	on_submit: function(frm){
+	on_submit: function (frm) {
 		frappe.call({
 			method: "frappe.client.get",
 			args: {
@@ -147,7 +147,11 @@ frappe.ui.form.on("Request", {
 						},
 						callback: function (save_response) {
 							if (save_response.message) {
-								frappe.set_route("Form", "Transaction New", frm.doc.transaction_reference); 
+								frappe.set_route(
+									"Form",
+									"Transaction New",
+									frm.doc.transaction_reference
+								);
 							}
 						},
 					});
@@ -186,7 +190,10 @@ frappe.ui.form.on("Request", {
 	},
 
 	refresh(frm) {
-		if (frm.doc.current_action_maker == frappe.session.user) {
+		if (
+			frm.doc.current_action_maker == frappe.session.user &&
+			(frm.doc.is_received || frm.doc.full_electronic)
+		) {
 			add_approve_action(frm);
 			add_reject_action(frm);
 			add_redirect_action(frm);

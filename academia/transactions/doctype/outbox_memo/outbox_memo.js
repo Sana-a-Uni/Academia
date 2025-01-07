@@ -6,7 +6,7 @@ let global_next_recipient = null;
 let global_action_name = null;
 
 frappe.ui.form.on("Outbox Memo", {
-	on_submit: function(frm){
+	on_submit: function (frm) {
 		frappe.call({
 			method: "frappe.client.get",
 			args: {
@@ -31,7 +31,11 @@ frappe.ui.form.on("Outbox Memo", {
 						},
 						callback: function (save_response) {
 							if (save_response.message) {
-								frappe.set_route("Form", "Transaction New", frm.doc.transaction_reference); 
+								frappe.set_route(
+									"Form",
+									"Transaction New",
+									frm.doc.transaction_reference
+								);
 							}
 						},
 					});
@@ -115,7 +119,10 @@ frappe.ui.form.on("Outbox Memo", {
 			frm.fields_dict.clear_recipients.$wrapper.hide();
 			frm.fields_dict.clear_recipients.input.disabled = true;
 		}
-		if (frm.doc.current_action_maker === frappe.session.user) {
+		if (
+			frm.doc.current_action_maker === frappe.session.user &&
+			(frm.doc.is_received || frm.doc.full_electronic)
+		) {
 			add_approve_action(frm);
 			if (frm.doc.allow_to_redirect === 1) {
 				add_redirect_action(frm);
@@ -642,6 +649,6 @@ function update_related_actions_html(frm) {
 	});
 }
 
-frappe.listview_settings['Outbox Memo'] = {
-    hide_add_button: true
+frappe.listview_settings["Outbox Memo"] = {
+	hide_add_button: true,
 };
