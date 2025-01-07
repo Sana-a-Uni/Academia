@@ -3,8 +3,8 @@
 let mustInclude = [];
 
 frappe.ui.form.on("Inbox Memo Action", {
-	before_save: function(frm){
-		frm.set_value("naming_series", frm.doc.inbox_memo + "-ACT-")	
+	before_save: function (frm) {
+		frm.set_value("naming_series", frm.doc.inbox_memo + "-ACT-");
 	},
 	on_submit: function (frm) {
 		frappe.call({
@@ -21,9 +21,14 @@ frappe.ui.form.on("Inbox Memo Action", {
 			},
 			callback: function (response) {
 				if (response.message) {
-					inbox_memo_action_doc = frappe.get_doc("Inbox Memo Action", frm.doc.name)
+					inbox_memo_action_doc = frappe.get_doc("Inbox Memo Action", frm.doc.name);
 					// frappe.db.set_value(inbox_memo , 'current_action_maker')
-					frappe.db.set_value("Inbox Memo", frm.doc.inbox_memo, "current_action_maker", inbox_memo_action_doc.recipients[0].recipient_email);
+					frappe.db.set_value(
+						"Inbox Memo",
+						frm.doc.inbox_memo,
+						"current_action_maker",
+						inbox_memo_action_doc.recipients[0].recipient_email
+					);
 					// back to Transaction after save the transaction action
 					frappe.set_route("Form", "Inbox Memo", frm.doc.inbox_memo);
 					location.reload();
@@ -65,23 +70,22 @@ frappe.ui.form.on("Inbox Memo Action", {
 		frm.get_field("recipients").grid.only_sortable();
 		frm.refresh_field("recipients");
 
-		if(frappe.session.user !== "Administrator" && frm.doc.docstatus == 0)
-		{
+		if (frappe.session.user !== "Administrator" && frm.doc.docstatus == 0) {
 			frappe.call({
 				method: "frappe.client.get",
 				args: {
 					doctype: "Employee",
 					filters: {
-						user_id: frappe.session.user
+						user_id: frappe.session.user,
 					},
 				},
 				callback: function (response) {
 					const employee = response.message;
 					if (employee) {
-                        frm.set_value("action_maker", employee.name);
-                    }
+						frm.set_value("action_maker", employee.name);
+					}
 				},
-            });
+			});
 		}
 	},
 
@@ -168,10 +172,14 @@ frappe.ui.form.on("Inbox Memo Action", {
 		frm.refresh_field("recipients");
 	},
 
-
 	onload: function (frm) {
-		if(frm.doc.docstatus == 0)
-		{
+		const inbox_memo = localStorage.getItem("inbox_memo");
+
+		// Set the transaction_reference field value if it exists
+		if (inbox_memo && frm.is_new()) {
+			frm.set_value("inbox_memo", inbox_memo);
+		}
+		if (frm.doc.docstatus == 0) {
 			frm.set_value("action_date", frappe.datetime.get_today());
 			frm.set_value("created_by", frappe.session.user);
 		}

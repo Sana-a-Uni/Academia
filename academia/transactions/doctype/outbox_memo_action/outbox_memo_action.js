@@ -323,7 +323,7 @@ frappe.ui.form.on("Outbox Memo Action", {
 
 	before_save: function (frm) {
 		// If the user is not an Administrator, set the created_by field to the current user
-		frm.set_value("naming_series", frm.doc.outbox_memo + "-ACT-")	
+		frm.set_value("naming_series", frm.doc.outbox_memo + "-ACT-");
 
 		if (frappe.session.user !== "Administrator") {
 			frm.set_value("created_by", frappe.session.user);
@@ -417,6 +417,12 @@ frappe.ui.form.on("Outbox Memo Action", {
 	},
 
 	onload: function (frm) {
+		const outbox_memo = localStorage.getItem("outbox_memo");
+
+		// Set the transaction_reference field value if it exists
+		if (outbox_memo && frm.is_new()) {
+			frm.set_value("outbox_memo", outbox_memo);
+		}
 		if (frm.doc.docstatus == 0) {
 			frm.set_value("action_date", frappe.datetime.now_date());
 		}

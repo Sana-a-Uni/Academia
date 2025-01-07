@@ -130,7 +130,7 @@ frappe.ui.form.on("Specific Transaction Document Action", {
 		});
 	},
 	before_save: function (frm) {
-		frm.set_value("naming_series", frm.doc.specific_transaction_document + "-ACT-")	
+		frm.set_value("naming_series", frm.doc.specific_transaction_document + "-ACT-");
 		// If the user is not an Administrator, set the created_by field to the current user
 		if (frappe.session.user !== "Administrator") {
 			frm.set_value("created_by", frappe.session.user);
@@ -138,6 +138,14 @@ frappe.ui.form.on("Specific Transaction Document Action", {
 	},
 
 	onload: function (frm) {
+		const specific_transaction_document = localStorage.getItem(
+			"specific_transaction_document"
+		);
+
+		// Set the transaction_reference field value if it exists
+		if (specific_transaction_document && frm.is_new()) {
+			frm.set_value("specific_transaction_document", specific_transaction_document);
+		}
 		if (frm.doc.docstatus == 0) {
 			frm.set_value("action_date", frappe.datetime.now_date());
 		}

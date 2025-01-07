@@ -73,6 +73,8 @@ function add_reject_action(frm) {
 }
 
 function add_redirect_action(frm) {
+	localStorage.setItem("request", frm.doc.name);
+
 	cur_frm.page.add_action_item(__("Redirect"), function () {
 		const url = frappe.urllib.get_full_url(
 			"/app/request-action/new?request=" + frm.doc.name + "&type=Redirected"
@@ -122,7 +124,7 @@ function add_redirect_action(frm) {
 }
 
 frappe.ui.form.on("Request", {
-	on_submit: function(frm){
+	on_submit: function (frm) {
 		frappe.call({
 			method: "frappe.client.get",
 			args: {
@@ -147,7 +149,11 @@ frappe.ui.form.on("Request", {
 						},
 						callback: function (save_response) {
 							if (save_response.message) {
-								frappe.set_route("Form", "Transaction New", frm.doc.transaction_reference); 
+								frappe.set_route(
+									"Form",
+									"Transaction New",
+									frm.doc.transaction_reference
+								);
 							}
 						},
 					});
@@ -186,7 +192,10 @@ frappe.ui.form.on("Request", {
 	},
 
 	refresh(frm) {
-		if (frm.doc.current_action_maker == frappe.session.user) {
+		if (
+			frm.doc.current_action_maker == frappe.session.user &&
+			(frm.doc.is_received || frm.doc.full_electronic)
+		) {
 			add_approve_action(frm);
 			add_reject_action(frm);
 			add_redirect_action(frm);
@@ -194,6 +203,12 @@ frappe.ui.form.on("Request", {
 	},
 
 	onload: function (frm) {
+		const transaction_reference = localStorage.getItem("transaction_reference");
+
+		// Set the transaction_reference field value if it exists
+		if (transaction_reference && frm.is_new()) {
+			frm.set_value("transaction_reference", transaction_reference);
+		}
 		if (!frm.doc.start_from) {
 			frappe.call({
 				method: "frappe.client.get_value",
@@ -203,7 +218,7 @@ frappe.ui.form.on("Request", {
 					fieldname: "name",
 				},
 				callback: function (response) {
-					if (response.message) {
+					if (response.message && frm.is_new()) {
 						frm.set_value("start_from", response.message.name);
 					}
 				},
