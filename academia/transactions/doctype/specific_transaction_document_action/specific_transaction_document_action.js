@@ -138,6 +138,18 @@ frappe.ui.form.on("Specific Transaction Document Action", {
 	},
 
 	onload: function (frm) {
+		document.addEventListener("keydown", function (event) {
+			// Check if the Ctrl + B combination is pressed
+			if (event.ctrlKey && event.key === "b") {
+				// Check if the current doctype is one of the specified doctypes
+				if (frm.doctype === "Specific Transaction Document Action") {
+					// Prevent the default action and stop propagation
+					event.preventDefault();
+					event.stopPropagation();
+					frappe.msgprint(__("The shortcut Ctrl + B is disabled for this doctype."));
+				}
+			}
+		});
 		const specific_transaction_document = localStorage.getItem(
 			"specific_transaction_document"
 		);

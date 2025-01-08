@@ -178,6 +178,18 @@ frappe.ui.form.on("Request Action", {
 	},
 
 	onload: function (frm) {
+		document.addEventListener("keydown", function (event) {
+			// Check if the Ctrl + B combination is pressed
+			if (event.ctrlKey && event.key === "b") {
+				// Check if the current doctype is one of the specified doctypes
+				if (frm.doctype === "Request Action") {
+					// Prevent the default action and stop propagation
+					event.preventDefault();
+					event.stopPropagation();
+					frappe.msgprint(__("The shortcut Ctrl + B is disabled for this doctype."));
+				}
+			}
+		});
 		const request = localStorage.getItem("request");
 
 		// Set the transaction_reference field value if it exists

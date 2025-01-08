@@ -159,7 +159,8 @@
    "fieldname": "transaction_reference",
    "fieldtype": "Link",
    "label": "Transaction Reference",
-   "options": "Transaction New"
+   "options": "Transaction New",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_rbbm",
@@ -200,7 +201,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-07 02:34:33.360141",
+ "modified": "2025-01-08 17:02:19.323843",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Request",
