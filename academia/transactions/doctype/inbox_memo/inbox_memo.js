@@ -231,6 +231,24 @@ frappe.ui.form.on("Inbox Memo", {
 	},
 
 	onload: function (frm) {
+		document.addEventListener("keydown", function (event) {
+			// Check if the Ctrl + B combination is pressed
+			if (event.ctrlKey && event.key === "b") {
+				// Check if the current doctype is one of the specified doctypes
+				if (frm.doctype === "Inbox Memo") {
+					// Prevent the default action and stop propagation
+					event.preventDefault();
+					event.stopPropagation();
+					frappe.msgprint(__("The shortcut Ctrl + B is disabled for this doctype."));
+				}
+			}
+		});
+		const transaction_reference = localStorage.getItem("transaction_reference");
+
+		// Set the transaction_reference field value if it exists
+		if (transaction_reference && frm.is_new()) {
+			frm.set_value("transaction_reference", transaction_reference);
+		}
 		if (!frm.doc.start_from) {
 			frappe.call({
 				method: "frappe.client.get_value",
