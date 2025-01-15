@@ -41,15 +41,16 @@ class InboxMemo(Document):
 		transaction_reference: DF.Link | None
 	# end: auto-generated types
 	def on_submit(self):
-		employee = frappe.get_doc("Employee", self.start_from)
-		frappe.share.add(
-			doctype="inbox Memo",
-			name=self.name,
-			user=employee.user_id,
-			read=1,
-			write=0,
-			share=0,
-		)
+		if self.inbox_from == "Company within the system":
+			employee = frappe.get_doc("Employee", self.start_from)
+			frappe.share.add(
+				doctype="inbox Memo",
+				name=self.name,
+				user=employee.user_id,
+				read=1,
+				write=0,
+				share=0,
+			)
 
 		employee = frappe.get_doc("Employee", self.recipients[0].recipient)
 		frappe.share.add(

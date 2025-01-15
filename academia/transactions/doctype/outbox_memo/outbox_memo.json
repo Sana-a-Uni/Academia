@@ -286,7 +286,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-07 17:20:41.841689",
+ "modified": "2025-01-10 19:06:13.216805",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo",
@@ -302,6 +302,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Transactions User",
    "share": 1,
    "submit": 1,
    "write": 1
