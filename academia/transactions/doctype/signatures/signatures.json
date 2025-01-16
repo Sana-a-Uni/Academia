@@ -1,0 +1,38 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-01-16 16:11:19.151656",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "employee_name",
+  "employee_designation"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Employee Name"
+  },
+  {
+   "fieldname": "employee_designation",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Employee Designation"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-01-16 16:12:16.067791",
+ "modified_by": "Administrator",
+ "module": "Transactions",
+ "name": "Signatures",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

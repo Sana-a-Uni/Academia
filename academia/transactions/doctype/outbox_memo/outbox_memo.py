@@ -14,6 +14,7 @@ class OutboxMemo(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.transactions.doctype.signatures.signatures import Signatures
 		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import TransactionAttachmentsNew
 		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
@@ -33,6 +34,7 @@ class OutboxMemo(Document):
 		is_received: DF.Check
 		naming_series: DF.Literal["OUTBOX-.YY.-.MM.-"]
 		recipients: DF.Table[TransactionRecipientsNew]
+		signatures: DF.Table[Signatures]
 		start_from: DF.Link
 		start_from_company: DF.Link
 		start_from_department: DF.Link | None
@@ -558,3 +560,30 @@ def get_outbox_memo_actions_html(outbox_memo_name):
 	table_html += "</tbody></table>"
 
 	return table_html
+
+@frappe.whitelist()
+def get_reporting_chain(current_employee, end_employee):
+    """
+    Get the reporting chain of employees from the current employee to the end employee.
+
+    Args:
+        current_employee (str): The name of the current employee.
+        end_employee (str): The name of the end employee.
+
+    Returns:
+        list: A list of employees in the reporting chain.
+    """
+    reporting_chain = []
+    employee = current_employee
+
+    while employee and employee != end_employee:
+        employee_doc = frappe.get_doc("Employee", employee)
+        reports_to = employee_doc.reports_to
+
+        if not reports_to or reports_to == end_employee:
+            break
+
+        reporting_chain.append(reports_to)
+        employee = reports_to
+
+    return reporting_chain
