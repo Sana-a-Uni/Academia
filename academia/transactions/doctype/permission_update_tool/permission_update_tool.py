@@ -1,11 +1,19 @@
 # Copyright (c) 2025, SanU and contributors
 # For license information, please see license.txt
+import json
 
-# import frappe
+import frappe
 from frappe.model.document import Document
 
 
 class PermissionUpdateTool(Document):
+	def on_submit(self):
+		# frappe.msgprint("on_submit triggered!")
+		update_user_values(doctype_name="DocShare", field_a="user", condition_a_value=self.old_employee, new_value_for_field_a=self.new_employee, field_b="share_doctype", condition_b_values=["Transaction", "Transaction New", "Inbox Memo", "Outbox Memo", "Request", "Specific Transaction Document"])
+		update_user_values(doctype_name="Inbox Memo", field_a="current_action_maker", condition_a_value=self.old_employee, new_value_for_field_a=self.new_employee)
+		update_user_values(doctype_name="Outbox Memo", field_a="current_action_maker", condition_a_value=self.old_employee, new_value_for_field_a=self.new_employee)
+		update_user_values(doctype_name="Specific Transaction Document", field_a="current_action_maker", condition_a_value=self.old_employee, new_value_for_field_a=self.new_employee)
+		update_user_values(doctype_name="Request", field_a="current_action_maker", condition_a_value=self.old_employee, new_value_for_field_a=self.new_employee)
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -17,15 +25,10 @@ class PermissionUpdateTool(Document):
 		new_employee: DF.Link
 		old_employee: DF.Link
 	# end: auto-generated types
-	pass
 
-def on_submit(self):
 	
-		update_user_values(doctype_name="DocShare", field_a="user", condition_a_value="hamedwork@gmail.com", new_value_for_field_a="khaliltaher89@gmail.com", field_b="share_doctype", condition_b_values=["Transaction", "Transaction New", "Inbox Memo", "Outbox Memo", "Request", "Specific Transaction Document"])
-		update_user_values(doctype_name="Inbox Memo", field_a="current_action_maker", condition_a_value="hamedwork@gmail.com", new_value_for_field_a="khaliltaher89@gmail.com")
-		update_user_values(doctype_name="Outbox Memo", field_a="current_action_maker", condition_a_value="hamedwork@gmail.com", new_value_for_field_a="khaliltaher89@gmail.com")
-		update_user_values(doctype_name="Specific Transaction Document", field_a="current_action_maker", condition_a_value="hamedwork@gmail.com", new_value_for_field_a="khaliltaher89@gmail.com")
-		update_user_values(doctype_name="Request", field_a="current_action_maker", condition_a_value="hamedwork@gmail.com", new_value_for_field_a="khaliltaher89@gmail.com")
+
+
 
 
 
@@ -59,6 +62,15 @@ def update_user_values(
         filters=filters,
         fields=["name", field_a]  # Fetch only 'name' and 'field_a' for the records
     )
+
+	# If no records are found, throw a message
+	if not records:
+		frappe.msgprint(
+			f"No records found in {doctype_name} matching the given conditions.",
+			title="No Updates Made",
+			indicator="green",
+		)
+		return
     
     # Iterate through records and update Field A
     for record in records:
