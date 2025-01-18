@@ -31,6 +31,8 @@
   "recipients",
   "get_recipients",
   "clear_recipients",
+  "section_break_sman",
+  "signatures",
   "attachments_tab",
   "attachments",
   "related_actions_tab",
@@ -192,9 +194,11 @@
   {
    "fieldname": "transaction_reference",
    "fieldtype": "Link",
+   "in_list_view": 1,
    "label": "Transaction Reference",
    "options": "Transaction New",
-   "read_only": 1
+   "read_only": 1,
+   "reqd": 1
   },
   {
    "allow_on_submit": 1,
@@ -219,12 +223,22 @@
    "hidden": 1,
    "label": "Naming Series",
    "options": "STD-.YY.-.MM.-"
+  },
+  {
+   "fieldname": "section_break_sman",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "signatures",
+   "fieldtype": "Table",
+   "label": "Signatures",
+   "options": "Signatures"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-07 17:16:48.899626",
+ "modified": "2025-01-17 22:17:57.145277",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Specific Transaction Document",

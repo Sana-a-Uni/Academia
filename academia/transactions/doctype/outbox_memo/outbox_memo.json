@@ -267,7 +267,8 @@
    "fieldtype": "Link",
    "label": "Transaction Reference",
    "options": "Transaction New",
-   "read_only": 1
+   "read_only": 1,
+   "reqd": 1
   },
   {
    "allow_on_submit": 1,
@@ -298,7 +299,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-16 16:12:58.270696",
+ "modified": "2025-01-17 22:18:09.388055",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo",

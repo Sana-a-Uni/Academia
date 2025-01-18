@@ -1,10 +1,31 @@
 frappe.listview_settings['Inbox Memo'] = {
-    onload: function() {
+
+    onload: function(listview) {
         $('.btn-primary').filter(function () {
             return $(this).text().trim() === 'Add Inbox Memo';
         }).hide();
+
+        if(!frappe.user_roles.includes('Transactions Manager')) {
+            frappe.call({
+                method: 'academia.transactions.doctype.inbox_memo.inbox_memo.get_shared_inbox_memos',
+                args: {
+                    user: frappe.session.user
+                },
+                callback: function(response) {
+                    if (response.message) {
+                        const allowed_memos = response.message;
+                        listview.filter_area.add([
+                            ['Inbox Memo', 'name', 'in', allowed_memos]
+                        ]);
+    
+                        $('.filter-selector').hide();
+                    }
+                }
+            });
+        }
     }
 };
+
 // frappe.listview_settings['Inbox Memo'] = {
 //     onload: function(listview) {
 //         // Fetch the current user's employee name
