@@ -26,9 +26,7 @@ class InboxMemo(Document):
 		external_entity_employee: DF.Data | None
 		full_electronic: DF.Check
 		inbox_from: DF.Literal["Company within the system", "Company outside the system"]
-		is_received: DF.Check
 		main_external_entity: DF.Link | None
-		naming_series: DF.Literal["INBOX-.YY.-.MM.-"]
 		recipients: DF.Table[TransactionRecipientsNew]
 		start_from: DF.Link | None
 		start_from_company: DF.Link | None
@@ -62,6 +60,12 @@ class InboxMemo(Document):
 			share=1,
 			submit=1,
 		)
+
+@frappe.whitelist()
+def get_shared_inbox_memos(user):
+    shared_memos = frappe.get_all('DocShare', filters={'user': user, 'share_doctype': 'Inbox Memo'}, fields=['share_name'])
+    memo_names = [memo['share_name'] for memo in shared_memos]
+    return memo_names
 
 @frappe.whitelist()
 def create_new_inbox_memo_action(user_id, inbox_memo, type, details):
