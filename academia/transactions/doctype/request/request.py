@@ -123,6 +123,11 @@ def update_share_permissions(docname, user, permissions):
 	else:
 		return "text"
 
+@frappe.whitelist()
+def get_shared_requests(user):
+    shared_memos = frappe.get_all('DocShare', filters={'user': user, 'share_doctype': 'Request'}, fields=['share_name'])
+    memo_names = [memo['share_name'] for memo in shared_memos]
+    return memo_names
 
 @frappe.whitelist()
 def get_request_actions_html(request_name):
