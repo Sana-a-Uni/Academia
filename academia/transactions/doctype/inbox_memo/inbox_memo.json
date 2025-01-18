@@ -1,7 +1,6 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "naming_series:",
  "creation": "2024-12-22 19:48:14.182885",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -9,13 +8,11 @@
   "section_break_g9lf",
   "amended_from",
   "current_action_maker",
-  "is_received",
   "title",
   "status",
   "inbox_from",
   "full_electronic",
   "transaction_reference",
-  "naming_series",
   "column_break_lqiw",
   "document_content",
   "section_break_ggvi",
@@ -218,8 +215,7 @@
    "fieldname": "transaction_reference",
    "fieldtype": "Link",
    "label": "Transaction Reference",
-   "options": "Transaction New",
-   "read_only": 1
+   "options": "Transaction New"
   },
   {
    "fieldname": "column_break_lqiw",
@@ -240,31 +236,15 @@
    "fieldtype": "HTML",
    "label": "Related Actions",
    "read_only": 1
-  },
-  {
-   "allow_on_submit": 1,
-   "default": "1",
-   "fieldname": "is_received",
-   "fieldtype": "Check",
-   "label": "Is Received",
-   "read_only": 1
-  },
-  {
-   "fieldname": "naming_series",
-   "fieldtype": "Select",
-   "hidden": 1,
-   "label": "Naming Series",
-   "options": "INBOX-.YY.-.MM.-"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-10 19:19:33.671316",
+ "modified": "2025-01-18 14:04:51.951537",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Inbox Memo",
- "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
@@ -281,47 +261,28 @@
    "write": 1
   },
   {
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Transactions User",
-   "share": 1,
-   "write": 1
-  },
-  {
    "create": 1,
+   "delete": 1,
    "email": 1,
    "export": 1,
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Faculty Dean",
+   "role": "transactions user",
+   "select": 1,
    "share": 1,
    "submit": 1,
    "write": 1
   },
   {
    "create": 1,
+   "delete": 1,
    "email": 1,
    "export": 1,
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "\u0627\u0645\u064a\u0646 \u0627\u0644\u0643\u0644\u064a\u0629",
-   "share": 1,
-   "submit": 1,
-   "write": 1
-  },
-  {
-   "create": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "\u0646\u0627\u0626\u0628 \u0639\u0645\u064a\u062f",
+   "role": "Transactions Manager",
    "share": 1,
    "submit": 1,
    "write": 1
