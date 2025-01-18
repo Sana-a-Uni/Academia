@@ -42,9 +42,68 @@ class OutboxMemo(Document):
 		start_from_employee: DF.Data
 		status: DF.Literal["Pending", "Completed", "Canceled", "Closed", "Rejected"]
 		title: DF.Data
-		transaction_reference: DF.Link | None
+		transaction_reference: DF.Link
 		type: DF.Literal["Internal", "External"]
 	# end: auto-generated types
+	def before_submit(self):
+		if self.direction == "Upward" or self.type == "External":
+			"""
+			Append the reporting chain to the 'Signatures' child table in the current document.
+
+			Include only the employees between the start employee and end employee in the chain.
+			"""
+			reporting_chain = []
+			visited = set()
+			current_employee = self.start_from  # Fieldname for the starting employee
+			if self.type == "Internal":
+				end_employee = self.recipients[0].recipient  # Fieldname for the target employee
+			else:
+				end_employee = self.end_employee
+			# We need to start from the employee who directly reports to the current_employee
+			employee_doc = frappe.get_doc("Employee", current_employee)
+			employee_to_process = employee_doc.reports_to
+
+			# Traverse the reporting chain until we reach the end employee
+			while employee_to_process:
+				if employee_to_process in visited:
+					frappe.throw("Circular reporting chain detected.")
+				visited.add(employee_to_process)
+
+				# Fetch the employee's document
+				employee_doc = frappe.get_doc("Employee", employee_to_process)
+				reports_to = employee_doc.reports_to
+
+				# Break if we reach the end employee
+				if employee_to_process == end_employee or not reports_to:
+					break
+				
+				# Append intermediate employees (skip current_employee and end_employee)
+				if reports_to != current_employee:
+					reporting_chain.append({
+						"employee": reports_to,
+						"employee_name": f"{employee_doc.first_name} {employee_doc.last_name or ''}".strip(),
+						"employee_designation": employee_doc.designation
+					})
+
+				# Move to the next employee in the chain
+				employee_to_process = reports_to
+
+			# Append the reporting chain to the 'Signatures' child table
+			for emp in reporting_chain:
+				self.append("signatures", {
+					"employee_name": emp["employee_name"],
+					"employee_designation": emp["employee_designation"]
+				})
+			
+			if self.type == "External":
+				self.append("signatures",{
+					"employee_name": self.end_employee_name,
+					"employee_designation": self.end_employee_designation
+				})
+
+
+
+
 	def on_submit(self):
 		employee = frappe.get_doc("Employee", self.start_from)
 		frappe.share.add(
@@ -564,7 +623,8 @@ def get_outbox_memo_actions_html(outbox_memo_name):
 @frappe.whitelist()
 def get_reporting_chain(current_employee, end_employee):
     """
-    Get the reporting chain of employees from the current employee to the end employee.
+    Get the reporting chain of employees from the current employee to the end employee 
+    and append them to the "Signatures" child table in a specified Doctype.
 
     Args:
         current_employee (str): The name of the current employee.
@@ -574,16 +634,42 @@ def get_reporting_chain(current_employee, end_employee):
         list: A list of employees in the reporting chain.
     """
     reporting_chain = []
+    visited = set()
     employee = current_employee
 
     while employee and employee != end_employee:
-        employee_doc = frappe.get_doc("Employee", employee)
-        reports_to = employee_doc.reports_to
+        if employee in visited:
+            frappe.throw("Circular reporting chain detected.")
+        visited.add(employee)
 
+        # Fetch the employee document
+        try:
+            employee_doc = frappe.get_doc("Employee", employee)
+        except frappe.DoesNotExistError:
+            frappe.throw(f"Employee {employee} does not exist.")
+        except Exception as e:
+            frappe.log_error(e, "Error in get_reporting_chain")
+            frappe.throw("An unexpected error occurred while fetching employee details.")
+
+        # Get the manager
+        reports_to = employee_doc.reports_to
         if not reports_to or reports_to == end_employee:
             break
 
         reporting_chain.append(reports_to)
         employee = reports_to
+
+    # Update the "Signatures" child table in the parent Doctype
+    try:
+        parent_doc = frappe.get_doc("Outbox Memo", current_employee)
+        for emp in reporting_chain:
+            parent_doc.append("signatures", {"employee": emp})
+        parent_doc.save()
+        frappe.db.commit()
+    except frappe.DoesNotExistError:
+        frappe.throw(f"Parent document for {current_employee} does not exist.")
+    except Exception as e:
+        frappe.log_error(e, "Error updating Signatures child table")
+        frappe.throw("An unexpected error occurred while updating the Signatures table.")
 
     return reporting_chain

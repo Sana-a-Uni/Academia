@@ -13,6 +13,7 @@ class SpecificTransactionDocument(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.transactions.doctype.signatures.signatures import Signatures
 		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import TransactionAttachmentsNew
 		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
 		from frappe.types import DF
@@ -28,15 +29,64 @@ class SpecificTransactionDocument(Document):
 		is_received: DF.Check
 		naming_series: DF.Literal["STD-.YY.-.MM.-"]
 		recipients: DF.Table[TransactionRecipientsNew]
+		signatures: DF.Table[Signatures]
 		start_from: DF.Link | None
 		start_from_company: DF.Link | None
 		start_from_department: DF.Link | None
 		start_from_designation: DF.Link | None
 		status: DF.Literal["Pending", "Completed", "Canceled", "Closed", "Rejected"]
 		title: DF.Data | None
-		transaction_reference: DF.Link | None
+		transaction_reference: DF.Link
 		type: DF.Literal["\u0643\u0634\u0641", "\u0648\u0631\u0642\u0629"]
 	# end: auto-generated types
+
+	def before_submit(self):
+		"""
+		Append the reporting chain to the 'Signatures' child table in the current document.
+
+		Include only the employees between the start employee and end employee in the chain.
+		"""
+		reporting_chain = []
+		visited = set()
+		current_employee = self.start_from  # Fieldname for the starting employee
+		end_employee = self.recipients[0].recipient  # Fieldname for the target employee
+
+		# We need to start from the employee who directly reports to the current_employee
+		employee_doc = frappe.get_doc("Employee", current_employee)
+		employee_to_process = employee_doc.reports_to
+
+		# Traverse the reporting chain until we reach the end employee
+		while employee_to_process:
+			if employee_to_process in visited:
+				frappe.throw("Circular reporting chain detected.")
+			visited.add(employee_to_process)
+
+			# Fetch the employee's document
+			employee_doc = frappe.get_doc("Employee", employee_to_process)
+			reports_to = employee_doc.reports_to
+
+			# Break if we reach the end employee
+			if employee_to_process == end_employee or not reports_to:
+				break
+			
+			# Append intermediate employees (skip current_employee and end_employee)
+			if reports_to != current_employee:
+				reporting_chain.append({
+					"employee": reports_to,
+					"employee_name": f"{employee_doc.first_name} {employee_doc.last_name or ''}".strip(),
+					"employee_designation": employee_doc.designation
+				})
+
+			# Move to the next employee in the chain
+			employee_to_process = reports_to
+
+		# Append the reporting chain to the 'Signatures' child table
+		for emp in reporting_chain:
+			self.append("signatures", {
+				"employee_name": emp["employee_name"],
+				"employee_designation": emp["employee_designation"]
+			})
+
 
 	def on_submit(self):
 		if self.start_from:
