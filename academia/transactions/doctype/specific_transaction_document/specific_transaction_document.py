@@ -397,3 +397,10 @@ def get_specific_transaction_document_actions_html(specific_transaction_document
 	table_html += "</tbody></table>"
 
 	return table_html
+
+
+@frappe.whitelist()
+def get_shared_std(user):
+    shared_std = frappe.get_all('DocShare', filters={'user': user, 'share_doctype': 'Specific Transaction Document'}, fields=['share_name'])
+    std_names = [memo['share_name'] for memo in shared_std]
+    return shared_std

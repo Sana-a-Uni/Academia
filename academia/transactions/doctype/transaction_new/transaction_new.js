@@ -32,7 +32,7 @@ frappe.ui.form.on("Transaction New", {
 				},
 			});
 		});
-		if (frm.doc.status === "Pending" && frm.doc.status != 0) {
+		if (frm.doc.status === "Pending" && frm.doc.docstatus != 0) {
 			frm.add_custom_button(
 				__("Request"),
 				function () {
@@ -83,7 +83,7 @@ frappe.ui.form.on("Transaction New", {
 				},
 				"Add Document"
 			);
-			if(["Faculty Dean", "نائب عميد", "امين كلية"].some(role => frappe.user_roles.includes(role))){
+			if(frappe.user_roles.includes("Inbox Memo Maker")){
 				frm.add_custom_button(
 					__("Inbox Memo"),
 					function () {

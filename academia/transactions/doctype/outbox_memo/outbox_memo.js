@@ -83,6 +83,9 @@ frappe.ui.form.on("Outbox Memo", {
 	},
 
 	refresh(frm) {
+		if (!frappe.user_roles.includes("External Outbox Maker")) {
+			frm.set_df_property("direction", "hidden", 1);
+		}
 		update_related_actions_html(frm);
 		// Assign global variables
 		frappe.call({

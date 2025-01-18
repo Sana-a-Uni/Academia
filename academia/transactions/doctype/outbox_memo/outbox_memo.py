@@ -673,3 +673,9 @@ def get_reporting_chain(current_employee, end_employee):
         frappe.throw("An unexpected error occurred while updating the Signatures table.")
 
     return reporting_chain
+
+@frappe.whitelist()
+def get_shared_outbox_memos(user):
+    shared_memos = frappe.get_all('DocShare', filters={'user': user, 'share_doctype': 'Outbox Memo'}, fields=['share_name'])
+    memo_names = [memo['share_name'] for memo in shared_memos]
+    return memo_names
