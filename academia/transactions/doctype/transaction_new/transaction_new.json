@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:TRA-{MM}-{YY}-{####}",
+ "autoname": "naming_series:",
  "creation": "2024-12-22 16:52:35.764609",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -10,6 +10,7 @@
   "status",
   "amended_from",
   "start_date",
+  "naming_series",
   "related_documents_section",
   "related_documents",
   "actions_tab"
@@ -65,17 +66,25 @@
    "fieldname": "related_documents_section",
    "fieldtype": "Section Break",
    "label": "Related Documents"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "TRA-.YY.-.MM.-",
+   "read_only": 1
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-10 19:03:08.011153",
+ "modified": "2025-01-19 12:38:26.096350",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Transaction New",
- "naming_rule": "Expression",
+ "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [
   {
