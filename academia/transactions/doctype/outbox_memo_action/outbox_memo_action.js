@@ -148,7 +148,7 @@ frappe.ui.form.on("Outbox Memo Action", {
 		// 	__("Submit")
 		// );
 	},
-
+	
 	on_submit: function (frm) {
 		// const new_row_html = generate_new_row_html(
 		// 	frm.doc.name,
@@ -254,7 +254,9 @@ frappe.ui.form.on("Outbox Memo Action", {
 		// 	},
 		// });
 	},
-
+	after_save: function(frm) {
+        location.reload()
+    },
 	refresh(frm) {
 		frappe.call({
 			method: "frappe.client.get",
@@ -278,7 +280,7 @@ frappe.ui.form.on("Outbox Memo Action", {
 								custom_submit_functionality(frm);
 							}).addClass("btn-primary");
 						}
-						y;
+						;
 					}
 				}
 			},
@@ -463,7 +465,17 @@ function update_must_include(frm) {
 							employee_name: employee_name,
 						},
 						callback: function (response) {
-							mustInclude = response.message;
+							mustInclude = []
+							if (response.message && response.message.length > 0) {
+								// Filter out null values and employees without users
+								mustInclude = response.message.filter(emp => emp !== null);
+							}
+			
+							// If mustInclude is empty, add a placeholder value
+							if (mustInclude.length === 0) {
+								mustInclude.push({ name: "No valid employees", employee_name: "No valid employees" });
+							}
+							console.log(mustInclude);
 						},
 					});
 				}

@@ -49,6 +49,14 @@ function add_reject_action(frm) {
 				},
 			],
 			function (values) {
+				if (!values.details) {
+					frappe.msgprint({
+						title: __("Error"),
+						indicator: "red",
+						message: __("Please enter rejection details."),
+					});
+					return;
+				}
 				frappe.call({
 					method: "academia.transactions.doctype.inbox_memo.inbox_memo.create_new_inbox_memo_action",
 					args: {
