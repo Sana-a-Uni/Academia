@@ -679,3 +679,68 @@ def get_shared_outbox_memos(user):
     shared_memos = frappe.get_all('DocShare', filters={'user': user, 'share_doctype': 'Outbox Memo'}, fields=['share_name'])
     memo_names = [memo['share_name'] for memo in shared_memos]
     return memo_names
+
+@frappe.whitelist()
+def get_end_employee(doctype, txt, searchfield, start, page_len, filters):
+    """
+    Get employees with the role "External Outbox Maker", from the same company,
+    and in the reports_to hierarchy of the current employee.
+
+    Args:
+        doctype (str): The doctype being queried.
+        txt (str): The search text.
+        searchfield (str): The field being searched.
+        start (int): The start index for pagination.
+        page_len (int): The number of results per page.
+        filters (dict): Additional filters.
+
+    Returns:
+        list: A list of employees with the specified role, company, and hierarchy.
+    """
+    role = filters.get("role")
+    company = filters.get("company")
+    current_employee = filters.get("current_employee")
+
+    # Get the list of employees in the reports_to hierarchy of the current employee
+    hierarchy_employees = get_reporting_hierarchy(current_employee)
+
+    employees = frappe.db.sql("""
+        SELECT
+            emp.name,
+            emp.employee_name
+        FROM
+            `tabEmployee` emp
+        JOIN
+            `tabHas Role` hr ON hr.parent = emp.user_id
+        WHERE
+            hr.role = %s AND emp.company = %s AND emp.name IN %s
+        LIMIT %s, %s
+    """, (role, company, tuple(hierarchy_employees), start, page_len))
+
+    return [(emp[0], emp[1]) for emp in employees]
+
+@frappe.whitelist()
+def get_reporting_hierarchy(current_employee):
+    """
+    Get the reporting chain of employees from the current employee.
+
+    Args:
+        current_employee (str): The name of the current employee.
+
+    Returns:
+        list: A list of employees in the reporting chain.
+    """
+    reporting_chain = []
+    employee = current_employee
+
+    while employee:
+        employee_doc = frappe.get_doc("Employee", employee)
+        reports_to = employee_doc.reports_to
+
+        if not reports_to:
+            break
+
+        reporting_chain.append(reports_to)
+        employee = reports_to
+
+    return reporting_chain

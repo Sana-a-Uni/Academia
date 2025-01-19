@@ -94,6 +94,7 @@
    "in_list_view": 1,
    "label": "Start From",
    "options": "Employee",
+   "read_only": 1,
    "reqd": 1,
    "set_only_once": 1
   },
@@ -151,14 +152,16 @@
    "fetch_from": "end_employee.employee_name",
    "fieldname": "end_employee_name",
    "fieldtype": "Data",
-   "label": "End Employee Name"
+   "label": "End Employee Name",
+   "read_only": 1
   },
   {
    "fetch_from": "end_employee.company",
    "fieldname": "end_employee_company",
    "fieldtype": "Link",
    "label": "End Employee Company",
-   "options": "Company"
+   "options": "Company",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_xmet",
@@ -169,14 +172,16 @@
    "fieldname": "end_employee_department",
    "fieldtype": "Link",
    "label": "End Employee Department",
-   "options": "Department"
+   "options": "Department",
+   "read_only": 1
   },
   {
    "fetch_from": "end_employee.designation",
    "fieldname": "end_employee_designation",
    "fieldtype": "Link",
    "label": "End Employee Designation",
-   "options": "Designation"
+   "options": "Designation",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_silk",
@@ -300,7 +305,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-18 12:07:58.475766",
+ "modified": "2025-01-19 13:08:16.985795",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo",

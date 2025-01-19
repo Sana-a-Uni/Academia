@@ -54,7 +54,7 @@ frappe.ui.form.on("Transaction New", {
 								if (response.message) {
 									if (response.message.status == "Pending") {
 										frappe.throw(
-											"You can't create a new document while another document is still pending."
+											__("You can't create a new document while another document is still pending.")
 										);
 									} else {
 										const url = frappe.urllib.get_full_url(
@@ -81,7 +81,7 @@ frappe.ui.form.on("Transaction New", {
 						window.location.href = url;
 					}
 				},
-				"Add Document"
+				__("Add Document")
 			);
 			if(frappe.user_roles.includes("Inbox Memo Maker")){
 				frm.add_custom_button(
@@ -105,7 +105,7 @@ frappe.ui.form.on("Transaction New", {
 									if (response.message) {
 										if (response.message.status == "Pending") {
 											frappe.throw(
-												"You can't create a new document while another document is still pending."
+												__("You can't create a new document while another document is still pending.")
 											);
 										} else {
 											const url = frappe.urllib.get_full_url(
@@ -132,7 +132,7 @@ frappe.ui.form.on("Transaction New", {
 							window.location.href = url;
 						}
 					},
-					"Add Document"
+					__("Add Document")
 				);
 			}
 			frm.add_custom_button(
@@ -156,7 +156,7 @@ frappe.ui.form.on("Transaction New", {
 								if (response.message) {
 									if (response.message.status == "Pending") {
 										frappe.throw(
-											"You can't create a new document while another document is still pending."
+											__("You can't create a new document while another document is still pending.")
 										);
 									} else {
 										const url = frappe.urllib.get_full_url(
@@ -184,7 +184,7 @@ frappe.ui.form.on("Transaction New", {
 						window.location.href = url;
 					}
 				},
-				"Add Document"
+				__("Add Document")
 			);
 			frm.add_custom_button(
 				__("Specific Transaction Document"),
@@ -207,7 +207,7 @@ frappe.ui.form.on("Transaction New", {
 								if (response.message) {
 									if (response.message.status == "Pending") {
 										frappe.throw(
-											"You can't create a new document while another document is still pending."
+											__("You can't create a new document while another document is still pending.")
 										);
 									} else {
 										const url = frappe.urllib.get_full_url(
@@ -236,7 +236,7 @@ frappe.ui.form.on("Transaction New", {
 						window.location.href = url;
 					}
 				},
-				"Add Document"
+				__("Add Document")
 			);
 		}
 	},

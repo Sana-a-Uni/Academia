@@ -138,6 +138,17 @@ frappe.ui.form.on("Outbox Memo", {
 	},
 
 	onload: function (frm) {
+		frm.fields_dict['end_employee'].get_query = function(doc) {
+            return {
+                query: "academia.transactions.doctype.outbox_memo.outbox_memo.get_end_employee",
+                filters: {
+                    role: "External Outbox Maker",
+                    company: frm.doc.start_from_company,
+                    current_employee: frm.doc.start_from
+                }
+            };
+        };
+
 		document.addEventListener("keydown", function (event) {
 			// Check if the Ctrl + B combination is pressed
 			if (event.ctrlKey && event.key === "b") {

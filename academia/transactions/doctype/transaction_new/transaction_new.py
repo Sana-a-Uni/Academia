@@ -16,6 +16,7 @@ class TransactionNew(Document):
 		from frappe.types import DF
 
 		amended_from: DF.Link | None
+		naming_series: DF.Literal["TRA-.YY.-.MM.-"]
 		related_documents: DF.Table[TransactionRelatedDocuments]
 		start_date: DF.Date | None
 		status: DF.Literal["Pending", "Completed", "Canceled", "Closed", "Rejected"]
