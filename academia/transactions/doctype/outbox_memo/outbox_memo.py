@@ -136,7 +136,7 @@ def get_all_employees_except_start_from_company(start_from_company):
 	employees = frappe.get_list(
 		"Employee", filters={"company": ["!=", start_from_company]}, fields=["user_id"]
 	)
-	return [emp.user_id for emp in employees]
+	return employees
 
 
 @frappe.whitelist()

@@ -83,6 +83,7 @@ frappe.ui.form.on("Outbox Memo", {
 	},
 
 	refresh(frm) {
+		console.log(mustInclude);
 		if (!frappe.user_roles.includes("External Outbox Maker")) {
 			frm.set_df_property("direction", "hidden", 1);
 		}
@@ -116,7 +117,7 @@ frappe.ui.form.on("Outbox Memo", {
 		frm.get_field("recipients").grid.only_sortable();
 		frm.refresh_fields("recipients");
 
-		if (frm.doc.status == 1) {
+		if (frm.doc.docstatus != 0) {
 			frm.fields_dict.get_recipients.$wrapper.hide();
 			frm.fields_dict.get_recipients.input.disabled = true;
 			frm.fields_dict.clear_recipients.$wrapper.hide();
@@ -301,7 +302,17 @@ function update_must_include(frm) {
 					start_from_company: frm.doc.start_from_company,
 				},
 				callback: function (response) {
-					mustInclude = response.message;
+					mustInclude = []
+					if (response.message && response.message.length > 0) {
+						// Filter out null values and employees without users
+						mustInclude = response.message.filter(emp => emp !== null);
+					}
+	
+					// If mustInclude is empty, add a placeholder value
+					if (mustInclude.length === 0) {
+						mustInclude.push({ name: "No valid employees", employee_name: "No valid employees" });
+					}
+					console.log(mustInclude);
 				},
 			});
 		} else if (frm.doc.type === "Internal" && frm.doc.direction !== "Downward") {
@@ -311,7 +322,18 @@ function update_must_include(frm) {
 					employee_name: frm.doc.start_from,
 				},
 				callback: function (response) {
-					mustInclude = response.message;
+					mustInclude = []
+					if (response.message && response.message.length > 0) {
+						// Filter out null values and employees without users
+						mustInclude = response.message.filter(emp => emp !== null);
+					}
+	
+					// If mustInclude is empty, add a placeholder value
+					if (mustInclude.length === 0) {
+						mustInclude.push({ name: "No valid employees", employee_name: "No valid employees" });
+					}
+					console.log(mustInclude);
+
 				},
 			});
 		} else {
@@ -321,7 +343,18 @@ function update_must_include(frm) {
 					employee_name: frm.doc.start_from,
 				},
 				callback: function (response) {
-					mustInclude = response.message;
+					mustInclude = []
+					if (response.message && response.message.length > 0) {
+						// Filter out null values and employees without users
+						mustInclude = response.message.filter(emp => emp !== null);
+					}
+	
+					// If mustInclude is empty, add a placeholder value
+					if (mustInclude.length === 0) {
+						mustInclude.push({ name: "No valid employees", employee_name: "No valid employees" });
+					}
+					console.log(mustInclude);
+
 				},
 			});
 		}
@@ -598,6 +631,14 @@ function add_reject_action(frm) {
 				},
 			],
 			function (values) {
+				if (!values.details) {
+					frappe.msgprint({
+						title: __("Error"),
+						indicator: "red",
+						message: __("Please enter rejection details."),
+					});
+					return;
+				}
 				frappe.call({
 					method: "academia.transactions.doctype.outbox_memo.outbox_memo.create_new_outbox_memo_action",
 					args: {

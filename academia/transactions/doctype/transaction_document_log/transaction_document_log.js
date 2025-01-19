@@ -95,7 +95,29 @@ function add_middle_man_received_action(frm) {
 			<p>${__("Are you sure you have all these documents?")}</p>
 		`;
 
-		frappe.confirm(confirmationMessage, function () {
+		if (attachmentList.length > 0){
+			frappe.confirm(confirmationMessage, function () {
+				frappe.db
+					.set_value(
+						"Transaction Document Log",
+						frm.docname,
+						"paper_progress",
+						__("Received by middle man")
+					)
+					.then(() => {
+						location.reload();
+					})
+					.catch((error) => {
+						frappe.msgprint({
+							title: __("Error"),
+							indicator: "red",
+							message: __("An error occurred while updating the document."),
+						});
+						console.error(error);
+					});
+			});
+		}
+		else {
 			frappe.db
 				.set_value(
 					"Transaction Document Log",
@@ -114,7 +136,8 @@ function add_middle_man_received_action(frm) {
 					});
 					console.error(error);
 				});
-		});
+		}
+		
 	});
 }
 
@@ -193,7 +216,41 @@ function add_end_employee_received_action(frm) {
 			<p>${__("Are you sure you have all these documents?")}</p>
 		`;
 
-		frappe.confirm(confirmationMessage, function () {
+		if (attachmentList.length > 0){
+			frappe.confirm(confirmationMessage, function () {
+				frappe.db
+					.set_value(
+						"Transaction Document Log",
+						frm.docname,
+						"paper_progress",
+						__("Received by end employee")
+					)
+					.then(() => {
+						frappe.call({
+							method: "academia.transactions.doctype.transaction_document_log.transaction_document_log.change_is_received",
+							args: {
+								doctype: frm.doc.document_type,
+								docname: frm.doc.document_name,
+								is_received: 1,
+							},
+							callback: function (response) {
+								if (response.message) {
+									location.reload();
+								}
+							},
+						});
+					})
+					.catch((error) => {
+						frappe.msgprint({
+							title: __("Error"),
+							indicator: "red",
+							message: __("An error occurred while updating the document."),
+						});
+						console.error(error);
+					});
+			});
+		}
+		else {
 			frappe.db
 				.set_value(
 					"Transaction Document Log",
@@ -224,6 +281,7 @@ function add_end_employee_received_action(frm) {
 					});
 					console.error(error);
 				});
-		});
+		}
+		
 	});
 }
