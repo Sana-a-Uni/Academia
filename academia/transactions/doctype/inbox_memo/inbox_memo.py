@@ -26,6 +26,7 @@ class InboxMemo(Document):
 		external_entity_employee: DF.Data | None
 		full_electronic: DF.Check
 		inbox_from: DF.Literal["Company within the system", "Company outside the system"]
+		is_received: DF.Check
 		main_external_entity: DF.Link | None
 		recipients: DF.Table[TransactionRecipientsNew]
 		start_from: DF.Link | None
