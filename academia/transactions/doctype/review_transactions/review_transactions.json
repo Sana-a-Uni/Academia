@@ -15,6 +15,8 @@
   "naming_series",
   "column_break_gjfu",
   "document_content",
+  "transactions_for_review_section",
+  "transactions_for_review",
   "from_section",
   "start_from",
   "start_from_employee",
@@ -134,12 +136,24 @@
    "label": "Designation",
    "options": "Designation",
    "read_only": 1
+  },
+  {
+   "fieldname": "transactions_for_review_section",
+   "fieldtype": "Section Break",
+   "label": "Transactions For Review"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "transactions_for_review",
+   "fieldtype": "Table",
+   "label": "Transactions For Review",
+   "options": "Transactions For Review"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-20 16:14:19.899525",
+ "modified": "2025-01-20 20:17:30.428847",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Review Transactions",
