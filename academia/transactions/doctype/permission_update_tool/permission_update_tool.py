@@ -15,6 +15,8 @@ class PermissionUpdateTool(Document):
     if TYPE_CHECKING:
         from frappe.types import DF
 
+        amended_from: DF.Link | None
+        details: DF.Text | None
         new_employee: DF.Link
         old_employee: DF.Link
     # end: auto-generated types
