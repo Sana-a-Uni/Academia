@@ -1,0 +1,181 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-01-20 15:53:17.561842",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_s948",
+  "amended_from",
+  "current_action_maker",
+  "title",
+  "status",
+  "transaction_reference",
+  "naming_series",
+  "column_break_gjfu",
+  "document_content",
+  "transactions_for_review_section",
+  "transactions_for_review",
+  "from_section",
+  "start_from",
+  "start_from_employee",
+  "start_from_company",
+  "column_break_tfqm",
+  "start_from_department",
+  "start_from_designation"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_s948",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Review Transactions",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "current_action_maker",
+   "fieldtype": "Data",
+   "label": "Current Action Maker",
+   "read_only": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:!doc.__islocal",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Pending\nCompleted\nCanceled\nClosed\nRejected"
+  },
+  {
+   "fieldname": "transaction_reference",
+   "fieldtype": "Link",
+   "label": "Transaction Reference",
+   "options": "Transaction New",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "RT-.YY.-.MM.-"
+  },
+  {
+   "fieldname": "column_break_gjfu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "document_content",
+   "fieldtype": "Text Editor",
+   "label": "Document Content"
+  },
+  {
+   "fieldname": "from_section",
+   "fieldtype": "Section Break",
+   "label": "From"
+  },
+  {
+   "fieldname": "start_from",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Start From",
+   "options": "Employee",
+   "read_only": 1,
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fetch_from": "start_from.employee_name",
+   "fieldname": "start_from_employee",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "start_from.company",
+   "fieldname": "start_from_company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_tfqm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "start_from.department",
+   "fieldname": "start_from_department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "start_from.designation",
+   "fieldname": "start_from_designation",
+   "fieldtype": "Link",
+   "label": "Designation",
+   "options": "Designation",
+   "read_only": 1
+  },
+  {
+   "fieldname": "transactions_for_review_section",
+   "fieldtype": "Section Break",
+   "label": "Transactions For Review"
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "transactions_for_review",
+   "fieldtype": "Table",
+   "label": "Transactions For Review",
+   "options": "Transactions For Review"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-01-20 20:17:30.428847",
+ "modified_by": "Administrator",
+ "module": "Transactions",
+ "name": "Review Transactions",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_seen": 1
+}
