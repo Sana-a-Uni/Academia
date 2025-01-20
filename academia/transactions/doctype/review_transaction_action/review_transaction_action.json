@@ -1,0 +1,160 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "naming_series:",
+ "creation": "2025-01-20 16:19:58.678838",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_oset",
+  "review_transactions",
+  "action_maker",
+  "employee_name",
+  "from_company",
+  "from_department",
+  "from_designation",
+  "created_by",
+  "allow_recipient_to_redirect",
+  "naming_series",
+  "column_break_yexs",
+  "type",
+  "action_date",
+  "details",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_oset",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Review Transaction Action",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "review_transactions",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Review Transactions",
+   "options": "Review Transactions",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "action_maker",
+   "fieldtype": "Link",
+   "label": "Action Maker",
+   "options": "Employee",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "action_maker.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "action_maker.company",
+   "fieldname": "from_company",
+   "fieldtype": "Link",
+   "label": "From Company",
+   "options": "Company",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "action_maker.department",
+   "fieldname": "from_department",
+   "fieldtype": "Link",
+   "label": "From Department",
+   "options": "Department",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "action_maker.designation",
+   "fieldname": "from_designation",
+   "fieldtype": "Link",
+   "label": "From Designation",
+   "options": "Designation",
+   "read_only": 1
+  },
+  {
+   "allow_on_submit": 1,
+   "fieldname": "created_by",
+   "fieldtype": "Link",
+   "label": "Created By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "default": "1",
+   "fieldname": "allow_recipient_to_redirect",
+   "fieldtype": "Check",
+   "label": "Allow Recipient to Redirect"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Naming Series"
+  },
+  {
+   "fieldname": "column_break_yexs",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Type",
+   "options": "Redirected\nApproved\nRejected\nCanceled",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "action_date",
+   "fieldtype": "Data",
+   "label": "Action Date",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "details",
+   "fieldtype": "Text",
+   "label": "Details"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-01-20 16:33:46.733191",
+ "modified_by": "Administrator",
+ "module": "Transactions",
+ "name": "Review Transaction Action",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
