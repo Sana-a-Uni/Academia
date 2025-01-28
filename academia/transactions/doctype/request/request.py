@@ -52,15 +52,16 @@ class Request(Document):
 			share=0,
 		)
 
-		frappe.share.add(
-				doctype="Request",
-				name=self.name,
-				user=self.recipients[0].recipient_email,
-				read=1,
-				write=1,
-				share=1,
-				submit=1,
-			)
+		if not self.using_path_template:
+			frappe.share.add(
+					doctype="Request",
+					name=self.name,
+					user=self.recipients[0].recipient_email,
+					read=1,
+					write=1,
+					share=1,
+					submit=1,
+				)
 
 
 @frappe.whitelist()
