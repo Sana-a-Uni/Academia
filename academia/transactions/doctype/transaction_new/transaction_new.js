@@ -1,7 +1,42 @@
 // Copyright (c) 2024, SanU and contributors
 // For license information, please see license.txt
 
+let delegated_employees_emails = [];
+
 frappe.ui.form.on("Transaction New", {
+	onload: function (frm){
+		// Fetch the list of emails from delegated_employees child table in Employee Proxies doctype
+        frappe.call({
+			method: "frappe.client.get_list",
+			args: {
+				doctype: "Employee Proxies",
+				filters: { employee_email: frm.doc.transaction_holder },
+				fields: ["name"],
+				limit_page_length: 1
+			},
+			callback: function(response) {
+				if (response.message && response.message.length > 0) {
+					let proxy_name = response.message[0].name;
+					frappe.call({
+						method: "frappe.client.get",
+						args: {
+							doctype: "Employee Proxies",
+							name: proxy_name
+						},
+						async: false, 
+						callback: function(response) {
+							if (response.message) {
+								let delegated_employees = response.message.delegated_employees;
+								delegated_employees_emails = delegated_employees.map(emp => emp.email);
+								console.log("Delegated Employees Emails:", delegated_employees_emails);
+							}
+						}
+					});
+				}
+			}
+		});
+
+	},
 	before_submit: function (frm) {
 		frm.set_value("transaction_holder", frappe.session.user);
 		frappe.call({
@@ -50,8 +85,10 @@ frappe.ui.form.on("Transaction New", {
 				},
 			});
 		});
-
-		if (frm.doc.transaction_holder == frappe.session.user) {
+		// frappe.msgprint(frappe.session.user)
+		frappe.msgprint(delegated_employees_emails[0])
+		if (frm.doc.transaction_holder == frappe.session.user || delegated_employees_emails.includes(frappe.session.user)) {
+			frappe.msgprint("You went through")
 			if (frm.doc.related_documents.length > 0) {
 				frappe.call({
 					method: "frappe.client.get_value",
