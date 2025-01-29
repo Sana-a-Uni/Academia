@@ -62,7 +62,8 @@
    "fieldname": "employee_email",
    "fieldtype": "Link",
    "label": "Employee Email",
-   "options": "User"
+   "options": "User",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_hyrq",
@@ -78,7 +79,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-01-27 17:24:59.309072",
+ "modified": "2025-01-29 17:21:16.141434",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Employee Proxy",
