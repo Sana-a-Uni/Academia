@@ -1,5 +1,6 @@
 // Copyright (c) 2024, SanU and contributors
 // For license information, please see license.txt
+let delegated_employees_emails = []
 
 function add_approve_action(frm) {
 	cur_frm.page.add_action_item(__("Approve"), function () {
@@ -193,6 +194,31 @@ frappe.ui.form.on("Inbox Memo", {
 			add_approve_action(frm);
 			add_reject_action(frm);
 			add_redirect_action(frm);
+		}
+		else if (
+			frm.doc.current_action_maker != frappe.session.user &&
+			(frm.doc.is_received || frm.doc.full_electronic)
+		) {
+			frappe.call({
+				method: "frappe.client.get",
+				args: {
+					doctype: "Employee Proxy",
+					filters: { employee_email: frm.doc.transaction_holder }
+				},
+				callback: function(response) {
+					if (response.message) {
+						let delegated_employees = response.message.delegated_employees;
+						let delegated_employees_emails = delegated_employees.map(emp => emp.email);
+						console.log("Delegated Employees Emails:", delegated_employees_emails);
+
+						if (delegated_employees_emails.includes(frappe.session.user)) {
+							add_approve_action(frm);
+							add_reject_action(frm);
+							add_redirect_action(frm);
+						}
+					}
+				}
+			})
 		}
 
 		// Hide 'add row' button

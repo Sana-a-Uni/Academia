@@ -118,7 +118,7 @@ frappe.ui.form.on("Transaction New", {
 					filters: { employee_email: frm.doc.transaction_holder }
 				},
 				callback: function(response) {
-					if (response.message) {
+					if (response.message && response.message.length > 0) {
 						let delegated_employees = response.message.delegated_employees;
 						let delegated_employees_emails = delegated_employees.map(emp => emp.email);
 						console.log("Delegated Employees Emails:", delegated_employees_emails);
@@ -181,6 +181,9 @@ frappe.ui.form.on("Transaction New", {
 								add_inbox_memo_button(frm);
 							}
 						}
+					}
+					else {
+						frappe.msgprint("Hello my fellow nigger");
 					}
 				}
 			});
