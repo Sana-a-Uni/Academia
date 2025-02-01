@@ -11,15 +11,16 @@ frappe.ui.form.on("Employee Proxy", {
             args: {
                 doctype: "Employee Proxy",
                 filters: {
-                    company: frm.doc.company,
-                    department: frm.doc.department,
-                    designation: frm.doc.designation,
+                    employee_company: frm.doc.employee_company,
+                    employee_department: frm.doc.employee_department,
+                    employee_designation: frm.doc.employee_designation,
                     name: ["!=", frm.doc.name] // Exclude the current record
                 },
                 fields: ["name"]
             },
             callback: function(response) {
                 if (response.message.length > 0) {
+                    console.log(response)
                     frappe.msgprint({
                         title: __('Error'),
                         indicator: 'red',

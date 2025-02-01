@@ -69,32 +69,14 @@ frappe.ui.form.on("Transaction New", {
 					},
 					callback: function (response) {
 						if (response.message) {
-							if (response.message.status != "Pending") {
-								add_transfer_transaction_button(frm);
-								add_create_sub_transaction_button(frm)
-								add_request_button(frm);
-								add_outbox_memo_button(frm);
-								add_specific_transaction_document_button(frm);
-								add_review_transaction_button(frm);
-								if(frappe.user_roles.includes("Inbox Memo Maker")){
-									add_inbox_memo_button(frm);
-								}
-							}
+							add_buttons(frm);
 						} else {
 							frappe.msgprint("Unable to fetch status for document: " + frm.doc.related_documents[frm.doc.related_documents.length - 1].document_name);
 						}
 					},
 				});
 			} else {
-				add_transfer_transaction_button(frm);
-				add_create_sub_transaction_button(frm)
-				add_request_button(frm);
-				add_outbox_memo_button(frm);
-				add_specific_transaction_document_button(frm);
-				add_review_transaction_button(frm);
-				if(frappe.user_roles.includes("Inbox Memo Maker")){
-					add_inbox_memo_button(frm);
-				}
+				add_buttons(frm);
 			}
 			// if (frm.doc.status === "Pending" && frm.doc.docstatus != 0
 			// 	&& frm.doc.related_documents.length == 0 || ((frm.doc.related_documents.length > 0 && frm.doc.related_documents[0].status != "Pending"))
@@ -112,78 +94,68 @@ frappe.ui.form.on("Transaction New", {
 		}
 		else if (frm.doc.transaction_holder != frappe.session.user && frm.doc.status === "Pending" && frm.doc.docstatus != 0 ) {
 			frappe.call({
-				method: "frappe.client.get",
+				method: "frappe.client.get_list",
 				args: {
 					doctype: "Employee Proxy",
-					filters: { employee_email: frm.doc.transaction_holder }
+					filters: { "employee_email": frm.doc.transaction_holder },
+					fields: ["name"]  // Just fetch the name to check existence
 				},
 				callback: function(response) {
 					if (response.message && response.message.length > 0) {
-						let delegated_employees = response.message.delegated_employees;
-						let delegated_employees_emails = delegated_employees.map(emp => emp.email);
-						console.log("Delegated Employees Emails:", delegated_employees_emails);
-
-						if (frm.doc.related_documents.length > 0 && delegated_employees_emails.includes(frappe.session.user)) {
-							frappe.call({
-								method: "frappe.client.get_value",
-								args: {
-									doctype:
-										frm.doc.related_documents[frm.doc.related_documents.length - 1]
-											.document_type,
-									fieldname: "status",
-									filters: {
-										name: frm.doc.related_documents[
-											frm.doc.related_documents.length - 1
-										].document_name,
-									},
-								},
-								callback: function (response) {
-									if (response.message) {
-										if (response.message.status != "Pending") {
-											add_transfer_transaction_button(frm);
-											add_create_sub_transaction_button(frm)
-											add_request_button(frm);
-											add_outbox_memo_button(frm);
-											add_specific_transaction_document_button(frm);
-											add_review_transaction_button(frm);
-											if(frappe.user_roles.includes("Inbox Memo Maker")){
-												add_inbox_memo_button(frm);
-											}
+						// Employee Proxy exists, now proceed with getting details
+						frappe.call({
+							method: "frappe.client.get",
+							args: {
+								doctype: "Employee Proxy",
+								filters: { "employee_email": frm.doc.transaction_holder }
+							},
+							callback: function(response) {
+								if (response.message) {
+									let delegated_employees = response.message.delegated_employees;
+									let delegated_employees_emails = delegated_employees.map(emp => emp.email);
+			
+									// Check if current user is one of the delegated employees
+									if (delegated_employees_emails.includes(frappe.session.user)) {
+										// User is a delegated employee, so proceed with the button logic
+										if (frm.doc.related_documents.length > 0) {
+											frappe.call({
+												method: "frappe.client.get_value",
+												args: {
+													doctype: frm.doc.related_documents[frm.doc.related_documents.length - 1].document_type,
+													fieldname: "status",
+													filters: {
+														name: frm.doc.related_documents[frm.doc.related_documents.length - 1].document_name,
+													},
+												},
+												callback: function(response) {
+													if (response.message) {
+														if (response.message.status != "Pending") {
+															add_buttons(frm);
+														}
+													} else {
+														frappe.msgprint("Unable to fetch status for document: " + frm.doc.related_documents[frm.doc.related_documents.length - 1].document_name);
+													}
+												}
+											});
+										} else {
+											add_buttons(frm);
 										}
-									} else {
-										frappe.msgprint("Unable to fetch status for document: " + frm.doc.related_documents[frm.doc.related_documents.length - 1].document_name);
+			
+										// If status is pending and user is a delegated employee, add buttons
+										if (frm.doc.status === "Pending" && frm.doc.docstatus != 0 &&
+											(frm.doc.related_documents.length == 0 || 
+											(frm.doc.related_documents.length > 0 && frm.doc.related_documents[frm.doc.related_documents.length - 1].status != "Pending"))
+										) {
+											add_buttons(frm);
+										}
 									}
-								},
-							});
-						} else if (frm.doc.related_documents.length == 0 && delegated_employees_emails.includes(frappe.session.user)) {
-							add_transfer_transaction_button(frm);
-							add_create_sub_transaction_button(frm)
-							add_request_button(frm);
-							add_outbox_memo_button(frm);
-							add_specific_transaction_document_button(frm);
-							add_review_transaction_button(frm);
-							if(frappe.user_roles.includes("Inbox Memo Maker")){
-								add_inbox_memo_button(frm);
+								} else {
+									console.log("No delegated employees found for the transaction holder.");
+								}
 							}
-						}
-
-						if (delegated_employees_emails.includes(frappe.session.user)
-							&& frm.doc.status === "Pending" && frm.doc.docstatus != 0
-							&& (frm.doc.related_documents.length == 0 || (frm.doc.related_documents.length > 0 && frm.doc.related_documents[frm.doc.related_documents.length - 1].status != "Pending"))
-						) {
-							add_transfer_transaction_button(frm);
-							add_create_sub_transaction_button(frm)
-							add_request_button(frm);
-							add_outbox_memo_button(frm);
-							add_specific_transaction_document_button(frm);
-							add_review_transaction_button(frm);
-							if(frappe.user_roles.includes("Inbox Memo Maker")){
-								add_inbox_memo_button(frm);
-							}
-						}
-					}
-					else {
-						frappe.msgprint("Hello my fellow nigger");
+						});
+					} else {
+						console.log("No Employee Proxy found for the given employee email.");
 					}
 				}
 			});
@@ -193,7 +165,17 @@ frappe.ui.form.on("Transaction New", {
 		
 	},
 });
-
+function add_buttons(frm) {
+    add_transfer_transaction_button(frm);
+    add_create_sub_transaction_button(frm);
+    add_request_button(frm);
+    add_outbox_memo_button(frm);
+    add_specific_transaction_document_button(frm);
+    add_review_transaction_button(frm);
+    if (frappe.user_roles.includes("Inbox Memo Maker")) {
+        add_inbox_memo_button(frm);
+    }
+}
 function add_transfer_transaction_button(frm){
 	frm.add_custom_button(__('Transfer Transaction'), function() {
 		frappe.prompt([
