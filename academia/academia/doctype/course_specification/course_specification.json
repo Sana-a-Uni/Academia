@@ -6,17 +6,21 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
+  "details_tab",
+  "elective_template",
+  "section_break_oksq",
   "course_code",
   "course_name",
   "course_name_english",
-  "faculty",
   "course_type",
+  "faculty",
   "program",
   "course_image",
   "column_break_iypx",
   "languages",
   "pre_requisites",
   "co_requisites",
+  "reference_department",
   "section_break_vkwq",
   "effective_academic_year",
   "approval_date",
@@ -26,7 +30,8 @@
   "section_break_sjbv",
   "description",
   "course_details_tab",
-  "credit_hours"
+  "credit_hours",
+  "amended_from"
  ],
  "fields": [
   {
@@ -35,7 +40,8 @@
    "in_list_view": 1,
    "label": "Course Code",
    "options": "Course",
-   "reqd": 1
+   "reqd": 1,
+   "set_only_once": 1
   },
   {
    "fetch_from": "course_code.course_name",
@@ -55,7 +61,7 @@
   {
    "fetch_from": "course_code.faculty",
    "fieldname": "faculty",
-   "fieldtype": "Read Only",
+   "fieldtype": "Data",
    "label": "faculty",
    "read_only": 1
   },
@@ -99,7 +105,7 @@
   {
    "fieldname": "course_details_tab",
    "fieldtype": "Tab Break",
-   "label": "Course Details"
+   "label": "Hour Details"
   },
   {
    "fetch_from": "course_code.course_name_english",
@@ -152,12 +158,47 @@
    "fieldtype": "Read Only",
    "label": "Program",
    "read_only": 1
+  },
+  {
+   "fieldname": "details_tab",
+   "fieldtype": "Tab Break",
+   "label": "Details"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Course Specification",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": "0",
+   "fetch_from": "course_code.elective_template",
+   "fetch_if_empty": 1,
+   "fieldname": "elective_template",
+   "fieldtype": "Check",
+   "label": "Elective Template ",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_oksq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "course_code.reference_department",
+   "fieldname": "reference_department",
+   "fieldtype": "Read Only",
+   "label": "Reference Department"
   }
  ],
  "image_field": "course_image",
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "links": [],
- "modified": "2025-01-04 17:33:17.096119",
+ "modified": "2025-01-29 02:34:32.871440",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course Specification",

@@ -12,13 +12,14 @@
   "elective_template",
   "section_break_khvb",
   "course_name",
-  "faculty",
   "course_type",
+  "faculty",
   "program",
   "column_break_fqwr",
   "course_name_english",
   "course_code",
   "course_image",
+  "reference_department",
   "section_break_fiet",
   "description"
  ],
@@ -69,34 +70,43 @@
    "fieldtype": "Section Break"
   },
   {
+   "depends_on": "elective_template",
    "fieldname": "course_type",
    "fieldtype": "Select",
    "label": "Course Categorie",
-   "options": "\nUniversity Requirement\nFaculty Requirement\nProgram Requirement",
-   "reqd": 1
+   "mandatory_depends_on": "elective_template",
+   "options": "\nUniversity Elective\nFaculty Elective\nProgram Elective"
   },
   {
+   "depends_on": "eval:doc.elective_template == 0 || doc.course_type == \"Faculty Elective\";",
    "fieldname": "faculty",
    "fieldtype": "Link",
    "label": "Faculty",
-   "options": "Faculty",
-   "reqd": 1
+   "mandatory_depends_on": "eval:doc.elective_template == 0 || doc.course_type == \"Faculty Elective\";",
+   "options": "Faculty"
   },
   {
    "fieldname": "section_break_hhlw",
    "fieldtype": "Section Break"
   },
   {
-   "depends_on": "eval:doc.course_type == \"Program Requirement\";",
+   "depends_on": "eval:doc.elective_template == 1 && doc.course_type == \"Program Elective\";",
    "fieldname": "program",
    "fieldtype": "Link",
    "label": "Program",
-   "mandatory_depends_on": "eval:doc.course_type == \"Program Requirement\";",
+   "mandatory_depends_on": "eval:doc.elective_template == 1 && doc.course_type == \"Program Elective\";",
    "options": "Program Specification"
   },
   {
    "fieldname": "section_break_fiet",
    "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval:doc.elective_template == 0 || doc.course_type == \"Faculty Elective\";",
+   "fieldname": "reference_department",
+   "fieldtype": "Link",
+   "label": "Reference Department",
+   "options": "Department"
   }
  ],
  "image_field": "course_image",
@@ -107,7 +117,7 @@
    "link_fieldname": "course_code"
   }
  ],
- "modified": "2024-07-27 04:48:00.173634",
+ "modified": "2025-01-29 02:28:50.459249",
  "modified_by": "Administrator",
  "module": "Academia",
  "name": "Course",

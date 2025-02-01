@@ -1,0 +1,111 @@
+{
+ "actions": [],
+ "autoname": "format:FR - {date_of_development} - {faculty}",
+ "creation": "2025-01-27 01:00:46.189099",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "active",
+  "section_break_zkti",
+  "title",
+  "faculty",
+  "academic_degree",
+  "column_break_iifx",
+  "implementation_start_academic_year",
+  "date_of_development",
+  "approval_date",
+  "course_required_tab",
+  "table_fgiz"
+ ],
+ "fields": [
+  {
+   "default": "0",
+   "fieldname": "active",
+   "fieldtype": "Check",
+   "label": "Active"
+  },
+  {
+   "fieldname": "section_break_zkti",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "academic_degree",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Academic Degree",
+   "options": "\nPost-Secondary Diploma\nBachelor's Degree\nPostgraduate Diploma\nMaster Degree\nPHD Degree"
+  },
+  {
+   "fieldname": "implementation_start_academic_year",
+   "fieldtype": "Link",
+   "label": "Implementation Start (Academic Year)",
+   "options": "Academic Year"
+  },
+  {
+   "fieldname": "date_of_development",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date of Development",
+   "reqd": 1
+  },
+  {
+   "fieldname": "approval_date",
+   "fieldtype": "Date",
+   "label": "Approval Date"
+  },
+  {
+   "fieldname": "column_break_iifx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "course_required_tab",
+   "fieldtype": "Tab Break",
+   "label": "Course Required"
+  },
+  {
+   "fieldname": "table_fgiz",
+   "fieldtype": "Table",
+   "options": "Study Plan Course"
+  },
+  {
+   "fieldname": "faculty",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Faculty",
+   "options": "Faculty",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-29 02:02:05.898857",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "Faculty Requirement",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,103 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:UR - {date_of_development}",
+ "creation": "2025-01-27 00:47:18.276234",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "active",
+  "section_break_dbag",
+  "title",
+  "academic_degree",
+  "implementation_start_academic_year",
+  "column_break_plyi",
+  "date_of_development",
+  "approval_date",
+  "course_required_tab",
+  "table_rzel"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Title",
+   "reqd": 1
+  },
+  {
+   "fieldname": "approval_date",
+   "fieldtype": "Date",
+   "label": "Approval Date"
+  },
+  {
+   "fieldname": "implementation_start_academic_year",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Implementation Start (Academic Year)",
+   "options": "Academic Year"
+  },
+  {
+   "fieldname": "date_of_development",
+   "fieldtype": "Date",
+   "label": "Date of Development",
+   "reqd": 1
+  },
+  {
+   "fieldname": "academic_degree",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Academic Degree",
+   "options": "\nPost-Secondary Diploma\nBachelor's Degree\nPostgraduate Diploma\nMaster Degree\nPHD Degree"
+  },
+  {
+   "fieldname": "column_break_plyi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "course_required_tab",
+   "fieldtype": "Tab Break",
+   "label": "Course Required"
+  },
+  {
+   "fieldname": "table_rzel",
+   "fieldtype": "Table",
+   "options": "Study Plan Course"
+  },
+  {
+   "default": "0",
+   "fieldname": "active",
+   "fieldtype": "Check",
+   "label": "Active"
+  },
+  {
+   "fieldname": "section_break_dbag",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-01-29 01:59:19.828234",
+ "modified_by": "Administrator",
+ "module": "Academia",
+ "name": "University Requirement",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

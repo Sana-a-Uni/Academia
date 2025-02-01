@@ -1,11 +1,11 @@
-# Copyright (c) 2024, SanU and contributors
+# Copyright (c) 2025, SanU and contributors
 # For license information, please see license.txt
 
 # import frappe
 from frappe.model.document import Document
 
 
-class StudyPlanCourse(Document):
+class ProgramElectiveCourse(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -16,11 +16,8 @@ class StudyPlanCourse(Document):
 
 		course_code: DF.Link
 		course_name: DF.ReadOnly | None
-		course_type: DF.ReadOnly | None
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
-		semester: DF.Link | None
-		study_level: DF.Link | None
 	# end: auto-generated types
 	pass

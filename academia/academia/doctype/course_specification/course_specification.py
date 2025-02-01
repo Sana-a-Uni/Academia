@@ -18,6 +18,7 @@ class CourseSpecification(Document):
 		from academia.academia.doctype.pre_requisites.pre_requisites import PreRequisites
 		from frappe.types import DF
 
+		amended_from: DF.Link | None
 		approval_date: DF.Date | None
 		co_requisites: DF.TableMultiSelect[CoRequisites]
 		course_code: DF.Link
@@ -29,10 +30,12 @@ class CourseSpecification(Document):
 		date_of_course_development: DF.Date
 		description: DF.TextEditor | None
 		effective_academic_year: DF.Link | None
-		faculty: DF.ReadOnly | None
+		elective_template: DF.Check
+		faculty: DF.Data | None
 		file: DF.Attach | None
 		languages: DF.TableMultiSelect[CourseLanguage]
 		pre_requisites: DF.TableMultiSelect[PreRequisites]
 		program: DF.ReadOnly | None
+		reference_department: DF.ReadOnly | None
 	# end: auto-generated types
 	pass
