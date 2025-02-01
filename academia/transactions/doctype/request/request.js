@@ -232,7 +232,7 @@ frappe.ui.form.on("Request", {
 			add_redirect_action(frm);
 		} else if (
 			frm.doc.current_action_maker != frappe.session.user && frm.doc.docstatus == 1 &&
-			(frm.doc.is_received || frm.doc.full_electronic)
+			frm.doc.is_received && !frm.doc.full_electronic
 		) {
 			frappe.call({
 				method: "frappe.client.get_list",
