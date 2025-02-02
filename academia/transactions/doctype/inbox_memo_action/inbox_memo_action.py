@@ -16,7 +16,7 @@ class InboxMemoAction(Document):
 		from frappe.types import DF
 
 		action_date: DF.Date
-		action_maker: DF.Link | None
+		action_maker: DF.Link
 		amended_from: DF.Link | None
 		created_by: DF.Data | None
 		details: DF.Text | None

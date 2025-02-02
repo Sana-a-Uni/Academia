@@ -77,7 +77,8 @@
    "fieldname": "created_by",
    "fieldtype": "Link",
    "label": "Created By",
-   "options": "User"
+   "options": "User",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_inbs",
@@ -132,7 +133,8 @@
    "fetch_from": "action_maker.employee_name",
    "fieldname": "employee_name",
    "fieldtype": "Data",
-   "label": "Employee Name"
+   "label": "Employee Name",
+   "read_only": 1
   },
   {
    "default": "1",
@@ -145,7 +147,7 @@
    "fieldtype": "Link",
    "label": "action_maker",
    "options": "Employee",
-   "read_only": 1
+   "reqd": 1
   },
   {
    "fieldname": "naming_series",
@@ -157,7 +159,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-07 03:00:45.299215",
+ "modified": "2025-02-02 18:51:18.284796",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Specific Transaction Document Action",

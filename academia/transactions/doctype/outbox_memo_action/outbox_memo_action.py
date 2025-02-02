@@ -100,3 +100,19 @@ def update_outbox_memo(outbox_memo_name, current_action_maker, allow_to_redirect
 	frappe.db.commit()  # Commit the changes to the database
 
 	return doc.as_dict()  # Return the updated document as a dictionary
+
+@frappe.whitelist()
+def get_direct_reports_to_hierarchy_reverse(employee_name):
+	employees = []
+
+	# Get employees with reports_to set as the given employee
+	direct_reports = frappe.get_all(
+		"Employee", filters={"reports_to": employee_name}, fields=["user_id", "name"]
+	)
+
+	# Iterate over direct reports
+	for employee in direct_reports:
+		# frappe.msgprint(f"Direct report found: {employee.user_id}")
+		employees.append(employee.user_id)
+		
+	return employees

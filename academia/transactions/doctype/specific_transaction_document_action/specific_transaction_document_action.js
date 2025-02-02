@@ -4,6 +4,19 @@ let mustInclude = [];
 frappe.ui.form.on("Specific Transaction Document Action", {
 	refresh(frm) {
 		frappe.call({
+            method: "academia.transactions.api.fetch_allowed_employees",
+            callback: function(r) {
+                if (r.message) {
+                    frm.set_query("action_maker", function() {
+                        return {
+                            filters: { name: ["in", r.message] }
+                        };
+                    });
+                }
+            }
+        });
+
+		frappe.call({
 			method: "frappe.client.get",
 			args: {
 				doctype: "Specific Transaction Document",
@@ -31,25 +44,7 @@ frappe.ui.form.on("Specific Transaction Document Action", {
 			},
 		});
 
-		if (frappe.session.user !== "Administrator" && frm.doc.docstatus == 0) {
-			frappe.call({
-				method: "frappe.client.get",
-				args: {
-					doctype: "Employee",
-					filters: { user_id: frappe.session.user },
-				},
-				callback: function (response) {
-					const employee = response.message;
-					if (employee) {
-						// Set the values of the fields to those of the fetched employee record
-						frm.set_value("action_maker", employee.name);
-						frm.set_value("from_company", employee.company);
-						frm.set_value("from_department", employee.department);
-						frm.set_value("from_designation", employee.designation);
-					}
-				},
-			});
-		}
+		
 		if (frm.doc.docstatus !== 0) {
 			// 0 indicates "Draft" status
 			frm.fields_dict.get_recipients.$wrapper.hide();
