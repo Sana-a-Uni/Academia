@@ -45,8 +45,8 @@ frappe.ui.form.on("Outbox Memo", {
 	},
 	before_submit: function (frm) {
 		if (
-			(frm.doc.type === "Internal" && frm.doc.direction != "Downward") ||
-			frm.doc.type != "Internal"
+			((frm.doc.type === "Internal" && frm.doc.direction != "Downward") ||
+			frm.doc.type != "Internal") && !frm.doc.using_path_template
 		) {
 			frappe.call({
 				method: "frappe.client.get_value",
@@ -82,7 +82,7 @@ frappe.ui.form.on("Outbox Memo", {
 					}
 				},
 			});
-		} else if (frm.doc.type === "Internal" && frm.doc.direction === "Downward") {
+		} else if (frm.doc.type === "Internal" && frm.doc.direction === "Downward" && !frm.doc.using_path_template && frm.doc.recipients.length > 0) {
 			frm.set_value("current_action_maker", frm.doc.recipients[0].recipient_email);
 			frappe.db
 				.set_value(
@@ -91,7 +91,19 @@ frappe.ui.form.on("Outbox Memo", {
 					"transaction_holder",
 					frm.doc.recipients[0].recipient_email
 				)
-		} else {
+		} 
+		else if(frm.doc.using_path_template)
+			{
+				frm.set_value("current_action_maker", frm.doc.recipients_path[0].recipient_email);
+				frappe.db
+				.set_value(
+					"Transaction New",
+					frm.doc.transaction_reference,
+					"transaction_holder",
+					frm.doc.recipients_path[0].recipient_email
+				)
+			}		
+		else {
 			console.log("External");
 		}
 	},
@@ -103,27 +115,58 @@ frappe.ui.form.on("Outbox Memo", {
 		}
 		update_related_actions_html(frm);
 		// Assign global variables
-		frappe.call({
-			method: "frappe.client.get_value",
-			args: {
-				doctype: "Employee",
-				filters: { user_id: frappe.session.user },
-				fieldname: ["name", "reports_to"],
-			},
-			callback: function (response) {
-				if (response.message) {
-					global_current_employee = response.message.name;
-					if (
-						(frm.doc.direction == "Upward" &&
-							global_current_employee != frm.doc.recipients[0].recipient) ||
-						(frm.doc.type == "External" &&
-							global_current_employee != frm.doc.end_employee)
-					) {
-						global_next_recipient = response.message.reports_to;
-					}
+		if (frm.doc.recipients.length > 0 && !frm.doc.using_path_template && frm.doc.docstatus === 1 && frm.doc.current_action_maker) {
+			if ( 
+				(frm.doc.recipients.length > 0 && frm.doc.direction == "Upward" &&
+					global_current_employee != frm.doc.recipients[0].recipient) ||
+				(frm.doc.type == "External" &&
+					global_current_employee != frm.doc.end_employee)
+			) {
+				console.log("one");
+				frappe.call({
+					method: "frappe.client.get_value",
+					args: {
+						doctype: "Employee",
+						filters: { user_id: frappe.session.user },
+						fieldname: ["name", "reports_to"],
+					},
+					callback: function (response) {
+						if (response.message) {
+							global_current_employee = response.message.name;
+							if (
+								console.log("two")
+								(frm.doc.direction == "Upward" &&
+									global_current_employee != frm.doc.recipients[0].recipient) ||
+								(frm.doc.type == "External" &&
+									global_current_employee != frm.doc.end_employee)
+							) {
+								global_next_recipient = response.message.reports_to;
+							}
+						}
+					},
+				});
+			}
+		}
+		else if (frm.doc.using_path_template && frm.doc.recipients_path.length > 0 && frm.doc.docstatus === 1 && frm.doc.current_action_maker)
+		{
+			console.log("five");
+			const currentIndex = frm.doc.recipients_path.findIndex(
+				(recipient) => recipient.recipient_email === frm.doc.current_action_maker
+			);
+			console.log(currentIndex);
+			if (currentIndex !== -1) {
+				global_current_employee = frm.doc.recipients_path[currentIndex].recipient;
+				if (currentIndex + 1 < frm.doc.recipients_path.length) {
+					global_next_recipient = frm.doc.recipients_path[currentIndex + 1].recipient;
+					console.log("three");
 				}
-			},
-		});
+			}
+		}
+		else {
+            console.log("four");
+        }
+		
+		
 
 		// Hide 'add row' button
 		frm.get_field("recipients").grid.cannot_add_rows = true;
@@ -345,6 +388,42 @@ frappe.ui.form.on("Outbox Memo", {
 		frm.clear_table("recipients");
 		frm.refresh_field("recipients");
 	},
+
+	template_name: function(frm) {
+		if(!frm.doc.template_name)
+		{
+			// Clear if template_name is empty
+            frm.doc.recipients_path = [];
+            frm.refresh_field('recipients_path'); 
+		}
+		else
+		{
+			frappe.call({
+				method: 'academia.transactions.doctype.outbox_memo.outbox_memo.copy_template_paths',
+				args: {
+					template_docname: frm.doc.template_name
+				},
+				callback: function(r) {
+					if (r.message) {
+						// Clear existing entries in the recipients_path child table
+						frm.clear_table('recipients_path');
+		
+						// Add new entries
+						r.message.forEach(function(item) {
+							let child = frm.add_child('recipients_path');
+							frappe.model.set_value(child.doctype, child.name, 'step', item.step);
+							frappe.model.set_value(child.doctype, child.name, 'recipient_company', item.recipient_company);
+							frappe.model.set_value(child.doctype, child.name, 'recipient_department', item.recipient_department);
+							frappe.model.set_value(child.doctype, child.name, 'recipient_designation', item.recipient_designation);
+						});
+		
+						frm.refresh_field('recipients_path');
+					}
+				}
+			});
+		}
+    },
+	
 });
 
 function update_must_include(frm) {
@@ -421,9 +500,11 @@ function update_must_include(frm) {
 function add_approve_action(frm) {
 	cur_frm.page.add_action_item(__("Approve"), function () {
 		if (
-			(frm.doc.type == "Internal" &&
-				global_current_employee === frm.doc.recipients[0].recipient) ||
-			(frm.doc.type == "External" && global_current_employee == frm.doc.end_employee) ||
+			(frm.doc.using_path_template && frm.doc.recipients_path.length > 0 && global_current_employee == frm.doc.recipients_path[frm.doc.recipients_path.length - 1].recipient) ||
+			(frm.doc.type == "Internal" && frm.doc.recipients.length > 0 &&
+				global_current_employee === frm.doc.recipients[0].recipient && !frm.doc.using_path_template) ||
+			(frm.doc.type == "External" && global_current_employee == frm.doc.end_employee && !frm.doc.using_path_template) ||
+			
 			frm.doc.full_electronic ||
 			frm.doc.direction == "Downward"
 		) {

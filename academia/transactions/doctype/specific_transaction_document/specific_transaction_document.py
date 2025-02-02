@@ -13,6 +13,7 @@ class SpecificTransactionDocument(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.transactions.doctype.recipient_path.recipient_path import RecipientPath
 		from academia.transactions.doctype.signatures.signatures import Signatures
 		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import TransactionAttachmentsNew
 		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
@@ -29,15 +30,19 @@ class SpecificTransactionDocument(Document):
 		is_received: DF.Check
 		naming_series: DF.Literal["STD-.YY.-.MM.-"]
 		recipients: DF.Table[TransactionRecipientsNew]
+		recipients_path: DF.Table[RecipientPath]
 		signatures: DF.Table[Signatures]
 		start_from: DF.Link | None
 		start_from_company: DF.Link | None
 		start_from_department: DF.Link | None
 		start_from_designation: DF.Link | None
 		status: DF.Literal["Pending", "Completed", "Canceled", "Closed", "Rejected"]
+		template_is_active: DF.Check
+		template_name: DF.Link | None
 		title: DF.Data | None
 		transaction_reference: DF.Link
 		type: DF.Literal["\u0643\u0634\u0641", "\u0648\u0631\u0642\u0629"]
+		using_path_template: DF.Check
 	# end: auto-generated types
 
 	def before_submit(self):
@@ -46,10 +51,31 @@ class SpecificTransactionDocument(Document):
 
 		Include only the employees between the start employee and end employee in the chain.
 		"""
+
 		reporting_chain = []
 		visited = set()
-		current_employee = self.start_from  # Fieldname for the starting employee
-		end_employee = self.recipients[0].recipient  # Fieldname for the target employee
+		if not self.using_path_template and len(self.recipients) > 0:
+			current_employee = self.start_from  # Fieldname for the starting employee
+			end_employee = self.recipients[0].recipient  # Fieldname for the target employee
+
+			# Append the reporting chain to the 'Signatures' child table
+			for emp in reporting_chain:
+				self.append("signatures", {
+					"employee_name": emp["employee_name"],
+					"employee_designation": emp["employee_designation"]
+				})
+			
+		elif self.using_path_template and len(self.recipients_path) > 0:
+			current_employee = self.start_from  # Fieldname for the starting employee
+			end_employee = self.recipients_path[-1].recipient
+
+			# Append the reporting chain to the 'Signatures' child table
+			for path in self.recipients_path:
+				self.append("signatures", {
+					"employee_name": path.recipient_company,
+					"employee_designation": path.recipient_department
+				})
+
 
 		# We need to start from the employee who directly reports to the current_employee
 		employee_doc = frappe.get_doc("Employee", current_employee)
@@ -80,28 +106,33 @@ class SpecificTransactionDocument(Document):
 			# Move to the next employee in the chain
 			employee_to_process = reports_to
 
-		# Append the reporting chain to the 'Signatures' child table
-		for emp in reporting_chain:
-			self.append("signatures", {
-				"employee_name": emp["employee_name"],
-				"employee_designation": emp["employee_designation"]
-			})
-
 
 	def on_submit(self):
-		if self.start_from:
-			employee = frappe.get_doc("Employee", self.start_from)
+		
+		employee = frappe.get_doc("Employee", self.start_from)
+		frappe.share.add(
+			doctype="Specific Transaction Document",
+			name=self.name,
+			user=employee.user_id,
+			read=1,
+			write=0,
+			share=0,
+		)
+
+		if self.start_from and not self.using_path_template:
+			employee = frappe.get_doc("Employee", self.start_from, fields=["reports_to", "user_id"])
+			share_permission_through_route(self, employee)
+
+		elif self.template_name:
 			frappe.share.add(
 				doctype="Specific Transaction Document",
 				name=self.name,
-				user=employee.user_id,
+				user=self.recipients_path[0].recipient_email,
 				read=1,
-				write=0,
-				share=0,
+				write=1,
+				share=1,
+				submit=1,
 			)
-
-		employee = frappe.get_doc("Employee", self.start_from, fields=["reports_to", "user_id"])
-		share_permission_through_route(self, employee)
 
 		# make a read permission for applicants
 		# for row in self.recipients:
@@ -201,8 +232,10 @@ def create_new_specific_transaction_document_action(user_id, specific_transactio
 
 	# Ensure the recipients child table is accessed correctly
 	if (
-		action_maker.user_id != specific_transaction_document_doc.recipients[0].recipient_email
+		len(specific_transaction_document_doc.recipients) > 0
+		and action_maker.user_id != specific_transaction_document_doc.recipients[0].recipient_email
 		and type == "Approved"
+		and specific_transaction_document_doc.using_path_template == False
 	):  # Access the recipients attribute on the document
 		if specific_transaction_document_doc.direction == "Upward":
 			reports_to = action_maker.reports_to
@@ -236,6 +269,23 @@ def create_new_specific_transaction_document_action(user_id, specific_transactio
 			permissions = {"read": 1, "write": 0, "share": 0, "submit": 0}
 			permissions_str = json.dumps(permissions)
 			update_share_permissions(specific_transaction_document, user_id, permissions_str)
+			
+	elif specific_transaction_document_doc.using_path_template:
+		if action_maker.user_id == specific_transaction_document_doc.recipients_path[-1].recipient_email:
+			specific_transaction_document_doc.status = "Completed"
+			specific_transaction_document_doc.complete_time = frappe.utils.now()
+			specific_transaction_document_doc.current_action_maker = ""
+			specific_transaction_document_doc.save(ignore_permissions=True)
+		else:
+			for i, recipient in enumerate(specific_transaction_document_doc.recipients_path):
+				if recipient.recipient_email == action_maker.user_id:
+					next_recipient_email = specific_transaction_document_doc.recipients_path[i + 1].recipient_email if i < len(specific_transaction_document_doc.recipients_path) else None
+					specific_transaction_document_doc.current_action_maker = next_recipient_email
+					specific_transaction_document_doc.save(ignore_permissions=True)
+					permissions = {"read": 1, "write": 1, "share": 1, "submit": 1}
+					permissions_str = json.dumps(permissions)
+					update_share_permissions(specific_transaction_document, next_recipient_email, permissions_str)
+					break
 	elif type == "Rejected":
 		specific_transaction_document_doc.status = "Rejected"
 
@@ -248,7 +298,7 @@ def create_new_specific_transaction_document_action(user_id, specific_transactio
 
 	else:
 		if (
-			action_maker.user_id == specific_transaction_document_doc.recipients[0].recipient_email
+			(action_maker.user_id == specific_transaction_document_doc.recipients[0].recipient_email or specific_transaction_document_doc.recipients_path[-1].recipient_email == action_maker.user_id)
 			and type == "Approved"
 		):
 			specific_transaction_document_doc.status = "Completed"
@@ -306,6 +356,26 @@ def create_new_specific_transaction_document_action(user_id, specific_transactio
 				"action_name": action_name,
 				"action_maker": reports_to_emp.user_id or "",
 			}
+		elif specific_transaction_document_doc.using_path_template:
+			for i, recipient in enumerate(specific_transaction_document_doc.recipients_path):
+				if recipient.recipient_email == action_maker.user_id:
+					if i + 1 < len(specific_transaction_document_doc.recipients_path):
+						next_recipient_email = specific_transaction_document_doc.recipients_path[i + 1].recipient_email
+					else:
+						next_recipient_email = None
+					break
+			if next_recipient_email:
+				return {
+					"message": "Action Success",
+					"action_name": action_name,
+					"action_maker": next_recipient_email or "",
+				}
+			else:
+				return {
+					"message": "Action Success",
+					"action_name": action_name,
+					"action_maker": "",
+				}
 		else:
 			return {"message": "Action Success", "action_name": action_name, "action_maker": ""}
 	else:
@@ -404,3 +474,21 @@ def get_shared_std(user):
     shared_std = frappe.get_all('DocShare', filters={'user': user, 'share_doctype': 'Specific Transaction Document'}, fields=['share_name'])
     std_names = [memo['share_name'] for memo in shared_std]
     return shared_std
+
+@frappe.whitelist()
+def copy_template_paths(template_docname):
+    # Fetch the template document
+    template_doc = frappe.get_doc("Transaction Path Template", template_docname)
+
+    # Prepare data for recipients_path
+    recipients_paths = []
+    for path in template_doc.template_path:
+        recipients_paths.append({
+            'doctype': 'Recipients Path',
+			'step': path.step,
+			'recipient_company': path.recipient_company,
+			'recipient_department': path.recipient_department,
+			'recipient_designation': path.recipient_designation,
+        })
+
+    return recipients_paths
