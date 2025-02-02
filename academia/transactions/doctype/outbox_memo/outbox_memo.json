@@ -15,6 +15,7 @@
   "status",
   "type",
   "direction",
+  "using_path_template",
   "full_electronic",
   "transaction_reference",
   "naming_series",
@@ -38,6 +39,10 @@
   "recipients",
   "get_recipients",
   "clear_recipients",
+  "section_break_qmmb",
+  "template_name",
+  "template_is_active",
+  "recipients_path",
   "external_entity_section",
   "main_external_entity",
   "sub_external_entity",
@@ -199,7 +204,7 @@
    "fieldname": "recipients",
    "fieldtype": "Table",
    "label": "Recipients",
-   "mandatory_depends_on": "eval:doc.type != \"To External Entity\"",
+   "mandatory_depends_on": "eval:doc.type != \"To External Entity\" && doc.using_path_template == false",
    "options": "Transaction Recipients New"
   },
   {
@@ -342,12 +347,40 @@
    "fieldtype": "Data",
    "label": "External Entity Employee",
    "mandatory_depends_on": "eval:doc.type == \"To External Entity\""
+  },
+  {
+   "default": "0",
+   "fieldname": "using_path_template",
+   "fieldtype": "Check",
+   "label": "Using Path Template"
+  },
+  {
+   "fieldname": "section_break_qmmb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "template_name",
+   "fieldtype": "Link",
+   "label": "Template Name",
+   "options": "Transaction Path Template"
+  },
+  {
+   "default": "0",
+   "fieldname": "template_is_active",
+   "fieldtype": "Check",
+   "label": "Template Is Active"
+  },
+  {
+   "fieldname": "recipients_path",
+   "fieldtype": "Table",
+   "label": "Recipients Path",
+   "options": "Recipient Path"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-20 19:27:44.598926",
+ "modified": "2025-01-27 17:37:43.051176",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo",
@@ -374,7 +407,7 @@
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "Transactions User",
+   "role": "transactions user",
    "share": 1,
    "submit": 1,
    "write": 1

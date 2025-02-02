@@ -66,62 +66,101 @@ frappe.ui.form.on("Specific Transaction Document", {
 		frm.get_field("recipients").grid.cannot_add_rows = true;
 	},
 	before_submit: function (frm) {
-		frappe.call({
-			method: "frappe.client.get_value",
-			args: {
-				doctype: "Employee",
-				filters: { name: frm.doc.start_from },
-				fieldname: "reports_to",
-			},
-			callback: function (response) {
-				if (response.message) {
-					reports_to = response.message.reports_to;
-					frappe.call({
-						method: "frappe.client.get_value",
-						args: {
-							doctype: "Employee",
-							filters: { name: reports_to },
-							fieldname: "user_id",
-						},
-						callback: function (response) {
-							if (response.message) {
-								user_id = response.message.user_id;
-								frm.set_value("current_action_maker", user_id);
-								frappe.db
-									.set_value(
-										"Transaction New",
-										frm.doc.transaction_reference,
-										"transaction_holder",
-										user_id
-									)
-							}
-						},
-					});
-				}
-			},
-		});
+		if(!frm.doc.using_path_template)
+		{
+			frappe.call({
+				method: "frappe.client.get_value",
+				args: {
+					doctype: "Employee",
+					filters: { name: frm.doc.start_from },
+					fieldname: "reports_to",
+				},
+				callback: function (response) {
+					if (response.message) {
+						reports_to = response.message.reports_to;
+						frappe.call({
+							method: "frappe.client.get_value",
+							args: {
+								doctype: "Employee",
+								filters: { name: reports_to },
+								fieldname: "user_id",
+							},
+							callback: function (response) {
+								if (response.message) {
+									user_id = response.message.user_id;
+									frm.set_value("current_action_maker", user_id);
+									frappe.db
+										.set_value(
+											"Transaction New",
+											frm.doc.transaction_reference,
+											"transaction_holder",
+											user_id
+										)
+								}
+							},
+						});
+					}
+				},
+			});
+		}
+		else if (frm.doc.using_path_template)
+		{
+			frm.set_value("current_action_maker", frm.doc.recipients_path[0].recipient_email);
+				frappe.db
+				.set_value(
+					"Transaction New",
+					frm.doc.transaction_reference,
+					"transaction_holder",
+					frm.doc.recipients_path[0].recipient_email
+				)
+		}
+		else
+		{
+			frappe.msgprint("Please select recipients or use a path template.");
+		}
+		
 	},
 	refresh(frm) {
-		// Assign global variables
-		frappe.call({
-			method: "frappe.client.get_value",
-			args: {
-				doctype: "Employee",
-				filters: { user_id: frappe.session.user },
-				fieldname: ["name", "reports_to"],
-			},
-			callback: function (response) {
-				if (response.message) {
-					global_current_employee = response.message.name;
-					if (
-						frm.doc.direction == "Upward" &&
-						global_current_employee != frm.doc.recipients[0].recipient
-					) {
-						global_next_recipient = response.message.reports_to;
+		if (frm.doc.recipients.length > 0 && !frm.doc.using_path_template && frm.doc.docstatus === 1 && frm.doc.current_action_maker)
+		{
+			frappe.call({
+				method: "frappe.client.get_value",
+				args: {
+					doctype: "Employee",
+					filters: { user_id: frappe.session.user },
+					fieldname: ["name", "reports_to"],
+				},
+				callback: function (response) {
+					if (response.message) {
+						global_current_employee = response.message.name;
+						if (
+							frm.doc.direction == "Upward" &&
+							global_current_employee != frm.doc.recipients[0].recipient
+						) {
+							global_next_recipient = response.message.reports_to;
+						}
+					}
+				},
+			});
+		}
+		else if (frm.doc.using_path_template && frm.doc.recipients_path.length > 0 && frm.doc.docstatus === 1 && frm.doc.current_action_maker)
+			{
+				const currentIndex = frm.doc.recipients_path.findIndex(
+					(recipient) => recipient.recipient_email === frm.doc.current_action_maker
+				);
+				console.log(currentIndex);
+				if (currentIndex !== -1) {
+					global_current_employee = frm.doc.recipients_path[currentIndex].recipient;
+					if (currentIndex + 1 < frm.doc.recipients_path.length) {
+						global_next_recipient = frm.doc.recipients_path[currentIndex + 1].recipient;
 					}
 				}
-			},
-		});
+			}
+			else {
+				console.log("four");
+			}
+		// Assign global variables
+		
 
 		if (
 			frm.doc.current_action_maker === frappe.session.user &&
@@ -212,6 +251,42 @@ frappe.ui.form.on("Specific Transaction Document", {
 			},
 		});
 	},
+
+	template_name: function(frm) {
+		if(!frm.doc.template_name)
+		{
+			// Clear if template_name is empty
+            frm.doc.recipients_path = [];
+            frm.refresh_field('recipients_path'); 
+		}
+		else
+		{
+			frappe.call({
+				method: 'academia.transactions.doctype.specific_transaction_document.specific_transaction_document.copy_template_paths',
+				args: {
+					template_docname: frm.doc.template_name
+				},
+				callback: function(r) {
+					if (r.message) {
+						// Clear existing entries in the recipients_path child table
+						frm.clear_table('recipients_path');
+		
+						// Add new entries
+						r.message.forEach(function(item) {
+							let child = frm.add_child('recipients_path');
+							frappe.model.set_value(child.doctype, child.name, 'step', item.step);
+							frappe.model.set_value(child.doctype, child.name, 'recipient_company', item.recipient_company);
+							frappe.model.set_value(child.doctype, child.name, 'recipient_department', item.recipient_department);
+							frappe.model.set_value(child.doctype, child.name, 'recipient_designation', item.recipient_designation);
+						});
+		
+						frm.refresh_field('recipients_path');
+					}
+				}
+			});
+		}
+    },
+
 });
 function update_must_include(frm) {
 	if (frm.doc.start_from) {
@@ -242,8 +317,9 @@ function update_must_include(frm) {
 function add_approve_action(frm) {
 	cur_frm.page.add_action_item(__("Approve"), function () {
 		if (
-			(frm.doc.direction == "Upward" &&
-				global_current_employee === frm.doc.recipients[0].recipient) ||
+			(frm.doc.using_path_template && frm.doc.recipients_path.length > 0 && global_current_employee == frm.doc.recipients_path[frm.doc.recipients_path.length - 1].recipient) ||
+			(frm.doc.direction == "Upward" && frm.doc.recipients.length > 0 &&
+				global_current_employee === frm.doc.recipients[0].recipient && !frm.doc.using_path_template) ||
 			frm.doc.full_electronic ||
 			frm.doc.direction == "Downward"
 		) {

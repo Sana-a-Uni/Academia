@@ -14,6 +14,7 @@ class OutboxMemo(Document):
 	from typing import TYPE_CHECKING
 
 	if TYPE_CHECKING:
+		from academia.transactions.doctype.recipient_path.recipient_path import RecipientPath
 		from academia.transactions.doctype.signatures.signatures import Signatures
 		from academia.transactions.doctype.transaction_attachments_new.transaction_attachments_new import TransactionAttachmentsNew
 		from academia.transactions.doctype.transaction_recipients_new.transaction_recipients_new import TransactionRecipientsNew
@@ -37,6 +38,7 @@ class OutboxMemo(Document):
 		main_external_entity: DF.Link | None
 		naming_series: DF.Literal["OUTBOX-.YY.-.MM.-"]
 		recipients: DF.Table[TransactionRecipientsNew]
+		recipients_path: DF.Table[RecipientPath]
 		signatures: DF.Table[Signatures]
 		start_from: DF.Link
 		start_from_company: DF.Link
@@ -45,9 +47,12 @@ class OutboxMemo(Document):
 		start_from_employee: DF.Data
 		status: DF.Literal["Pending", "Completed", "Canceled", "Closed", "Rejected"]
 		sub_external_entity: DF.Link | None
+		template_is_active: DF.Check
+		template_name: DF.Link | None
 		title: DF.Data
 		transaction_reference: DF.Link
 		type: DF.Literal["Internal", "External", "To External Entity"]
+		using_path_template: DF.Check
 	# end: auto-generated types
 	def before_submit(self):
 		if self.direction == "Upward" or self.type == "External":
@@ -59,8 +64,10 @@ class OutboxMemo(Document):
 			reporting_chain = []
 			visited = set()
 			current_employee = self.start_from  # Fieldname for the starting employee
-			if self.type == "Internal":
+			if self.type == "Internal" and len(self.recipients) > 0:
 				end_employee = self.recipients[0].recipient  # Fieldname for the target employee
+			elif self.using_path_template and len(self.recipients_path) > 0:
+				end_employee = self.recipients_path[-1].recipient
 			else:
 				end_employee = self.end_employee
 			# We need to start from the employee who directly reports to the current_employee
@@ -119,15 +126,25 @@ class OutboxMemo(Document):
 			share=0,
 		)
 
-		if self.start_from and self.direction == "Upward":
+		if self.start_from and self.direction == "Upward" and not self.using_path_template:
 			employee = frappe.get_doc("Employee", self.start_from, fields=["reports_to", "user_id"])
 			share_permission_through_route(self, employee)
 
-		elif self.start_from and self.direction == "Downward" and self.type == "Internal":
+		elif self.start_from and self.direction == "Downward" and self.type == "Internal" and not self.using_path_template:
 			frappe.share.add(
 				doctype="Outbox Memo",
 				name=self.name,
 				user=self.recipients[0].recipient_email,
+				read=1,
+				write=1,
+				share=1,
+				submit=1,
+			)
+		elif self.template_name:
+			frappe.share.add(
+				doctype="Outbox Memo",
+				name=self.name,
+				user=self.recipients_path[0].recipient_email,
 				read=1,
 				write=1,
 				share=1,
@@ -316,14 +333,17 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 	# Ensure the recipients child table is accessed correctly
 	if (
 		outbox_memo_doc.type == "Internal"
+		and len(outbox_memo_doc.recipients) > 0
 		and (
 			action_maker.user_id != outbox_memo_doc.recipients[0].recipient_email
 			and type == "Approved"
 			and outbox_memo_doc.direction != "Downward"
+			and outbox_memo_doc.using_path_template == False
 		)
 	) or (
 		outbox_memo_doc.type != "Internal"
-		and (action_maker.user_id != end_employee_email and type == "Approved")
+
+		and (action_maker.user_id != end_employee_email and type == "Approved" and outbox_memo_doc.using_path_template == False)
 	):  # Access the recipients attribute on the document
 		reports_to = action_maker.reports_to
 		reports_to_emp = frappe.get_doc("Employee", reports_to)
@@ -356,6 +376,22 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 		permissions = {"read": 1, "write": 0, "share": 0, "submit": 0}
 		permissions_str = json.dumps(permissions)
 		update_share_permissions(outbox_memo, user_id, permissions_str)
+	elif outbox_memo_doc.using_path_template:
+		if action_maker.user_id == outbox_memo_doc.recipients_path[-1].recipient_email:
+			outbox_memo_doc.status = "Completed"
+			outbox_memo_doc.complete_time = frappe.utils.now()
+			outbox_memo_doc.current_action_maker = ""
+			outbox_memo_doc.save(ignore_permissions=True)
+		else:
+			for i, recipient in enumerate(outbox_memo_doc.recipients_path):
+				if recipient.recipient_email == action_maker.user_id:
+					next_recipient_email = outbox_memo_doc.recipients_path[i + 1].recipient_email if i < len(outbox_memo_doc.recipients_path) else None
+					outbox_memo_doc.current_action_maker = next_recipient_email
+					outbox_memo_doc.save(ignore_permissions=True)
+					permissions = {"read": 1, "write": 1, "share": 1, "submit": 1}
+					permissions_str = json.dumps(permissions)
+					update_share_permissions(outbox_memo, next_recipient_email, permissions_str)
+					break
 	elif type == "Rejected":
 		outbox_memo_doc.status = "Rejected"
 
@@ -429,6 +465,26 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 				"action_name": action_name,
 				"action_maker": reports_to_emp.user_id or "",
 			}
+		elif outbox_memo_doc.using_path_template:
+			for i, recipient in enumerate(outbox_memo_doc.recipients_path):
+				if recipient.recipient_email == action_maker.user_id:
+					if i + 1 < len(outbox_memo_doc.recipients_path):
+						next_recipient_email = outbox_memo_doc.recipients_path[i + 1].recipient_email
+					else:
+						next_recipient_email = None
+					break
+			if next_recipient_email:
+				return {
+					"message": "Action Success",
+					"action_name": action_name,
+					"action_maker": next_recipient_email or "",
+				}
+			else:
+				return {
+					"message": "Action Success",
+					"action_name": action_name,
+					"action_maker": "",
+				}
 		else:
 			return {"message": "Action Success", "action_name": action_name, "action_maker": ""}
 	else:
@@ -748,3 +804,21 @@ def get_reporting_hierarchy(current_employee):
         employee = reports_to
 
     return reporting_chain
+
+@frappe.whitelist()
+def copy_template_paths(template_docname):
+    # Fetch the template document
+    template_doc = frappe.get_doc("Transaction Path Template", template_docname)
+
+    # Prepare data for recipients_path
+    recipients_paths = []
+    for path in template_doc.template_path:
+        recipients_paths.append({
+            'doctype': 'Recipients Path',
+			'step': path.step,
+			'recipient_company': path.recipient_company,
+			'recipient_department': path.recipient_department,
+			'recipient_designation': path.recipient_designation,
+        })
+
+    return recipients_paths
