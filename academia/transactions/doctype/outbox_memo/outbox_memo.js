@@ -181,7 +181,7 @@ frappe.ui.form.on("Outbox Memo", {
 			frm.fields_dict.clear_recipients.input.disabled = true;
 		}
 		if (
-			frm.doc.current_action_maker === frappe.session.user &&
+			frm.doc.current_action_maker === frappe.session.user && frm.doc.docstatus == 1 &&
 			(frm.doc.is_received || frm.doc.full_electronic)
 		) {
 			add_approve_action(frm);
@@ -192,6 +192,49 @@ frappe.ui.form.on("Outbox Memo", {
 				add_reject_action(frm);
 			}
 			// add_reject_action(frm);
+		} else if (
+			frm.doc.current_action_maker != frappe.session.user && frm.doc.docstatus == 1 &&
+			frm.doc.is_received && !frm.doc.full_electronic
+		){
+			frappe.call({
+				method: "frappe.client.get_list",
+				args: {
+					doctype: "Employee Proxy",
+					filters: { employee_email: frm.doc.current_action_maker },
+					fields: ["name"] // Fetching just the name to check existence
+				},
+				callback: function(response) {
+					if (response.message && response.message.length > 0) {
+						// Employee Proxy exists, now proceed with getting details
+						frappe.call({
+							method: "frappe.client.get",
+							args: {
+								doctype: "Employee Proxy",
+								filters: { employee_email: frm.doc.current_action_maker }
+							},
+							callback: function(response) {
+								if (response.message) {
+									let delegated_employees = response.message.delegated_employees;
+									let delegated_employees_emails = delegated_employees.map(emp => emp.email);
+									console.log("Delegated Employees Emails:", delegated_employees_emails);
+			
+									if (delegated_employees_emails.includes(frappe.session.user)) {
+										add_approve_action(frm);
+										if (frm.doc.allow_to_redirect === 1) {
+											add_redirect_action(frm);
+										}
+										if (frm.doc.direction !== "Downward") {
+											add_reject_action(frm);
+										}
+									}
+								}
+							}
+						});
+					} else {
+						console.log("No Employee Proxy found for the given employee email.");
+					}
+				}
+			});
 		}
 	},
 
@@ -477,10 +520,11 @@ function add_approve_action(frm) {
 					frappe.call({
 						method: "academia.transactions.doctype.outbox_memo.outbox_memo.create_new_outbox_memo_action",
 						args: {
-							user_id: frappe.session.user,
+							user_id: frm.doc.current_action_maker,
 							outbox_memo: frm.doc.name,
 							type: "Approved",
 							details: values.details || "",
+							created_by: frappe.session.user,
 						},
 						callback: function (r) {
 							if (r.message) {
@@ -494,16 +538,22 @@ function add_approve_action(frm) {
 											r.message.action_maker
 										)
 										.then(() => {
-											frappe.db
-												.set_value(
-													"Transaction New",
-													frm.doc.transaction_reference,
-													"transaction_holder",
-													r.message.action_maker
-												)
-												.then(() => {
-													location.reload();
-												})
+											if(r.message.action_maker){
+												frappe.db
+													.set_value(
+														"Transaction New",
+														frm.doc.transaction_reference,
+														"transaction_holder",
+														r.message.action_maker
+													)
+													.then(() => {
+														location.reload();
+													})
+											}
+											else {
+												location.reload();
+											}
+											
 										});
 								}
 								// frappe.db.set_value('Transaction', frm.docname, 'status', 'Approved');
@@ -599,10 +649,11 @@ function add_approve_action(frm) {
 					frappe.call({
 						method: "academia.transactions.doctype.outbox_memo.outbox_memo.create_new_outbox_memo_action",
 						args: {
-							user_id: frappe.session.user,
+							user_id: frm.doc.current_action_maker,
 							outbox_memo: frm.doc.name,
 							type: "Approved",
 							details: values.details || "",
+							created_by: frappe.session.user,
 						},
 						callback: function (r) {
 							if (r.message) {
@@ -755,10 +806,11 @@ function add_reject_action(frm) {
 				frappe.call({
 					method: "academia.transactions.doctype.outbox_memo.outbox_memo.create_new_outbox_memo_action",
 					args: {
-						user_id: frappe.session.user,
+						user_id: frm.doc.current_action_maker,
 						outbox_memo: frm.doc.name,
 						type: "Rejected",
 						details: values.details || "",
+						created_by: frappe.session.user,
 					},
 					callback: function (r) {
 						if (r.message) {

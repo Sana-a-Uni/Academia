@@ -64,6 +64,18 @@ frappe.ui.form.on("Request Action", {
 	},
 	refresh(frm) {
 		frappe.call({
+            method: "academia.transactions.api.fetch_allowed_employees",
+            callback: function(r) {
+                if (r.message) {
+                    frm.set_query("action_maker", function() {
+                        return {
+                            filters: { name: ["in", r.message] }
+                        };
+                    });
+                }
+            }
+        });
+		frappe.call({
 			method: "frappe.client.get",
 			args: {
 				doctype: "Request",

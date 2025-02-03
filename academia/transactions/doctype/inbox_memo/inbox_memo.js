@@ -1,5 +1,6 @@
 // Copyright (c) 2024, SanU and contributors
 // For license information, please see license.txt
+let delegated_employees_emails = []
 
 function add_approve_action(frm) {
 	cur_frm.page.add_action_item(__("Approve"), function () {
@@ -15,11 +16,12 @@ function add_approve_action(frm) {
 				frappe.call({
 					method: "academia.transactions.doctype.inbox_memo.inbox_memo.create_new_inbox_memo_action",
 					args: {
-						user_id: frappe.session.user,
+						user_id: frm.doc.current_action_maker,
 						inbox_memo: frm.doc.name,
 						type: "Approved",
 						details: values.details || "",
 						inbox_from: frm.doc.inbox_from || "",
+						created_by: frappe.session.user,
 					},
 					callback: function (r) {
 						if (r.message) {
@@ -60,11 +62,12 @@ function add_reject_action(frm) {
 				frappe.call({
 					method: "academia.transactions.doctype.inbox_memo.inbox_memo.create_new_inbox_memo_action",
 					args: {
-						user_id: frappe.session.user,
+						user_id: frm.doc.current_action_maker,
 						inbox_memo: frm.doc.name,
 						type: "Rejected",
 						details: values.details || "",
 						inbox_from: frm.doc.inbox_from || "",
+						created_by: frappe.session.user,
 					},
 					callback: function (r) {
 						if (r.message) {
@@ -187,12 +190,53 @@ frappe.ui.form.on("Inbox Memo", {
 
 	refresh(frm) {
 		if (
-			frm.doc.current_action_maker == frappe.session.user &&
+			frm.doc.current_action_maker == frappe.session.user && frm.doc.docstatus == 1 &&
 			(frm.doc.is_received || frm.doc.full_electronic)
 		) {
 			add_approve_action(frm);
 			add_reject_action(frm);
 			add_redirect_action(frm);
+		}
+		else if (
+			frm.doc.current_action_maker != frappe.session.user && frm.doc.docstatus == 1 &&
+			frm.doc.is_received && !frm.doc.full_electronic
+		) {
+			frappe.call({
+				method: "frappe.client.get_list",
+				args: {
+					doctype: "Employee Proxy",
+					filters: { employee_email: frm.doc.current_action_maker },
+					fields: ["name"] // Fetching just the name to check existence
+				},
+				callback: function(response) {
+					if (response.message && response.message.length > 0) {
+						// Employee Proxy exists, now proceed with getting details
+						frappe.call({
+							method: "frappe.client.get",
+							args: {
+								doctype: "Employee Proxy",
+								filters: { employee_email: frm.doc.current_action_maker }
+							},
+							callback: function(response) {
+								if (response.message) {
+									let delegated_employees = response.message.delegated_employees;
+									let delegated_employees_emails = delegated_employees.map(emp => emp.email);
+									console.log("Delegated Employees Emails:", delegated_employees_emails);
+			
+									if (delegated_employees_emails.includes(frappe.session.user)) {
+										add_approve_action(frm);
+										add_reject_action(frm);
+										add_redirect_action(frm);
+									}
+								}
+							}
+						});
+					} else {
+						console.log("No Employee Proxy found for the given employee email.");
+					}
+				}
+			});
+			
 		}
 
 		// Hide 'add row' button

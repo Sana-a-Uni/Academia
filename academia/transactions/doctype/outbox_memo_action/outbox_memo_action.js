@@ -160,6 +160,18 @@ frappe.ui.form.on("Outbox Memo Action", {
     },
 	refresh(frm) {
 		frappe.call({
+            method: "academia.transactions.api.fetch_allowed_employees",
+            callback: function(r) {
+                if (r.message) {
+                    frm.set_query("action_maker", function() {
+                        return {
+                            filters: { name: ["in", r.message] }
+                        };
+                    });
+                }
+            }
+        });
+		frappe.call({
 			method: "frappe.client.get",
 			args: {
 				doctype: "Outbox Memo",
@@ -233,7 +245,7 @@ frappe.ui.form.on("Outbox Memo Action", {
 		}
 	},
 
-	created_by: function (frm) {
+	action_maker: function(frm){
 		update_must_include(frm);
 	},
 
@@ -346,40 +358,26 @@ frappe.ui.form.on("Outbox Memo Action", {
 });
 
 function update_must_include(frm) {
-	if (frappe.session.user !== "Administrator") {
+	if (frm.doc.action_maker) {
 		frm.clear_table("recipients");
 		frm.refresh_field("recipients");
-
 		frappe.call({
-			method: "frappe.client.get_value",
+			method: "academia.transactions.doctype.outbox_memo_action.outbox_memo_action.get_direct_reports_to_hierarchy_reverse",
 			args: {
-				doctype: "Employee",
-				fieldname: "name",
-				filters: { user_id: frappe.session.user },
+				employee_name: frm.doc.action_maker,
 			},
 			callback: function (response) {
-				const employee_name = response.message.name;
-				if (employee_name) {
-					frappe.call({
-						method: "academia.transactions.doctype.outbox_memo.outbox_memo.get_direct_reports_to_hierarchy_reverse",
-						args: {
-							employee_name: employee_name,
-						},
-						callback: function (response) {
-							mustInclude = []
-							if (response.message && response.message.length > 0) {
-								// Filter out null values and employees without users
-								mustInclude = response.message.filter(emp => emp !== null);
-							}
-			
-							// If mustInclude is empty, add a placeholder value
-							if (mustInclude.length === 0) {
-								mustInclude.push({ name: "No valid employees", employee_name: "No valid employees" });
-							}
-							console.log(mustInclude);
-						},
-					});
+				mustInclude = []
+				if (response.message && response.message.length > 0) {
+					// Filter out null values and employees without users
+					mustInclude = response.message.filter(emp => emp !== null);
 				}
+
+				// If mustInclude is empty, add a placeholder value
+				if (mustInclude.length === 0) {
+					mustInclude.push({ name: "No valid employees", employee_name: "No valid employees" });
+				}
+				console.log(mustInclude);
 			},
 		});
 	}

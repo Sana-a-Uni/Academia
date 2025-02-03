@@ -17,7 +17,7 @@ class SpecificTransactionDocumentAction(Document):
 		from frappe.types import DF
 
 		action_date: DF.Data | None
-		action_maker: DF.Link | None
+		action_maker: DF.Link
 		allow_recipient_to_redirect: DF.Check
 		amended_from: DF.Link | None
 		created_by: DF.Link | None
@@ -106,3 +106,36 @@ def update_specific_transaction_document(
 	frappe.db.commit()  # Commit the changes to the database
 
 	return doc.as_dict()  # Return the updated document as a dictionary
+
+
+import frappe
+
+@frappe.whitelist()
+def get_allowed_employees():
+    user = frappe.session.user
+
+    # Get the Employee record for the current user
+    employee = frappe.db.get_value("Employee", {"user_id": user}, "name")
+
+    if not employee:
+        return []
+
+    # Fetch all Employee Proxy records
+    proxies = frappe.get_all("Employee Proxy", fields=["name", "employee"])
+
+    allowed_employees = {employee}  # Use a set to avoid duplicates
+
+    for proxy in proxies:
+        # Fetch the delegated employees child table from this Employee Proxy
+        delegated_employees = frappe.get_all(
+            "Delegated Employees",  # This is the child table name
+            filters={"parent": proxy["name"]},  # Get only records linked to this proxy
+            fields=["delegated_employee"]
+        )
+
+        # Check if the current employee is in the delegated list
+        for delegated in delegated_employees:
+            if delegated["delegated_employee"] == employee:
+                allowed_employees.add(proxy["employee"])  # Add the main employee
+
+    return list(allowed_employees)  # Convert back to list before returning

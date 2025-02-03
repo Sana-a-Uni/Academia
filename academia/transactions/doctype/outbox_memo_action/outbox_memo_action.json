@@ -77,7 +77,7 @@
   },
   {
    "allow_on_submit": 1,
-   "fetch_from": "action_maker.user_id",
+   "fetch_from": ".user_id",
    "fieldname": "created_by",
    "fieldtype": "Link",
    "label": "Created By",
@@ -144,8 +144,7 @@
    "fieldname": "action_maker",
    "fieldtype": "Link",
    "label": "Action Maker",
-   "options": "Employee",
-   "read_only": 1
+   "options": "Employee"
   },
   {
    "fieldname": "naming_series",
@@ -157,7 +156,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-20 15:01:01.601687",
+ "modified": "2025-02-03 17:44:03.457020",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo Action",

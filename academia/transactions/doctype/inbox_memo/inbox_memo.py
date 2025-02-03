@@ -87,7 +87,7 @@ def get_shared_inbox_memos(user):
     return memo_names
 
 @frappe.whitelist()
-def create_new_inbox_memo_action(user_id, inbox_memo, type, details):
+def create_new_inbox_memo_action(user_id, inbox_memo, type, details, created_by):
 	"""
 	Create a new document in Transaction Action and pass the relevant data from Transaction.
 	This function will be called when a button is pressed in Transaction.
@@ -108,7 +108,7 @@ def create_new_inbox_memo_action(user_id, inbox_memo, type, details):
 		new_doc.action_maker = action_maker.user_id
 		new_doc.details = details
 		new_doc.action_date = frappe.utils.today()
-		new_doc.created_by = action_maker.user_id
+		new_doc.created_by = created_by
 		new_doc.naming_series = inbox_memo + "-ACT-"
 		new_doc.save(ignore_permissions=True)
 		new_doc.submit()
@@ -116,7 +116,7 @@ def create_new_inbox_memo_action(user_id, inbox_memo, type, details):
 		action_name = new_doc.name
 
 		if type == "Approved":
-			if inbox_memo_doc.using_path_template:
+			if inbox_memo_doc.using_path_template and inbox_memo_doc.template_is_active:
 				if action_maker.user_id == inbox_memo_doc.recipients_path[-1].recipient_email:
 					inbox_memo_doc.status = "Completed"
 					inbox_memo_doc.complete_time = frappe.utils.now()
@@ -126,12 +126,21 @@ def create_new_inbox_memo_action(user_id, inbox_memo, type, details):
 						if recipient.recipient_email == action_maker.user_id:
 							next_recipient_email = inbox_memo_doc.recipients_path[i + 1].recipient_email if i < len(inbox_memo_doc.recipients_path) else None
 							inbox_memo_doc.current_action_maker = next_recipient_email
+
+							#update the transaction_holder
+							transaction_doc = frappe.get_doc("Transaction New", inbox_memo_doc.transaction_reference)
+							transaction_doc.transaction_holder = next_recipient_email
+							transaction_doc.save(ignore_permissions=True)
+
 							permissions = {"read": 1, "write": 1, "share": 1, "submit": 1}
 							permissions_str = json.dumps(permissions)
 							update_share_permissions(inbox_memo, next_recipient_email, permissions_str)
 							break
 
-			# inbox_memo_doc.status = "Completed"
+			elif not inbox_memo_doc.using_path_template or not inbox_memo_doc.template_is_active:
+				inbox_memo_doc.status = "Completed"
+				inbox_memo_doc.complete_time = frappe.utils.now()
+				inbox_memo_doc.current_action_maker = ""
 
 		elif type == "Rejected":
 			inbox_memo_doc.status = "Rejected"

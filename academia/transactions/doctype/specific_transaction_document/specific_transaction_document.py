@@ -217,7 +217,7 @@ def get_reports_to_hierarchy(employee_name):
 
 
 @frappe.whitelist()
-def create_new_specific_transaction_document_action(user_id, specific_transaction_document, type, details):
+def create_new_specific_transaction_document_action(user_id, specific_transaction_document, type, details,created_by):
 	"""
 	Create a new document in Transaction Action and pass the relevant data from Transaction.
 	This function will be called when a button is pressed in Transaction.
@@ -272,7 +272,10 @@ def create_new_specific_transaction_document_action(user_id, specific_transactio
 			
 	elif specific_transaction_document_doc.using_path_template:
 		if action_maker.user_id == specific_transaction_document_doc.recipients_path[-1].recipient_email:
-			specific_transaction_document_doc.status = "Completed"
+			if type == "Approved":
+				specific_transaction_document_doc.status = "Completed"
+			elif type == "Rejected":
+				specific_transaction_document_doc.status = "Rejected"
 			specific_transaction_document_doc.complete_time = frappe.utils.now()
 			specific_transaction_document_doc.current_action_maker = ""
 			specific_transaction_document_doc.save(ignore_permissions=True)
@@ -324,7 +327,7 @@ def create_new_specific_transaction_document_action(user_id, specific_transactio
 		new_doc.from_designation = action_maker.designation
 		new_doc.details = details
 		new_doc.action_date = frappe.utils.today()
-		new_doc.created_by = action_maker.user_id  # Use user_id instead of recipient_email
+		new_doc.created_by = created_by  # Use user_id instead of recipient_email
 		new_doc.naming_series = specific_transaction_document + "-ACT-"
 
 

@@ -317,7 +317,7 @@ def get_direct_reports_to_hierarchy_reverse(employee_name):
 
 
 @frappe.whitelist()
-def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
+def create_new_outbox_memo_action(user_id, outbox_memo, type, details, created_by):
 	"""
 	Create a new document in Transaction Action and pass the relevant data from Transaction.
 	This function will be called when a button is pressed in Transaction.
@@ -378,20 +378,33 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 		update_share_permissions(outbox_memo, user_id, permissions_str)
 	elif outbox_memo_doc.using_path_template:
 		if action_maker.user_id == outbox_memo_doc.recipients_path[-1].recipient_email:
-			outbox_memo_doc.status = "Completed"
+			if type == "Approved":
+				outbox_memo_doc.status = "Completed"
+			elif type == "Rejected":
+				outbox_memo_doc.status = "Rejected"
 			outbox_memo_doc.complete_time = frappe.utils.now()
 			outbox_memo_doc.current_action_maker = ""
 			outbox_memo_doc.save(ignore_permissions=True)
 		else:
-			for i, recipient in enumerate(outbox_memo_doc.recipients_path):
-				if recipient.recipient_email == action_maker.user_id:
-					next_recipient_email = outbox_memo_doc.recipients_path[i + 1].recipient_email if i < len(outbox_memo_doc.recipients_path) else None
-					outbox_memo_doc.current_action_maker = next_recipient_email
-					outbox_memo_doc.save(ignore_permissions=True)
-					permissions = {"read": 1, "write": 1, "share": 1, "submit": 1}
-					permissions_str = json.dumps(permissions)
-					update_share_permissions(outbox_memo, next_recipient_email, permissions_str)
-					break
+			if type == "Approved":
+				for i, recipient in enumerate(outbox_memo_doc.recipients_path):
+					if recipient.recipient_email == action_maker.user_id:
+						next_recipient_email = outbox_memo_doc.recipients_path[i + 1].recipient_email if i < len(outbox_memo_doc.recipients_path) else None
+						outbox_memo_doc.current_action_maker = next_recipient_email
+						outbox_memo_doc.save(ignore_permissions=True)
+						permissions = {"read": 1, "write": 1, "share": 1, "submit": 1}
+						permissions_str = json.dumps(permissions)
+						update_share_permissions(outbox_memo, next_recipient_email, permissions_str)
+						break
+			elif type == "Rejected":
+				outbox_memo_doc.status = "Rejected"
+				outbox_memo_doc.complete_time = frappe.utils.now()
+				outbox_memo_doc.current_action_maker = ""
+				outbox_memo_doc.save(ignore_permissions=True)
+				permissions = {"read": 1, "write": 0, "share": 0, "submit": 0}
+				permissions_str = json.dumps(permissions)
+				update_share_permissions(outbox_memo, user_id, permissions_str)
+
 	elif type == "Rejected":
 		outbox_memo_doc.status = "Rejected"
 
@@ -431,7 +444,7 @@ def create_new_outbox_memo_action(user_id, outbox_memo, type, details):
 		new_doc.from_designation = action_maker.designation
 		new_doc.details = details
 		new_doc.action_date = frappe.utils.today()
-		new_doc.created_by = action_maker.user_id  # Use user_id instead of recipient_email
+		new_doc.created_by = created_by 
 		new_doc.naming_series = outbox_memo + "-ACT-"
 
 		# Ensure recipients is properly defined

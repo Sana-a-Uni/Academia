@@ -80,14 +80,14 @@ def get_reports_to_hierarchy(employee_name):
 
 
 @frappe.whitelist()
-def create_new_request_action(user_id, request, type, details):
+def create_new_request_action(user_id, request, type, details, created_by):
 	"""
 	Create a new document in Transaction Action and pass the relevant data from Transaction.
 	This function will be called when a button is pressed in Transaction.
 	"""
 	request_doc = frappe.get_doc("Request", request)
 
-	action_maker = frappe.get_doc("Employee", {"user_id", user_id})
+	action_maker = frappe.get_doc("Employee", {"user_id": user_id})
 	if action_maker:
 		new_doc = frappe.new_doc("Request Action")
 		new_doc.request = request
@@ -98,7 +98,7 @@ def create_new_request_action(user_id, request, type, details):
 		new_doc.action_maker = action_maker.user_id
 		new_doc.details = details
 		new_doc.action_date = frappe.utils.today()
-		new_doc.created_by = action_maker.user_id
+		new_doc.created_by = created_by
 		new_doc.naming_series = request + "-ACT-"
 		new_doc.save(ignore_permissions=True)
 		new_doc.submit()
@@ -106,20 +106,31 @@ def create_new_request_action(user_id, request, type, details):
 		action_name = new_doc.name
 
 		if type == "Approved":
-			if request_doc.using_path_template:
+			if request_doc.using_path_template and request_doc.template_is_active:
 				if action_maker.user_id == request_doc.recipients_path[-1].recipient_email:
 					request_doc.status = "Completed"
 					request_doc.complete_time = frappe.utils.now()
 					request_doc.current_action_maker = ""
-			else:
-				for i, recipient in enumerate(request_doc.recipients_path):
-					if recipient.recipient_email == action_maker.user_id:
-						next_recipient_email = request_doc.recipients_path[i + 1].recipient_email if i < len(request_doc.recipients_path) else None
-						request_doc.current_action_maker = next_recipient_email
-						permissions = {"read": 1, "write": 1, "share": 1, "submit": 1}
-						permissions_str = json.dumps(permissions)
-						update_share_permissions(request, next_recipient_email, permissions_str)
-						break
+				else:
+					for i, recipient in enumerate(request_doc.recipients_path):
+						if recipient.recipient_email == action_maker.user_id:
+							next_recipient_email = request_doc.recipients_path[i + 1].recipient_email if i < len(request_doc.recipients_path) else None
+							request_doc.current_action_maker = next_recipient_email
+
+							#update the transaction_holder
+							transaction_doc = frappe.get_doc("Transaction New", request_doc.transaction_reference)
+							transaction_doc.transaction_holder = next_recipient_email
+							transaction_doc.save(ignore_permissions=True)
+							
+							permissions = {"read": 1, "write": 1, "share": 1, "submit": 1}
+							permissions_str = json.dumps(permissions)
+							update_share_permissions(request, next_recipient_email, permissions_str)
+							break
+			
+			elif not request_doc.using_path_template or not request_doc.template_is_active:
+				request_doc.status = "Completed"
+				request_doc.complete_time = frappe.utils.now()
+				request_doc.current_action_maker = ""
 
 		elif type == "Rejected":
 			request_doc.status = "Rejected"
