@@ -15,11 +15,11 @@ function add_approve_action(frm) {
 				frappe.call({
 					method: "academia.transactions.doctype.request.request.create_new_request_action",
 					args: {
-						user_id: frappe.session.user,
+						user_id: frm.doc.current_action_maker,
 						request: frm.doc.name,
 						type: "Approved",
 						details: values.details || "",
-						// request: frm.doc.request || "",
+						created_by: frappe.session.user,
 					},
 					callback: function (r) {
 						if (r.message) {
@@ -60,11 +60,11 @@ function add_reject_action(frm) {
 				frappe.call({
 					method: "academia.transactions.doctype.request.request.create_new_request_action",
 					args: {
-						user_id: frappe.session.user,
+						user_id: frm.doc.current_action_maker,
 						request: frm.doc.name,
 						type: "Rejected",
 						details: values.details || "",
-						// request: frm.doc.request || "",
+						created_by: frappe.session.user
 					},
 					callback: function (r) {
 						if (r.message) {

@@ -16,11 +16,12 @@ function add_approve_action(frm) {
 				frappe.call({
 					method: "academia.transactions.doctype.inbox_memo.inbox_memo.create_new_inbox_memo_action",
 					args: {
-						user_id: frappe.session.user,
+						user_id: frm.doc.current_action_maker,
 						inbox_memo: frm.doc.name,
 						type: "Approved",
 						details: values.details || "",
 						inbox_from: frm.doc.inbox_from || "",
+						created_by: frappe.session.user,
 					},
 					callback: function (r) {
 						if (r.message) {
@@ -61,11 +62,12 @@ function add_reject_action(frm) {
 				frappe.call({
 					method: "academia.transactions.doctype.inbox_memo.inbox_memo.create_new_inbox_memo_action",
 					args: {
-						user_id: frappe.session.user,
+						user_id: frm.doc.current_action_maker,
 						inbox_memo: frm.doc.name,
 						type: "Rejected",
 						details: values.details || "",
 						inbox_from: frm.doc.inbox_from || "",
+						created_by: frappe.session.user,
 					},
 					callback: function (r) {
 						if (r.message) {

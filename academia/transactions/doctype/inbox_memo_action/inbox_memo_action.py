@@ -18,7 +18,7 @@ class InboxMemoAction(Document):
 		action_date: DF.Date
 		action_maker: DF.Link
 		amended_from: DF.Link | None
-		created_by: DF.Data | None
+		created_by: DF.Link | None
 		details: DF.Text | None
 		employee_name: DF.Data | None
 		from_company: DF.Link | None

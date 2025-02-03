@@ -377,10 +377,11 @@ function add_approve_action(frm) {
 					frappe.call({
 						method: "academia.transactions.doctype.specific_transaction_document.specific_transaction_document.create_new_specific_transaction_document_action",
 						args: {
-							user_id: frappe.session.user,
+							user_id: frm.doc.current_action_maker,
 							specific_transaction_document: frm.doc.name,
 							type: "Approved",
 							details: values.details || "",
+							created_by: frappe.session.user,
 						},
 						callback: function (r) {
 							if (r.message) {
@@ -394,7 +395,8 @@ function add_approve_action(frm) {
 											r.message.action_maker
 										)
 										.then(() => {
-											frappe.db
+											if(r.message.action_maker){
+												frappe.db
 												.set_value(
 													"Transaction New",
 													frm.doc.transaction_reference,
@@ -404,6 +406,10 @@ function add_approve_action(frm) {
 												.then(() => {
 													location.reload();
 												})
+											}
+											else {
+												location.reload();
+											}
 										});
 								}
 								// frappe.db.set_value('Transaction', frm.docname, 'status', 'Approved');
@@ -499,10 +505,11 @@ function add_approve_action(frm) {
 					frappe.call({
 						method: "academia.transactions.doctype.specific_transaction_document.specific_transaction_document.create_new_specific_transaction_document_action",
 						args: {
-							user_id: frappe.session.user,
+							user_id: frm.doc.current_action_maker,
 							specific_transaction_document: frm.doc.name,
 							type: "Approved",
 							details: values.details || "",
+							created_by: frappe.session.user,
 						},
 						callback: function (r) {
 							if (r.message) {
@@ -656,10 +663,11 @@ function add_reject_action(frm) {
 				frappe.call({
 					method: "academia.transactions.doctype.specific_transaction_document.specific_transaction_document.create_new_specific_transaction_document_action",
 					args: {
-						user_id: frappe.session.user,
+						user_id: frm.doc.current_action_maker,
 						specific_transaction_document: frm.doc.name,
 						type: "Rejected",
 						details: values.details || "",
+						created_by: frappe.session.user,
 					},
 					callback: function (r) {
 						if (r.message) {
