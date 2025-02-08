@@ -5,6 +5,9 @@ let mustInclude = [];
 frappe.ui.form.on("Request Action", {
 	before_save: function (frm) {
 		frm.set_value("naming_series", frm.doc.request + "-ACT-");
+		if (frappe.session.user !== "Administrator") {
+			frm.set_value("created_by", frappe.session.user);
+		}
 	},
 	on_submit: function (frm) {
 		frappe.call({
@@ -48,8 +51,22 @@ frappe.ui.form.on("Request Action", {
 											request_action_doc.recipients[0].recipient_email
 										)
 										.then(() => {
-											frappe.set_route("Form", "Request", frm.doc.request);
-											location.reload();
+											frappe.call({
+												method: "frappe.share.add",
+												args: {
+													doctype: "Transaction New",
+													name: transaction_reference,
+													user: request_action_doc.recipients[0].recipient_email,
+													read: 1,
+													write: 1,
+													share: 1,
+													submit: 1
+												},
+												callback: function() {
+													frappe.set_route("Form", "Request", frm.doc.request);
+													location.reload();
+												}
+											});
 										});
 								} else {
 									frappe.msgprint("Transaction reference not found.");
@@ -240,7 +257,7 @@ frappe.ui.form.on("Request Action", {
 		}
 		if (frm.doc.docstatus == 0) {
 			frm.set_value("action_date", frappe.datetime.get_today());
-			frm.set_value("created_by", frappe.session.user);
+			// frm.set_value("created_by", frappe.session.user);
 		}
 	},
 });

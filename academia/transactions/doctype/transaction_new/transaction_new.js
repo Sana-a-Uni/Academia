@@ -4,6 +4,23 @@
 let delegated_employees_emails = [];
 
 frappe.ui.form.on("Transaction New", {
+	on_submit: function(frm) {
+		frappe.call({
+			method: "frappe.share.add",
+			args: {
+				doctype: "Transaction New",
+				name: frm.doc.name,
+				user: frappe.session.user,
+				read: 1,
+				write: 1,
+				share: 1,
+				submit: 1,
+			},
+			callback: function(frm){
+				console.log("Share permissions added")
+			}
+		})
+	},
 	before_submit: function (frm) {
 		frm.set_value("transaction_holder", frappe.session.user);
 		frappe.call({
@@ -176,46 +193,64 @@ function add_buttons(frm) {
         add_inbox_memo_button(frm);
     }
 }
-function add_transfer_transaction_button(frm){
-	frm.add_custom_button(__('Transfer Transaction'), function() {
-		frappe.prompt([
-			{
-				label: 'New Holder',
-				fieldname: 'new_holder',
-				fieldtype: 'Link',
-				options: 'Employee',
-				reqd: 1,
-				get_query: function() {
-					return {
-						filters: {
-							company: frm.doc.company,
-							user_id: ["not in", [frappe.session.user, frm.doc.transaction_holder]]
-						}
-					};
-				}
-			}
-		], function(values) {
-			// Fetch the user_id of the selected employee
-			frappe.call({
-				method: "frappe.client.get_value",
-				args: {
-					doctype: "Employee",
-					filters: { name: values.new_holder },
-					fieldname: "user_id"
-				},
-				callback: function(response) {
-					if (response.message) {
-						let user_id = response.message.user_id;
-						// Update the transaction_holder field with the user_id of the selected employee
-						frm.set_value('transaction_holder', user_id)
-						.then(() => {frm.save_or_update(); });
-						
-					}
-				}
-			});
-		}, __('Transfer Transaction'), __('Transfer'));
-	});
+function add_transfer_transaction_button(frm) {
+    frm.add_custom_button(__('Transfer Transaction'), function() {
+        frappe.prompt([
+            {
+                label: 'New Holder',
+                fieldname: 'new_holder',
+                fieldtype: 'Link',
+                options: 'Employee',
+                reqd: 1,
+                get_query: function() {
+                    return {
+                        filters: {
+                            company: frm.doc.company,
+                            user_id: ["not in", [frappe.session.user, frm.doc.transaction_holder]]
+                        }
+                    };
+                }
+            }
+        ], function(values) {
+            // Fetch the user_id of the selected employee
+            frappe.call({
+                method: "frappe.client.get_value",
+                args: {
+                    doctype: "Employee",
+                    filters: { name: values.new_holder },
+                    fieldname: "user_id"
+                },
+                callback: function(response) {
+                    if (response.message) {
+                        let user_id = response.message.user_id;
+                        // Update the transaction_holder field with the user_id of the selected employee
+                        frm.set_value('transaction_holder', user_id)
+                        .then(() => {
+                            // First update permissions (share.add) before saving
+                            frappe.call({
+                                method: "frappe.share.add",
+                                args: {
+                                    doctype: "Transaction New",
+                                    name: frm.doc.name,
+                                    user: user_id,
+                                    read: 1,
+                                    write: 1,
+                                    share: 1,
+                                    submit: 1
+                                },
+                                callback: function() {
+                                    // After permissions are set, now save the document
+                                    frm.save_or_update()
+                                }
+                            });
+                        });
+                    }
+                }
+            });
+        }, __('Transfer Transaction'), __('Transfer'));
+    });
 }
+
 
 function add_create_sub_transaction_button(frm){
 	frm.add_custom_button(__('Create Sub-Transaction'), function() {

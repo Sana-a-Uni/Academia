@@ -91,11 +91,11 @@
    "reqd": 1
   },
   {
-   "default": "frappe.session.user",
    "fieldname": "created_by",
    "fieldtype": "Link",
    "label": "Created By",
-   "options": "User"
+   "options": "User",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_ndrh",
@@ -153,7 +153,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-02-03 13:19:29.203522",
+ "modified": "2025-02-08 03:45:31.999981",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Inbox Memo Action",

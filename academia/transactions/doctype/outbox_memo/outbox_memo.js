@@ -76,7 +76,26 @@ frappe.ui.form.on("Outbox Memo", {
 											"transaction_holder",
 											user_id
 										)
+									frappe.call({
+										method: "frappe.share.add",
+										args: {
+											doctype: "Transaction New",
+											name: frm.doc.transaction_reference,
+											user: user_id,
+											read: 1,
+											write: 1,
+											share: 1,
+											submit: 1
+										},
+										callback: function() {
+											// After permissions are set, now save the document
+											console.log("Share permissions added to transaction")
+										}
+									});
+									console.log(response.message);
 								}
+								
+								
 							},
 						});
 					}
@@ -91,7 +110,24 @@ frappe.ui.form.on("Outbox Memo", {
 					"transaction_holder",
 					frm.doc.recipients[0].recipient_email
 				)
-		} 
+			frappe.call({
+				method: "frappe.share.add",
+				args: {
+					doctype: "Transaction New",
+					name: frm.doc.transaction_reference,
+					user: frm.doc.recipients[0].recipient_email,
+					read: 1,
+					write: 1,
+					share: 1,
+					submit: 1
+				},
+				callback: function() {
+					// After permissions are set, now save the document
+					console.log("Share permissions added to transaction")
+				}
+			});
+
+		}
 		else if(frm.doc.using_path_template)
 			{
 				frm.set_value("current_action_maker", frm.doc.recipients_path[0].recipient_email);
@@ -102,6 +138,22 @@ frappe.ui.form.on("Outbox Memo", {
 					"transaction_holder",
 					frm.doc.recipients_path[0].recipient_email
 				)
+				frappe.call({
+					method: "frappe.share.add",
+					args: {
+						doctype: "Transaction New",
+						name: frm.doc.transaction_reference,
+						user: frm.doc.recipients_path[0].recipient_email,
+						read: 1,
+						write: 1,
+						share: 1,
+						submit: 1
+					},
+					callback: function() {
+						// After permissions are set, now save the document
+						console.log("Share permissions added to transaction")
+					}
+				});
 			}		
 		else {
 			console.log("External");
@@ -109,6 +161,30 @@ frappe.ui.form.on("Outbox Memo", {
 	},
 
 	refresh(frm) {
+		// Hide 'add row' button
+		frm.get_field("recipients").grid.cannot_add_rows = true;
+		// frm.get_field("recipients_path").grid.cannot_add_rows = true;
+		// Stop 'add below' & 'add above' options
+		frm.get_field("recipients").grid.only_sortable();
+		frm.refresh_field("recipients");
+		if (frm.doc.docstatus != 0) {
+			frm.fields_dict.get_recipients.$wrapper.hide();
+			frm.fields_dict.get_recipients.input.disabled = true;
+			frm.fields_dict.clear_recipients.$wrapper.hide();
+			frm.fields_dict.clear_recipients.input.disabled = true;
+		}
+		frappe.call({
+            method: "academia.transactions.api.fetch_allowed_employees",
+            callback: function(r) {
+                if (r.message) {
+                    frm.set_query("start_from", function() {
+                        return {
+                            filters: { name: ["in", r.message] }
+                        };
+                    });
+                }
+            }
+        });
 		console.log(mustInclude);
 		if (!frappe.user_roles.includes("External Outbox Maker")) {
 			frm.set_df_property("direction", "hidden", 1);
@@ -235,7 +311,7 @@ frappe.ui.form.on("Outbox Memo", {
 					}
 				}
 			});
-		}
+		}		
 	},
 
 	onload: function (frm) {
@@ -416,6 +492,17 @@ frappe.ui.form.on("Outbox Memo", {
 							frappe.model.set_value(child.doctype, child.name, 'recipient_department', item.recipient_department);
 							frappe.model.set_value(child.doctype, child.name, 'recipient_designation', item.recipient_designation);
 						});
+						setTimeout(function () {
+							// DO NOT DELETE THIS: This is a workaround to open and close the first row of the recipients grid so that filtering works
+							let grid = frm.fields_dict["recipients_path"].grid;
+							if (grid.grid_rows.length > 0) {
+								let first_row = grid.grid_rows[0];
+								first_row.toggle_view(true); // Open the first row
+								setTimeout(function () {
+									first_row.toggle_view(false); // Close the first row
+								}, 0);
+							}
+						}, 0);
 		
 						frm.refresh_field('recipients_path');
 					}
@@ -546,9 +633,24 @@ function add_approve_action(frm) {
 														"transaction_holder",
 														r.message.action_maker
 													)
-													.then(() => {
+												frappe.call({
+													method: "frappe.share.add",
+													args: {
+														doctype: "Transaction New",
+														name: frm.doc.transaction_reference,
+														user: r.message.action_maker,
+														read: 1,
+														write: 1,
+														share: 1,
+														submit: 1
+													},
+													callback: function() {
+														// After permissions are set, now save the document
+														console.log("Share permissions added to transaction")
 														location.reload();
-													})
+													}
+												});
+															
 											}
 											else {
 												location.reload();
@@ -895,3 +997,29 @@ function update_related_actions_html(frm) {
 frappe.listview_settings["Outbox Memo"] = {
 	hide_add_button: true,
 };
+
+frappe.ui.form.on("Recipient Path", {
+	form_render: function (frm, cdt, cdn) {
+		let row = locals[cdt][cdn];
+		recipient_designation = row.recipient_designation;
+		row.recipient_designation = recipient_designation;
+		recipient_company = row.recipient_company;
+		row.recipient_company = recipient_company;
+		recipient_department = row.recipient_department;
+		row.recipient_department = recipient_department;
+		// frappe.msgprint(
+		// 	"Handler Triggered - Recipient Designation Changed: " + row.recipient_designation
+		// );
+		frm.refresh_field("recipients_path");
+
+		frm.fields_dict["recipients_path"].grid.get_field("recipient").get_query = function () {
+			return {
+				filters: {
+					designation: recipient_designation,
+					department: recipient_department,
+					company: recipient_company
+				},
+			};
+		};
+	},
+});

@@ -51,8 +51,22 @@ frappe.ui.form.on("Inbox Memo Action", {
 											inbox_memo_action_doc.recipients[0].recipient_email
 										)
 										.then(() => {
-											frappe.set_route("Form", "Inbox Memo", frm.doc.inbox_memo);
-											location.reload();
+											frappe.call({
+												method: "frappe.share.add",
+												args: {
+													doctype: "Transaction New",
+													name: transaction_reference,
+													user: inbox_memo_action_doc.recipients[0].recipient_email,
+													read: 1,
+													write: 1,
+													share: 1,
+													submit: 1
+												},
+												callback: function() {
+													frappe.set_route("Form", "Inbox Memo", frm.doc.inbox_memo);
+													location.reload();
+												}
+											});
 										});
 								} else {
 									frappe.msgprint("Transaction reference not found.");
@@ -61,8 +75,8 @@ frappe.ui.form.on("Inbox Memo Action", {
 						});
 					})
 					// back to Transaction after save the transaction action
-					frappe.set_route("Form", "Inbox Memo", frm.doc.inbox_memo);
-					location.reload();
+					// frappe.set_route("Form", "Inbox Memo", frm.doc.inbox_memo);
+					// location.reload();
 				}
 			},
 		});

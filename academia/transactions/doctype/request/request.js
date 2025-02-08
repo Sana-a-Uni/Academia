@@ -179,50 +179,57 @@ frappe.ui.form.on("Request", {
 				"transaction_holder",
 				current_action_maker
 			)
-			.then(() => {
-				frappe.call({
-					method: "academia.transactions.doctype.request.request.update_share_permissions",
-					args: {
-						docname: frm.doc.name,
-						user: frappe.session.user,
-						permissions: {
+		frappe.call({
+			method: "academia.transactions.doctype.request.request.update_share_permissions",
+			args: {
+				docname: frm.doc.name,
+				user: frappe.session.user,
+				permissions: {
+					read: 1,
+					write: 1,
+					share: 1,
+					submit: 1,
+				},
+			},
+			callback: function (response) {
+				if (response.message) {
+					frappe.call({
+						method: "frappe.share.add",
+						args: {
+							doctype: "Transaction New",
+							name: frm.doc.transaction_reference,
+							user: current_action_maker,
 							read: 1,
 							write: 1,
 							share: 1,
-							submit: 1,
+							submit: 1
 						},
-					},
-					callback: function (response) {
-						if (response.message) {
-							// frappe.db.set_value(inbox_memo , 'current_action_maker')
-							frappe.db.set_value(
-								"Request",
-								frm.doc.name,
-								"current_action_maker",
-								current_action_maker
-							)
-							.then(() => {
-								frappe.db
-									.set_value(
-										"Transaction New",
-										frm.doc.transaction_reference,
-										"transaction_holder",
-										current_action_maker
-									)
-									.then(() => {
-										location.reload();
-									});
-							});
-							// back to Transaction after save the transaction action
-							
+						callback: function() {
+							// After permissions are set, now save the document
+							console.log("Share permissions added to transaction")
 						}
-					},
-				});
-			});
+					});
+					// frappe.db.set_value(inbox_memo , 'current_action_maker')
+					console.log(response.message);
+				}
+			},
+		});
 		
 	},
 
 	refresh(frm) {
+		frappe.call({
+            method: "academia.transactions.api.fetch_allowed_employees",
+            callback: function(r) {
+                if (r.message) {
+                    frm.set_query("start_from", function() {
+                        return {
+                            filters: { name: ["in", r.message] }
+                        };
+                    });
+                }
+            }
+        });
 		if (
 			frm.doc.current_action_maker == frappe.session.user &&
 			(frm.doc.is_received || frm.doc.full_electronic)

@@ -124,6 +124,7 @@
    "fieldname": "recipients",
    "fieldtype": "Table",
    "label": "Recipients",
+   "mandatory_depends_on": "eval:doc.using_path_template == false",
    "options": "Transaction Recipients New"
   },
   {
@@ -146,7 +147,8 @@
    "fieldname": "attachments",
    "fieldtype": "Table",
    "label": "Attachments",
-   "options": "Transaction Attachments New"
+   "options": "Transaction Attachments New",
+   "read_only_depends_on": "eval:doc.status != \"Completed\" || \"Rejected\""
   },
   {
    "default": "0",
@@ -207,13 +209,15 @@
    "default": "0",
    "fieldname": "using_path_template",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Using Path Template",
    "set_only_once": 1
   },
   {
    "depends_on": "using_path_template",
    "fieldname": "section_break_otmi",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "hidden": 1
   },
   {
    "fieldname": "template_name",
@@ -239,7 +243,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-26 20:31:14.316059",
+ "modified": "2025-02-08 02:34:35.512353",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Request",
