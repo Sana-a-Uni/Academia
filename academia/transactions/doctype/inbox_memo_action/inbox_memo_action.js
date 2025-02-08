@@ -111,6 +111,7 @@ frappe.ui.form.on("Inbox Memo Action", {
 					if (!doc.full_electronic) {
 						// Hide the "Submit" button
 						frm.page.wrapper.find('.btn-primary[data-label="Submit"]').hide();
+						frm.page.wrapper.find('.btn-primary[data-label="%D8%AA%D8%B3%D8%AC%D9%8A%D9%84"]').hide();
 
 						// Add a custom submit button
 						if (!frm.is_new() && frm.doc.docstatus === 0) {
