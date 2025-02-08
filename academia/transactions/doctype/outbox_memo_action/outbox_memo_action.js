@@ -54,8 +54,22 @@ frappe.ui.form.on("Outbox Memo Action", {
 														outbox_memo_action_doc.recipients[0].recipient_email
 													)
 													.then(() => {
-														frappe.set_route("Form", "Outbox Memo", frm.doc.outbox_memo);
-														location.reload();
+														frappe.call({
+															method: "frappe.share.add",
+															args: {
+																doctype: "Transaction New",
+																name: transaction_reference,
+																user: outbox_memo_action_doc.recipients[0].recipient_email,
+																read: 1,
+																write: 1,
+																share: 1,
+																submit: 1
+															},
+															callback: function() {
+																frappe.set_route("Form", "Outbox Memo", frm.doc.outbox_memo);
+																location.reload();
+															}
+														});
 													});
 											} else {
 												frappe.msgprint("Transaction reference not found.");
@@ -96,8 +110,22 @@ frappe.ui.form.on("Outbox Memo Action", {
 														outbox_memo_action_doc.recipients[0].recipient_email
 													)
 													.then(() => {
-														frappe.set_route("Form", "Outbox Memo", frm.doc.outbox_memo);
-														location.reload();
+														frappe.call({
+															method: "frappe.share.add",
+															args: {
+																doctype: "Transaction New",
+																name: transaction_reference,
+																user: outbox_memo_action_doc.recipients[0].recipient_email,
+																read: 1,
+																write: 1,
+																share: 1,
+																submit: 1
+															},
+															callback: function() {
+																frappe.set_route("Form", "Outbox Memo", frm.doc.outbox_memo);
+																location.reload();
+															}
+														});
 													});
 											} else {
 												frappe.msgprint("Transaction reference not found.");

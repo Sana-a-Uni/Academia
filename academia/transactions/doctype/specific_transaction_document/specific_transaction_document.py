@@ -242,6 +242,15 @@ def create_new_specific_transaction_document_action(user_id, specific_transactio
 			reports_to_emp = frappe.get_doc("Employee", reports_to)
 			if type != "Rejected":
 				frappe.share.add(
+					doctype="Transaction New", 
+					name=specific_transaction_document_doc.transaction_reference, 
+					user=reports_to_emp.user_id, 
+					read=1, 
+					write=1, 
+					share=1, 
+					submit=1
+				)
+				frappe.share.add(
 					doctype="Specific Transaction Document",
 					name=specific_transaction_document_doc.name,
 					user=reports_to_emp.user_id,
@@ -287,7 +296,24 @@ def create_new_specific_transaction_document_action(user_id, specific_transactio
 					specific_transaction_document_doc.save(ignore_permissions=True)
 					permissions = {"read": 1, "write": 1, "share": 1, "submit": 1}
 					permissions_str = json.dumps(permissions)
-					update_share_permissions(specific_transaction_document, next_recipient_email, permissions_str)
+					frappe.share.add(
+						doctype="Specific Transaction Document", 
+						name=specific_transaction_document_doc.name, 
+						user=next_recipient_email, 
+						read=1, 
+						write=1, 
+						share=1, 
+						submit=1
+					)
+					frappe.share.add(
+						doctype="Transaction New", 
+						name=specific_transaction_document_doc.transaction_reference, 
+						user=next_recipient_email, 
+						read=1, 
+						write=1, 
+						share=1, 
+						submit=1
+					)
 					break
 	elif type == "Rejected":
 		specific_transaction_document_doc.status = "Rejected"

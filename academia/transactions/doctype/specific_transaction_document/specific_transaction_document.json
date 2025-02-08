@@ -90,14 +90,16 @@
    "fetch_from": "start_from.employee_name",
    "fieldname": "employee_name",
    "fieldtype": "Data",
-   "label": "Employee Name"
+   "label": "Employee Name",
+   "read_only": 1
   },
   {
    "fetch_from": "start_from.company",
    "fieldname": "start_from_company",
    "fieldtype": "Link",
    "label": "Company",
-   "options": "Company"
+   "options": "Company",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_zwyp",
@@ -108,16 +110,19 @@
    "fieldname": "start_from_department",
    "fieldtype": "Link",
    "label": "Department",
-   "options": "Department"
+   "options": "Department",
+   "read_only": 1
   },
   {
    "fetch_from": "start_from.designation",
    "fieldname": "start_from_designation",
    "fieldtype": "Link",
    "label": "Designation",
-   "options": "Designation"
+   "options": "Designation",
+   "read_only": 1
   },
   {
+   "depends_on": "eval:doc.using_path_template == 0",
    "fieldname": "to_section",
    "fieldtype": "Section Break",
    "label": "To"
@@ -127,6 +132,7 @@
    "fieldname": "recipients",
    "fieldtype": "Table",
    "label": "Recipients",
+   "mandatory_depends_on": "eval:doc.using_path_template == 0",
    "options": "Transaction Recipients New"
   },
   {
@@ -232,7 +238,8 @@
   },
   {
    "fieldname": "section_break_sman",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "hidden": 1
   },
   {
    "fieldname": "signatures",
@@ -247,6 +254,7 @@
    "label": "Using Path Template"
   },
   {
+   "depends_on": "using_path_template",
    "fieldname": "section_break_uyzl",
    "fieldtype": "Section Break"
   },
@@ -272,7 +280,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-28 16:58:33.783603",
+ "modified": "2025-02-08 03:56:33.291359",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Specific Transaction Document",

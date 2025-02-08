@@ -132,9 +132,27 @@ def create_new_inbox_memo_action(user_id, inbox_memo, type, details, created_by)
 							transaction_doc.transaction_holder = next_recipient_email
 							transaction_doc.save(ignore_permissions=True)
 
-							permissions = {"read": 1, "write": 1, "share": 1, "submit": 1}
-							permissions_str = json.dumps(permissions)
-							update_share_permissions(inbox_memo, next_recipient_email, permissions_str)
+							frappe.share.add(
+								doctype="Inbox Memo", 
+								name=inbox_memo_doc.name, 
+								user=next_recipient_email, 
+								read=1, 
+								write=1, 
+								share=1, 
+								submit=1
+							)
+
+							# Add permissions for the next_recipient_email to the "Transaction New" document
+							frappe.share.add(
+								doctype="Transaction New", 
+								name=inbox_memo_doc.transaction_reference, 
+								user=next_recipient_email, 
+								read=1, 
+								write=1, 
+								share=1, 
+								submit=1
+							)
+
 							break
 
 			elif not inbox_memo_doc.using_path_template or not inbox_memo_doc.template_is_active:

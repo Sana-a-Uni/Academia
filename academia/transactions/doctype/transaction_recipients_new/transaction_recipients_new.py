@@ -18,7 +18,7 @@ class TransactionRecipientsNew(Document):
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
-		recipient: DF.Link | None
+		recipient: DF.Link
 		recipient_company: DF.Link
 		recipient_department: DF.Link | None
 		recipient_designation: DF.Link | None

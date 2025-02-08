@@ -53,6 +53,9 @@ frappe.ui.form.on("Specific Transaction Document Action", {
 			frm.fields_dict.clear_recipients.input.disabled = true;
 		}
 	},
+	after_save: function(frm) {
+        location.reload()
+    },
 	on_submit: function (frm) {
 		frappe.call({
 			method: "academia.transactions.doctype.specific_transaction_document.specific_transaction_document.update_share_permissions",
@@ -103,8 +106,22 @@ frappe.ui.form.on("Specific Transaction Document Action", {
 														specific_transaction_document_action_doc.recipients[0].recipient_email
 													)
 													.then(() => {
-														frappe.set_route("Form", "Specific Transaction Document", frm.doc.specific_transaction_document);
-														location.reload();
+														frappe.call({
+															method: "frappe.share.add",
+															args: {
+																doctype: "Transaction New",
+																name: transaction_reference,
+																user: specific_transaction_document_action_doc.recipients[0].recipient_email,
+																read: 1,
+																write: 1,
+																share: 1,
+																submit: 1
+															},
+															callback: function() {
+																frappe.set_route("Form", "Specific Transaction Document", frm.doc.specific_transaction_document);
+																location.reload();
+															}
+														});
 													});
 											} else {
 												frappe.msgprint("Transaction reference not found.");

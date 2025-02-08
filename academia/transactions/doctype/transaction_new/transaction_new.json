@@ -130,11 +130,10 @@
    "read_only_depends_on": "eval:doc.docstatus == 1"
   }
  ],
- "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-25 19:31:44.533711",
+ "modified": "2025-02-06 23:13:07.307886",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Transaction New",
