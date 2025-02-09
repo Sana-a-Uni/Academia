@@ -5,6 +5,7 @@ import json
 
 import frappe
 from frappe.model.document import Document
+from frappe import _
 
 
 class OutboxMemo(Document):
@@ -562,7 +563,7 @@ def get_middle_man_list(doctype, txt, searchfield, start, page_len, filters):
             SELECT name, employee_name
             FROM `tabEmployee`
             WHERE (name LIKE %(txt)s OR employee_name LIKE %(txt)s)
-            AND designation = 'Accountant'
+            AND designation = 'مراسل'
             LIMIT %(start)s, %(page_len)s
         """,
 			{"txt": f"%{txt}%", "start": start, "page_len": page_len},
@@ -570,12 +571,11 @@ def get_middle_man_list(doctype, txt, searchfield, start, page_len, filters):
 
 		# Ensure the list is not empty
 		if not employees:
-			frappe.throw(_("No employees found"))
+			frappe.log_error("No employees found")
 
 		return employees
 	except Exception as e:
 		frappe.log_error(message=str(e), title="Error in get_employee_list")
-		frappe.throw(_("An error occurred while fetching the employee list"))
 
 
 @frappe.whitelist()
