@@ -1,6 +1,7 @@
 // Copyright (c) 2024, SanU and contributors
 // For license information, please see license.txt
 let delegated_employees_emails = []
+let mustInclude = [];
 
 function add_approve_action(frm) {
 	cur_frm.page.add_action_item(__("Approve"), function () {
@@ -98,6 +99,9 @@ function add_redirect_action(frm) {
 }
 
 frappe.ui.form.on("Inbox Memo", {
+	start_from: function (frm) {
+		update_must_include(frm)
+	},
 	before_submit: function (frm) {
 		current_action_maker = frm.doc.using_path_template ?frm.doc.recipients_path[0].recipient_email : frm.doc.recipients[0].recipient_email;
 		frm.set_value("current_action_maker", current_action_maker);
@@ -213,17 +217,26 @@ frappe.ui.form.on("Inbox Memo", {
 			frm.fields_dict.clear_recipients.input.disabled = true;
 		}
 		frappe.call({
-            method: "academia.transactions.api.fetch_allowed_employees",
-            callback: function(r) {
-                if (r.message) {
-                    frm.set_query("start_from", function() {
-                        return {
-                            filters: { name: ["in", r.message] }
-                        };
-                    });
-                }
-            }
-        });
+			method: "frappe.client.get_value",
+			args: {
+				doctype: "Employee",
+				filters: { user_id: frappe.session.user },
+				fieldname: "company",
+			},
+			callback: function (response) {
+				if (response.message) {
+					let current_user_company = response.message.company;
+					frm.set_query("start_from", function() {
+						return {
+							filters: {
+								company: ["!=", current_user_company],
+								user_id: ["!=", ""]
+							}
+						};
+					});
+				}
+			}
+		});
 		if (
 			frm.doc.current_action_maker == frappe.session.user && frm.doc.docstatus == 1 &&
 			(frm.doc.is_received || frm.doc.full_electronic)
@@ -301,21 +314,21 @@ frappe.ui.form.on("Inbox Memo", {
 		if (transaction_reference && frm.is_new()) {
 			frm.set_value("transaction_reference", transaction_reference);
 		}
-		if (!frm.doc.start_from) {
-			frappe.call({
-				method: "frappe.client.get_value",
-				args: {
-					doctype: "Employee",
-					filters: { user_id: frappe.session.user },
-					fieldname: "name",
-				},
-				callback: function (response) {
-					if (response.message && frm.is_new()) {
-						frm.set_value("start_from", response.message.name);
-					}
-				},
-			});
-		}
+		// if (!frm.doc.start_from) {
+		// 	frappe.call({
+		// 		method: "frappe.client.get_value",
+		// 		args: {
+		// 			doctype: "Employee",
+		// 			filters: { user_id: frappe.session.user },
+		// 			fieldname: "name",
+		// 		},
+		// 		callback: function (response) {
+		// 			if (response.message && frm.is_new()) {
+		// 				frm.set_value("start_from", response.message.name);
+		// 			}
+		// 		},
+		// 	});
+		// }
 	},
 
 	inbox_from: function (frm) {
@@ -343,24 +356,12 @@ frappe.ui.form.on("Inbox Memo", {
 	},
 
 	get_recipients: function (frm) {
+		update_must_include(frm);
 		let setters = {
 			employee_name: null,
 			department: null,
 			designation: null,
 		};
-		if (frm.doc.type == "External") {
-			setters.company = null;
-			frappe.call({
-				method: "academia.transactions.doctype.inbox_memo.inbox_memo.get_all_employees_except_start_with_company",
-				args: {
-					start_with_company: frm.doc.start_with_company,
-				},
-				callback: function (response) {
-					mustInclude = response.message;
-				},
-			});
-		} else if (frm.doc.type == "Internal") {
-		}
 		new frappe.ui.form.MultiSelectDialog({
 			doctype: "Employee",
 			target: frm,
@@ -371,6 +372,7 @@ frappe.ui.form.on("Inbox Memo", {
 			get_query() {
 				let filters = {
 					docstatus: ["!=", 2],
+					user_id: ["in", mustInclude],
 				};
 				if (frm.doc.type == "External") {
 					filters.company = this.setters.company || "";
@@ -537,3 +539,35 @@ frappe.ui.form.on("Recipient Path", {
 		};
 	},
 });
+
+function update_must_include(frm) {
+	if (frm.doc.start_from) {
+		frm.clear_table("recipients");
+		frm.refresh_field("recipients");
+
+		frappe.call({
+			method: "academia.transactions.api.fetch_allowed_employees",
+			callback: function(r) {
+				if (r.message) {
+					let employee_names = r.message;
+					frappe.call({
+						method: "frappe.client.get_list",
+						args: {
+							doctype: "Employee",
+							filters: { name: ["in", employee_names] },
+							fields: ["user_id"]
+						},
+						callback: function(response) {
+							if (response.message) {
+								console.log("Hello")
+								mustInclude = response.message.map(employee => employee.user_id);
+								console.log("Must Include: ", mustInclude);
+							}
+						}
+					});
+				}
+			}
+		});
+		// console.log("Must Include: ", mustInclude);
+	}
+}
