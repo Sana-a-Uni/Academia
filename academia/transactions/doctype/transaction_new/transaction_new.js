@@ -206,7 +206,7 @@ function add_transfer_transaction_button(frm) {
                     return {
                         filters: {
                             company: frm.doc.company,
-                            user_id: ["not in", [frappe.session.user, frm.doc.transaction_holder]]
+                            user_id: ["not in", [frappe.session.user, frm.doc.transaction_holder, ""]]
                         }
                     };
                 }
