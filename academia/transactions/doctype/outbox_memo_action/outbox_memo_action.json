@@ -102,6 +102,7 @@
    "fetch_from": "action_maker.designation",
    "fieldname": "from_designation",
    "fieldtype": "Data",
+   "ignore_user_permissions": 1,
    "label": "From Designation",
    "read_only": 1
   },
@@ -156,7 +157,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-02-03 17:44:03.457020",
+ "modified": "2025-02-12 11:12:54.951790",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo Action",
@@ -172,6 +173,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Outbox User",
    "share": 1,
    "submit": 1,
    "write": 1

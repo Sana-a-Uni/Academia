@@ -79,6 +79,7 @@
    "fetch_from": "action_maker.designation",
    "fieldname": "from_designation",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "From Designation",
    "options": "Designation",
    "read_only": 1
@@ -153,7 +154,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-02-08 03:45:31.999981",
+ "modified": "2025-02-12 11:12:07.065774",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Inbox Memo Action",
@@ -169,6 +170,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Inbox User",
    "share": 1,
    "submit": 1,
    "write": 1

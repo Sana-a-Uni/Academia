@@ -87,7 +87,9 @@
    "fetch_from": "action_maker.designation",
    "fieldname": "from_designation",
    "fieldtype": "Read Only",
-   "label": "From Designation"
+   "ignore_user_permissions": 1,
+   "label": "From Designation",
+   "read_only": 1
   },
   {
    "fetch_from": "action_maker.user_id",
@@ -145,7 +147,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-02-08 02:07:26.621956",
+ "modified": "2025-02-12 11:14:13.860502",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Request Action",
@@ -161,6 +163,18 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Request User",
    "share": 1,
    "submit": 1,
    "write": 1
