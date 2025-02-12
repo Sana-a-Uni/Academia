@@ -151,10 +151,11 @@
    "label": "Naming Series"
   }
  ],
+ "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-02-12 11:12:07.065774",
+ "modified": "2025-02-12 12:20:43.851083",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Inbox Memo Action",

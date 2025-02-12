@@ -144,10 +144,11 @@
    "label": "Naming Series"
   }
  ],
+ "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-02-12 11:14:13.860502",
+ "modified": "2025-02-12 12:22:43.130292",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Request Action",
