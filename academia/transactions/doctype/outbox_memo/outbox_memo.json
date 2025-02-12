@@ -141,6 +141,7 @@
    "fetch_from": "start_from.designation",
    "fieldname": "start_from_designation",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Designation",
    "options": "Designation",
    "read_only": 1
@@ -380,7 +381,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-02-08 04:05:03.892692",
+ "modified": "2025-02-12 11:12:34.071609",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Outbox Memo",
@@ -420,6 +421,18 @@
    "read": 1,
    "report": 1,
    "role": "External Outbox Maker",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Outbox User",
    "share": 1,
    "submit": 1,
    "write": 1

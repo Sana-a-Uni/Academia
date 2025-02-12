@@ -210,6 +210,7 @@ frappe.ui.form.on("Inbox Memo", {
 	},
 
 	refresh(frm) {
+		update_must_include(frm)
 		if (frm.doc.docstatus != 0) {
 			frm.fields_dict.get_recipients.$wrapper.hide();
 			frm.fields_dict.get_recipients.input.disabled = true;

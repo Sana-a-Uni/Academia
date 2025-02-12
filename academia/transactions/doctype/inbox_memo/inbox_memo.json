@@ -126,6 +126,7 @@
    "fetch_from": "start_from.designation",
    "fieldname": "start_from_designation",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Designation",
    "options": "Designation",
    "read_only": 1
@@ -147,7 +148,6 @@
    "fieldname": "sub_external_entity",
    "fieldtype": "Link",
    "label": "Sub External Entity",
-   "mandatory_depends_on": "eval: doc.inbox_from == \"Company outside the system\"",
    "options": "External Entity New"
   },
   {
@@ -302,7 +302,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-01-23 23:55:22.277041",
+ "modified": "2025-02-12 11:11:50.710505",
  "modified_by": "Administrator",
  "module": "Transactions",
  "name": "Inbox Memo",
@@ -328,7 +328,7 @@
    "print": 1,
    "read": 1,
    "report": 1,
-   "role": "transactions user",
+   "role": "Transactions User",
    "share": 1,
    "write": 1
   },
@@ -353,6 +353,18 @@
    "read": 1,
    "report": 1,
    "role": "Transactions Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Inbox User",
    "share": 1,
    "submit": 1,
    "write": 1
